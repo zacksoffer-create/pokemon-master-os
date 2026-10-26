@@ -54,7 +54,6 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 - climbing (move): Rock Climb (field move)
 - clearing (move): Rock Smash (field move)
 - hauling (move): Strength (field move)
-- calming_presence (lore): Pokédex (diamond)
 - heat_source (type): Fire type
 - town_fit (size): 1.2 m, 55.0 kg
 - manipulation (lore): Pokédex (platinum)

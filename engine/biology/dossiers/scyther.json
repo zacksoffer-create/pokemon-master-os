@@ -1,0 +1,97 @@
+{
+  "species": "Scyther",
+  "id": 123,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A green mantis-like hunter of tall grass. Scyther hides in the grass, where its colours make it invisible, then leaps out and slices prey with twin scythes on its forearms, moving too fast for the eye to follow; its speed adds to the scythes' sharpness, and cutting hard things makes them sharper still. It can cut thick logs in one stroke, and it very rarely spreads its wings to fly. It is the young of SoulSilver's Scizor. In HeartGold and SoulSilver it appears only in the Bug-Catching Contest at the National Park, which stocks it, so Johto has no resident population.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged insect (Gen 4 shape bug-wings), 1.5 m and 56.0 kg, typed Bug and Flying: the Mantis Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Twin scythes on its forearms, sharp enough to slice through thick logs in one stroke.", "class": "canon", "confidence": "high", "evidence": ["123.6", "123.7", "C123.11", "C123.13"]},
+      {"text": "The scythes become sharper by cutting through hard objects.", "class": "canon", "confidence": "high", "evidence": ["123.11", "C123.19"]},
+      {"text": "It has wings but very rarely spreads them to fly.", "class": "canon", "confidence": "high", "evidence": ["123.8", "C123.15"]},
+      {"text": "Its colours are protective: hiding in grass, it becomes invisible.", "class": "canon", "confidence": "high", "evidence": ["123.4", "123.12", "C123.6", "C123.20"], "analogy": "Praying mantises are green or brown like the plants they wait in, a camouflage for an ambush predator."}
+    ],
+    "diet": [
+      {"text": "It leaps out of tall grass and slices prey with its scythes; it tears and shreds prey.", "class": "canon", "confidence": "high", "evidence": ["123.2", "123.8", "C123.2", "C123.14"]},
+      {"text": "Its prey is never named. A 56 kg ambusher that can cut logs could take large animals, but nothing says it does.", "class": "unknown", "confidence": "high", "evidence": ["C123.2"]},
+      {"text": "The machine reading's 'omnivore' comes from 'tall grass' being read as plant food; the entries only hide it in grass.", "class": "inferred", "confidence": "high", "evidence": ["C123.2"], "note": "Filed as a predator."},
+      {"text": "Pursuit (Lv 9), Fury Cutter (Lv 25), Slash (Lv 29), X-Scissor (Lv 41) and Night Slash (Lv 45) are the scythe strikes in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Pursuit", "move:Fury Cutter", "move:Slash", "move:X-Scissor", "move:Night Slash"]}
+    ],
+    "habitat": [
+      {"text": "Tall grass, which it hides in and leaps out of; the Gen 3 Pokédex habitat is grassland.", "class": "canon", "confidence": "high", "evidence": ["123.2", "123.4", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it appears only in the Bug-Catching Contest at the National Park (5%; on Tuesday, Thursday and Saturday after the National Pokédex), in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "The Contest stocks the park with bugs, so a Contest Scyther says nothing about a native population: Johto and Kanto have no wild Scyther outside it.", "class": "inferred", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It slashes through grass with its scythes, moving too fast for the human eye to track; when it moves it leaves only a blur.", "class": "canon", "confidence": "high", "evidence": ["123.3", "123.4", "123.12", "C123.4", "C123.5"]},
+      {"text": "With ninja-like agility and speed it can create the illusion that there is more than one of itself; its movements are like a ninja's.", "class": "canon", "confidence": "high", "evidence": ["123.1", "123.9", "123.10", "C123.1", "C123.3", "C123.16", "C123.18"]},
+      {"text": "It is very proud of its speed, and moves so fast its opponent doesn't know what knocked it down.", "class": "canon", "confidence": "medium", "evidence": ["123.5", "C123.7", "C123.8"]},
+      {"text": "Its activity pattern isn't stated; the Contest runs by day.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups; every entry describes a lone ambusher.", "class": "inferred", "confidence": "low", "evidence": ["123.2"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 25 egg cycles, an even sex ratio, medium growth. Nothing describes eggs or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Camouflage in grass, and speed: it hides, and when seen it is a blur.", "class": "canon", "confidence": "high", "evidence": ["123.4", "123.6", "C123.9"]},
+      {"text": "Its attacking scythes are nearly impossible to parry.", "class": "canon", "confidence": "high", "evidence": ["123.10", "C123.17"]},
+      {"text": "Double Team (Lv 37), an illusion of copies, matches the entries' 'more than one of itself'.", "class": "mechanic", "confidence": "high", "evidence": ["move:Double Team", "123.1"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. An ambusher that strikes too fast to be seen must judge distance well, but how is not described.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Scizor only by trade while holding a Metal Coat; Scizor is Bug and Steel and its wings are no longer used for flying (212.2).", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Scizor", "212.2"]},
+      {"text": "Read as development, the change trades camouflage and speed for armour and a bluff (Scizor's eye-marked pincers), as Scizor's dossier says; it happens only through people, in the games.", "class": "inferred", "confidence": "medium", "evidence": ["123.4", "212.1", "212.4", "game:evolution"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list is the ambush in order: Quick Attack and Vacuum Wave at level 1, Focus Energy, Pursuit, False Swipe, Agility, Wing Attack, Fury Cutter, Slash, Razor Wind, Double Team, X-Scissor, Night Slash, Double Hit, Air Slash, Swords Dance and Feint.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Quick Attack", "move:Agility", "move:Fury Cutter", "move:Slash", "move:X-Scissor", "move:Swords Dance"]},
+      {"text": "Technician, its second ability, powers up weak moves: many quick, light cuts rather than one heavy blow.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "C123.10"]}
+    ],
+    "ecology": [
+      {"text": "A top ambush predator of tall grass, by its own entries. With no wild Johto population, it has no place in a Johto or Kanto web.", "class": "inferred", "confidence": "medium", "evidence": ["123.2", "game:encounters"]},
+      {"text": "Cutting through grass and logs as it moves, a Scyther changes the grass it hunts in, opening paths.", "class": "hypothesis", "confidence": "low", "evidence": ["123.3", "123.6"], "note": "Follows from its slashing only."}
+    ],
+    "humans": [
+      {"text": "It moves too fast for the human eye to track.", "class": "canon", "confidence": "high", "evidence": ["123.3"]},
+      {"text": "People meet it in the National Park's Bug-Catching Contest, which stocks the park.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "It cuts thick logs in one stroke: firewood and clearing, if it can be trusted to cut only what it is asked.", "class": "canon", "confidence": "medium", "evidence": ["123.6", "123.7"], "capability": "clearing"},
+      {"text": "Its scythes sharpen as they cut hard things; it will want hard things to cut.", "class": "inferred", "confidence": "low", "evidence": ["123.11"]},
+      {"text": "Keep tall grass for it to hide in, away from paths where people walk: it strikes from cover.", "class": "inferred", "confidence": "medium", "evidence": ["123.2", "123.4"]},
+      {"text": "The homestead's Scyther as the hay-mower, and the blur at the edge of the meadow.", "class": "creative", "evidence": ["123.3"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["tall grassland"], "activity": "unknown",
+            "foraging": "ambush from tall grass, then high-speed slashing with twin scythes", "evidence": ["123.2", "123.4", "123.8"], "class": "inferred", "confidence": "medium",
+            "note": "Predator, as for Scizor; prey never named."},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["123.2", "123.8"]},
+    {"with": "tall grass", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["123.2", "123.4"], "note": "Cover for the ambush."},
+    {"with": "Scizor", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Tall-grass reaper", "moves": ["Night Slash", "Razor Wind"], "class": "hypothesis", "confidence": "low",
+     "reading": "Scizor's grass-hunting lineage at the stage that hunts in grass: a critical slash and a wind-blade. The archetypal Scyther. Fits tall, dense grassland.",
+     "behavior": "Never leaves the long grass; strikes from it.", "evidence": ["123.2", "move:Night Slash", "move:Razor Wind"]},
+    {"name": "Wing-singer", "moves": ["Silver Wind", "Bug Buzz"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that uses its wings, which most Scyther rarely spread: a gust of scales and a buzzing sound. A Scyther that flies more and signals with sound. Fits open woodland edges where flight pays.",
+     "behavior": "Seen in the air more than others; buzzes at rivals.", "evidence": ["123.8", "move:Silver Wind", "move:Bug Buzz"]},
+    {"name": "Last-stand fencer", "moves": ["Counter", "Reversal", "Endure"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that turns a losing fight: it endures, then hits back hardest when nearly beaten. Fits contested grassland where rivals are many.",
+     "behavior": "Rarely flees; most dangerous when hurt.", "evidence": ["123.10", "move:Counter", "move:Reversal", "move:Endure"]}
+  ],
+  "open_questions": [
+    "What does Scyther hunt?",
+    "Where are the wild populations the Contest stocks from?",
+    "Does it ever fly, and why so rarely (123.8)?",
+    "Is it solitary?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

@@ -1,0 +1,89 @@
+{
+  "species": "Nidorino",
+  "id": 33,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The male middle stage of the Nidoran line, the young of the rival's Nidoking, and the female Nidorina's opposite in temper. Nidorino is aggressive, quick to anger and violent: it raises its big ears to check its surroundings and attacks the moment it senses anything, bristling every barb on its back and stabbing with a horn harder than a diamond that secretes a powerful venom on impact. In HeartGold and SoulSilver it lives on Kanto's Routes 13, 14 and 15, beside Nidorina.",
+  "sections": {
+    "anatomy": [
+      {"text": "A four-legged animal (Gen 4 shape quadruped), 0.9 m and 19.5 kg, typed Poison, all male: the Poison Pin Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:gender", "game:genus"]},
+      {"text": "Its horn is harder than a diamond and secretes a powerful venom; swung wildly, it can punch through diamond.", "class": "canon", "confidence": "high", "evidence": ["33.1", "33.6", "33.7", "33.8", "C33.2", "C33.9", "C33.11", "C33.13"]},
+      {"text": "Its horns contain venom that leaks out on the impact of a stab, oozing poison.", "class": "canon", "confidence": "high", "evidence": ["33.2", "33.9", "C33.3", "C33.4", "C33.14"]},
+      {"text": "It has big ears and barbs on its back.", "class": "canon", "confidence": "high", "evidence": ["33.3", "33.6", "C33.5", "C33.10"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Nidorino eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The machine reading's waste-eater comes from its Poison type alone. Its female counterpart chews food for its young (30.3) and its adult form breaks prey's bones (34.1), so the line is likely omnivorous or predatory, but nothing says which for Nidorino.", "class": "hypothesis", "confidence": "low", "evidence": ["30.3", "34.1", "game:types"], "note": "Guild left empty."},
+      {"text": "Peck, Fury Attack (Lv 20) and Horn Attack (Lv 23) are its horn strikes.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Peck", "move:Fury Attack", "move:Horn Attack"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is grassland; no entry describes where it lives.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 13, 14 and 15 (30%, Lv 23) at any time, in both versions; the Johto Safari Zone has it at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "An aggressive Pokémon that is quick to attack; easily agitated, easily angered, with a violent disposition.", "class": "canon", "confidence": "high", "evidence": ["33.1", "33.5", "33.8", "33.9", "C33.1", "C33.8", "C33.12"]},
+      {"text": "It raises its big ears to check its surroundings; if it senses anything, it attacks immediately.", "class": "canon", "confidence": "high", "evidence": ["33.3", "33.10", "C33.5", "C33.6", "C33.15"]},
+      {"text": "Quick to anger, it stabs enemies with its horn to inject a powerful poison.", "class": "canon", "confidence": "high", "evidence": ["33.4", "C33.7"]},
+      {"text": "Its activity pattern is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Nothing is said about how Nidorino live. Rivalry, one of its abilities, makes it fiercer against foes of its own gender: males fight males, in game terms.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities"]},
+      {"text": "Male aggression beside caring, family-living females (Nidorina, 30.6) is a pattern of many animals; the entries never put the two together.", "class": "inferred", "confidence": "low", "evidence": ["33.1", "30.6"], "analogy": "In many mammals, males guard territory while females raise young in family groups."}
+    ],
+    "reproduction": [
+      {"text": "Monster and Field egg groups, 20 egg cycles, 100% male. Unlike Nidorina, Nidorino can breed in the games; its eggs hatch as either Nidoran.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Nidorina"]}
+    ],
+    "defense": [
+      {"text": "If it senses a hostile presence, all the barbs on its back bristle up at once, and it challenges the foe with all its might.", "class": "canon", "confidence": "high", "evidence": ["33.6", "33.7", "C33.10"]},
+      {"text": "It uses its horn for offence as soon as it notices an attacker: attack is its defence.", "class": "canon", "confidence": "high", "evidence": ["33.5", "C33.8"]},
+      {"text": "Poison Point poisons what touches it; Toxic Spikes (Lv 35) and Poison Jab (Lv 43) are its poisons.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Toxic Spikes", "move:Poison Jab"]}
+    ],
+    "senses": [
+      {"text": "Hearing: it raises its big ears to check its surroundings. Its young, Nidoran♂, can move its ears in any direction and misses not even the slightest sound (32.6).", "class": "canon", "confidence": "high", "evidence": ["33.3", "33.10", "32.6"]}
+    ],
+    "life_cycle": [
+      {"text": "Nidoran♂ becomes Nidorino at level 16 and Nidoking with a Moon Stone: 0.5 m and 9.0 kg, then 0.9 m and 19.5 kg, then 1.4 m and 62.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Nidoran♂", "species:Nidoking"]},
+      {"text": "Read as development, the line's weapon is the horn until the adult, whose tail does the work (34.1).", "class": "inferred", "confidence": "medium", "evidence": ["33.6", "34.1"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Leer, Peck, Focus Energy, Double Kick, Poison Sting, Fury Attack, Horn Attack, Helping Hand, Toxic Spikes, Flatter, Poison Jab, Captivate and Horn Drill (Lv 58). Horn Drill, a one-hit horn, is the diamond-piercing horn in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Horn Attack", "move:Horn Drill", "move:Poison Sting", "C33.13"]}
+    ],
+    "ecology": [
+      {"text": "Its food is unknown, so its place in the web is unset; on Routes 13 to 15 it shares the grass with Nidorina, Hoppip, Tangela and Chansey.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters", "species:Nidorina"]},
+      {"text": "Attacking anything it senses, it would keep its stretch of grass clear of intruders.", "class": "inferred", "confidence": "low", "evidence": ["33.3"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Nidorino and people; its quickness to attack makes it dangerous to approach.", "class": "inferred", "confidence": "medium", "evidence": ["33.3", "33.4"]}
+    ],
+    "homestead": [
+      {"text": "A watchman: big ears, attacks anything it senses. Too quick to attack for a homestead with visitors.", "class": "canon", "confidence": "medium", "evidence": ["33.3"], "capability": "deterrence"},
+      {"text": "Its horn is venomous: no handling.", "class": "canon", "confidence": "high", "evidence": ["33.1", "33.9"]},
+      {"text": "If raised for the rival's Nidoking, give it room and few surprises; it attacks when startled.", "class": "inferred", "confidence": "medium", "evidence": ["33.5"]},
+      {"text": "The young Nidorino that charges the postman every morning, and the postman who now delivers to the gate.", "class": "creative", "evidence": ["33.3"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["grassland (listed habitat)", "Kanto's southern routes"], "activity": "unknown",
+            "foraging": "unknown; no entry says what it eats", "evidence": ["game:habitat", "game:encounters"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty: the machine reading's waste-eater comes from the Poison type alone. Nidoking is filed as a predator."},
+  "relationships": [
+    {"with": "Nidorina", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Nidorina"]},
+    {"with": "Nidoking", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Head-smash bull", "moves": ["Head Smash", "Take Down", "Counter"], "class": "hypothesis", "confidence": "low",
+     "reading": "Nidoking's charging lineage at the horn stage: the young bull that challenges with all its might. Fits open grassland.",
+     "behavior": "Charges head-down the moment it hears something.", "evidence": ["33.6", "move:Head Smash", "move:Take Down", "move:Counter"]},
+    {"name": "Ear-sentinel", "moves": ["Sucker Punch", "Amnesia", "Confusion"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that strikes first on a sound and shrugs off what comes back: a pre-emptive hit, a calming of the mind, a psychic jab. The 'attacks immediately' habit as a way of life. Fits tall grass where things come close unseen.",
+     "behavior": "Still, ears up; strikes before it is seen.", "evidence": ["33.3", "move:Sucker Punch", "move:Amnesia", "move:Confusion"]}
+  ],
+  "open_questions": [
+    "What does Nidorino eat?",
+    "Does it live alone, or with Nidorina families?",
+    "How strong is its venom compared with Nidoran♀'s, whose 'tiny scratch can have fatal results' (29.3)?",
+    "Do Nidorino fight each other over females or territory?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

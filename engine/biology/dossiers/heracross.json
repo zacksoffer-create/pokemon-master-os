@@ -1,0 +1,90 @@
+{
+  "species": "Heracross",
+  "id": 214,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A great horned beetle, clad in a steel-hard shell, that gathers in forests seeking the sweet sap of trees, its favourite food, and loves sweet honey. Usually docile, it chases off anyone who disturbs it while it sips, and hurls rivals away with its prized horn to keep the honey to itself: it charges, slips under a foe, and scoops up and flings it, with power enough to throw 100 times its own weight or topple a massive tree. Clawed feet planted in the ground or in bark give it footing. In HeartGold and SoulSilver it lives in the trees, shaken out by Headbutt, on Johto's Routes 33, 42, 44, 45, 46 and 47, at Azalea Town and on Mt. Silver, and in Kanto on Route 28, at Vermilion and Celadon, and on Routes 7, 11 and 16.",
+  "sections": {
+    "anatomy": [
+      {"text": "A big upright beetle (Gen 4 shape humanoid), 1.5 m and 54.0 kg, typed Bug and Fighting: the Single Horn Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Completely clad in a steel-hard shell, with a prized horn.", "class": "canon", "confidence": "high", "evidence": ["214.1", "214.6", "C214.9", "C214.10"]},
+      {"text": "Sharp claws on its feet, planted firmly in the ground or in tree bark; powerful legs.", "class": "canon", "confidence": "high", "evidence": ["214.5", "214.8", "C214.6", "C214.7", "C214.13"]}
+    ],
+    "diet": [
+      {"text": "Tree sap is its favourite food; Heracross gather in forests seeking the sweet sap of trees.", "class": "canon", "confidence": "high", "evidence": ["214.6", "214.7", "C214.8", "C214.11"], "analogy": "Real rhinoceros and stag beetles feed on tree sap, and males fight over the best sap flows."},
+      {"text": "It loves sweet honey, and sips it.", "class": "canon", "confidence": "high", "evidence": ["214.2", "214.9", "214.10", "C214.2", "C214.14", "C214.16"]},
+      {"text": "Bug Bite, from the move tutor, is an eating move in game form.", "class": "mechanic", "confidence": "low", "evidence": ["move:Bug Bite"]}
+    ],
+    "habitat": [
+      {"text": "Forests, where it gathers at sap trees; the Gen 3 Pokédex habitat is forest.", "class": "canon", "confidence": "high", "evidence": ["214.6", "214.7", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in trees, found by Headbutt, at any time, in both versions: on Routes 33, 42, 44, 45, 46 and 47 and at Azalea Town in Johto; on Route 28 and at Mt. Silver (Lv 39-48); and in Kanto at Vermilion City, Celadon City and Routes 7, 11 and 16.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It is usually docile, but if it is disturbed while sipping honey it chases off the intruder with its horn.", "class": "canon", "confidence": "high", "evidence": ["214.2", "214.10", "C214.2", "C214.16"]},
+      {"text": "It charges in a straight line at its foe, slips beneath the foe's grasp, and scoops up and hurls the opponent with its horn.", "class": "canon", "confidence": "high", "evidence": ["214.1", "214.4", "C214.1", "C214.4"]},
+      {"text": "Its activity pattern is not stated; the Headbutt tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Heracross gather in forests at sap trees: a feeding gathering.", "class": "canon", "confidence": "high", "evidence": ["214.6", "214.7", "C214.8", "C214.11"]},
+      {"text": "To keep all the honey to itself, it hurls rivals away with its prized horn.", "class": "canon", "confidence": "high", "evidence": ["214.9", "C214.15"]},
+      {"text": "Gathering together yet fighting over the food: competition at a shared, limited resource.", "class": "inferred", "confidence": "medium", "evidence": ["214.6", "214.9"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 25 egg cycles, an even sex ratio, slow growth; it does not evolve. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth", "game:evolution"]}
+    ],
+    "defense": [
+      {"text": "A steel-hard shell, and the horn: it throws foes over great distances.", "class": "canon", "confidence": "high", "evidence": ["214.6", "214.8", "214.7", "C214.12", "C214.13"]},
+      {"text": "Swarm and Guts make it stronger when hurt or ailing; Endure, Counter (Lv 25) and Reversal (Lv 43) turn a beating into a counterattack.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Endure", "move:Counter", "move:Reversal"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses; it finds sap trees in the forest, so it can find them somehow.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It does not evolve: hatched as Heracross and stays one, 1.5 m and 54.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size"]},
+      {"text": "No larval stage is recorded, unlike real beetles.", "class": "unknown", "confidence": "medium", "evidence": [], "analogy": "Real beetles hatch as grubs and pupate before becoming adults."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Night Slash, Tackle, Leer, Horn Attack, Endure, Fury Attack, Aerial Ace, Brick Break, Counter, Take Down, Close Combat, Reversal, Feint and Megahorn: the horn and the throw.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Horn Attack", "move:Megahorn", "move:Close Combat"]}
+    ],
+    "ecology": [
+      {"text": "A sap and honey feeder: it lives on what trees give and on honey.", "class": "canon", "confidence": "high", "evidence": ["214.7", "214.9"]},
+      {"text": "It has power enough to topple a massive tree: in a forest, a disturbance as well as a feeder.", "class": "canon", "confidence": "medium", "evidence": ["214.4", "C214.5"]},
+      {"text": "On Kanto's headbutt trees it lives beside Combee, which gather honey from flowers (415.2); Heracross loves honey and keeps it to itself. They would compete, if they meet at the same honey.", "class": "hypothesis", "confidence": "low", "evidence": ["214.9", "415.2", "game:encounters", "species:Combee"]},
+      {"text": "In Johto's trees it shares the bark with Aipom nearly everywhere, and with Spearow on most routes.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Aipom", "species:Spearow"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Heracross and people; it is docile unless disturbed while feeding.", "class": "inferred", "confidence": "medium", "evidence": ["214.2"]}
+    ],
+    "homestead": [
+      {"text": "Strength: it can throw around an object 100 times its own weight, and topple a massive tree. The homestead's logger and hauler.", "class": "canon", "confidence": "high", "evidence": ["214.3", "214.4"], "capability": "hauling"},
+      {"text": "Clearing ground: felling and moving trees.", "class": "canon", "confidence": "medium", "evidence": ["214.4"], "capability": "clearing"},
+      {"text": "Never disturb it at the honey or the sap; keep the beehives where it can't reach them.", "class": "canon", "confidence": "high", "evidence": ["214.2", "214.9"]},
+      {"text": "The stump-puller, at work, and the bowl of honey that is its wage.", "class": "creative", "evidence": ["214.9"]}
+    ]
+  },
+  "niche": {"guild": "sap and nectar feeder", "trophic_level": 2, "microhabitat": ["sap trees in forests", "tree trunks and bark"], "activity": "unknown",
+            "foraging": "sips tree sap and honey, and drives rivals off", "evidence": ["214.7", "214.9"], "class": "canon", "confidence": "high"},
+  "relationships": [
+    {"with": "sweet sap of trees", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["214.6", "214.7"]},
+    {"with": "honey", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["214.9"]},
+    {"with": "Combee", "kind": "competes_with", "class": "hypothesis", "confidence": "low", "evidence": ["214.9", "415.2", "game:encounters"], "note": "Both want honey; they share Kanto's headbutt trees."},
+    {"with": "Aipom", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Aipom"]}
+  ],
+  "ecotypes": [
+    {"name": "Sap-tree holder", "moves": ["Harden", "Bide", "Revenge"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that holds its tree: it hardens, takes the blows and returns them double. Fits forests with few sap trees and many rivals.",
+     "behavior": "Will not leave its sap flow, whatever hits it.", "evidence": ["214.9", "move:Harden", "move:Bide", "move:Revenge"]},
+    {"name": "Intruder-chaser", "moves": ["Pursuit", "Double-Edge", "Flail"], "class": "hypothesis", "confidence": "low",
+     "reading": "The chaser of 214.2: it runs down what it disturbs and charges with everything. Fits busy woods where it is disturbed often.",
+     "behavior": "Chases intruders a long way from the tree.", "evidence": ["214.2", "move:Pursuit", "move:Double-Edge", "move:Flail"]}
+  ],
+  "open_questions": [
+    "Where do Heracross find honey: in Combee hives, or in flowers?",
+    "Does it hatch as a grub, or as a small adult?",
+    "Why does it gather with others if it fights them for the food?",
+    "Does it damage the trees it feeds from?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

@@ -1,0 +1,89 @@
+{
+  "species": "Sandslash",
+  "id": 28,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The spiny adult of Sandshrew. Sandslash's back is covered in tough spikes, hardened sections of its hide, which fall out once a year as new ones grow beneath; spikes and claws that snap off when it digs too fast grow back in a day. It curls into a spiny ball to protect itself, and to avoid heatstroke on hot days, and rolls into foes back first; in a fight it jabs with its spines to make the foe flinch, then leaps at it and tears with its claws. It climbs trees to attack from above, and kicks up a blinding dust storm to hide. In HeartGold and SoulSilver it is HeartGold's: Route 26, Route 27 and Mt. Moon.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright animal (Gen 4 shape upright), 1.0 m and 29.5 kg, typed Ground: the Mouse Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its body is covered by tough spikes, which are hardened sections of its hide.", "class": "canon", "confidence": "high", "evidence": ["28.6", "C28.9"], "analogy": "Porcupine quills and hedgehog spines are modified hairs, a similar hardening of the skin's growths."},
+      {"text": "It has sharp claws.", "class": "canon", "confidence": "high", "evidence": ["28.2", "28.7", "28.9", "C28.3", "C28.13", "C28.16"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Sandslash eats. Its young emerges only to hunt (27.10), so the line is a hunter.", "class": "inferred", "confidence": "low", "evidence": ["27.10"]},
+      {"text": "Crush Claw (Lv 22, learned on evolving), Fury Swipes and Slash are its claw attacks.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Crush Claw", "move:Fury Swipes", "move:Slash"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is rough terrain; it is adept at climbing trees.", "class": "canon", "confidence": "medium", "evidence": ["game:habitat", "28.5", "C28.8"]},
+      {"text": "In HeartGold and SoulSilver it is HeartGold's: Route 26 (30%, Lv 28), Route 27 (5%) and Mt. Moon (5%), at any time; the Johto Safari Zone has it in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its HeartGold range, two roads below Victory Road and a mountain cave, matches the rough terrain of its listed habitat.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "game:habitat"]}
+    ],
+    "behavior": [
+      {"text": "It curls up to prevent heatstroke during the daytime when temperatures rise sharply.", "class": "canon", "confidence": "high", "evidence": ["28.8", "C28.15"]},
+      {"text": "To hide, it runs around at top speed to kick up a blinding dust storm.", "class": "canon", "confidence": "high", "evidence": ["28.3", "C28.5"]},
+      {"text": "If it digs at an incredible pace, it may snap off its spikes and claws.", "class": "canon", "confidence": "high", "evidence": ["28.4", "C28.6"]},
+      {"text": "Its activity pattern isn't stated; curling up against midday heat suggests it rests in the heat of the day.", "class": "inferred", "confidence": "low", "evidence": ["28.8"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or pairs.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It curls up into a spiny ball when threatened, and can roll while curled up to attack or escape.", "class": "canon", "confidence": "high", "evidence": ["28.1", "28.7", "28.8", "C28.1", "C28.2", "C28.11", "C28.14"]},
+      {"text": "In battle it jabs the foe with its spines to make it flinch, then leaps at the stunned foe to tear wildly with its claws.", "class": "canon", "confidence": "high", "evidence": ["28.7", "C28.12", "C28.13"]},
+      {"text": "It curls up, then rolls into foes with its back, and its sharp spines inflict severe damage.", "class": "canon", "confidence": "high", "evidence": ["28.9", "28.10", "C28.17", "C28.18"]},
+      {"text": "Adept at climbing trees, it rolls into a spiny ball and attacks its enemies from above.", "class": "canon", "confidence": "high", "evidence": ["28.5", "C28.8"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Sandshrew at level 22, from 0.6 m and 12.0 kg to 1.0 m and 29.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Sandshrew"]},
+      {"text": "Once a year its old spikes fall out and new ones grow from beneath; broken spikes and claws grow back within a day.", "class": "canon", "confidence": "high", "evidence": ["28.2", "28.4", "28.6", "C28.4", "C28.7", "C28.10"], "analogy": "Animals that moult once a year, like many birds, replace worn armour or feathers on a cycle."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Sandshrew's list with Crush Claw added: Defense Curl, Sand Attack, Poison Sting, Rapid Spin, Swift, Fury Swipes, Rollout, Fury Cutter, Sand Tomb, Slash, Gyro Ball and Sandstorm (Lv 52). Sand Attack and Sandstorm are its dust storm.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Crush Claw", "move:Rollout", "move:Sandstorm", "move:Sand Attack", "C28.5"]}
+    ],
+    "ecology": [
+      {"text": "A spiny hunter of rough country, by its young's habit; its prey and predators are unnamed.", "class": "inferred", "confidence": "low", "evidence": ["27.10", "game:habitat"]},
+      {"text": "Its shed spikes, falling once a year, would litter its range.", "class": "inferred", "confidence": "low", "evidence": ["28.6"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Sandslash and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "A fast digger that regrows its claws in a day: trenching and post holes, if it will dig where asked.", "class": "inferred", "confidence": "medium", "evidence": ["28.4"], "capability": "digging"},
+      {"text": "Its shed spikes, once a year, could be collected as tough points or awls.", "class": "hypothesis", "confidence": "low", "evidence": ["28.6"], "capability": "construction", "note": "Untested."},
+      {"text": "Handle with care; it rolls into foes spines first.", "class": "canon", "confidence": "high", "evidence": ["28.10"]},
+      {"text": "A Sandslash curled in the shade of the porch through every summer noon, uncurling at dusk.", "class": "creative", "evidence": ["28.8"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["rough, dry country", "trees it climbs", "dry cave floors"], "activity": "unknown",
+            "foraging": "unknown; its young emerges from burrows to hunt", "evidence": ["27.10", "28.5", "game:habitat"], "class": "hypothesis", "confidence": "low",
+            "note": "Filed as a predator with Sandshrew; Sandslash's own diet is never stated."},
+  "relationships": [
+    {"with": "soil invertebrates (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["27.10"], "note": "Its young hunts from a burrow; prey never named."},
+    {"with": "trees", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["28.5"], "note": "To climb and attack from."},
+    {"with": "Sandshrew", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Sandshrew"], "note": "Mt. Moon, HeartGold."}
+  ],
+  "ecotypes": [
+    {"name": "Tree-drop ambusher", "moves": ["Swords Dance", "Night Slash", "Counter"], "class": "hypothesis", "confidence": "low",
+     "reading": "The tree-climbing attacker of Crystal's entry as a lineage: it readies its claws, drops, slashes and hits back. Fits wooded rough ground with trees to climb.",
+     "behavior": "Waits in trees and drops onto what passes.", "evidence": ["28.5", "move:Swords Dance", "move:Night Slash", "move:Counter"]},
+    {"name": "Dust-storm runner", "moves": ["Rapid Spin", "Mud Shot", "Flail"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that hides in its own dust: spinning, throwing mud and thrashing. Fits open, dry ground where a dust cloud can hide it.",
+     "behavior": "Vanishes in dust when threatened.", "evidence": ["28.3", "move:Rapid Spin", "move:Mud Shot", "move:Flail"]}
+  ],
+  "open_questions": [
+    "What does Sandslash eat?",
+    "Why is it HeartGold's only, and what holds its slot in SoulSilver?",
+    "When in the year do its spikes fall, and what happens to them?",
+    "Is it active by day, given it curls up against midday heat?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

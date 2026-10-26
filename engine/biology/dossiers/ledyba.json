@@ -1,0 +1,91 @@
+{
+  "species": "Ledyba",
+  "id": 165,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A timid red beetle that can't bring itself to move alone: on its own it is afraid to move, but in a group it becomes active. Ledyba talk to each other by scent, through an aromatic fluid they secrete where their legs join the body, changing the smell to convey their feelings; the fluid also marks where they have been. When the weather turns cold, Ledyba gather from everywhere into clusters to keep each other warm. Nothing says what it eats. In HeartGold and SoulSilver it is a SoulSilver Pokémon: in the morning grass of a few routes, and in headbutt trees almost everywhere, Viridian Forest included.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged beetle (Gen 4 shape wings), 1.0 m and 10.8 kg, typed Bug and Flying: the Five Star Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It secretes an aromatic fluid from where its legs join its body.", "class": "canon", "confidence": "high", "evidence": ["165.3", "165.4", "165.5", "C165.6", "C165.7", "C165.10"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Ledyba eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Bug Bite is an egg move of its line and Comet Punch and Mach Punch are in its own list: it punches more than it bites, which says nothing about food.", "class": "mechanic", "confidence": "low", "evidence": ["move:Bug Bite", "move:Comet Punch", "move:Mach Punch"]},
+      {"text": "The machine reading's herbivore comes from its Bug type only.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types"], "note": "Kept out of the niche.", "analogy": "Real ladybirds mostly eat aphids and other small insects; that is real-world biology, not evidence for Ledyba."}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is forest.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is SoulSilver's: walking in the morning on Routes 30, 31 and 37 and by day and morning on Route 2, and in the headbutt trees of nearly every wooded route and town in Johto and Kanto, Viridian Forest (10%) among them. HeartGold has Spinarak in the same slots.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Spinarak"]},
+      {"text": "Ledyba by morning and Spinarak by night share the same routes across the two versions: the tables pair a day beetle with a night spider.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Spinarak"]}
+    ],
+    "behavior": [
+      {"text": "It is very timid: it will be afraid to move if it is alone, but it will be active in a group.", "class": "canon", "confidence": "high", "evidence": ["165.1", "C165.1", "C165.2", "C165.3"]},
+      {"text": "It is so timid it can't move unless it is with a swarm of others.", "class": "canon", "confidence": "high", "evidence": ["165.7", "C165.13"]},
+      {"text": "Morning-active in the SoulSilver tables, and Early Bird, one of its abilities, wakes it quickly.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters", "game:abilities"]}
+    ],
+    "social": [
+      {"text": "It clusters together with others.", "class": "canon", "confidence": "high", "evidence": ["165.3", "C165.5"]},
+      {"text": "When the weather turns cold, Ledyba gather from everywhere to cluster and keep each other warm.", "class": "canon", "confidence": "high", "evidence": ["165.2", "165.6", "C165.4", "C165.12"], "analogy": "Real ladybirds gather in huge clusters to overwinter."},
+      {"text": "They communicate with the fluid, conveying feelings by altering its scent.", "class": "canon", "confidence": "high", "evidence": ["165.4", "165.7", "C165.8", "C165.9", "C165.14"]},
+      {"text": "Scent that conveys feelings and marks location is a chemical language, a pheromone system in all but name.", "class": "inferred", "confidence": "medium", "evidence": ["165.3", "165.4"]}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 15 egg cycles, an even sex ratio, fast growth. Nothing describes eggs or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Safety in numbers: alone it won't move at all.", "class": "inferred", "confidence": "medium", "evidence": ["165.1", "165.7"]},
+      {"text": "Its level-14 moves are three screens, Light Screen, Reflect and Safeguard, and Baton Pass (Lv 22) hands its gains to an ally: a group defender's set.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Light Screen", "move:Reflect", "move:Safeguard", "move:Baton Pass"]}
+    ],
+    "senses": [
+      {"text": "Scent is its social sense: it reads feelings in the fluid's smell.", "class": "canon", "confidence": "high", "evidence": ["165.4", "165.7"]},
+      {"text": "The fluid secreted by its feet indicates its location: others can follow its trail.", "class": "canon", "confidence": "high", "evidence": ["165.3", "C165.6"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Ledian at level 18, from 1.0 m and 10.8 kg to 1.4 m and 35.6 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Ledian"]},
+      {"text": "Read as development, a morning beetle that can't move alone becomes a night flier that scatters glowing powder under the stars and sleeps through warm days (166.1, 166.3).", "class": "inferred", "confidence": "medium", "evidence": ["165.1", "166.1", "166.3"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Tackle, Supersonic, Comet Punch, the three screens, Mach Punch, Baton Pass, Silver Wind (Lv 25), Agility, Swift, Double-Edge and Bug Buzz.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Supersonic", "move:Comet Punch", "move:Silver Wind", "move:Bug Buzz"]}
+    ],
+    "ecology": [
+      {"text": "Its food is unknown, so its place in the web is unset; in the reconstruction it is a small morning beetle of trees and grass.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "As a 10.8 kg bug in headbutt trees, it is the size of prey for Pidgeotto and for the owls of the same trees, but no entry names its predators.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "game:encounters", "species:Pidgeotto"], "note": "Size and co-occurrence only."}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Ledyba and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "Keep several together or none: alone, a Ledyba won't move.", "class": "canon", "confidence": "high", "evidence": ["165.1", "165.7"]},
+      {"text": "In winter it will look for others to cluster with for warmth: give a group a sheltered place.", "class": "canon", "confidence": "medium", "evidence": ["165.2"]},
+      {"text": "Its scent trail marks where it has been; a swarm could be tracked through an orchard by smell.", "class": "inferred", "confidence": "low", "evidence": ["165.3"], "capability": "tracking"},
+      {"text": "A huddle of Ledyba wintering in the woodshed, smelling faintly of contentment.", "class": "creative", "evidence": ["165.2", "165.4"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["trees (headbutt tables)", "morning grass"], "activity": "diurnal",
+            "foraging": "unknown; no entry says what it eats", "evidence": ["game:encounters", "game:habitat"], "class": "unknown", "confidence": "high",
+            "note": "Activity from the SoulSilver tables (mornings). Guild left empty: the machine reading's herbivore comes from the Bug type alone."},
+  "relationships": [
+    {"with": "Spinarak", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Spinarak"], "note": "The same slots, Ledyba in SoulSilver mornings, Spinarak in HeartGold nights."},
+    {"with": "Ledian", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Swarm singer", "moves": ["Bug Buzz", "Silver Wind", "Screech"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that uses sound and its wings together: a buzz, a gust of scales and a screech. Swarms that drive threats off as one. Fits open forest edges where swarms gather.",
+     "behavior": "A swarm that buzzes at intruders in unison.", "evidence": ["165.7", "move:Bug Buzz", "move:Silver Wind", "move:Screech"]},
+    {"name": "Cluster keeper", "moves": ["Encore", "Bide"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the cold clusters: Bide stores up and endures, Encore keeps a partner at what it is doing. The Ledyba that hold a winter huddle together. Fits cold uplands.",
+     "behavior": "First to arrive at a winter cluster, last to leave.", "evidence": ["165.2", "move:Encore", "move:Bide"]}
+  ],
+  "open_questions": [
+    "What does Ledyba eat?",
+    "Why only in SoulSilver, with Spinarak in its place in HeartGold?",
+    "How many make a group big enough for it to move?",
+    "What feelings does the scent carry, and can people smell them?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "They are said to convey feelings to others by altering the fluid's scent.", "kind": "said", "evidence": ["165.5", "C165.11"]}
+  ]
+}

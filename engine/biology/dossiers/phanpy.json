@@ -1,0 +1,91 @@
+{
+  "species": "Phanpy",
+  "id": 231,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The young of Donphan: a small, very strong elephant with a long snout. For its nest Phanpy digs a vertical pit at a river's edge and marks the ground around it with its trunk to tell others the place is taken. In the quiet morning hours it comes ashore to shower with its trunk; when others gather they douse each other thoroughly, then dry off at the water's edge, and in the heat it fans itself with its big ears. It swings its snout around playfully and bumps with it to show affection, but it is so strong it can send you flying, and it can carry an adult on its back. In HeartGold it lives on Route 45 and Mt. Silver; in SoulSilver, Teddiursa has its place.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small four-legged animal (Gen 4 shape quadruped), 0.5 m but 33.5 kg, typed Ground: the Long Nose Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A long snout, a trunk it uses deftly, and big ears that serve as broad fans.", "class": "canon", "confidence": "high", "evidence": ["231.1", "231.3", "231.6", "C231.7", "C231.10"]},
+      {"text": "Strong despite its compact size; even the young are very strong.", "class": "canon", "confidence": "high", "evidence": ["231.6", "231.8", "C231.12", "C231.14"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Phanpy eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Filed with Donphan as a plant-eater, from its body plan and its line; the machine reading's rock-eater comes from its Ground type alone.", "class": "hypothesis", "confidence": "low", "evidence": ["game:shape", "species:Donphan"], "analogy": "Real elephants are plant-eaters that use their trunks to gather food and water.", "note": "No entry gives the line's diet."}
+    ],
+    "habitat": [
+      {"text": "River edges, where it digs its nest; it comes ashore, so it spends time in the water too. The Gen 3 Pokédex habitat is rough terrain.", "class": "canon", "confidence": "high", "evidence": ["231.3", "231.4", "231.5", "C231.5", "C231.9", "game:habitat"]},
+      {"text": "In HeartGold it lives on Route 45 (10%, Lv 20) and Mt. Silver (10%, Lv 43-48), at any time; it is not wild in SoulSilver, where Teddiursa has the same places.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Teddiursa"]}
+    ],
+    "behavior": [
+      {"text": "During the deserted morning hours it comes ashore and deftly uses its trunk to take a shower.", "class": "canon", "confidence": "high", "evidence": ["231.3", "231.5", "C231.4", "C231.7"]},
+      {"text": "When it becomes hot, it flaps its ears busily to cool down.", "class": "canon", "confidence": "high", "evidence": ["231.6", "C231.11"], "analogy": "Real African elephants cool their blood by flapping their large ears."},
+      {"text": "It swings its long snout around playfully, which, because it is so strong, can be dangerous.", "class": "canon", "confidence": "high", "evidence": ["231.1", "231.7", "231.9", "C231.1", "C231.13"]},
+      {"text": "Active by day, mornings at least, by 231.3; the tables have it at any time.", "class": "inferred", "confidence": "low", "evidence": ["231.3", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "When others gather around, they thoroughly douse each other with water.", "class": "canon", "confidence": "high", "evidence": ["231.5", "C231.8"]},
+      {"text": "It marks the area around its nest with its trunk to let the others know the area has been claimed.", "class": "canon", "confidence": "high", "evidence": ["231.4", "C231.6"]},
+      {"text": "As a sign of affection, it bumps with its snout.", "class": "canon", "confidence": "high", "evidence": ["231.2", "C231.2"]},
+      {"text": "Social at the water and territorial at the nest: a group animal that keeps its own nest site.", "class": "inferred", "confidence": "medium", "evidence": ["231.4", "231.5"]}
+    ],
+    "reproduction": [
+      {"text": "For its nest, it digs a vertical pit in the ground at the edge of a river.", "class": "canon", "confidence": "high", "evidence": ["231.4", "C231.5"]},
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its strength: its snout can send you flying.", "class": "canon", "confidence": "medium", "evidence": ["231.2", "C231.3"]},
+      {"text": "Defense Curl and Rollout (Lv 15), the curled roll its adult attacks with; Endure (Lv 28) and Take Down (Lv 10) too.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Defense Curl", "move:Rollout", "move:Endure", "move:Take Down"]}
+    ],
+    "senses": [
+      {"text": "Odor Sleuth, a scenting move, is in its list; the entries say nothing of its senses.", "class": "mechanic", "confidence": "low", "evidence": ["move:Odor Sleuth"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Donphan at level 25: from 0.5 m and 33.5 kg to 1.1 m and 120.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Donphan"]},
+      {"text": "A riverbank youngster that becomes a tusked herd animal of rough mountain country, as Donphan's dossier reads its adult entries.", "class": "inferred", "confidence": "medium", "evidence": ["231.4", "species:Donphan"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Odor Sleuth, Tackle, Growl, Defense Curl, Flail, Take Down, Rollout, Natural Gift, Slam, Endure, Charm, Last Resort and Double-Edge.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Rollout", "move:Slam", "move:Charm"]}
+    ],
+    "ecology": [
+      {"text": "A digger of nest pits at river edges: it shapes the banks it lives on.", "class": "canon", "confidence": "medium", "evidence": ["231.4"]},
+      {"text": "On Route 45 it shares the slopes with Geodude, Graveler, Gligar, Spearow and the Aipom and Heracross of the trees; on Mt. Silver with Donphan, its adult.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gligar", "species:Donphan"]}
+    ],
+    "humans": [
+      {"text": "It can easily pick up and carry an adult human on its back.", "class": "canon", "confidence": "high", "evidence": ["231.8", "C231.15"]},
+      {"text": "Its affectionate bump may send you flying.", "class": "canon", "confidence": "high", "evidence": ["231.2"]}
+    ],
+    "homestead": [
+      {"text": "Carries an adult on its back: a pack animal and a ride for short distances.", "class": "canon", "confidence": "high", "evidence": ["231.8"], "capability": "carrying_rider"},
+      {"text": "Strong for its size: hauling.", "class": "canon", "confidence": "medium", "evidence": ["231.6", "231.8"], "capability": "hauling"},
+      {"text": "Give it water to shower in, and stand clear of its playful snout.", "class": "canon", "confidence": "high", "evidence": ["231.1", "231.3"]},
+      {"text": "Morning at the creek: two Phanpy soaking each other, and the washing on the line soaked too.", "class": "creative", "evidence": ["231.5"]}
+    ]
+  },
+  "niche": {"guild": "herbivore", "trophic_level": 2, "microhabitat": ["river edges (nest pits)", "rocky mountain slopes"], "activity": "diurnal",
+            "foraging": "not described", "evidence": ["231.3", "231.4", "game:habitat"], "class": "hypothesis", "confidence": "low",
+            "note": "Diet never stated; filed with Donphan as a herbivore. Diurnal from 231.3's morning showers."},
+  "relationships": [
+    {"with": "riverbanks", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["231.4"], "note": "Its nest pits."},
+    {"with": "Gligar", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Gligar"]},
+    {"with": "Donphan", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Rockfall ram", "moves": ["Head Smash", "Focus Energy", "Body Slam"], "class": "hypothesis", "confidence": "low",
+     "reading": "The young of Donphan's head-down lineage: a crushing head blow, a gathering of strength and a body slam. Fits rocky slopes.",
+     "behavior": "Its playful snout-swinging turns into charges early.", "evidence": ["231.1", "move:Head Smash", "move:Focus Energy", "move:Body Slam"]},
+    {"name": "Crevasse walker", "moves": ["Fissure", "Ice Shard", "Ancient Power"], "class": "hypothesis", "confidence": "low",
+     "reading": "The young of Donphan's high-country lineage: ground-splitting, ice and old stone power. Fits cold, broken ground like Mt. Silver.",
+     "behavior": "Digs its nest pits in hard, cold banks.", "evidence": ["231.4", "move:Fissure", "move:Ice Shard", "move:Ancient Power"]}
+  ],
+  "open_questions": [
+    "What does Phanpy eat?",
+    "Where is the river on Route 45 or Mt. Silver that it nests by?",
+    "How many Phanpy gather to shower together?",
+    "Why is it in HeartGold's wild and not SoulSilver's?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

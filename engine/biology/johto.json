@@ -1,5 +1,5 @@
 {
- "_note": "Johto as a landscape (v1 B6, D-077): every place in HeartGold and SoulSilver as a node, with how they connect. The connections are the games' own map (class mechanic: you can walk, surf or tunnel from one to the other). Biome, elevation and water are Blackthorn's reading of each place from how it looks in the games and how its Pokémon are found there (class inferred); edit them freely. keys are the reference data's location keys (location_areas -> locations.identifier).",
+ "_note": "Johto as a landscape (v1 B6, D-077): every Johto place in HeartGold and SoulSilver as a node, with how they connect; Kanto is in biology/kanto.json (A-66) and the two are read together. The connections are the games' own map (class mechanic: you can walk, surf or tunnel from one to the other; the Kanto-side joins were checked against the decomp's map matrix and warps). Region is the games' own, from each map's header: Route 26, 27 and 28, Tohjo Falls and Victory Road are Kanto's, Mt. Silver is Johto's. Biome, elevation and water are Blackthorn's reading of each place from how it looks in the games and how its Pokémon are found there (class inferred); edit them freely. keys are the reference data's location keys (location_areas -> locations.identifier).",
  "biomes": {
   "forest": "closed-canopy woodland: trees, understory, leaf litter and deadwood",
   "woodland-edge": "grassland broken by tree lines and thickets",
@@ -24,6 +24,7 @@
  "nodes": {
   "new-bark-town": {
    "name": "New Bark Town",
+   "region": "johto",
    "biome": [
     "urban",
     "woodland-edge"
@@ -40,6 +41,7 @@
   },
   "johto-route-29": {
    "name": "Route 29",
+   "region": "johto",
    "biome": [
     "grassland",
     "woodland-edge"
@@ -53,6 +55,7 @@
   },
   "cherrygrove-city": {
    "name": "Cherrygrove City",
+   "region": "johto",
    "biome": [
     "urban",
     "coast"
@@ -68,6 +71,7 @@
   },
   "johto-route-30": {
    "name": "Route 30",
+   "region": "johto",
    "biome": [
     "woodland-edge",
     "grassland"
@@ -84,6 +88,7 @@
   },
   "johto-route-31": {
    "name": "Route 31",
+   "region": "johto",
    "biome": [
     "grassland"
    ],
@@ -98,6 +103,7 @@
   },
   "violet-city": {
    "name": "Violet City",
+   "region": "johto",
    "biome": [
     "urban",
     "woodland-edge"
@@ -113,6 +119,7 @@
   },
   "sprout-tower": {
    "name": "Sprout Tower",
+   "region": "johto",
    "biome": [
     "tower"
    ],
@@ -125,6 +132,7 @@
   },
   "johto-route-32": {
    "name": "Route 32",
+   "region": "johto",
    "biome": [
     "grassland",
     "coast"
@@ -142,6 +150,7 @@
   },
   "ruins-of-alph": {
    "name": "Ruins of Alph",
+   "region": "johto",
    "biome": [
     "ruins",
     "grassland"
@@ -157,6 +166,7 @@
   },
   "union-cave": {
    "name": "Union Cave",
+   "region": "johto",
    "biome": [
     "cave"
    ],
@@ -172,6 +182,7 @@
   },
   "johto-route-33": {
    "name": "Route 33",
+   "region": "johto",
    "biome": [
     "grassland"
    ],
@@ -185,6 +196,7 @@
   },
   "azalea-town": {
    "name": "Azalea Town",
+   "region": "johto",
    "biome": [
     "urban",
     "forest"
@@ -198,6 +210,7 @@
   },
   "slowpoke-well": {
    "name": "Slowpoke Well",
+   "region": "johto",
    "biome": [
     "cave"
    ],
@@ -213,6 +226,7 @@
   },
   "ilex-forest": {
    "name": "Ilex Forest",
+   "region": "johto",
    "biome": [
     "forest"
    ],
@@ -228,6 +242,7 @@
   },
   "johto-route-34": {
    "name": "Route 34",
+   "region": "johto",
    "biome": [
     "grassland",
     "coast"
@@ -244,6 +259,7 @@
   },
   "goldenrod-city": {
    "name": "Goldenrod City",
+   "region": "johto",
    "biome": [
     "urban"
    ],
@@ -258,6 +274,7 @@
   },
   "johto-route-35": {
    "name": "Route 35",
+   "region": "johto",
    "biome": [
     "grassland"
    ],
@@ -272,6 +289,7 @@
   },
   "national-park": {
    "name": "National Park",
+   "region": "johto",
    "biome": [
     "grassland",
     "woodland-edge"
@@ -288,6 +306,7 @@
   },
   "johto-route-36": {
    "name": "Route 36",
+   "region": "johto",
    "biome": [
     "woodland-edge"
    ],
@@ -300,6 +319,7 @@
   },
   "johto-route-37": {
    "name": "Route 37",
+   "region": "johto",
    "biome": [
     "woodland-edge"
    ],
@@ -312,6 +332,7 @@
   },
   "ecruteak-city": {
    "name": "Ecruteak City",
+   "region": "johto",
    "biome": [
     "urban",
     "woodland-edge"
@@ -325,6 +346,7 @@
   },
   "burned-tower": {
    "name": "Burned Tower",
+   "region": "johto",
    "biome": [
     "tower",
     "ruins"
@@ -338,6 +360,7 @@
   },
   "bell-tower": {
    "name": "Bell Tower",
+   "region": "johto",
    "biome": [
     "tower"
    ],
@@ -350,6 +373,7 @@
   },
   "johto-route-38": {
    "name": "Route 38",
+   "region": "johto",
    "biome": [
     "pasture",
     "woodland-edge"
@@ -363,6 +387,7 @@
   },
   "johto-route-39": {
    "name": "Route 39",
+   "region": "johto",
    "biome": [
     "pasture"
    ],
@@ -376,6 +401,7 @@
   },
   "olivine-city": {
    "name": "Olivine City",
+   "region": "johto",
    "biome": [
     "urban",
     "coast"
@@ -391,6 +417,7 @@
   },
   "johto-sea-route-40": {
    "name": "Sea Route 40",
+   "region": "johto",
    "biome": [
     "sea",
     "coast"
@@ -406,6 +433,7 @@
   },
   "johto-sea-route-41": {
    "name": "Sea Route 41",
+   "region": "johto",
    "biome": [
     "sea"
    ],
@@ -420,6 +448,7 @@
   },
   "whirl-islands": {
    "name": "Whirl Islands",
+   "region": "johto",
    "biome": [
     "sea-cave"
    ],
@@ -434,6 +463,7 @@
   },
   "cianwood-city": {
    "name": "Cianwood City",
+   "region": "johto",
    "biome": [
     "urban",
     "coast"
@@ -449,6 +479,7 @@
   },
   "johto-route-47": {
    "name": "Route 47",
+   "region": "johto",
    "biome": [
     "coast",
     "montane"
@@ -466,6 +497,7 @@
   },
   "johto-route-48": {
    "name": "Route 48",
+   "region": "johto",
    "biome": [
     "grassland",
     "coast"
@@ -479,6 +511,7 @@
   },
   "safari-zone-gate": {
    "name": "Safari Zone Gate",
+   "region": "johto",
    "biome": [
     "grassland"
    ],
@@ -491,6 +524,7 @@
   },
   "johto-safari-zone": {
    "name": "Johto Safari Zone",
+   "region": "johto",
    "biome": [
     "managed"
    ],
@@ -507,6 +541,7 @@
   },
   "johto-route-42": {
    "name": "Route 42",
+   "region": "johto",
    "biome": [
     "montane",
     "woodland-edge"
@@ -523,6 +558,7 @@
   },
   "mt-mortar": {
    "name": "Mt. Mortar",
+   "region": "johto",
    "biome": [
     "cave",
     "montane"
@@ -539,6 +575,7 @@
   },
   "mahogany-town": {
    "name": "Mahogany Town",
+   "region": "johto",
    "biome": [
     "urban",
     "montane"
@@ -552,6 +589,7 @@
   },
   "johto-route-43": {
    "name": "Route 43",
+   "region": "johto",
    "biome": [
     "woodland-edge",
     "grassland"
@@ -567,6 +605,7 @@
   },
   "lake-of-rage": {
    "name": "Lake of Rage",
+   "region": "johto",
    "biome": [
     "lake",
     "grassland"
@@ -582,6 +621,7 @@
   },
   "johto-route-44": {
    "name": "Route 44",
+   "region": "johto",
    "biome": [
     "montane",
     "woodland-edge"
@@ -597,6 +637,7 @@
   },
   "ice-path": {
    "name": "Ice Path",
+   "region": "johto",
    "biome": [
     "ice-cave"
    ],
@@ -612,6 +653,7 @@
   },
   "blackthorn-city": {
    "name": "Blackthorn City",
+   "region": "johto",
    "biome": [
     "urban",
     "montane"
@@ -628,6 +670,7 @@
   },
   "dragons-den": {
    "name": "Dragon's Den",
+   "region": "johto",
    "biome": [
     "sacred-pool",
     "cave"
@@ -644,6 +687,7 @@
   },
   "johto-route-45": {
    "name": "Route 45",
+   "region": "johto",
    "biome": [
     "montane"
    ],
@@ -659,6 +703,7 @@
   },
   "johto-route-46": {
    "name": "Route 46",
+   "region": "johto",
    "biome": [
     "montane",
     "grassland"
@@ -672,6 +717,7 @@
   },
   "dark-cave": {
    "name": "Dark Cave",
+   "region": "johto",
    "biome": [
     "cave"
    ],
@@ -687,6 +733,7 @@
   },
   "kanto-route-27": {
    "name": "Route 27",
+   "region": "kanto",
    "biome": [
     "coast",
     "grassland"
@@ -702,6 +749,7 @@
   },
   "tohjo-falls": {
    "name": "Tohjo Falls",
+   "region": "kanto",
    "biome": [
     "cave",
     "river"
@@ -717,6 +765,7 @@
   },
   "kanto-route-26": {
    "name": "Route 26",
+   "region": "kanto",
    "biome": [
     "coast",
     "grassland"
@@ -726,24 +775,26 @@
     "sea"
    ],
    "xy": [
-    21.8,
-    11
+    26.4,
+    9.33
    ]
   },
   "kanto-victory-road-1": {
    "name": "Victory Road",
+   "region": "kanto",
    "biome": [
     "cave"
    ],
    "elevation": "high",
    "water": [],
    "xy": [
-    21.8,
-    8.6
+    26.4,
+    6.88
    ]
   },
   "kanto-route-28": {
    "name": "Route 28",
+   "region": "kanto",
    "biome": [
     "montane",
     "woodland-edge"
@@ -751,12 +802,13 @@
    "elevation": "high",
    "water": [],
    "xy": [
-    23.2,
-    5.6
+    24.0,
+    8.1
    ]
   },
   "mt-silver": {
    "name": "Mt. Silver",
+   "region": "johto",
    "biome": [
     "alpine",
     "cave"
@@ -767,8 +819,8 @@
    ],
    "note": "the highest peak, a restricted area",
    "xy": [
-    24.4,
-    4.2
+    22.8,
+    8.1
    ]
   }
  },
@@ -1034,13 +1086,18 @@
    "cave"
   ],
   [
-   "tohjo-falls",
+   "kanto-route-27",
    "kanto-route-26",
-   "cave"
+   "path"
   ],
   [
    "kanto-route-26",
    "kanto-victory-road-1",
+   "path"
+  ],
+  [
+   "kanto-route-26",
+   "kanto-route-28",
    "path"
   ],
   [

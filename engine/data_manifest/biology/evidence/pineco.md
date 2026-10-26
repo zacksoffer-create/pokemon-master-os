@@ -71,6 +71,6 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 - foraging (move): Headbutt (field move)
 - clearing (move): Rock Smash (field move)
 - hauling (move): Strength (field move)
-- air_travel (lore): Pokédex (soulsilver)
+- air_travel (lore): Pokédex (firered)
 - town_fit (size): 0.6 m, 7.2 kg
 - foraging (habitat): habitat: forest

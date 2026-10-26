@@ -25,15 +25,31 @@ if ENGINE not in sys.path:
 DB = os.path.join(ENGINE, "data", "pokeref.sqlite")
 MAN = os.path.join(ENGINE, "data_manifest", "biology")
 OUT = os.path.join(MAN, "evidence")
-COHORT = {
-    "your companions": ["Feraligatr", "Miltank", "Donphan", "Ampharos", "Umbreon", "Espeon", "Charizard", "Blastoise", "Venusaur",
-                        "Alakazam", "Jolteon", "Machamp", "Swampert", "Milotic", "Altaria", "Arcanine", "Absol", "Meganium", "Infernape",
-                        "Weavile", "Roserade", "Lucario", "Garchomp", "Magnezone", "Pikachu", "Dragonite", "Empoleon", "Gengar", "Scizor",
-                        "Typhlosion", "Tyranitar", "Mamoswine", "Crobat", "Lapras", "Snorlax"],
+COHORT = {   # the dossiers, in the groups they were written for (the app's Field Biology home shows them in this order)
+    "Written first: the v1 journeys' companions": [
+        "Feraligatr", "Miltank", "Donphan", "Ampharos", "Umbreon", "Espeon", "Charizard", "Blastoise", "Venusaur", "Alakazam", "Jolteon",
+        "Machamp", "Swampert", "Milotic", "Altaria", "Arcanine", "Absol", "Meganium", "Infernape", "Weavile", "Roserade", "Lucario",
+        "Garchomp", "Magnezone", "Pikachu", "Dragonite", "Empoleon", "Gengar", "Scizor", "Typhlosion", "Tyranitar", "Mamoswine", "Crobat",
+        "Lapras", "Snorlax"],
     "Ilex Forest": ["Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Oddish", "Paras", "Zubat", "Hoothoot",
                     "Noctowl", "Pineco", "Psyduck", "Golduck", "Poliwag", "Magikarp"],
-    "the Blackthorn highlands": ["Dratini", "Dragonair", "Swinub", "Delibird", "Jynx", "Geodude", "Graveler", "Golbat", "Wobbuffet",
+    "The Blackthorn highlands": ["Dratini", "Dragonair", "Swinub", "Delibird", "Jynx", "Geodude", "Graveler", "Golbat", "Wobbuffet",
                                  "Dunsparce", "Goldeen", "Seaking", "Magcargo"],
+    # A-62 (Zack: "Want more of it"): the canon sixes' lines, the rival's six, Kanto's communities (A-66), more of the highlands
+    "The canon sixes' lines": ["Cyndaquil", "Quilava", "Larvitar", "Pupitar", "Swinub", "Piloswine", "Zubat", "Golbat", "Munchlax",
+                               "Pichu", "Dratini", "Dragonair", "Chimchar", "Monferno", "Piplup", "Prinplup", "Gastly", "Haunter", "Scyther",
+                               "Magikarp", "Gyarados"],
+    "The rival's six": ["Nidoking", "Kingdra", "Houndoom", "Metagross", "Gliscor", "Salamence"],
+    "Viridian Forest": ["Pidgey", "Pidgeotto", "Ledyba", "Ledian", "Spinarak", "Ariados", "Caterpie", "Metapod", "Butterfree", "Weedle",
+                        "Kakuna", "Beedrill", "Pikachu", "Hoothoot", "Noctowl"],
+    "Mt. Moon": ["Clefairy", "Sandshrew", "Sandslash", "Zubat", "Geodude", "Paras"],
+    "Seafoam Islands": ["Seel", "Dewgong", "Horsea", "Seadra", "Krabby", "Kingler", "Slowbro", "Jynx", "Golbat"],
+    "Cerulean Cave": ["Ditto", "Parasect", "Electrode", "Wobbuffet", "Golbat", "Geodude"],
+    "The routes around Fuchsia": ["Nidorina", "Nidorino", "Chansey", "Hoppip", "Tangela", "Noctowl"],
+    "Cinnabar and its seas": ["Tentacool", "Tentacruel", "Chinchou", "Lanturn", "Shellder", "Magikarp"],
+    "Rock Tunnel and Diglett's Cave": ["Diglett", "Dugtrio", "Cubone", "Onix", "Geodude", "Zubat"],
+    "More of the Blackthorn highlands": ["Spearow", "Heracross", "Aipom", "Gligar", "Teddiursa", "Phanpy", "Skarmory", "Bellsprout",
+                                         "Weepinbell", "Tangela"],
 }
 METHOD = {1: "level-up", 2: "egg", 3: "tutor", 4: "machine"}
 
@@ -140,12 +156,15 @@ def main():
     ev = Evidence()
     if "--cohort" in sys.argv:
         os.makedirs(OUT, exist_ok=True)
-        n = 0
+        done = set()
         for group, names in COHORT.items():
             for nm in names:
+                if nm in done:          # a species can stand in more than one community
+                    continue
                 with open(os.path.join(OUT, slug(nm) + ".md"), "w", encoding="utf-8") as fh:
                     fh.write(ev.pack(nm))
-                n += 1
+                done.add(nm)
+        n = len(done)
         print(f"{OUT}: {n} evidence packs")
         return
     print(ev.pack(sys.argv[1] if len(sys.argv) > 1 else "Heracross"))

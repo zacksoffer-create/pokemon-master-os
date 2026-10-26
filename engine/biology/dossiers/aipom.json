@@ -1,0 +1,87 @@
+{
+  "species": "Aipom",
+  "id": 190,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A long-tailed tree-dweller that lives high among the treetops of tall and giant trees. Aipom's tail ends in a dexterous, hand-like appendage, strong enough to grab a branch and hold it up in the air; it balances with it as it leaps, swings from branch to branch on it, wraps it round a branch so it won't fall while asleep, and plucks fruits out of reach with it. It uses the tail so much its real hands have become clumsy. In HeartGold and SoulSilver it lives in the trees, shaken out by Headbutt, on Johto's Routes 33, 42, 44, 45 and 46 and at Azalea Town, and up on Route 28 and Mt. Silver.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright tree animal (Gen 4 shape upright), 0.8 m and 11.5 kg, typed Normal: the Long Tail Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its tail ends in a hand-like appendage that can be cleverly manipulated, as freely as its hands, and is strong enough to hold it up by a branch.", "class": "canon", "confidence": "high", "evidence": ["190.1", "190.4", "190.5", "190.8", "C190.1", "C190.6", "C190.8", "C190.15"], "analogy": "Real spider monkeys and howlers have prehensile tails with a bare, grasping tip."},
+      {"text": "Because it uses its tail so much, its real hands have become rather clumsy; the tail is more adept than its hands.", "class": "canon", "confidence": "high", "evidence": ["190.4", "190.5", "190.6", "C190.7", "C190.9", "C190.11"]}
+    ],
+    "diet": [
+      {"text": "It uses its tail to pluck fruits that are out of reach.", "class": "canon", "confidence": "high", "evidence": ["190.6", "C190.10"]},
+      {"text": "Plucking fruits is most likely eating them: a fruit-eater of the canopy. Its adult shucks nuts with its two tails to eat (424.1).", "class": "inferred", "confidence": "medium", "evidence": ["190.6", "424.1", "species:Ambipom"]}
+    ],
+    "habitat": [
+      {"text": "It lives atop tall trees, giant trees, high among the treetops; the Gen 3 Pokédex habitat is forest.", "class": "canon", "confidence": "high", "evidence": ["190.2", "190.7", "190.8", "C190.2", "C190.12", "C190.14", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in trees, found by Headbutt, at any time, in both versions: on Routes 33, 42, 44, 45 and 46 and at Azalea Town (one in five), and on Route 28 and Mt. Silver (three in ten, Lv 39-48).", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When leaping from branch to branch, it deftly uses its tail for balance; it uses its momentum to swing from one branch to another.", "class": "canon", "confidence": "high", "evidence": ["190.2", "190.3", "C190.3", "C190.5"]},
+      {"text": "It wraps its tail around a branch so it won't fall off while asleep.", "class": "canon", "confidence": "high", "evidence": ["190.7", "C190.13"]},
+      {"text": "Its activity pattern is not stated; the Headbutt tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Aipom living together. Its adult works in large colonies and links tails with others, apparently in friendship, said to be a way of talking (424.2, 424.4).", "class": "canon", "confidence": "medium", "evidence": ["424.2", "424.4", "species:Ambipom"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, fast growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It lives high in the trees, out of reach.", "class": "inferred", "confidence": "medium", "evidence": ["190.2"]},
+      {"text": "Run Away lets it escape, and Sand Attack, Astonish and Tickle are tricks rather than fights.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Sand Attack", "move:Astonish", "move:Tickle"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Ambipom when it levels up knowing Double Hit (Lv 32): from 0.8 m and 11.5 kg to 1.2 m and 20.3 kg, and from one tail-hand to two.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Ambipom", "move:Double Hit"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Scratch, Tail Whip, Sand Attack, Astonish, Baton Pass, Tickle, Fury Swipes, Swift, Screech, Agility, Double Hit, Fling, Nasty Plot and Last Resort. Fling, throwing what it holds, fits a hand-tailed animal.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Fling", "move:Double Hit", "move:Tail Whip"]}
+    ],
+    "ecology": [
+      {"text": "A fruit-eater of the canopy, if plucking fruits is eating them.", "class": "inferred", "confidence": "medium", "evidence": ["190.6"]},
+      {"text": "Fruit-eaters that drop or carry fruit spread its seeds.", "class": "hypothesis", "confidence": "low", "evidence": ["190.6"], "analogy": "Real monkeys are among the main seed dispersers of tropical forests."},
+      {"text": "In the headbutt trees it lives with Spearow and Heracross on nearly every Johto road, and with Heracross on Route 28 and Mt. Silver.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Spearow", "species:Heracross"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Aipom and people.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Pickup, its other ability, has it picking up items: in game terms a collector of things.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities"]}
+    ],
+    "homestead": [
+      {"text": "A fruit-picker: its tail reaches fruit others can't.", "class": "canon", "confidence": "medium", "evidence": ["190.6"], "capability": "foraging"},
+      {"text": "A climber of tall trees, with a hand on its tail: in principle a helper for work up high.", "class": "inferred", "confidence": "low", "evidence": ["190.1", "190.4"], "capability": "climbing"},
+      {"text": "Its hand-tail is clever; anything left out may be taken.", "class": "inferred", "confidence": "low", "evidence": ["190.4", "game:abilities"]},
+      {"text": "The apricorns that vanish from the top of the tree, one by one, and the purple tail hanging below the branch.", "class": "creative", "evidence": ["190.6"]}
+    ]
+  },
+  "niche": {"guild": "frugivore", "trophic_level": 2, "microhabitat": ["tops of tall trees", "branches"], "activity": "unknown",
+            "foraging": "plucks fruits out of reach with its tail", "evidence": ["190.6", "190.2"], "class": "inferred", "confidence": "medium",
+            "note": "Filed as a fruit-eater from 190.6; the machine reading's herbivore comes from its Normal type alone."},
+  "relationships": [
+    {"with": "fruits of tall trees", "kind": "feeds_on", "class": "inferred", "confidence": "medium", "evidence": ["190.6"]},
+    {"with": "tall trees", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["190.2", "190.7"], "note": "It lives and sleeps in them."},
+    {"with": "Heracross", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Heracross"]},
+    {"with": "Ambipom", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Troop thief", "moves": ["Beat Up", "Covet", "Fake Out"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the group: allies all striking, a snatched item, a sudden flinch. The colonies of its adult (424.2), already in the young. Fits trees by roads and towns where there is something to take.",
+     "behavior": "Comes down in a group, takes, and is gone.", "evidence": ["424.2", "move:Beat Up", "move:Covet", "move:Fake Out"]},
+    {"name": "Canopy swinger", "moves": ["Bounce", "Agility", "Slam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the high branches: great leaps, speed and the tail as a club. Fits tall old forest with wide gaps between trees.",
+     "behavior": "Rarely comes down at all.", "evidence": ["190.3", "move:Bounce", "move:Agility", "move:Slam"]}
+  ],
+  "open_questions": [
+    "What does Aipom eat besides the fruits it plucks?",
+    "Does it live in groups, as Ambipom does?",
+    "Why are its hands clumsy: is it born that way, or does it grow so?",
+    "Which trees does it choose on the mountain roads?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

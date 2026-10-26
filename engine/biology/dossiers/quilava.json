@@ -1,0 +1,90 @@
+{
+  "species": "Quilava",
+  "id": 156,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The nimble middle stage of the Typhlosion line: a four-legged animal covered in nonflammable fur that keeps enemies off with the heat of its flames and gusts of superheated air, and dodges while it scorches. Before a fight it turns its back to show how fiercely its fire blazes, and a turned back is a warning that it is about to attack with that fire. Where Cyndaquil hides its fire until frightened, Quilava uses it on purpose. Nothing says what it eats, and it is never wild in any Gen I-IV game.",
+  "sections": {
+    "anatomy": [
+      {"text": "A four-legged animal (Gen 4 body shape quadruped), 0.9 m and 19.0 kg, typed Fire.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "It is fully covered by nonflammable fur and can withstand any kind of fire attack.", "class": "canon", "confidence": "high", "evidence": ["156.2", "C156.3", "C156.4"]},
+      {"text": "Its fire is on its back, as in Cyndaquil: it attacks with the fire on its back and turns its back to display it.", "class": "canon", "confidence": "high", "evidence": ["156.1", "156.3", "C156.2", "C156.5"]},
+      {"text": "Fireproof fur is what lets an animal carry flames on its own body without burning itself; the fur is the adaptation that makes the fire usable.", "class": "inferred", "confidence": "medium", "evidence": ["C156.3", "C156.2"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage of the line says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The machine reading's thermotroph comes from its Fire type alone; the Pokédex never says it takes in heat.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types"], "note": "Left out of the niche."}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is grassland. It is never found in the wild in any Gen I-IV game: it comes only from raising a Cyndaquil.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "game:encounters"]},
+      {"text": "Where a wild Quilava would live is unknown.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Before battle, it turns its back on its opponent to demonstrate how ferociously its fire blazes.", "class": "canon", "confidence": "high", "evidence": ["156.3", "C156.5"]},
+      {"text": "A turned back during battle means it will attack with the fire on its back.", "class": "canon", "confidence": "high", "evidence": ["156.1", "C156.1", "C156.2"]},
+      {"text": "The fire burns more strongly when it readies to fight.", "class": "canon", "confidence": "high", "evidence": ["156.6", "C156.11"]},
+      {"text": "Turning the back is a threat display that also aims the weapon: the same move warns and attacks. It is a signal an opponent can learn to read, as the entries tell people to.", "class": "inferred", "confidence": "medium", "evidence": ["C156.1", "C156.5"], "analogy": "Many venomous or armed animals give an honest warning before attacking, like a skunk's handstand before it sprays."}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or how it treats its own kind.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, 87.5% male, medium-slow growth; nothing in the Pokédex describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It keeps its foes at bay with the intensity of its flames and gusts of superheated air.", "class": "canon", "confidence": "high", "evidence": ["156.4", "156.5", "C156.6", "C156.8"]},
+      {"text": "It uses its outstanding nimbleness to dodge attacks even while it scorches the foe.", "class": "canon", "confidence": "high", "evidence": ["156.4", "156.5", "C156.7", "C156.9"]},
+      {"text": "It intimidates foes with the heat of its flames.", "class": "canon", "confidence": "high", "evidence": ["156.6", "C156.10"]},
+      {"text": "Its fur makes it safe from fire, so other fire-users have little to threaten it with.", "class": "canon", "confidence": "high", "evidence": ["156.2", "C156.4"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Cyndaquil at level 14 (the archive also lists 17) and into Typhlosion at 36, growing from 0.9 m and 19.0 kg to 1.7 m and 79.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Cyndaquil", "species:Typhlosion"]},
+      {"text": "It is where the line's fire changes use: the juvenile flares only when frightened (155.1), Quilava flares on purpose and dodges while it burns, and the adult hides inside its own heat haze (157.4).", "class": "inferred", "confidence": "medium", "evidence": ["155.1", "156.4", "157.4"]},
+      {"text": "Its body shape goes from Cyndaquil's two legs to four, and stays four-legged in Typhlosion.", "class": "mechanic", "confidence": "high", "evidence": ["game:shape", "species:Cyndaquil"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up moves are Cyndaquil's, a little later: Smokescreen, Ember, Quick Attack, Flame Wheel (Lv 20), Defense Curl (Lv 24), Swift, Lava Plume (Lv 35), Flamethrower (Lv 42), Rollout, Double-Edge and Eruption (Lv 57). Quick Attack and Flame Wheel fit the nimble animal that scorches while it moves.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Quick Attack", "move:Flame Wheel", "move:Lava Plume", "move:Flamethrower", "move:Eruption", "C156.7"]},
+      {"text": "Lava Plume and Heat Wave (a tutor move) are spreading fire and hot air, the 'gusts of superheated air' in game form.", "class": "mechanic", "confidence": "low", "evidence": ["move:Lava Plume", "move:Heat Wave", "C156.6"]}
+    ],
+    "ecology": [
+      {"text": "Its role in a food web can't be set: its diet is unknown and it has no wild range.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A fire-user that dodges as it burns would be a fire risk in dry grassland, its listed habitat.", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat", "156.4"], "note": "Follows from the flames and the habitat only."}
+    ],
+    "humans": [
+      {"text": "The entries speak to Trainers: 'be careful if it turns its back during battle', a warning about how to read it.", "class": "canon", "confidence": "high", "evidence": ["156.1"]},
+      {"text": "It reaches people only by raising Professor Elm's Cyndaquil from New Bark Town.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution"]}
+    ],
+    "homestead": [
+      {"text": "A heat source with fireproof fur, easier to keep near people than a bare flame: its own coat doesn't catch.", "class": "inferred", "confidence": "medium", "evidence": ["156.2", "156.6"], "capability": "heat_source"},
+      {"text": "Read its back: turned towards you, it is about to use its fire. Teach visitors that sign.", "class": "canon", "confidence": "high", "evidence": ["156.1", "156.3"]},
+      {"text": "Fire attacks don't hurt it, so it could work close to a forge or a burn pile.", "class": "inferred", "confidence": "medium", "evidence": ["156.2"], "capability": "heat_tolerance"},
+      {"text": "Quilava as the homestead's lamplighter, trotting along the paths at dusk with its back alight.", "class": "creative", "evidence": ["156.3"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["open grassland (listed habitat)"], "activity": "unknown",
+            "foraging": "unknown; no entry says what any stage eats", "evidence": ["game:habitat"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty, as for Cyndaquil and Typhlosion."},
+  "relationships": [
+    {"with": "Typhlosion", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Wildfire charger", "moves": ["Howl", "Flare Blitz", "Thrash"], "class": "hypothesis", "confidence": "low",
+     "reading": "Typhlosion's charging lineage in its nimble stage: a rallying call, a full-body fire charge and a rampage. In Quilava it would show as the back-turned display followed by a rush. Fits open grassland where there is room to charge.",
+     "behavior": "Displays, howls, then charges through the grass on fire.", "evidence": ["156.3", "move:Howl", "move:Flare Blitz", "move:Thrash"]},
+    {"name": "Side-step kicker", "moves": ["Double Kick", "Quick Attack", "Reversal"], "class": "hypothesis", "confidence": "low",
+     "reading": "Speed and footwork: a lineage that fights with its legs and its timing, matching the entries' 'outstanding nimbleness'. Fits broken ground where a dodge matters more than a charge.",
+     "behavior": "Dodges, kicks and scorches, never standing still to take a hit.", "evidence": ["156.4", "move:Double Kick", "move:Quick Attack", "move:Reversal"]}
+  ],
+  "open_questions": [
+    "What does it eat, and what does its fire burn?",
+    "Where would a wild Quilava live?",
+    "Does the nonflammable fur also keep it warm, or cool?",
+    "How hot are the 'gusts of superheated air' (156.4), and how far do they reach?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

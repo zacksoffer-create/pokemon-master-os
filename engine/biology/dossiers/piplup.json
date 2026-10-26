@@ -1,0 +1,92 @@
+{
+  "species": "Piplup",
+  "id": 393,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small, proud penguin of northern shores. Piplup is a skilled swimmer that dives for over ten minutes to hunt, wears thick down against the cold, and walks so badly it often falls over, then puffs up its chest as if nothing happened. Its pride runs through every entry: it hates accepting food from people, doesn't like being looked after, and won't listen to its Trainer. It is the first stage of SoulSilver's Empoleon. In the Gen I-IV games it is only ever a Sinnoh starter; no Johto game has one.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small two-legged bird (Gen 4 shape humanoid), 0.4 m and 5.2 kg, typed Water: the Penguin Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its thick down guards it from cold.", "class": "canon", "confidence": "high", "evidence": ["393.1", "C393.2"]},
+      {"text": "It is a poor walker and often falls down: a body built for water, not land.", "class": "canon", "confidence": "high", "evidence": ["393.3", "C393.5"], "analogy": "Real penguins walk awkwardly too, because their legs are set far back for steering in water."}
+    ],
+    "diet": [
+      {"text": "It dives for over 10 minutes to hunt.", "class": "canon", "confidence": "high", "evidence": ["393.2", "C393.4"]},
+      {"text": "Its prey isn't named. Prinplup searches for prey in icy seas (394.2), so the line hunts marine animals; fish are likely but never stated.", "class": "inferred", "confidence": "medium", "evidence": ["394.2", "C393.4"]},
+      {"text": "Because it is very proud, it hates accepting food from people.", "class": "canon", "confidence": "high", "evidence": ["393.1", "C393.1"]},
+      {"text": "Peck (Lv 15), Fury Attack (Lv 25) and Drill Peck (Lv 39) are a bill used for striking, the beak a diving hunter catches prey with.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Peck", "move:Fury Attack", "move:Drill Peck"]}
+    ],
+    "habitat": [
+      {"text": "It lives along shores in northern countries.", "class": "canon", "confidence": "high", "evidence": ["393.2", "C393.3"]},
+      {"text": "It is never wild in any Gen I-IV game: a starter gift at Lake Verity (Diamond, Pearl) or on Route 201 (Platinum). HeartGold and SoulSilver have it only by trade.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "No Gen 3 habitat is given (the line is from Generation 4).", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "Cold northern shores in the Blackthorn world would be the coasts of Seafoam and the Whirl Islands, where the sea is coldest by the games' encounters (Seel, Dewgong, Jynx); the games put no Piplup there.", "class": "hypothesis", "confidence": "low", "evidence": ["393.2", "game:encounters"], "note": "A habitat match only, from other species' presence."}
+    ],
+    "behavior": [
+      {"text": "A poor walker that often falls down, yet its strong pride makes it puff up its chest without a care.", "class": "canon", "confidence": "high", "evidence": ["393.3", "C393.5", "C393.6"]},
+      {"text": "A skilled swimmer that stays under for more than ten minutes at a time.", "class": "canon", "confidence": "high", "evidence": ["393.2"]},
+      {"text": "Its activity pattern isn't stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Its pride is the social trait the entries return to: it doesn't like to be taken care of, and it won't listen to its Trainer.", "class": "canon", "confidence": "high", "evidence": ["393.4", "C393.7", "C393.8"]},
+      {"text": "The line becomes solitary as Prinplup, which can never form groups because each one thinks it is the most important (394.3); Empoleon groups have a leader with the biggest horns (395.1). So the line goes from independent young, to loners, to led groups.", "class": "inferred", "confidence": "medium", "evidence": ["393.4", "394.3", "395.1"]}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, 87.5% male (the starter ratio), medium-slow growth. Nothing describes nesting or care of chicks.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "A chick that refuses care and food from others is odd for a bird; whether its parents feed it is unknown.", "class": "unknown", "confidence": "medium", "evidence": ["393.1", "393.4"]}
+    ],
+    "defense": [
+      {"text": "Nothing describes how it defends itself. Bide (Lv 22), which stores up damage and returns it, and Mist (Lv 36) are its defensive moves.", "class": "mechanic", "confidence": "low", "evidence": ["move:Bide", "move:Mist"]},
+      {"text": "Puffing up its chest after a fall is a display: it doesn't show weakness.", "class": "inferred", "confidence": "low", "evidence": ["C393.6"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Hunting on dives of ten minutes means it finds prey underwater, but how is not described.", "class": "unknown", "confidence": "high", "evidence": ["393.2"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Prinplup at level 16 and Empoleon at 36: 0.4 m and 5.2 kg, then 0.8 m and 23.0 kg, then 1.7 m and 84.5 kg. Empoleon adds the Steel type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Prinplup", "species:Empoleon"]},
+      {"text": "Pride is the constant: Piplup won't take care, Prinplup won't group, Empoleon will destroy anything that threatens its pride (395.4).", "class": "inferred", "confidence": "medium", "evidence": ["393.4", "394.1", "395.4"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Water and bill: Bubble, Water Sport, Bubble Beam, Brine (Lv 29), Whirlpool (Lv 32) and Hydro Pump (Lv 43); Peck, Fury Attack and Drill Peck. A diving hunter's set, with Growl (Lv 4) as its one display.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bubble Beam", "move:Brine", "move:Whirlpool", "move:Hydro Pump", "move:Drill Peck", "move:Growl"]}
+    ],
+    "ecology": [
+      {"text": "A small diving predator of cold coastal seas, eating marine animals it catches underwater; its exact prey and trophic level are unrecorded.", "class": "inferred", "confidence": "medium", "evidence": ["393.2", "394.2"]},
+      {"text": "Nothing names its predators. A 5 kg chick that falls over on land would be easy prey on the shore.", "class": "hypothesis", "confidence": "low", "evidence": ["393.3", "game:size"], "note": "From its clumsiness only."}
+    ],
+    "humans": [
+      {"text": "It hates accepting food from people and is hard to bond with because it won't listen to its Trainer.", "class": "canon", "confidence": "high", "evidence": ["393.1", "393.4", "C393.1", "C393.8"]},
+      {"text": "It reaches people as a Sinnoh starter.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "It won't take food from people: give it water to hunt in rather than a bowl.", "class": "canon", "confidence": "medium", "evidence": ["393.1", "393.2"]},
+      {"text": "Thick down for the cold, so it would be at home in the highland winter and in the cold lakes.", "class": "canon", "confidence": "high", "evidence": ["393.1"], "capability": "cold_tolerance"},
+      {"text": "A long-diving swimmer: it could search the bottom of the Dragon's Den pool or the lake below Blackthorn, if it can be persuaded to.", "class": "hypothesis", "confidence": "low", "evidence": ["393.2"], "capability": "underwater", "note": "It won't listen to its Trainer (393.4); persuasion is the hard part."},
+      {"text": "Expect a bond to take time and patience; the entries say outright that it is difficult.", "class": "canon", "confidence": "high", "evidence": ["393.4"]},
+      {"text": "The Piplup that falls flat on the ice outside the kitchen every morning and struts off as if it meant to.", "class": "creative", "evidence": ["393.3"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["cold northern shores", "coastal sea, diving"], "activity": "unknown",
+            "foraging": "pursuit-diving: dives for over ten minutes to hunt", "evidence": ["393.2", "394.2"], "class": "inferred", "confidence": "medium",
+            "note": "Predator, as for Empoleon; prey never named, so trophic level assumes small marine animals."},
+  "relationships": [
+    {"with": "unnamed marine prey", "kind": "feeds_on", "class": "inferred", "confidence": "medium", "evidence": ["393.2", "394.2"], "note": "Hunts on long dives; fish are likely but never named."},
+    {"with": "Prinplup", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Long-dive hunter", "moves": ["Aqua Ring", "Agility", "Hydro Pump"], "class": "hypothesis", "confidence": "low",
+     "reading": "Empoleon's diving lineage in the chick: endurance in water, speed and force. The Piplup that stays under longest. Fits deep, cold coastal water.",
+     "behavior": "Spends more time under the water than on the shore.", "evidence": ["393.2", "move:Aqua Ring", "move:Agility", "move:Hydro Pump"]},
+    {"name": "Tideflat prober", "moves": ["Mud-Slap", "Mud Sport", "Double Hit"], "class": "hypothesis", "confidence": "low",
+     "reading": "A shore-foraging lineage: mud moves and a quick double jab, a chick that probes mud and shallows instead of diving deep. Fits flat, muddy shores and estuaries.",
+     "behavior": "Pecks along the tideline; dives only when it must.", "evidence": ["393.2", "move:Mud-Slap", "move:Mud Sport", "move:Double Hit"]}
+  ],
+  "open_questions": [
+    "What does it hunt on its dives?",
+    "Do its parents feed it, given that it refuses food from people?",
+    "Where would it live in Johto or Kanto, if anywhere? The games give only Sinnoh's shores.",
+    "Does it live in groups before the solitary Prinplup stage?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

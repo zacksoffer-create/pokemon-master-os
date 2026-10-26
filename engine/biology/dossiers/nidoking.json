@@ -1,0 +1,95 @@
+{
+  "species": "Nidoking",
+  "id": 34,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult male of the Nidoran line: a 1.4 m, 62 kg poison-horned, rock-hided brawler whose weapon is its tail. One swing can topple a metal transmission tower or snap a telephone pole like a matchstick, and the oldest entries say it uses the tail to smash, constrict and then break its prey's bones. Its horn is hard enough to pierce a diamond and contains venom. Once it goes on a rampage there is no stopping it. It is the rival's constant in Blackthorn's canon. Nidoking is never wild in a Gen I-IV game; it comes from a Nidorino given a Moon Stone, and Nidorino lives on Kanto's southern routes.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright animal (Gen 4 shape upright), 1.4 m and 62.0 kg, typed Poison and Ground: the Drill Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its tail is thick and powerful and packs enormously destructive power: one swing can topple a metal transmission tower or snap a telephone pole as if it were a matchstick.", "class": "canon", "confidence": "high", "evidence": ["34.4", "34.6", "34.7", "34.9", "34.10", "C34.6", "C34.10", "C34.11", "C34.13", "C34.17"]},
+      {"text": "Its hide is steel-like or rock-hard, and its horns are so hard they can pierce a diamond.", "class": "canon", "confidence": "high", "evidence": ["34.2", "34.8", "C34.2", "C34.3", "C34.15"]},
+      {"text": "Its extended horn contains venom.", "class": "canon", "confidence": "high", "evidence": ["34.8", "C34.16"]}
+    ],
+    "diet": [
+      {"text": "It uses its powerful tail to smash, constrict, then break its prey's bones.", "class": "canon", "confidence": "high", "evidence": ["34.1", "C34.1"]},
+      {"text": "If it binds an enemy with its tail, it can snap the victim's spine (Silver) or render it helpless (SoulSilver) quite easily.", "class": "canon", "confidence": "high", "evidence": ["34.4", "34.10", "C34.7", "C34.18"]},
+      {"text": "The prey is never named. A constricting, bone-breaking hunter of 62 kg would take sizeable vertebrate prey.", "class": "inferred", "confidence": "low", "evidence": ["C34.1", "game:size"], "analogy": "Constrictors like pythons kill by squeezing; Nidoking adds breaking, which they don't."}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is grassland; no entry describes where it lives.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "It is never wild in any Gen I-IV game: it comes only from a Nidorino given a Moon Stone.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution"]},
+      {"text": "Its young, Nidorino, are wild on Kanto's Routes 13, 14 and 15 in HeartGold and SoulSilver, so the line's Kanto range is the grass and coast roads around Fuchsia.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Nidorino"]}
+    ],
+    "behavior": [
+      {"text": "It swings its big tail around during battle; if its foe flinches, it charges with its sturdy body.", "class": "canon", "confidence": "high", "evidence": ["34.3", "C34.4", "C34.5"]},
+      {"text": "It uses its thick arms, legs and tail to attack forcefully: melee combat is its specialty.", "class": "canon", "confidence": "high", "evidence": ["34.5", "C34.8", "C34.9"]},
+      {"text": "Once it goes on a rampage, there is no stopping it.", "class": "canon", "confidence": "high", "evidence": ["34.6", "34.7", "C34.12", "C34.14"]},
+      {"text": "Its activity pattern is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Nothing is said about how Nidoking live together. Rivalry, one of its abilities, makes it hit harder against foes of the same gender: in game terms, males fight males.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities"]},
+      {"text": "Nidoqueen protects the young in its burrow with its life and seals the nest's entrance with its body (31.4, 31.9); nothing says whether the male helps.", "class": "canon", "confidence": "medium", "evidence": ["31.4", "31.9"]}
+    ],
+    "reproduction": [
+      {"text": "100% male; Monster and Field egg groups, 20 egg cycles, medium-slow growth. Nidoqueen can't breed (Undiscovered), so in the games Nidoking breeds with others of its egg groups, and its eggs hatch as either Nidoran.", "class": "mechanic", "confidence": "high", "evidence": ["game:gender", "game:egg_groups", "game:egg_cycles", "species:Nidoqueen"]},
+      {"text": "An all-male species whose females can't breed is a game rule, not a biology the entries explain.", "class": "unknown", "confidence": "high", "evidence": ["game:gender", "species:Nidoqueen"]}
+    ],
+    "defense": [
+      {"text": "A rock-hard hide and a venom horn; Poison Point poisons what touches it.", "class": "canon", "confidence": "high", "evidence": ["34.8", "game:abilities"]},
+      {"text": "Its moves are few and late: Peck, Focus Energy, Double Kick and Poison Sting at level 1, Thrash (Lv 23, its rampage), Earth Power (Lv 43) and Megahorn (Lv 58).", "class": "mechanic", "confidence": "high", "evidence": ["move:Poison Sting", "move:Double Kick", "move:Thrash", "move:Earth Power", "move:Megahorn"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about Nidoking's senses. Its young raise and turn their big ears to check their surroundings and miss even the slightest sound (32.6, 33.3), so hearing is the line's sense.", "class": "inferred", "confidence": "medium", "evidence": ["32.6", "33.3"]}
+    ],
+    "life_cycle": [
+      {"text": "Nidoran♂ becomes Nidorino at level 16 and Nidoking with a Moon Stone: 0.5 m and 9.0 kg, then 0.9 m and 19.5 kg, then 1.4 m and 62.0 kg. The type adds Ground at Nidoking, and the body shape goes from four legs to upright.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:types", "game:shape", "species:Nidoran♂", "species:Nidorino"]},
+      {"text": "Read as development, the weapon moves from the horn to the tail: the young stab and inject venom (32.3, 33.4), the adult smashes and constricts with its tail.", "class": "inferred", "confidence": "medium", "evidence": ["32.3", "33.4", "34.1"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "A Moon Stone evolution learns almost nothing by level after it evolves; Nidoking's own repertoire is the entries' melee: tail, horn and charge.", "class": "mechanic", "confidence": "medium", "evidence": ["game:learnset", "game:evolution", "C34.9"]},
+      {"text": "Superpower, Aqua Tail and the three elemental punches are tutor moves, not wild ones.", "class": "mechanic", "confidence": "high", "evidence": ["move:Superpower", "move:Aqua Tail", "move:Fire Punch"]}
+    ],
+    "ecology": [
+      {"text": "A large predator of grassland that breaks its prey, by the oldest entry; with no wild Nidoking in any game, it has no place in a Johto or Kanto web.", "class": "inferred", "confidence": "medium", "evidence": ["34.1", "game:encounters"]},
+      {"text": "Its tail topples metal towers and snaps telephone poles: around people, a Nidoking on a rampage is a hazard to the infrastructure itself.", "class": "canon", "confidence": "medium", "evidence": ["34.6", "34.9"]}
+    ],
+    "humans": [
+      {"text": "Its strength is measured in human things: transmission towers and telephone poles.", "class": "canon", "confidence": "high", "evidence": ["34.6", "34.9"]},
+      {"text": "Be careful with the horn: it contains venom.", "class": "canon", "confidence": "high", "evidence": ["34.8"]}
+    ],
+    "homestead": [
+      {"text": "Heavy work: a tail that topples towers could clear stumps and boulders, if it can be asked for one swing and not a rampage.", "class": "hypothesis", "confidence": "low", "evidence": ["34.6", "34.7"], "capability": "clearing", "note": "Once it goes on a rampage there is no stopping it."},
+      {"text": "Keep its horn away from people and livestock; it is venomous.", "class": "canon", "confidence": "high", "evidence": ["34.8"]},
+      {"text": "Keep it well clear of power lines and poles.", "class": "canon", "confidence": "high", "evidence": ["34.6", "34.9"]},
+      {"text": "The rival's Nidoking, the constant of his six, as the one Pokémon at the homestead nobody argues with.", "class": "creative", "evidence": ["34.3"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["grassland (listed habitat)", "Kanto's southern routes, by its young's range"], "activity": "unknown",
+            "foraging": "smashes and constricts prey with its tail, breaking its bones", "evidence": ["34.1", "34.4", "game:habitat"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named; trophic level assumes vertebrate prey."},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["34.1"]},
+    {"with": "Nidoqueen", "kind": "shares_habitat", "class": "inferred", "confidence": "low", "evidence": ["31.4", "game:habitat", "species:Nidoqueen"], "note": "The line's female; both listed as grassland. Not a game encounter."},
+    {"with": "Nidorino", "kind": "shares_habitat", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Nidorino"], "note": "Its young's range, not its own."}
+  ],
+  "ecotypes": [
+    {"name": "Head-smash bull", "moves": ["Head Smash", "Take Down", "Counter"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that charges with its head as well as its tail, as the HeartGold entry has it charging when a foe flinches; Counter returns what it takes. Fits open grassland where there is room to charge.",
+     "behavior": "Charges head-down after the tail swing.", "evidence": ["34.3", "move:Head Smash", "move:Take Down", "move:Counter"]},
+    {"name": "Ambush biter", "moves": ["Sucker Punch", "Disable", "Supersonic"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that strikes first and fouls the other's attack: a pre-emptive blow, a move that stops a move, and a confusing sound. A cleverer hunter than the rampaging adult of the entries. Fits tall grass and thickets where prey comes close.",
+     "behavior": "Waits for the prey to move, then hits first.", "evidence": ["34.1", "move:Sucker Punch", "move:Disable", "move:Supersonic"]}
+  ],
+  "open_questions": [
+    "What does Nidoking hunt? The entries name no prey.",
+    "How does an all-male adult breed with a female that can't?",
+    "Does the male share the burrow and the young with Nidoqueen?",
+    "Where would a wild Nidoking live? No game shows one."
+  ],
+  "contradictions": [
+    {"entries": ["34.4", "34.10"], "note": "Silver says its tail can snap a bound victim's spine; SoulSilver says it renders the victim helpless."}
+  ],
+  "folklore": []
+}

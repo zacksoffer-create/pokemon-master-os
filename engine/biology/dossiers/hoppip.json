@@ -1,0 +1,94 @@
+{
+  "species": "Hoppip",
+  "id": 187,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A tiny pink plant-like Pokémon so light (0.5 kg) that it drifts on the wind. Hoppip must grip the ground firmly with its feet to keep from being blown away, and can be carried off by the gentlest breeze, even all the way to the next town. When it senses strong winds coming, it links its leaves with other Hoppip so they cling together, and they gather in clusters against the wind, though they enjoy gentle breezes. It is said that when Hoppip gather in fields and mountains, spring is on the way. In HeartGold and SoulSilver it lives by day on Routes 32, 33 and 48 in Johto and Routes 13, 14 and 15 in Kanto.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tiny upright plant-animal (Gen 4 shape upright), 0.4 m and only 0.5 kg, typed Grass and Flying: the Cottonweed Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its body is so light it must grip the ground firmly with its feet to keep from being blown away.", "class": "canon", "confidence": "high", "evidence": ["187.2", "C187.3"]},
+      {"text": "It has leaves, which it links with other Hoppip.", "class": "canon", "confidence": "high", "evidence": ["187.4", "187.5", "C187.7", "C187.8"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Hoppip eats or how it feeds.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Synthesis (Lv 4) is a sunlight-healing move and Chlorophyll speeds it in sunshine: in game terms a sun-dependent plant, so it most likely lives on sunlight as plants do.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Synthesis", "game:abilities", "game:types"], "note": "Read from a move, an ability and a type, not an entry."},
+      {"text": "Mega Drain (Lv 25), Giga Drain (Lv 37) and Leech Seed (Lv 22) drain other living things: in principle it could feed that way too.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Mega Drain", "move:Giga Drain", "move:Leech Seed"], "note": "Battle moves; no entry says it."}
+    ],
+    "habitat": [
+      {"text": "Fields and mountains, where it gathers in spring by the saying; the Gen 3 Pokédex habitat is grassland.", "class": "canon", "confidence": "medium", "evidence": ["187.6", "C187.10", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 32 and 33 by day and morning, on Route 48 at any time, and on Kanto's Routes 13, 14 and 15 by day and morning, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "A wind-drifter's range is wherever the wind takes it: it may even float all the way to the next town.", "class": "canon", "confidence": "medium", "evidence": ["187.3", "C187.5"]}
+    ],
+    "behavior": [
+      {"text": "It drifts and floats with the wind; it can be carried away on even the gentlest breeze.", "class": "canon", "confidence": "high", "evidence": ["187.3", "187.4", "187.5", "187.6", "C187.4", "C187.6", "C187.9"], "analogy": "Dandelion and thistle seeds travel the same way, on a parachute of fluff."},
+      {"text": "They do enjoy gentle breezes.", "class": "canon", "confidence": "high", "evidence": ["187.1", "187.7", "C187.2", "C187.11"]},
+      {"text": "Diurnal: the HGSS tables have it by day and morning only except on Route 48.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "To keep from being blown away by the wind, they gather in clusters.", "class": "canon", "confidence": "high", "evidence": ["187.1", "187.7", "C187.1"]},
+      {"text": "If it senses strong winds approaching, it links its leaves with other Hoppip to prepare against being blown away.", "class": "canon", "confidence": "high", "evidence": ["187.4", "187.5", "C187.7", "C187.8"]},
+      {"text": "Linking together against the wind is cooperation for survival, the clearest of any small Pokémon in Kanto.", "class": "inferred", "confidence": "medium", "evidence": ["187.4"]}
+    ],
+    "reproduction": [
+      {"text": "Fairy and Grass egg groups, 20 egg cycles, an even sex ratio, medium-slow growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Gathering in spring is when many animals breed; the saying doesn't say so.", "class": "hypothesis", "confidence": "low", "evidence": ["187.6"], "note": "From the season only."}
+    ],
+    "defense": [
+      {"text": "Its powders are its defences: Poison Powder (Lv 12), Stun Spore (Lv 14), Sleep Powder (Lv 16) and Cotton Spore (Lv 28). Leaf Guard keeps off status in sun.", "class": "mechanic", "confidence": "high", "evidence": ["move:Poison Powder", "move:Stun Spore", "move:Sleep Powder", "move:Cotton Spore", "game:abilities"]},
+      {"text": "Its main danger in the entries is the wind itself.", "class": "canon", "confidence": "high", "evidence": ["187.1", "187.2"]}
+    ],
+    "senses": [
+      {"text": "It senses the approach of strong winds.", "class": "canon", "confidence": "high", "evidence": ["187.4", "187.5"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Skiploom at level 18 and Jumpluff at 27: 0.4 m and 0.5 kg, then 0.6 m and 1.0 kg, then 0.8 m and 3.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Skiploom", "species:Jumpluff"]},
+      {"text": "Skiploom is found with it on Route 14 by day.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Skiploom"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Splash, Synthesis, Tail Whip, Tackle, the three powders, Bullet Seed, Leech Seed, Mega Drain, Cotton Spore, U-turn, Worry Seed, Giga Drain, Bounce and Memento: seeds, spores and a hop.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Splash", "move:Bullet Seed", "move:Bounce", "move:Memento"]}
+    ],
+    "ecology": [
+      {"text": "A tiny producer in the web: if it lives on sunlight, it sits with the plants at the bottom.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Synthesis", "game:types"], "note": "Its diet is unrecorded."},
+      {"text": "A wind-drifter carries itself, and anything stuck to it, between places: a disperser of seeds and spores by the habit, if not by any entry.", "class": "hypothesis", "confidence": "low", "evidence": ["187.3"], "note": "Speculative."},
+      {"text": "Half a kilogram makes it prey-sized for almost anything; on Routes 13 to 15 Pidgeotto hunts by day where it lives, but nothing names Hoppip as prey.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "game:encounters", "species:Pidgeotto"], "note": "Co-occurrence and size only."}
+    ],
+    "humans": [
+      {"text": "People read its gatherings as a sign: when Hoppip gather in fields and mountains, spring is on the way.", "class": "canon", "confidence": "medium", "evidence": ["187.6"]}
+    ],
+    "homestead": [
+      {"text": "A spring herald for the highland farm: watch the fields for its clusters.", "class": "canon", "confidence": "low", "evidence": ["187.6"]},
+      {"text": "Keep several; a lone Hoppip in a highland wind will be blown away. It needs others to link with.", "class": "canon", "confidence": "medium", "evidence": ["187.1", "187.4"]},
+      {"text": "Its powders (sleep, stun, poison) need care around livestock.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Sleep Powder", "move:Stun Spore"]},
+      {"text": "The first Hoppip of the year, gripping the fence post at the top of the meadow with both feet.", "class": "creative", "evidence": ["187.2"]}
+    ]
+  },
+  "niche": {"guild": "phototroph", "trophic_level": 1, "microhabitat": ["open grassland and hillsides", "wherever the wind carries it"], "activity": "diurnal",
+            "foraging": "unknown; read as a sun-fed plant from Synthesis and Chlorophyll", "evidence": ["move:Synthesis", "game:abilities", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "No entry gives its diet."},
+  "relationships": [
+    {"with": "sunlight", "kind": "uses_resource", "class": "hypothesis", "confidence": "low", "evidence": ["move:Synthesis", "game:abilities"]},
+    {"with": "wind", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["187.4", "187.6"], "note": "It drifts on it."},
+    {"with": "Nidorina", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Nidorina"]},
+    {"with": "Skiploom", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Linked-leaf colony", "moves": ["Helping Hand", "Aromatherapy", "Encore"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the clusters: helping, healing and keeping a partner at its task. Hoppip that link leaves against the wind and stay linked. Fits windy uplands.",
+     "behavior": "Never drifts alone; clusters at the first gust.", "evidence": ["187.4", "move:Helping Hand", "move:Aromatherapy", "move:Encore"]},
+    {"name": "Psychic drifter", "moves": ["Confusion", "Psych Up", "Amnesia"], "class": "hypothesis", "confidence": "low",
+     "reading": "An odd lineage for a plant: psychic moves carried by the line. Perhaps the Hoppip that sense the wind earliest. Fits open hills where weather changes fast.",
+     "behavior": "Links up before anyone else feels the wind change.", "evidence": ["187.4", "move:Confusion", "move:Psych Up", "move:Amnesia"]}
+  ],
+  "open_questions": [
+    "What does Hoppip eat? Sunlight, soil, or something it drains?",
+    "How far does it drift, and does it come back?",
+    "Is the spring gathering a breeding gathering?",
+    "What eats Hoppip?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that when Hoppip gather in fields and mountains, spring is on the way.", "kind": "said", "evidence": ["187.6", "C187.10"]}
+  ]
+}

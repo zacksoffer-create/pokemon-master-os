@@ -1,0 +1,95 @@
+{
+  "species": "Tentacool",
+  "id": 72,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A drifting jellyfish of shallow seas, its body almost entirely water. Tentacool floats along on the waves and currents, very hard to see, and stabs anything it touches with its toxic feelers; anglers and fishermen who hook one by accident are often stung. Out of the sea it dries up like parchment, and when the tide goes out its shriveled remains wash up on the shore. Its crystal-clear eyes shoot beams of light, made, in one entry, by refracting sunlight through the water in its body. In HeartGold and SoulSilver it is the commonest thing on the surface of the sea in both regions, from New Bark Town and the Whirl Islands to Pallet Town and the seas around Cinnabar.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tentacled sea animal (Gen 4 shape tentacles), 0.9 m and 45.5 kg, typed Water and Poison: the Jellyfish Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its body is almost entirely composed of water.", "class": "canon", "confidence": "high", "evidence": ["72.6", "72.8", "72.11", "72.13", "C72.9", "C72.14", "C72.19", "C72.23"]},
+      {"text": "Two long tentacles with poison stingers at their tips, and transparent, crystal-like eyes.", "class": "canon", "confidence": "high", "evidence": ["72.8", "72.9", "C72.15", "C72.16"]},
+      {"text": "Its eyes shoot beams of light; one entry says it absorbs sunlight and refracts it through the water in its body to make the beam energy.", "class": "canon", "confidence": "medium", "evidence": ["72.7", "72.9", "72.11", "C72.12", "C72.13", "C72.17", "C72.20"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Tentacool eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The machine reading files it as living on sunlight, from 72.7; but that entry turns sunlight into beam energy, not food.", "class": "inferred", "confidence": "medium", "evidence": ["72.7", "C72.12"]},
+      {"text": "Stinging anything it touches, and the young of a hunter (Tentacruel ensnares and poisons prey, 73.1, 73.2), it most likely catches small animals that brush its feelers.", "class": "hypothesis", "confidence": "low", "evidence": ["72.5", "73.1", "73.2", "species:Tentacruel"], "analogy": "Real jellyfish are passive hunters: they drift with stinging tentacles out and eat whatever small animals touch them.", "note": "From its stings and its adult form; no entry names its food."},
+      {"text": "Constrict (Lv 8), Acid (Lv 12) and Wrap (Lv 22) are holding and dissolving moves; Wring Out (Lv 43) squeezes.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Constrict", "move:Acid", "move:Wrap", "move:Wring Out"]}
+    ],
+    "habitat": [
+      {"text": "Shallow seas, drifting in the waves and sea currents; the Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["72.1", "72.4", "72.5", "72.12", "C72.1", "C72.21", "game:habitat"]},
+      {"text": "It cannot live out of water: removed from the sea it dries up like parchment, and it shrivels if washed ashore.", "class": "canon", "confidence": "high", "evidence": ["72.6", "72.13", "C72.10", "C72.23"]},
+      {"text": "In HeartGold and SoulSilver it is on the surf tables of almost every shore in both regions: New Bark, Cherrygrove, Olivine and Cianwood, Routes 32, 34 and 47, Sea Routes 40 and 41, the Whirl Islands and Union Cave's water in Johto; Routes 12, 13, 26 and 27, Pallet Town, Vermilion City, Cinnabar Island and Sea Routes 19, 20 and 21 in Kanto. It is up to nine encounters in ten on the water, at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It drifts aimlessly in the waves and floats along with the sea currents.", "class": "canon", "confidence": "high", "evidence": ["72.1", "72.4", "72.5", "72.12", "C72.6", "C72.21"]},
+      {"text": "Very difficult to see in water, it may not be noticed until it stings.", "class": "canon", "confidence": "high", "evidence": ["72.4", "C72.7"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about whether Tentacool drift alone or together. The surf tables make them by far the commonest animal on the water, so they meet constantly.", "class": "mechanic", "confidence": "low", "evidence": ["game:encounters"]},
+      {"text": "Its adult form flashes the red orbs on its head to alert others to danger (73.11), so the line does signal to its own kind.", "class": "canon", "confidence": "medium", "evidence": ["73.11", "species:Tentacruel"]}
+    ],
+    "reproduction": [
+      {"text": "Water 3 egg group, 20 egg cycles, an even sex ratio, slow growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its toxic feelers stab anything they touch; anglers who hook one are punished by its stinging acid, and countless fishermen are hurt by its stingers.", "class": "canon", "confidence": "high", "evidence": ["72.1", "72.5", "72.10", "72.12", "C72.2", "C72.8", "C72.18", "C72.22"]},
+      {"text": "Being almost invisible in water is its first defence.", "class": "canon", "confidence": "medium", "evidence": ["72.4", "C72.7"]},
+      {"text": "Clear Body keeps its stats from being lowered and Liquid Ooze hurts whatever drains it; Barrier (Lv 26) and Toxic Spikes (Lv 15) are its other guards.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Barrier", "move:Toxic Spikes"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about how it senses its surroundings. Its crystal-like eyes are named for the beams they shoot, not for sight.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Supersonic (Lv 5) and Screech (Lv 36) are sound moves: the line uses sound, as Tentacruel's orbs do before an ultrasonic blast (73.6).", "class": "mechanic", "confidence": "low", "evidence": ["move:Supersonic", "move:Screech", "73.6"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Tentacruel at level 30: from 0.9 m and 45.5 kg to 1.6 m and 55.0 kg, and from two tentacles to 80.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Tentacruel", "72.8", "73.2"]},
+      {"text": "When the tide goes out, dehydrated Tentacool remains are found washed up on the shore; one tossed back into the sea revives.", "class": "canon", "confidence": "high", "evidence": ["72.2", "72.3", "C72.3", "C72.4", "C72.5"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Poison Sting, Supersonic, Constrict, Acid, Toxic Spikes, Bubble Beam, Wrap, Barrier, Water Pulse, Poison Jab, Screech, Hydro Pump and Wring Out: stings, holds, acid and water.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Poison Sting", "move:Constrict", "move:Acid", "move:Hydro Pump"]}
+    ],
+    "ecology": [
+      {"text": "The commonest drifting stinger of the coasts, so most likely a key small predator of the surface water in both regions.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "72.5"], "note": "From its numbers and stings; no entry names its prey."},
+      {"text": "Its stranded, shriveled remains on beaches at low tide are food for shore scavengers, if anything eats them; no entry says what does.", "class": "hypothesis", "confidence": "low", "evidence": ["72.3"]},
+      {"text": "Everywhere it drifts it shares the water with Magikarp; on Kanto's southern seas with Chinchou, Shellder and Lanturn, and on Johto's western coast with Krabby, Staryu and Corsola.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp", "species:Chinchou", "species:Shellder"]}
+    ],
+    "humans": [
+      {"text": "Anglers who hook them by accident are often stung, and countless fishermen are hurt by its stingers.", "class": "canon", "confidence": "high", "evidence": ["72.1", "72.10", "72.12"]},
+      {"text": "Swimmers are hurt too, in principle: it may not be noticed until it stings.", "class": "inferred", "confidence": "medium", "evidence": ["72.4"]},
+      {"text": "People toss stranded Tentacool back into the sea to revive them.", "class": "canon", "confidence": "medium", "evidence": ["72.2", "72.6"]}
+    ],
+    "homestead": [
+      {"text": "Not a highland animal: it needs the sea and dies dry. The homestead meets it only on trips to the coast.", "class": "canon", "confidence": "high", "evidence": ["72.6", "72.13"]},
+      {"text": "Tell anyone fishing the coast to watch for it on the line: its stingers hurt.", "class": "canon", "confidence": "high", "evidence": ["72.1", "72.12"]},
+      {"text": "A shriveled Tentacool on the beach after a storm, and the child who carries it back to the water in a bucket.", "class": "creative", "evidence": ["72.2"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["surface of shallow seas and coasts", "drifting in currents"], "activity": "unknown",
+            "foraging": "unknown; most likely catches what brushes its stinging feelers", "evidence": ["72.5", "73.2", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "The machine reading's phototroph comes from 72.7, where sunlight becomes beam energy, not food. Filed with Tentacruel as a predator."},
+  "relationships": [
+    {"with": "small fish and other small sea animals", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["72.5", "73.2"], "note": "From its stings and its adult form."},
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"]},
+    {"with": "Chinchou", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chinchou"]},
+    {"with": "Tentacruel", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Beam-eyed drifter", "moves": ["Aurora Beam", "Mirror Coat", "Confuse Ray"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of light: a beam, a reflection of what hits it, a confusing glow. The crystal eyes that shoot mysterious beams (72.9), developed further. Fits clear, sunny water where light carries.",
+     "behavior": "Flashes at what comes near before it stings.", "evidence": ["72.7", "72.9", "move:Aurora Beam", "move:Mirror Coat", "move:Confuse Ray"]},
+    {"name": "Murky-shallows stinger", "moves": ["Muddy Water", "Knock Off", "Rapid Spin"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of turbid shallows: it clouds the water, knocks things loose and spins itself free of tangles. Fits muddy coasts and river mouths where it can't be seen anyway.",
+     "behavior": "Stays near the bottom in silty water.", "evidence": ["72.4", "move:Muddy Water", "move:Knock Off", "move:Rapid Spin"]}
+  ],
+  "open_questions": [
+    "What does Tentacool eat?",
+    "Does its sunlight-to-beam trick (72.7) feed it at all, or only arm it?",
+    "Do Tentacool drift alone or in blooms?",
+    "How long can a stranded Tentacool survive before it can't be revived?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

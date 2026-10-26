@@ -1,0 +1,91 @@
+{
+  "species": "Sandshrew",
+  "id": 27,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small desert burrower with a very dry, extremely tough hide. Sandshrew lives in deep burrows in arid places far from water, which it dislikes, and its body absorbs water without waste. It only comes out to hunt. Its defence is a ball: it rolls itself instantly into one, and attacks bounce off it; rolled up, it could even survive a fall from a great height by bouncing. In HeartGold and SoulSilver it is HeartGold's, in Union Cave and Mt. Moon, the dry inside of mountains rather than a desert.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small upright animal (Gen 4 shape upright), 0.6 m and 12.0 kg, typed Ground: the Mouse Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its hide is very dry and extremely tough, turned tough and solid by life in the desert.", "class": "canon", "confidence": "high", "evidence": ["27.2", "27.7", "27.8", "C27.3", "C27.11", "C27.15"]},
+      {"text": "Its body is configured to absorb water without waste, so it survives in arid desert.", "class": "canon", "confidence": "high", "evidence": ["27.6", "C27.9"], "analogy": "Desert rodents such as kangaroo rats get almost all their water from food and lose very little."}
+    ],
+    "diet": [
+      {"text": "It only emerges to hunt for food, or for prey.", "class": "canon", "confidence": "high", "evidence": ["27.1", "27.10", "C27.2", "C27.18"]},
+      {"text": "Its prey isn't named. Scratch, Fury Swipes (Lv 19) and Slash (Lv 31) are claw moves, and Poison Sting (Lv 9) a sting; a 12 kg burrower would take insects and small animals.", "class": "inferred", "confidence": "low", "evidence": ["C27.18", "move:Scratch", "move:Fury Swipes", "move:Poison Sting"]},
+      {"text": "When it gets cold at night its hide is said to become coated with fine dew: perhaps a way of getting water in a dry place.", "class": "hypothesis", "confidence": "low", "evidence": ["27.2", "C27.4"], "note": "The dew is told as 'said'; using it for water is a reading."}
+    ],
+    "habitat": [
+      {"text": "Deep burrows in arid places far from water: it dislikes water and prefers dry, sandy places. The Gen 3 Pokédex habitat is rough terrain.", "class": "canon", "confidence": "high", "evidence": ["27.1", "27.4", "27.5", "27.9", "27.11", "C27.1", "C27.6", "C27.16", "C27.20", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is HeartGold's: Union Cave (30%) and Mt. Moon (20%), at any time; the Johto Safari Zone has it in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Caves are not deserts, but the dry, sandy floors of caves suit an animal that burrows and avoids water.", "class": "inferred", "confidence": "low", "evidence": ["27.5", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "At night it burrows into the desert sand to sleep.", "class": "canon", "confidence": "high", "evidence": ["27.7", "C27.13"]},
+      {"text": "So it sleeps at night and hunts by day, by Sapphire's entry; the HGSS cave tables have it at all hours.", "class": "inferred", "confidence": "medium", "evidence": ["27.7", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or pairs.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, medium growth. Nothing describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It rolls itself instantly into a ball when threatened, and in a ball it makes any attack bounce off harmlessly.", "class": "canon", "confidence": "high", "evidence": ["27.4", "27.6", "27.7", "27.8", "27.9", "27.11", "C27.7", "C27.10", "C27.12", "C27.14", "C27.17", "C27.19"]},
+      {"text": "It uses sand to protect itself when threatened, which is why it prefers sandy places.", "class": "canon", "confidence": "high", "evidence": ["27.5", "C27.8"]},
+      {"text": "If it fell from a great height, it could save itself by rolling into a ball and bouncing.", "class": "canon", "confidence": "high", "evidence": ["27.3", "C27.5"], "analogy": "Armadillos and pangolins roll into armoured balls for the same reason."},
+      {"text": "Defense Curl (Lv 3), Sand Attack (Lv 7), Rollout (Lv 21), Sand Tomb and Sandstorm are the ball and the sand in game form; Sand Veil helps it dodge in a sandstorm.", "class": "mechanic", "confidence": "high", "evidence": ["move:Defense Curl", "move:Sand Attack", "move:Rollout", "move:Sand Tomb", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Sandslash at level 22 (the archive also lists an Ice Stone, a later games' route), from 0.6 m and 12.0 kg to 1.0 m and 29.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Sandslash"]},
+      {"text": "Read as development, the smooth tough hide becomes Sandslash's spikes, which are hardened sections of hide (28.6).", "class": "inferred", "confidence": "medium", "evidence": ["27.7", "28.6"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Scratch, Defense Curl, Sand Attack, Poison Sting, Rapid Spin, Swift, Fury Swipes, Rollout, Fury Cutter, Sand Tomb, Slash, Gyro Ball and Sandstorm: the ball, the sand and the claws.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Rapid Spin", "move:Gyro Ball", "move:Fury Cutter", "move:Slash"]}
+    ],
+    "ecology": [
+      {"text": "A small burrowing hunter; burrows in sandy ground move soil and make shelter others can use.", "class": "inferred", "confidence": "low", "evidence": ["27.1", "27.9"]},
+      {"text": "In Mt. Moon it shares the cave with Zubat, Geodude, Paras and Clefairy; in Union Cave with Wooper, Quagsire, Onix and Rattata.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Zubat", "species:Paras"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Sandshrew and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "It wants dry, sandy ground and no water: a sandy bank or a dry barn floor, not the lakeside.", "class": "canon", "confidence": "high", "evidence": ["27.4", "27.5"]},
+      {"text": "A digger of deep burrows: it could dig, if the burrows go where they are wanted.", "class": "canon", "confidence": "medium", "evidence": ["27.1", "27.9"], "capability": "digging"},
+      {"text": "Its water thrift would suit dry summers but not the highland wet.", "class": "inferred", "confidence": "low", "evidence": ["27.6"]},
+      {"text": "Sandshrew rolling down the homestead's scree slope for fun, bouncing at the bottom and doing it again.", "class": "creative", "evidence": ["27.3"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["deep burrows in dry, sandy ground", "dry cave floors (Mt. Moon, Union Cave)"], "activity": "diurnal",
+            "foraging": "emerges from its burrow only to hunt", "evidence": ["27.1", "27.10", "27.7"], "class": "inferred", "confidence": "low",
+            "note": "Prey never named; trophic level assumes insects and small animals. Day activity from its sleeping in sand at night (27.7)."},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["27.10"]},
+    {"with": "soil invertebrates (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["27.10"], "note": "What a 12 kg burrower would mostly find; never named."},
+    {"with": "dry sand", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["27.5"], "note": "To protect itself, and to sleep in."},
+    {"with": "Sandslash", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Night-slash digger", "moves": ["Night Slash", "Crush Claw", "Metal Claw"], "class": "hypothesis", "confidence": "low",
+     "reading": "A claw lineage: three strong claw strikes carried by the line. A Sandshrew that digs and hunts with its claws more than it rolls. Fits hard, stony ground.",
+     "behavior": "Digs faster and deeper; stands and fights.", "evidence": ["27.1", "move:Night Slash", "move:Crush Claw", "move:Metal Claw"]},
+    {"name": "Rockslide roller", "moves": ["Rock Slide", "Rapid Spin", "Mud Shot"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of slopes: rock thrown down, a spinning ball, and mud. A Sandshrew that rolls and brings the slope with it. Fits scree and cave ramps like Mt. Moon's.",
+     "behavior": "Rolls downhill at threats in a shower of stones.", "evidence": ["27.3", "move:Rock Slide", "move:Rapid Spin", "move:Mud Shot"]}
+  ],
+  "open_questions": [
+    "What does Sandshrew hunt?",
+    "Why does HeartGold have it in caves when its entries say desert?",
+    "What fills Sandshrew's slot in SoulSilver's Mt. Moon and Union Cave?",
+    "Does the night dew on its hide (27.2) give it water?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "When it gets cold at night, its hide is said to become coated with a fine dew.", "kind": "said", "evidence": ["27.2", "C27.4"]}
+  ]
+}

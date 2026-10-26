@@ -8,8 +8,8 @@ it on. An egg move is the nearest thing the games have: a move a lineage carries
 member of the species learns. So each egg move is read as an ecological function (an ambush strike, a sedative, a
 cold-water move, a social call), and a lineage that carries two functions together is an ecotype: a Frost ambusher, a
 Sedative forager. Each one is a hypothesis (class hypothesis, made by these rules), says which moves it rests on, and
-names the places in Johto whose habitat it fits, from the species' own range first. The curated ecotypes in the
-dossiers (biology/dossiers/) come first wherever they exist.
+names the places in Johto and Kanto whose habitat it fits, from the species' own range first. The curated ecotypes in
+the dossiers (biology/dossiers/) come first wherever they exist.
 
 The same reading of each move, for every Gen I-IV move, goes out with the ecotypes (`moves`), so the breeding-stock
 page can read a whole starting set by these rules (web/88_stock.html, A-09).
@@ -24,6 +24,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ENGINE = os.path.dirname(HERE)
 if ENGINE not in sys.path:
     sys.path.insert(0, ENGINE)
+
+from biology.ecology import landscape  # noqa: E402
 
 DB = os.path.join(ENGINE, "data", "pokeref.sqlite")
 MAN = os.path.join(ENGINE, "data_manifest", "biology")
@@ -103,8 +105,7 @@ class Ecotypes:
         self.sp = {s["name"]: s for s in self.archive["species"]}
         self.areas = self.archive["areas"]
         self.ecology = load("ecology.json") if os.path.exists(os.path.join(MAN, "ecology.json")) else None
-        with open(os.path.join(HERE, "johto.json"), encoding="utf-8") as fh:
-            self.land = json.load(fh)
+        self.land = landscape()      # Johto and Kanto (biology/johto.json, kanto.json)
         self.dos = {}
         if os.path.isdir(DOSSIERS):
             for f in os.listdir(DOSSIERS):
@@ -132,7 +133,7 @@ class Ecotypes:
                 if (self.moves[mid]["gen"] or 99) <= last_gen and mid in self.move_name and (fns := self.functions_of(mid))}
 
     def range_of(self, name):
-        """The Johto places the species is resident in (HG/SS), with their biomes."""
+        """The Johto and Kanto places the species is resident in (HG/SS), with their biomes."""
         out = {}
         if not self.ecology:
             return out

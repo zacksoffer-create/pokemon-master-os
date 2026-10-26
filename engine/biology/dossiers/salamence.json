@@ -1,0 +1,88 @@
+{
+  "species": "Salamence",
+  "id": 373,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The winged adult of the Bagon line, and the rival's SoulSilver Pokémon. Its whole line is a story about wanting to fly: Bagon throws itself off cliffs every day and grows a steel-hard head from the falls, Shelgon shuts itself in an iron shell while its cells rebuild its body, and Salamence is what grows when, after many long years, a sudden mutation gives it wings. It wheels across the sky spouting flame for joy, and when it is enraged it loses all thought and rampages out of control, scorching fields and mountains. It is never wild in a Gen I-IV game; in HeartGold and SoulSilver Bagon is only in the Johto Safari Zone.",
+  "sections": {
+    "anatomy": [
+      {"text": "A four-legged winged dragon (Gen 4 shape quadruped), 1.5 m and 102.6 kg, typed Dragon and Flying.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "It has wings, which grew when its cellular structure underwent a sudden mutation.", "class": "canon", "confidence": "high", "evidence": ["373.3", "373.5", "C373.5", "C373.9"]},
+      {"text": "It spouts flames from its mouth and has shredding claws.", "class": "canon", "confidence": "high", "evidence": ["373.2", "373.4", "373.6", "C373.4", "C373.8", "C373.11"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage says what Salamence eats. Shelgon hardly eats while it waits to evolve (372.3).", "class": "unknown", "confidence": "high", "evidence": ["372.3"]},
+      {"text": "Bite, Crunch (Lv 53) and Dragon Claw (Lv 61) are its biting and clawing moves; none names a food.", "class": "mechanic", "confidence": "low", "evidence": ["move:Bite", "move:Crunch", "move:Dragon Claw"]},
+      {"text": "The machine reading's 'predator' comes from the Dragon type only.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types"], "note": "Guild left empty."}
+    ],
+    "habitat": [
+      {"text": "The sky over fields and mountains, which it scorches; the Gen 3 Pokédex habitat is rough terrain. Its young leap off cliffs (371.5) and Shelgon hides in caverns while it waits to evolve (372.2).", "class": "canon", "confidence": "medium", "evidence": ["373.6", "C373.11", "game:habitat", "371.5", "372.2"]},
+      {"text": "It is never wild in any Gen I-IV game. In HeartGold and SoulSilver, Bagon is found only in the Johto Safari Zone, when its blocks are placed.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Bagon"]}
+    ],
+    "behavior": [
+      {"text": "To express its joy at having wings, it flies and wheels all over the sky while spouting flames.", "class": "canon", "confidence": "high", "evidence": ["373.2", "C373.4"]},
+      {"text": "It becomes uncontrollable if enraged: it loses all thought, rampages, and destroys everything with shredding claws and fire, scorching fields and mountains.", "class": "canon", "confidence": "high", "evidence": ["373.3", "373.4", "373.6", "C373.6", "C373.7", "C373.8", "C373.10", "C373.11"]},
+      {"text": "Its activity pattern isn't stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or pairs.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Dragon egg group, 40 egg cycles (twice the usual), an even sex ratio, slow growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Intimidate, its ability, lowers an opponent's Attack. Nothing in the Pokédex describes anything attacking a Salamence.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Protect (Lv 30) is the shell-stage defence carried into the adult.", "class": "mechanic", "confidence": "low", "evidence": ["move:Protect", "372.4"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Bagon becomes Shelgon at level 30 and Salamence at 50: 0.6 m and 42.1 kg, then 1.1 m and 110.5 kg, then 1.5 m and 102.6 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Bagon", "species:Shelgon"]},
+      {"text": "Salamence came about from a strong, long-held dream of growing wings; by evolving, it finally realises that dream.", "class": "canon", "confidence": "medium", "evidence": ["373.1", "373.2", "C373.1", "C373.3"]},
+      {"text": "Read as development, the line is a metamorphosis with a resting stage: Shelgon's cells transform inside an armour-like shell that peels off when it evolves (372.1, 372.5), much as a pupa's body is rebuilt.", "class": "inferred", "confidence": "medium", "evidence": ["372.1", "372.5", "373.3"], "analogy": "Insect pupae rebuild the larval body into the winged adult inside a case."},
+      {"text": "Wings arriving by 'a sudden mutation' after 'many long years' is the entries' own explanation; biologically a mutation doesn't happen on purpose, so the 'dream' is best read as the line's story about itself.", "class": "hypothesis", "confidence": "low", "evidence": ["373.1", "373.3"], "note": "The dream-caused mutation is told as 'it is said' in Ruby (C373.2)."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its list joins the line's earlier moves (Bite, Leer, Headbutt, Focus Energy, Ember, Protect, Dragon Breath, Zen Headbutt, Scary Face) to Fly at level 50, the level it gains its wings, then Crunch, Dragon Claw and Double-Edge.", "class": "mechanic", "confidence": "high", "evidence": ["move:Fly", "move:Dragon Breath", "move:Ember", "move:Dragon Claw", "game:evolution"]}
+    ],
+    "ecology": [
+      {"text": "Its role can't be set: its diet is unknown and it is never wild.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "An enraged Salamence scorching fields and mountains would be a fire-starter on the scale of a wildfire.", "class": "inferred", "confidence": "low", "evidence": ["373.6"]}
+    ],
+    "humans": [
+      {"text": "It becomes uncontrollable if enraged: the entries warn of it as they do of Gyarados.", "class": "canon", "confidence": "high", "evidence": ["373.4", "373.6"]}
+    ],
+    "homestead": [
+      {"text": "Flight for a rider, if it will carry one: it gained its wings on purpose and loves to use them.", "class": "hypothesis", "confidence": "low", "evidence": ["373.2", "move:Fly"], "capability": "air_travel", "note": "Carrying a rider is untested."},
+      {"text": "Never let it lose its temper near the homestead: an enraged Salamence scorches fields.", "class": "canon", "confidence": "high", "evidence": ["373.6"]},
+      {"text": "It needs open sky and cliffs; a Bagon needs cliffs to jump from.", "class": "inferred", "confidence": "medium", "evidence": ["373.2", "371.5"]},
+      {"text": "The rival's Salamence wheeling over the Ice Path on a clear morning, flames streaming, for no reason but joy.", "class": "creative", "evidence": ["373.2"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["open sky over fields and mountains", "cliffs and caverns (its young)"], "activity": "unknown",
+            "foraging": "unknown; no entry says what any stage eats", "evidence": ["373.6", "371.5", "372.2"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty: the machine reading's predator comes from the Dragon type alone."},
+  "relationships": [
+    {"with": "fields and mountains", "kind": "engineers", "class": "canon", "confidence": "low", "evidence": ["373.6"], "note": "By scorching them when enraged."}
+  ],
+  "ecotypes": [
+    {"name": "Sky-joy flier", "moves": ["Dragon Dance", "Twister"], "class": "hypothesis", "confidence": "low",
+     "reading": "The wheeling, flame-spouting flight the entries describe as joy: a dance and a whirlwind. A lineage that flies for display as much as travel. Fits open skies over mountains.",
+     "behavior": "Wheels and loops over its range on clear days.", "evidence": ["373.2", "move:Dragon Dance", "move:Twister"]},
+    {"name": "Cliff-diver", "moves": ["Dragon Rush", "Thrash", "Fire Fang"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the Bagon that never stopped hurling itself off cliffs: a full-body dragon charge, a rampage and a fiery bite. The most likely to lose all thought when angered. Fits sheer cliffs and ravines.",
+     "behavior": "Dives from height at whatever angers it.", "evidence": ["371.1", "373.3", "move:Dragon Rush", "move:Thrash", "move:Fire Fang"]}
+  ],
+  "open_questions": [
+    "What does Salamence eat?",
+    "Does every Bagon reach Salamence, or only those that 'dream' hardest?",
+    "Where do wild Salamence live? No game has them wild.",
+    "How long does a Shelgon spend in its shell before the wings come?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that its powerful desire to fly triggered a sudden mutation in its cells, causing it to sprout wings.", "kind": "said", "evidence": ["373.1", "C373.2"]}
+  ]
+}

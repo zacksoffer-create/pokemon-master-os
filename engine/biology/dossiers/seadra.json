@@ -1,0 +1,95 @@
+{
+  "species": "Seadra",
+  "id": 117,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The spiny, poisonous middle stage of the Kingdra line. Seadra's body bristles with poison barbs and spikes that can make a careless person faint; it sleeps wedged between coral branches with its tail hooked on, and it spins its body to make whirlpools strong enough to swallow fishing boats, weakening prey in the current and then swallowing it whole. The male raises the young and shows no mercy to anything approaching the nest. Its fins and bones are prized in traditional medicine. In HeartGold and SoulSilver it lives in the Whirl Islands and on the Seafoam Islands' deepest floor.",
+  "sections": {
+    "anatomy": [
+      {"text": "A water animal (Gen 4 shape blob), 1.2 m and 25.0 kg, typed Water: the Dragon Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its body bristles with sharp, poisonous spikes and barbs; its fin-tips leak poison, and touching the back fin causes numbness.", "class": "canon", "confidence": "high", "evidence": ["117.2", "117.4", "117.8", "117.9", "C117.2", "C117.6", "C117.15", "C117.17"]},
+      {"text": "It swims backwards by rapidly flapping its wing-like pectoral fins and stout tail.", "class": "canon", "confidence": "high", "evidence": ["117.1", "117.10", "C117.1", "C117.19"]},
+      {"text": "An examination of its cells found a gene not found in Horsea, which became a hot topic.", "class": "canon", "confidence": "high", "evidence": ["117.3", "C117.4", "C117.5"]}
+    ],
+    "diet": [
+      {"text": "It generates whirlpools by spinning its body, weakens prey with the currents, then swallows it whole.", "class": "canon", "confidence": "high", "evidence": ["117.7", "C117.12", "C117.14"]},
+      {"text": "Its prey isn't named. Swallowed whole by a 25 kg animal, it would be small: fish and small invertebrates are the likely food.", "class": "inferred", "confidence": "low", "evidence": ["C117.14", "game:size"]},
+      {"text": "The whirlpools are strong enough to swallow even fishing boats.", "class": "canon", "confidence": "medium", "evidence": ["117.7", "C117.13"]},
+      {"text": "Whirlpool isn't in its own list; Twister (Lv 26) and Brine (Lv 30) are its current-making and prey-finishing moves.", "class": "mechanic", "confidence": "low", "evidence": ["move:Twister", "move:Brine"]}
+    ],
+    "habitat": [
+      {"text": "Coral reefs: it sleeps between coral branches, and coral harvesters get stung when they fail to notice it. The Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["117.6", "C117.10", "C117.11", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in the Whirl Islands (Super Rod 10%; surf 10% on B2F) and on the Seafoam Islands' B4F (Super Rod 15%), at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It sleeps after wriggling itself between the branches of coral, hooking its tail to coral to stay in place.", "class": "canon", "confidence": "high", "evidence": ["117.2", "117.6", "C117.3", "C117.10"]},
+      {"text": "It shows no mercy to anything approaching its nest.", "class": "canon", "confidence": "high", "evidence": ["117.8", "C117.16"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "The male raises the young; if approached, it fends off the intruder with its toxic spikes.", "class": "canon", "confidence": "high", "evidence": ["117.5", "C117.8", "C117.9"], "analogy": "In real seahorses and pipefish, males brood the young."},
+      {"text": "Whether the female takes part, and how long the young stay, is not said.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "It keeps a nest, and the male raises the young there.", "class": "canon", "confidence": "high", "evidence": ["117.5", "117.8"]},
+      {"text": "Water 1 and Dragon egg groups, 20 egg cycles, an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its spines provide protection; carelessly touching it can cause fainting from the spikes.", "class": "canon", "confidence": "high", "evidence": ["117.9", "117.11", "C117.18", "C117.20"]},
+      {"text": "Poison Point, its ability, poisons what touches it.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Horsea flees and inks; Seadra stays and stings. The line's defence changes from escape to armament.", "class": "inferred", "confidence": "medium", "evidence": ["116.7", "117.5"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Horsea at level 32 and into Kingdra only by trade while holding a Dragon Scale, from 1.2 m and 25.0 kg to 1.8 m and 152.0 kg; Kingdra adds the Dragon type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Horsea", "species:Kingdra"]},
+      {"text": "A gene not found in Horsea appears in Seadra's cells: the entries treat evolution as a change in the genes, not only the body.", "class": "canon", "confidence": "medium", "evidence": ["117.3"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its list is Horsea's with later levels: Smokescreen, Water Gun, Focus Energy, Bubble Beam, Agility, Twister, Brine, Hydro Pump (Lv 40), Dragon Dance (Lv 48), Dragon Pulse (Lv 57).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Smokescreen", "move:Twister", "move:Brine", "move:Hydro Pump", "move:Dragon Dance", "move:Dragon Pulse"]}
+    ],
+    "ecology": [
+      {"text": "A reef predator that swallows its prey whole, above Horsea in the web.", "class": "inferred", "confidence": "medium", "evidence": ["117.7"]},
+      {"text": "Its whirlpools would stir sediment and carry small animals; on the scale of fishing boats, they would reshape the water around a reef.", "class": "hypothesis", "confidence": "low", "evidence": ["117.7"], "note": "From the entry's scale only."},
+      {"text": "In Seafoam it shares the deepest floor with Seel, Dewgong, Krabby, Kingler, Horsea and Gyarados.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seel", "species:Krabby"]}
+    ],
+    "humans": [
+      {"text": "Its fins and bones are highly valued as ingredients in traditional herbal medicine.", "class": "canon", "confidence": "high", "evidence": ["117.4", "117.8", "117.11", "C117.7", "C117.21"]},
+      {"text": "People harvesting coral are sometimes stung by its poison barbs when they fail to notice it.", "class": "canon", "confidence": "high", "evidence": ["117.6", "C117.11"]},
+      {"text": "Being prized for medicine is pressure from harvest, as the line's entries hint and as Lapras's decline from hunting shows for another sea animal.", "class": "hypothesis", "confidence": "low", "evidence": ["117.4", "species:Lapras"], "note": "No entry says Seadra is declining."}
+    ],
+    "homestead": [
+      {"text": "Handle with care, or not at all: its spikes can make a person faint.", "class": "canon", "confidence": "high", "evidence": ["117.9"]},
+      {"text": "Never take fins or bones from a living Seadra; if the homestead ever needs the medicine, it should come from one that has died naturally.", "class": "creative", "evidence": ["117.4"]},
+      {"text": "A nesting male will defend its young without mercy: give a breeding pair its own water.", "class": "canon", "confidence": "high", "evidence": ["117.5", "117.8"]},
+      {"text": "Its whirlpools could stir and aerate a large saltwater pool, if one were ever built.", "class": "hypothesis", "confidence": "low", "evidence": ["117.7"], "capability": "water_supply", "note": "Speculative."}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["coral branches (sleeping)", "reef and sea-cave water"], "activity": "unknown",
+            "foraging": "spins whirlpools to weaken prey in the current, then swallows it whole", "evidence": ["117.7", "117.6", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named; trophic level assumes small fish and invertebrates."},
+  "relationships": [
+    {"with": "small fish (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["117.7"], "note": "It swallows its prey whole; the prey is never named."},
+    {"with": "aquatic invertebrates", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["117.7"]},
+    {"with": "coral", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["117.2", "117.6"], "note": "To sleep in and hook its tail to."},
+    {"with": "Kingdra", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Murk guardian", "moves": ["Muddy Water", "Disable"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of nest fathers that fouls the water and stops an intruder's attack: muddy water and a move that disables a move. Fits silty sea-cave floors where nests are hard to see.",
+     "behavior": "Clouds the water around its nest when anything comes near.", "evidence": ["117.5", "117.8", "move:Muddy Water", "move:Disable"]},
+    {"name": "Storm-drake", "moves": ["Dragon Breath", "Dragon Rage", "Razor Wind"], "class": "hypothesis", "confidence": "low",
+     "reading": "The line's dragon-leaning lineage at its spiny stage: the Seadra most likely to become a Kingdra that wakes with storms. Fits stormy, current-swept water.",
+     "behavior": "Most active when the sea is rough.", "evidence": ["230.5", "move:Dragon Breath", "move:Dragon Rage", "move:Razor Wind"]}
+  ],
+  "open_questions": [
+    "What prey does it swallow whole?",
+    "Does the male raise the young alone? For how long?",
+    "What is the gene found in Seadra but not Horsea (117.3)?",
+    "Are wild Seadra harvested for medicine in Johto, and does it threaten them?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

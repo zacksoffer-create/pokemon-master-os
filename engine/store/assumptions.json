@@ -968,17 +968,17 @@
   {
    "id": "A-62",
    "decision": "D-077",
-   "phase": "v1 · Field Biology",
+   "phase": "v2.5 · Field Biology",
    "area": "Dossiers",
-   "what": "64 dossiers (your companions, the Ilex Forest community, the Blackthorn highlands) were drafted by the assistant from each species' evidence pack and nothing else. Every statement is canon, game data, inferred, hypothesis, Blackthorn's invention or unknown, with the ids it cites, checked by biology/dossier.py. Real-world biology appears only as a labelled analogy, never as evidence. All are drafts.",
-   "why": "Your biology brief ('I want this to be real'), and the other assistant's evidence classes.",
+   "what": "127 dossiers, all drafts. The first 64 were your companions, the Ilex Forest community and the Blackthorn highlands. 63 more followed after you asked for more: the earlier stages of the canon sixes, the rival's six, Kanto's communities (Viridian Forest, Mt. Moon, the Seafoam Islands, Cerulean Cave, the routes around Fuchsia, Cinnabar and its seas, Rock Tunnel and Diglett's Cave) and more of the Blackthorn highlands. Each was drafted from its species' evidence pack and nothing else. Every statement is canon, game data, inferred, hypothesis, Blackthorn's invention or unknown, with the ids it cites, checked by biology/dossier.py. Where nothing says what a species eats, its guild is left empty, not guessed from its type. Real-world biology appears only as a labelled analogy.",
+   "why": "You kept it and asked for more: \"Want more of it.\"",
    "where": [
     "#/biology",
     "Field Biology"
    ],
    "instead": [
-    "a stricter class set",
-    "your own dossiers written alongside"
+    "stop at 64 and review those first",
+    "write the next ones yourself, or one species at a time with the assistant"
    ]
   },
   {
@@ -1032,17 +1032,17 @@
   {
    "id": "A-66",
    "decision": "D-077",
-   "phase": "v1 · Field Biology",
+   "phase": "v2.5 · Field Biology",
    "area": "Johto's landscape",
-   "what": "Johto's places connect as the games' map joins them (paths, caves, sea routes). Each place's biome, elevation and water, and its position on the drawing, are Blackthorn's reading.",
-   "why": "The reference data has no adjacency, so the graph was authored from the games' map.",
+   "what": "Johto and Kanto are one landscape, joined as HeartGold's map joins them: paths, caves, sea routes, the Magnet Train (Goldenrod to Saffron) and the S.S. Aqua (Olivine to Vermilion), plus the sea from New Bark Town onto Route 27 and Route 28 onto Mt. Silver. Kanto's places, joins and encounter tables were checked against the HeartGold decomp. Each place's biome, elevation and water, and where it sits on the drawing, are Blackthorn's reading; Kanto is drawn east of Johto, as the games' own map has it. Geothermal ground is only where the games put a volcano (Cinnabar Island) and where you put it (the Blackthorn highlands). Six Kanto flagships: Viridian Forest, Mt. Moon, the Seafoam Islands, Cerulean Cave, the routes around Fuchsia, and Cinnabar and its seas.",
+   "why": "You changed it to add Kanto: \"HeartGold does both of them.\"",
    "where": [
-    "#/ecosystems",
-    "Ecosystems"
+    "#/ecosystems?region=kanto",
+    "Ecosystems, Kanto"
    ],
    "instead": [
-    "add Kanto",
-    "your own biome for any place"
+    "Johto only, as before",
+    "Kanto drawn west or south-west of Johto, as the first brief put it, instead of where the games put it"
    ]
   },
   {

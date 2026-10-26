@@ -1,0 +1,87 @@
+{
+  "species": "Prinplup",
+  "id": 394,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The solitary middle stage of the Empoleon line. Every Prinplup believes it is the most important, so they can never form a group and each lives alone, away from the others. It searches for prey in icy seas, and its wings deliver blows that snap even the thickest trees. Between the proud, care-refusing chick and the adults that follow a leader, Prinplup is the loner stage. It is never wild in any Gen I-IV game.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright bird (Gen 4 shape upright), 0.8 m and 23.0 kg, typed Water.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Its wings deliver wicked blows that snap even the thickest of trees.", "class": "canon", "confidence": "high", "evidence": ["394.2", "394.4", "C394.3", "C394.7"]},
+      {"text": "Flippers strong enough to snap trees are flippers built for power in water; the strength is a swimmer's.", "class": "inferred", "confidence": "medium", "evidence": ["C394.3", "394.2"]}
+    ],
+    "diet": [
+      {"text": "It searches for prey in icy seas.", "class": "canon", "confidence": "high", "evidence": ["394.2", "C394.4"]},
+      {"text": "The prey is never named; Piplup dives for over ten minutes to hunt (393.2). Fish are likely but unrecorded.", "class": "inferred", "confidence": "medium", "evidence": ["393.2", "394.2"]},
+      {"text": "Metal Claw (Lv 16, learned on evolving) and Drill Peck (Lv 46) are its striking moves.", "class": "mechanic", "confidence": "low", "evidence": ["move:Metal Claw", "move:Drill Peck"]}
+    ],
+    "habitat": [
+      {"text": "Icy seas, where it hunts; its young live along shores in northern countries (393.2).", "class": "canon", "confidence": "high", "evidence": ["394.2", "393.2"]},
+      {"text": "It is never wild in any Gen I-IV game.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "It lives alone, away from others: each animal needs its own stretch of coast.", "class": "inferred", "confidence": "medium", "evidence": ["394.1", "C394.1"]}
+    ],
+    "behavior": [
+      {"text": "It lives a solitary life.", "class": "canon", "confidence": "high", "evidence": ["394.4", "C394.6"]},
+      {"text": "Its activity pattern isn't stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "It lives alone, away from others; apparently every one of them believes it is the most important.", "class": "canon", "confidence": "high", "evidence": ["394.1", "C394.1", "C394.2"]},
+      {"text": "Because every Prinplup considers itself the most important, they can never form a group.", "class": "canon", "confidence": "high", "evidence": ["394.3", "C394.5"]},
+      {"text": "The adults have a leader with the biggest horns (395.1), so the line regroups at the last stage: the loner phase sits between a care-refusing chick and a led adult society.", "class": "inferred", "confidence": "medium", "evidence": ["394.3", "395.1"], "analogy": "Young males of many social mammals spend a solitary or bachelor phase between leaving their birth group and joining or leading a new one."}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Field egg groups, 20 egg cycles, 87.5% male, medium-slow growth. A stage that can never form a group is probably not the breeding stage; that is unknown.", "class": "mechanic", "confidence": "medium", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "394.3"]}
+    ],
+    "defense": [
+      {"text": "Its wing blows, strong enough to snap the thickest trees, are its defence as well as its weapon.", "class": "canon", "confidence": "medium", "evidence": ["394.2", "394.4"]},
+      {"text": "Bide and Mist carry over from Piplup as its defensive moves.", "class": "mechanic", "confidence": "low", "evidence": ["move:Bide", "move:Mist"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Piplup at level 16 and into Empoleon at 36, from 0.8 m and 23.0 kg to 1.7 m and 84.5 kg, gaining the Steel type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Piplup", "species:Empoleon"]},
+      {"text": "Metal Claw is learned on evolving into Prinplup, the first hint of the Steel the adult will have.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Metal Claw", "species:Empoleon"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its list is Piplup's with Metal Claw added and later levels: Bubble Beam, Bide, Fury Attack, Brine, Whirlpool, Mist, Drill Peck and Hydro Pump (Lv 51).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Metal Claw", "move:Bubble Beam", "move:Brine", "move:Whirlpool", "move:Hydro Pump"]}
+    ],
+    "ecology": [
+      {"text": "A solitary diving predator of icy seas; spacing out on its own suggests each one claims its own hunting water.", "class": "inferred", "confidence": "low", "evidence": ["394.1", "394.2"]},
+      {"text": "Its prey and predators are unrecorded.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Prinplup and people; its chick won't listen to its Trainer (393.4), and a loner that thinks itself most important is unlikely to be easier.", "class": "inferred", "confidence": "low", "evidence": ["393.4", "394.1"]}
+    ],
+    "homestead": [
+      {"text": "Keep one at a time: two Prinplup can't share, by their own entries.", "class": "canon", "confidence": "high", "evidence": ["394.3"]},
+      {"text": "Its wing strikes could split firewood or clear fallen trunks, if it will work.", "class": "hypothesis", "confidence": "low", "evidence": ["394.4"], "capability": "clearing", "note": "Whether a proud loner will do work is the open question."},
+      {"text": "Give it its own stretch of cold water to hunt in.", "class": "inferred", "confidence": "medium", "evidence": ["394.1", "394.2"], "capability": "water_travel"},
+      {"text": "The Prinplup on the far rock of the lake, who has decided the lake is his.", "class": "creative", "evidence": ["394.1"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["icy seas", "a solitary stretch of cold coast"], "activity": "unknown",
+            "foraging": "hunts prey in icy seas, alone", "evidence": ["394.2", "394.4"], "class": "inferred", "confidence": "medium",
+            "note": "Predator, as for Piplup and Empoleon; prey unnamed."},
+  "relationships": [
+    {"with": "unnamed marine prey", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["394.2"]},
+    {"with": "Empoleon", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Shore peacemaker", "moves": ["Feather Dance", "Yawn", "Supersonic"], "class": "hypothesis", "confidence": "low",
+     "reading": "Empoleon's calming lineage, in the stage that most needs it: moves that soften or confuse a rival without a fight. A Prinplup that can share a shore after all. Fits crowded coasts where loners can't spread out.",
+     "behavior": "Tolerates neighbours; the first of its age to join a group.", "evidence": ["394.3", "395.4", "move:Feather Dance", "move:Yawn", "move:Supersonic"]},
+    {"name": "Long-dive hunter", "moves": ["Aqua Ring", "Agility", "Hydro Pump"], "class": "hypothesis", "confidence": "low",
+     "reading": "The line's diving lineage at its solitary stage: stamina, speed and force underwater. Fits deep, icy seas.",
+     "behavior": "Rarely seen on land; hunts alone and far out.", "evidence": ["394.2", "move:Aqua Ring", "move:Agility", "move:Hydro Pump"]}
+  ],
+  "open_questions": [
+    "What does it hunt in icy seas?",
+    "How does a loner that can't form groups become an adult that follows a leader?",
+    "Does Prinplup breed, or only Empoleon?",
+    "How much coast does one Prinplup claim?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

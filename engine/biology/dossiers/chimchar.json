@@ -1,0 +1,91 @@
+{
+  "species": "Chimchar",
+  "id": 390,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small, very agile fire primate of craggy mountains: it scales sheer cliffs to live on their tops, and burns gas made in its own belly as a flame from its rear end. The fire is a sign of health, burning weakly when it feels sick, and rain can't put it out, but Chimchar puts it out itself before it sleeps, to prevent fires. Nothing says what it eats. It is the first stage of SoulSilver's Infernape, and in the Gen I-IV games it is only ever a starter gift in Sinnoh; no Johto game has one.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small upright animal (Gen 4 shape upright), 0.5 m and 6.2 kg, typed Fire: the Chimp Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its fiery rear end is fuelled by gas made in its belly; the gas burns from its rear.", "class": "canon", "confidence": "high", "evidence": ["390.2", "390.4", "C390.3", "C390.7"]},
+      {"text": "The flame on its tail can be put out and relit: it extinguishes it before sleeping.", "class": "canon", "confidence": "high", "evidence": ["390.1", "390.3", "C390.2", "C390.6"]},
+      {"text": "A gas made in the belly is most plausibly a product of digestion, so the fire runs on what it eats.", "class": "hypothesis", "confidence": "low", "evidence": ["C390.3"], "analogy": "Fermentation in the guts of many plant-eating mammals makes methane, which burns."}
+    ],
+    "diet": [
+      {"text": "No entry for any stage of the line says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its line is filed as an omnivore only as a guess from its primate-like body and Human-Like egg group, as Infernape's dossier does; nothing in the Pokédex supports a diet.", "class": "hypothesis", "confidence": "low", "evidence": ["game:shape", "game:egg_groups"]},
+      {"text": "Fury Swipes (Lv 15) and Scratch are its feeding-like moves; neither names a food.", "class": "mechanic", "confidence": "low", "evidence": ["move:Fury Swipes", "move:Scratch"]}
+    ],
+    "habitat": [
+      {"text": "It scales sheer cliffs to live atop craggy mountains.", "class": "canon", "confidence": "high", "evidence": ["390.1", "C390.1"]},
+      {"text": "It is never wild in any Gen I-IV game: a starter gift at Lake Verity in Diamond and Pearl and on Route 201 in Platinum. HeartGold and SoulSilver don't have it at all except by trade.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "No Gen 3 habitat is given: the line is from Generation 4.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]}
+    ],
+    "behavior": [
+      {"text": "It is very agile, and climbs sheer cliffs.", "class": "canon", "confidence": "high", "evidence": ["390.1", "390.3", "C390.1", "C390.5"]},
+      {"text": "Before going to sleep it puts out the flame on its tail, to prevent fires.", "class": "canon", "confidence": "high", "evidence": ["390.3", "C390.6"]},
+      {"text": "Putting out its own flame to avoid starting fires is a deliberate, safety-minded act, unusual for a young animal.", "class": "inferred", "confidence": "medium", "evidence": ["C390.6"]},
+      {"text": "It sleeps, so it has a rest period, but whether by day or night isn't said.", "class": "unknown", "confidence": "high", "evidence": ["390.1"]}
+    ],
+    "social": [
+      {"text": "Chimchar's own entries say nothing about groups. Monferno lives in packs with ranks shown by the fire on its tail (391.4), so the young are likely raised in those packs.", "class": "inferred", "confidence": "low", "evidence": ["391.4"]}
+    ],
+    "reproduction": [
+      {"text": "Field and Human-Like egg groups, 20 egg cycles, 87.5% male (the starter ratio), medium-slow growth. Nothing in the Pokédex describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its fire can't be put out by rain.", "class": "canon", "confidence": "high", "evidence": ["390.2", "C390.4"]},
+      {"text": "Agility and cliffs are its first defence: it lives where few animals can follow.", "class": "inferred", "confidence": "medium", "evidence": ["390.1", "390.3"]},
+      {"text": "Taunt (Lv 9) and Torment (Lv 25) are provoking moves, and Nasty Plot (Lv 23) a scheming one: a cheeky young animal in game terms.", "class": "mechanic", "confidence": "low", "evidence": ["move:Taunt", "move:Torment", "move:Nasty Plot"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Its fire shows how it feels: weak when it is sick.", "class": "canon", "confidence": "medium", "evidence": ["390.4", "C390.8"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Monferno at level 14 and Infernape at 36: 0.5 m and 6.2 kg, then 0.9 m and 22.0 kg, then 1.2 m and 55.0 kg. The type adds Fighting at Monferno.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:types", "species:Monferno", "species:Infernape"]},
+      {"text": "Read as development, the flame moves up and spreads: a rear-end flame in Chimchar, a tail fire that shows rank in Monferno, a crown of fire that never goes out in Infernape.", "class": "inferred", "confidence": "medium", "evidence": ["390.4", "391.4", "392.1", "392.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list: Scratch, Leer, Ember (Lv 7), Taunt, Fury Swipes, Flame Wheel (Lv 17), Nasty Plot, Torment, Facade, Fire Spin (Lv 33), Slack Off (Lv 39), Flamethrower (Lv 41). Slack Off, a rest that heals, fits an animal that sleeps with its fire out.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Ember", "move:Flame Wheel", "move:Fire Spin", "move:Slack Off", "move:Flamethrower", "C390.6"]}
+    ],
+    "ecology": [
+      {"text": "Its role can't be set: nothing says what it eats, and no game has it in the wild.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Putting its flame out before sleep suggests it lives where an untended fire would catch: on vegetated ledges, not bare rock.", "class": "hypothesis", "confidence": "low", "evidence": ["390.3"], "note": "Read from the reason the entry gives (to prevent fires)."}
+    ],
+    "humans": [
+      {"text": "It reaches people as a Sinnoh starter, given at Lake Verity or on Route 201.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "A small, careful fire: it puts its own flame out before it sleeps, which makes it one of the safer fire-users to keep near buildings.", "class": "canon", "confidence": "high", "evidence": ["390.3"], "capability": "heat_source"},
+      {"text": "Watch its flame for illness: weak fire, sick Chimchar.", "class": "canon", "confidence": "high", "evidence": ["390.4"]},
+      {"text": "A climber of sheer cliffs, so it could reach high ledges, roofs and the Ice Path's upper shelves.", "class": "canon", "confidence": "medium", "evidence": ["390.1"], "capability": "climbing"},
+      {"text": "Rain can't put its fire out: a light for wet nights on the mountain.", "class": "canon", "confidence": "medium", "evidence": ["390.2"], "capability": "light"},
+      {"text": "The homestead's Chimchar, snuffing its tail every night before it curls up, as careful as anyone in the house.", "class": "creative", "evidence": ["390.3"]}
+    ]
+  },
+  "niche": {"guild": "omnivore", "trophic_level": null, "microhabitat": ["sheer cliffs", "craggy mountaintops"], "activity": "unknown",
+            "foraging": "unknown; no entry says what any stage eats", "evidence": ["390.1", "game:shape"], "class": "hypothesis", "confidence": "low",
+            "note": "Omnivore guessed from the primate-like body and Human-Like egg group only, as for Infernape."},
+  "relationships": [
+    {"with": "gas made in its own belly", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["390.2", "390.4"]},
+    {"with": "sheer cliffs and craggy mountains", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["390.1"]},
+    {"with": "Monferno", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Troop helper", "moves": ["Helping Hand", "Assist", "Fake Out"], "class": "hypothesis", "confidence": "low",
+     "reading": "Infernape's cooperative lineage in the young: moves that help a partner and borrow a partner's moves. A Chimchar raised in a pack that works together. Fits crags where a troop shares the few good ledges.",
+     "behavior": "Sticks close to its troop; joins in rather than leads.", "evidence": ["391.4", "move:Helping Hand", "move:Assist", "move:Fake Out"]},
+    {"name": "Four-limb striker", "moves": ["Fire Punch", "Blaze Kick", "Double Kick"], "class": "hypothesis", "confidence": "low",
+     "reading": "The line's fighting lineage, showing early: fire carried into the hands and feet before Infernape grows its fiery hands. A Chimchar that fights with its limbs, not its tail. Fits cliff faces where a fight is close and footing matters.",
+     "behavior": "Punches and kicks with a flare of fire; a fighter from the egg.", "evidence": ["390.3", "move:Fire Punch", "move:Blaze Kick", "move:Double Kick"]}
+  ],
+  "open_questions": [
+    "What does it eat, and what makes the gas in its belly?",
+    "Where would a wild Chimchar live? No game has one in the wild.",
+    "Is it active by day or by night?",
+    "Is it raised in Monferno's packs, and who looks after the young?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

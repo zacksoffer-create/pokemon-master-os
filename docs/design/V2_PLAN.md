@@ -239,6 +239,10 @@ the breeding stock and being a showcase and lab ... these are our designer build
   (`docs/capability/PATTERN_AUDIT.md`). Negations no longer count ("its inability to fly"), light has to be given off,
   and a cave means moving in the dark. 277 species read differently: Zubat is no longer a light, Nosepass navigates,
   Swampert hauls.
+- **Kanto, and 127 dossiers (A-66, A-62).** Ecosystems is Johto and Kanto as one landscape, joined as HeartGold joins
+  them (paths, caves, sea routes, the Magnet Train and the S.S. Aqua), with a Both / Johto / Kanto map, 95 places, 90
+  food webs and eight flagship ecosystems. The dossiers went from 64 to 127 drafts: the canon sixes' earlier stages, the
+  rival's six, Kanto's communities and more of the Blackthorn highlands.
 - **What a set might suggest (A-09).** Under the evidence, the breeding-stock designer now proposes a reading: a
   sentence for each rule that fires, about the line and about what it's for. Each is marked hypothesis, names its rule
   and says what it rests on. Your call: "You can propose an interpretation, that's fine."

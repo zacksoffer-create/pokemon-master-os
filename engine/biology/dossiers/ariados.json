@@ -1,0 +1,88 @@
+{
+  "species": "Ariados",
+  "id": 168,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult of Spinarak, a long-legged red spider that gives up the web for the hunt. Ariados doesn't keep a nest in one spot: it wanders in search of food after dark. It spins string from both its rear and its mouth, so it is hard to tell which end is which, and it has a trick no other spider in the Pokédex has: it attaches silk to its prey, lets it go, and later follows the thread back to the prey and its friends. Hooked claws let it run on walls and ceilings, and it constricts its foes in silk. In HeartGold and SoulSilver it is HeartGold's: on Route 2 at night and in Viridian Forest's trees.",
+  "sections": {
+    "anatomy": [
+      {"text": "A long-legged spider-like bug (Gen 4 shape armor), 1.1 m and 33.5 kg, typed Bug and Poison: the Long Leg Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It spins string not only from its rear but also from its mouth; it's hard to tell which end is which.", "class": "canon", "confidence": "high", "evidence": ["168.1", "168.7", "C168.1", "C168.2", "C168.12"]},
+      {"text": "Its feet are tipped with tiny hooked claws that let it scuttle on ceilings and vertical walls.", "class": "canon", "confidence": "high", "evidence": ["168.4", "168.5", "C168.6", "C168.8"]}
+    ],
+    "diet": [
+      {"text": "It wanders in search of food after darkness falls, rather than keeping a nest in one spot.", "class": "canon", "confidence": "high", "evidence": ["168.3", "C168.5"]},
+      {"text": "It attaches silk to its prey and sets it free; later it tracks the silk to the prey and its friends.", "class": "canon", "confidence": "high", "evidence": ["168.6", "C168.10", "C168.11"]},
+      {"text": "Releasing tagged prey to find the rest of its group means Ariados hunts social prey, animals that live together.", "class": "inferred", "confidence": "medium", "evidence": ["C168.11"]},
+      {"text": "Bug Bite (Lv 1) and Leech Life are its feeding bites.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bug Bite", "move:Leech Life"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is forest. A single strand of special string is endlessly spun from its rear and leads back to its nest (Silver, SoulSilver), though Crystal says it keeps no nest in one spot.", "class": "canon", "confidence": "medium", "evidence": ["game:habitat", "168.2", "168.3", "C168.3", "C168.4"]},
+      {"text": "In HeartGold and SoulSilver it is HeartGold's: on Route 2 at night (5%) and in Viridian Forest's headbutt trees (10%). SoulSilver has Ledian in those slots.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ledian"]}
+    ],
+    "behavior": [
+      {"text": "Nocturnal: it hunts after darkness falls, and HeartGold has it walking on Route 2 only at night.", "class": "canon", "confidence": "high", "evidence": ["168.3", "game:encounters"]},
+      {"text": "It runs on walls and ceilings.", "class": "canon", "confidence": "high", "evidence": ["168.4", "168.5"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Ariados together.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 15 egg cycles, an even sex ratio, fast growth. Nothing describes eggs or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It constricts the foe with thin and strong silk webbing.", "class": "canon", "confidence": "high", "evidence": ["168.4", "168.5", "C168.7", "C168.9"]},
+      {"text": "A spinneret at each end makes it hard to tell which way it faces, which may confuse an attacker.", "class": "hypothesis", "confidence": "low", "evidence": ["168.1"], "note": "The entry says only that it's hard to tell; confusing predators is a reading."}
+    ],
+    "senses": [
+      {"text": "It tracks prey by following its own silk: a sense of touch along the thread, inherited from Spinarak's web-reading (167.4).", "class": "inferred", "confidence": "medium", "evidence": ["168.6", "167.4"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Spinarak at level 22, from 0.5 m and 8.5 kg to 1.1 m and 33.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Spinarak"]},
+      {"text": "Read as development, the line goes from a trap in one place to a tracker on the move.", "class": "inferred", "confidence": "medium", "evidence": ["167.1", "168.3", "168.6"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its list is Spinarak's with Bug Bite added and later levels: String Shot, Constrict, Leech Life, Night Shade, Shadow Sneak, Fury Swipes, Sucker Punch, Spider Web, Agility, Pin Missile, Psychic and Poison Jab.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bug Bite", "move:String Shot", "move:Spider Web", "move:Shadow Sneak", "move:Poison Jab"]}
+    ],
+    "ecology": [
+      {"text": "A night-roaming predator of the forest; its tag-and-follow trick makes it a hunter of animals that live in groups.", "class": "inferred", "confidence": "medium", "evidence": ["168.3", "168.6"]},
+      {"text": "In HeartGold's Viridian Forest it shares the trees with the Caterpie line; whether it hunts them is a guess.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Caterpie"], "note": "Co-occurrence only. Weedle is SoulSilver's there and Ariados HeartGold's, so those two never share the forest."}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Ariados and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "A night patrol that can climb walls: it could keep the barn's rafters clear of pests.", "class": "hypothesis", "confidence": "low", "evidence": ["168.3", "168.4"], "capability": "night_travel", "note": "Its prey is unnamed."},
+      {"text": "Its endless strand leads back to it (or its nest): you can always find where it went.", "class": "canon", "confidence": "medium", "evidence": ["168.2"], "capability": "tracking"},
+      {"text": "It ties up foes in silk: don't let it near small Pokémon at night.", "class": "inferred", "confidence": "medium", "evidence": ["168.4", "168.6"]},
+      {"text": "A single red thread across the yard every morning, and the homestead's Ariados at the end of it, asleep in the eaves.", "class": "creative", "evidence": ["168.2"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["forest at night", "walls and ceilings"], "activity": "nocturnal",
+            "foraging": "roams at night; tags prey with silk, releases it and tracks it back to its group", "evidence": ["168.3", "168.6", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named."},
+  "relationships": [
+    {"with": "unnamed prey and its friends", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["168.6"]},
+    {"with": "flying insects (non-Pokémon)", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["168.3"], "note": "What a forest spider would mostly find; never named."},
+    {"with": "Ledian", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Ledian"], "note": "The same slots in the other version."}
+  ],
+  "ecotypes": [
+    {"name": "Thread tracker", "moves": ["Pursuit", "Baton Pass"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage built on the tag-and-follow hunt: it chases what flees, and Baton Pass hands an advantage on, as an Ariados hands its prey's trail to the hunt. Fits open woodland where tagged prey can run.",
+     "behavior": "Follows its thread for long distances at night.", "evidence": ["168.6", "move:Pursuit", "move:Baton Pass"]},
+    {"name": "Mind-web", "moves": ["Psybeam", "Disable", "Signal Beam"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that fights with strange light and jamming rather than venom: a psychic beam, a signal and a move that stops a move. Fits caves and old buildings, where it can run the ceilings.",
+     "behavior": "Drops from the ceiling, dazzles, and binds.", "evidence": ["168.4", "move:Psybeam", "move:Disable", "move:Signal Beam"]}
+  ],
+  "open_questions": [
+    "What does Ariados hunt, and why does it want the prey's friends?",
+    "Does it keep a nest (168.2) or not (168.3)?",
+    "Why only in HeartGold?",
+    "How long is the strand it spins from its rear?"
+  ],
+  "contradictions": [
+    {"entries": ["168.2", "168.3"], "note": "Silver and SoulSilver say its endless strand leads back to its nest; Crystal says it doesn't make a nest in one specific spot."}
+  ],
+  "folklore": []
+}

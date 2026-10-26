@@ -1,0 +1,90 @@
+{
+  "species": "Spearow",
+  "id": 21,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A tiny, fierce bird of grassy places that eats bugs: it flaps its short wings to flush insects out of tall grass and plucks them with its stubby beak. Spearow is inept at flying high and must beat its short wings fast to stay up, but darts around at high speed to protect its territory, flying ceaselessly and crying. Its high, keening cry carries over half a mile, and when it echoes all around, the Spearow are warning each other of danger. In HeartGold and SoulSilver it is one of the commonest birds in both regions: in the grass by day on Routes 33, 42, 46, 22, 3, 4, 7, 9 and 10, and shaken from the trees by Headbutt along most of Johto's mountain roads and in Kanto's towns.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tiny bird (Gen 4 shape wings), 0.3 m and 2.0 kg, typed Normal and Flying: the Tiny Bird Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Short wings that it must flap at high speed to stay airborne, and a stubby beak.", "class": "canon", "confidence": "high", "evidence": ["21.1", "21.3", "21.9", "C21.2", "C21.5", "C21.6", "C21.14"]}
+    ],
+    "diet": [
+      {"text": "It eats bugs in grassy areas: it flaps its short wings to flush out insects from tall grass, then plucks them with its stubby beak.", "class": "canon", "confidence": "high", "evidence": ["21.1", "21.3", "C21.1", "C21.5", "C21.6"], "analogy": "Real cattle egrets and some small hawks hunt insects flushed from grass."},
+      {"text": "Using its beak, it searches in grass for prey.", "class": "canon", "confidence": "high", "evidence": ["21.9", "C21.15"]},
+      {"text": "The machine reading's omnivore comes from 'grass' in 21.9, where the grass is where it looks, not what it eats. It is an insect-eater.", "class": "inferred", "confidence": "high", "evidence": ["21.9", "C21.15"]}
+    ],
+    "habitat": [
+      {"text": "Grassy areas and tall grass; the Gen 3 Pokédex habitat is rough terrain.", "class": "canon", "confidence": "high", "evidence": ["21.1", "21.3", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is in the grass by day and morning on Routes 33, 42 and 46 in Johto and Routes 22, 3, 4, 7, 9 and 10 in Kanto, and in the trees (Headbutt) at any time on Routes 33, 42, 44, 45 and 46 and Azalea Town, and in Kanto at Vermilion, Celadon and Routes 7, 11 and 16; in both versions. It is on Route 47 too, rarely.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Inept at flying high; it flies around very fast instead, busily flitting here and there.", "class": "canon", "confidence": "high", "evidence": ["21.2", "21.8", "C21.3", "C21.12"]},
+      {"text": "Very protective of its territory, it darts around at high speed and flies ceaselessly, making high-pitched cries.", "class": "canon", "confidence": "high", "evidence": ["21.2", "21.4", "21.5", "C21.4", "C21.7", "C21.8"]},
+      {"text": "Diurnal: the grass tables have it by day and morning only.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Its loud cry can be heard over half a mile away; if its high, keening cry is heard echoing all around, they are warning each other of danger.", "class": "canon", "confidence": "high", "evidence": ["21.6", "21.7", "C21.9", "C21.10", "C21.11"]},
+      {"text": "Territorial, yet warning each other: Spearow hold territories near enough to hear one another, a loose community.", "class": "inferred", "confidence": "medium", "evidence": ["21.4", "21.6"], "analogy": "Real songbirds defend territories and still answer each other's alarm calls."}
+    ],
+    "reproduction": [
+      {"text": "Flying egg group, 15 egg cycles, an even sex ratio, medium growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Speed and noise: it darts at high speed and cries.", "class": "canon", "confidence": "high", "evidence": ["21.2", "21.5"]},
+      {"text": "Even if it is frail, it can be a tough foe that uses Mirror Move (Lv 21).", "class": "canon", "confidence": "high", "evidence": ["21.8", "C21.13", "move:Mirror Move"]},
+      {"text": "Keen Eye keeps its aim true; Leer and Pursuit (Lv 13) chase off and run down.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Leer", "move:Pursuit"]}
+    ],
+    "senses": [
+      {"text": "It hears its own kind's cries over half a mile.", "class": "inferred", "confidence": "medium", "evidence": ["21.6"]},
+      {"text": "It finds insects by flushing them, then sees them to pluck them.", "class": "canon", "confidence": "medium", "evidence": ["21.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Fearow at level 20: from 0.3 m and 2.0 kg to 1.2 m and 38.0 kg, from a bird inept at flying high to one that can stay aloft all day (22.1, 22.8).", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Fearow", "22.1", "21.2"]},
+      {"text": "Its adult still eats small insects, plucking them from under the ground with its long beak (22.4).", "class": "canon", "confidence": "high", "evidence": ["22.4", "species:Fearow"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Peck, Growl, Leer, Fury Attack, Pursuit, Aerial Ace, Mirror Move, Agility, Assurance, Roost and Drill Peck: a beak and speed.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Peck", "move:Fury Attack", "move:Drill Peck"]}
+    ],
+    "ecology": [
+      {"text": "A small insect-eating bird of grass and trees, one of the commonest in both regions.", "class": "canon", "confidence": "high", "evidence": ["21.1", "game:encounters"]},
+      {"text": "Its alarm calls warn its own kind; other animals in the grass may hear them too, as real birds' alarms are heard.", "class": "hypothesis", "confidence": "low", "evidence": ["21.6"]},
+      {"text": "Small (2 kg) and everywhere, it is prey-sized for the cliff gliders and hawks of the same roads; nothing names what eats it.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "game:encounters"]},
+      {"text": "In the headbutt trees it lives with Aipom and Heracross in Johto, and Combee and Heracross in Kanto.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Aipom", "species:Heracross"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Spearow and people directly; its loud cries carry half a mile.", "class": "canon", "confidence": "low", "evidence": ["21.6"]}
+    ],
+    "homestead": [
+      {"text": "An insect-eater for the fields: it flushes and eats bugs in the grass.", "class": "canon", "confidence": "medium", "evidence": ["21.3"], "capability": "plant_care"},
+      {"text": "An alarm: its keening cry, echoing all around, means danger.", "class": "canon", "confidence": "medium", "evidence": ["21.6"], "capability": "danger_sense"},
+      {"text": "Territorial and noisy: one pair is enough.", "class": "inferred", "confidence": "medium", "evidence": ["21.4", "21.5"]},
+      {"text": "The Spearow on the gatepost that screams whenever the Gligar goes over.", "class": "creative", "evidence": ["21.6"]}
+    ]
+  },
+  "niche": {"guild": "insectivore", "trophic_level": 3, "microhabitat": ["tall grass", "trees by roads and towns"], "activity": "diurnal",
+            "foraging": "flushes insects from tall grass and plucks them", "evidence": ["21.1", "21.3", "game:encounters"], "class": "canon", "confidence": "high",
+            "note": "The machine reading's omnivore comes from 'grass' in 21.9."},
+  "relationships": [
+    {"with": "insects in tall grass", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["21.1", "21.3"]},
+    {"with": "Aipom", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Aipom"]},
+    {"with": "Fearow", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Alarm-caller", "moves": ["Uproar", "Scary Face", "Astonish"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the cry: noise, a fierce face and a startle. The Spearow whose keening carries half a mile (21.6). Fits open grass where sound carries.",
+     "behavior": "Cries at the first sign of danger, and keeps crying.", "evidence": ["21.6", "move:Uproar", "move:Scary Face", "move:Astonish"]},
+    {"name": "Grass-flusher", "moves": ["Quick Attack", "Feather Dance", "Whirlwind"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the hunt: a quick dart, a flurry of feathers, a wind that blows things out of cover. The insect-flusher of 21.3. Fits tall grass.",
+     "behavior": "Beats the grass with its wings until something jumps.", "evidence": ["21.3", "move:Quick Attack", "move:Feather Dance", "move:Whirlwind"]}
+  ],
+  "open_questions": [
+    "Which insects does Spearow eat: Bug-type Pokémon, small non-Pokémon insects, or both?",
+    "How big are Spearow territories?",
+    "Do other Pokémon heed its alarm calls?",
+    "What eats Spearow?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

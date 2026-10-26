@@ -3,12 +3,13 @@
     python3 -I engine/biology/ecology.py                  # engine/data_manifest/biology/ecology.json
     python3 -I engine/biology/ecology.py ilex-forest      # one web, as text
 
-Level 1, reconstruction: every Johto place in HeartGold and SoulSilver (biology/johto.json) gets its community from
-the encounter tables, read as presence, method, time of day and how easily each is found (an encounter rate is how
-often you meet it, not how many there are). Residents are kept apart from what only arrives by radio, swarm, the
-Bug-Catching Contest, the post-game or a weekday, and the Safari Zone is managed, so it's described, not
-reconstructed. Then the non-Pokémon life a habitat needs by principle (plants, fungi, deadwood, insects, plankton:
-the games never show them, but a forest without them can't feed a Butterfree) is added per biome, labelled as such.
+Level 1, reconstruction: every Johto and Kanto place in HeartGold and SoulSilver (biology/johto.json and kanto.json,
+read together by landscape()) gets its community from the encounter tables, read as presence, method, time of day and
+how easily each is found (an encounter rate is how often you meet it, not how many there are). Residents are kept apart
+from what only arrives by radio, swarm, the Bug-Catching Contest, the post-game or a weekday, and the Safari Zone is
+managed, so it's described, not reconstructed. Then the non-Pokémon life a habitat needs by principle (plants, fungi,
+deadwood, insects, plankton: the games never show them, but a forest without them can't feed a Butterfree) is added per
+biome, labelled as such.
 
 Level 2, functional analysis: the food web's links come, in order of trust, from a curated dossier
 (biology/dossiers/), from a species' own Pokédex entries (claims.py: its diet and named relationships), or from a
@@ -51,8 +52,11 @@ RESOURCES = {
                             "why": "Pokémon-world energy: several entries have Pokémon taking in electricity"},
     "moonlight": {"name": "Moonlight", "group": "abiotic", "biomes": [b for b in EVERY if b not in DARK]},
     "geothermal-heat": {"name": "Geothermal heat", "group": "abiotic", "biomes": [],
-                        "places": ["ice-path", "blackthorn-city", "dragons-den", "johto-route-45", "dark-cave", "johto-route-44"],
-                        "why": "geothermal ground in the Blackthorn highlands, Zack's call (A-64, 2026-10-26); a Blackthorn reading, since the games show no vents or magma there"},
+                        "places": ["ice-path", "blackthorn-city", "dragons-den", "johto-route-45", "dark-cave", "johto-route-44", "cinnabar-island"],
+                        "why": "geothermal ground in the Blackthorn highlands, Zack's call (A-64, 2026-10-26), a Blackthorn reading since the games show no vents "
+                               "or magma there; and Cinnabar Island, where the games say the volcano erupted and swept the town away a year ago and its mouth "
+                               "is still open (HeartGold's radio and the Pokémon Center there). Nowhere else in Kanto: its sea routes only see the volcano "
+                               "or the rocks it threw, and nothing in the games makes Mt. Silver volcanic"},
     "psychic-energy": {"name": "Dreams and emotions", "group": "abiotic", "biomes": ["urban", "tower", "ruins"],
                        "why": "Pokémon-world energy: entries have Pokémon feeding on dreams or feelings, so it follows people"},
     "trees": {"name": "Trees (wood, bark, sap)", "group": "producer", "biomes": ["forest", "woodland-edge", "montane", "urban"], "eats": ["sunlight", "soil"]},
@@ -87,7 +91,7 @@ RES_WORDS = [   # a dossier's non-Pokémon partner, read as one of the resources
     ("soil-invertebrates", r"worm|larva|grub"), ("detritus", r"dead|detritus|carrion|remains|dropping|guano|\bshed\b|corpse"),
     ("refuse", r"garbage|trash|refuse|waste|sludge"), ("soil", r"\bsoil|nutrient|\bground\b|\bearth\b|\bdirt"), ("rock", r"\brock|stone|mineral|boulder|\bore\b|iron|metal"),
     ("ambient-electricity", r"electric|lightning"), ("geothermal-heat", r"\bheat|magma|lava|geotherm|hot spring|volcan"),
-    ("psychic-energy", r"dream|emotion|feeling"), ("sunlight", r"\bsun"), ("moonlight", r"\bmoon"),
+    ("psychic-energy", r"dream|emotion|feeling|life force|life energy"), ("sunlight", r"\bsun"), ("moonlight", r"\bmoon"),
 ]
 DIET_RES = {   # a Pokédex diet category, read as the resources it could mean in a place
     "plants": ["foliage", "trees", "fruit", "moss"], "plants_water": ["algae", "kelp"], "soil": ["soil", "sunlight"], "nectar": ["flowers"],
@@ -104,6 +108,9 @@ TROPHIC = {"feeds_on", "parasitism"}
 ENERGY = {"sunlight", "moonlight", "ambient-electricity", "geothermal-heat", "psychic-energy", "soil"}   # using one of these is feeding on it
 FOODWORD = re.compile(r"\beat|\bfeed|\bfood|\bdiet|\bdrink|absorb|nutri|\bgraz|\bprey|\bsip|\bsuck", re.I)
 NONTROPHIC = {"mutualism", "commensalism", "host_of", "engineers", "disperses", "pollinates", "competes_with", "mimics", "rivalry"}
+# where the reference data and the HeartGold decomp disagree, the decomp's table wins (A-66): (place, species) -> the condition
+# the decomp gives it. Vermilion's Wingull is its surf swarm (gs_enc_data.json T06 surfSwarm), listed a second time without one.
+CORRECTIONS = {("vermilion-city", "Wingull"): "swarm"}
 CONDITIONAL = [("radio", r"^radio-"), ("swarm", r"^swarm-"), ("contest", r"^bug-catching-contest"), ("post-game", r"^story-progress-(national|beat)"),
                ("weekday", r"^weekday-"), ("safari", r"^johto-safari")]
 
@@ -111,6 +118,16 @@ CONDITIONAL = [("radio", r"^radio-"), ("swarm", r"^swarm-"), ("contest", r"^bug-
 def load(name):
     with open(os.path.join(MAN, name), encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def landscape():
+    """Johto and Kanto as one landscape: johto.json's biomes, both files' nodes, edges and flagship ecosystems."""
+    with open(os.path.join(HERE, "johto.json"), encoding="utf-8") as fh:
+        land = json.load(fh)
+    with open(os.path.join(HERE, "kanto.json"), encoding="utf-8") as fh:
+        kanto = json.load(fh)
+    return {"biomes": land["biomes"], "nodes": {**land["nodes"], **kanto["nodes"]}, "edges": land["edges"] + kanto["edges"],
+            "ecosystems": {**land["ecosystems"], **kanto["ecosystems"]}}
 
 
 def dossiers():
@@ -130,8 +147,7 @@ class Ecology:
         self.claims = {s["name"]: s for s in load("claims.json")["species"]}
         self.sp = {s["name"]: s for s in self.archive["species"]}
         self.areas = self.archive["areas"]
-        with open(os.path.join(HERE, "johto.json"), encoding="utf-8") as fh:
-            self.land = json.load(fh)
+        self.land = landscape()
         self.dos = dossiers()
 
     # ---- Level 1: who is found where ---------------------------------------------------------------------------
@@ -151,7 +167,7 @@ class Ecology:
                 rec["rate"] = max(rec["rate"], e["r"])
                 rec["levels"] = [min(rec["levels"][0], e["l"][0]), max(rec["levels"][1], e["l"][1])]
                 conds = [c for c in e.get("c", []) if not c.startswith("headbutt-tree") and not c.startswith("time-")]
-                kinds = {k for c in conds for k, pat in CONDITIONAL if re.match(pat, c)}
+                kinds = {k for c in conds for k, pat in CONDITIONAL if re.match(pat, c)} or ({CORRECTIONS[key, s["name"]]} if (key, s["name"]) in CORRECTIONS else set())
                 rec["conditions"] |= kinds
                 for t in e.get("t", []):
                     rec["times"].add(t)
@@ -279,10 +295,10 @@ class Ecology:
             for _, m, kind in sorted(cand)[:4]:
                 add(name, m, "hypothesis", "low", f"{kind} in its diet; {m} is smaller ({nodes[m]['mass']} kg against {n['mass']} kg) and found here at the same time")
         # the non-Pokémon life, and what it stands on
-        for rid in present_res:
+        for rid in sorted(present_res):
             r = RESOURCES[rid]
             nodes[rid] = {"id": rid, "kind": "resource", "name": r["name"], "short": SHORT.get(rid, r["name"]), "group": r["group"], **({"why": r["why"]} if r.get("why") else {})}
-        for rid in list(present_res):
+        for rid in sorted(present_res):
             for food in RESOURCES[rid].get("eats", []):
                 if food in present_res:
                     add(rid, food, "inferred", "high", "ecological principle: what this group lives on")
@@ -321,14 +337,15 @@ class Ecology:
     def build(self):
         comm = self.communities()
         webs = {}
+        region = lambda places: "/".join(sorted({self.land["nodes"][p]["region"] for p in places}))   # johto, kanto (or both)
         for key, e in self.land["ecosystems"].items():
-            webs[key] = {**self.web(key, e["places"], comm), "name": e["name"], "flagship": True, "why": e["why"]}
+            webs[key] = {**self.web(key, e["places"], comm), "name": e["name"], "flagship": True, "why": e["why"], "region": region(e["places"])}
         for key, n in self.land["nodes"].items():
             if key in webs or "managed" in n["biome"] or not any(r["status"] == "resident" for r in comm[key]):
                 continue
-            webs[key] = {**self.web(key, [key], comm), "name": n["name"], "flagship": False}
+            webs[key] = {**self.web(key, [key], comm), "name": n["name"], "flagship": False, "region": n["region"]}
         lines = line_disagreements(self.dos, self.sp)
-        return {"_note": "Built by engine/biology/ecology.py (v1 B6-B8). Communities from HeartGold/SoulSilver's encounter tables; webs from dossiers, claims and stated rules; every link has its evidence class.",
+        return {"_note": "Built by engine/biology/ecology.py (v1 B6-B8; Kanto A-66). Communities from HeartGold/SoulSilver's encounter tables, Johto and Kanto; webs from dossiers, claims and stated rules; every link has its evidence class.",
                 "resources": RESOURCES, "landscape": {"biomes": self.land["biomes"], "nodes": self.land["nodes"], "edges": self.land["edges"]},
                 "communities": comm, "webs": webs, "line_disagreements": lines}
 

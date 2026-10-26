@@ -6,8 +6,9 @@ that need it (web/36_ecology.html, 95_biology.html).
 - biology.json   every Gen I-IV species' natural history: game data, every Pokédex entry (all 16 versions, with ids),
                  the claims they split into, and the machine reading (diet, guild, habitats, activity, relationships,
                  what nobody has said): the field guide's source for all 493
-- dossiers.json  the curated dossiers (biology/dossiers/), each statement with its evidence class and citations
-- ecology.json   Johto as a landscape, every place's community, and the food webs with their analysis (biology/ecology.py)
+- dossiers.json  the curated dossiers (biology/dossiers/), each statement with its evidence class and citations, and the
+                 groups they were written in (biology/evidence.py COHORT), which the Field Biology home shows
+- ecology.json   Johto and Kanto as one landscape, every place's community, and the food webs with their analysis (biology/ecology.py)
 - ecotypes.json  egg moves read as ecotypes, curated and machine (biology/ecotypes.py), compact, with the reading of
                  every Gen I-IV move by the same rules (the breeding-stock page reads whole starting sets with it)
 - ranges.json    where each species lives in every Gen I-IV game (area, method, rate, levels, time, conditions)
@@ -21,7 +22,7 @@ ENGINE = os.path.dirname(HERE)
 sys.path.insert(0, ENGINE)
 
 from biology import claims as C  # noqa: E402
-from biology.evidence import Evidence  # noqa: E402
+from biology.evidence import COHORT, Evidence  # noqa: E402
 
 MAN = os.path.join(ENGINE, "data_manifest", "biology")
 OUT = os.path.join(HERE, "data")
@@ -67,7 +68,7 @@ def main():
                 with open(os.path.join(DOS, f), encoding="utf-8") as fh:
                     d = json.load(fh)
                 dos[d["species"]] = d
-    sizes["dossiers.json"] = dump("dossiers.json", {"_note": "the curated dossiers (engine/biology/dossiers/), drafts until approved", "dossiers": dos})
+    sizes["dossiers.json"] = dump("dossiers.json", {"_note": "the curated dossiers (engine/biology/dossiers/), drafts until approved", "cohorts": COHORT, "dossiers": dos})
     eco = load("ecology.json")
     sizes["ecology.json"] = dump("ecology.json", eco)
     et = load("ecotypes.json")

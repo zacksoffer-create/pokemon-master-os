@@ -4,7 +4,7 @@
    #/biology/<species>  one species: its dossier (each statement with its evidence class and citations) or its field
                         guide (every Pokédex claim by domain, the machine reading labelled as such), its niche, where it
                         lives, the webs it's in, its ecotypes, and every Pokédex entry
-   #/ecosystems         Johto as a landscape, and every place's community
+   #/ecosystems         Johto and Kanto as one landscape (?region=johto or kanto for one), and every place's community
    #/ecosystem/<key>    one place or flagship ecosystem: its community, the food web with every link's evidence, the
                         analysis, secondary extinctions you can try, and the Level 3 model
    #/ecotypes           egg moves read as ecotypes, and your Pokémon's
@@ -15,10 +15,8 @@ var BIO_SECTIONS = [['anatomy', 'Anatomy'], ['diet', 'Diet and foraging'], ['hab
   ['defense', 'Defence'], ['senses', 'Senses'], ['life_cycle', 'Life cycle'], ['moves_in_the_wild', 'Moves in the wild'], ['ecology', 'Role in the ecosystem'], ['humans', 'People'], ['homestead', 'At the homestead']];
 var BIO_DOMAINS = [['anatomy', 'Anatomy'], ['diet', 'Diet'], ['habitat', 'Habitat'], ['behavior', 'Behaviour'], ['social', 'Social life'], ['reproduction', 'Reproduction'], ['defense', 'Defence'],
   ['senses', 'Senses'], ['powers', 'Powers'], ['life_cycle', 'Life cycle'], ['humans', 'People'], ['other', 'Other notes']];
-var BIO_COHORT = {'Written first: the v1 journeys\' companions': ['Feraligatr', 'Miltank', 'Donphan', 'Ampharos', 'Umbreon', 'Espeon', 'Charizard', 'Blastoise', 'Venusaur', 'Alakazam', 'Jolteon', 'Machamp', 'Swampert', 'Milotic', 'Altaria', 'Arcanine', 'Absol', 'Meganium',
-  'Infernape', 'Weavile', 'Roserade', 'Lucario', 'Garchomp', 'Magnezone', 'Pikachu', 'Dragonite', 'Empoleon', 'Gengar', 'Scizor', 'Typhlosion', 'Tyranitar', 'Mamoswine', 'Crobat', 'Lapras', 'Snorlax'],
-  'Ilex Forest': ['Caterpie', 'Metapod', 'Butterfree', 'Weedle', 'Kakuna', 'Beedrill', 'Oddish', 'Paras', 'Zubat', 'Hoothoot', 'Noctowl', 'Pineco', 'Psyduck', 'Golduck', 'Poliwag', 'Magikarp'],
-  'The Blackthorn highlands': ['Dratini', 'Dragonair', 'Swinub', 'Delibird', 'Jynx', 'Geodude', 'Graveler', 'Golbat', 'Wobbuffet', 'Dunsparce', 'Goldeen', 'Seaking', 'Magcargo']};
+var BIO_REGION = {johto: 'Johto', kanto: 'Kanto'};
+function bioRegion(r) { return String(r || '').split('/').map(function (x) { return BIO_REGION[x] || x; }).join(' and '); }
 var BIOME_COLOR = {forest: '#5E8F68', 'woodland-edge': '#7CAA8C', grassland: '#B9C77A', pasture: '#C9B77A', wetland: '#6FA9A8', lake: '#5C93B8', river: '#7FB6D6', coast: '#D8C9A0', sea: '#3F6E99',
   cave: '#7A6E66', 'sea-cave': '#5B6F80', 'ice-cave': '#BFE3EE', montane: '#9A8F7A', alpine: '#E6EEF2', urban: '#C9A96A', ruins: '#A99071', tower: '#8C7BC9', 'sacred-pool': '#9CCBDD', managed: '#B08FB0'};
 function bioSpr(name, size) { var n = numOf(name); return n ? '<img src="' + sprite(n, 'heartgold') + '" alt="" style="width:' + (size || 32) + 'px;height:' + (size || 32) + 'px;image-rendering:pixelated;vertical-align:middle">' : ''; }
@@ -57,7 +55,8 @@ function biologyHome(query) {
     var B = Eco.D().biology, DS = Eco.D().dossiers.dossiers, E = Eco.D().ecology;
     var yours = [], cohort = {};   // v2.1: your own Pokémon first (the fresh start, D-078), then the cohorts the dossiers were written for
     Object.keys((S.store || {}).individuals || {}).forEach(function (k) { var sp = S.store.individuals[k].species; if (sp && yours.indexOf(sp) < 0) yours.push(sp); });
-    if (yours.length) cohort['Yours'] = yours; Object.keys(BIO_COHORT).forEach(function (g) { cohort[g] = BIO_COHORT[g]; });
+    var groups0 = Eco.D().dossiers.cohorts || {};   // the groups the dossiers were written in (biology/evidence.py COHORT, via the pack)
+    if (yours.length) cohort['Yours'] = yours; Object.keys(groups0).forEach(function (g) { cohort[g] = groups0[g]; });
     var nE = B.species.reduce(function (t, s) { return t + s.e.length; }, 0), nC = B.species.reduce(function (t, s) { return t + s.c.length; }, 0);
     var nRev = Object.keys(Eco.D()._reviews || {}).length;
     after(function () { var f = document.getElementById('biofind'); f.onkeydown = function (e) { if (e.key === 'Enter') { var s = Eco.species(this.value.trim()); if (s) nav('#/biology/' + encodeURIComponent(s.name)); else toast('No species called ' + esc(this.value)); } }; });
@@ -71,9 +70,9 @@ function biologyHome(query) {
       '<div class="kpi"><div class="tiny muted">Curated dossiers</div><b style="font-size:22px">' + Object.keys(DS).length + '</b><div class="tiny muted">drafts for your review</div></div><div class="kpi"><div class="tiny muted">Food webs</div><b style="font-size:22px">' + Object.keys(E.webs).length + '</b><div class="tiny muted"><a href="#/ecosystems">Ecosystems →</a></div></div>' +
       '<div class="kpi"><div class="tiny muted">Your reviews</div><b style="font-size:22px">' + nRev + '</b><div class="tiny muted">in the Journal</div></div></div>' +
       '<div class="grid" style="margin-top:18px"><div class="c8">' + card('The dossiers', '<p class="small muted">Written from each species\' evidence pack and nothing else, every statement cited. Drafts until you approve them.</p>' + groups, {tools: false}) + '</div>' +
-      '<div class="c4">' + card('Any species', '<input class="f" id="biofind" placeholder="A name or a Pokédex number, then Enter"><p class="tiny muted" style="margin-top:8px">The other 429 have a field guide: every claim by domain and the machine\'s reading of diet, habitat and relationships, labelled as machine-made.</p>' +
+      '<div class="c4">' + card('Any species', '<input class="f" id="biofind" placeholder="A name or a Pokédex number, then Enter"><p class="tiny muted" style="margin-top:8px">The other ' + (B.species.length - Object.keys(DS).length) + ' have a field guide: every claim by domain and the machine\'s reading of diet, habitat and relationships, labelled as machine-made.</p>' +
         '<div style="margin-top:8px"><a class="btn sm" href="#/ecosystems">Ecosystems</a> <a class="btn sm" href="#/ecotypes">Ecotypes</a></div>', {tools: false}) +
-        card('Questions for you', '<p class="small">The dossier writers left the calls only you can make in <a href="#/calls">Your calls</a> (docs/biology_findings_v1.md has them in full). Two lines are filed differently from one stage to the next:</p>' + lines, {tools: false, style: 'margin-top:18px'}) + '</div></div>';
+        card('Questions for you', '<p class="small">The dossier writers left the calls only you can make in <a href="#/calls">Your calls</a> (docs/biology_findings_v1.md has them in full). ' + ((E.line_disagreements || []).length === 1 ? 'One line is' : (E.line_disagreements || []).length + ' lines are') + ' filed differently from one stage to the next:</p>' + lines, {tools: false, style: 'margin-top:18px'}) + '</div></div>';
   });
 }
 
@@ -212,7 +211,7 @@ function bioNiche(s, d) {
 }
 function bioWebs(s, E) {
   var ins = Object.keys(E.webs).filter(function (k) { return E.webs[k].nodes.some(function (n) { return n.id === s.name; }); });
-  if (!ins.length) return card('In the food webs', '<div class="tiny muted">Not a resident of any Johto place in HeartGold/SoulSilver.</div>', {tools: false, style: 'margin-top:18px'});
+  if (!ins.length) return card('In the food webs', '<div class="tiny muted">Not a resident of any place in Johto or Kanto in HeartGold/SoulSilver.</div>', {tools: false, style: 'margin-top:18px'});
   return card('In the food webs', ins.slice(0, 12).map(function (k) { var w = E.webs[k], eats = w.links.filter(function (l) { return l.from === s.name; }).map(function (l) { return l.to; }), eatenBy = w.links.filter(function (l) { return l.to === s.name; }).map(function (l) { return l.from; });
     var nm = function (id) { var n = w.nodes.filter(function (x) { return x.id === id; })[0]; return n ? n.name : id; };
     return '<div class="small" style="margin:6px 0"><a href="#/ecosystem/' + k + '"><b>' + esc(w.name) + '</b></a>' + (w.flagship ? ' ' + chip('flagship', 'gold') : '') + ' · TL ' + (w.analysis.tl[s.name] || '—') +
@@ -233,36 +232,45 @@ function bioEcotypes(s) {
 function bioRanges(s, R) {
   var g = R.species[s.name]; if (!g) return 'Not found in the wild in any Gen I–IV game: a gift, a trade, an evolution or an event only.';
   var V = Eco.D().biology.versions, keys = ['red', 'blue', 'yellow', 'gold', 'silver', 'crystal', 'ruby', 'sapphire', 'emerald', 'firered', 'leafgreen', 'diamond', 'pearl', 'platinum', 'heartgold', 'soulsilver'];
-  var john = Object.keys(Eco.D().ecology.communities).filter(function (k) { return Eco.D().ecology.communities[k].some(function (r) { return r.species === s.name; }); });
-  return (john.length ? '<div class="small" style="margin-bottom:8px">In Johto (HeartGold/SoulSilver): ' + john.map(function (k) { var r = Eco.D().ecology.communities[k].filter(function (x) { return x.species === s.name; })[0];
-    return '<a href="#/ecosystem/' + k + '">' + esc(Eco.D().ecology.landscape.nodes[k].name) + '</a>' + (r.status !== 'resident' ? ' <span class="muted">(' + esc(r.conditions.join(', ') || r.status) + ')</span>' : ''); }).join(', ') + '</div>' : '') +
+  var john = Object.keys(Eco.D().ecology.communities).filter(function (k) { return Eco.D().ecology.communities[k].some(function (r) { return r.species === s.name; }); }), LN = Eco.D().ecology.landscape.nodes;
+  var place = function (k) { var r = Eco.D().ecology.communities[k].filter(function (x) { return x.species === s.name; })[0];
+    return '<a href="#/ecosystem/' + k + '">' + esc(LN[k].name) + '</a>' + (r.status !== 'resident' ? ' <span class="muted">(' + esc(r.conditions.join(', ') || r.status) + ')</span>' : ''); };
+  return ['johto', 'kanto'].map(function (reg) { var ks = john.filter(function (k) { return LN[k].region === reg; });
+    return ks.length ? '<div class="small" style="margin-bottom:8px">In ' + bioRegion(reg) + ' (HeartGold/SoulSilver): ' + ks.map(place).join(', ') + '</div>' : ''; }).join('') +
     '<details><summary class="tiny muted">Every game\'s tables</summary>' + keys.filter(function (k) { return g[k]; }).map(function (k) {
       var by = {}; g[k].forEach(function (e) { var a = R.areas[e[0]]; (by[a] = by[a] || []).push(e[1] + (e[5] ? '/' + e[5] : '') + ' ' + e[2] + '%' + (e[6] && !/headbutt-tree/.test(e[6]) ? ' [' + e[6] + ']' : '')); });
       return '<div class="tiny" style="margin:4px 0"><b>' + esc(V[keys.indexOf(k)]) + '</b>: ' + Object.keys(by).slice(0, 18).map(function (a) { return esc(a) + ' <span class="muted">' + esc(by[a].slice(0, 3).join('; ')) + '</span>'; }).join(' · ') + '</div>'; }).join('') + '</details>';
 }
 
-/* ---- #/ecosystems ---- */
-function ecosystemsPage() {
+/* ---- #/ecosystems[?region=johto|kanto] ---- */
+function ecosystemsPage(query) {
+  var reg = qparse(query).region; if (!BIO_REGION[reg]) reg = '';
   return bioReady(['biology', 'ecology']).then(function () {
     var E = Eco.D().ecology, L = E.landscape, C = E.communities;
-    var xs = Object.keys(L.nodes).map(function (k) { return L.nodes[k].xy; }), minx = Math.min.apply(null, xs.map(function (p) { return p[0]; })), maxx = Math.max.apply(null, xs.map(function (p) { return p[0]; })),
+    var keys = Object.keys(L.nodes).filter(function (k) { return !reg || L.nodes[k].region === reg; }), inReg = function (w) { return !reg || String(w.region || '').split('/').indexOf(reg) >= 0; };
+    var xs = keys.map(function (k) { return L.nodes[k].xy; }), minx = Math.min.apply(null, xs.map(function (p) { return p[0]; })), maxx = Math.max.apply(null, xs.map(function (p) { return p[0]; })),
       miny = Math.min.apply(null, xs.map(function (p) { return p[1]; })), maxy = Math.max.apply(null, xs.map(function (p) { return p[1]; }));
-    var W = 1000, H = 620, px = function (p) { return [30 + (p[0] - minx) / (maxx - minx) * (W - 60), 30 + (p[1] - miny) / (maxy - miny) * (H - 60)]; };
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="biomap">' + L.edges.map(function (e) { var a = px(L.nodes[e[0]].xy), b = px(L.nodes[e[1]].xy);
-      return '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" class="e-' + e[2] + '"/>'; }).join('') +
-      Object.keys(L.nodes).map(function (k) { var n = L.nodes[k], p = px(n.xy), res = (C[k] || []).filter(function (r) { return r.status === 'resident'; }).length, r = 5 + Math.sqrt(res) * 2.6;
-        return '<a href="#/ecosystem/' + k + '"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + r + '" fill="' + (BIOME_COLOR[n.biome[0]] || '#888') + '"><title>' + esc(n.name + ' · ' + n.biome.join(', ') + ' · ' + res + ' resident species') + '</title></circle>' +
-          '<text x="' + p[0] + '" y="' + (p[1] - r - 3) + '">' + esc(n.name.replace(/^Johto /, '').replace(/^Route /, 'R')) + '</text></a>'; }).join('') + '</svg>';
-    var flag = Object.keys(E.webs).filter(function (k) { return E.webs[k].flagship; }).map(function (k) { var w = E.webs[k], a = w.analysis;
+    var W = 1000, sc = (W - 60) / Math.max(maxx - minx, 1), H = Math.round(60 + (maxy - miny) * sc), px = function (p) { return [30 + (p[0] - minx) * sc, 30 + (p[1] - miny) * sc]; };   // one scale both ways
+    var both = !reg, label = function (n) { var t = n.name.replace(/^Johto /, '').replace(/^Kanto /, ''); return t.replace(/^Sea Route /, both ? 'S' : 'Sea R').replace(/^Route /, 'R'); };
+    var regs = both ? ['johto', 'kanto'].map(function (r) { var ks = keys.filter(function (k) { return L.nodes[k].region === r; }), mx = ks.reduce(function (t, k) { return t + L.nodes[k].xy[0]; }, 0) / ks.length;
+      return '<text class="reg" x="' + px([mx, 0])[0] + '" y="14">' + esc(bioRegion(r).toUpperCase()) + '</text>'; }).join('') : '';
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="biomap' + (both ? ' both' : '') + '">' + regs + L.edges.filter(function (e) { return keys.indexOf(e[0]) >= 0 && keys.indexOf(e[1]) >= 0; }).map(function (e) { var a = px(L.nodes[e[0]].xy), b = px(L.nodes[e[1]].xy);
+      return '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" class="e-' + e[2] + '"><title>' + esc(L.nodes[e[0]].name + ' – ' + L.nodes[e[1]].name + ' (' + ({rail: 'the Magnet Train', ship: 'the S.S. Aqua'}[e[2]] || e[2]) + ')') + '</title></line>'; }).join('') +
+      keys.map(function (k) { var n = L.nodes[k], p = px(n.xy), res = (C[k] || []).filter(function (r) { return r.status === 'resident'; }).length, r = (both ? 4 : 5) + Math.sqrt(res) * (both ? 1.9 : 2.6);
+        return '<a href="#/ecosystem/' + k + '"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + r + '" fill="' + (BIOME_COLOR[n.biome[0]] || '#888') + '"><title>' + esc(n.name + ' · ' + bioRegion(n.region) + ' · ' + n.biome.join(', ') + ' · ' + res + ' resident species') + '</title></circle>' +
+          '<text x="' + p[0] + '" y="' + (p[1] - r - 3) + '">' + esc(label(n)) + '</text></a>'; }).join('') + '</svg>';
+    var tabs = '<div class="biotabs">' + [['', 'Both'], ['johto', 'Johto'], ['kanto', 'Kanto']].map(function (t) { return '<a class="btn sm' + (t[0] === reg ? '' : ' ghost') + '" href="#/ecosystems' + (t[0] ? '?region=' + t[0] : '') + '">' + t[1] + '</a>'; }).join(' ') + '</div>';
+    var flag = Object.keys(E.webs).filter(function (k) { return E.webs[k].flagship && inReg(E.webs[k]); }).map(function (k) { var w = E.webs[k], a = w.analysis;
       return '<div class="c6">' + card('<a href="#/ecosystem/' + k + '">' + esc(w.name) + '</a>', '<p class="small">' + esc(w.why) + '</p><div class="tiny">' + a.species + ' resident species · ' + a.links + ' links · top: ' + a.top.slice(0, 5).map(esc).join(', ') + (a.missing.length ? ' · missing: ' + a.missing.join(', ') : '') + '</div>' +
-        '<div style="margin-top:6px">' + w.nodes.filter(function (n) { return n.kind === 'pokemon'; }).map(function (n) { return bioSpr(n.id, 30); }).join('') + '</div>', {eyebrow: 'Flagship ecosystem', tools: false}) + '</div>'; }).join('');
-    var rows = Object.keys(E.webs).filter(function (k) { return !E.webs[k].flagship; }).sort(function (a, b) { return E.webs[b].analysis.species - E.webs[a].analysis.species; }).map(function (k) { var w = E.webs[k], a = w.analysis;
-      return '<tr class="click" onclick="nav(\'#/ecosystem/' + k + '\')"><td><b>' + esc(w.name) + '</b><div class="tiny muted">' + esc(w.biomes.join(', ')) + '</div></td><td>' + a.species + '</td><td class="tiny">' + a.top.slice(0, 3).map(esc).join(', ') + '</td><td class="tiny">' + (a.missing.join(', ') || '—') + '</td><td class="tiny">' + (a.keystones[0] ? esc(a.keystones[0].id) + ' (' + a.keystones[0].lost.length + ')' : '—') + '</td></tr>'; }).join('');
-    return '<div class="eyebrow">Field Biology · ecosystems</div><h1 style="margin:6px 0">Johto as a living landscape</h1>' +
-      '<p class="lede">Every place in HeartGold and SoulSilver, joined the way the games join them, each with the community its encounter tables describe. An encounter rate says how often you meet something, not how many there are, so these are reconstructions: who is present, when, and how, with the plants, fungi, insects and plankton a habitat needs by principle added and labelled.</p>' +
-      card('The map', svg + '<div class="tiny muted">Circles: places, coloured by biome and sized by resident species. Lines: paths, caves and sea routes. Tap a place.</div><div class="tiny" style="margin-top:6px">' + Object.keys(L.biomes).filter(function (b) { return BIOME_COLOR[b]; }).map(function (b) { return '<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px"><i style="width:10px;height:10px;border-radius:50%;background:' + BIOME_COLOR[b] + ';display:inline-block"></i>' + esc(b) + '</span>'; }).join('') + '</div>', {tools: false, style: 'margin-top:16px'}) +
+        '<div style="margin-top:6px">' + w.nodes.filter(function (n) { return n.kind === 'pokemon'; }).map(function (n) { return bioSpr(n.id, 30); }).join('') + '</div>', {eyebrow: 'Flagship ecosystem · ' + bioRegion(w.region), tools: false}) + '</div>'; }).join('');
+    var rows = Object.keys(E.webs).filter(function (k) { return !E.webs[k].flagship && inReg(E.webs[k]); }).sort(function (a, b) { return E.webs[b].analysis.species - E.webs[a].analysis.species; }).map(function (k) { var w = E.webs[k], a = w.analysis;
+      return '<tr class="click" onclick="nav(\'#/ecosystem/' + k + '\')"><td><b>' + esc(w.name) + '</b><div class="tiny muted">' + esc(w.biomes.join(', ')) + '</div></td><td class="tiny">' + esc(bioRegion(w.region)) + '</td><td>' + a.species + '</td><td class="tiny">' + a.top.slice(0, 3).map(esc).join(', ') + '</td><td class="tiny">' + (a.missing.join(', ') || '—') + '</td><td class="tiny">' + (a.keystones[0] ? esc(a.keystones[0].id) + ' (' + a.keystones[0].lost.length + ')' : '—') + '</td></tr>'; }).join('');
+    var title = reg ? bioRegion(reg) + ' as a living landscape' : 'Johto and Kanto as a living landscape';
+    return '<div class="eyebrow">Field Biology · ecosystems</div><h1 style="margin:6px 0">' + esc(title) + '</h1>' +
+      '<p class="lede">Every place in HeartGold and SoulSilver, Johto and Kanto alike, joined the way the games join them: on foot, through caves, by sea, and by the Magnet Train and the S.S. Aqua. Each has the community its encounter tables describe. An encounter rate says how often you meet something, not how many there are, so these are reconstructions: who is present, when, and how, with the plants, fungi, insects and plankton a habitat needs by principle added and labelled.</p>' +
+      card('The map', tabs + '<div class="biomapwrap">' + svg + '</div><div class="tiny muted">Circles: places, coloured by biome and sized by resident species. Lines: paths, caves, sea routes, the Magnet Train (Goldenrod to Saffron) and the S.S. Aqua (Olivine to Vermilion). Kanto lies east of Johto, as the games\' own map has it. Tap a place.</div><div class="tiny" style="margin-top:6px">' + Object.keys(L.biomes).filter(function (b) { return BIOME_COLOR[b]; }).map(function (b) { return '<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px"><i style="width:10px;height:10px;border-radius:50%;background:' + BIOME_COLOR[b] + ';display:inline-block"></i>' + esc(b) + '</span>'; }).join('') + '</div>', {tools: false, style: 'margin-top:16px'}) +
       '<div class="grid" style="margin-top:18px">' + flag + '</div>' +
-      card('Every place', '<table class="t"><thead><tr><th>Place</th><th>Residents</th><th>On top</th><th>No Pokémon in</th><th>Keystone (Pokémon lost)</th></tr></thead><tbody>' + rows + '</tbody></table>', {tools: false, style: 'margin-top:18px'});
+      card('Every place', '<div class="biotable"><table class="t"><thead><tr><th>Place</th><th>Region</th><th>Residents</th><th>On top</th><th>No Pokémon in</th><th>Keystone (Pokémon lost)</th></tr></thead><tbody>' + rows + '</tbody></table></div>', {tools: false, style: 'margin-top:18px'});
   });
 }
 
@@ -274,7 +282,7 @@ function ecosystemPage(key) {
     if (!w) {
       var n = L.nodes[key]; if (!n) return '<div class="notice">No place called ' + esc(key) + '.</div>';
       comm = E.communities[key] || [];
-      return '<div class="eyebrow">Field Biology · a place</div><h1 style="margin:6px 0">' + esc(n.name) + '</h1><p class="lede">' + esc(n.note || n.biome.join(', ')) + '</p>' + ecoCommunity(comm) +
+      return '<div class="eyebrow">Field Biology · a place in ' + esc(bioRegion(n.region)) + '</div><h1 style="margin:6px 0">' + esc(n.name) + '</h1><p class="lede">' + esc(n.note || n.biome.join(', ')) + '</p>' + ecoCommunity(comm) +
         '<div class="notice" style="margin-top:12px">' + (n.biome.indexOf('managed') >= 0 ? 'A managed reserve: its habitat is arranged by people, so it is described, not reconstructed.' : 'No resident Pokémon here, so there is no web to build.') + '</div>';
     }
     ECO_CUR = {key: key, web: w, removed: []};
@@ -289,7 +297,7 @@ function ecosystemPage(key) {
         return '<div class="tiny" style="margin:3px 0 0 30px">eats <b>' + esc(nm(l.to)) + '</b> ' + bioClass(l['class'], l.confidence) + ' <span class="muted">' + esc(l.why) + '</span> ' + bioEvidence(l.evidence) + ' ' + bioReview(key + '/' + k + '>' + l.to, k) + '</div>'; }).join('') + '</div>'; }).join('');
     var nont = (w.nontrophic || []).map(function (l) { return '<div class="tiny" style="margin:3px 0">' + esc(l.from) + ' ' + chip(l.kind.replace(/_/g, ' '), '') + ' ' + esc(nm(l.to)) + ' ' + bioClass(l['class']) + ' <span class="muted">' + esc(l.why || '') + '</span></div>'; }).join('');
     var opts = w.nodes.filter(function (n) { return n.group !== 'abiotic'; }).map(function (n) { return '<option value="' + esc(n.id) + '">' + esc(n.name) + '</option>'; }).join('');
-    return '<div class="eyebrow">Field Biology · ' + (w.flagship ? 'flagship ecosystem' : 'a place') + '</div><h1 style="margin:6px 0">' + esc(w.name) + '</h1>' +
+    return '<div class="eyebrow">Field Biology · ' + (w.flagship ? 'flagship ecosystem' : 'a place') + (w.region ? ' in ' + esc(bioRegion(w.region)) : '') + '</div><h1 style="margin:6px 0">' + esc(w.name) + '</h1>' +
       '<p class="lede">' + esc(w.why || (L.nodes[key] && L.nodes[key].note) || '') + ' <span class="tiny muted">' + esc(w.biomes.join(', ')) + '</span></p>' +
       '<div class="kpis" style="margin-top:12px"><div class="kpi"><div class="tiny muted">Resident species</div><b style="font-size:22px">' + a.species + '</b></div><div class="kpi"><div class="tiny muted">Links</div><b style="font-size:22px">' + a.links + '</b><div class="tiny muted">connectance ' + a.connectance + '</div></div>' +
       '<div class="kpi"><div class="tiny muted">On top</div><b>' + a.top.slice(0, 4).map(esc).join(', ') + '</b></div><div class="kpi"><div class="tiny muted">No Pokémon in</div><b>' + (a.missing.join(', ') || 'every role filled') + '</b></div></div>' +
@@ -386,7 +394,7 @@ function ecotypesPage(query) {
 
 route(/^\/biology\/?(\?.*)?$/, biologyHome, 'Field Biology', '#/biology');
 route(/^\/biology\/([^/?]+)\/?$/, bioSpecies, function (k) { return 'Field Biology · ' + k; }, '#/biology');
-route(/^\/ecosystems\/?$/, ecosystemsPage, 'Field Biology · ecosystems', '#/ecosystems');
+route(/^\/ecosystems\/?(\?.*)?$/, ecosystemsPage, 'Field Biology · ecosystems', '#/ecosystems');
 route(/^\/ecosystem\/([a-z0-9-]+)\/?$/, ecosystemPage, function (k) { return 'Field Biology · ' + k.replace(/-/g, ' '); }, '#/ecosystems');
 route(/^\/ecotypes\/?(\?.*)?$/, ecotypesPage, 'Field Biology · ecotypes', '#/ecotypes');
 </script>

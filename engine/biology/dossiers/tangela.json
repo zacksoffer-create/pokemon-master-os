@@ -1,0 +1,92 @@
+{
+  "species": "Tangela",
+  "id": 114,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A walking mass of thick blue vines, wide like seaweed and covered in fine hair, that hides whatever is inside: no one has seen the face behind them. The vines are always jiggling and swaying; they unnerve foes, tangle any moving thing that gets close, and tickle whoever is caught. Grabbed, they snap off painlessly so it can get away, and grow back the very next day; they are said never to stop growing. Its adult, Tangrowth, stands still like a shrub and ensnares prey that wanders near. In HeartGold and SoulSilver it lives on Route 44 below Blackthorn, on Route 28 and Mt. Silver, in the grass of Sea Route 21, and in the trees of the routes around Fuchsia.",
+  "sections": {
+    "anatomy": [
+      {"text": "A legged mass of vines (Gen 4 shape legs), 1.0 m and 35.0 kg, typed Grass: the Vine Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its whole body is swathed with wide blue vines, similar to seaweed and covered in fine hair; its identity is hidden behind them.", "class": "canon", "confidence": "high", "evidence": ["114.1", "114.2", "114.8", "114.9", "114.10", "114.11", "C114.1", "C114.3", "C114.15", "C114.17", "C114.19", "C114.20", "C114.21"]},
+      {"text": "The vines snap off easily and painlessly if grabbed, and are replaced by new growth the very next day.", "class": "canon", "confidence": "high", "evidence": ["114.6", "114.7", "C114.10", "C114.11", "C114.12", "C114.13", "C114.14"], "analogy": "Real lizards drop their tails to escape and regrow them, though more slowly."}
+    ],
+    "diet": [
+      {"text": "No entry says what Tangela eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Grass-typed with Chlorophyll and Leaf Guard, and Absorb (Lv 8), Mega Drain (Lv 26) and Ingrain in its list: in game terms a sun-fed plant that can root and drain.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types", "game:abilities", "move:Absorb", "move:Mega Drain", "move:Ingrain"]},
+      {"text": "It entangles anything that gets close, and its adult ensnares prey that wanders near (465.3): the line may catch animals as well as live on light.", "class": "hypothesis", "confidence": "low", "evidence": ["114.8", "465.1", "465.3", "species:Tangrowth"], "analogy": "Real sundews and pitcher plants live on sunlight and catch insects for what the soil lacks."}
+    ],
+    "habitat": [
+      {"text": "No entry says where it lives; the Gen 3 Pokédex habitat is grassland.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is in the grass of Route 44 (30%), Route 28 and Mt. Silver (Lv 39-41), and of Sea Route 21 by morning and night; and in the trees (Headbutt) on Routes 12, 13, 14, 15 and 18 and at Fuchsia City; in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Its vines are always jiggling and shake or sway as it walks.", "class": "canon", "confidence": "high", "evidence": ["114.1", "114.3", "114.9", "C114.2", "C114.5", "C114.18"]},
+      {"text": "It tangles any moving thing with its vines; their subtle shaking is ticklish if you get ensnared.", "class": "canon", "confidence": "high", "evidence": ["114.4", "114.8", "C114.7", "C114.8", "C114.16"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time except on Sea Route 21 (morning and night).", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Tangela living together.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Grass egg group, 20 egg cycles, an even sex ratio, medium growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its jiggling vines effectively unnerve its foes; in battle it moves them constantly to annoy its opponent.", "class": "canon", "confidence": "high", "evidence": ["114.3", "114.5", "C114.6", "C114.9"]},
+      {"text": "Grabbed, its vines snap off without pain, allowing a quick getaway.", "class": "canon", "confidence": "high", "evidence": ["114.6", "114.7"]},
+      {"text": "Sleep Powder (Lv 5), Poison Powder (Lv 15) and Stun Spore (Lv 29), with Constrict and Bind: powders and holds.", "class": "mechanic", "confidence": "high", "evidence": ["move:Sleep Powder", "move:Poison Powder", "move:Stun Spore", "move:Bind"]}
+    ],
+    "senses": [
+      {"text": "It tangles any moving thing: it senses movement, in some way.", "class": "inferred", "confidence": "medium", "evidence": ["114.4"]},
+      {"text": "It is known to be ticklish.", "class": "canon", "confidence": "high", "evidence": ["114.11", "C114.22"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Tangrowth when it levels up knowing Ancient Power (Lv 33): from 1.0 m and 35.0 kg to 2.0 m and 128.6 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Tangrowth", "move:Ancient Power"]},
+      {"text": "Its vines are said never to stop growing.", "class": "canon", "confidence": "low", "evidence": ["114.2", "C114.4"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Ingrain, Constrict, Sleep Powder, Absorb, Growth, Poison Powder, Vine Whip, Bind, Mega Drain, Stun Spore, Ancient Power, Knock Off and Natural Gift: vines, powders and draining.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Vine Whip", "move:Ingrain", "move:Growth"]}
+    ],
+    "ecology": [
+      {"text": "A producer, if it lives on sunlight, and perhaps a trapper of small animals too.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types", "465.3"]},
+      {"text": "Vines it sheds when grabbed, regrown the next day, leave plant matter on the ground for whatever eats it.", "class": "inferred", "confidence": "low", "evidence": ["114.6"]},
+      {"text": "On Routes 12 to 15 it shares the trees and grass with Chansey, Nidorina, Nidorino and Hoppip; on Route 44 with Bellsprout, Weepinbell, Lickitung and Poliwhirl.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chansey", "species:Hoppip"]}
+    ],
+    "humans": [
+      {"text": "No one has seen the face hidden behind its vines.", "class": "canon", "confidence": "high", "evidence": ["114.10"]},
+      {"text": "Getting ensnared is ticklish, by 114.4; the entries make it a nuisance rather than a danger.", "class": "canon", "confidence": "medium", "evidence": ["114.4"]}
+    ],
+    "homestead": [
+      {"text": "Its vines tangle anything that moves: keep it away from the hen-house and the washing line.", "class": "canon", "confidence": "medium", "evidence": ["114.4", "114.8"]},
+      {"text": "Its shed vines regrow overnight: a renewable source of cord and fibre, if they can be used.", "class": "hypothesis", "confidence": "low", "evidence": ["114.6"]},
+      {"text": "The heap of blue vines by the compost that moved, and the cat that came out of it laughing, if cats laugh.", "class": "creative", "evidence": ["114.4"]}
+    ]
+  },
+  "niche": {"guild": "mixotroph", "trophic_level": 1.5, "microhabitat": ["grass and roadside trees", "highland and coastal routes"], "activity": "unknown",
+            "foraging": "unknown; most likely sun-fed, and it entangles anything that comes close", "evidence": ["game:abilities", "114.8", "465.3"], "class": "hypothesis", "confidence": "low",
+            "note": "Read from its type and abilities and from Tangrowth's ensnaring of prey; no entry gives Tangela's diet."},
+  "relationships": [
+    {"with": "sunlight", "kind": "uses_resource", "class": "hypothesis", "confidence": "low", "evidence": ["game:types", "game:abilities"]},
+    {"with": "small insects and other animals caught in its vines", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["114.8", "465.3"], "note": "Its adult ensnares prey; nothing says Tangela eats what it tangles."},
+    {"with": "Chansey", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chansey"]},
+    {"with": "Tangrowth", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Seed-tangle", "moves": ["Leech Seed", "Mega Drain", "Nature Power"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that feeds on what it catches: seeds that drain, a draining touch, the power of the place. Fits rich, crowded grass with plenty passing through.",
+     "behavior": "Lies still in the grass and drains what it tangles.", "evidence": ["114.8", "move:Leech Seed", "move:Mega Drain", "move:Nature Power"]},
+    {"name": "Hidden mind", "moves": ["Confusion", "Amnesia", "Reflect"], "class": "hypothesis", "confidence": "low",
+     "reading": "An odd lineage for a plant: psychic moves and a light-wall. Perhaps the face nobody has seen (114.10) belongs to something cleverer than it looks. Fits quiet highland routes.",
+     "behavior": "Moves away from people before they come close.", "evidence": ["114.10", "move:Confusion", "move:Amnesia", "move:Reflect"]}
+  ],
+  "open_questions": [
+    "What is inside the vines?",
+    "Does Tangela eat what it tangles, or let it go?",
+    "Do its vines really never stop growing?",
+    "Why is it on Sea Route 21 only by morning and night?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "The vines are said to never stop growing.", "kind": "said", "evidence": ["114.2", "C114.4"]}
+  ]
+}

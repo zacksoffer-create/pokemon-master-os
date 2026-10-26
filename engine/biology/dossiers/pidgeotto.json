@@ -1,0 +1,94 @@
+{
+  "species": "Pidgeotto",
+  "id": 17,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A territorial raptor of forest and grass. Pidgeotto claims a large territory and patrols it, flying slow circles with a sharp lookout; its vision is so good that however high it flies it can see its prey move. It downs prey with well-developed claws and carries it more than 60 miles to its nest, an Exeggcute for example, and it shows no mercy to anything that violates its territory. It is the one named predator of Magikarp, which it catches mid-jump. In HeartGold and SoulSilver it hunts by day on Routes 37 and 43 in Johto and Routes 2, 8, 13, 14, 15 and 25 and Viridian Forest in Kanto.",
+  "sections": {
+    "anatomy": [
+      {"text": "A bird (Gen 4 shape wings), 1.1 m and 30.0 kg, typed Normal and Flying.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "The claws on its feet are well developed: it immobilises prey with them and carries it.", "class": "canon", "confidence": "high", "evidence": ["17.4", "17.8", "17.10", "C17.6", "C17.13", "C17.16"]}
+    ],
+    "diet": [
+      {"text": "It flies over its wide territory in search of prey and downs it with its highly developed claws.", "class": "canon", "confidence": "high", "evidence": ["17.2", "17.9", "C17.3", "C17.15"]},
+      {"text": "It can carry prey such as an Exeggcute to its nest over 60 miles away.", "class": "canon", "confidence": "high", "evidence": ["17.8", "C17.14"]},
+      {"text": "Predators like Pidgeotto catch Magikarp mid-jump (Magikarp's own entry).", "class": "canon", "confidence": "high", "evidence": ["129.4"]},
+      {"text": "An Exeggcute (2.5 kg) carried 60 miles by a 30 kg bird is a plausible load; prey much heavier than that would be eaten where it falls.", "class": "inferred", "confidence": "low", "evidence": ["17.8", "game:size", "species:Exeggcute"]}
+    ],
+    "habitat": [
+      {"text": "Forest, and the open sky over its territory; the Gen 3 Pokédex habitat is forest.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "17.2"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 37 (day only, 5%) and 43 in Johto, and on Routes 2, 8 (65%), 13, 14, 15 and 25 and in Viridian Forest in Kanto, by day and morning, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its prey Exeggcute lives on Route 43 with it, and Magikarp is in the water of Route 25: the tables put it beside the prey its entries name.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters", "species:Exeggcute", "species:Magikarp"]}
+    ],
+    "behavior": [
+      {"text": "It claims a large area as its own territory and flies around patrolling it.", "class": "canon", "confidence": "high", "evidence": ["17.6", "17.7", "C17.8", "C17.9", "C17.11"]},
+      {"text": "It slowly flies in a circular pattern, keeping a sharp lookout for prey.", "class": "canon", "confidence": "high", "evidence": ["17.5", "C17.7"], "analogy": "Buzzards and other soaring hawks circle on rising air while they scan the ground."},
+      {"text": "It is full of vitality and constantly flies around its large territory.", "class": "canon", "confidence": "high", "evidence": ["17.2", "C17.2"]},
+      {"text": "Diurnal: every HeartGold and SoulSilver table has it by day and morning only.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Territorial: very protective of its sprawling territory, it fiercely pecks at any intruder.", "class": "canon", "confidence": "high", "evidence": ["17.1", "C17.1"]},
+      {"text": "A territorial predator lives spaced out, one bird (or pair) per territory; nothing says whether it pairs.", "class": "inferred", "confidence": "medium", "evidence": ["17.6"]}
+    ],
+    "reproduction": [
+      {"text": "It has a nest it carries prey back to, more than 60 miles from where it hunts.", "class": "canon", "confidence": "high", "evidence": ["17.4", "17.10"]},
+      {"text": "Flying egg group, 15 egg cycles, an even sex ratio, medium-slow growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Carrying prey to a nest is how many birds feed nestlings; the entries don't say the prey is for young.", "class": "hypothesis", "confidence": "low", "evidence": ["17.4"], "note": "The nest is stated, the chicks are not."}
+    ],
+    "defense": [
+      {"text": "If its territory is violated it shows no mercy in thoroughly punishing the foe with its sharp claws.", "class": "canon", "confidence": "high", "evidence": ["17.6", "17.7", "C17.10", "C17.12"]},
+      {"text": "Its moves keep Pidgey's sand and wind (Sand Attack, Gust, Whirlwind) and add speed (Agility, Lv 32) and a rest (Roost, Lv 42).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Sand Attack", "move:Whirlwind", "move:Agility", "move:Roost"]}
+    ],
+    "senses": [
+      {"text": "It has outstanding vision: however high it flies, it can distinguish the movements of its prey.", "class": "canon", "confidence": "high", "evidence": ["17.3", "C17.4", "C17.5"]},
+      {"text": "Keen Eye keeps its accuracy from being lowered.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Pidgey at level 18 and into Pidgeot at 36, from 1.1 m and 30.0 kg to 1.5 m and 39.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Pidgey", "species:Pidgeot"]},
+      {"text": "It is where the line becomes a predator of vertebrates: Pidgey eats small bugs (16.8), Pidgeotto carries off an Exeggcute.", "class": "inferred", "confidence": "high", "evidence": ["16.8", "17.8"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Gust, Quick Attack, Whirlwind, Twister, Feather Dance, Agility, Wing Attack, Roost, Tailwind, Mirror Move and Air Slash: speed and wind. No claw move is in its list; the claws are the entries'.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Gust", "move:Quick Attack", "move:Wing Attack", "move:Air Slash", "C17.13"]}
+    ],
+    "ecology": [
+      {"text": "A top daytime aerial predator wherever it lives, with named prey: Exeggcute and Magikarp.", "class": "canon", "confidence": "high", "evidence": ["17.8", "129.4"]},
+      {"text": "Carrying prey 60 miles moves nutrients from hunting grounds to nest sites far away.", "class": "inferred", "confidence": "low", "evidence": ["17.4"]},
+      {"text": "In Viridian Forest it would take what it can carry from the bug community: Caterpie, Weedle, Metapod, Kakuna and the small birds; no entry says it eats bugs.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Caterpie", "species:Weedle"], "note": "Size and co-occurrence only."}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Pidgeotto and people. Trespassing in its territory invites its claws.", "class": "canon", "confidence": "medium", "evidence": ["17.6"]}
+    ],
+    "homestead": [
+      {"text": "A sentinel over the fields: outstanding vision from great height, and a territory it patrols.", "class": "canon", "confidence": "medium", "evidence": ["17.3", "17.6"], "capability": "scouting"},
+      {"text": "Pest control from the air, but it will also take small Pokémon: keep young stock covered.", "class": "inferred", "confidence": "medium", "evidence": ["17.8", "17.9"]},
+      {"text": "It will defend its territory hard; one Pidgeotto per stretch of country, and give it a high perch.", "class": "inferred", "confidence": "medium", "evidence": ["17.6"]},
+      {"text": "The Pidgeotto that circles the lake below Blackthorn every morning and has never once let a Magikarp jump in peace.", "class": "creative", "evidence": ["129.4", "17.5"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["open sky over forest and grassland", "a large patrolled territory"], "activity": "diurnal",
+            "foraging": "circles high, spots prey by its movement, downs it with its claws and carries it to its nest", "evidence": ["17.3", "17.5", "17.8", "game:encounters"], "class": "inferred", "confidence": "high"},
+  "relationships": [
+    {"with": "Exeggcute", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["17.8"]},
+    {"with": "Magikarp", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["129.4"]},
+    {"with": "Caterpie", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Caterpie"], "note": "Viridian Forest by day; size and co-occurrence only."},
+    {"with": "Weedle", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Weedle"], "note": "Viridian Forest by day (SoulSilver); size and co-occurrence only."},
+    {"with": "Pidgeot", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Stoop hunter", "moves": ["Brave Bird", "Pursuit", "Steel Wing"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that kills on the dive: a full-body stoop, a chase and a hard wing strike. The Pidgeotto that drops from its circling height onto prey. Fits open grassland and lakes.",
+     "behavior": "Circles high, stoops hard.", "evidence": ["17.5", "move:Brave Bird", "move:Pursuit", "move:Steel Wing"]},
+    {"name": "Wind-cutter", "moves": ["Air Cutter", "Air Slash", "Uproar"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that works the wind and its voice: cutting gusts and a loud call to drive intruders off its territory without a fight. Fits windy uplands.",
+     "behavior": "Screams at trespassers before it strikes.", "evidence": ["17.1", "move:Air Cutter", "move:Air Slash", "move:Uproar"]}
+  ],
+  "open_questions": [
+    "What else does Pidgeotto hunt besides Exeggcute and Magikarp?",
+    "Why carry prey 60 miles to a nest? Is it feeding young?",
+    "How large is a territory, and does it hold it alone or as a pair?",
+    "Does it take the Bug Pokémon of Viridian Forest?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

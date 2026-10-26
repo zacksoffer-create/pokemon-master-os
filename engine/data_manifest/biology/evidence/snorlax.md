@@ -81,7 +81,6 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 - water_travel (move): Surf (field move)
 - water_travel (move): Whirlpool (field move)
 - digging (lore): Pokédex (soulsilver)
-- calming_presence (lore): Pokédex (soulsilver)
 - hauling (lore): Pokédex (platinum)
 - carrying_rider (size): 2.1 m, 460.0 kg
 - climbing (habitat): habitat: mountain

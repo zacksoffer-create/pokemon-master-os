@@ -1,0 +1,88 @@
+{
+  "species": "Weepinbell",
+  "id": 70,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The middle stage of Bellsprout's line: a plant-like flycatcher filled with acid, which does not melt because it also oozes a protective fluid. When hungry it swallows anything that moves and melts it inside; it captures unwary prey by dousing them with toxic powder, and slices up prey too big for its mouth with its razor-sharp leaves, then eats every morsel. At night it hooks its rear onto a tree branch and sleeps there; if it moves in its sleep, it may wake up on the ground. In HeartGold and SoulSilver it lives on Route 44 below Blackthorn and on Kanto's Routes 24 and 25.",
+  "sections": {
+    "anatomy": [
+      {"text": "A bell-shaped plant (Gen 4 shape blob), 1.0 m and 6.4 kg, typed Grass and Poison: the Flycatcher Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It appears to be a plant.", "class": "canon", "confidence": "high", "evidence": ["70.9", "C70.13"]},
+      {"text": "It is filled with acid but does not melt, because it also oozes a neutralizing, protective fluid.", "class": "canon", "confidence": "high", "evidence": ["70.3", "70.10", "C70.4", "C70.15"], "analogy": "A real stomach protects itself from its own acid with a lining of mucus."},
+      {"text": "Razor-sharp leafy parts that act as cutters, and a large hook on its rear end.", "class": "canon", "confidence": "high", "evidence": ["70.4", "70.6", "70.8", "C70.5", "C70.7", "C70.11"]}
+    ],
+    "diet": [
+      {"text": "When hungry, it swallows anything that moves; its hapless prey is melted inside by strong acids.", "class": "canon", "confidence": "high", "evidence": ["70.2", "C70.2", "C70.3"], "analogy": "Real pitcher plants drown and digest insects in a pool of fluid."},
+      {"text": "If its prey is bigger than its mouth, it slices up the victim with sharp leaves and eats every morsel; when hungry, it slices up any unlucky object nearby for food.", "class": "canon", "confidence": "high", "evidence": ["70.4", "70.5", "C70.5", "C70.6"]},
+      {"text": "It captures unwary prey by dousing them with a toxic powder.", "class": "canon", "confidence": "high", "evidence": ["70.9", "C70.14"]}
+    ],
+    "habitat": [
+      {"text": "Among trees, where it sleeps hooked to a branch; the Gen 3 Pokédex habitat is forest.", "class": "canon", "confidence": "high", "evidence": ["70.6", "70.7", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Route 44 (35%, Lv 22-24) at any time, and on Kanto's Route 24 by day and morning and Route 25 (rarely), in both versions; the Johto Safari Zone has it too.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "At night it hooks onto a tree branch with its rear and goes to sleep; if it moves around in its sleep, it may wake up to find itself on the ground.", "class": "canon", "confidence": "high", "evidence": ["70.6", "70.7", "C70.8", "C70.9", "C70.10"]},
+      {"text": "Asleep at night, so active by day, by those entries; the tables have it at any time on Route 44.", "class": "inferred", "confidence": "medium", "evidence": ["70.6", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Weepinbell living together. Its final form is said to live in huge colonies deep in jungles (71.1).", "class": "canon", "confidence": "low", "evidence": ["71.1", "species:Victreebel"]}
+    ],
+    "reproduction": [
+      {"text": "Grass egg group, 20 egg cycles, an even sex ratio, medium-slow growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It spits Poison Powder to immobilize the enemy and then finishes it with a spray of acid; it spits a fluid that dissolves everything.", "class": "canon", "confidence": "high", "evidence": ["70.1", "70.8", "C70.1", "C70.12"]},
+      {"text": "Its leafy parts slash foes.", "class": "canon", "confidence": "high", "evidence": ["70.8", "C70.11"]},
+      {"text": "Chlorophyll speeds it in sunshine; Stun Spore, Sleep Powder and Gastro Acid (Lv 35) are in its list.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Stun Spore", "move:Sleep Powder", "move:Gastro Acid"]}
+    ],
+    "senses": [
+      {"text": "It swallows anything that moves: it senses movement, as its young form notices anything that moves (69.5).", "class": "canon", "confidence": "medium", "evidence": ["70.2", "69.5"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Bellsprout at level 21 and becomes Victreebel with a Leaf Stone: 0.7 m and 4.0 kg, then 1.0 m and 6.4 kg, then 1.7 m and 15.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Bellsprout", "species:Victreebel"]},
+      {"text": "From an insect-eater (69.1) to a swallower of anything that moves: its prey widens as it grows. Victreebel lures prey with a honey-like scent and melts it, bones and all (71.2).", "class": "inferred", "confidence": "medium", "evidence": ["69.1", "70.2", "71.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Vine Whip, Growth, Wrap, Sleep Powder, Poison Powder, Stun Spore, Acid, Knock Off, Sweet Scent, Gastro Acid, Razor Leaf, Slam and Wring Out. Razor Leaf is its slicing leaves; Sweet Scent the lure its adult uses.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Razor Leaf", "move:Sweet Scent", "move:Acid"]}
+    ],
+    "ecology": [
+      {"text": "A plant-predator: it swallows and digests anything that moves that it can catch.", "class": "canon", "confidence": "high", "evidence": ["70.2", "70.9"]},
+      {"text": "On Route 44 it shares the grass with Bellsprout, Tangela, Lickitung and Poliwhirl; small things there, insects among them, would be its prey. Nothing names any.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Bellsprout", "species:Tangela"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Weepinbell and people; a fluid that dissolves everything makes it one to handle with care.", "class": "inferred", "confidence": "medium", "evidence": ["70.8"]}
+    ],
+    "homestead": [
+      {"text": "A trap for pests: it swallows anything that moves.", "class": "canon", "confidence": "medium", "evidence": ["70.2"], "capability": "plant_care"},
+      {"text": "Give it a branch to hang from at night, and something soft under it.", "class": "canon", "confidence": "high", "evidence": ["70.6"]},
+      {"text": "It swallows anything that moves and slices what won't fit: keep it from chicks, kittens and fingers.", "class": "canon", "confidence": "high", "evidence": ["70.2", "70.4"]},
+      {"text": "The thump in the orchard every few nights, and the Weepinbell that climbs back up its tree looking embarrassed.", "class": "creative", "evidence": ["70.7"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["grass and trees of Route 44", "tree branches (sleeps)"], "activity": "diurnal",
+            "foraging": "swallows anything that moves, slices bigger prey, and dissolves it in acid", "evidence": ["70.2", "70.4", "70.9"], "class": "canon", "confidence": "high",
+            "note": "The machine reading's omnivore comes from 'object' and 'leaves' in 70.4 and 70.5. Diurnal from 70.6 (sleeps at night)."},
+  "relationships": [
+    {"with": "insects and other small animals that move", "kind": "feeds_on", "class": "canon", "confidence": "medium", "evidence": ["70.2", "70.9"]},
+    {"with": "tree branches", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["70.6"], "note": "It sleeps hooked to them."},
+    {"with": "Bellsprout", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Bellsprout"]},
+    {"with": "Victreebel", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Branch sleeper", "moves": ["Ingrain", "Synthesis", "Reflect"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that rests well: it roots, heals in the sun and walls itself. The Weepinbell of 70.6 that hangs safe at night. Fits woods with tall, sturdy trees.",
+     "behavior": "Hangs high and stays still until hungry.", "evidence": ["70.6", "move:Ingrain", "move:Synthesis", "move:Reflect"]},
+    {"name": "Leaf-slicer", "moves": ["Swords Dance", "Magical Leaf", "Leech Life"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the cutting leaves (70.4): a sharpening dance, a leaf that never misses, a draining bite. Fits open grass with bigger prey about.",
+     "behavior": "Takes on prey bigger than its mouth.", "evidence": ["70.4", "move:Swords Dance", "move:Magical Leaf", "move:Leech Life"]}
+  ],
+  "open_questions": [
+    "What does Weepinbell catch on Route 44?",
+    "How does it move between the grass and the trees?",
+    "Does its protective fluid fail when it is sick?",
+    "How often does it fall out of its tree?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

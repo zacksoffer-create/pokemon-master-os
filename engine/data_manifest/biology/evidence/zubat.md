@@ -85,7 +85,6 @@ Everything Blackthorn holds about this species. Entry ids (like `214.3`) and cla
 
 - air_travel (move): Fly (field move)
 - air_travel (lore): Pokédex (heartgold)
-- light (lore): Pokédex (ruby)
 - night_travel (lore): Pokédex (firered)
 - danger_sense (lore): Pokédex (diamond)
 - town_fit (size): 0.8 m, 7.5 kg

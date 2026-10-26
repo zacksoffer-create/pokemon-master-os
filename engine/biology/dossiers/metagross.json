@@ -1,0 +1,87 @@
+{
+  "species": "Metagross",
+  "id": 376,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A 550 kg steel animal of four legs and four brains, and the rival's Emerald Pokémon. Metagross forms when two Metang fuse, as Metang formed from two Beldum, so each adult is four Beldum joined by a magnetic nervous system; its four brains, linked by a complex neural network, are said to be smarter than a supercomputer. It floats or flies by tucking in its four legs. When hunting it pins its prey under its massive body and eats it with the large mouth on its stomach. It is never wild in any Gen I-IV game.",
+  "sections": {
+    "anatomy": [
+      {"text": "A massive animal with heads and limbs (Gen 4 shape heads), 1.6 m and 550.0 kg, typed Steel and Psychic, genderless: the Iron Leg Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:gender", "game:genus"]},
+      {"text": "It has four brains in total, joined by a complex neural network.", "class": "canon", "confidence": "high", "evidence": ["376.1", "376.3", "C376.1", "C376.7"]},
+      {"text": "It has a large mouth on its stomach.", "class": "canon", "confidence": "high", "evidence": ["376.2", "C376.6"]},
+      {"text": "It can float in the air by tucking in its four legs; it folds them when flying.", "class": "canon", "confidence": "high", "evidence": ["376.1", "376.6", "C376.3", "C376.13"]},
+      {"text": "Its line has magnetic force in place of blood (Beldum, 374.1) and floats by repelling the ground's magnetism (374.6): flight by magnetism, not wings.", "class": "canon", "confidence": "medium", "evidence": ["374.1", "374.6"]}
+    ],
+    "diet": [
+      {"text": "When hunting, it pins the prey to the ground under its massive body, then eats the helpless victim using the large mouth on its stomach.", "class": "canon", "confidence": "high", "evidence": ["376.2", "C376.5", "C376.6"]},
+      {"text": "The prey is never named. At 550 kg, pinning works on almost anything.", "class": "inferred", "confidence": "low", "evidence": ["C376.5", "game:size"]},
+      {"text": "Hammer Arm (Lv 45, learned on evolving), Meteor Mash and Bullet Punch are the crushing legs in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Hammer Arm", "move:Meteor Mash", "move:Bullet Punch"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is rough terrain; no entry describes where it lives. Its young anchor themselves to cliffs with hooks when they sleep (374.2).", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat", "374.2"]},
+      {"text": "Metagross is never wild in any Gen I-IV game. Its first stage, Beldum, is a gift in Mossdeep City in Ruby, Sapphire and Emerald and comes to Sinnoh's Route 228 in a swarm; in HeartGold and SoulSilver Beldum is in the Johto Safari Zone and is offered in a trade in Saffron City.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Beldum"]}
+    ],
+    "behavior": [
+      {"text": "It pins its prey and eats it: an ambush-and-crush hunter, not a chaser, though it can fly.", "class": "inferred", "confidence": "medium", "evidence": ["376.2", "376.6"]},
+      {"text": "Its activity pattern is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Its young swarm and move in perfect unison, communicating by magnetic pulses or brain waves (374.3, 374.5); the adult's own social life is not described.", "class": "canon", "confidence": "medium", "evidence": ["374.3", "374.5"]},
+      {"text": "A Metagross is itself a society: two Metang, each two Beldum, fused into one body with four brains.", "class": "canon", "confidence": "high", "evidence": ["376.2", "376.4", "376.5", "375.1", "C376.4", "C376.9", "C376.11"]}
+    ],
+    "reproduction": [
+      {"text": "Genderless, Mineral egg group, 40 egg cycles, slow growth, and a catch rate of 3, the lowest in the games (shared with the legendaries).", "class": "mechanic", "confidence": "high", "evidence": ["game:gender", "game:egg_groups", "game:egg_cycles", "game:growth", "game:catch_rate"]},
+      {"text": "In the games a genderless Mineral-group Pokémon breeds only with Ditto; how it reproduces in nature is unknown.", "class": "unknown", "confidence": "high", "evidence": ["game:gender", "game:egg_groups"]}
+    ],
+    "defense": [
+      {"text": "Clear Body, its ability, prevents its stats from being lowered; its Steel type resists most attacks.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "game:types"]},
+      {"text": "Its middle stage's body survives a collision with a jet without a scratch (375.4, 375.5); the adult is heavier still.", "class": "canon", "confidence": "medium", "evidence": ["375.4", "375.5"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Its line communicates by magnetism and brain waves, which implies it senses them.", "class": "inferred", "confidence": "low", "evidence": ["374.1", "374.3"]}
+    ],
+    "life_cycle": [
+      {"text": "Beldum becomes Metang at level 20 and Metagross at 45: 0.6 m and 95.2 kg, then 1.2 m and 202.5 kg, then 1.6 m and 550.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Beldum", "species:Metang"]},
+      {"text": "Each step is a fusion: two Beldum make a Metang, two Metang make a Metagross.", "class": "canon", "confidence": "high", "evidence": ["375.1", "376.2", "376.4"]},
+      {"text": "In the games evolution is by level alone, a single animal: the fusion in the entries is not modelled.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+      {"text": "Read as development, it is growth by joining rather than by feeding alone: colonial, like some invertebrates, but ending in one body with integrated brains.", "class": "hypothesis", "confidence": "low", "evidence": ["375.1", "376.3"], "analogy": "Siphonophores like the Portuguese man o' war are colonies of individuals that work as one animal."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list: Magnet Rise (floating), Metal Claw, Confusion, Scary Face, Pursuit, Bullet Punch, Psychic, Iron Defense, Agility, Hammer Arm, Meteor Mash, Zen Headbutt and Hyper Beam.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Magnet Rise", "move:Psychic", "move:Hammer Arm", "move:Meteor Mash", "move:Zen Headbutt"]},
+      {"text": "Beldum's line has no egg moves, so there are no lineage moves to read as ecotypes.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "A heavy ambush predator that pins and eats its prey; with no wild Metagross in any game, it has no place in a Johto or Kanto web.", "class": "inferred", "confidence": "medium", "evidence": ["376.2", "game:encounters"]},
+      {"text": "A catch rate of 3 and 40 egg cycles describe, in game terms, a rare animal that grows slowly.", "class": "mechanic", "confidence": "low", "evidence": ["game:catch_rate", "game:egg_cycles"]}
+    ],
+    "humans": [
+      {"text": "Its four brains are said to be superior to a supercomputer.", "class": "canon", "confidence": "medium", "evidence": ["376.4", "376.6", "C376.10", "C376.12"]},
+      {"text": "Combined, its four brains can breeze through difficult calculations faster than a supercomputer.", "class": "canon", "confidence": "medium", "evidence": ["376.1", "C376.2", "C376.8"]}
+    ],
+    "homestead": [
+      {"text": "550 kg and able to fly: it could haul heavy loads by air if it chooses to, by magnetism rather than wings.", "class": "hypothesis", "confidence": "low", "evidence": ["376.6", "game:size"], "capability": "hauling", "note": "Load and willingness untested."},
+      {"text": "Its feeding (pin and eat with a mouth on its stomach) makes it dangerous to small livestock.", "class": "canon", "confidence": "medium", "evidence": ["376.2"]},
+      {"text": "Too heavy for most floors and roofs: it needs bedrock or packed ground.", "class": "inferred", "confidence": "high", "evidence": ["game:size"]},
+      {"text": "The rival's Metagross, working out the homestead's water rights in its head before anyone has found a pencil.", "class": "creative", "evidence": ["376.3"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["rough terrain (listed habitat)", "cliffs (its young sleep anchored to them)"], "activity": "unknown",
+            "foraging": "pins prey under its body and eats it with the mouth on its stomach", "evidence": ["376.2", "game:habitat"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named."},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["376.2"]},
+    {"with": "the earth's magnetism", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["374.6", "376.1"], "note": "Its line floats by repelling it."}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What does Metagross hunt?",
+    "Does fusion really happen in the wild, two Metang into one, as the entries say?",
+    "How does a genderless animal reproduce outside the games' Ditto rule?",
+    "Where does a wild Metagross live?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "Its four brains are said to be superior to a supercomputer.", "kind": "said", "evidence": ["376.4", "376.6", "C376.10"]}
+  ]
+}

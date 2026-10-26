@@ -1,0 +1,81 @@
+{
+  "species": "Ditto",
+  "id": 132,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small purple blob that can become anything. Ditto rearranges its whole cellular structure to transform into whatever it sees, copying an opponent's genetic code to become an almost perfect duplicate. The copy fails in two ways: if made to laugh it can't hold the disguise, and if it transforms from memory rather than sight it gets the details wrong. When it sleeps it turns into a stone so it won't be attacked, and when it meets another Ditto it hurries to copy it exactly. In HeartGold and SoulSilver it lives on Routes 34 and 35, on Route 47 in swarms, and in Cerulean Cave by day.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small ball of a body (Gen 4 shape ball), 0.3 m and 4.0 kg, typed Normal, genderless: the Transform Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:gender", "game:genus"]},
+      {"text": "It rearranges, recombines or reconstitutes its entire cell structure to transform into other shapes and life-forms.", "class": "canon", "confidence": "high", "evidence": ["132.6", "132.7", "132.8", "132.10", "C132.8", "C132.10", "C132.12"]},
+      {"text": "It copies an opponent's genetic code to transform into an instant duplicate.", "class": "canon", "confidence": "high", "evidence": ["132.1", "132.9", "C132.1", "C132.13"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Ditto eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A Ditto that has become another species might eat as that species does while the copy lasts; nothing says so.", "class": "hypothesis", "confidence": "low", "evidence": ["132.8"], "note": "A reading of 'transform into other life-forms'."}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is urban; no entry describes where it lives.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives on Routes 34 (5%) and 35 (4%) at any time, comes to Route 47 in swarms, and lives in Cerulean Cave by day and morning (10%, Lv 39-45), in both versions; the Johto Safari Zone has it too.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "When it spots an enemy, its body transfigures into an almost perfect copy of its opponent.", "class": "canon", "confidence": "high", "evidence": ["132.2", "C132.2"]},
+      {"text": "When it encounters another Ditto, it moves faster than normal to duplicate that opponent exactly.", "class": "canon", "confidence": "high", "evidence": ["132.5", "C132.7"]},
+      {"text": "When it sleeps, it changes into a stone to avoid being attacked.", "class": "canon", "confidence": "high", "evidence": ["132.3", "C132.4"]},
+      {"text": "Cerulean Cave has it by day and morning only, the HGSS tables' one hint at its hours.", "class": "mechanic", "confidence": "low", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Its one recorded interaction with its own kind is the race to copy: it duplicates another Ditto faster than normal.", "class": "canon", "confidence": "medium", "evidence": ["132.5"]}
+    ],
+    "reproduction": [
+      {"text": "The Ditto egg group, its own: in the games Ditto breeds with almost any species that can breed, and the egg is the partner's species. Genderless, 20 egg cycles, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:gender", "game:egg_cycles"]},
+      {"text": "Read with its entries, the breeding rule fits an animal that copies genetic code: in Ditto, biology and game mechanic say the same thing.", "class": "inferred", "confidence": "low", "evidence": ["132.1", "game:egg_groups"]}
+    ],
+    "defense": [
+      {"text": "Disguise is its defence: it becomes a copy of its enemy, and a stone when it sleeps.", "class": "canon", "confidence": "high", "evidence": ["132.1", "132.3"]},
+      {"text": "If made to laugh, it can't maintain its disguise.", "class": "canon", "confidence": "high", "evidence": ["132.4", "C132.6"]},
+      {"text": "Limber, its ability, keeps it from being paralysed.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It transforms into whatever it sees: sight drives the copy.", "class": "canon", "confidence": "high", "evidence": ["132.10", "C132.14"]},
+      {"text": "If it transforms from memory instead, it gets the details wrong.", "class": "canon", "confidence": "high", "evidence": ["132.6", "132.7", "C132.9", "C132.11"]}
+    ],
+    "life_cycle": [
+      {"text": "A single-stage species: no evolution.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Transform is its only move by any method in HeartGold and SoulSilver: everything it does in battle, it copies.", "class": "mechanic", "confidence": "high", "evidence": ["move:Transform", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "Its role is unset: no diet, no predators, no named neighbours in its entries.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A mimic of whatever threatens it: in the web it is the one animal whose ecology could change from day to day with what it copies.", "class": "hypothesis", "confidence": "low", "evidence": ["132.2", "132.8"], "note": "Speculative."},
+      {"text": "In Cerulean Cave it shares the dark with Parasect, Golbat, Kadabra, Machoke, Magneton, Electrode and Wobbuffet.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Parasect", "species:Wobbuffet"]}
+    ],
+    "humans": [
+      {"text": "Its transformation ability is perfect, by one entry; but a laugh breaks it.", "class": "canon", "confidence": "high", "evidence": ["132.4", "C132.5"]}
+    ],
+    "homestead": [
+      {"text": "In the games' breeding, a Ditto is the partner for nearly any species: at the homestead, the key to the Day-Care.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups"], "capability": "egg_care"},
+      {"text": "If you think a stone has moved, it may be a sleeping Ditto.", "class": "canon", "confidence": "medium", "evidence": ["132.3"]},
+      {"text": "To find a disguised Ditto, make it laugh.", "class": "canon", "confidence": "medium", "evidence": ["132.4"]},
+      {"text": "The homestead Ditto that keeps turning into the cat to get fed twice.", "class": "creative", "evidence": ["132.10"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["grassy routes (Johto)", "Cerulean Cave by day"], "activity": "unknown",
+            "foraging": "unknown; no entry says what it eats", "evidence": ["game:encounters", "game:habitat"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty: the machine reading's herbivore comes from the Normal type alone."},
+  "relationships": [
+    {"with": "Parasect", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Parasect"]},
+    {"with": "whatever it sees", "kind": "mimics", "class": "canon", "confidence": "high", "evidence": ["132.10"]}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What does Ditto eat?",
+    "Does a transformed Ditto take on the copied species' needs (food, water, warmth)?",
+    "Why does laughing break the disguise?",
+    "Where do wild Ditto come from, and how do they reproduce with each other?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

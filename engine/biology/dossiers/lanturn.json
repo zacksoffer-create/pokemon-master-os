@@ -1,0 +1,88 @@
+{
+  "species": "Lanturn",
+  "id": 171,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult of Chinchou, nicknamed 'the deep-sea star'. Lanturn makes light by a chemical reaction between bacteria and its body fluids inside its antenna, a part changed from its dorsal fin; the light is so bright it can illuminate the sea's surface from more than three miles down. It uses the bright part of its body to lure prey, then blinds the prey with an intense burst of light and swallows it, immobilized, in a single gulp. From a ship at night you can sometimes see its light rising from the depths, making the sea look like a starlit night. In HeartGold and SoulSilver it is hooked on the super rod at the same coasts as Chinchou in both regions.",
+  "sections": {
+    "anatomy": [
+      {"text": "A fish (Gen 4 shape fish), 1.2 m and 22.5 kg, typed Water and Electric: the Light Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Very bright light-emitting orbs on its back and an illuminated antenna, formed from a part of its dorsal fin.", "class": "canon", "confidence": "high", "evidence": ["171.3", "171.4", "171.6", "C171.3", "C171.4", "C171.9", "C171.10"]},
+      {"text": "It produces light by causing a chemical reaction between bacteria and its bodily fluids inside the antenna.", "class": "canon", "confidence": "high", "evidence": ["171.4", "C171.5"], "analogy": "Real deep-sea anglerfish carry glowing bacteria in the lure at the tip of a modified fin spine."}
+    ],
+    "diet": [
+      {"text": "It lures prey with the bright part of its body, blinds it with an intense burst of light, and swallows the immobilized prey in a single gulp.", "class": "canon", "confidence": "high", "evidence": ["171.2", "171.3", "171.8", "C171.2", "C171.3", "C171.14", "C171.15"], "analogy": "The anglerfish's way of feeding: dangle a light in the dark, then swallow whatever comes."},
+      {"text": "No entry names the prey; swallowed whole, it must be smaller than Lanturn's mouth, so small fish and the like.", "class": "inferred", "confidence": "low", "evidence": ["171.2"]},
+      {"text": "Stockpile, Swallow and Spit Up, learned when it evolves (Lv 27), are the single gulp in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Stockpile", "move:Swallow", "move:Spit Up", "C171.15"]}
+    ],
+    "habitat": [
+      {"text": "The inky darkness of deep seas, from great depths; the Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["171.1", "171.6", "171.7", "C171.1", "C171.11", "C171.12", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is hooked on the super rod (Lv 40) at New Bark Town, Sea Route 41 and Route 47 in Johto, and Routes 26 and 27, Pallet Town, Vermilion City, Cinnabar Island and Sea Routes 20 and 21 in Kanto, at any time, in both versions; one bite in ten there.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It sometimes rises from the depths where it swims; from a ship at night its light can be seen coming up.", "class": "canon", "confidence": "medium", "evidence": ["171.5", "C171.7"]},
+      {"text": "It shines up from great depths, and illuminates the inky darkness of the deep sea.", "class": "canon", "confidence": "high", "evidence": ["171.6", "171.7", "C171.11", "C171.12"]},
+      {"text": "Its activity pattern is not stated: the night in 171.5 is when people see it, not when it is active. The rod hooks it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["171.5", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about how Lanturn live. Its young, Chinchou, signals to others with flashing lights (170.4); whether the adult does is not said.", "class": "unknown", "confidence": "medium", "evidence": ["170.4"]}
+    ],
+    "reproduction": [
+      {"text": "Water 2 egg group, 20 egg cycles, an even sex ratio, slow growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "The burst of light that blinds prey would blind a predator too.", "class": "inferred", "confidence": "medium", "evidence": ["171.2"]},
+      {"text": "Volt Absorb heals it when hit by electricity; Discharge (Lv 40), Confuse Ray and Thunder Wave are in its list.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Discharge", "move:Confuse Ray", "move:Thunder Wave"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. A hunter that lights its own prey can see by its own light.", "class": "inferred", "confidence": "low", "evidence": ["171.2", "171.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Chinchou at level 27: from 0.5 m and 12.0 kg to 1.2 m and 22.5 kg. Chinchou's antennae evolved from a fin (170.3); Lanturn's light comes from a part of its dorsal fin (171.6).", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Chinchou", "170.3", "171.6"]},
+      {"text": "Read as development, the young's electric zap becomes the adult's lure and blinding light.", "class": "inferred", "confidence": "medium", "evidence": ["170.4", "171.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Bubble, Supersonic, Thunder Wave, Flail, Water Gun, Confuse Ray, Spark, Take Down, Stockpile, Swallow, Spit Up, Bubble Beam, Signal Beam, Discharge, Aqua Ring, Hydro Pump and Charge.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Signal Beam", "move:Swallow", "move:Discharge"]}
+    ],
+    "ecology": [
+      {"text": "An ambush predator of the deep that brings its prey to it with light.", "class": "canon", "confidence": "high", "evidence": ["171.3"]},
+      {"text": "It carries bacteria that make its light: a partnership with life too small to see, mutual if the bacteria gain a home and food from its body fluids.", "class": "inferred", "confidence": "medium", "evidence": ["171.4"], "analogy": "Real anglerfish and bobtail squid house glowing bacteria in special organs."},
+      {"text": "Where it is hooked it shares the water with Chinchou, Tentacool, Tentacruel and Shellder.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chinchou", "species:Tentacool"]}
+    ],
+    "humans": [
+      {"text": "Lanturn is nicknamed 'the deep-sea star' for its illuminated antenna.", "class": "canon", "confidence": "high", "evidence": ["171.4", "171.7", "C171.4", "C171.13"]},
+      {"text": "If you peer down into the dark sea from a ship at night, you can sometimes see its light rising from the depths; it gives the sea the appearance of a starlit night.", "class": "canon", "confidence": "high", "evidence": ["171.5", "C171.7", "C171.8"]}
+    ],
+    "homestead": [
+      {"text": "Not a highland animal: it lives in the deep sea.", "class": "canon", "confidence": "high", "evidence": ["171.6"]},
+      {"text": "Its light can shine up from great depths: in principle a living lamp, in practice it needs the sea.", "class": "inferred", "confidence": "low", "evidence": ["171.1"]},
+      {"text": "The night crossing to Cinnabar, and the stars that came up out of the water under the boat.", "class": "creative", "evidence": ["171.5"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["inky darkness of deep seas", "coastal seas (super rod)"], "activity": "unknown",
+            "foraging": "lures prey with light, blinds it with a burst, swallows it in a gulp", "evidence": ["171.2", "171.3"], "class": "canon", "confidence": "high"},
+  "relationships": [
+    {"with": "small fish and other prey lured by its light", "kind": "feeds_on", "class": "inferred", "confidence": "low", "evidence": ["171.2", "171.3"], "note": "It swallows prey whole; the prey is unnamed."},
+    {"with": "light-making bacteria in its antenna", "kind": "mutualism", "class": "inferred", "confidence": "medium", "evidence": ["171.4"]},
+    {"with": "Chinchou", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chinchou"]}
+  ],
+  "ecotypes": [
+    {"name": "Whirlpool gulper", "moves": ["Whirlpool", "Screech", "Agility"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that pulls prey in rather than waiting: a whirlpool, a screech to stun, a burst of speed. Fits deep water with currents.",
+     "behavior": "Lures, then spins the water to draw prey to its mouth.", "evidence": ["171.2", "move:Whirlpool", "move:Screech", "move:Agility"]},
+    {"name": "Starlit riser", "moves": ["Psybeam", "Mist", "Amnesia"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the Lanturn that rise to the surface at night (171.5): a strange beam, a mist to hide in, a mind left calm. Fits calm seas where the light can be seen from ships.",
+     "behavior": "Comes up toward the surface after dark.", "evidence": ["171.5", "move:Psybeam", "move:Mist", "move:Amnesia"]}
+  ],
+  "open_questions": [
+    "What does Lanturn eat?",
+    "Where do the bacteria in its antenna come from: is it born with them, or does it catch them?",
+    "Why does it rise to the surface, and how often?",
+    "Does it still signal with light as Chinchou does?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "Its light rising from the depths gives the sea the appearance of a starlit night: 'the deep-sea star'.", "kind": "said", "evidence": ["171.5", "171.7"]}
+  ]
+}

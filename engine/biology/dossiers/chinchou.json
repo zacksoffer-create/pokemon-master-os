@@ -1,0 +1,86 @@
+{
+  "species": "Chinchou",
+  "id": 170,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small electric fish of the dark ocean floor, in depths beyond sunlight's reach. Chinchou's two antennae, which evolved from a fin, are filled with cells that make so much electricity it tingles itself; it shoots positive and negative charges between their tips to make prey faint and to shock its foes. On the dark sea floor its only means of communication is its constantly flashing lights, which it uses to exchange signals with others. In HeartGold and SoulSilver it is hooked on the good and super rods along both regions' coasts, from New Bark Town and Sea Route 41 to Pallet Town, Vermilion and the seas around Cinnabar.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small fish (Gen 4 shape fish), 0.5 m and 12.0 kg, typed Water and Electric: the Angler Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Two antennae, which evolved from a fin, with positive and negative charges flowing through them.", "class": "canon", "confidence": "high", "evidence": ["170.3", "C170.3"], "analogy": "A real anglerfish's lure is a fin spine moved forward onto the head."},
+      {"text": "The antennae are filled with cells that generate strong electricity; it makes so much it even tingles slightly itself.", "class": "canon", "confidence": "high", "evidence": ["170.5", "C170.6", "C170.7"], "analogy": "Electric eels and rays make electricity in stacks of modified muscle cells."}
+    ],
+    "diet": [
+      {"text": "A hunter: it lets loose positive and negative charges from its antennae to make its prey faint.", "class": "canon", "confidence": "high", "evidence": ["170.4", "C170.4"]},
+      {"text": "No entry names the prey. At 12 kg, its prey is most likely small fish and other small animals of the sea floor.", "class": "hypothesis", "confidence": "low", "evidence": ["170.4", "game:size"]},
+      {"text": "Thunder Wave (Lv 6) paralyses and Spark (Lv 20) shocks: the stunning charge in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Thunder Wave", "move:Spark"]}
+    ],
+    "habitat": [
+      {"text": "The dark ocean floor, in depths beyond sunlight's reach; the Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["170.2", "170.6", "C170.2", "C170.9", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is hooked on the good and super rods (Lv 20-40) at New Bark Town, Sea Route 41 and Route 47 in Johto, and Routes 26 and 27, Pallet Town, Vermilion City, Cinnabar Island and Sea Routes 20 and 21 in Kanto, at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "A deep-sea animal on a fisherman's rod near shore is odd; it may rise from the depths, as Lanturn's light is seen rising at night (171.5), but nothing says so.", "class": "hypothesis", "confidence": "low", "evidence": ["170.6", "171.5", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "Its lights flash constantly.", "class": "canon", "confidence": "high", "evidence": ["170.2", "C170.2"]},
+      {"text": "Its activity pattern is not stated (the machine reading's 'day' comes from 'sunlight's reach', which says the opposite); the rods hook it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters", "C170.9"]}
+    ],
+    "social": [
+      {"text": "On the dark ocean floor its only means of communication is its constantly flashing lights; it flashes them to exchange signals with others.", "class": "canon", "confidence": "high", "evidence": ["170.2", "170.4", "C170.2", "C170.5"], "analogy": "Real deep-sea fish, squid and fireflies signal to their own kind with patterns of light."},
+      {"text": "An animal that signals to others lives among others: Chinchou is social in some way, though how many live together isn't said.", "class": "inferred", "confidence": "medium", "evidence": ["170.4"]}
+    ],
+    "reproduction": [
+      {"text": "Water 2 egg group, 20 egg cycles, an even sex ratio, slow growth. Nothing describes how it breeds; its light signals may serve courtship, but no entry says so.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"], "analogy": "Fireflies and many deep-sea animals court with patterns of light."}
+    ],
+    "defense": [
+      {"text": "It shoots electricity between its antenna tips and zaps its enemies; when it senses danger, it discharges positive and negative electricity.", "class": "canon", "confidence": "high", "evidence": ["170.1", "170.6", "170.7", "C170.1", "C170.8", "C170.10"]},
+      {"text": "Volt Absorb heals it when hit by electricity; Confuse Ray (Lv 17) and Supersonic are its other guards.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Confuse Ray", "move:Supersonic"]}
+    ],
+    "senses": [
+      {"text": "It senses danger, and discharges when it does; how is not said.", "class": "canon", "confidence": "medium", "evidence": ["170.6", "C170.8"]},
+      {"text": "It sees its own kind's lights, so it can see in the dark in some way.", "class": "inferred", "confidence": "medium", "evidence": ["170.2"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Lanturn at level 27: from 0.5 m and 12.0 kg to 1.2 m and 22.5 kg, and from two charged antennae to a bright lure that lights the sea (171.1, 171.3).", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Lanturn", "171.3"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Bubble, Supersonic, Thunder Wave, Flail, Water Gun, Confuse Ray, Spark, Take Down, Bubble Beam, Signal Beam, Discharge, Aqua Ring, Hydro Pump and Charge. Signal Beam, a beam of light, fits an animal that signals with light.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Signal Beam", "move:Discharge", "move:Confuse Ray", "C170.5"]}
+    ],
+    "ecology": [
+      {"text": "A small electric hunter of the deep water: it stuns prey with its charge.", "class": "canon", "confidence": "medium", "evidence": ["170.4"]},
+      {"text": "Where the rods hook it, it shares the water with Tentacool on the surface, Shellder on the bottom and its own adult, Lanturn.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Tentacool", "species:Shellder", "species:Lanturn"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Chinchou and people.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Illuminate, its other ability, makes wild Pokémon more likely to appear: in game terms its light draws others in.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities"]}
+    ],
+    "homestead": [
+      {"text": "Not a highland animal: it lives on the dark sea floor. Met only on coastal trips, on the end of a line.", "class": "canon", "confidence": "high", "evidence": ["170.6"]},
+      {"text": "Don't take one off the hook barehanded: it shocks what touches it when it senses danger.", "class": "canon", "confidence": "medium", "evidence": ["170.6", "170.7"]},
+      {"text": "The night the line came up with a blinking light on the end of it.", "class": "creative", "evidence": ["170.2"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3, "microhabitat": ["dark ocean floor beyond sunlight's reach", "coastal seas (on the rods)"], "activity": "unknown",
+            "foraging": "stuns prey with positive and negative electricity from its antennae", "evidence": ["170.4", "170.6"], "class": "canon", "confidence": "medium"},
+  "relationships": [
+    {"with": "small fish and other small sea-floor animals", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["170.4", "game:size"], "note": "It stuns prey; the prey is unnamed."},
+    {"with": "Shellder", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Shellder"]},
+    {"with": "Lanturn", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Current-trapper", "moves": ["Whirlpool", "Agility", "Flail"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of strong currents: it traps prey in a whirlpool, darts after it and thrashes. Fits seas with strong tidal flow.",
+     "behavior": "Hunts in moving water rather than waiting on the bottom.", "evidence": ["170.4", "move:Whirlpool", "move:Agility", "move:Flail"]},
+    {"name": "Deep-calm signaller", "moves": ["Psybeam", "Mist", "Amnesia"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of still, dark water: a strange beam, a veil of mist, a mind left calm. The flashing-light talker of 170.2, where nothing else lights the water. Fits the deepest, calmest sea floor.",
+     "behavior": "Flashes long patterns to others and rarely moves.", "evidence": ["170.2", "move:Psybeam", "move:Mist", "move:Amnesia"]}
+  ],
+  "open_questions": [
+    "What does Chinchou eat?",
+    "What do its light signals say, and to whom?",
+    "How does a fish 'beyond sunlight's reach' end up on rods near the shore?",
+    "Does its electricity come from food, or does it make it from nothing?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

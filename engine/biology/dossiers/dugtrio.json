@@ -1,0 +1,89 @@
+{
+  "species": "Dugtrio",
+  "id": 51,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "Diglett triplets that emerged from one body, so each thinks exactly like the other two, and they work together to burrow endlessly. Dugtrio's three heads bob up and down separately to loosen the soil, driving it through the hardest ground to depths of over 60 miles; its burrowing triggers huge earthquakes, and some people mistake its passing for one. In battle it digs through the ground and strikes from an unexpected direction. In HeartGold and SoulSilver it lives only in Diglett's Cave, one encounter in ten, among the Diglett.",
+  "sections": {
+    "anatomy": [
+      {"text": "Three heads (Gen 4 shape heads), 0.7 m and 33.3 kg together, typed Ground: the Mole Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A team of Diglett triplets that emerged from one body.", "class": "canon", "confidence": "high", "evidence": ["51.1", "51.6", "51.7", "C51.1", "C51.9", "C51.12"]},
+      {"text": "Its three heads move alternately, bobbing separately to loosen the soil.", "class": "canon", "confidence": "high", "evidence": ["51.3", "51.9", "C51.5", "C51.15"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Dugtrio eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "It is three Diglett, which feed on plant and tree roots (50.1, 50.5); it most likely does too.", "class": "hypothesis", "confidence": "low", "evidence": ["50.1", "50.5", "species:Diglett"], "note": "From its young form. The machine reading's lithovore comes from its Ground type alone."}
+    ],
+    "habitat": [
+      {"text": "Underground, through even the hardest ground, to depths of over 60 miles; the Gen 3 Pokédex habitat is cave.", "class": "canon", "confidence": "high", "evidence": ["51.1", "51.4", "51.5", "51.9", "C51.2", "C51.6", "C51.7", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives only in Diglett's Cave (10%, Lv 19-29), at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "No one knows what it's like underground, where it goes.", "class": "canon", "confidence": "high", "evidence": ["51.5", "C51.8"]}
+    ],
+    "behavior": [
+      {"text": "Extremely powerful, it digs through even the hardest ground, and can burrow at over 60 mph.", "class": "canon", "confidence": "high", "evidence": ["51.2", "51.4", "C51.3", "C51.6"]},
+      {"text": "The triplets work cooperatively to burrow endlessly through the ground.", "class": "canon", "confidence": "high", "evidence": ["51.6", "51.7", "C51.11", "C51.13"]},
+      {"text": "Its activity pattern is not stated; the tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Because the triplets split from one body, each thinks exactly like the other two.", "class": "canon", "confidence": "high", "evidence": ["51.6", "51.7", "C51.10", "C51.12"]},
+      {"text": "Three animals that think alike and work as one: a group, an individual, or both, in a way no real animal is.", "class": "inferred", "confidence": "medium", "evidence": ["51.6"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, medium growth. Its eggs hatch as Diglett. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "species:Diglett"]}
+    ],
+    "defense": [
+      {"text": "In battle it digs through the ground and strikes the unsuspecting foe from an unexpected direction.", "class": "canon", "confidence": "high", "evidence": ["51.8", "C51.14"]},
+      {"text": "Arena Trap keeps foes from fleeing and Sand Veil hides it in sandstorms; Sand Tomb (Lv 26), Earthquake (Lv 45) and Fissure (Lv 50) are the ground itself as a weapon.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Sand Tomb", "move:Earthquake", "move:Fissure"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Its young form's thin skin is sensitive to light (50.3).", "class": "unknown", "confidence": "medium", "evidence": ["50.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Diglett at level 26: from one 0.2 m, 0.8 kg mole to three heads, 0.7 m and 33.3 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Diglett"]},
+      {"text": "How one Diglett becomes three is not said; 51.6 says the triplets emerged from one body.", "class": "canon", "confidence": "medium", "evidence": ["51.6"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Night Slash, Tri Attack, Scratch, Sand Attack, Growl, Astonish, Magnitude, Mud-Slap, Dig, Sucker Punch, Sand Tomb, Earth Power, Mud Bomb, Slash, Earthquake and Fissure. Tri Attack, three at once, is the triplets in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Tri Attack", "move:Dig", "move:Earthquake", "C51.1"]}
+    ],
+    "ecology": [
+      {"text": "A disturbance: its burrowing triggers huge earthquakes.", "class": "canon", "confidence": "medium", "evidence": ["51.1", "C51.2"]},
+      {"text": "Loosening the soil as it goes, it most likely tills the ground as Diglett does (50.4), on a larger scale.", "class": "inferred", "confidence": "low", "evidence": ["51.3", "50.4"]},
+      {"text": "In Diglett's Cave it lives among Diglett and nothing else.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Diglett"]}
+    ],
+    "humans": [
+      {"text": "It can burrow so fast that some people think it's an earthquake.", "class": "canon", "confidence": "high", "evidence": ["51.2", "C51.4"]}
+    ],
+    "homestead": [
+      {"text": "A heavy digger through even the hardest ground: wells, cellars and ditches.", "class": "canon", "confidence": "medium", "evidence": ["51.4"], "capability": "digging"},
+      {"text": "Never let it dig under buildings: its burrowing can trigger huge earthquakes.", "class": "canon", "confidence": "medium", "evidence": ["51.1"]},
+      {"text": "The new well, dug in an afternoon, and the three heads arguing at the bottom of it about nothing at all, since they all agree.", "class": "creative", "evidence": ["51.6"]}
+    ]
+  },
+  "niche": {"guild": "herbivore", "trophic_level": 2, "microhabitat": ["deep burrows through hard ground", "caves"], "activity": "unknown",
+            "foraging": "unknown; most likely roots, as Diglett", "evidence": ["50.1", "51.4"], "class": "hypothesis", "confidence": "low",
+            "note": "Filed with Diglett as a root-eating herbivore; no entry gives Dugtrio's own diet."},
+  "relationships": [
+    {"with": "plant roots", "kind": "feeds_on", "class": "hypothesis", "confidence": "low", "evidence": ["50.1", "species:Diglett"], "note": "As Diglett; nothing says Dugtrio does."},
+    {"with": "soil", "kind": "engineers", "class": "inferred", "confidence": "low", "evidence": ["51.3", "50.4"]},
+    {"with": "Diglett", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Diglett"]}
+  ],
+  "ecotypes": [
+    {"name": "Deep-quake triplets", "moves": ["Ancient Power", "Rock Slide", "Uproar"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the deepest diggers (51.4): old stone power, falling rock and noise. Fits hard rock country.",
+     "behavior": "Burrows deep and comes up rarely; the ground shakes when it does.", "evidence": ["51.4", "move:Ancient Power", "move:Rock Slide", "move:Uproar"]},
+    {"name": "Burrow-network striker", "moves": ["Pursuit", "Feint Attack", "Astonish"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the unexpected direction (51.8): it chases, feints and startles from below. Fits soft soils with many tunnels.",
+     "behavior": "Strikes from beneath, then is gone.", "evidence": ["51.8", "move:Pursuit", "move:Feint Attack", "move:Astonish"]}
+  ],
+  "open_questions": [
+    "What does Dugtrio eat?",
+    "How do three Diglett emerge from one body?",
+    "What is down there at 60 miles?",
+    "Do Dugtrio ever split back into Diglett?"
+  ],
+  "contradictions": [
+    {"entries": ["51.4", "208.4"], "note": "Dugtrio digs to over 60 miles. Steelix, which 'lives even further underground than Onix' and digs toward the earth's core, is recorded at a little over six-tenths of a mile: a hundred times shallower."}
+  ],
+  "folklore": []
+}

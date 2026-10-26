@@ -1,0 +1,92 @@
+{
+  "species": "Pichu",
+  "id": 172,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The young of Pikachu, a tiny electric mouse (0.3 m, 2.0 kg) that hasn't yet learned to hold its charge. Its cheek pouches are small and can't store much, so any shock, fright or even amusement makes it discharge, and the jolt surprises Pichu as much as anyone; it gets better at holding power as it grows. Young Pichu play by touching tails and setting off sparks, a test of courage that can end in tears when the sparks flash. It charges more easily in thundery or very dry weather. In HeartGold and SoulSilver it is never wild; Crystal gives it as an egg, and only Sinnoh's Trophy Garden has it wild.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tiny four-legged animal (Gen 4 shape quadruped), 0.3 m and 2.0 kg, typed Electric.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "The electric pouches or sacs in its cheeks are still small and can't store much electricity yet.", "class": "canon", "confidence": "high", "evidence": ["172.7", "172.9", "C172.14", "C172.15", "C172.18"]},
+      {"text": "Static crackles off it: you can hear it.", "class": "canon", "confidence": "high", "evidence": ["172.4", "C172.8"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Pichu eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The adult gathers Berries and softens hard ones with electricity (Pikachu's dossier), so the young most likely eats fruit too, but this is the adult's diet, not Pichu's.", "class": "inferred", "confidence": "low", "evidence": ["25.3", "species:Pikachu"]},
+      {"text": "It takes in electricity from the weather: it charges more easily on days with thunderclouds or when the air is very dry. That is a charge, not a food.", "class": "canon", "confidence": "high", "evidence": ["172.4", "C172.7"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is forest.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "Wild only in Sinnoh's Trophy Garden (Diamond and Pearl 5%, more in the morning; Platinum 25%). Crystal gives one as an egg on Route 34. HeartGold and SoulSilver have no wild Pichu.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its parents' range in Johto and Kanto is Viridian Forest and the forest edges (Pikachu), so a wild Pichu would be expected there; the games show none.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Pikachu"], "note": "From the adult's range only."}
+    ],
+    "behavior": [
+      {"text": "It may send out a jolt if amused or startled; any kind of shock makes it discharge spontaneously.", "class": "canon", "confidence": "high", "evidence": ["172.1", "172.3", "172.6", "C172.2", "C172.6", "C172.12"]},
+      {"text": "If even a little electricity leaks, it becomes shocked, and when it zaps someone it surprises itself.", "class": "canon", "confidence": "high", "evidence": ["172.2", "172.9", "C172.4", "C172.19"]},
+      {"text": "It plays with others, touching tails and setting off sparks; this appears to be a test of courage.", "class": "canon", "confidence": "high", "evidence": ["172.8", "C172.16", "C172.17"]},
+      {"text": "Its activity pattern is not stated; Diamond and Pearl's Trophy Garden has it more often in the morning.", "class": "mechanic", "confidence": "low", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Young Pichu play together. When one shorts out its electricity with another, it makes a shower of sparks and the Pichu begins to cry, startled by the flash.", "class": "canon", "confidence": "high", "evidence": ["172.5", "C172.9", "C172.10"]},
+      {"text": "Tail-touching play that tests courage reads as practice: young learning to handle charge, and each other, before they can store it.", "class": "inferred", "confidence": "medium", "evidence": ["172.8", "172.6"], "analogy": "Play-fighting in young mammals rehearses adult skills in a safe setting."},
+      {"text": "Pikachu live in groups (its dossier), so playmates would be the group's young.", "class": "inferred", "confidence": "low", "evidence": ["species:Pikachu", "172.5"]}
+    ],
+    "reproduction": [
+      {"text": "A baby Pokémon: Undiscovered egg group, so it can't breed; it hatches from a Pikachu or Raichu egg. 10 egg cycles (short), an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its electricity is a defence it can't yet control: it zaps when startled, even adult humans, despite its size.", "class": "canon", "confidence": "high", "evidence": ["172.2", "172.6", "C172.3"]},
+      {"text": "Static, its ability, can paralyse anything that touches it, and Thunder Wave (Lv 10) does it on purpose.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "move:Thunder Wave"]},
+      {"text": "Its other early moves are disarming rather than fierce: Charm (Lv 1), Tail Whip (Lv 5), Sweet Kiss (Lv 13). A small animal that wins by being harmless and then nasty (Nasty Plot, Lv 18).", "class": "mechanic", "confidence": "low", "evidence": ["move:Charm", "move:Tail Whip", "move:Sweet Kiss", "move:Nasty Plot"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. It is startled by flashes of its own sparks, so it sees them.", "class": "canon", "confidence": "low", "evidence": ["172.5", "C172.10"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves into Pikachu with high friendship, and Pikachu into Raichu with a Thunder Stone: 0.3 m and 2.0 kg, then 0.4 m and 6.0 kg, then 0.8 m and 30.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:friendship", "species:Pikachu", "species:Raichu"]},
+      {"text": "It gets better at holding power as it grows older.", "class": "canon", "confidence": "high", "evidence": ["172.6", "C172.13"]},
+      {"text": "Read as development, the cheek pouches grow and the control comes with them: Pichu leaks, Pikachu stores and uses, and Raichu's long tail grounds it against its own high voltage (26.1).", "class": "inferred", "confidence": "medium", "evidence": ["172.7", "C172.13", "26.1"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list is short: Thunder Shock, Charm, Tail Whip, Thunder Wave, Sweet Kiss and Nasty Plot. Everything else comes from its parents (egg moves), a tutor or a machine.", "class": "mechanic", "confidence": "high", "evidence": ["move:Thunder Shock", "move:Charm", "move:Thunder Wave", "move:Sweet Kiss", "move:Nasty Plot", "game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "Its role is the adult's in miniature, a small forest fruit-eater, if it eats what Pikachu eats.", "class": "hypothesis", "confidence": "low", "evidence": ["25.3", "game:habitat"], "note": "Pichu's diet is unrecorded."},
+      {"text": "A 2 kg animal that can't help discharging when startled is a poor target for a predator: whatever grabs it gets shocked.", "class": "inferred", "confidence": "medium", "evidence": ["172.3", "game:abilities"]}
+    ],
+    "humans": [
+      {"text": "Despite its small size, it can zap even adult humans, and then it is surprised itself.", "class": "canon", "confidence": "high", "evidence": ["172.2", "C172.3", "C172.4"]},
+      {"text": "Crystal gives a Pichu egg to the player on Route 34, so people breed and pass them on.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "Expect shocks: it discharges when startled or amused, so warn visitors and keep it away from wiring and stored seed.", "class": "canon", "confidence": "high", "evidence": ["172.1", "172.3"]},
+      {"text": "Calm, steady handling will help it grow out of the leaks: its control improves as it ages, and friendship is what makes it a Pikachu.", "class": "inferred", "confidence": "medium", "evidence": ["172.6", "game:friendship"]},
+      {"text": "Storms and very dry air charge it faster: on such days, give it space.", "class": "canon", "confidence": "high", "evidence": ["172.4"], "capability": "electricity"},
+      {"text": "A pair of homestead Pichu daring each other to touch tails by the fence, and both bursting into tears at the spark.", "class": "creative", "evidence": ["172.5", "172.8"]}
+    ]
+  },
+  "niche": {"guild": "frugivore", "trophic_level": 2, "microhabitat": ["forest (listed habitat)", "the adults' forest edges"], "activity": "unknown",
+            "foraging": "unrecorded; read from the adult, which gathers Berries", "evidence": ["game:habitat", "25.3"], "class": "hypothesis", "confidence": "low",
+            "note": "Filed as a frugivore with Pikachu; Pichu's own entries never say what it eats."},
+  "relationships": [
+    {"with": "thunderclouds and dry air (atmospheric electricity)", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["172.4"]},
+    {"with": "Pikachu", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Kin keeper", "moves": ["Wish", "Present", "Encore"], "class": "hypothesis", "confidence": "low",
+     "reading": "Pikachu's group-keeping lineage, in the young: a healing move given to another, a gift, and a move that keeps a partner doing something. A Pichu that plays and shares rather than sparks. Fits forest edges where Pikachu groups live together.",
+     "behavior": "Plays gently, shares food, rarely shocks a playmate.", "evidence": ["172.5", "move:Wish", "move:Present", "move:Encore"]},
+    {"name": "Storm capacitor", "moves": ["Charge", "Thunder Punch"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that stores more than most: Charge builds up power for the next blow. In a Pichu, the young that leak least and learn control first. Fits open, stormy ground where thunderclouds come often.",
+     "behavior": "Quiet in a storm while the others crackle; the first of its litter to become a Pikachu.", "evidence": ["172.4", "172.6", "move:Charge", "move:Thunder Punch"]}
+  ],
+  "open_questions": [
+    "What does a Pichu eat? Its entries say nothing.",
+    "Where are Pichu born and raised in Johto and Kanto? The HGSS tables have none.",
+    "Does storm weather charge it as food, or only as charge?",
+    "Do adults teach control, or does it come with age alone (172.6)?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

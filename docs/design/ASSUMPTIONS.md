@@ -585,16 +585,18 @@ Trainer criterion 6 (how a trainer's tendencies show in battle) is answered on e
 - **Could instead:** against a fixed reference team that isn't yours; more battles
 - **Your call** (2026-10-26, chat): Keep
 
-## v1 · Field Biology
+## v2.5 · Field Biology
 
 ### A-62 · Dossiers (D-077)
 
-64 dossiers (your companions, the Ilex Forest community, the Blackthorn highlands) were drafted by the assistant from each species' evidence pack and nothing else. Every statement is canon, game data, inferred, hypothesis, Blackthorn's invention or unknown, with the ids it cites, checked by biology/dossier.py. Real-world biology appears only as a labelled analogy, never as evidence. All are drafts.
+127 dossiers, all drafts. The first 64 were your companions, the Ilex Forest community and the Blackthorn highlands. 63 more followed after you asked for more: the earlier stages of the canon sixes, the rival's six, Kanto's communities (Viridian Forest, Mt. Moon, the Seafoam Islands, Cerulean Cave, the routes around Fuchsia, Cinnabar and its seas, Rock Tunnel and Diglett's Cave) and more of the Blackthorn highlands. Each was drafted from its species' evidence pack and nothing else. Every statement is canon, game data, inferred, hypothesis, Blackthorn's invention or unknown, with the ids it cites, checked by biology/dossier.py. Where nothing says what a species eats, its guild is left empty, not guessed from its type. Real-world biology appears only as a labelled analogy.
 
-- **Why:** Your biology brief ('I want this to be real'), and the other assistant's evidence classes.
+- **Why:** You kept it and asked for more: "Want more of it."
 - **See it:** `#/biology` (Field Biology)
-- **Could instead:** a stricter class set; your own dossiers written alongside
+- **Could instead:** stop at 64 and review those first; write the next ones yourself, or one species at a time with the assistant
 - **Your call** (2026-10-26, chat): Keep: and more of them: "Want more of it."
+
+## v1 · Field Biology
 
 ### A-63 · Encounter tables (D-077)
 
@@ -623,14 +625,18 @@ A link comes first from a curated dossier, then from the species' own Pokédex d
 - **Could instead:** no rule: only links a dossier or the Pokédex gives; a stricter size window
 - **Your call** (2026-10-26, chat): Keep
 
+## v2.5 · Field Biology
+
 ### A-66 · Johto's landscape (D-077)
 
-Johto's places connect as the games' map joins them (paths, caves, sea routes). Each place's biome, elevation and water, and its position on the drawing, are Blackthorn's reading.
+Johto and Kanto are one landscape, joined as HeartGold's map joins them: paths, caves, sea routes, the Magnet Train (Goldenrod to Saffron) and the S.S. Aqua (Olivine to Vermilion), plus the sea from New Bark Town onto Route 27 and Route 28 onto Mt. Silver. Kanto's places, joins and encounter tables were checked against the HeartGold decomp. Each place's biome, elevation and water, and where it sits on the drawing, are Blackthorn's reading; Kanto is drawn east of Johto, as the games' own map has it. Geothermal ground is only where the games put a volcano (Cinnabar Island) and where you put it (the Blackthorn highlands). Six Kanto flagships: Viridian Forest, Mt. Moon, the Seafoam Islands, Cerulean Cave, the routes around Fuchsia, and Cinnabar and its seas.
 
-- **Why:** The reference data has no adjacency, so the graph was authored from the games' map.
-- **See it:** `#/ecosystems` (Ecosystems)
-- **Could instead:** add Kanto; your own biome for any place
+- **Why:** You changed it to add Kanto: "HeartGold does both of them."
+- **See it:** `#/ecosystems?region=kanto` (Ecosystems, Kanto)
+- **Could instead:** Johto only, as before; Kanto drawn west or south-west of Johto, as the first brief put it, instead of where the games put it
 - **Your call** (2026-10-26, chat): Change: add Kanto. "HeartGold does both of them."
+
+## v1 · Field Biology
 
 ### A-67 · Flagship ecosystems (D-077)
 

@@ -1,0 +1,89 @@
+{
+  "species": "Diglett",
+  "id": 50,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A tiny mole that lives about a yard underground, feeding on plant and tree roots. Diglett's skin is very thin: in light its blood heats up and it grows weak, so it prefers dark places and sticks its head out only when the sun isn't bright. It burrows at a shallow depth, leaving raised earth in its wake, and wherever it digs through a field it leaves the soil perfectly tilled for planting, which is why Diglett are raised on most farms. Its tunnels are sometimes Onix's, which Diglett use as homes. In HeartGold and SoulSilver it fills Diglett's Cave, the tunnel Diglett dug from Route 2 to Route 11 by Vermilion City, and is found on Route 48 and under the rocks of Vermilion.",
+  "sections": {
+    "anatomy": [
+      {"text": "A tiny burrower (Gen 4 shape blob), 0.2 m and 0.8 kg, typed Ground: the Mole Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its skin is very thin. If it is exposed to light, its blood heats up, causing it to grow weak.", "class": "canon", "confidence": "high", "evidence": ["50.3", "C50.5", "C50.6"]}
+    ],
+    "diet": [
+      {"text": "It feeds on plant roots, about one yard underground, and chews on tree roots.", "class": "canon", "confidence": "high", "evidence": ["50.1", "50.5", "50.9", "C50.1", "C50.8"], "analogy": "Real pocket gophers and mole rats live underground on roots and tubers."}
+    ],
+    "habitat": [
+      {"text": "Underground, about a yard down, at a shallow depth; it prefers dark places and may pop up in caves. The Gen 3 Pokédex habitat is cave.", "class": "canon", "confidence": "high", "evidence": ["50.1", "50.2", "50.8", "50.10", "C50.1", "C50.3", "C50.4", "C50.13", "C50.16", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is nine encounters in ten in Diglett's Cave (Lv 13-19), with Dugtrio; it is also on Route 48 in Johto (Lv 20, rarely), under the rocks of Vermilion City by Rock Smash, and in the Johto Safari Zone; at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It spends most of its time underground; it sometimes appears above ground, sticking its head out only when the sun isn't bright.", "class": "canon", "confidence": "high", "evidence": ["50.1", "50.2", "50.5", "C50.2", "C50.4", "C50.8"]},
+      {"text": "Because of its dark habitat, it is repelled by bright sunlight.", "class": "canon", "confidence": "high", "evidence": ["50.10", "C50.17"]},
+      {"text": "It leaves raised earth in its wake, making it easy to spot.", "class": "canon", "confidence": "high", "evidence": ["50.8", "C50.14"], "analogy": "Real moles leave the same raised ridges across a lawn."},
+      {"text": "Above ground it would be out at dawn, dusk or on dull days, by the entries; underground, time of day hardly matters, and the tables have it at any time.", "class": "inferred", "confidence": "low", "evidence": ["50.5", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Diglett living together. Diglett's Cave holds them nine in ten, so they live densely where they live.", "class": "mechanic", "confidence": "low", "evidence": ["game:encounters"]},
+      {"text": "Its evolved form is three Diglett: triplets that emerged from one body and think exactly alike (51.6).", "class": "canon", "confidence": "medium", "evidence": ["51.1", "51.6", "species:Dugtrio"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, medium growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "It stays underground, out of reach.", "class": "canon", "confidence": "medium", "evidence": ["50.2", "50.10"]},
+      {"text": "Arena Trap keeps foes from fleeing and Sand Veil hides it in sandstorms; Dig (Lv 18) and Sucker Punch (Lv 23) are strikes from below and before.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "move:Dig", "move:Sucker Punch"]}
+    ],
+    "senses": [
+      {"text": "Its thin skin reacts to light: light heats its blood. That is the one sense-like thing the entries give it.", "class": "canon", "confidence": "medium", "evidence": ["50.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Dugtrio at level 26: from 0.2 m and 0.8 kg to three heads, 0.7 m and 33.3 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Dugtrio"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Scratch, Sand Attack, Growl, Astonish, Magnitude, Mud-Slap, Dig, Sucker Punch, Earth Power, Mud Bomb, Slash, Earthquake and Fissure: digging and shaking the ground.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Dig", "move:Magnitude", "move:Earthquake", "move:Fissure"]}
+    ],
+    "ecology": [
+      {"text": "A soil-maker: wherever it burrows, the soil is left perfectly tilled for planting crops.", "class": "canon", "confidence": "high", "evidence": ["50.4", "50.6", "50.7", "C50.7", "C50.10", "C50.12"], "analogy": "Real burrowing animals turn and aerate soil the same way."},
+      {"text": "A root-eater: it takes from the plants above it.", "class": "canon", "confidence": "high", "evidence": ["50.1", "50.5"]},
+      {"text": "It lives in tunnels Onix leaves: Onix's tunnels are used as homes by Diglett (95.2).", "class": "canon", "confidence": "high", "evidence": ["95.2", "species:Onix"]},
+      {"text": "In Diglett's Cave it lives with nothing but its own line: one of the simplest communities in Kanto.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Dugtrio"]}
+    ],
+    "humans": [
+      {"text": "Diglett are raised on most farms, because wherever it burrows the soil is left perfectly tilled for growing delicious crops.", "class": "canon", "confidence": "high", "evidence": ["50.6", "50.7", "C50.9"]}
+    ],
+    "homestead": [
+      {"text": "Raised on most farms to till the soil: the homestead's plough.", "class": "canon", "confidence": "high", "evidence": ["50.4", "50.6"], "capability": "plant_care"},
+      {"text": "A digger, at a shallow depth.", "class": "canon", "confidence": "high", "evidence": ["50.8"], "capability": "digging"},
+      {"text": "It eats plant and tree roots: keep it in the vegetable field before planting, and away from the orchard.", "class": "inferred", "confidence": "medium", "evidence": ["50.1", "50.5"]},
+      {"text": "Give it shade and dark places; bright sun weakens it.", "class": "canon", "confidence": "high", "evidence": ["50.3", "50.10"]},
+      {"text": "Rows of raised earth across the potato field every spring morning, and one small brown head watching the clouds.", "class": "creative", "evidence": ["50.8"]}
+    ]
+  },
+  "niche": {"guild": "herbivore", "trophic_level": 2, "microhabitat": ["shallow burrows about a yard underground", "caves and dark places"], "activity": "unknown",
+            "foraging": "eats plant and tree roots underground", "evidence": ["50.1", "50.5"], "class": "canon", "confidence": "high",
+            "note": "Activity left open: underground, and above ground only when the sun isn't bright."},
+  "relationships": [
+    {"with": "plant roots", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["50.1", "50.9"]},
+    {"with": "tree roots", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["50.5"]},
+    {"with": "soil", "kind": "engineers", "class": "canon", "confidence": "high", "evidence": ["50.4", "50.6"], "note": "It tills the soil as it burrows."},
+    {"with": "Onix", "kind": "commensalism", "class": "canon", "confidence": "high", "evidence": ["95.2"], "note": "It uses Onix's tunnels as homes."},
+    {"with": "Dugtrio", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Colony ambusher", "moves": ["Beat Up", "Pursuit", "Feint Attack"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of crowds: Beat Up calls on every ally, Pursuit and Feint Attack strike the one that runs or looks away. Fits dense colonies like Diglett's Cave.",
+     "behavior": "Pops up in numbers around an intruder.", "evidence": ["game:encounters", "move:Beat Up", "move:Pursuit", "move:Feint Attack"]},
+    {"name": "Stony-ground digger", "moves": ["Rock Slide", "Ancient Power", "Mud Bomb"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of hard ground: rocks, old power and clods of mud. Diglett that dig through stony mountain soil rather than farm fields. Fits rocky caves and hillsides.",
+     "behavior": "Digs deeper and comes up less often.", "evidence": ["50.2", "move:Rock Slide", "move:Ancient Power", "move:Mud Bomb"]}
+  ],
+  "open_questions": [
+    "If Diglett eat plant roots, how do farms that raise them keep their crops?",
+    "Does Diglett dig its own tunnels, or mostly use Onix's?",
+    "How do three Diglett come to be one Dugtrio?",
+    "What eats Diglett, underground?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

@@ -2646,7 +2646,7 @@ class FieldBiology(unittest.TestCase):
         from biology.dossier import Checker, all_slugs, load
         ch = Checker()
         slugs = all_slugs()
-        self.assertGreaterEqual(len(slugs), 64)
+        self.assertGreaterEqual(len(slugs), 127)                         # v1's 64, and A-62's 63 more ("Want more of it")
         for sl in slugs:
             errs, _ = ch.check(load(sl))
             self.assertEqual(errs, [], sl)
@@ -2672,6 +2672,51 @@ class FieldBiology(unittest.TestCase):
         ilex = {r["species"]: r for r in self.eco["communities"]["ilex-forest"]}
         self.assertEqual(ilex["Carnivine"]["status"], "visitor")       # radio only
         self.assertNotIn("Carnivine", [n["id"] for n in self.eco["webs"]["ilex-forest"]["nodes"]])
+        vermilion = {r["species"]: r for r in self.eco["communities"]["vermilion-city"]}
+        self.assertEqual((vermilion["Wingull"]["status"], vermilion["Wingull"]["conditions"]), ("visitor", ["swarm"]))   # the decomp's surf swarm
+
+    def test_kanto_joins_johto_as_heartgold_joins_them(self):
+        """A-66 (Zack: "HeartGold does both of them"): every Kanto place, joined to Johto and to itself as the games join them."""
+        from biology.ecology import NOT_WILD, VERSIONS
+        nodes, edges = self.eco["landscape"]["nodes"], {frozenset(e[:2]): e[2] for e in self.eco["landscape"]["edges"]}
+        self.assertTrue(all(n["region"] in ("johto", "kanto") and len(n["xy"]) == 2 and n["biome"] for n in nodes.values()))
+        kanto = {k for k, n in nodes.items() if n["region"] == "kanto"}
+        self.assertGreaterEqual(len(kanto), 45)
+        for k in ("pallet-town", "viridian-forest", "mt-moon", "cerulean-cave", "rock-tunnel", "digletts-cave", "seafoam-islands", "cinnabar-island",
+                  "kanto-route-22", "kanto-sea-route-19", "kanto-sea-route-21", "kanto-route-28", "kanto-victory-road-1", "tohjo-falls", "kanto-power-plant"):
+            self.assertIn(k, kanto, k)
+        for a, b, kind in (("goldenrod-city", "saffron-city", "rail"), ("olivine-city", "vermilion-city", "ship"), ("kanto-route-22", "kanto-route-26", "path"),
+                           ("kanto-route-27", "kanto-route-26", "path"), ("new-bark-town", "kanto-route-27", "sea"), ("kanto-route-28", "mt-silver", "path"),
+                           ("pallet-town", "kanto-sea-route-21", "sea"), ("cinnabar-island", "kanto-sea-route-20", "sea"), ("kanto-sea-route-19", "fuchsia-city", "path")):
+            self.assertEqual(edges.get(frozenset((a, b))), kind, (a, b))
+        self.assertNotIn(frozenset(("tohjo-falls", "kanto-route-26")), edges)   # Tohjo Falls opens onto Route 27, not 26
+        across = {e for e in edges if len({nodes[x]["region"] for x in e}) == 2}   # where the two regions meet
+        self.assertEqual(across, {frozenset(p) for p in (("goldenrod-city", "saffron-city"), ("olivine-city", "vermilion-city"),
+                                                          ("new-bark-town", "kanto-route-27"), ("mt-silver", "kanto-route-28"))})
+        adj = {k: set() for k in nodes}
+        for e in edges:
+            a, b = tuple(e)
+            adj[a].add(b)
+            adj[b].add(a)
+        seen, todo = {"new-bark-town"}, ["new-bark-town"]
+        while todo:
+            for y in adj[todo.pop()] - seen:
+                seen.add(y)
+                todo.append(y)
+        self.assertEqual(sorted(set(nodes) - seen), [])                    # one landscape: every place reachable from New Bark Town
+        wild = {self.archive["areas"][str(e["a"])]["loc_key"] for s in self.archive["species"] for e in s["encounters"]
+                if e["v"] in VERSIONS and e["m"] not in NOT_WILD}
+        self.assertEqual(sorted(k for k in wild - set(nodes) if not k.startswith("unknown-")), [])   # every HGSS wild place has a node
+        flag = {k: w["region"] for k, w in self.eco["webs"].items() if w.get("flagship")}
+        for k in ("viridian-forest", "mt-moon", "seafoam-islands", "cerulean-cave", "fuchsia-routes", "cinnabar-seas"):
+            self.assertEqual(flag.get(k), "kanto", k)
+        self.assertIn("Pikachu", [n["id"] for n in self.eco["webs"]["viridian-forest"]["nodes"]])
+
+    def test_geothermal_ground_only_where_the_games_or_zack_put_it(self):
+        heat = lambda k: "geothermal-heat" in [n["id"] for n in self.eco["webs"][k]["nodes"]]
+        self.assertTrue(heat("cinnabar-island") and heat("cinnabar-seas"))      # "swept away by an eruption", the mouth "still open"
+        self.assertTrue(heat("blackthorn-city"))                                # Zack's call (A-64)
+        self.assertFalse(heat("kanto-sea-route-20") or heat("kanto-sea-route-19") or heat("mt-silver"))
 
     def test_the_cascade_follows_who_eats_what(self):
         from biology.ecology import cascade
@@ -2860,8 +2905,8 @@ class WebApp(unittest.TestCase):
 
     def test_field_biology_matches_python_in_the_browser(self):
         """Field Biology in the preview (app/test_biology.mjs, in Chromium): the browser's food-web analysis and cascade
-        agree with biology/ecology.py on every web; a dossier, a field guide, a review kept in the Journal, the landscape,
-        a web's cascade and the Level 3 model, ecotypes, a phone."""
+        agree with biology/ecology.py on every web; a dossier, a field guide, a review kept in the Journal, the landscape
+        of Johto and Kanto together and apart, a web's cascade and the Level 3 model, ecotypes, a phone."""
         out = self.sp.run(["node", os.path.join(self.app, "test_biology.mjs")], capture_output=True, text=True, timeout=1500)
         if "SKIP" in out.stdout:
             raise unittest.SkipTest(out.stdout.strip())

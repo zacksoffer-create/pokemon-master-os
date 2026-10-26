@@ -1,0 +1,94 @@
+{
+  "species": "Shellder",
+  "id": 90,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small bivalve in a two-piece shell harder than diamond, tender inside, with a large tongue it always keeps hanging out. Shellder swims backward, surprisingly fast, by opening and closing its shell; at night it burrows a hole in the seafloor sand with its broad tongue and sleeps in it, shell shut and tongue out. Sand caught in its shell becomes beautiful pearls. It is the Shellder that bites a Slowpoke's tail or head that makes Slowbro and Slowking, and that Shellder is said to feed on the host's leftover scraps and on the tasty flavour oozing from its tail. In HeartGold and SoulSilver it is hooked on the good and super rods along both regions' coasts, beside Chinchou.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small shelled animal (Gen 4 shape ball), 0.3 m and 4.0 kg, typed Water: the Bivalve Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "A two-piece shell, harder than diamond, that repels any kind of attack; inside, it is surprisingly tender.", "class": "canon", "confidence": "high", "evidence": ["90.1", "90.2", "90.3", "90.8", "C90.1", "C90.3", "C90.13", "C90.14"]},
+      {"text": "A large, broad tongue, always kept hanging out.", "class": "canon", "confidence": "high", "evidence": ["90.6", "90.9", "C90.9", "C90.16"]}
+    ],
+    "diet": [
+      {"text": "No entry of its own says what Shellder eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The Shellder latched onto a Slowpoke's tail is said to feed on the host's leftover scraps, and won't let go because of the tasty flavour that oozes out of the tail (Slowbro's entries).", "class": "canon", "confidence": "medium", "evidence": ["80.1", "80.5", "80.9", "species:Slowbro"], "note": "'Said to': hearsay in the entries themselves, and only of an attached Shellder."},
+      {"text": "Free-living, a small bivalve on sandy sea floors most likely eats small particles and scraps it can reach with its tongue; nothing says so.", "class": "hypothesis", "confidence": "low", "evidence": ["90.6", "80.1"], "analogy": "Real clams and scallops filter food particles from the water through their shells' gape."}
+    ],
+    "habitat": [
+      {"text": "The sea floor, where it burrows in the sand at night; the Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["90.6", "90.7", "C90.9", "C90.11", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is hooked on the good and super rods (Lv 20-40) at New Bark Town, Sea Route 41 and Route 47 in Johto, and Routes 26 and 27, Pallet Town, Vermilion City, Cinnabar Island and Sea Routes 20 and 21 in Kanto, at any time, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Some live on Slowpoke instead: on the tail of a Slowbro, on the head of a Slowking.", "class": "canon", "confidence": "high", "evidence": ["80.6", "199.4", "species:Slowbro", "species:Slowking"]}
+    ],
+    "behavior": [
+      {"text": "It swims facing backward by opening and closing its two-piece shell, and is surprisingly fast.", "class": "canon", "confidence": "high", "evidence": ["90.3", "90.9", "C90.5", "C90.6", "C90.15"], "analogy": "Real scallops swim by clapping their two shells together, jetting water out."},
+      {"text": "At night it uses its broad tongue to burrow a hole in the seafloor sand and sleeps in it, shell closed and tongue hanging out.", "class": "canon", "confidence": "high", "evidence": ["90.6", "90.7", "C90.9", "C90.10", "C90.11", "C90.12"]},
+      {"text": "Active by day and asleep in the sand at night, by those entries; the rods hook it at any time.", "class": "inferred", "confidence": "medium", "evidence": ["90.6", "game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Shellder living with other Shellder.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its one recorded partnership is with Slowpoke: it bites a Slowpoke's tail and holds on, making Slowbro; on a Slowpoke's head, Slowking.", "class": "canon", "confidence": "high", "evidence": ["80.8", "80.5", "199.4", "species:Slowbro", "species:Slowking"]}
+    ],
+    "reproduction": [
+      {"text": "Water 3 egg group, 20 egg cycles, an even sex ratio, slow growth. Nothing describes how it breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its hard shell can withstand any attack; it is vulnerable only when the shell is open and the tender body exposed.", "class": "canon", "confidence": "high", "evidence": ["90.1", "90.2", "C90.2", "C90.4"]},
+      {"text": "Clamping on to an opponent reveals its vulnerable parts, so it uses that only as a last resort.", "class": "canon", "confidence": "high", "evidence": ["90.5", "C90.8"]},
+      {"text": "Withdraw (Lv 4), Protect (Lv 16), Iron Defense (Lv 40) and Shell Armor: shutting in, in game form. Clamp (Lv 25) is the last-resort bite.", "class": "mechanic", "confidence": "high", "evidence": ["move:Withdraw", "move:Protect", "move:Iron Defense", "move:Clamp", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Its tongue, always out, is the obvious organ to taste and feel with; the entries don't say it is.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Cloyster with a Water Stone: from 0.3 m and 4.0 kg to 1.5 m and 132.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Cloyster"]},
+      {"text": "Cloyster that live in seas with harsh tidal currents grow large, sharp spikes on their shells (91.4): the adult's form depends on where it lives.", "class": "canon", "confidence": "high", "evidence": ["91.4", "species:Cloyster"]},
+      {"text": "Grains of sand trapped in its shells mix with its body fluids to form beautiful pearls.", "class": "canon", "confidence": "high", "evidence": ["90.4", "C90.7"], "analogy": "Real oysters coat an irritant with nacre to make a pearl."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Tackle, Withdraw, Supersonic, Icicle Spear, Protect, Leer, Clamp, Ice Shard, Aurora Beam, Whirlpool, Iron Defense, Brine and Ice Beam. Skill Link makes its multi-strike moves land in full.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Icicle Spear", "move:Clamp", "move:Withdraw", "game:abilities"]}
+    ],
+    "ecology": [
+      {"text": "A small bottom-dweller of sandy sea floors, and, attached to Slowpoke, a partner whose bite turns its host into a different animal.", "class": "canon", "confidence": "high", "evidence": ["90.6", "80.8"]},
+      {"text": "With Slowbro, Shellder gets food (scraps and the tail's ooze) and the Slowbro gets a poison that numbs pain (80.4); whether that is mutualism or parasitism is open.", "class": "inferred", "confidence": "medium", "evidence": ["80.1", "80.4", "80.5"]},
+      {"text": "Where the rods hook it, it shares the water with Chinchou, Lanturn, Tentacool and Tentacruel.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chinchou", "species:Tentacool"]}
+    ],
+    "humans": [
+      {"text": "Its pearls are beautiful.", "class": "canon", "confidence": "high", "evidence": ["90.4"]},
+      {"text": "Nothing says people collect them; the pearls a Shellder makes would be worth something to people who do.", "class": "inferred", "confidence": "low", "evidence": ["90.4"]}
+    ],
+    "homestead": [
+      {"text": "Not a highland animal: a sea-floor bivalve. Met only on coastal trips.", "class": "canon", "confidence": "high", "evidence": ["90.6"]},
+      {"text": "Keep fingers away from an open shell: Clamp is its last resort, and it holds on.", "class": "canon", "confidence": "medium", "evidence": ["90.5", "80.5"]},
+      {"text": "A Shellder in a bucket of seawater on the kitchen table, tongue out, and the pearl someone hopes is in it.", "class": "creative", "evidence": ["90.4", "90.9"]}
+    ]
+  },
+  "niche": {"guild": "scavenger", "trophic_level": 2.5, "microhabitat": ["burrows in seafloor sand", "on a Slowpoke's tail or head"], "activity": "diurnal",
+            "foraging": "unknown when free; attached to Slowpoke, said to eat the host's leftover scraps and the tail's ooze", "evidence": ["80.1", "80.5", "90.6"], "class": "hypothesis", "confidence": "low",
+            "note": "Filed as a scavenger from the Slowbro entries; the machine reading's grazer comes from its Water type alone. Diurnal from 90.6 (sleeps at night)."},
+  "relationships": [
+    {"with": "leftover food remains of its Slowpoke host", "kind": "feeds_on", "class": "canon", "confidence": "low", "evidence": ["80.1", "80.9"], "note": "Said of the Shellder on a Slowbro's tail."},
+    {"with": "Slowbro", "kind": "commensalism", "class": "canon", "confidence": "medium", "evidence": ["80.1", "80.5", "80.8"], "note": "It lives on the tail and eats the scraps; the host's gain (numbed pain, 80.4) or loss (no fishing tail, 80.6) is open."},
+    {"with": "Chinchou", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Chinchou"]},
+    {"with": "Cloyster", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Sand-burrower", "moves": ["Mud Shot", "Rapid Spin", "Barrier"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of soft bottoms: it throws up mud, spins itself into the sand and shuts in. The night burrower of 90.6. Fits sandy and silty sea floors.",
+     "behavior": "Digs in at dusk and barely shows by day.", "evidence": ["90.6", "move:Mud Shot", "move:Rapid Spin", "move:Barrier"]},
+    {"name": "Spike-volley", "moves": ["Icicle Spear", "Rock Blast", "Take Down"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of rough water: volleys of spikes and stones, and a charge. Cloyster in seas with harsh tidal currents grow large, sharp spikes (91.4); these are the Shellder that become them. Fits rocky coasts with strong tides.",
+     "behavior": "Fires back from inside its shell rather than clamping.", "evidence": ["91.4", "91.1", "move:Icicle Spear", "move:Rock Blast", "move:Take Down"]}
+  ],
+  "open_questions": [
+    "What does a free-living Shellder eat?",
+    "How does a Shellder choose a Slowpoke, and does the Slowpoke ever choose it?",
+    "Does a Shellder that comes off a Slowbro (80.2) go back to the sea floor?",
+    "Do Shellder that become Cloyster in rough seas differ before they evolve?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "The Shellder on a Slowpoke's tail is said to feed on the host's leftover scraps.", "kind": "said", "evidence": ["80.1", "80.9"]}
+  ]
+}

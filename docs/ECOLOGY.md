@@ -1,21 +1,53 @@
 # Ecosystems and food webs (v1, D-077)
 
 Zack: *"let's talk about ecosystems and food webs and creating something actually based on biological
-principles."* Johto in HeartGold and SoulSilver is built in three levels, from `engine/biology/ecology.py` and
-`engine/biology/johto.json`. The calls behind it are A-63 to A-68 in `docs/design/ASSUMPTIONS.md`.
+principles."* Johto and Kanto in HeartGold and SoulSilver are built in three levels, from `engine/biology/ecology.py`,
+`engine/biology/johto.json` and `engine/biology/kanto.json`. The calls behind it are A-63 to A-68 in
+`docs/design/ASSUMPTIONS.md`; Kanto came with A-66 (Zack: *"HeartGold does both of them."*).
 
 ## The landscape
 
-`johto.json` holds every Johto place as a node, joined as the games' map joins them (path, cave, sea: class
-mechanic). Each place has a biome, an elevation band, its water and a position on the drawing, all Blackthorn's
-reading. There are two flagship ecosystems:
-- **Ilex Forest.**
-- **The Blackthorn highlands:** Ice Path, Blackthorn City, Dragon's Den, Route 44, Route 45 and Dark Cave.
+`johto.json` holds every Johto place and `kanto.json` every Kanto place as a node; each node says which region it is
+in. The five Kanto places Johto's file already had (Routes 26, 27 and 28, Tohjo Falls and Victory Road) are marked
+Kanto. Places are joined as HeartGold's map joins them (class mechanic): paths, caves and sea, plus the Magnet Train
+(Goldenrod City to Saffron City) and the S.S. Aqua (Olivine City to Vermilion City). The two regions meet in four
+places: those two, the sea east of New Bark Town onto Route 27, and Route 28 onto Mt. Silver.
+
+Some joins needed a judgement:
+- **The Pokémon League Reception Gate** isn't a place, so Route 26 is joined straight to Route 22, Route 28 and
+  Victory Road, which the gate links.
+- **Tohjo Falls** opens onto Route 27. Johto's file had it joined to Route 26; that is fixed.
+- **Routes 3 and 4** are joined only through Mt. Moon, and **Routes 5 and 6** through the Underground Path.
+
+Each place has a biome, an elevation band, its water and a position on the drawing, all Blackthorn's reading. For
+Kanto these were read from the place's description on the Pokégear map and what its tables hold, and each Kanto
+place's note quotes the Pokégear. Positions come from the Pokégear map's own grid, scaled to Johto's drawing, so
+**Kanto lies east of Johto, as the games draw it** (the brief said west or south-west; the games and the existing
+drawing both put it east).
+
+Five Kanto places have no community: Saffron City, Lavender Town, the Indigo Plateau and the Power Plant have no wild
+Pokémon in HeartGold, and Pal Park is managed by people, so it is described, not reconstructed.
+
+There are eight flagship ecosystems:
+- **Ilex Forest** (Johto).
+- **The Blackthorn highlands** (Johto): Ice Path, Blackthorn City, Dragon's Den, Route 44, Route 45 and Dark Cave.
+- **Viridian Forest** (Kanto).
+- **Mt. Moon** (Kanto).
+- **The Seafoam Islands** (Kanto).
+- **Cerulean Cave** (Kanto).
+- **The routes around Fuchsia** (Kanto): Routes 12 to 15 and Fuchsia City.
+- **Cinnabar and its seas** (Kanto): Cinnabar Island and Sea Routes 19, 20 and 21.
+
+`#/ecosystems` draws both regions on one map, and `?region=johto` or `?region=kanto` draws one.
 
 ## Level 1: reconstruction
 
 Each place's community comes from the encounter tables, HeartGold and SoulSilver merged, with version-only species
-flagged:
+flagged. Kanto's tables were checked against the HeartGold decomp (pret/pokeheartgold at 6988158), place by place,
+for walking, surfing, Rock Smash and fishing (not Headbutt trees, radio or swarms). They agree everywhere but one: the reference data lists Vermilion City's Wingull twice, once without its condition,
+where the decomp has it only as a surf swarm. The decomp wins, so Wingull is a visitor there (`CORRECTIONS` in
+`ecology.py`).
+
 - **Residents:** Pokémon found there unconditionally. Only residents are in the web.
 - **Visitors:** Pokémon that arrive only by radio, swarm, contest, post-game or weekday.
 - **The Safari Zone** is managed, so it's described, not reconstructed.
@@ -29,7 +61,15 @@ The non-Pokémon life a habitat needs by principle is added per biome and labell
 - **Small fish.**
 - **Energy:** sun, soil, rock, moonlight, electricity and dreams.
 
-Geothermal heat is nowhere by default.
+Geothermal heat comes with no biome; it is given by place, and only in two:
+- **The Blackthorn highlands:** Zack's call (A-64). The games show no vents or magma there, so it is Blackthorn's
+  reading.
+- **Cinnabar Island:** the games' own words. The Pokégear says a town used to be there until it was swept away by an
+  eruption; the Pokémon Center says it has been a year since the volcano erupted; the radio says the mouth of the
+  volcano is still open.
+
+Nowhere else in Kanto. The sea routes around Cinnabar only see the volcano or the rocks it threw, and nothing in the
+games makes Mt. Silver volcanic.
 
 ## Level 2: the web and its analysis
 
@@ -76,7 +116,11 @@ somewhere to start. Integration is RK4 with dt 0.05. Every parameter is a slider
 
 With the defaults:
 - **Ilex Forest** keeps 81% of its Pokémon. Zubat, Psyduck and Magikarp fall out: their foods are the thinnest.
-- **The highlands** keep 39%. It's an energy-poor alpine and cave system fed from outside, and most of its Pokémon
-  links are hypotheses.
+- **The highlands** keep 29%. It's an energy-poor alpine and cave system fed from outside, and most of its Pokémon
+  links are hypotheses. It kept 39% before ten more of its species had dossiers, which changed what their links
+  rest on.
+- **Viridian Forest** keeps 71% and **Mt. Moon** 75%.
+- **The routes around Fuchsia** keep 56% and **Cerulean Cave** 53%.
+- **Cinnabar and its seas** keep 38% and **the Seafoam Islands** 21%.
 
-These results show what the assumptions imply, not what Johto does.
+These results show what the assumptions imply, not what Johto or Kanto does.
