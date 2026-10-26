@@ -1464,7 +1464,7 @@
     "calming_presence": [
      "Venusaur (lore: Pokédex (ruby))",
      "Milotic (lore: Pokédex (heartgold))",
-     "Meganium (lore: Pokédex (ruby))",
+     "Meganium (lore: Pokédex (crystal))",
      "Dragonite (lore: Pokédex (ruby))",
      "Lapras (lore: Pokédex (heartgold))"
     ]
@@ -1542,12 +1542,9 @@
     "calming_presence": [
      "Venusaur (lore: Pokédex (ruby))",
      "Milotic (lore: Pokédex (heartgold))",
-     "Meganium (lore: Pokédex (ruby))",
+     "Meganium (lore: Pokédex (crystal))",
      "Dragonite (lore: Pokédex (ruby))",
      "Lapras (lore: Pokédex (heartgold))"
-    ],
-    "field_healing": [
-     "Meganium (lore: Pokédex (soulsilver))"
     ]
    },
    "open_jobs": [],
@@ -1570,13 +1567,10 @@
     ]
    },
    "story_candidates": {
-    "field_healing": [
-     "Meganium (lore: Pokédex (soulsilver))"
-    ],
     "calming_presence": [
      "Venusaur (lore: Pokédex (ruby))",
      "Milotic (lore: Pokédex (heartgold))",
-     "Meganium (lore: Pokédex (ruby))",
+     "Meganium (lore: Pokédex (crystal))",
      "Dragonite (lore: Pokédex (ruby))",
      "Lapras (lore: Pokédex (heartgold))"
     ]
@@ -1633,15 +1627,16 @@
    },
    "story_candidates": {
     "food_source": [
-     "Miltank (lore: Pokédex (heartgold))",
-     "Venusaur (lore: Pokédex (ruby))"
+     "Miltank (lore: Pokédex (heartgold))"
     ],
     "cooking": [
      "Pikachu (lore: Pokédex (heartgold))"
     ],
     "heat_source": [
      "Charizard (lore: Pokédex (heartgold))",
-     "Altaria (lore: Pokédex (emerald))"
+     "Altaria (lore: Pokédex (emerald))",
+     "Arcanine (lore: Pokédex (ruby))",
+     "Infernape (lore: Pokédex (platinum))"
     ]
    },
    "open_jobs": [
@@ -1741,11 +1736,7 @@
      "Snorlax (cartridge: Rock Smash (field move))"
     ]
    },
-   "story_candidates": {
-    "digging": [
-     "Snorlax (lore: Pokédex (soulsilver))"
-    ]
-   },
+   "story_candidates": {},
    "open_jobs": [],
    "single_species": {}
   },
@@ -1821,11 +1812,12 @@
     ]
    },
    "story_candidates": {
+    "scouting": [
+     "Swampert (lore: Pokédex (ruby))"
+    ],
     "danger_sense": [
      "Espeon (lore: Pokédex (heartgold))",
-     "Alakazam (lore: Pokédex (heartgold))",
      "Swampert (lore: Pokédex (sapphire))",
-     "Arcanine (lore: Pokédex (soulsilver))",
      "Absol (lore: Pokédex (heartgold))",
      "Lucario (lore: Pokédex (platinum))"
     ]
@@ -1854,7 +1846,9 @@
    "story_candidates": {
     "heat_source": [
      "Charizard (lore: Pokédex (heartgold))",
-     "Altaria (lore: Pokédex (emerald))"
+     "Altaria (lore: Pokédex (emerald))",
+     "Arcanine (lore: Pokédex (ruby))",
+     "Infernape (lore: Pokédex (platinum))"
     ],
     "cold_tolerance": [
      "Weavile (lore: Pokédex (heartgold))",

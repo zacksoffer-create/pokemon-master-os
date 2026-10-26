@@ -2194,6 +2194,109 @@ class Capability(unittest.TestCase):
         self.assertIn("water_travel", lore("Lapras", "heartgold"))        # "ferries people"
         self.assertIn("danger_sense", lore("Absol", "emerald"))           # "senses disasters"
 
+    # A-42: every pattern checked against every entry (docs/capability/PATTERN_AUDIT.md). One case per misreading
+    # fixed, plus three that keep the new rules from going too far (Lotad, Spheal, Weezing):
+    # (species, capability, reads it now?, the entry's words).
+    PATTERN_AUDIT = [
+        ("Bagon", "air_travel", False, "in doomed efforts to fly"),
+        ("Porygon2", "air_travel", False, "It can't fly, however (a curly apostrophe)"),
+        ("Doduo", "air_travel", False, "makes up for its poor flying"),
+        ("Clefable", "air_travel", False, "skip lightly as if it were flying"),
+        ("Hariyama", "air_travel", False, "send a 10-ton truck flying"),
+        ("Pineco", "air_travel", False, "flying-insect prey"),
+        ("Grovyle", "air_travel", False, "flies from branch to branch"),
+        ("Scyther", "air_travel", False, "very rarely spreads its wings to fly"),
+        ("Gliscor", "air_travel", True, "Its flight is soundless"),
+        ("Noctowl", "air_travel", True, "make no sound in flight"),
+        ("Drifblim", "water_travel", False, "carries people and Pokémon when it flies"),
+        ("Magikarp", "water_travel", False, "unable to swim against even slow-moving currents"),
+        ("Qwilfish", "water_travel", False, "a poor swimmer"),
+        ("Lotad", "water_travel", True, "serves as a ferry to Pokémon that can't swim"),
+        ("Azumarill", "rescue", True, "if it spots a drowning Pokémon"),
+        ("Illumise", "light", False, "leads a flight of illuminated Volbeat"),
+        ("Pikachu", "light", False, "struck by light- ning (a word broken across lines)"),
+        ("Meowth", "light", False, "it loves anything that shines"),
+        ("Rhyhorn", "light", False, "strong, but not too bright"),
+        ("Chinchou", "light", True, "its constantly flashing lights"),
+        ("Flaaffy", "light", True, "its tail lights up"),
+        ("Butterfree", "hauling", False, "carry honey from flowers"),
+        ("Kingler", "hauling", False, "it can hardly lift its massive pincer"),
+        ("Swampert", "hauling", True, "it can swim while towing a large ship"),
+        ("Numel", "hauling", True, "transport a 220-pound load"),
+        ("Snorlax", "digging", False, "its stomach can digest any kind of food"),
+        ("Heatran", "digging", False, "it digs in with its cross-shaped feet"),
+        ("Graveler", "digging", True, "gouging out numerous horizontal holes"),
+        ("Glaceon", "heat_source", False, "by controlling its body heat, it can freeze"),
+        ("Swinub", "heat_source", False, "it occasionally roots out hot springs"),
+        ("Torkoal", "heat_source", True, "it burns coal inside its shell"),
+        ("Manectric", "heat_source", True, "the sparks sometimes ignite forest fires"),
+        ("Taillow", "cold_tolerance", False, "it dislikes cold seasons"),
+        ("Vulpix", "cold_tolerance", False, "one snow- white tail"),
+        ("Spheal", "cold_tolerance", True, "it never feels the cold"),
+        ("Prinplup", "cold_tolerance", True, "it searches for prey in icy seas"),
+        ("Blissey", "danger_sense", False, "it senses sadness"),
+        ("Kadabra", "danger_sense", False, "the more danger it faces"),
+        ("Hoothoot", "danger_sense", False, "a perfect sense of time"),
+        ("Electrike", "danger_sense", True, "it gives off sparks if a storm approaches"),
+        ("Aerodactyl", "scouting", False, "from the distant past"),
+        ("Duskull", "scouting", False, "passing through walls"),
+        ("Pidgeot", "scouting", True, "its outstanding vision"),
+        ("Sentret", "scouting", True, "it stands on its tail so it can see a long way"),
+        ("Gyarados", "calming_presence", False, "its violent blood doesn't calm"),
+        ("Tauros", "calming_presence", False, "knock them down to calm itself"),
+        ("Chikorita", "calming_presence", True, "becalming the battling Pokémon"),
+        ("Roselia", "calming_presence", True, "its scent deeply relaxes people"),
+        ("Mothim", "food_source", False, "while it loves floral honey, it won't gather any itself"),
+        ("Slowpoke", "food_source", False, "although not nutritious, the tail is pleasant to chew on"),
+        ("Tropius", "food_source", True, "children eat as snacks the fruit around its neck"),
+        ("Shuckle", "cooking", True, "the berries eventually ferment to become delicious juices"),
+        ("Charmander", "field_healing", False, "if it is healthy, the flame burns brightly"),
+        ("Magmar", "field_healing", False, "it can heal itself by dipping its wound into lava"),
+        ("Chansey", "field_healing", True, "it shares its eggs with injured people"),
+        ("Sunflora", "night_travel", False, "in the darkness after sunset, it closes its petals"),
+        ("Torchic", "night_travel", False, "it dislikes darkness"),
+        ("Weezing", "night_travel", True, "at night, when the people are asleep, it goes through the trash"),
+        ("Delcatty", "night_travel", True, "it is nocturnal"),
+        ("Cacnea", "plant_care", False, "its yellow flowers bloom once a year"),
+        ("Celebi", "plant_care", True, "grass and trees flourish where it has appeared"),
+        ("Sceptile", "plant_care", True, "it carefully grows trees and plants"),
+        ("Taillow", "manipulation", False, "on the other hand, it cries if hungry"),
+        ("Barboach", "manipulation", False, "if a foe grabs it, it slips out"),
+        ("Zangoose", "manipulation", False, "its sharp claws are its best weapon"),
+        ("Marowak", "manipulation", True, "the bone it holds is its key weapon"),
+        ("Staraptor", "manipulation", True, "it can fly while gripping a small Pokémon"),
+        ("Machop", "construction", False, "it loves to build its muscles"),
+        ("Bibarel", "construction", True, "it makes its nest by damming streams"),
+        ("Koffing", "tracking", False, "constant sniffles"),
+        ("Ursaring", "tracking", True, "its ability to distinguish any smell"),
+        ("Blissey", "navigation", False, "a very compassionate nature"),
+        ("Magnemite", "navigation", False, "emitting electromagnetic waves"),
+        ("Suicune", "navigation", False, "the reincarnation of north winds"),
+        ("Nosepass", "navigation", True, "its magnetic nose is always pointed to the north"),
+        ("Bonsly", "water_supply", False, "it leaks water from its eyes"),
+        ("Blastoise", "water_supply", True, "shooting water from the jets on its back"),
+        ("Jumpluff", "cold_source", False, "it lands when it encounters cold air"),
+        ("Regice", "cold_source", True, "things will freeze solid just by going near it"),
+        ("Phanpy", "heat_tolerance", False, "the desert- ed morning hours"),
+        ("Skorupi", "heat_tolerance", True, "it lives in arid lands"),
+    ]
+
+    def test_pattern_audit_regressions(self):
+        from capability.records import CapabilityRecords
+        cr = CapabilityRecords(DB)
+        lore = {}
+        for species, cap, expected, words in self.PATTERN_AUDIT:
+            if species not in lore:
+                lore[species] = {r["cap"] for r in cr.records(species, "heartgold") if r["kind"] == "lore"}
+            self.assertEqual(cap in lore[species], expected, f"{species} {cap}: '{words}'")
+
+    def test_a_cave_is_dark_not_light(self):
+        """A cave habitat says the Pokémon moves in the dark; it doesn't make it a light (Zubat is blind)."""
+        from wilderness.engine import WildernessEngine
+        inferred = {e.capability for e in WildernessEngine(DB).evidence("Zubat", "crystal") if e.tier == "inference"}
+        self.assertIn("night_travel", inferred)
+        self.assertNotIn("light", inferred)
+
     def test_records_keep_their_axes(self):
         from capability.records import KINDS, CapabilityRecords
         cr = CapabilityRecords(DB)

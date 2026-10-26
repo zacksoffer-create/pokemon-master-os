@@ -1,5 +1,5 @@
 {
- "built": "2026-10-25",
+ "built": "2026-10-26",
  "kpis": {
   "residents": 45,
   "at_hq": 41,
@@ -14,7 +14,7 @@
   "open_jobs": 3,
   "single_points": 5,
   "open_questions": 10,
-  "decisions": 77,
+  "decisions": 79,
   "world_records": 17
  },
  "chapters": [
@@ -1697,7 +1697,7 @@
     "calming presence": [
      "Venusaur (lore: Pokédex (ruby))",
      "Milotic (lore: Pokédex (heartgold))",
-     "Meganium (lore: Pokédex (ruby))",
+     "Meganium (lore: Pokédex (crystal))",
      "Dragonite (lore: Pokédex (ruby))",
      "Lapras (lore: Pokédex (heartgold))"
     ]
@@ -1775,12 +1775,9 @@
     "calming presence": [
      "Venusaur (lore: Pokédex (ruby))",
      "Milotic (lore: Pokédex (heartgold))",
-     "Meganium (lore: Pokédex (ruby))",
+     "Meganium (lore: Pokédex (crystal))",
      "Dragonite (lore: Pokédex (ruby))",
      "Lapras (lore: Pokédex (heartgold))"
-    ],
-    "field healing": [
-     "Meganium (lore: Pokédex (soulsilver))"
     ]
    }
   },
@@ -1804,13 +1801,10 @@
     "calming presence": "Snorlax (authored: W-015 (D-033))"
    },
    "story_candidates": {
-    "field healing": [
-     "Meganium (lore: Pokédex (soulsilver))"
-    ],
     "calming presence": [
      "Venusaur (lore: Pokédex (ruby))",
      "Milotic (lore: Pokédex (heartgold))",
-     "Meganium (lore: Pokédex (ruby))",
+     "Meganium (lore: Pokédex (crystal))",
      "Dragonite (lore: Pokédex (ruby))",
      "Lapras (lore: Pokédex (heartgold))"
     ]
@@ -1871,15 +1865,16 @@
    },
    "story_candidates": {
     "food source": [
-     "Miltank (lore: Pokédex (heartgold))",
-     "Venusaur (lore: Pokédex (ruby))"
+     "Miltank (lore: Pokédex (heartgold))"
     ],
     "cooking": [
      "Pikachu (lore: Pokédex (heartgold))"
     ],
     "heat source": [
      "Charizard (lore: Pokédex (heartgold))",
-     "Altaria (lore: Pokédex (emerald))"
+     "Altaria (lore: Pokédex (emerald))",
+     "Arcanine (lore: Pokédex (ruby))",
+     "Infernape (lore: Pokédex (platinum))"
     ]
    }
   },
@@ -1975,11 +1970,7 @@
    },
    "open_jobs": [],
    "hangs_on_one": {},
-   "story_candidates": {
-    "digging": [
-     "Snorlax (lore: Pokédex (soulsilver))"
-    ]
-   }
+   "story_candidates": {}
   },
   {
    "name": "transport",
@@ -2060,11 +2051,12 @@
     "danger sense": "Crobat (authored: W-009 (D-033))"
    },
    "story_candidates": {
+    "scouting": [
+     "Swampert (lore: Pokédex (ruby))"
+    ],
     "danger sense": [
      "Espeon (lore: Pokédex (heartgold))",
-     "Alakazam (lore: Pokédex (heartgold))",
      "Swampert (lore: Pokédex (sapphire))",
-     "Arcanine (lore: Pokédex (soulsilver))",
      "Absol (lore: Pokédex (heartgold))",
      "Lucario (lore: Pokédex (platinum))"
     ]
@@ -2094,7 +2086,9 @@
    "story_candidates": {
     "heat source": [
      "Charizard (lore: Pokédex (heartgold))",
-     "Altaria (lore: Pokédex (emerald))"
+     "Altaria (lore: Pokédex (emerald))",
+     "Arcanine (lore: Pokédex (ruby))",
+     "Infernape (lore: Pokédex (platinum))"
     ],
     "cold tolerance": [
      "Weavile (lore: Pokédex (heartgold))",
@@ -2159,12 +2153,14 @@
      "heat_source": [
       "Charizard (lore: Pokédex (heartgold))",
       "Altaria (lore: Pokédex (emerald))",
+      "Arcanine (lore: Pokédex (ruby))",
+      "Infernape (lore: Pokédex (platinum))",
       "Magcargo (lore: Pokédex (soulsilver))"
      ],
      "calming_presence": [
       "Venusaur (lore: Pokédex (ruby))",
       "Milotic (lore: Pokédex (heartgold))",
-      "Meganium (lore: Pokédex (ruby))",
+      "Meganium (lore: Pokédex (crystal))",
       "Dragonite (lore: Pokédex (ruby))",
       "Lapras (lore: Pokédex (heartgold))"
      ]
@@ -2238,12 +2234,13 @@
       "Meganium (lore: Pokédex (soulsilver))"
      ],
      "light": [
-      "Charizard (lore: Pokédex (heartgold))",
       "Milotic (lore: Pokédex (sapphire))"
      ],
      "heat_source": [
       "Charizard (lore: Pokédex (heartgold))",
       "Altaria (lore: Pokédex (emerald))",
+      "Arcanine (lore: Pokédex (ruby))",
+      "Infernape (lore: Pokédex (platinum))",
       "Magcargo (lore: Pokédex (soulsilver))"
      ]
     },
@@ -2298,7 +2295,7 @@
      "calming_presence": [
       "Venusaur (lore: Pokédex (ruby))",
       "Milotic (lore: Pokédex (heartgold))",
-      "Meganium (lore: Pokédex (ruby))",
+      "Meganium (lore: Pokédex (crystal))",
       "Dragonite (lore: Pokédex (ruby))",
       "Lapras (lore: Pokédex (heartgold))"
      ]
@@ -2327,17 +2324,13 @@
      ]
     },
     "story_candidates": {
-     "field_healing": [
-      "Meganium (lore: Pokédex (soulsilver))"
-     ],
      "food_source": [
-      "Miltank (lore: Pokédex (heartgold))",
-      "Venusaur (lore: Pokédex (ruby))"
+      "Miltank (lore: Pokédex (heartgold))"
      ],
      "calming_presence": [
       "Venusaur (lore: Pokédex (ruby))",
       "Milotic (lore: Pokédex (heartgold))",
-      "Meganium (lore: Pokédex (ruby))",
+      "Meganium (lore: Pokédex (crystal))",
       "Dragonite (lore: Pokédex (ruby))",
       "Lapras (lore: Pokédex (heartgold))"
      ]
@@ -6600,6 +6593,24 @@
    "area": "v1 defaults",
    "status": "PROVISIONAL",
    "who": "assistant"
+  },
+  {
+   "id": "D-078",
+   "date": "2026-10-25",
+   "title": "Blackthorn v2.0: built around your inputs",
+   "text": "Blackthorn v2.0: built around your inputs (Zack: \"The main focus should be on my inputs ... remove all of my inputs ... allow me to start with heart gold and then let's build it from the process up ... Take time to redesign this thing into something that you think I might like\"). (a) A fresh start: the app shows none of the personal layer (journeys, builds, lineups, party, residents, studbook, lineage, program, the journey's scouting files, Sheet rows before 2026-10-25); nothing is deleted, `engine/store/fresh_start.json` turns it off; this supersedes D-006's lock on the HeartGold roster for the app (the roster stays in canon). (b) One team per game, each its own trainer (My Teams `journey:<game>`), with a team homepage. (c) The Pokémon builder in Zack's layout. (d) Five team roles (Tank added; Sweeper, Support and Wall read from the League fights; calibrated bars). (e) Badges in six families (Sustain and Utility added). (f) The generated naming list (233,886 combinations, proposals only). (g) A new menu. Every call is A-79 to A-99 in `docs/design/ASSUMPTIONS.md` and on `#/v2`; the plan is `docs/design/V2_PLAN.md`",
+   "area": "v2 defaults",
+   "status": "PROVISIONAL",
+   "who": "assistant"
+  },
+  {
+   "id": "D-079",
+   "date": "2026-10-26",
+   "title": "Zack's answers to Your calls, given in chat",
+   "text": "Zack's answers to Your calls, given in chat (recorded in `engine/store/answers.json`, shown as answered in the app). Questions: the satellite is the Sevii Islands (Q-RANCH-1); D-038 confirmed as moveset-first: what matters is the moves the line needs, not the father (Q-RANCH-2); the Day-Care preserve is for other great trainers and costs so much that only the very wealthy come (Q-RANCH-4); the companions' genders stay (Q-BREED-1); no outside fathers in the story (Q-BREED-2); Crystal's Fly answer is fine (Q-CH-1). Later: W-016 and W-017 (Q-RANCH-3), Platinum's Waterfall and Defog (Q-CH-2), and the move-set calls (Q-CH-3, D-013, D-014). Assumptions: kept, except everything in git (A-03), let 'what a set might suggest' propose an interpretation, marked hypothetical (A-09), every key item in the equipment library (A-35), geothermal ground in the highlands (A-64, done in v2.2), add Kanto to the landscape (A-66); more dossiers (A-62) and a pass over the wilderness engine's Pokédex patterns (A-42); A-06, A-40, A-49 and A-53 rewritten in plain words for another look.",
+   "area": "Zack's calls",
+   "status": "WORKING",
+   "who": "Zack (recorded by the assistant)"
   }
  ],
  "evidence": [

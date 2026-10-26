@@ -16,7 +16,6 @@ Pokémon, so they're kept apart, keyed by the individual they describe.
 import csv
 import json
 import os
-import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +26,7 @@ if ENGINE not in sys.path:
 import rules  # noqa: E402
 from ranch.habitat import HabitatEngine  # noqa: E402
 from specimen import EXCEPTIONS  # noqa: E402
-from wilderness.engine import GAME_VERSIONS, GEN24_VERSIONS, WildernessEngine  # noqa: E402
+from wilderness.engine import GAME_VERSIONS, GEN24_VERSIONS, WildernessEngine, lore_reads  # noqa: E402
 from wilderness.world import WorldStore  # noqa: E402
 
 GAMES = ("crystal", "firered", "emerald", "platinum", "heartgold", "soulsilver")
@@ -124,12 +123,9 @@ class CapabilityRecords:
             text = rows.get(v)
             if not text:
                 continue
-            sentences = re.split(r"(?<=[.!?])\s+", text)
-            for cap, pat in pats.items():
-                if cap not in seen and any(re.search(pat, x, re.I) and not re.search(excl.get(cap, "$^"), x, re.I)
-                                           for x in sentences):
-                    seen.add(cap)
-                    out.append({"cap": cap, "kind": "lore", "source": f"Pokédex ({names[v]})", "detail": text})
+            for cap in lore_reads(text, {c: p for c, p in pats.items() if c not in seen}, excl):
+                seen.add(cap)
+                out.append({"cap": cap, "kind": "lore", "source": f"Pokédex ({names[v]})", "detail": text})
         return out
 
     def _new_types(self, species, gen):

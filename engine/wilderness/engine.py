@@ -72,33 +72,105 @@ FIELD_ABILITIES = {
     "Static": ("foraging", "draws out Electric-types"), "Magnet Pull": ("foraging", "draws out Steel-types"),
 }
 ABILITY_FIELD_GAMES = {"emerald", "platinum", "heartgold", "soulsilver"}   # FireRed: Pickup only (believed)
+# Pokédex patterns, one per capability. Every pattern was checked against every Gen II-IV entry the engine reads, with
+# what each caught wrongly or missed written up in docs/capability/PATTERN_AUDIT.md (A-42); change one there too.
 LORE_PATTERNS = {
-    "rescue": r"\brescu|guides? .{0,30}to (?:shore|safety)|saves? (?:people|drowning)",
-    "light": r"\blight\b|\bglow|\bshin(?:e|es|ing)\b|illuminat|\bbright",
-    "air_travel": r"\bfl(?:y|ies|ying)\b|\bsoar",
+    "rescue": r"\brescu|guides? .{0,30}to (?:shore|safety)|\bsav(?:e|es|ed) (?:people|drowning|lost)"
+              r"|(?:people|pokémon) who were saved|\bspots? a drowning|beacon for lost",
+    "light": r"\bglow(?:s|ed|ing)?\b|\bshin(?:e|es|ing)\b|illuminat|\bbrightly\b|\bbrightens\b|\bbright light\b"
+             r"|\blights? up\b|light[- ]emitting|\b(?:flashing|electric) lights\b|\blight (?:on|from) its\b"
+             r"|\b(?:emits?|emitting|gives? off|giving off|produces?|releases?|casts?|shoots?|flash(?:es|ing)?|beams? of"
+             r"|burst of) (?:\w+ ){0,3}light\b|\b(?:its|[\w-]+'s) light\b(?! (?:pink|blue))|\blight it emits\b|\blight and heat\b",
+    "air_travel": r"\bfl(?:y|ies|ying)\b|\bflight\b|\bfl(?:ew|own)\b|\bsoar(?:s|ed|ing)?\b",
     "water_travel": r"\bswim|ferr(?:y|ies)|carr(?:y|ies) (?:people|humans|passengers)|across (?:the )?(?:seas?|oceans?|waters?)\b",
-    "hauling": r"\bcarr(?:y|ies)\b|\bhaul|\blift",
-    "digging": r"\bdig|\bburrow|\btunnel",
-    "heat_source": r"\bheat\b|\bwarmth\b|\bhot\b|\bflames?\b",
-    "cold_tolerance": r"\bcold\b|\bsnow|\bice\b|\bfreez",
-    "danger_sense": r"\bsens(?:e|es|ing)\b|\bpredict|\bforesee|\bdisaster|\bdanger\b(?!ous)",
-    "scouting": r"through walls|\bkeen (?:eyes|eyesight|sight|vision|senses)|\bsees? (?:far|great distances|for miles|.{0,20}far away)|\bspots? .{0,30}from (?:far|high|miles|a distance)|\bdistant",
-    "calming_presence": r"\bcalm\b|\bgentle\b|\bkind(?:hearted)?\b|\bsooth",
-    "food_source": r"\bmilk\b|\bnutriti|\bhoney\b",
-    "cooking": r"\broast|\bcook|\bbak(?:e|es)\b",
-    "field_healing": r"\bheal|\bcures?\b|\brestor",
-    "night_travel": r"\bnight\b|\bin the dark|\bdarkness\b",
-    "plant_care": r"revive (?:dead )?(?:grass|plants|flowers)|(?:plants|flowers|trees) (?:grow|bloom)|scatters pollen",
+    "hauling": r"\bhaul|\btow(?:s|ed|ing)?\b|twice its (?:own )?weight|lifts and throws|\b(?:lift|lifts|lifting|carr(?:y|ies"
+               r"|ying)|transport\w*|drags?|pick up and carry|moving of|piles? up) (?:[\w-]+ ){0,3}(?:heavy|boulders?|rocks?"
+               r"|trucks?|cargo|loads?|goods|people|humans?|adult|ships?|logs?|pokémon)\b",
+    "digging": r"\bdig(?:s|ging)?\b|\bburrow|\btunnel|\bgoug\w* (?:\w+ ){0,3}holes|\bbor(?:e|es|ing) (?:its way|holes?|a hole"
+               r"|tunnels?)|\beat its way through the soil|\bcarves holes",
+    "heat_source": r"\bheat\b|\bwarmth\b|\bhot\b|\bflames?\b|\b(?:its|with|the) fire\b|\bfiery\b|\bembers\b|\bignites?\b"
+                   r"|\bburn(?:s|ing)? (?:more )?coal",
+    "cold_tolerance": r"\bcold\b|\bsnow|\bice\b|\bfreez|\bicy (?:seas?|waters?|ground|mountains?)|\bfrigid\b",
+    "danger_sense": r"\bsens(?:e|es|ing)\b|\bpredict|\bforesee|\bdisaster|\bdanger\b(?!ous)|if a storm approaches",
+    "scouting": r"through walls|\bkeen (?:eyes|eyesight|sight|vision|senses)|\bsees? (?:far|great distances|for miles|.{0,20}far away)"
+                r"|\bspots? .{0,30}from (?:far|high|miles|a distance)|\bdistant (?:sounds|flowers)"
+                r"|\b(?:outstanding|superior|sharp|powerful|excellent) (?:vision|eyesight|eyes)\b|\bsee a long way"
+                r"|\blookout\b|\bkeeps? watch\b|\bscan wide areas|\bsee in all directions|\b360 degrees",
+    "calming_presence": r"\bcalm\b|\bbecalm\w*|\bgentle\b|\bkind(?:hearted|ly|ness)?\b|\bsooth|\brelax(?:es|ing)\b|\bdocile\b"
+                        r"|\bfriendly\b",
+    "food_source": r"\bmilk\b|\b(?:delicious|nutriti\w*|tasty) (?:\w+ ){0,2}(?:eggs?|fruits?|juices?)\b"
+                   r"|\b(?:eggs?|fruits?|berries) (?:[\w-]+ ){0,4}(?:delicious|nutriti\w*)|\bshares? (?:an |its |the )?eggs?\b"
+                   r"|\bgrows? (?:\w+ ){0,2}(?:berries|fruits?)\b|\b(?:berries|fruits?) (?:that )?(?:grows?|growing) (?:\w+ ){0,3}"
+                   r"(?:on|around)\b|\bis (?:\w+ ){0,3}tasty\b|\b(?:collects?|collecting|gathers?|makes?|concocts?|produces?"
+                   r"|delivers?|carries) (?:\w+ ){0,3}honey\b|\bsecretes honey\b|\bsugary syrup",
+    "cooking": r"\broast|\bcook|\bbak(?:e|es)\b|\bferment|\bto make a drink",
+    "field_healing": r"\bheal(?:s|ed|ing)?\b|\bcures?\b|\brestor\w* (?:\w+ ){0,2}health|\bback to health|\bnurs(?:e|es|ing)\b"
+                     r"|\bwith injured|\bfor the sick",
+    "night_travel": r"\bnights?\b|\bin the (?:\w+ )?dark|\bdarkness\b|\bnocturnal\b",
+    "plant_care": r"revive (?:dead )?(?:grass|plants|flowers)|scatters pollen|\bplants? trees\b|\bgrows? (?:trees|plants|crops)\b"
+                  r"|\b(?:grass|trees|plants|flowers)(?: and \w+)? flourish|\braises the trees|\b(?:sows?|sowing|scatters?)"
+                  r" (?:its )?seeds|\btilled\b|ideal for planting|into a lush field",
 }
 # A sentence that matches one of these is not evidence for the capability ("steals heat", "wings not used for flying",
-# "sense of smell" is tracking, not danger sense).
+# "sense of smell" is tracking, not danger sense, sleeping at night isn't moving in the dark).
 LORE_EXCLUDE = {
-    "heat_source": r"(?:steal|absorb)\w* .{0,25}heat|\bcool|\bhot (?:the |its )?shell|shell becomes",
-    "light": r"bright[- ]colou?red|bright daylight|moon ?light|sunlight|faint light|minimal light|amount of light|avoids? (?:the )?light|\bsee in",
-    "air_travel": r"not used for flying|\b(?:can't|cannot|can not|unable to|doesn't|does not) fly|flightless|flying (?:insect|bug|prey|pokémon)|knock\w* .{0,40}flying|sent flying|\bthrown\b",
-    "calming_presence": r"\bkinds? of\b|\b(?:this|that|its) kind\b|one of a kind",
-    "danger_sense": r"sense of smell",
+    "heat_source": r"(?:steal|absorb)\w* .{0,25}heat|\bcool|\bhot (?:the |its )?shell|shell becomes|\bhot (?:and humid|season"
+                   r"|topic|springs?|things)|hot-headed|\bwhen it(?:'s| is) hot\b|hot inside its cocoon|desert(?:'s)? heat"
+                   r"|geothermal|heat of lava|feeling the heat|pressure and heat|\bfreez|search of warmth|won't melt",
+    "light": r"anything that shines|shiny (?:object|coins?)|something shiny|shines like gold|shining future|glow of street"
+             r"|glowing with warmth|illuminated volbeat|meteors illuminate|\breflects?\b",
+    "air_travel": r"not used for flying|\b(?:can't|cannot|can not|unable to|doesn't|does not) fly|flightless"
+                  r"|flying[- ](?:insect|bug|prey|pokémon)|knock\w* .{0,40}flying|\bsen(?:d|ds|ding|t) (?:[\w-]+ ){0,3}flying"
+                  r"|\bthrown\b|as if it were flying|\bdream\w* of (?:one day )?(?:fly|flying|soar)|doomed efforts|hopes for wings"
+                  r"|\btemperatures? (?:\w+ ){0,2}soar|flies from branch|flies into (?:a|an) |spirit is said to leave"
+                  r"|orbs fly|\brarely\b|just a little|only fly short|rather than flying",
+    "water_travel": r"when it flies|swimming (?:to be )?somewhat challenging|swimming muscles are weak",
+    "hauling": r"\bin tow\b|its heavy body",
+    "digging": r"digs in with",
+    "cold_tolerance": r"\bdislikes? (?:the )?cold|\b(?:avoid|escape) the cold|\bshelter(?: itself)? from (?:the )?cold"
+                      r"|sluggish in cold|\b(?:grows|gets|turns) cold\b|\bcold (?:periods|seasons|summer|day|nights|underground)\b"
+                      r"|encounters cold air|snow-?white|snowball|freeze in (?:utter )?fear|seasons without snow|ice mountain"
+                      r"|out of clay",
+    "calming_presence": r"\bkinds? of\b|\b(?:this|that|its) kind\b|one of a kind|calm (?:itself|down)|(?:waves|waters|sea) (?:are|is) calm"
+                        r"|feeling calm|calm raging|gentle (?:breezes?|waves?)|docile[- ]looking|becomes docile if|docile one moment",
+    "danger_sense": r"sense of (?!danger)\w+|\b(?:its|their|other|all) senses\b|olfactory sense|sens\w* (?:\w+ ){0,6}(?:emotions?"
+                    r"|feelings?|sadness|gratitude|disposition)|senses? strong sunlight|earth's rotation"
+                    r"|\b(?:in|faced with|faces|less) danger\b|danger it faces",
+    "scouting": r"passing through walls",
+    "food_source": r"trees that bear",
+    "field_healing": r"heals? itself|nurses injuries|long-held belief",
+    "night_travel": r"^(?!.*\b(?:by day|during the day)\b).*\bsleeps?\b|\bgoes to sleep|closes its petals|becomes still"
+                    r"|stops moving|dislikes darkness|grows it back|night of a storm|cries at night|reflections of stars"
+                    r"|number of stars|radio signals|\b(?:shines?|glows?|flashes|sparkle)\b|\baurora\b",
 }
+# A match a few words after one of these is negated ("cannot fly", "a poor swimmer", "too lethargic to even lift"), except
+# for tolerances, where "it never feels the cold" is the evidence.
+LORE_NEGATION = re.compile(r"\b(?:not(?! only)|never|cannot|can't|can not|unable to|incapable of|inability to|doesn't|does not"
+                           r"|didn't|did not|isn't|is not|won't|aren't|no longer|poor|poorly|too (?:\w+ ){1,2}to|without)"
+                           r"\s+(?:[\w'-]+,?\s+){0,2}$", re.I)
+LORE_NOT_NEGATED = {"cold_tolerance", "heat_tolerance"}
+
+
+def lore_text(text):
+    """An entry as the patterns read it: Gen II-III entries break words across lines with a soft hyphen or a hyphen
+    ("drown- ing", "high- pitched") and later ones use a curly apostrophe."""
+    text = " ".join(text.split()).replace("\u00ad ", "").replace("\u00ad", "").replace("\u2019", "'")
+    return re.sub(r"(\w)- (\w)", r"\1-\2", text)
+
+
+def lore_reads(text, patterns, exclude):
+    """The capabilities one Pokédex entry is evidence for: a sentence counts when its pattern matches, the match isn't
+    negated, and the sentence isn't excluded."""
+    sentences = re.split(r"(?<=[.!?])\s+", lore_text(text))
+
+    def reads(cap, pat, sentence):
+        if re.search(exclude.get(cap, "$^"), sentence, re.I):
+            return False
+        return any(cap in LORE_NOT_NEGATED or not LORE_NEGATION.search(sentence[:m.start()])
+                   for m in re.finditer(pat, sentence, re.I))
+    return [cap for cap, pat in patterns.items() if any(reads(cap, pat, s) for s in sentences)]
+
+
 GAME_VERSIONS = {"crystal": [6, 4, 5], "firered": [10, 11, 9], "emerald": [9, 7, 8], "platinum": [14, 12, 13],
                  "heartgold": [15, 16, 14], "soulsilver": [16, 15, 14]}
 GEN24_VERSIONS = list(range(4, 17))
@@ -170,12 +242,9 @@ class WildernessEngine:
             text = rows.get(v)
             if not text:
                 continue
-            sentences = re.split(r"(?<=[.!?])\s+", text)
-            for cap, pat in LORE_PATTERNS.items():
-                if cap not in seen and any(re.search(pat, x, re.I) and not re.search(LORE_EXCLUDE.get(cap, "$^"), x, re.I)
-                                           for x in sentences):
-                    seen.add(cap)
-                    out.append(Evidence(cap, "lore", f"Pokédex ({names[v]})", text))
+            for cap in lore_reads(text, {c: p for c, p in LORE_PATTERNS.items() if c not in seen}, LORE_EXCLUDE):
+                seen.add(cap)
+                out.append(Evidence(cap, "lore", f"Pokédex ({names[v]})", text))
         return out
 
     def _inference(self, species, gen):
@@ -196,7 +265,8 @@ class WildernessEngine:
                          "ON h.id=s.habitat_id WHERE s.id=?", sid)
         if hab:
             habitat = hab[0][0]
-            cap = {"mountain": "climbing", "cave": "light", "rough-terrain": "climbing", "sea": "water_travel",
+            # a cave is dark terrain: it says the Pokémon moves in darkness, not that it gives light (Zubat is blind)
+            cap = {"mountain": "climbing", "cave": "night_travel", "rough-terrain": "climbing", "sea": "water_travel",
                    "waters-edge": "water_travel", "forest": "foraging", "grassland": "foraging",
                    "urban": "town_fit"}.get(habitat)
             if cap:
