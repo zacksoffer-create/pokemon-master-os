@@ -82,13 +82,15 @@ Among equally short planned pedigrees, the studbook prefers a journey companion 
 - **Could instead:** no preference; only same-generation companions
 - **Your call** (2026-10-26, chat): Keep
 
+## v2.5 · Breeding stock
+
 ### A-09 · What a set suggests (D-067)
 
-'What a set might suggest' shows only evidence by kind (game mechanics, canon about the species) and draws no conclusion.
+'What a set might suggest' lists the evidence by kind (game mechanics, canon about the species), then reads it by fixed rules. Each sentence is marked a hypothesis and names its rule and what it rests on. Only the parents' moves are read as the line's; the ability, nature, IVs and purpose are read as what you intend. With nothing to go on, it says there's too little to read.
 
-- **Why:** An interpretation would be a hypothesis for the journal, not a fact.
+- **Why:** Your call (2026-10-26, chat): "You can propose an interpretation, that's fine."
 - **See it:** `#/stock` (Breeding stock)
-- **Could instead:** let it propose an interpretation, marked hypothetical
+- **Could instead:** show only the evidence and draw no conclusion (as before); one overall reading per set instead of a sentence for each rule that fires
 - **Your call** (2026-10-26, chat): Change: let it propose an interpretation, marked hypothetical. "You can propose an interpretation, that's fine."
 
 ## Phase 5 · Trainer Library

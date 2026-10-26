@@ -220,6 +220,9 @@ described, take the reins and build it."*
 - **Everything in git (A-03).** Record → Keep it in git makes a copy of every tab in your Drive (a download in the
   preview). Say "snapshot my records" and it goes into the project.
 - **The builder's Homestead tags** are read in HeartGold, the estate's game, with your world records.
+- **What a set might suggest (A-09).** Under the evidence, the breeding-stock designer now proposes a reading: a
+  sentence for each rule that fires, about the line and about what it's for. Each is marked hypothesis, names its rule
+  and says what it rests on. Your call: "You can propose an interpretation, that's fine."
 
 ## 14. Not reworked yet (the next updates)
 
