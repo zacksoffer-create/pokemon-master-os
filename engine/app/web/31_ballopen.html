@@ -1,0 +1,314 @@
+<script>
+/* ===== Ball openings as the games play them (v2.4; Zack: "all of the balls to have the animation from the game, not a custom one")
+   One canvas over the portrait, stepped at the games' 60 frames a second. Each generation's opening is rebuilt from
+   its disassembly, number for number (docs/design/BALL_OPENINGS.md has the sources, file by file):
+   - Gen III (FireRed, Emerald): pret/pokeemerald src/battle_anim_throw.c and src/pokeball.c, identical in
+     pret/pokefirered. Per ball: the particle routine, its count, path, speed and life; the particle frames; the fade
+     colour the Pokémon comes out in; the ball's own open frames; the emerge (scale 0x28 -> 0x100 over 12 frames,
+     rising 16 px); the background's white flash.
+   The game's own pictures (particle sheets, ball sprites) are not copied into the project: like the Pokémon sprites
+   (PokeAPI), they're loaded at run time from the disassemblies on GitHub, pinned to one commit. If they can't load,
+   the same motion plays with plain pixels in the frames' main colours. */
+var BallOpen = (function () {
+  var PRET_EM = 'https://raw.githubusercontent.com/pret/pokeemerald/731ad5bfd6e6f265508d0efcca0ba42f9dcf5881/';
+  var SINE = []; for (var i = 0; i < 320; i++) { var v = Math.sin(i * Math.PI / 128) * 256; SINE.push(Math.trunc(v + (v >= 0 ? 1e-9 : -1e-9))); }   // gSineTable (src/trig.c): sin truncated, Q8
+  function Sin(a, amp) { return (amp * SINE[a & 255]) >> 8; }
+  function Cos(a, amp) { return (amp * SINE[(a & 255) + 64]) >> 8; }
+  function genOf(game) { return game === 'crystal' ? 2 : game === 'firered' || game === 'emerald' ? 3 : 4; }
+
+  /* ---- pictures: indexed PNGs decoded here, so colour 0 is see-through exactly as on the console ---- */
+  var CACHE = {};
+  function inflate(bytes) {
+    if (typeof DecompressionStream === 'undefined') return Promise.reject(new Error('no DecompressionStream'));
+    return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate'))).arrayBuffer().then(function (b) { return new Uint8Array(b); });
+  }
+  function png(url) {   // -> {w, h, px: Uint8Array of palette indices, pal: [[r,g,b]]}
+    if (CACHE[url]) return CACHE[url];
+    return (CACHE[url] = fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(function (buf) {
+      var d = new Uint8Array(buf), dv = new DataView(buf), p = 8, w, h, depth, type, pal = [], idat = [], len = 0;
+      while (p < d.length) {
+        var n = dv.getUint32(p), t = String.fromCharCode(d[p + 4], d[p + 5], d[p + 6], d[p + 7]), c = d.subarray(p + 8, p + 8 + n);
+        if (t === 'IHDR') { w = dv.getUint32(p + 8); h = dv.getUint32(p + 12); depth = c[8]; type = c[9]; }
+        else if (t === 'PLTE') for (var k = 0; k < n; k += 3) pal.push([c[k], c[k + 1], c[k + 2]]);
+        else if (t === 'IDAT') { idat.push(c); len += n; }
+        p += 12 + n;
+      }
+      if (type !== 3 && type !== 0) throw new Error('not an indexed or grey PNG');
+      var all = new Uint8Array(len), o = 0; idat.forEach(function (c) { all.set(c, o); o += c.length; });
+      return inflate(all).then(function (raw) {
+        var stride = Math.ceil(w * depth / 8), out = new Uint8Array(w * h), prev = new Uint8Array(stride), cur = new Uint8Array(stride), q = 0;
+        for (var y = 0; y < h; y++) {
+          var f = raw[q++];
+          for (var x = 0; x < stride; x++) {
+            var a = x ? cur[x - 1] : 0, b = prev[x], cc = x ? prev[x - 1] : 0, r = raw[q++], pr;
+            if (f === 1) r += a; else if (f === 2) r += b; else if (f === 3) r += (a + b) >> 1;
+            else if (f === 4) { var pp = a + b - cc, pa = Math.abs(pp - a), pb = Math.abs(pp - b), pc = Math.abs(pp - cc); pr = pa <= pb && pa <= pc ? a : pb <= pc ? b : cc; r += pr; }
+            cur[x] = r & 255;
+          }
+          for (var x2 = 0; x2 < w; x2++) { var bit = x2 * depth, v = depth === 8 ? cur[x2] : (cur[bit >> 3] >> (8 - depth - (bit & 7))) & ((1 << depth) - 1);
+            out[y * w + x2] = type === 0 ? 3 - Math.round(v * 3 / ((1 << depth) - 1)) : v; }   // grey: white 0 .. black 3
+          var t2 = prev; prev = cur; cur = t2;
+        }
+        return {w: w, h: h, px: out, pal: pal};
+      });
+    }));
+  }
+  function frames(img, fw, fh, pal) {   // vertical strip -> one small canvas per frame; colour 0 clear
+    var list = [], P = pal || img.pal;
+    for (var k = 0; k * fh < img.h; k++) {
+      var cv = document.createElement('canvas'); cv.width = fw; cv.height = fh;
+      var g = cv.getContext('2d'), id = g.createImageData(fw, fh), any = false;
+      for (var y = 0; y < fh; y++) for (var x = 0; x < fw; x++) {
+        var ix = img.px[(k * fh + y) * img.w + x], o = (y * fw + x) * 4; if (!ix) continue;
+        var c = P[ix] || [255, 255, 255]; id.data[o] = c[0]; id.data[o + 1] = c[1]; id.data[o + 2] = c[2]; id.data[o + 3] = 255; any = true;
+      }
+      g.putImageData(id, 0, 0); list.push(any ? cv : null);
+    }
+    return list;
+  }
+  function tile(img, tx, ty, pal, hf, vf) {   // one 8x8 tile of a sheet (tile column tx, row ty) through a palette; colour 0 clear
+    var cv = document.createElement('canvas'); cv.width = 8; cv.height = 8;
+    var g = cv.getContext('2d'), id = g.createImageData(8, 8);
+    for (var y = 0; y < 8; y++) for (var x = 0; x < 8; x++) {
+      var ix = img.px[(ty * 8 + (vf ? 7 - y : y)) * img.w + tx * 8 + (hf ? 7 - x : x)], o = (y * 8 + x) * 4; if (!ix) continue;
+      var c = pal[ix]; id.data[o] = c[0]; id.data[o + 1] = c[1]; id.data[o + 2] = c[2]; id.data[o + 3] = 255;
+    }
+    g.putImageData(id, 0, 0); return cv;
+  }
+  function sprite(url) {   // the Pokémon's own sprite, as pixels we can tint
+    var k = 'img:' + url; if (CACHE[k]) return CACHE[k];
+    return (CACHE[k] = new Promise(function (ok, no) {
+      var im = new Image(); im.crossOrigin = 'anonymous';
+      im.onload = function () { var cv = document.createElement('canvas'); cv.width = im.naturalWidth; cv.height = im.naturalHeight; var g = cv.getContext('2d'); g.drawImage(im, 0, 0);
+        try { ok({cv: cv, data: g.getImageData(0, 0, cv.width, cv.height)}); } catch (e) { ok({cv: cv, data: null}); } };
+      im.onerror = no; im.src = url;
+    }));
+  }
+  var TINTS = {};
+  function tinted(spr, rgb5, coeff) {   // BlendPalette (src/palette.c): each 5-bit channel moves coeff/16 of the way to the colour
+    if (!coeff || !spr.data) return spr.cv;
+    var key = spr.cv.width + ':' + rgb5.join(',') + ':' + coeff, cache = spr.tints || (spr.tints = {});
+    if (cache[key]) return cache[key];
+    var cv = document.createElement('canvas'); cv.width = spr.cv.width; cv.height = spr.cv.height;
+    var g = cv.getContext('2d'), src = spr.data.data, id = g.createImageData(cv.width, cv.height), o = id.data;
+    for (var i2 = 0; i2 < src.length; i2 += 4) {
+      for (var ch = 0; ch < 3; ch++) { var c5 = src[i2 + ch] >> 3, t = c5 + (((rgb5[ch] - c5) * coeff) >> 4); o[i2 + ch] = (t << 3) | (t >> 2); }
+      o[i2 + 3] = src[i2 + 3];
+    }
+    g.putImageData(id, 0, 0); return (cache[key] = cv);
+  }
+
+  /* ---- Gen III: FireRed and Emerald ---- */
+  var G3_BALLS = ['poke', 'great', 'safari', 'ultra', 'master', 'net', 'dive', 'nest', 'repeat', 'timer', 'luxury', 'premier'];
+  var G3 = {   // gBallOpenFadeColors, sBallParticleAnimNums and sBallParticleAnimationFuncs (src/battle_anim_throw.c), per ball
+    poke:    {fade: [31, 22, 30], anim: 0, fn: 'poke'},
+    great:   {fade: [16, 23, 30], anim: 0, fn: 'great'},
+    safari:  {fade: [23, 30, 20], anim: 0, fn: 'safari'},
+    ultra:   {fade: [31, 31, 15], anim: 5, fn: 'ultra'},
+    master:  {fade: [23, 20, 28], anim: 1, fn: 'master'},
+    net:     {fade: [21, 31, 25], anim: 2, fn: 'safari'},
+    dive:    {fade: [12, 25, 30], anim: 2, fn: 'dive'},
+    nest:    {fade: [30, 27, 10], anim: 3, fn: 'ultra'},
+    repeat:  {fade: [31, 24, 16], anim: 5, fn: 'repeat'},
+    timer:   {fade: [29, 30, 30], anim: 5, fn: 'timer'},
+    luxury:  {fade: [31, 17, 10], anim: 4, fn: 'great'},
+    premier: {fade: [31, 9, 10], anim: 4, fn: 'premier'}
+  };
+  var G3_ANIMS = [   // sAnims_BallParticles: [frame, hflip, duration]
+    [[0, 0, 1], [1, 0, 1], [2, 0, 1], [0, 1, 1], [2, 0, 1], [1, 0, 1]],   // the regular balls: a spinning streak
+    [[3, 0, 1]], [[4, 0, 1]], [[5, 0, 1]],                                // Master: star; Net and Dive: bubble; Nest: heart
+    [[6, 0, 4], [7, 0, 4]], [[7, 0, 4]]                                   // Luxury and Premier: twinkle; Ultra, Repeat, Timer: sparkle
+  ];
+  // the main colour of each particle frame, for when the sheet can't load
+  var G3_PLAIN = ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFF52', '#E6E6FF', '#FF3152', '#ACFF8B', '#ACFF8B'];
+  function fan(n, a0, da, d1, d2) { var l = []; for (var i = 0; i < n; i++) l.push({a: i * a0, da: da, d1: d1, d2: d2, r1: 0, r2: 0, t: 0, kind: 'fan'}); return l; }
+  function g3Spawn(fn, f) {   // the particles a ball's routine creates on frame f of its task (f = 0 at the opening)
+    if (fn === 'poke') { if (f > 15) return []; var a = (f >= 8 ? f - 8 : f) * 32; return [{a: a, r: 0, wait: 1, t: 0, kind: 'poke'}]; }
+    if (fn === 'great') return f === 0 || f === 9 ? fan(8, 32, 8, 2, 2) : [];   // two waves, 8 frames apart (task data[7])
+    if (f) return [];
+    if (fn === 'timer') return fan(8, 32, 10, 2, 1);
+    if (fn === 'dive') return fan(8, 32, 10, 1, 2);
+    if (fn === 'safari') return fan(8, 32, 4, 1, 1);
+    if (fn === 'ultra') return fan(10, 25, 5, 1, 1);
+    if (fn === 'master') return fan(8, 32, 8, 2, 1).concat(fan(8, 32, 8, 1, 2));
+    if (fn === 'repeat') { var r = []; for (var i = 0; i < 12; i++) r.push({a: i * 21, r1: 0, r2: 0, t: 0, kind: 'repeat'}); return r; }
+    if (fn === 'premier') { var q = []; for (var j = 0; j < 8; j++) q.push({a: j * 32, r1: 0, r2: 0, t: 0, kind: 'premier'}); return q; }
+    return [];
+  }
+  function g3Move(p) {   // one frame of a particle's callback; false once it's destroyed
+    p.age = (p.age || 0) + 1;
+    if (p.kind === 'poke') { if (p.wait) { p.wait = 0; p.x = 0; p.y = 0; return true; } p.x = Sin(p.a, p.r); p.y = Cos(p.a, p.r); p.r += 2; return p.r !== 50; }   // _Step1 holds a frame at the ball, then _Step2
+    if (p.kind === 'fan') { p.x = Sin(p.a, p.r1); p.y = Cos(p.a, p.r2); p.a = (p.a + p.da) & 255; p.r1 += p.d1; p.r2 += p.d2; }
+    else if (p.kind === 'repeat') { p.x = Sin(p.a, p.r1); p.y = Cos(p.a, Sin(p.a, p.r2)); p.a = (p.a + 6) & 255; p.r1++; p.r2++; }
+    else if (p.kind === 'premier') { p.x = Sin(p.a, p.r1); p.y = Cos(p.a, Sin(p.a & 63, p.r2)); p.a = (p.a + 10) & 255; p.r1++; p.r2++; }
+    return ++p.t !== 51;
+  }
+  function g3Fade() {   // BeginNormalPaletteFade: the step alternates BG and OBJ palettes, so y moves 2 every 2 frames
+    var up = [], y = 0; while (y < 16) { up.push(y, y); y = Math.min(16, y + 2); } up.push(16, 16);
+    return up;   // ~18 frames to white; the way back mirrors it
+  }
+  function g3Scene(ball, sprUrl) {
+    var known = G3[ball], b = known || G3.poke, id = known ? ball : 'poke';
+    return Promise.all([
+      png(PRET_EM + 'graphics/battle_anims/sprites/particles.png').then(function (im) { return frames(im, 8, 8); }).catch(function () { return null; }),
+      png(PRET_EM + 'graphics/balls/' + id + '.png').then(function (im) { return frames(im, 16, 16); })
+        .then(function (fr) { return id === 'poke' && !fr[2] ? png(PRET_EM + 'graphics/balls/open.png').then(function (o) { fr[2] = frames(o, 16, 16)[0]; return fr; }) : fr; })   // the Poké Ball's open frame is its own file
+        .catch(function () { return null; }),
+      sprite(sprUrl).catch(function () { return null; })
+    ]).then(function (got) {
+      var parts = got[0], balls = got[1], mon = got[2], up = g3Fade(), PRE = 8;
+      var live = [], frame = -PRE, bgY = 0, coeff = 16, U = up.length;
+      return {
+        gen: 3, ball: id, fell: !known, W: 128, H: 128, cx: 64, cy: 44, native: 64, done: false, assets: !!(parts && balls), maxParticles: 0,
+        step: function () {
+          var f = frame++;
+          if (f >= 0) {
+            live = live.concat(g3Spawn(b.fn, f)); this.maxParticles = Math.max(this.maxParticles, live.length);
+            live = live.filter(g3Move);
+            bgY = f < U ? up[f] : f - U < U ? up[U - 1 - (f - U)] : 0;   // to white, then back once the first fade is done
+            coeff = f < U ? 16 : Math.max(0, 16 - (f - U));               // Task_FadeMon_ToNormal: 17 BlendPalette steps from then
+          }
+          if (f > 60 && !live.length) this.done = true;
+          return f;
+        },
+        draw: function (g) {
+          var f = frame - 1, W = this.W, cx = this.cx, cy = this.cy;
+          g.clearRect(0, 0, W, this.H);
+          if (bgY) { var sq = 64 / 0.86; g.fillStyle = 'rgba(255,255,255,' + (bgY / 16) + ')'; g.fillRect(cx - sq / 2, cy - sq / 2, sq, sq); }   // BG palettes 1-3 fade to white
+          // the ball: closed, then sBallAnimSeq1 (half open 5 frames, open 5 frames), then gone
+          var bf = f < 0 ? 0 : f < 5 ? 1 : f < 10 ? 2 : -1, bx = cx, by = cy + 24;
+          if (bf >= 0) { if (balls && balls[bf]) g.drawImage(balls[bf], bx - 8, by - 8); else if (!balls) { g.fillStyle = '#E3350D'; g.fillRect(bx - 6, by - 6, 12, 6); g.fillStyle = '#FFF'; g.fillRect(bx - 6, by, 12, 6); } }
+          // the Pokémon: sAffineAnim_Battler_Emerge (0x28, then +0x12 for 12 frames), rising from +16 px, in the ball's colour
+          if (f >= 0 && mon) {
+            var sc = f < 12 ? (0x28 + 0x12 * (f + 1)) / 256 : 1, dy = f < 12 ? (0x1000 - 288 * (f + 1)) >> 8 : 0, img = tinted(mon, b.fade, coeff);
+            var mw = mon.cv.width * sc, mh = mon.cv.height * sc;
+            g.drawImage(img, cx - mw / 2, cy + dy - mh / 2, mw, mh);
+          }
+          // the particles, from the ball's spot (x, y - 5)
+          var seq = G3_ANIMS[b.anim], ox = bx, oy = by - 5;
+          live.forEach(function (p) {
+            var tl = 0, st = seq[0], period = seq.reduce(function (s, x) { return s + x[2]; }, 0), at = (p.age - 1) % period;
+            for (var k = 0; k < seq.length; k++) { tl += seq[k][2]; if (at < tl) { st = seq[k]; break; } }
+            var px = ox + p.x - 4, py = oy + p.y - 4, fr = parts && parts[st[0]];
+            if (fr) { if (st[1]) { g.save(); g.translate(px + 8, py); g.scale(-1, 1); g.drawImage(fr, 0, 0); g.restore(); } else g.drawImage(fr, px, py); }
+            else { g.fillStyle = G3_PLAIN[st[0]]; g.fillRect(px + 2, py + 2, 4, 4); }
+          });
+        }
+      };
+    });
+  }
+
+  /* ---- Gen II: Crystal (pret/pokecrystal 5c877ef5; Gold and Silver byte-identical) ----
+     BattleAnim_SendOutMon .Normal (data/moves/animations.asm): no ball at all, and the same for every ball. A grey
+     smoke poof (BATTLE_ANIM_OBJ_BALL_POOF, frameset BallPoof: OAM sets 00, 07, 08, 09 for 4 frames each, then gone)
+     while BATTLE_BG_EFFECT_ENTER_MON re-draws the picture's own 8x8 tiles in growing boxes (not a scale): 3x3, 5x5,
+     then the full 7x7, at frames 5, 9 and 13. The front picture, as the portrait shows it, uses the enemy side's
+     boxes. A shiny plays .Shiny after: a flash of inverted colours and 8 yellow sparkles in a ring. */
+  var PRET_C = 'https://raw.githubusercontent.com/pret/pokecrystal/5c877ef55197039c9676e8e3eec6d254b1c40fe8/';
+  var G2_GRAY = [null, [206, 206, 206], [107, 107, 107], [0, 0, 0]];            // PAL_BATTLE_OB_GRAY (gfx/battle_anims/battle_anims.pal)
+  var G2_YELLOW = [null, [255, 255, 57], [255, 132, 8], [0, 0, 0]], G2_YELLOW_LIT = [null, [255, 255, 255], [255, 255, 57], [255, 132, 8]];   // OB pal 3, and as CYCLE_OBPALS lightens it
+  var G2_STEPS = [[5, [0, 3, 6]], [9, [0, 1, 3, 5, 6]], [13, [0, 1, 2, 3, 4, 5, 6]]];   // .EnemyData with the square tables (engine/battle_anims/bg_effects.asm)
+  var G2_RING = [[16, 0], [11, 11], [0, 16], [-11, 11], [-16, 0], [-11, -11], [0, -16], [11, -11]];   // BattleAnimFunc_Shiny offsets; the enemy side mirrors x
+  function g2Scene(ball, sprUrl, shiny) {
+    return Promise.all([
+      png(PRET_C + 'gfx/battle_anims/smoke.png').catch(function () { return null; }),
+      shiny ? png(PRET_C + 'gfx/battle_anims/speed.png').catch(function () { return null; }) : null,
+      sprite(sprUrl).catch(function () { return null; })
+    ]).then(function (got) {
+      var smoke = got[0], speed = got[1], mon = got[2], PX = 12, PY = 6, frame = 0, SH = 47;   // .Shiny runs ~8 frames after .Normal's 39
+      var quad = smoke ? [0, 2, 4].map(function (r) {   // the top-left 16x16 of poof frames A, B, C: smoke tiles 0-3, 4-7, 8-11
+        var cv = document.createElement('canvas'); cv.width = 16; cv.height = 16; var g = cv.getContext('2d');
+        g.drawImage(tile(smoke, 0, r, G2_GRAY), 0, 0); g.drawImage(tile(smoke, 1, r, G2_GRAY), 8, 0); g.drawImage(tile(smoke, 0, r + 1, G2_GRAY), 0, 8); g.drawImage(tile(smoke, 1, r + 1, G2_GRAY), 8, 8); return cv; }) : null;
+      var spk = speed ? [G2_YELLOW, G2_YELLOW_LIT].map(function (P) { return {star: tile(speed, 0, 2, P), a: tile(speed, 0, 0, P), b: tile(speed, 1, 0, P)}; }) : null;
+      var inv = null;
+      if (shiny && mon && mon.data) {   // the picture with its 4 colours swapped (FLASH_INVERTED: colour i shows colour 3-i)
+        var d = mon.data.data, seen = {}, cols = [];
+        for (var i2 = 0; i2 < d.length; i2 += 4) if (d[i2 + 3] > 127) { var key = d[i2] + ',' + d[i2 + 1] + ',' + d[i2 + 2]; if (!seen[key]) { seen[key] = 1; cols.push([d[i2], d[i2 + 1], d[i2 + 2]]); } }
+        cols.sort(function (p, q) { return (q[0] + q[1] + q[2]) - (p[0] + p[1] + p[2]); });
+        var pal = [[255, 255, 255]].concat(cols.filter(function (c) { return c[0] + c[1] + c[2] < 765; }).slice(0, 3)); while (pal.length < 4) pal.splice(pal.length - 1, 0, pal[pal.length - 1]);
+        var rank = function (r, g, b) { for (var k = 0; k < 4; k++) if (pal[k][0] === r && pal[k][1] === g && pal[k][2] === b) return k; return 0; };
+        inv = document.createElement('canvas'); inv.width = mon.cv.width; inv.height = mon.cv.height;
+        var ig = inv.getContext('2d'), id = ig.createImageData(inv.width, inv.height);
+        for (var j = 0; j < d.length; j += 4) { var c = pal[3 - (d[j + 3] > 127 ? rank(d[j], d[j + 1], d[j + 2]) : 0)]; id.data[j] = c[0]; id.data[j + 1] = c[1]; id.data[j + 2] = c[2]; id.data[j + 3] = 255; }
+        ig.putImageData(id, 0, 0);
+      }
+      return {
+        gen: 2, ball: ball, W: 80, H: 84, cx: PX + 28, cy: PY + 28, native: 56, done: false, assets: !!smoke, maxParticles: 0,
+        step: function () { var f = frame++; if (!f) this.maxParticles = 1; if (f >= (shiny ? SH + 68 : 39)) this.done = true; return f; },
+        draw: function (g) {
+          var f = frame - 1, t = f - SH, cxp = PX + 32, cyp = PY + 48;   // the poof's centre: screen (128,48) against the enemy pic box at (96,0)
+          g.clearRect(0, 0, this.W, this.H);
+          if (shiny && t >= 5 && t <= 9) { var sq = 56 / 0.86; g.fillStyle = '#000'; g.fillRect(this.cx - sq / 2, this.cy - sq / 2, sq, sq); }   // FLASH_INVERTED: the background too
+          if (mon) {   // ENTER_MON: each box bottom-aligned and centred in the 7x7, cell (i, j) showing pic tile (S[i], S[j])
+            var ts = mon.cv.width / 7, src = shiny && t >= 5 && t <= 9 && inv ? inv : mon.cv, S = null;
+            G2_STEPS.forEach(function (st) { if (f >= st[0]) S = st[1]; });
+            if (S) { var n = S.length, c0 = (7 - n) / 2, r0 = 7 - n;
+              for (var i = 0; i < n; i++) for (var j = 0; j < n; j++) g.drawImage(src, S[i] * ts, S[j] * ts, ts, ts, PX + (c0 + i) * 8, PY + (r0 + j) * 8, 8, 8); }
+          }
+          if (f >= 0 && f < 16) {   // the poof: A, B, C mirrored 4 ways; D is C with each quadrant 4 px further out
+            var k = f >> 2, q = quad && quad[Math.min(k, 2)], out = k === 3 ? 4 : 0;
+            [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (m) {   // top-left as drawn; the others flipped
+              g.save(); g.translate(cxp + m[0] * out, cyp + m[1] * out); g.scale(-m[0], -m[1]);
+              if (q) g.drawImage(q, -16, -16); else { g.strokeStyle = '#6B6B6B'; g.strokeRect(-14, -14, 12, 12); }
+              g.restore();
+            });
+          }
+          if (shiny && t >= 0) for (var s = 0; s < 8; s++) {   // the sparkles: OAM sets 74, 14, 15, 14, 15 for 4 frames each
+            var age = t - 5 * s; if (age < 0 || age >= 20) continue;
+            var lit = t >= 1 && t % 6 >= 1 && t % 6 <= 3, set = spk && spk[lit ? 1 : 0], x = PX + 28 - G2_RING[s][0], y = PY + 24 + G2_RING[s][1], ph = age >> 2;
+            if (!set) { g.fillStyle = '#FFFF39'; g.fillRect(x - 1, y - 1, 3, 3); continue; }
+            if (ph === 0) [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (m) { g.save(); g.translate(x, y); g.scale(-m[0], -m[1]); g.drawImage(set.star, -8, -8); g.restore(); });
+            else g.drawImage(ph % 2 ? set.a : set.b, x - 4, y - 4);
+            this.maxParticles = Math.max(this.maxParticles, s + 1);
+          }
+        }
+      };
+    });
+  }
+
+  var SCENES = {2: g2Scene, 3: g3Scene};
+
+  /* ---- in words, for the ball pages ---- */
+  var G3_WORDS = {poke: 'the spinning white-and-orange streaks', great: 'the spinning streaks, in two waves', safari: 'the spinning streaks, slowly turning', ultra: 'ten green sparkles in a slow spiral',
+    master: 'sixteen yellow stars in two crossing spirals', net: 'lavender bubbles, slowly turning', dive: 'lavender bubbles swirling out taller than wide', nest: 'ten red hearts in a slow spiral',
+    repeat: 'twelve green sparkles in a figure-eight swirl', timer: 'green sparkles swirling out wider than tall', luxury: 'twinkling green stars, in two waves', premier: 'twinkling green stars in a looping swirl'};
+  var G3_COUNT = {poke: 16, great: 16, safari: 8, ultra: 10, master: 16, net: 8, dive: 8, nest: 10, repeat: 12, timer: 8, luxury: 16, premier: 8};
+  function describe(game, id) {
+    var gen = genOf(game), name = GAME_NAME[game] || game;
+    if (gen === 2) return 'In ' + name + ' no ball appears when a Pokémon is sent out, and every ball looks the same: a grey puff of smoke, while the picture builds itself in three steps (3×3, then 5×5, then all 7×7 of its tiles). The ball\'s colour only shows when it\'s thrown to catch.';
+    if (gen === 3) { var b = G3[id];
+      if (!b) return 'There\'s no ' + id + ' ball in ' + name + ', so the Poké Ball\'s opening plays.';
+      var c = b.fade.map(function (v) { return (v << 3) | (v >> 2); });
+      return 'In ' + name + ' the ball pops open and lets out ' + G3_WORDS[id] + ' (' + G3_COUNT[id] + ' particles). The background flashes white, and the Pokémon grows out of the ball in its colour, rgb(' + c.join(', ') + '), before its own colours come back.'; }
+    return SCENES[4] && SCENES[4].describe ? SCENES[4].describe(game, id) : 'In ' + name + ': this generation\'s opening is still being read from the game\'s code.';
+  }
+  function start(img) {   // called from the Pokémon's <img onload>: play the opening over its portrait, once
+    var host = img.closest && img.closest('.inball.release'); if (!host || host.dataset.opened) return;
+    host.dataset.opened = '1';
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var gen = genOf(host.dataset.game), make = SCENES[gen] || SCENES[3], ball = host.dataset.ball || 'poke', shiny = host.dataset.shiny === '1';
+    make(ball, img.currentSrc || img.src, shiny).then(function (sc) {
+      host.classList.add('opening');
+      var k = img.getBoundingClientRect().width / sc.native || 1.5, cv = document.createElement('canvas');
+      cv.className = 'ibo'; cv.width = sc.W; cv.height = sc.H;
+      cv.style.width = sc.W * k + 'px'; cv.style.height = sc.H * k + 'px';
+      cv.style.left = 'calc(50% - ' + sc.cx * k + 'px)'; cv.style.top = 'calc(50% - ' + sc.cy * k + 'px)';
+      cv.dataset.scene = 'g' + sc.gen + ':' + sc.ball; if (sc.fell) cv.dataset.fell = '1'; if (!sc.assets) cv.dataset.plain = '1';
+      host.appendChild(cv);
+      var g = cv.getContext('2d'); g.imageSmoothingEnabled = false;
+      var tile = host.closest('.six .tile'), last = null, acc = 0, delay = tile ? Array.prototype.indexOf.call(tile.parentNode.children, tile) * 140 : 0;   // the six come out one after another
+      var tick = function (now) {
+        if (!cv.isConnected) return;
+        if (last == null) last = now + delay;
+        acc += Math.max(0, now - last); last = Math.max(last, now);
+        var n = 0; while (acc >= 1000 / 60 && n < 4) { sc.step(); acc -= 1000 / 60; n++; }
+        if (n) sc.draw(g);
+        if (sc.done) { cv.dataset.particles = sc.maxParticles; host.classList.remove('opening'); host.classList.add('opened'); cv.remove(); host.dataset.peak = sc.maxParticles; return; }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }).catch(function () { host.classList.remove('opening'); });
+  }
+  return {start: start, describe: describe, genOf: genOf, scenes: SCENES, Sin: Sin, Cos: Cos, png: png, frames: frames, tile: tile, sprite: sprite, tinted: tinted, G3: G3, G3_BALLS: G3_BALLS};
+})();
+</script>

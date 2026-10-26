@@ -70,9 +70,11 @@ await until(() => document.querySelector('[data-tmfix="swap"]'), null, 30000).ca
 await page.click('[data-tmfix="swap"]');
 await until((id) => (Teams.get('heartgold').slots[0] || {}).ind === id, ids.built, 30000).catch(() => fails.push('swap: slot 1 still holds the unbuilt copy'));
 await page.evaluate((id) => nav('#/pokemon/' + encodeURIComponent(id)), ids.built);
-await until(() => document.querySelector('#pbportrait .ibfx'), null, 60000).catch(() => fails.push('ball: no opening on the portrait'));
-const fx = await page.evaluate(() => ({ball: (document.querySelector('#pbportrait .ibfx') || {getAttribute: () => null}).getAttribute('data-fx'), hearts: document.querySelectorAll('#pbportrait .ibp-heart').length}));
-if (fx.ball !== 'love' || !fx.hearts) fails.push('ball: a Love Ball should open with hearts, got ' + JSON.stringify(fx));
+// v2.4: the opening is the game's own: a HeartGold Love Ball plays Gen IV's, and it finishes
+await until(() => document.querySelector('#pbportrait canvas.ibo'), null, 60000).catch(() => fails.push('ball: no opening on the portrait'));
+const fx = await page.evaluate(() => (document.querySelector('#pbportrait canvas.ibo') || {dataset: {}}).dataset.scene);
+if (fx !== 'g4:love') fails.push('ball: a HeartGold Love Ball should play Gen IV\'s Love Ball opening, got ' + fx);
+await until(() => document.querySelector('#pbportrait .inball.opened'), null, 30000).catch(() => fails.push('ball: the opening never finished'));
 await page.selectOption('[data-pbmove="3"]', 'Earthquake');
 await page.waitForTimeout(400);
 await page.evaluate(() => nav('#/team/heartgold'));
@@ -82,7 +84,17 @@ await until((id) => !Records.draft(id) && Records.versions(S.store.individuals[i
 const saved = await page.evaluate((id) => (Records.version(S.store.individuals[id].build, 2) || {}).moves, ids.built);
 if (!saved || saved[3] !== 'Earthquake') fails.push('drafts: saved moves ' + JSON.stringify(saved));
 
+// every generation's opening, from the ball pages: Emerald (Gen III), Crystal (Gen II), Platinum (Gen IV)
+for (const [hash, scene] of [['#/ball/dive?g=emerald', 'g3:dive'], ['#/ball/poke?g=crystal', 'g2:poke'], ['#/ball/dusk?g=platinum', 'g4:dusk']]) {
+  await page.evaluate((h) => nav(h), hash);
+  await until(() => document.querySelector('#bopen canvas.ibo, #bopen .inball.opened'), null, 60000).catch(() => fails.push(hash + ': no opening'));
+  const got = await page.evaluate(() => { const c = document.querySelector('#bopen canvas.ibo'); return {scene: c && c.dataset.scene, plain: c && c.dataset.plain, words: (document.querySelector('#bopen') || {}).parentNode.innerText}; });
+  if (got.scene !== scene) fails.push(hash + ': expected ' + scene + ', got ' + got.scene);
+  if (got.plain) fails.push(hash + ': the game\'s pictures didn\'t load (plain fallback)');
+  if (/still being read/.test(got.words)) fails.push(hash + ': no description');
+}
+
 await browser.close();
 if (errors.length) fails.push('page errors: ' + errors.join(' || '));
-console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back; the built one back in its slot; a Love Ball opens with hearts; an unsaved change saved from the team page');
+console.log(fails.length ? 'FAIL\n' + fails.join('\n') : 'ok: six taps, six Pokémon in six slots; one arrow tap, one move; spares set aside and brought back; the built one back in its slot; a HeartGold Love Ball opens as Gen IV's does; Emerald, Crystal and Platinum openings from the ball pages; an unsaved change saved from the team page');
 process.exit(fails.length ? 1 : 0);

@@ -103,6 +103,7 @@ function ballPage(id, query) {
         '<div class="tiny muted" style="margin-top:6px">' + chip('confirmed', 'forest') + ' from the game\'s catch code: ' + esc(mech.source) + '</div>' : '<div class="small muted">No mechanics on record for this game.</div>') +
       (b.descriptions[game] || b.descriptions[game === 'firered' ? 'emerald' : game] ? '<div class="small" style="margin-top:10px">The game says: <i>"' + esc(b.descriptions[game] || b.descriptions.emerald) + '"</i></div>' : '') +
       '<details style="margin-top:10px"><summary class="tiny muted">How the catch is worked out in ' + esc(F.name) + '</summary><div class="small" style="margin-top:6px">' + esc(F.says) + '</div><div class="tiny muted">' + esc(F.source) + '</div></details>' +
+      ballOpenHtml(b, game, mine) +
       '<div class="eyebrow" style="margin-top:16px">How you get it</div>' + waysHtml(waysOf(b, game), game) + saidHtml(b, game) +
       '<div class="eyebrow" style="margin-top:16px">Try it</div><div id="bcalc">' + calcHtml(b, game) + '</div>',
       {eyebrow: 'Mechanics and information · from the games', tools: false, style: 'margin-top:16px', id: 'm-ball-info'});
@@ -223,8 +224,16 @@ function ballUpload(b, kind, file) {
     .then(function () { toast('Saved: it shows wherever the ' + esc(b.name) + ' does.'); go(); })
     .catch(function (e) { toast('Not saved: ' + esc(e && e.message || e)); });
 }
+function ballOpenHtml(b, game, mine) {   // v2.4: how this ball opens in this game, played as the game does (31_ballopen)
+  var own = mine.filter(function (i) { return i.game === game || (game === 'heartgold' && i.game === 'soulsilver'); })[0], sp = own ? own.species : 'Pikachu';
+  return '<div class="eyebrow" style="margin-top:16px">How it opens</div><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:6px">' +
+    '<div id="bopen" title="Tap to send it out again" style="cursor:pointer">' + inBall(sp, game, b.name, false, 112, true) + '</div>' +
+    '<div class="small" style="flex:1;min-width:220px">' + esc(BallOpen.describe(game, b.id)) + '<div class="tiny muted" style="margin-top:6px">' + esc(own ? 'Your ' + (own.nickname || own.species) + '. ' : '') +
+    'Tap the picture to see it again. From the game\'s own code (docs/design/BALL_OPENINGS.md).</div></div></div>';
+}
 function ballBind(p, b, game) {
   Pics.fill(p);
+  var bo = p.querySelector('#bopen'); if (bo) bo.onclick = function () { bo.innerHTML = bo.innerHTML.replace(/ data-opened="1"/, ''); };
   var views = [b.art.official ? {src: artBase() + b.art.official} : null, {src: artBase() + b.art.sprite, pix: true}].filter(Boolean).concat(ballMine(b.id, 'exterior').map(function (a) { return {art: a}; }));
   var big = function (v) { lightbox(v.art ? Pics.imgTag({art: v.art}, 'max-width:90vw;max-height:80vh;object-fit:contain') : '<img ' + (v.pix ? 'class="pix" ' : '') + 'src="' + esc(v.src) + '" style="width:min(80vw,520px);height:min(80vw,520px);object-fit:contain" alt="">'); };
   var hero = p.querySelector('#bhero'); if (hero) hero.onclick = function () { big(views[views.length > 2 ? views.length - 1 : 0]); };
