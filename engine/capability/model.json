@@ -84,19 +84,25 @@
     }
   },
   "lore": {
-    "_note": "Pokédex patterns for the new capabilities (the original 16 live in wilderness/engine.py LORE_PATTERNS). A match is canon text with an inferred reading: 'its Pokédex says X, so it could Y'.",
-    "manipulation": "\\b(?:hands?|fingers|pincers|claws?|tentacles|grips?|grab(?:s|bed)?|grasps?|gets a hold of|holds? (?:it|them|things|objects|on))\\b",
-    "construction": "\\bbuilds?\\b|\\bbuilt\\b|\\bdams?\\b|\\bconstruct|\\bweaves?\\b|\\bnests? (?:of|from|made)",
+    "_note": "Pokédex patterns for the new capabilities (the original 16 live in wilderness/engine.py LORE_PATTERNS, which reads these the same way: entries joined across line breaks, a match a few words after 'cannot' or 'never' negated, a sentence matching lore_exclude skipped). A match is canon text with an inferred reading: 'its Pokédex says X, so it could Y'. Every pattern is audited in docs/capability/PATTERN_AUDIT.md.",
+    "manipulation": "\\b(?:grips?|gripping|grabs?|grabbing|grasps?|clutch(?:es|ed)?|plucks?|ensnares?|constricts?|manipulat\\w*|handling)\\b|\\bgets a hold of|\\bholds (?:a|an|the)\\b|\\b(?:it|that it) holds\\b|\\bholds? (?:on to|onto|things|objects|bones)\\b|\\bheld in its|\\bpicks? up\\b|\\bpick up\\b|\\bhang(?:s|ing)? (?:on to|onto)\\b|\\bhang(?:s|ing)? from (?:\\w+ ){0,4}using|\\btraps (?:\\w+ ){0,3}(?:with|using) its|\\b(?:immobiliz\\w*|renders) (?:its )?prey (?:immobile )?using|\\b(?:catch(?:es)?|captures?)\\b[^.]{0,40}\\b(?:claws?|pincers|tentacles|hands?|tails?|tongue)\\b|\\b(?:claws?|pincers|tentacles|hands?|tails?|tongue)\\b[^.]{0,40}\\b(?:catch|capture)\\b",
+    "construction": "\\b(?:builds?|building|built|makes?|making|constructs?) (?:\\w+ ){0,2}(?:nests?|dams?|webs?|cloak|cocoon)\\b|\\bdamm(?:ed|ing)\\b|\\bdams?\\b|\\bnests? (?:of|from|made)\\b|\\bspins? (?:\\w+ )?(?:string|silk|thread|webs?)\\b|\\bcloak made of|\\bremakes the cloak|\\bpiles? up boulders|\\bcarves holes in rocks for nesting|\\bbores? a hole (?:\\w+ ){0,4}nest|hollowing out boulders",
     "electricity": "\\belectric(?:ity|al)?\\b|\\bvolts?\\b|\\bvoltage|\\bcharges? (?:up|electricity|itself|its)|\\bstores? (?:up )?electricity|\\bgenerat\\w* (?:electricity|power)",
-    "tracking": "sense of smell|\\bsniff|\\bscent (?:of|trail)|\\bsmells? (?:anything|prey|out)|\\btracks? (?:down|prey|its prey)|\\bfollows? .{0,20}(?:scent|trail)|\\bkeen nose",
-    "navigation": "\\bnavigat|sense of direction|never (?:gets? )?lost|finds? its way|\\bhoming\\b|\\bmigrat|\\bcompass|magnetic (?:field|waves)",
-    "water_supply": "purif(?:y|ies) (?:\\w+ )?(?:\\w+ )?water|\\bspouts? water|\\bsprays? water|water from its|\\bstores? water|\\bclean water",
-    "cold_source": "\\bfreez(?:es|ing) (?:the |its |water|moisture|prey|foes|anything|everything|the air)|\\bicy breath|\\bcold air|\\bchills?\\b|\\bfrozen breath|makes? snow|\\bblizzards?\\b|\\bsnowstorms?\\b",
-    "heat_tolerance": "\\bdesert|\\bvolcan|\\bmagma|\\blava\\b|\\bhot springs?|\\bscorching|\\bhigh temperatures?"
+    "tracking": "sense of smell|\\bsniff(?:s|ing)?\\b|\\bscent (?:of (?:prey|its prey)|trails?)|\\bsmell(?:s|ed)? (?:anything|something|prey|out|a )|\\btracks? (?:down|prey|its prey|the (?:target|silk|prey))|\\bfollows? .{0,20}(?:scent|trail)|\\bkeen nose|\\bsensitive nose|distinguish any (?:smell|aroma)|source of the aroma",
+    "navigation": "\\bnavigat|sense of direction|never (?:gets? )?lost|finds? its way|\\bhoming\\b|\\bmigrat|\\bcompass\\b|\\bnorth\\b(?! winds?)|get their bearings|returns? to (?:its birthplace|where it was born)|\\bleads? (?:\\w+ ){0,4}ships",
+    "water_supply": "purif(?:y|ies) (?:\\w+ )?(?:\\w+ )?water|\\bspouts? water|\\bsprays? water|\\b(?:shoots?|shooting|squirts?) (?:\\w+ ){0,2}water\\b|\\bjets? of water|\\bwater (?:jets|spouts)\\b|\\bclean water|\\bsprings? of (?:delicious )?water",
+    "cold_source": "\\bfreez(?:e|es|ing) (?:the |its |water|moisture|prey|foes?|anything|everything|the air|solid)|\\bthings will freeze|\\bicy breath|\\bcold air|\\bchills?\\b|\\bfrozen breath|makes? snow|\\bblizzards?\\b|\\bsnowstorms?\\b|\\bfrigid air|\\blowering the temperature|\\bchilly (?:winter )?winds|\\bcools the area",
+    "heat_tolerance": "\\bdesert(?!ed)|\\bvolcan|\\bmagma\\b|\\blava\\b|\\bhigh temperatures?|\\barid (?:lands?|locations?|areas?|environments?|atmosphere|deserts?)"
   },
   "lore_exclude": {
+    "manipulation": "\\bif grabbed|\\bgrabbed by|\\b(?:are|is) grabbed|\\bgrabs it\\b|hard to grasp|foe's grasp|enemy's grip|holds on to it|easy to pick up|pick up sounds|grip the ground|ball holds|grabbing one of its|out of the clutches|holds its mouth|manipulat\\w* (?:of )?psychic|genetic manipulation|hard to hold",
+    "construction": "steals the nest|small pokémon .{0,60}building",
     "electricity": "\\bnon-?electric|\\bimmune to electric",
-    "tracking": "\\bfoul|\\bstench|\\bterrible smell|\\bawful smell"
+    "navigation": "navigated the sea by",
+    "tracking": "\\bfoul|\\bstench|\\bterrible smell|\\bawful smell|sniffs the noxious|sniffing it\\b",
+    "water_supply": "nutrients from clean water",
+    "cold_source": "encounters cold air|freeze in (?:utter )?fear",
+    "heat_tolerance": "(?:made|shaped) .{0,60}(?:from|out of)"
   },
   "types": {
     "_note": "Type readings for the new capabilities (the originals are in wilderness/engine.py _inference).",

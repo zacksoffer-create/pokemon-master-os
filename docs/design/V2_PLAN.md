@@ -223,6 +223,10 @@ described, take the reins and build it."*
 - **Every key item (A-35).** The equipment library holds all 110 key items of the five games, read from each game's
   own item data, with that game's name and description and how you get it from its scripts (file and line). Story
   items are marked; an item a game only lists in its item table is shown as a leftover.
+- **The Pokédex patterns, audited (A-42).** Every pattern was checked against every Gen II-IV entry
+  (`docs/capability/PATTERN_AUDIT.md`). Negations no longer count ("its inability to fly"), light has to be given off,
+  and a cave means moving in the dark. 277 species read differently: Zubat is no longer a light, Nosepass navigates,
+  Swampert hauls.
 - **What a set might suggest (A-09).** Under the evidence, the breeding-stock designer now proposes a reading: a
   sentence for each rule that fires, about the line and about what it's for. Each is marked hypothesis, names its rule
   and says what it rests on. Your call: "You can propose an interpretation, that's fine."

@@ -87,7 +87,7 @@ ENGINES = [
      LIVE, "#/estate", "Placement ports ranch/planner.py home_site; staffing is Cap.facilityReport, held to Python by app/test_capability_parity.mjs."),
     ("Headquarters", "Wilderness engine", "wilderness/engine.py",
      "The first 27 capabilities' evidence: field moves, overworld abilities, Pokédex lore, type, size and habitat (the capability records build on it).",
-     LIVE, "#/capabilities", "Its Pokédex patterns were narrowed in Phase 7 (wings not used for flying, 'dangerously', 'seen from far away', a bare mention of the sea)."),
+     LIVE, "#/capabilities", "Every Pokédex pattern was checked against every Gen II-IV entry (A-42, docs/capability/PATTERN_AUDIT.md): 'cannot' and 'never' now cancel a match, words broken across lines are joined, and a cave habitat means moving in the dark, not light."),
     ("Headquarters", "Capability records", "capability/records.py, model.json",
      "35 capabilities in seven areas, every species' evidence in every journey game on three axes (layer, class, status): game mechanics, Pokédex text, body shape, type, size, habitat, equipment rules; world records by individual.",
      DATA, "#/capabilities", "Moves a build knows are put to use in the page; machines and badges come from data_manifest/field_functions.json when it has been read."),

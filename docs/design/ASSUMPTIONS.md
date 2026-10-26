@@ -391,14 +391,18 @@ The Gen 4 Pokédex's body shape is read as anatomy: arms, two legs with free for
 - **Could instead:** hand-authored anatomy per species; no anatomy, Pokédex text only
 - **Your call** (2026-10-26, chat): Keep
 
+## v2.5 · Capabilities
+
 ### A-42 · Pokédex misreadings fixed (D-076)
 
-Four of the wilderness engine's Pokédex patterns read too much: 'not used for flying' counted as flight, 'dangerously' as danger sense, 'can be seen from far away' as scouting, and any mention of the sea as carrying people over water. They're narrower now, and this changes what the profile and breeding pages show too.
+Every Pokédex pattern the wilderness engine and the capability records use was checked against every Gen II-IV entry (docs/capability/PATTERN_AUDIT.md). Words broken across lines are joined, and a match after 'cannot', 'never' or 'poor' doesn't count (except for tolerating cold or heat). Most patterns were narrowed or widened: 'light' has to be given off, 'build' has to build something, claws alone aren't handling, and sleeping at night isn't night travel. A cave habitat now means moving in the dark, not light. 277 species read differently, and the capability, profile, Survival Lab, estate and breeding pages show it.
 
-- **Why:** A misreading presented as evidence is what the spec warns against.
+- **Why:** Your call: "Keep: and fix any other pattern that reads too broad or too narrow, if possible." A misreading shown as evidence is what the spec warns against.
 - **See it:** `#/capability/air_travel` (Air travel)
-- **Could instead:** keep the broad patterns and hand-reject false hits
+- **Could instead:** keep the patterns broad and reject wrong readings one by one in Your calls; also add Pokédex patterns for the eleven capabilities that have none (Lapras gives rides, Abra teleports away, Swinub finds food)
 - **Your call** (2026-10-26, chat): Keep: and fix any other pattern that reads too broad or too narrow, if possible
+
+## Phase 7 · Capability, survival and homestead
 
 ### A-43 · Moves put to use (D-076)
 
