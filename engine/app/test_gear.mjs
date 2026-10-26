@@ -3,7 +3,8 @@
 // library with exterior art, 2 a profile led by its exterior, 3 game-specific mechanics, acquisition and origin,
 // 4 an interior picture viewable large, 5 assigning a ball to one of yours, 6 its exterior on the Pokémon's profile,
 // 7 a personal interior attached, 8 pictures, ball data and the Pokémon staying connected, 9 desktop and phone, 10 no
-// new services (the app as it is). Also: the catch planner's ranking and the equipment inventory.
+// new services (the app as it is). Also: the catch planner's ranking, the equipment inventory, and the equipment
+// library's key items (A-35: every key item of the five games, each game's own name and words, leftovers said).
 // Run: python3 -I app/build.py && node app/test_gear.mjs                  (tests/test_engines.py runs it)
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -108,9 +109,38 @@ await page.waitForFunction(() => S.store.gear && S.store.gear['heartgold:super-r
 await go('#/equipment', '.pickgrid');
 expect('8: My Gear: the Super Rod is yours in HeartGold', /Super Rod[\s\S]{0,140}yours in HeartGold/.test(await text()));
 
+// A-35: every key item of the five games. The page shows every entry of the pack (test_engines.py holds the pack to
+// each game's key items pocket); the 28 old entries keep their links; a game's leftovers are shown as such.
+const lib = await page.evaluate(() => {
+  const cards = [...document.querySelectorAll('[data-gear]')].map((a) => a.getAttribute('data-gear')), P = Gear.pack();
+  const perGame = {}; Object.keys(P.gear_counts).forEach((g) => { perGame[g] = Gear.gear().filter((e) => e.item && e.games[g]).length === P.gear_counts[g].key_items; });
+  return { cards, n: Gear.gear().length, keys: Gear.gear().filter((e) => e.item).length, perGame };
+});
+expect('A-35: one card per entry (' + lib.cards.length + ' of ' + lib.n + ')', lib.cards.length === lib.n && new Set(lib.cards).size === lib.n);
+expect('A-35: over a hundred key items (' + lib.keys + ')', lib.keys >= 100);
+expect('A-35: each game\'s count matches its entries ' + JSON.stringify(lib.perGame), Object.values(lib.perGame).every(Boolean));
+const first = ['bicycle', 'mach-bike', 'acro-bike', 'running-shoes', 'old-rod', 'good-rod', 'super-rod', 'itemfinder', 'dowsing-machine', 'poke-radar', 'vs-seeker', 'vs-recorder', 'town-map',
+  'pokegear', 'pokenav', 'poketch', 'coin-case', 'squirtbottle', 'wailmer-pail', 'sprayduck', 'berry-pots', 'apricorn-box', 'go-goggles', 'devon-scope', 'silph-scope', 'pokeblock-case', 'poffin-case', 'explorer-kit'];
+expect('A-35: the 28 first entries keep their ids (missing: ' + first.filter((i) => lib.cards.indexOf(i) < 0) + ')', first.every((i) => lib.cards.indexOf(i) >= 0));
+await page.selectOption('#glf [name=g]', 'emerald');
+await page.waitForTimeout(250);
+const emBike = await page.evaluate(() => { const a = document.querySelector('[data-gear="bicycle"]'), m = document.querySelector('[data-gear="mach-bike"]'), r = document.querySelector('[data-gear="running-shoes"]'), c = document.querySelector('[data-gear="gs-ball"]');
+  return { dim: a.style.opacity, why: a.querySelector('[data-why]').textContent, mach: m.style.opacity, shown: r.style.display !== 'none', gs: c.style.display }; });
+expect('A-35: Emerald\'s Bicycle is a leftover in its item table (' + JSON.stringify(emBike) + ')', emBike.dim === '0.55' && /only in its item table/.test(emBike.why) && emBike.mach === '' && emBike.shown && emBike.gs === 'none');
+await go('#/equipment/vs-seeker', '[data-own]');
+t = await text();
+expect('A-35: the Vs. Seeker: FireRed gives it in Vermilion, HeartGold only lists it', /FireRed[\s\S]{0,600}Vermilion City Pokémon Center 1F/.test(t) && /Only in HeartGold\/SoulSilver's item table/.test(t));
+await go('#/equipment/machine-part', '[data-own]');
+t = await text();
+expect('A-35: a story item is marked as one, with each game\'s words', /story item/.test(t) && /A machine part for the Power Plant\./.test(t) && /Cerulean Gym/.test(t));
+await go('#/equipment/member-card', '[data-own]');
+expect('A-35: an event item the scripts check for but never hand out', /its scripts name it[\s\S]{0,300}CheckItem ITEM_MEMBER_CARD/.test(await text()));
+await go('#/equipment/ss-ticket', '[data-own]');
+expect('A-35: each game\'s own name for it (Crystal: S.S.Ticket)', /Crystal · called S\.S\.Ticket/.test(await text()));
+
 // 9. the phone
 await page.setViewportSize({ width: 390, height: 844 });
-for (const h of ['#/balls', '#/ball/moon', '#/mon/' + encodeURIComponent(ind), '#/balls/catch', '#/equipment']) {
+for (const h of ['#/balls', '#/ball/moon', '#/mon/' + encodeURIComponent(ind), '#/balls/catch', '#/equipment', '#/equipment/member-card', '#/equipment/vs-seeker']) {
   await go(h, '.card', true);
   const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect('9: ' + h + ' fits a phone (' + over + 'px over)', over <= 2);

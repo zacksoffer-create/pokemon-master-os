@@ -2171,6 +2171,69 @@ class Equipment(unittest.TestCase):
         self.assertEqual(g["old-rod"]["games"]["crystal"]["says"], "Use by water to fish for Pokémon.")
         self.assertIn("Running Shoes", g["bicycle"]["games"]["heartgold"]["says"])
         self.assertTrue(all(v["says"] for x in g.values() for v in x["games"].values()))
+        # each game its own text and name (FireRed's isn't Emerald's), the crystal names in their later case
+        self.assertTrue(g["old-rod"]["games"]["firered"]["says"].startswith("An old and beat-up fishing rod."))
+        self.assertEqual(g["old-rod"]["games"]["emerald"]["says"], "Use by any body of water to fish for wild Pokémon.")
+        self.assertEqual(g["explorer-kit"]["games"]["platinum"]["from"], "Platinum's description")
+        self.assertEqual((g["ss-ticket"]["games"]["crystal"]["name"], g["ss-ticket"]["games"]["crystal"]["says"]), ("S.S.Ticket", "A ticket for the S.S.Aqua."))
+        self.assertEqual(g["egg-ticket"]["games"]["crystal"]["says"], "May use at Golden-rod trade corner.")   # its line break, as printed
+        self.assertEqual(g["pokeblock-case"]["name"], "Pokéblock Case")
+
+    def test_every_key_item_of_every_game_is_in_the_library(self):
+        """A-35: every item each game files in its key items pocket, read here straight from the fetched item data
+        (not through gear.py's readers), is an entry for that game, with that game's description."""
+        import csv as _csv
+        import json as _json
+        import re
+        from equipment import gear
+        raw = lambda n: open(os.path.join(gear.RAW, n), encoding="utf-8").read()
+        pockets = {
+            "crystal": re.findall(r"^; (\w+)\s*\n\s*item_attribute [^\n]*\bKEY_ITEM\b", raw("crystal_item_attributes.asm"), re.M),
+            "emerald": ["ITEM_" + c.split("]")[0] for c in raw("emerald_items.h").split("\n    [ITEM_")[1:] if ".pocket = POCKET_KEY_ITEMS" in c],
+            "firered": [i["itemId"] for i in _json.loads(raw("firered_items.json"))["items"] if i["pocket"] == "POCKET_KEY_ITEMS"],
+            "platinum": [c for c, d in _json.loads(raw("platinum_items.json"))["items"].items() if d["fieldPocket"] == "POCKET_KEY_ITEMS"],
+            "heartgold": [r["item"] for r in _csv.DictReader(raw("heartgold_item_data.csv").splitlines()) if r["fieldPocket"] == "POCKET_KEY_ITEMS"]}
+        self.assertEqual({k: len(v) for k, v in pockets.items()}, {"crystal": 22, "emerald": 57, "firered": 55, "platinum": 40, "heartgold": 65})
+        with open(os.path.join(ENGINE, "data_manifest", "ball_acquisition.json"), encoding="utf-8") as fh:
+            acq = _json.load(fh)
+        lib = gear.build(acq)
+        by_key = {}
+        for game, consts in pockets.items():
+            for c in consts:
+                key = gear.key_of(c)
+                self.assertIn(key, gear.ITEMS, f"{game}: {c} has no entry")
+                entry = next((e for e in lib if e["id"] == gear.ITEMS[key][0]), None)
+                self.assertIsNotNone(entry, f"{game}: {c}")
+                self.assertIn(game, entry["games"], f"{game}: {c} isn't listed for {game}")
+                self.assertTrue(entry["games"][game]["says"], f"{game}: {c} has no description")
+                by_key.setdefault(key, set()).add(game)
+        self.assertEqual(sum(1 for e in lib if e["item"]), len(by_key))   # nothing else is a bag item in the library
+        self.assertEqual(gear.check(acq), [])
+        # the pack the page reads is this library
+        with open(os.path.join(ENGINE, "app", "data", "equipment.json"), encoding="utf-8") as fh:
+            pack = _json.load(fh)
+        self.assertEqual([e["id"] for e in pack["gear"]], [e["id"] for e in lib])
+        self.assertEqual({g: c["key_items"] for g, c in pack["gear_counts"].items()}, {g: len(v) for g, v in pockets.items()})
+
+    def test_key_items_keep_their_ids_and_say_how_you_get_them(self):
+        """The 28 first entries keep their ids; ways come from the games' scripts (acquire.py's key-item run), and a
+        game's leftover (in its item table, never handed out) is said to be one."""
+        import json as _json
+        from equipment import gear
+        with open(os.path.join(ENGINE, "data_manifest", "ball_acquisition.json"), encoding="utf-8") as fh:
+            acq = _json.load(fh)
+        g = {x["id"]: x for x in gear.build(acq)}
+        self.assertEqual([i for i in gear.FIRST if i not in g], [])
+        self.assertEqual(sorted(i for i in g if not g[i]["item"]), ["pokegear", "pokenav", "poketch", "running-shoes"])
+        vs = g["vs-seeker"]["games"]
+        self.assertTrue(vs["firered"]["found"] and "data/event_scripts.s" in vs["firered"]["ways"][0]["source"])
+        self.assertEqual((vs["emerald"]["found"], vs["emerald"]["refs"]), (False, []))      # FireRed's item, in Emerald's table
+        self.assertTrue(g["tm-case"]["games"]["firered"]["found"])                           # put in the Bag by src/item.c
+        self.assertIn("pokeplatinum/res/field/scripts/scripts_canalave_city.s", g["member-card"]["games"]["platinum"]["refs"][0])
+        self.assertTrue(g["machine-part"]["story"] and not g["bicycle"]["story"])
+        self.assertIn("Route 30", " ".join(w["where"] for w in g["apricorn-box"]["games"]["heartgold"]["ways"]))
+        self.assertFalse(g["contest-pass"]["games"]["emerald"]["found"])                     # only a debug script gives it
+        self.assertTrue(any("debug script" in x for x in acq["gear_gaps"]))
 
 
 

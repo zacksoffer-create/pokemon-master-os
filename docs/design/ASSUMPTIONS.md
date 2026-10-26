@@ -322,14 +322,18 @@ Six kinds: Standard (Poké, Great, Ultra, Master), Apricorn (Kurt's seven), Spec
 - **Could instead:** put Luxury and Heal under Specialized
 - **Your call** (2026-10-26, chat): Keep
 
+## v2.5 · Equipment
+
 ### A-35 · The equipment library (D-070)
 
-28 pieces of gear (bikes, rods, finders, devices, cases, gardening tools, scopes) in the games' own words; the Running Shoes, Pokégear, PokéNav and Pokétch aren't bag items and get short Blackthorn summaries. Which games have each is authored, checked against the games' item lists where they're fetched.
+Every key item of Crystal, FireRed, Emerald, Platinum and HeartGold/SoulSilver: the 110 items the games keep in their Key Items pocket, read from each game's own item data, plus the Running Shoes, Pokégear, PokéNav and Pokétch, which aren't bag items and get short Blackthorn summaries. Each game's own name and description. How you get each one comes from that game's scripts, with file and line. An item a game only carries in its item table is shown as a leftover. Keys and plot items are marked as story items. The build stops if the library and the games' item lists disagree.
 
-- **Why:** The spec asks for a simpler library beyond the balls.
+- **Why:** Your call: "Change: include every key item."
 - **See it:** `#/equipment` (The equipment library)
-- **Could instead:** include every key item; only gear with a field use
+- **Could instead:** only the key items a game actually hands out, leaving out the leftovers in the shared item tables; every key item, but story and event items on their own page, apart from the gear you use
 - **Your call** (2026-10-26, chat): Change: include every key item.
+
+## Phase 6 · Poké Balls and equipment
 
 ### A-36 · Your inventory (D-070)
 

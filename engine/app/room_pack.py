@@ -59,7 +59,7 @@ ENGINES = [
      "One throw's chance worked out each era's own way (Crystal's byte arithmetic, Gens 3-4's shake checks, HeartGold's Apricorn balls), with each generation's own catch rates.",
      LIVE, "#/balls/catch", "Runs in the browser (33_capture.html), held to Python by app/test_capture_parity.mjs. Wild max HP assumes IV 15 and no EVs; Safari rocks and bait aren't modelled."),
     ("Builds", "Equipment", "equipment/gear.py",
-     "28 pieces of trainer gear beyond the balls in the games' own words, with your inventory per game (My Gear).",
+     "Every key item of the five games, read from each game's Key Items pocket, in each game's own words, with how you get it from the scripts, and your inventory per game (My Gear).",
      DATA, "#/equipment", "Saving your gear needs the updated WebApp.gs (My Gear). What each connects to in the field and homestead comes with Phase 7."),
     ("Builds", "Stat math", "trainers/era.py",
      "Real stats by generation (Gen II DVs and stat experience the way Showdown reads them), Hidden Power, characteristics.",

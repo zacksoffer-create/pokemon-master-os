@@ -4,7 +4,9 @@
 
 - balls: the 25 reference records (equipment/balls.py, mechanics checked against the games' code), with acquisition
   (engine/data_manifest/ball_acquisition.json from equipment/acquire.py) and the Apricorns;
-- gear: the general equipment library (equipment/gear.py);
+- gear: the equipment library (equipment/gear.py): every key item of the five games, read from each game's key items
+  pocket, with each game's name, description and ways to get it, and the four devices that aren't bag items; checked
+  against the games' item lists (gear.check()) before anything is written;
 - species: each generation's own catch rate, base HP and Speed, types and weights (data_manifest/catch_species.json),
   for the catch calculator, which runs equipment/capture.py's rules in the page (held to Python by
   app/test_capture_parity.mjs);
@@ -75,6 +77,10 @@ def main():
     if os.path.exists(balls.ACQ):
         with open(balls.ACQ, encoding="utf-8") as fh:
             acq = json.load(fh)
+    bad = gear.check(acq)
+    if bad:
+        raise SystemExit("The equipment library disagrees with the games' item lists:\n  " + "\n  ".join(bad))
+    kit = gear.build(acq)
     with open(os.path.join(ENGINE, "data_manifest", "catch_species.json"), encoding="utf-8") as fh:
         sp = json.load(fh)
     m, pre = met()
@@ -82,7 +88,8 @@ def main():
                      "(equipment/gear.py), each generation's catch numbers (equipment/species.py) and how each species is met.",
             "balls": ref["balls"], "formula": ref["formula"], "era_of_game": ref["era_of_game"], "games": ref["games"],
             "categories": ref["categories"], "apricorns": ref["apricorns"], "acquisition_gaps": ref["acquisition_gaps"],
-            "acquisition_commits": ref["acquisition_commits"], "gear": gear.build(acq), "gear_kinds": gear.KIND,
+            "acquisition_commits": ref["acquisition_commits"], "gear": kit, "gear_kinds": gear.KIND,
+            "gear_counts": gear.counts(kit), "gear_pockets": gear.POCKET_FROM, "gear_gaps": acq.get("gear_gaps", []),
             "species": sp["species"], "species_commits": sp["commits"], "met": m, "pre": pre,
             "art": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/"}
     with open(OUT, "w", encoding="utf-8") as fh:

@@ -1,5 +1,5 @@
 {
- "_note": "Built by engine/equipment/acquire.py from the pret decompilations at the commits below. Each way cites its file:line and label. 'shop' prices are the item's own price (Crystal's rooftop sale lists its own); 'requires' is the badge count for the Gen 4 badge-tiered marts; 'condition' is the raw flag/event test in front of a mart or gift. Gaps say what the source couldn't settle. SoulSilver shares HeartGold's data.",
+ "_note": "Built by engine/equipment/acquire.py from the pret decompilations at the commits below. Each way cites its file:line and label. 'shop' prices are the item's own price (Crystal's rooftop sale lists its own); 'requires' is the badge count for the Gen 4 badge-tiered marts; 'condition' is the raw flag/event test in front of a mart or gift. Gaps say what the source couldn't settle. SoulSilver shares HeartGold's data. 'gear' is the same for every key item (equipment/gear.py), by game and the library's item id; a key item with no entry had no way found, and 'gear_refs' lists the script lines that still name it.",
  "commits": {
   "pokecrystal": "5c877ef55197039c9676e8e3eec6d254b1c40fe8",
   "pokeemerald": "731ad5bfd6e6f265508d0efcca0ba42f9dcf5881",
@@ -4237,5 +4237,1639 @@
   "heartgold: the scratch-off card prizes (scr_seq_0263 GetScratchOffPrize; filled by overlay_87, which is not decompiled to named items) and the Pokéwalker weren't read",
   "heartgold: dive is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)",
   "heartgold: cherish is in the item list but no way to get it was found in the sources read (marts, map scripts, item balls, hidden items, gifts, Pickup)"
+ ],
+ "gear": {
+  "crystal": {
+   "basement-key": [
+    {
+     "how": "gift",
+     "where": "Radio Tower 5F",
+     "who": "FakeDirectorScript",
+     "qty": 1,
+     "condition": null,
+     "source": "pokecrystal/maps/RadioTower5F.asm:46 FakeDirectorScript"
+    }
+   ],
+   "bicycle": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Bike Shop",
+     "who": "GoldenrodBikeShopClerkScript",
+     "qty": 1,
+     "condition": "EVENT_GOT_BICYCLE not set",
+     "source": "pokecrystal/maps/GoldenrodBikeShop.asm:23 GoldenrodBikeShopClerkScript"
+    }
+   ],
+   "blue-card": [
+    {
+     "how": "gift",
+     "where": "Radio Tower 2F",
+     "who": "Buena",
+     "qty": 1,
+     "condition": "EVENT_MET_BUENA not set",
+     "source": "pokecrystal/maps/RadioTower2F.asm:167 .Introduction"
+    }
+   ],
+   "card-key": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Underground Warehouse",
+     "who": "GoldenrodUndergroundWarehouseDirectorScript",
+     "qty": 1,
+     "condition": "EVENT_RECEIVED_CARD_KEY not set",
+     "source": "pokecrystal/maps/GoldenrodUndergroundWarehouse.asm:76 GoldenrodUndergroundWarehouseDirectorScript"
+    }
+   ],
+   "clear-bell": [
+    {
+     "how": "gift",
+     "where": "Radio Tower 5F",
+     "who": "RadioTower5FRocketBossScript",
+     "qty": 1,
+     "condition": null,
+     "source": "pokecrystal/maps/RadioTower5F.asm:123 RadioTower5FRocketBossScript"
+    }
+   ],
+   "coin-case": [
+    {
+     "how": "field",
+     "where": "Goldenrod Underground",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokecrystal/maps/GoldenrodUnderground.asm:407 GoldenrodUndergroundCoinCase"
+    }
+   ],
+   "good-rod": [
+    {
+     "how": "gift",
+     "where": "Olivine Good Rod House",
+     "who": "GoodRodGuru",
+     "qty": 1,
+     "condition": "EVENT_GOT_GOOD_ROD not set",
+     "source": "pokecrystal/maps/OlivineGoodRodHouse.asm:19 GoodRodGuru"
+    }
+   ],
+   "gs-ball": [
+    {
+     "how": "gift",
+     "where": "Azalea Town",
+     "who": "AzaleaTownCelebiScene",
+     "qty": 1,
+     "condition": null,
+     "source": "pokecrystal/maps/AzaleaTown.asm:165 AzaleaTownCelebiScene"
+    },
+    {
+     "how": "gift",
+     "where": "Goldenrod Pokémon Center 1F",
+     "who": "GoldenrodPokecenter1F_GSBallSceneLeft",
+     "qty": 1,
+     "condition": "EVENT_GOT_GS_BALL_FROM_GOLDENROD_POKEMON_CENTER not set",
+     "source": "pokecrystal/maps/GoldenrodPokecenter1F.asm:36 GoldenrodPokecenter1F_GSBallSceneLeft"
+    },
+    {
+     "how": "gift",
+     "where": "Goldenrod Pokémon Center 1F",
+     "who": "GoldenrodPokecenter1F_GSBallSceneRight",
+     "qty": 1,
+     "condition": "EVENT_GOT_GS_BALL_FROM_GOLDENROD_POKEMON_CENTER not set",
+     "source": "pokecrystal/maps/GoldenrodPokecenter1F.asm:68 GoldenrodPokecenter1F_GSBallSceneRight"
+    }
+   ],
+   "itemfinder": [
+    {
+     "how": "gift",
+     "where": "Ecruteak Itemfinder House",
+     "who": "EcruteakItemfinderGuy",
+     "qty": 1,
+     "condition": "EVENT_GOT_ITEMFINDER not set",
+     "source": "pokecrystal/maps/EcruteakItemfinderHouse.asm:20 EcruteakItemfinderGuy"
+    }
+   ],
+   "lost-item": [
+    {
+     "how": "gift",
+     "where": "Pokémon Fan Club",
+     "who": "PokemonFanClubClefairyGuyScript",
+     "qty": 1,
+     "condition": "EVENT_MET_COPYCAT_FOUND_OUT_ABOUT_LOST_ITEM set",
+     "source": "pokecrystal/maps/PokemonFanClub.asm:78 .MetCopycat"
+    }
+   ],
+   "machine-part": [
+    {
+     "how": "field",
+     "where": "Cerulean Gym",
+     "hidden": true,
+     "qty": 1,
+     "source": "pokecrystal/maps/CeruleanGym.asm:136 CeruleanGymHiddenMachinePart"
+    }
+   ],
+   "mystery-egg": [
+    {
+     "how": "gift",
+     "where": "Mr. Pokemons House",
+     "who": "MrPokemonsHouseMrPokemonEventScript",
+     "qty": 1,
+     "condition": null,
+     "source": "pokecrystal/maps/MrPokemonsHouse.asm:31 MrPokemonsHouseMrPokemonEventScript"
+    }
+   ],
+   "old-rod": [
+    {
+     "how": "gift",
+     "where": "Route 32 Pokémon Center 1F",
+     "who": "Route32Pokecenter1FFishingGuruScript",
+     "qty": 1,
+     "condition": "EVENT_GOT_OLD_ROD not set",
+     "source": "pokecrystal/maps/Route32Pokecenter1F.asm:24 Route32Pokecenter1FFishingGuruScript"
+    }
+   ],
+   "pass": [
+    {
+     "how": "gift",
+     "where": "Copycats House 2F",
+     "who": "Copycat",
+     "qty": 1,
+     "condition": null,
+     "source": "pokecrystal/maps/CopycatsHouse2F.asm:122 .GivePass"
+    }
+   ],
+   "rainbow-wing": [
+    {
+     "how": "gift",
+     "where": "Tin Tower 1F",
+     "who": "TinTower1FSage5Script",
+     "qty": 1,
+     "condition": "EVENT_FOUGHT_HO_OH not set; EVENT_GOT_RAINBOW_WING not set",
+     "source": "pokecrystal/maps/TinTower1F.asm:196 TinTower1FSage5Script"
+    }
+   ],
+   "red-scale": [
+    {
+     "how": "gift",
+     "where": "Lake of Rage",
+     "who": "RedGyarados",
+     "qty": 1,
+     "condition": null,
+     "source": "pokecrystal/maps/LakeOfRage.asm:95 .NotBeaten"
+    }
+   ],
+   "secretpotion": [
+    {
+     "how": "gift",
+     "where": "Cianwood Pharmacy",
+     "who": "CianwoodPharmacist",
+     "qty": 1,
+     "condition": "EVENT_GOT_SECRETPOTION_FROM_PHARMACY not set; EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS set",
+     "source": "pokecrystal/maps/CianwoodPharmacy.asm:22 CianwoodPharmacist"
+    }
+   ],
+   "silver-wing": [
+    {
+     "how": "gift",
+     "where": "Pewter City",
+     "who": "PewterCityGrampsScript",
+     "qty": 1,
+     "condition": "EVENT_GOT_SILVER_WING not set",
+     "source": "pokecrystal/maps/PewterCity.asm:31 PewterCityGrampsScript"
+    }
+   ],
+   "squirtbottle": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Flower Shop",
+     "who": "FlowerShopTeacherScript",
+     "qty": 1,
+     "condition": "EVENT_FOUGHT_SUDOWOODO not set; EVENT_GOT_SQUIRTBOTTLE not set; EVENT_MET_FLORIA set; EVENT_TALKED_TO_FLORIA_AT_FLOWER_SHOP set; ENGINE_PLAINBADGE set",
+     "source": "pokecrystal/maps/GoldenrodFlowerShop.asm:25 FlowerShopTeacherScript"
+    }
+   ],
+   "ss-ticket": [
+    {
+     "how": "gift",
+     "where": "Elm's Lab",
+     "who": "ElmGiveTicketScript",
+     "qty": 1,
+     "condition": null,
+     "source": "pokecrystal/maps/ElmsLab.asm:414 ElmGiveTicketScript"
+    }
+   ],
+   "super-rod": [
+    {
+     "how": "gift",
+     "where": "Route 12 Super Rod House",
+     "who": "Route12SuperRodHouseFishingGuruScript",
+     "qty": 1,
+     "condition": "EVENT_GOT_SUPER_ROD not set",
+     "source": "pokecrystal/maps/Route12SuperRodHouse.asm:19 Route12SuperRodHouseFishingGuruScript"
+    }
+   ]
+  },
+  "emerald": {
+   "acro-bike": [
+    {
+     "how": "gift",
+     "where": "Mauville City Bike Shop",
+     "who": "MauvilleCity_BikeShop_EventScript_GetAcroBike",
+     "qty": 1,
+     "condition": "case 1, MauvilleCity_BikeShop_EventScript_GetAcroBike",
+     "source": "pokeemerald/data/maps/MauvilleCity_BikeShop/scripts.inc:49 MauvilleCity_BikeShop_EventScript_GetAcroBike"
+    },
+    {
+     "how": "gift",
+     "where": "Mauville City Bike Shop",
+     "who": "MauvilleCity_BikeShop_EventScript_SwitchMachForAcro",
+     "qty": 1,
+     "condition": "VAR_RESULT == TRUE",
+     "source": "pokeemerald/data/maps/MauvilleCity_BikeShop/scripts.inc:93 MauvilleCity_BikeShop_EventScript_SwitchMachForAcro"
+    }
+   ],
+   "auroraticket": [
+    {
+     "how": "gift",
+     "where": "Mystery Gift Script Aurora Ticket",
+     "who": "MysteryGiftScript_AuroraTicket",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/scripts/gift_aurora_ticket.inc:14 MysteryGiftScript_AuroraTicket"
+    }
+   ],
+   "basement-key": [
+    {
+     "how": "gift",
+     "where": "Mauville City",
+     "who": "MauvilleCity_EventScript_Wattson",
+     "qty": 1,
+     "condition": "FLAG_GOT_TM_THUNDERBOLT_FROM_WATTSON not set; FLAG_GOT_BASEMENT_KEY_FROM_WATTSON not set",
+     "source": "pokeemerald/data/maps/MauvilleCity/scripts.inc:405 MauvilleCity_EventScript_Wattson"
+    }
+   ],
+   "claw-fossil": [
+    {
+     "how": "gift",
+     "where": "Desert Underpass",
+     "who": "DesertUnderpass_EventScript_GiveClawFossil",
+     "qty": 1,
+     "condition": "FLAG_CHOSE_ROOT_FOSSIL set",
+     "source": "pokeemerald/data/maps/DesertUnderpass/scripts.inc:18 DesertUnderpass_EventScript_GiveClawFossil"
+    },
+    {
+     "how": "gift",
+     "where": "Mirage Tower 4F",
+     "who": "MirageTower_4F_EventScript_ClawFossil",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/MirageTower_4F/scripts.inc:29 MirageTower_4F_EventScript_ClawFossil"
+    }
+   ],
+   "coin-case": [
+    {
+     "how": "gift",
+     "where": "Mauville City House 2",
+     "who": "MauvilleCity_House2_EventScript_AcceptTrade",
+     "qty": 1,
+     "condition": "VAR_RESULT == YES",
+     "source": "pokeemerald/data/maps/MauvilleCity_House2/scripts.inc:26 MauvilleCity_House2_EventScript_AcceptTrade"
+    }
+   ],
+   "devon-goods": [
+    {
+     "how": "gift",
+     "where": "Rusturf Tunnel",
+     "who": "RusturfTunnel_EventScript_Grunt",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/RusturfTunnel/scripts.inc:294 RusturfTunnel_EventScript_Grunt"
+    }
+   ],
+   "devon-scope": [
+    {
+     "how": "gift",
+     "where": "Route 120",
+     "who": "Route120_EventScript_StevenGiveDeconScope",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/Route120/scripts.inc:215 Route120_EventScript_StevenGiveDeconScope"
+    }
+   ],
+   "eon-ticket": [
+    {
+     "how": "gift",
+     "where": "Cable Club",
+     "who": "CableClub_EventScript_DistributeEonTicket",
+     "qty": 1,
+     "condition": "VAR_RESULT == TRUE; FLAG_ENABLE_SHIP_SOUTHERN_ISLAND not set",
+     "source": "pokeemerald/data/scripts/cable_club.inc:38 CableClub_EventScript_DistributeEonTicket"
+    }
+   ],
+   "go-goggles": [
+    {
+     "how": "gift",
+     "where": "Lavaridge Town",
+     "who": "LavaridgeTown_EventScript_MayGiveGoGoggles",
+     "qty": 1,
+     "condition": "VAR_RESULT == MALE",
+     "source": "pokeemerald/data/maps/LavaridgeTown/scripts.inc:62 LavaridgeTown_EventScript_MayGiveGoGoggles"
+    },
+    {
+     "how": "gift",
+     "where": "Lavaridge Town",
+     "who": "LavaridgeTown_EventScript_BrendanGiveGoGoggles",
+     "qty": 1,
+     "condition": "VAR_RESULT == FEMALE",
+     "source": "pokeemerald/data/maps/LavaridgeTown/scripts.inc:70 LavaridgeTown_EventScript_BrendanGiveGoGoggles"
+    }
+   ],
+   "good-rod": [
+    {
+     "how": "gift",
+     "where": "Route 118",
+     "who": "Route118_EventScript_ReceiveGoodRod",
+     "qty": 1,
+     "condition": "VAR_RESULT == YES",
+     "source": "pokeemerald/data/maps/Route118/scripts.inc:34 Route118_EventScript_ReceiveGoodRod"
+    }
+   ],
+   "itemfinder": [
+    {
+     "how": "gift",
+     "where": "Route 110",
+     "who": "Route110_EventScript_GiveItemfinder",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/Route110/scripts.inc:453 Route110_EventScript_GiveItemfinder"
+    }
+   ],
+   "letter": [
+    {
+     "how": "gift",
+     "where": "Rustboro City Devon Corp 3F",
+     "who": "RustboroCity_DevonCorp_3F_EventScript_MeetPresident",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/RustboroCity_DevonCorp_3F/scripts.inc:48 RustboroCity_DevonCorp_3F_EventScript_MeetPresident"
+    }
+   ],
+   "mach-bike": [
+    {
+     "how": "gift",
+     "where": "Mauville City Bike Shop",
+     "who": "MauvilleCity_BikeShop_EventScript_GetMachBike",
+     "qty": 1,
+     "condition": "case 0, MauvilleCity_BikeShop_EventScript_GetMachBike",
+     "source": "pokeemerald/data/maps/MauvilleCity_BikeShop/scripts.inc:43 MauvilleCity_BikeShop_EventScript_GetMachBike"
+    },
+    {
+     "how": "gift",
+     "where": "Mauville City Bike Shop",
+     "who": "MauvilleCity_BikeShop_EventScript_SwitchAcroForMach",
+     "qty": 1,
+     "condition": "VAR_RESULT == TRUE",
+     "source": "pokeemerald/data/maps/MauvilleCity_BikeShop/scripts.inc:85 MauvilleCity_BikeShop_EventScript_SwitchAcroForMach"
+    }
+   ],
+   "magma-emblem": [
+    {
+     "how": "gift",
+     "where": "Mt. Pyre Summit",
+     "who": "MtPyre_Summit_EventScript_TeamAquaExits",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/MtPyre_Summit/scripts.inc:58 MtPyre_Summit_EventScript_TeamAquaExits"
+    }
+   ],
+   "meteorite": [
+    {
+     "how": "gift",
+     "where": "Mt. Chimney",
+     "who": "MtChimney_EventScript_MeteoriteMachine",
+     "qty": 1,
+     "condition": "FLAG_DEFEATED_EVIL_TEAM_MT_CHIMNEY set; FLAG_RECEIVED_METEORITE not set",
+     "source": "pokeemerald/data/maps/MtChimney/scripts.inc:434 MtChimney_EventScript_MeteoriteMachine"
+    }
+   ],
+   "mysticticket": [
+    {
+     "how": "gift",
+     "where": "Mystery Gift Script Mystic Ticket",
+     "who": "MysteryGiftScript_MysticTicket",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/scripts/gift_mystic_ticket.inc:15 MysteryGiftScript_MysticTicket"
+    }
+   ],
+   "old-rod": [
+    {
+     "how": "gift",
+     "where": "Dewford Town",
+     "who": "DewfordTown_EventScript_GiveOldRod",
+     "qty": 1,
+     "condition": "VAR_RESULT == YES",
+     "source": "pokeemerald/data/maps/DewfordTown/scripts.inc:83 DewfordTown_EventScript_GiveOldRod"
+    }
+   ],
+   "old-sea-map": [
+    {
+     "how": "gift",
+     "where": "Mystery Gift Script Old Sea Map",
+     "who": "MysteryGiftScript_OldSeaMap",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/scripts/gift_old_sea_map.inc:14 MysteryGiftScript_OldSeaMap"
+    }
+   ],
+   "pokeblock-case": [
+    {
+     "how": "gift",
+     "where": "Lilycove City Contest Lobby",
+     "who": "LilycoveCity_ContestLobby_EventScript_GivePokeblockCase",
+     "qty": 1,
+     "condition": "FLAG_RECEIVED_POKEBLOCK_CASE not set",
+     "source": "pokeemerald/data/scripts/contest_hall.inc:17 LilycoveCity_ContestLobby_EventScript_GivePokeblockCase"
+    }
+   ],
+   "powder-jar": [
+    {
+     "how": "gift",
+     "where": "Slateport City",
+     "who": "SlateportCity_EventScript_BerryPowderClerk",
+     "qty": 1,
+     "condition": "FLAG_RECEIVED_POWDER_JAR not set",
+     "source": "pokeemerald/data/maps/SlateportCity/scripts.inc:682 SlateportCity_EventScript_BerryPowderClerk"
+    }
+   ],
+   "rm-1-key": [
+    {
+     "how": "field",
+     "where": "Abandoned Ship Hidden Floor Rooms",
+     "hidden": true,
+     "qty": 1,
+     "source": "pokeemerald/data/maps/AbandonedShip_HiddenFloorRooms/map.json FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_1_KEY"
+    }
+   ],
+   "rm-2-key": [
+    {
+     "how": "field",
+     "where": "Abandoned Ship Hidden Floor Rooms",
+     "hidden": true,
+     "qty": 1,
+     "source": "pokeemerald/data/maps/AbandonedShip_HiddenFloorRooms/map.json FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_2_KEY"
+    }
+   ],
+   "rm-4-key": [
+    {
+     "how": "field",
+     "where": "Abandoned Ship Hidden Floor Rooms",
+     "hidden": true,
+     "qty": 1,
+     "source": "pokeemerald/data/maps/AbandonedShip_HiddenFloorRooms/map.json FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_4_KEY"
+    }
+   ],
+   "rm-6-key": [
+    {
+     "how": "field",
+     "where": "Abandoned Ship Hidden Floor Rooms",
+     "hidden": true,
+     "qty": 1,
+     "source": "pokeemerald/data/maps/AbandonedShip_HiddenFloorRooms/map.json FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_6_KEY"
+    }
+   ],
+   "root-fossil": [
+    {
+     "how": "gift",
+     "where": "Desert Underpass",
+     "who": "DesertUnderpass_EventScript_GiveRootFossil",
+     "qty": 1,
+     "condition": "FLAG_CHOSE_CLAW_FOSSIL set",
+     "source": "pokeemerald/data/maps/DesertUnderpass/scripts.inc:24 DesertUnderpass_EventScript_GiveRootFossil"
+    },
+    {
+     "how": "gift",
+     "where": "Mirage Tower 4F",
+     "who": "MirageTower_4F_EventScript_RootFossil",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/MirageTower_4F/scripts.inc:9 MirageTower_4F_EventScript_RootFossil"
+    }
+   ],
+   "scanner": [
+    {
+     "how": "field",
+     "where": "Abandoned Ship Hidden Floor Rooms",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokeemerald/data/scripts/item_ball_scripts.inc:450 AbandonedShip_HiddenFloorRooms_EventScript_ItemScanner; pokeemerald/data/maps/AbandonedShip_HiddenFloorRooms/map.json FLAG_ITEM_ABANDONED_SHIP_HIDDEN_FLOOR_ROOM_2_SCANNER"
+    }
+   ],
+   "soot-sack": [
+    {
+     "how": "gift",
+     "where": "Route 113 Glass Workshop",
+     "who": "Route113_GlassWorkshop_EventScript_GlassWorker",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/maps/Route113_GlassWorkshop/scripts.inc:30 Route113_GlassWorkshop_EventScript_GlassWorker"
+    }
+   ],
+   "ss-ticket": [
+    {
+     "how": "gift",
+     "where": "Players House 1F",
+     "who": "PlayersHouse_1F_EventScript_GetSSTicketAndSeeLatiTV",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeemerald/data/scripts/players_house.inc:407 PlayersHouse_1F_EventScript_GetSSTicketAndSeeLatiTV"
+    }
+   ],
+   "storage-key": [
+    {
+     "how": "field",
+     "where": "Abandoned Ship Captains Office",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokeemerald/data/scripts/item_ball_scripts.inc:442 AbandonedShip_CaptainsOffice_EventScript_ItemStorageKey; pokeemerald/data/maps/AbandonedShip_CaptainsOffice/map.json FLAG_ITEM_ABANDONED_SHIP_CAPTAINS_OFFICE_STORAGE_KEY"
+    }
+   ],
+   "super-rod": [
+    {
+     "how": "gift",
+     "where": "Mossdeep City House 3",
+     "who": "MossdeepCity_House3_EventScript_SuperRodFisherman",
+     "qty": 1,
+     "condition": "FLAG_RECEIVED_SUPER_ROD not set",
+     "source": "pokeemerald/data/maps/MossdeepCity_House3/scripts.inc:11 MossdeepCity_House3_EventScript_SuperRodFisherman"
+    }
+   ],
+   "wailmer-pail": [
+    {
+     "how": "gift",
+     "where": "Route 104 Pretty Petal Flower Shop",
+     "who": "Route104_PrettyPetalFlowerShop_EventScript_GiveWailmerPail",
+     "qty": 1,
+     "condition": "FLAG_RECEIVED_WAILMER_PAIL not set",
+     "source": "pokeemerald/data/maps/Route104_PrettyPetalFlowerShop/scripts.inc:72 Route104_PrettyPetalFlowerShop_EventScript_GiveWailmerPail"
+    }
+   ]
+  },
+  "firered": {
+   "auroraticket": [
+    {
+     "how": "gift",
+     "where": "entering the Hall of Fame",
+     "qty": 1,
+     "condition": "(gaveAtLeastOneRibbon == TRUE); (!CheckBagHasItem(ITEM_AURORA_TICKET, 1)); #if REVISION >= 0xA",
+     "note": "only in the builds the code's #if REVISION >= 0xA keeps it in: firered_switch (GAME_REVISION=10), leafgreen_switch (GAME_REVISION=10) (Makefile); the default build is revision 0",
+     "source": "pokefirered/src/post_battle_event_funcs.c:57 EnterHallOfFame"
+    }
+   ],
+   "berry-pouch": [
+    {
+     "how": "other",
+     "where": "the Bag, by itself",
+     "qty": 1,
+     "note": "put in the Key Items pocket the first time a Berry goes in the Bag",
+     "source": "pokefirered/src/item.c:242 AddBagItem"
+    }
+   ],
+   "bicycle": [
+    {
+     "how": "gift",
+     "where": "Cerulean City Bike Shop",
+     "who": "CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher",
+     "qty": 1,
+     "condition": "FLAG_GOT_BIKE_VOUCHER set",
+     "source": "pokefirered/data/maps/CeruleanCity_BikeShop/scripts.inc:35 CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher"
+    }
+   ],
+   "bike-voucher": [
+    {
+     "how": "gift",
+     "where": "Vermilion City Pokémon Fan Club",
+     "who": "VermilionCity_PokemonFanClub_EventScript_ChairmanStory",
+     "qty": 1,
+     "condition": "VAR_RESULT == YES",
+     "source": "pokefirered/data/maps/VermilionCity_PokemonFanClub/scripts.inc:27 VermilionCity_PokemonFanClub_EventScript_ChairmanStory"
+    }
+   ],
+   "card-key": [
+    {
+     "how": "field",
+     "where": "Silph Co 5F",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokefirered/data/scripts/item_ball_scripts.inc:250 SilphCo_5F_EventScript_ItemCardKey; pokefirered/data/maps/SilphCo_5F/map.json FLAG_HIDE_SILPH_CO_5F_CARD_KEY"
+    }
+   ],
+   "coin-case": [
+    {
+     "how": "gift",
+     "where": "Celadon City Restaurant",
+     "who": "CeladonCity_Restaurant_EventScript_CoinCaseMan",
+     "qty": 1,
+     "condition": "FLAG_GOT_COIN_CASE not set",
+     "source": "pokefirered/data/maps/CeladonCity_Restaurant/scripts.inc:19 CeladonCity_Restaurant_EventScript_CoinCaseMan"
+    }
+   ],
+   "dome-fossil": [
+    {
+     "how": "gift",
+     "where": "Mt. Moon B2F",
+     "who": "MtMoon_B2F_EventScript_DomeFossil",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/MtMoon_B2F/scripts.inc:59 MtMoon_B2F_EventScript_DomeFossil"
+    }
+   ],
+   "fame-checker": [
+    {
+     "how": "gift",
+     "where": "Cerulean City",
+     "who": "CeruleanCity_EventScript_Rival",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/CeruleanCity/scripts.inc:58 CeruleanCity_EventScript_Rival"
+    }
+   ],
+   "gold-teeth": [
+    {
+     "how": "field",
+     "where": "Safari Zone West",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokefirered/data/scripts/item_ball_scripts.inc:214 SafariZone_West_EventScript_ItemGoldTeeth; pokefirered/data/maps/SafariZone_West/map.json FLAG_HIDE_SAFARI_ZONE_WEST_GOLD_TEETH"
+    }
+   ],
+   "good-rod": [
+    {
+     "how": "gift",
+     "where": "Fuchsia City House 2",
+     "who": "FuchsiaCity_House2_EventScript_GiveGoodRod",
+     "qty": 1,
+     "condition": "VAR_RESULT == YES",
+     "source": "pokefirered/data/maps/FuchsiaCity_House2/scripts.inc:23 FuchsiaCity_House2_EventScript_GiveGoodRod"
+    }
+   ],
+   "helix-fossil": [
+    {
+     "how": "gift",
+     "where": "Mt. Moon B2F",
+     "who": "MtMoon_B2F_EventScript_HelixFossil",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/MtMoon_B2F/scripts.inc:90 MtMoon_B2F_EventScript_HelixFossil"
+    }
+   ],
+   "itemfinder": [
+    {
+     "how": "gift",
+     "where": "Route 11 East Entrance 2F",
+     "who": "Route11_EastEntrance_2F_EventScript_Aide",
+     "qty": 1,
+     "condition": "FLAG_GOT_ITEMFINDER not set",
+     "source": "pokefirered/data/maps/Route11_EastEntrance_2F/scripts.inc:71 Route11_EastEntrance_2F_EventScript_Aide"
+    }
+   ],
+   "lift-key": [
+    {
+     "how": "gift",
+     "where": "Rocket Hideout B4F",
+     "who": "RocketHideout_B4F_EventScript_LiftKey",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/RocketHideout_B4F/scripts.inc:66 RocketHideout_B4F_EventScript_LiftKey"
+    }
+   ],
+   "meteorite": [
+    {
+     "how": "gift",
+     "where": "One Island Pokémon Center 1F",
+     "who": "OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/OneIsland_PokemonCenter_1F/scripts.inc:101 OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene"
+    }
+   ],
+   "mysticticket": [
+    {
+     "how": "gift",
+     "where": "entering the Hall of Fame",
+     "qty": 1,
+     "condition": "(gaveAtLeastOneRibbon == TRUE); (!CheckBagHasItem(ITEM_AURORA_TICKET, 1)); #if REVISION >= 0xA",
+     "note": "only in the builds the code's #if REVISION >= 0xA keeps it in: firered_switch (GAME_REVISION=10), leafgreen_switch (GAME_REVISION=10) (Makefile); the default build is revision 0",
+     "source": "pokefirered/src/post_battle_event_funcs.c:60 EnterHallOfFame"
+    }
+   ],
+   "oaks-parcel": [
+    {
+     "how": "gift",
+     "where": "Viridian City Mart",
+     "who": "ViridianCity_Mart_EventScript_ParcelScene",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/ViridianCity_Mart/scripts.inc:31 ViridianCity_Mart_EventScript_ParcelScene"
+    }
+   ],
+   "old-amber": [
+    {
+     "how": "gift",
+     "where": "Pewter City Museum 1F",
+     "who": "PewterCity_Museum_1F_EventScript_OldAmberScientist",
+     "qty": 1,
+     "condition": "FLAG_GOT_OLD_AMBER not set",
+     "source": "pokefirered/data/maps/PewterCity_Museum_1F/scripts.inc:151 PewterCity_Museum_1F_EventScript_OldAmberScientist"
+    }
+   ],
+   "old-rod": [
+    {
+     "how": "gift",
+     "where": "Vermilion City House 1",
+     "who": "VermilionCity_House1_EventScript_GiveOldRod",
+     "qty": 1,
+     "condition": "VAR_RESULT == YES",
+     "source": "pokefirered/data/maps/VermilionCity_House1/scripts.inc:22 VermilionCity_House1_EventScript_GiveOldRod"
+    }
+   ],
+   "poke-flute": [
+    {
+     "how": "gift",
+     "where": "Lavender Town Volunteer Pokémon House",
+     "who": "LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji",
+     "qty": 1,
+     "condition": "FLAG_GOT_POKE_FLUTE not set",
+     "source": "pokefirered/data/maps/LavenderTown_VolunteerPokemonHouse/scripts.inc:12 LavenderTown_VolunteerPokemonHouse_EventScript_MrFuji"
+    }
+   ],
+   "powder-jar": [
+    {
+     "how": "gift",
+     "where": "Cerulean City House 5",
+     "who": "CeruleanCity_House5_EventScript_BerryPowderMan",
+     "qty": 1,
+     "condition": "FLAG_GOT_POWDER_JAR not set; FLAG_SYS_GOT_BERRY_POUCH set",
+     "source": "pokefirered/data/maps/CeruleanCity_House5/scripts.inc:13 CeruleanCity_House5_EventScript_BerryPowderMan"
+    }
+   ],
+   "rainbow-pass": [
+    {
+     "how": "gift",
+     "where": "One Island Pokémon Center 1F",
+     "who": "OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/OneIsland_PokemonCenter_1F/scripts.inc:322 OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass"
+    }
+   ],
+   "ruby": [
+    {
+     "how": "gift",
+     "where": "Mt. Ember Ruby Path B3F",
+     "who": "MtEmber_RubyPath_B5F_EventScript_Ruby",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/MtEmber_RubyPath_B3F/scripts.inc:10 MtEmber_RubyPath_B5F_EventScript_Ruby"
+    }
+   ],
+   "sapphire": [
+    {
+     "how": "gift",
+     "where": "Five Island Rocket Warehouse",
+     "who": "FiveIsland_RocketWarehouse_EventScript_DefeatedGideon",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/FiveIsland_RocketWarehouse/scripts.inc:60 FiveIsland_RocketWarehouse_EventScript_DefeatedGideon"
+    }
+   ],
+   "secret-key": [
+    {
+     "how": "field",
+     "where": "Pokémon Mansion B1F",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokefirered/data/scripts/item_ball_scripts.inc:334 PokemonMansion_B1F_EventScript_ItemSecretKey; pokefirered/data/maps/PokemonMansion_B1F/map.json FLAG_HIDE_POKEMON_MANSION_B1F_SECRET_KEY"
+    }
+   ],
+   "silph-scope": [
+    {
+     "how": "gift",
+     "where": "Rocket Hideout B4F",
+     "who": "RocketHideout_B4F_EventScript_SilphScope",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/RocketHideout_B4F/scripts.inc:43 RocketHideout_B4F_EventScript_SilphScope"
+    }
+   ],
+   "ss-ticket": [
+    {
+     "how": "gift",
+     "where": "Route 25 Sea Cottage",
+     "who": "Route25_SeaCottage_EventScript_BillGiveSSTicket",
+     "qty": 1,
+     "condition": "FLAG_HELPED_BILL_IN_SEA_COTTAGE set",
+     "source": "pokefirered/data/maps/Route25_SeaCottage/scripts.inc:101 Route25_SeaCottage_EventScript_BillGiveSSTicket"
+    }
+   ],
+   "super-rod": [
+    {
+     "how": "gift",
+     "where": "Route 12 Fishing House",
+     "who": "Route12_FishingHouse_EventScript_GiveSuperRod",
+     "qty": 1,
+     "condition": "VAR_RESULT == YES",
+     "source": "pokefirered/data/maps/Route12_FishingHouse/scripts.inc:17 Route12_FishingHouse_EventScript_GiveSuperRod"
+    }
+   ],
+   "tea": [
+    {
+     "how": "gift",
+     "where": "Celadon City Condominiums 1F",
+     "who": "CeladonCity_Condominiums_1F_EventScript_TeaWoman",
+     "qty": 1,
+     "condition": "FLAG_TALKED_TO_TEA_LADY_AFTER_HOF not set; FLAG_SYS_GAME_CLEAR not set; FLAG_GOT_TEA not set",
+     "source": "pokefirered/data/maps/CeladonCity_Condominiums_1F/scripts.inc:12 CeladonCity_Condominiums_1F_EventScript_TeaWoman"
+    }
+   ],
+   "teachy-tv": [
+    {
+     "how": "gift",
+     "where": "Viridian City",
+     "who": "ViridianCity_EventScript_DoTutorialBattle",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/ViridianCity/scripts.inc:235 ViridianCity_EventScript_DoTutorialBattle"
+    }
+   ],
+   "tm-case": [
+    {
+     "how": "other",
+     "where": "the Bag, by itself",
+     "qty": 1,
+     "note": "put in the Key Items pocket the first time a TM or HM goes in the Bag",
+     "source": "pokefirered/src/item.c:233 AddBagItem"
+    }
+   ],
+   "town-map": [
+    {
+     "how": "gift",
+     "where": "One Island Pokémon Center 1F",
+     "who": "OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap",
+     "qty": 1,
+     "condition": "VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE < 2",
+     "source": "pokefirered/data/maps/OneIsland_PokemonCenter_1F/scripts.inc:141 OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap"
+    },
+    {
+     "how": "gift",
+     "where": "Pallet Town Rivals House",
+     "who": "PalletTown_RivalsHouse_EventScript_GiveTownMap",
+     "qty": 1,
+     "condition": "VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE == 1",
+     "source": "pokefirered/data/maps/PalletTown_RivalsHouse/scripts.inc:144 PalletTown_RivalsHouse_EventScript_GiveTownMap"
+    }
+   ],
+   "tri-pass": [
+    {
+     "how": "gift",
+     "where": "One Island Pokémon Center 1F",
+     "who": "OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene",
+     "qty": 1,
+     "condition": null,
+     "source": "pokefirered/data/maps/OneIsland_PokemonCenter_1F/scripts.inc:105 OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene"
+    }
+   ],
+   "vs-seeker": [
+    {
+     "how": "gift",
+     "where": "Vermilion City Pokémon Center 1F",
+     "who": "VermilionCity_PokemonCenter_1F_EventScript_VSSeekerWoman",
+     "qty": 1,
+     "condition": "FLAG_GOT_VS_SEEKER not set",
+     "source": "pokefirered/data/event_scripts.s:1253 VermilionCity_PokemonCenter_1F_EventScript_VSSeekerWoman"
+    }
+   ]
+  },
+  "platinum": {
+   "bicycle": [
+    {
+     "how": "gift",
+     "where": "Cycle Shop",
+     "who": "CycleShop_PokefanM",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_cycle_shop.s:18 CycleShop_PokefanM"
+    }
+   ],
+   "coin-case": [
+    {
+     "how": "gift",
+     "where": "Veilstone City Southeast House",
+     "who": "VeilstoneCitySoutheastHouse_ChooseHand",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_veilstone_city_southeast_house.s:55 VeilstoneCitySoutheastHouse_ChooseHand"
+    }
+   ],
+   "coupon-1": [
+    {
+     "how": "gift",
+     "where": "Jubilife City",
+     "who": "JubilifeCity_Clown1CorrectAnswer",
+     "qty": 1,
+     "condition": "VAR_RESULT == MENU_YES",
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city.s:1512 JubilifeCity_Clown1CorrectAnswer"
+    }
+   ],
+   "coupon-2": [
+    {
+     "how": "gift",
+     "where": "Jubilife City",
+     "who": "JubilifeCity_Clown2CorrectAnswer",
+     "qty": 1,
+     "condition": "VAR_RESULT == MENU_YES",
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city.s:1551 JubilifeCity_Clown2CorrectAnswer"
+    }
+   ],
+   "coupon-3": [
+    {
+     "how": "gift",
+     "where": "Jubilife City",
+     "who": "JubilifeCity_Clown3CorrectAnswer",
+     "qty": 1,
+     "condition": "VAR_RESULT == MENU_YES",
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city.s:1592 JubilifeCity_Clown3CorrectAnswer"
+    }
+   ],
+   "explorer-kit": [
+    {
+     "how": "gift",
+     "where": "Eterna City Underground Man House",
+     "who": "EternaCityUndergroundManHouse_UndergroundMan",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_eterna_city_underground_man_house.s:26 EternaCityUndergroundManHouse_UndergroundMan"
+    }
+   ],
+   "fashion-case": [
+    {
+     "how": "gift",
+     "where": "Jubilife City",
+     "who": "JubilifeCity_GiveFashionCaseAndAccessories",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city.s:982 JubilifeCity_GiveFashionCaseAndAccessories"
+    }
+   ],
+   "galactic-key": [
+    {
+     "how": "field",
+     "where": "Galactic HQ B2F",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokeplatinum/res/field/scripts/scripts_visible_items.s:1757 VisibleItems_GalacticHQB2F_GalacticKey; pokeplatinum/res/field/events/events_galactic_hq_b2f.json object script 7237"
+    }
+   ],
+   "good-rod": [
+    {
+     "how": "gift",
+     "where": "Route 209",
+     "who": "Route209_Fisherman",
+     "qty": null,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_route_209.s:136 Route209_Fisherman"
+    }
+   ],
+   "gracidea": [
+    {
+     "how": "gift",
+     "where": "Floaroma Town",
+     "who": "FloaromaTown_Beauty",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_town.s:112 FloaromaTown_Beauty"
+    }
+   ],
+   "journal": [
+    {
+     "how": "gift",
+     "where": "Twinleaf Town Player House 1F",
+     "who": "TwinleafTownPlayerHouse1F_MomGiveJournal",
+     "qty": 1,
+     "condition": "FLAG_HAS_POKEDEX set",
+     "source": "pokeplatinum/res/field/scripts/scripts_twinleaf_town_player_house_1f.s:261 TwinleafTownPlayerHouse1F_MomGiveJournal"
+    }
+   ],
+   "lunar-wing": [
+    {
+     "how": "field",
+     "where": "Fullmoon Island Forest",
+     "hidden": false,
+     "qty": 1,
+     "source": "pokeplatinum/res/field/scripts/scripts_visible_items.s:887 VisibleItems_FullmoonIslandForest_LunarWing; pokeplatinum/res/field/events/events_fullmoon_island_forest.json object script 7092"
+    }
+   ],
+   "old-charm": [
+    {
+     "how": "gift",
+     "where": "Route 210 South",
+     "who": "Route210South_AcceptOldCharm",
+     "qty": 1,
+     "condition": "VAR_RESULT == MENU_YES",
+     "source": "pokeplatinum/res/field/scripts/scripts_route_210_south.s:114 Route210South_AcceptOldCharm"
+    }
+   ],
+   "old-rod": [
+    {
+     "how": "gift",
+     "where": "Route 218 Gate to Jubilife City",
+     "who": "Route218GateToJubilifeCity_Fisherman",
+     "qty": null,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_route_218_gate_to_jubilife_city.s:17 Route218GateToJubilifeCity_Fisherman"
+    }
+   ],
+   "parcel": [
+    {
+     "how": "gift",
+     "where": "Twinleaf Town Player House 1F",
+     "who": "TwinleafTownPlayerHouse1F_ReceiveParcel",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_twinleaf_town_player_house_1f.s:403 TwinleafTownPlayerHouse1F_ReceiveParcel"
+    }
+   ],
+   "poffin-case": [
+    {
+     "how": "gift",
+     "where": "Hearthome City Pokémon Fan Club",
+     "who": "HearthomeCityPokemonFanClub_Gentleman",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_hearthome_city_pokemon_fan_club.s:29 HearthomeCityPokemonFanClub_Gentleman"
+    }
+   ],
+   "poke-radar": [
+    {
+     "how": "gift",
+     "where": "Sandgem Town Pokémon Research Lab",
+     "who": "SandgemTownLab_EnableNationalDex",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_sandgem_town_pokemon_research_lab.s:562 SandgemTownLab_EnableNationalDex"
+    }
+   ],
+   "seal-case": [
+    {
+     "how": "gift",
+     "where": "Solaceon Town East House",
+     "who": "SolaceonTownEastHouse_PokefanF",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_solaceon_town_east_house.s:83 SolaceonTownEastHouse_PokefanF"
+    }
+   ],
+   "secretpotion": [
+    {
+     "how": "gift",
+     "where": "Valor Lakefront",
+     "who": "ValorLakefront_UseMedicineOnPsyduck",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_valor_lakefront.s:344 ValorLakefront_UseMedicineOnPsyduck"
+    }
+   ],
+   "sprayduck": [
+    {
+     "how": "gift",
+     "where": "Flower Shop",
+     "who": "FlowerShop_Lass",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_flower_shop.s:45 FlowerShop_Lass"
+    }
+   ],
+   "suite-key": [
+    {
+     "how": "field",
+     "where": "Route 213",
+     "hidden": true,
+     "qty": 1,
+     "source": "pokeplatinum/include/data/field/hidden_items.h:238 FLAG_OBTAINED_HIDDEN_ROUTE_213_SUITE_KEY; pokeplatinum/res/field/events/events_route_213.json bg script 8216"
+    }
+   ],
+   "super-rod": [
+    {
+     "how": "gift",
+     "where": "Fight Area",
+     "who": "FightArea_Fisherman",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_fight_area.s:432 FightArea_Fisherman"
+    }
+   ],
+   "town-map": [
+    {
+     "how": "gift",
+     "where": "Trainers School",
+     "who": "TrainersSchool_Rival",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_trainers_school.s:36 TrainersSchool_Rival"
+    }
+   ],
+   "vs-recorder": [
+    {
+     "how": "gift",
+     "where": "Jubilife City",
+     "who": "JubilifeCity_LookerGiveVSRecorderAndLeave",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_jubilife_city.s:259 JubilifeCity_LookerGiveVSRecorderAndLeave"
+    }
+   ],
+   "vs-seeker": [
+    {
+     "how": "gift",
+     "where": "Route 207",
+     "who": "Route207_GiveVsSeeker",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_route_207.s:88 Route207_GiveVsSeeker"
+    }
+   ],
+   "works-key": [
+    {
+     "how": "gift",
+     "where": "Floaroma Meadow",
+     "who": "FloaromaMeadow_DefeatedGrunts",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_meadow.s:119 FloaromaMeadow_DefeatedGrunts"
+    },
+    {
+     "how": "gift",
+     "where": "Floaroma Meadow",
+     "who": "FloaromaMeadow_ItemWorksKey",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeplatinum/res/field/scripts/scripts_floaroma_meadow.s:239 FloaromaMeadow_ItemWorksKey"
+    }
+   ]
+  },
+  "heartgold": {
+   "apricorn-box": [
+    {
+     "how": "gift",
+     "where": "Route 30",
+     "who": "scr_seq_R30_002",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0227_R30.s:105 _0148"
+    },
+    {
+     "how": "gift",
+     "where": "Route 30 Apricorn House",
+     "who": "scr_seq_R30R0101_000",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0228_R30R0101.s:16 scr_seq_R30R0101_000"
+    }
+   ],
+   "basement-key": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Radio Tower 5F",
+     "who": "scr_seq_D23R0105_002",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 0 (CheckBattleWon VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0033_D23R0105.s:128 _01DA; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0033_D23R0105.s:130 _01DA"
+    }
+   ],
+   "berry-pots": [
+    {
+     "how": "gift",
+     "where": "Route 36",
+     "who": "scr_seq_R36_000",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0243_R36.s:128 _01C6"
+    }
+   ],
+   "bicycle": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Bike Shop",
+     "who": "scr_seq_T25R0201_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 0 (GetMenuChoice VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0890_T25R0201.s:35 _0065"
+    }
+   ],
+   "blue-card": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Radio Tower 2F",
+     "who": "scr_seq_D23R0102_009",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT < 1",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0030_D23R0102.s:132 _016A; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0030_D23R0102.s:133 _016A"
+    }
+   ],
+   "blue-orb": [
+    {
+     "how": "gift",
+     "where": "Route 30 MR Pokémon House",
+     "who": "scr_seq_R30R0201_002",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_R30R0201_002 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0229_R30R0201.s:191 scr_seq_R30R0201_002; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0229_R30R0201.s:198 _02B6"
+    }
+   ],
+   "card-key": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Tunnel Warehouse",
+     "who": "scr_seq_D37R0105_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 0",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0097_D37R0105.s:30 scr_seq_D37R0105_001"
+    }
+   ],
+   "clear-bell": [
+    {
+     "how": "gift",
+     "where": "Ecruteak Dance Theater",
+     "who": "scr_seq_T27R0501_016",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 0 (CheckBattleWon VAR_SPECIAL_RESULT); VAR_SPECIAL_RESULT == 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_T27R0501_016 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0928_T27R0501.s:809 _0944"
+    }
+   ],
+   "coin-case": [
+    {
+     "how": "gift",
+     "where": "Celadon Game Corner",
+     "who": "scr_seq_T07SP0101_003",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 1 (GetMenuChoice VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0806_T07SP0101.s:142 _019D"
+    },
+    {
+     "how": "gift",
+     "where": "Goldenrod Game Corner",
+     "who": "scr_seq_T25SP0101_002",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 1 (GetMenuChoice VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0910_T25SP0101.s:140 _018E"
+    }
+   ],
+   "dowsing-machine": [
+    {
+     "how": "gift",
+     "where": "Ecruteak Dowsing Machine House",
+     "who": "scr_seq_T27R0801_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 0 (GetMenuChoice VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0929_T27R0801.s:29 _0044; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0929_T27R0801.s:30 _0044"
+    }
+   ],
+   "fashion-case": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Tunnel 1F",
+     "who": "scr_seq_D37R0101_002",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0093_D37R0101.s:74 _0100"
+    },
+    {
+     "how": "gift",
+     "where": "Goldenrod Tunnel 1F",
+     "who": "scr_seq_D37R0101_002",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0093_D37R0101.s:192 _0228"
+    }
+   ],
+   "gb-sounds": [
+    {
+     "how": "gift",
+     "where": "Celadon Condominiums 3F",
+     "who": "scr_seq_T07R0203_009",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 0 (CheckNationalDexComplete VAR_SPECIAL_RESULT); VAR_SPECIAL_RESULT == 1 (CheckNationalDexComplete VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0798_T07R0203.s:201 _0276"
+    }
+   ],
+   "good-rod": [
+    {
+     "how": "gift",
+     "where": "Olivine Northwest House",
+     "who": "scr_seq_T26R0601_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 0 (GetMenuChoice VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0918_T26R0601.s:26 _0040; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0918_T26R0601.s:29 _0040"
+    }
+   ],
+   "gracidea": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Flower Shop",
+     "who": "scr_seq_T25R0601_003",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0896_T25R0601.s:48 scr_seq_T25R0601_003; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0896_T25R0601.s:53 scr_seq_T25R0601_003"
+    },
+    {
+     "how": "gift",
+     "where": "Goldenrod Flower Shop",
+     "who": "scr_seq_T25R0601_001",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0896_T25R0601.s:333 _049E; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0896_T25R0601.s:338 _049E"
+    }
+   ],
+   "jade-orb": [
+    {
+     "how": "gift",
+     "where": "Pallet Town Oak's Lab",
+     "who": "scr_seq_T01R0301_000",
+     "qty": 1,
+     "condition": null,
+     "version_check": "scr_seq_T01R0301_000 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0740_T01R0301.s:345 _047E"
+    }
+   ],
+   "lost-item": [
+    {
+     "how": "gift",
+     "where": "Vermilion Pokémon Fan Club",
+     "who": "scr_seq_T06R0301_002",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0782_T06R0301.s:93 _0116"
+    }
+   ],
+   "machine-part": [
+    {
+     "how": "gift",
+     "where": "Cerulean Gym",
+     "who": "scr_seq_T04GYM0101_005",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0760_T04GYM0101.s:187 scr_seq_T04GYM0101_005; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0760_T04GYM0101.s:188 scr_seq_T04GYM0101_005"
+    }
+   ],
+   "mystery-egg": [
+    {
+     "how": "gift",
+     "where": "Route 30 MR Pokémon House",
+     "who": "scr_seq_R30R0201_001",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0229_R30R0201.s:45 scr_seq_R30R0201_001"
+    }
+   ],
+   "old-rod": [
+    {
+     "how": "gift",
+     "where": "Route 32 Pokémon Center 1F",
+     "who": "scr_seq_R32PC0101_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 0 (GetMenuChoice VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0233_R32PC0101.s:34 _0058; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0233_R32PC0101.s:35 _0058"
+    }
+   ],
+   "pal-pad": [
+    {
+     "how": "gift",
+     "where": "shared script scr_seq_0164 (_std_wifi_reception)",
+     "who": "scr_seq_0164_000",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0164.s:29 scr_seq_0164_000"
+    }
+   ],
+   "pass": [
+    {
+     "how": "gift",
+     "where": "Saffron Copycat House 2F",
+     "who": "scr_seq_T11R0802_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 0",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0841_T11R0802.s:78 _00E9"
+    }
+   ],
+   "ragecandybar": [
+    {
+     "how": "gift",
+     "where": "Mahogany",
+     "who": "scr_seq_T28_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 0 (HasEnoughMoneyImmediate VAR_SPECIAL_RESULT, 200)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0930_T28.s:47 _009D; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0930_T28.s:48 _009D"
+    },
+    {
+     "how": "gift",
+     "where": "Mahogany",
+     "who": "scr_seq_T28_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 0 (HasEnoughMoneyImmediate VAR_SPECIAL_RESULT, 300)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0930_T28.s:128 _01DF; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0930_T28.s:129 _01DF"
+    }
+   ],
+   "rainbow-wing": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Radio Tower Observation Deck",
+     "who": "scr_seq_D23R0106_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_D23R0106_001 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0034_D23R0106.s:77 _0119"
+    },
+    {
+     "how": "gift",
+     "where": "Pewter",
+     "who": "scr_seq_T03_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_T03_000 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0750_T03.s:70 _00E6; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0750_T03.s:72 _00E6"
+    }
+   ],
+   "red-orb": [
+    {
+     "how": "gift",
+     "where": "Route 30 MR Pokémon House",
+     "who": "scr_seq_R30R0201_002",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_R30R0201_002 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0229_R30R0201.s:195 _02B0; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0229_R30R0201.s:198 _02B6"
+    }
+   ],
+   "red-scale": [
+    {
+     "how": "gift",
+     "where": "Lake of Rage",
+     "who": "scr_seq_T29_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 0 (CheckBattleWon VAR_SPECIAL_RESULT); VAR_TEMP_x4002 != 3 (GetStaticEncounterOutcome VAR_TEMP_x4002)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0938_T29.s:300 scr_seq_T29_001; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0938_T29.s:301 scr_seq_T29_001"
+    }
+   ],
+   "seal-case": [
+    {
+     "how": "gift",
+     "where": "Route 39 Moomoo Farm Stable",
+     "who": "scr_seq_R39R0201_000",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0251_R39R0201.s:45 _007E"
+    }
+   ],
+   "secretpotion": [
+    {
+     "how": "gift",
+     "where": "Cianwood Pharmacy",
+     "who": "scr_seq_T24R0501_000",
+     "qty": 1,
+     "condition": "VAR_SCENE_LIGHTHOUSE_JASMINE == 1",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0881_T24R0501.s:37 _0051; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0881_T24R0501.s:38 _0051"
+    }
+   ],
+   "silver-wing": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Radio Tower Observation Deck",
+     "who": "scr_seq_D23R0106_001",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_D23R0106_001 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0034_D23R0106.s:84 _014E"
+    },
+    {
+     "how": "gift",
+     "where": "Pewter",
+     "who": "scr_seq_T03_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_T03_000 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0750_T03.s:61 _00B0; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0750_T03.s:63 _00B0"
+    }
+   ],
+   "squirtbottle": [
+    {
+     "how": "gift",
+     "where": "Goldenrod Flower Shop",
+     "who": "scr_seq_T25R0601_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 1; VAR_TEMP_x4000 == 1 (GetPartyMonSpecies VAR_TEMP_x4000, VAR_TEMP_x4001)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0896_T25R0601.s:135 _0185; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0896_T25R0601.s:136 _0185"
+    }
+   ],
+   "ss-ticket": [
+    {
+     "how": "gift",
+     "where": "New Bark Elm's Lab 1F",
+     "who": "scr_seq_T20R0101_000",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:393 _0526; pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0843_T20R0101.s:396 _0526"
+    }
+   ],
+   "super-rod": [
+    {
+     "how": "gift",
+     "where": "Route 12 Fishing Brother House",
+     "who": "scr_seq_R12R0101_000",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT == 0; VAR_SPECIAL_RESULT != 1 (GetMenuChoice VAR_SPECIAL_RESULT)",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0200_R12R0101.s:24 scr_seq_R12R0101_000"
+    }
+   ],
+   "tidal-bell": [
+    {
+     "how": "gift",
+     "where": "Ecruteak Dance Theater",
+     "who": "scr_seq_T27R0501_016",
+     "qty": 1,
+     "condition": "VAR_SPECIAL_RESULT != 7 (GetGameVersion VAR_SPECIAL_RESULT)",
+     "version_check": "scr_seq_T27R0501_016 checks GetGameVersion before this; HeartGold and SoulSilver may differ",
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0928_T27R0501.s:814 _0AA4"
+    }
+   ],
+   "unown-report": [
+    {
+     "how": "gift",
+     "where": "Ruins of Alph Underground Hall",
+     "who": "scr_seq_D24R0205_000",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0042_D24R0205.s:74 scr_seq_D24R0205_000"
+    }
+   ],
+   "vs-recorder": [
+    {
+     "how": "gift",
+     "where": "Route 31 Violet Gatehouse",
+     "who": "scr_seq_R31R0101_000",
+     "qty": 1,
+     "condition": null,
+     "source": "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0231_R31R0101.s:78 _0138"
+    }
+   ]
+  }
+ },
+ "gear_refs": {
+  "crystal": {},
+  "emerald": {
+   "contest-pass": [
+    "pokeemerald/data/maps/LilycoveCity_ContestLobby/scripts.inc:345 additem ITEM_CONTEST_PASS"
+   ]
+  },
+  "firered": {},
+  "platinum": {
+   "member-card": [
+    "pokeplatinum/res/field/scripts/scripts_canalave_city.s:96 CheckItem ITEM_MEMBER_CARD, 1, VAR_MAP_LOCAL_0x00",
+    "pokeplatinum/res/field/scripts/scripts_canalave_city_harbor_inn.s:26 CheckItem ITEM_MEMBER_CARD, 1, VAR_MAP_LOCAL_0x00",
+    "pokeplatinum/res/field/scripts/scripts_newmoon_island_forest.s:15 CheckItem ITEM_MEMBER_CARD, 1, VAR_MAP_LOCAL_0x00"
+   ],
+   "oaks-letter": [
+    "pokeplatinum/res/field/scripts/scripts_flower_paradise.s:16 CheckItem ITEM_OAKS_LETTER, 1, VAR_MAP_LOCAL_0x00",
+    "pokeplatinum/res/field/scripts/scripts_route_224.s:23 CheckItem ITEM_OAKS_LETTER, 1, VAR_MAP_LOCAL_0x00"
+   ],
+   "pal-pad": [
+    "pokeplatinum/res/field/scripts/scripts_jubilife_city.s:774 CheckItem ITEM_PAL_PAD, 1, VAR_RESULT",
+    "pokeplatinum/res/field/scripts/scripts_pokemon_center_b1f_common.s:21 SetVar VAR_0x8004, ITEM_PAL_PAD"
+   ],
+   "secret-key": [
+    "pokeplatinum/res/field/scripts/scripts_rotoms_room.s:110 CheckItem ITEM_SECRET_KEY, 1, VAR_RESULT",
+    "pokeplatinum/res/field/scripts/scripts_team_galactic_eterna_building_1f.s:93 CheckItem ITEM_SECRET_KEY, 1, VAR_RESULT",
+    "pokeplatinum/res/field/scripts/scripts_team_galactic_eterna_building_1f.s:102 BufferItemName 1, ITEM_SECRET_KEY"
+   ],
+   "azure-flute": [
+    "pokeplatinum/res/field/scripts/scripts_spear_pillar.s:40 CheckItem ITEM_AZURE_FLUTE, 1, VAR_MAP_LOCAL_0x00",
+    "pokeplatinum/res/field/scripts/scripts_spear_pillar_dialga.s:19 CheckItem ITEM_AZURE_FLUTE, 1, VAR_MAP_LOCAL_0x00",
+    "pokeplatinum/res/field/scripts/scripts_spear_pillar_palkia.s:19 CheckItem ITEM_AZURE_FLUTE, 1, VAR_MAP_LOCAL_0x00"
+   ],
+   "storage-key": [
+    "pokeplatinum/res/field/scripts/scripts_veilstone_city_galactic_warehouse.s:27 CheckItem ITEM_STORAGE_KEY, 1, VAR_RESULT",
+    "pokeplatinum/res/field/scripts/scripts_veilstone_city_galactic_warehouse.s:44 RemoveItem ITEM_STORAGE_KEY, 1, VAR_RESULT",
+    "pokeplatinum/res/field/scripts/scripts_visible_items.s:1764 SetVar VAR_0x8008, ITEM_STORAGE_KEY"
+   ]
+  },
+  "heartgold": {
+   "enigma-stone": [
+    "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0755_T03R0101.s:40 HasItem ITEM_ENIGMA_STONE, 1, VAR_TEMP_x4000",
+    "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0755_T03R0101.s:536 HasItem ITEM_ENIGMA_STONE, 1, VAR_SPECIAL_RESULT",
+    "pokeheartgold/files/fielddata/script/scr_seq/scr_seq_0755_T03R0101.s:603 TakeItem ITEM_ENIGMA_STONE, 1, VAR_SPECIAL_RESULT"
+   ]
+  }
+ },
+ "gear_gaps": [
+  "emerald: pokeemerald/data/maps/LilycoveCity_ContestLobby/scripts.inc:345 LilycoveCity_ContestLobby_EventScript_SetDebug is a debug script (its label says so); its contest-pass isn't counted",
+  "platinum: visible item pokeplatinum/res/field/scripts/scripts_visible_items.s:1763 VisibleItems_Unused7238_StorageKey isn't placed by any event file (script 7238)",
+  "heartgold: 26 item-giving script lines (files/fielddata/script/scr_seq/) get the item from a variable filled elsewhere (C code, a menu, a calling script), so the scripts alone don't say which item; none of them was counted: scr_seq_0003.s:626 (unset), scr_seq_0003.s:650 (unset), scr_seq_0010_D02R0104.s:649 (VAR_SPECIAL_x8008/unset), scr_seq_0076_D32.s:575 (unset), scr_seq_0094_D37R0102.s:520 (unset), scr_seq_0123_D49R0101.s:694 (VAR_SPECIAL_x8001), scr_seq_0123_D49R0101.s:704 (unset), scr_seq_0141.s:1817 (VAR_SPECIAL_x8008/unset), scr_seq_0144.s:160 (@ScrCmd_811), scr_seq_0145.s:538 (VAR_SPECIAL_x8000/unset), scr_seq_0146.s:950 (VAR_SPECIAL_x8006), scr_seq_0151.s:226 (VAR_BUG_CONTEST_HELD_PRIZE), scr_seq_0151.s:323 (VAR_TEMP_x4001), scr_seq_0181_R05R0202.s:55 (TM_EXPLOSION), scr_seq_0232_R32.s:225 (unset), scr_seq_0263.s:149 (VAR_TEMP_x4000), scr_seq_0263.s:169 (VAR_TEMP_x4002), scr_seq_0263.s:189 (VAR_TEMP_x4004), scr_seq_0794_T07R0106.s:112 (VAR_SPECIAL_x8001), scr_seq_0794_T07R0106.s:122 (unset), scr_seq_0812_T08R0201.s:566 (VAR_SPECIAL_x8006), scr_seq_0896_T25R0601.s:202 (VAR_SPECIAL_x8001), scr_seq_0904_T25R1006.s:599 (VAR_SPECIAL_x8001), scr_seq_0904_T25R1006.s:609 (unset), scr_seq_0938_T29.s:487 (unset), scr_seq_0953.s:1606 (VAR_SPECIAL_RESULT/unset)"
  ]
 }

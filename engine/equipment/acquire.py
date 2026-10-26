@@ -34,6 +34,12 @@ What each game's extractor reads:
   files/itemtool/itemdata/item_data.csv (prices). SoulSilver shares this data; a way whose script entry checks
   GetGameVersion first is flagged.
 
+The key items (the equipment library, equipment/gear.py) get the same readers, run a second time with gear.py's
+tables (every item in each game's key items pocket) in place of the balls', written under "gear", with "gear_refs"
+(script lines that still name an item no way was found for) and "gear_gaps"; the ball data doesn't change. Gen 3 also
+reads data/event_scripts.s (FireRed's Vs. Seeker is given there) and the C code that puts items in the Bag by itself
+(FireRed's src/item.c TM Case and Berry Pouch, src/post_battle_event_funcs.c's Hall of Fame tickets).
+
 A way is {"how": shop|gift|field|craft|other, "where", "source": "<repo>/<path>:<line> <label>", ...}, plus price,
 requires (badges), condition (the raw flag/variable tests), who, qty, note where they apply. What the source can't
 settle goes to "gaps", never into a guess; "notes" hold source-backed remarks (a ball that isn't an item, a missing
@@ -485,12 +491,13 @@ G3_LABEL = r"^([A-Za-z_]\w*):{1,2}"
 def gen3(repo, game):
     ways, gaps, notes = {}, [], []
     scripts = repo.files("data/maps/", "/scripts.inc") + repo.files("data/scripts/", ".inc")
+    scripts += [p for p in ("data/event_scripts.s",) if repo.has(p)]   # shared scripts written inline (FireRed's Vs. Seeker)
     jsons = repo.files("data/maps/", "/map.json")
     items_h = "include/constants/items.h"
     src = ["src/shop.c", "src/safari_zone.c", "src/battle_script_commands.c"]
     src += ["src/data/items.h"] if repo.has("src/data/items.h") else ["src/data/items.json"]
-    src += [p for p in ("src/lottery_corner.c", "src/data/lilycove_lady.h", "src/trainer_hill.c", "src/field_specials.c")
-            if repo.has(p)]
+    src += [p for p in ("src/lottery_corner.c", "src/data/lilycove_lady.h", "src/trainer_hill.c", "src/field_specials.c",
+                        "src/item.c", "src/post_battle_event_funcs.c", "Makefile") if repo.has(p)]
     repo.load(scripts + jsons + [items_h] + src)
     present = {ball_of(c, BALL_CONST) for c in re.findall(r"\b(ITEM_[A-Z]+_BALL)\b", repo.read(items_h))} - {None}
     price = gen3_prices(repo)
@@ -498,6 +505,7 @@ def gen3(repo, game):
     gen3_field(repo, game, jsons, ways, gaps)
     gen3_gifts(repo, game, scripts, ways)
     gen3_other(repo, game, scripts, ways, gaps, notes)
+    gen3_code_gifts(repo, ways)
     return present, ways, gaps, notes, None
 
 
@@ -608,6 +616,56 @@ def gen3_gifts(repo, game, scripts, ways):
             add(ways, ball_of(m.group(1), BALL_CONST), how="gift", where=where, who=label, qty=qty_of(m.group(2)),
                 condition=gen3_condition(lines, i, owner) or gen3_jumps_to(lines, label),
                 source=repo.src(path, i + 1, label))
+
+
+def gen3_code_gifts(repo, ways):
+    """Items the C code puts in the Bag itself (key items, in practice): FireRed's TM Case and Berry Pouch, added with
+    the first TM or Berry (src/item.c AddBagItem), and anything EnterHallOfFame adds (src/post_battle_event_funcs.c),
+    with the raw if-tests and #if around it."""
+    path = "src/item.c"
+    for n, line in enumerate(repo.lines(path) if repo.has(path) else [], 1):
+        m = re.search(r"if \((POCKET_\w+) - 1 && !CheckBagHasItem\((ITEM_\w+), 1\)\)", line.replace("pocket == ", ""))
+        if m:
+            what = {"POCKET_TM_CASE": "a TM or HM", "POCKET_BERRY_POUCH": "a Berry"}.get(m.group(1), f"an item of the {m.group(1)} pocket")
+            add(ways, ball_of(m.group(2), BALL_CONST), how="other", where="the Bag, by itself", qty=1,
+                note=f"put in the Key Items pocket the first time {what} goes in the Bag",
+                source=repo.src(path, n, "AddBagItem"))
+    path = "src/post_battle_event_funcs.c"
+    stack, pending, pre = [], None, []
+    for n, line in enumerate(repo.lines(path) if repo.has(path) else [], 1):
+        s = line.strip()
+        if s.startswith("#if"):
+            pre.append(s)
+        elif s.startswith("#endif") and pre:
+            pre.pop()
+        elif re.match(r"(else )?if \(.*\)$", s):
+            pending = s.split("if ", 1)[1]
+        elif s == "{":
+            stack.append(pending)
+            pending = None
+        elif s.startswith("}") and stack:
+            stack.pop()
+        elif s:
+            pending = None                                      # an if without braces governs one line
+        m = re.search(r"AddBagItem\((ITEM_\w+), (\d+)\)", s)
+        if m:
+            add(ways, ball_of(m.group(1), BALL_CONST), how="gift", where="entering the Hall of Fame", qty=int(m.group(2)),
+                condition="; ".join([c for c in stack if c] + pre) or None, note=gen3_builds(repo, pre),
+                source=repo.src(path, n, "EnterHallOfFame"))
+
+
+def gen3_builds(repo, pre):
+    """Which of the Makefile's builds an `#if REVISION >= N` around a line keeps it in (pokefirered's firered_switch is
+    GAME_REVISION=10; the cartridges are 0 and firered_rev1's 1)."""
+    m = next((re.match(r"#if REVISION >= (\w+)$", p) for p in pre if re.match(r"#if REVISION >= \w+$", p)), None)
+    if not m or not repo.has("Makefile"):
+        return None
+    need = int(m.group(1), 0)
+    builds = [f"{name} (GAME_REVISION={rev})" for name, rev in
+              re.findall(r"^(\w+):\s*;\s*@\$\(MAKE\) GAME_VERSION=\w+ GAME_REVISION=(\d+)\s*$", repo.read("Makefile"), re.M)
+              if int(rev) >= need]
+    return (f"only in the builds the code's {m.group(0)} keeps it in: " + ", ".join(builds) + " (Makefile); the default "
+            "build is revision 0") if builds else f"under {m.group(0)}, which no Makefile build reaches"
 
 
 def gen3_jumps_to(lines, label):
@@ -1591,11 +1649,60 @@ def hg_versions(hg, ways, notes):
                      "the same ways apply to SoulSilver as far as these sources show.")
 
 
+# --- the key items (equipment/gear.py) --------------------------------------------------------------------------------
+GEAR_SCRIPTS = {"crystal": [("maps/", ".asm")],
+                "emerald": [("data/maps/", "/scripts.inc"), ("data/scripts/", ".inc"), ("data/event_scripts.s", "")],
+                "platinum": [("res/field/scripts/", ".s")], "heartgold": [("files/fielddata/script/scr_seq/", ".s")]}
+GEAR_SCRIPTS["firered"] = GEAR_SCRIPTS["emerald"]
+
+
+def build_gear(repos, ball_gaps):
+    """How you get each key item: the same readers run again, with gear.py's key-item tables (item constant -> the
+    library's id, from each game's key items pocket) in place of the balls'. Only a game's own key items are kept.
+    For a key item with no way found, `refs` holds up to three script lines that name it (a CheckItem, a TakeItem),
+    so the page can tell an item the scripts use from one only the item table carries; HeartGold's scripts often give
+    items by number, and only names are matched. The gaps are the ones this run adds (a key-item ball no map places,
+    a script entry nothing runs), plus HeartGold's count of give lines whose item is set elsewhere."""
+    sys.path.insert(0, ENGINE)
+    from equipment import gear
+    tables, ids = gear.key_tables()
+    swap = {"BALL_CONST_CRYSTAL": tables["crystal"], "BALL_CONST": tables["gen3"], "BALL_CONST_GEN4": tables["gen4"]}
+    saved = {k: globals()[k] for k in swap}
+    globals().update(swap)
+    out, refs, gaps = {}, {}, []
+    try:
+        for game, name in GAMES.items():
+            repo = repos[name]
+            _, ways, g_gaps, _, _ = EXTRACT[game](repo, game)
+            out[game] = {i: dedupe(ways[i]) for i in sorted(ids[game]) if ways.get(i)}
+            gaps += [g for g in g_gaps if g not in ball_gaps or "get the item from a variable" in g]
+            for i, rows in list(out[game].items()):                 # Emerald's Contest Pass comes from a debug script
+                debug = [w for w in rows if "Debug" in f"{w.get('who')} {w['source']}"]
+                gaps += [f"{game}: {w['source']} is a debug script (its label says so); its {i} isn't counted" for w in debug]
+                if debug:
+                    out[game][i] = [w for w in rows if w not in debug]
+                    if not out[game][i]:
+                        del out[game][i]
+            want = {c: i for c, i in tables[gear.TABLE[game]].items() if i in ids[game] and i not in out[game]}
+            word = re.compile(r"\b(?:ITEM_)?(" + "|".join(sorted(want, key=len, reverse=True)) + r")\b") if want else None
+            refs[game] = {}
+            for path in [p for pre, suf in GEAR_SCRIPTS[game] for p in repo.files(pre, suf)] if word else []:
+                for n, line in enumerate(repo.lines(path), 1):
+                    m = word.search(line)
+                    if m and (game == "crystal") == (not m.group(0).startswith("ITEM_")):
+                        hits = refs[game].setdefault(want[m.group(1)], [])
+                        if len(hits) < 3:
+                            hits.append(f"{repo.src(path, n)} {line.strip()[:80]}")
+    finally:
+        globals().update(saved)
+    return out, refs, gaps
+
+
 # --- the whole ------------------------------------------------------------------------------------------------------
 def build(root=PRET):
-    games, gaps, notes, apricorns = {}, [], [], {}
+    games, gaps, notes, apricorns, repos = {}, [], [], {}, {}
     for game, name in GAMES.items():
-        repo = Repo(root, name)
+        repo = repos[name] = Repo(root, name)
         present, ways, g_gaps, g_notes, trees = EXTRACT[game](repo, game)
         stray = sorted(set(ways) - present)
         for b in stray:
@@ -1610,12 +1717,16 @@ def build(root=PRET):
         notes += g_notes
         if trees is not None:
             apricorns[game] = trees
+    gear, gear_refs, gear_gaps = build_gear(repos, set(gaps))
     return {"_note": "Built by engine/equipment/acquire.py from the pret decompilations at the commits below. Each way "
                      "cites its file:line and label. 'shop' prices are the item's own price (Crystal's rooftop sale "
                      "lists its own); 'requires' is the badge count for the Gen 4 badge-tiered marts; 'condition' is "
                      "the raw flag/event test in front of a mart or gift. Gaps say what the source couldn't settle. "
-                     "SoulSilver shares HeartGold's data.",
-            "commits": dict(COMMITS), "games": games, "apricorns": apricorns, "notes": notes, "gaps": gaps}
+                     "SoulSilver shares HeartGold's data. 'gear' is the same for every key item (equipment/gear.py), "
+                     "by game and the library's item id; a key item with no entry had no way found, and 'gear_refs' "
+                     "lists the script lines that still name it.",
+            "commits": dict(COMMITS), "games": games, "apricorns": apricorns, "notes": notes, "gaps": gaps,
+            "gear": gear, "gear_refs": gear_refs, "gear_gaps": gear_gaps}
 
 
 EXTRACT = {"crystal": lambda r, g: crystal(r), "emerald": gen3, "firered": gen3, "platinum": lambda r, g: platinum(r),
@@ -1651,6 +1762,9 @@ def main(argv):
         print(f"  {game:10} {len(balls)} balls, {n} ways ({', '.join(f'{k} {v}' for k, v in sorted(hows.items()))}); "
               f"empty: {', '.join(b for b, v in balls.items() if not v) or '-'}")
     print(f"  {len(doc['gaps'])} gaps, {len(doc['notes'])} notes")
+    for game, items in doc["gear"].items():
+        print(f"  {game:10} key items with a way found: {len(items)} ({sum(len(v) for v in items.values())} ways)")
+    print(f"  {len(doc['gear_gaps'])} key-item gaps")
     return 0
 
 

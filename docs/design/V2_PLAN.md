@@ -220,6 +220,9 @@ described, take the reins and build it."*
 - **Everything in git (A-03).** Record → Keep it in git makes a copy of every tab in your Drive (a download in the
   preview). Say "snapshot my records" and it goes into the project.
 - **The builder's Homestead tags** are read in HeartGold, the estate's game, with your world records.
+- **Every key item (A-35).** The equipment library holds all 110 key items of the five games, read from each game's
+  own item data, with that game's name and description and how you get it from its scripts (file and line). Story
+  items are marked; an item a game only lists in its item table is shown as a leftover.
 - **What a set might suggest (A-09).** Under the evidence, the breeding-stock designer now proposes a reading: a
   sentence for each rule that fires, about the line and about what it's for. Each is marked hypothesis, names its rule
   and says what it rests on. Your call: "You can propose an interpretation, that's fine."

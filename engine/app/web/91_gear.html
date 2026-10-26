@@ -6,7 +6,8 @@
                                it, its craft and origin, a live catch calculator, Blackthorn's design reading and its
                                conceptual interior (your picture, or the brief to make one), related balls, your Pokémon in it
    #/balls/catch               which ball to throw: every ball in a game ranked for one Pokémon and situation
-   #/equipment[/<id>]          the equipment library and your inventory (My Gear), with the Apricorns
+   #/equipment[?q,g,k]         the equipment library: every key item of the five games (by name, game, group), the Apricorns
+   #/equipment/<id>            one item in each game: its name and words, how you get it; your inventory (My Gear)
    Pictures are your own (My Artwork: subject ball:<id>, kind exterior or interior); the default exterior is the
    official Dream World art where it exists, else the game's sprite. Creative pictures are labelled as such. */
 var GR = {calc: {}};
@@ -69,7 +70,7 @@ function ballsPage(query) {
         return '<a class="ballcard" href="#/ball/' + b.id + '" data-ball="' + b.id + '"><div class="ballart">' + ballArt(b, 92) + '</div><b>' + esc(b.name) + '</b>' +
           '<span class="tiny muted">Gen ' + b.introduced + ' · ' + esc(b.category_name) + (b.apricorn ? ' · ' + esc(b.apricorn) : '') + '</span></a>'; }).join('') + '</div>' +
       '<div class="grid" style="margin-top:20px"><div class="c6">' + card('Which ball should I throw?', '<p class="small">Pick a game, a Pokémon and the situation; every ball in that game is ranked by its exact chance to catch on one throw.</p><a class="btn gold sm" href="#/balls/catch">Open the throw planner</a>', {eyebrow: 'The catch planner', tools: false}) + '</div>' +
-      '<div class="c6">' + card('The rest of the gear', '<p class="small">Bicycles, rods, finders, devices, cases and the Apricorns: the equipment library, with what you have in each game.</p><a class="btn sm" href="#/equipment">The equipment library</a>', {eyebrow: 'Equipment', tools: false}) + '</div></div>';
+      '<div class="c6">' + card('The rest of the gear', '<p class="small">Every key item of the five games, from bikes and rods to tickets and story items, and the Apricorns: the equipment library, with what you have in each game.</p><a class="btn sm" href="#/equipment">The equipment library</a>', {eyebrow: 'Equipment', tools: false}) + '</div></div>';
   });
 }
 
@@ -301,28 +302,76 @@ function planShow() {
 }
 
 /* ---- #/equipment: the library, your inventory, the Apricorns ---- */
+var GEAR_GAMES = ['crystal', 'firered', 'emerald', 'platinum', 'heartgold'];
+function gearGame(g) { return g === 'heartgold' ? 'HeartGold/SoulSilver' : GAME_NAME[g]; }
 function gearMine(item, game) { return ((S.store || {}).gear || {})[game + ':' + item] || null; }
-function equipmentPage() {
+function gearFound(g) { return Object.keys(g.games).filter(function (gm) { return g.games[gm].found; }); }   // a way found, or a device
+function gearWhy(x, game) {   // a key item no gift, item ball or hidden item was found for in this game
+  return x.refs && x.refs.length ? 'None of ' + gearGame(game) + '\'s gifts, item balls or hidden items gives it, though its scripts name it: an event, Mystery Gift, or a way the reader doesn\'t follow.' :
+    'Only in ' + gearGame(game) + '\'s item table: none of its scripts gives it or names it.';
+}
+function equipmentPage(query) {
   return gearReady().then(function () {
-    var all = Gear.gear(), kinds = Gear.pack().gear_kinds, by = {};
+    var q = qparse(query), P = Gear.pack(), all = Gear.gear(), kinds = P.gear_kinds, by = {}, C = P.gear_counts || {};
     all.forEach(function (g) { (by[g.kind] = by[g.kind] || []).push(g); });
-    var A = Gear.pack().apricorns || {};
+    after(function (p) {
+      var f = p.querySelector('#glf'); if (!f) return;
+      var apply = function () {
+        var s = f.q.value.toLowerCase(), gm = f.g.value, k = f.k.value, n = 0;
+        p.querySelectorAll('[data-gear]').forEach(function (a) {
+          var g = Gear.gearItem(a.getAttribute('data-gear')), x = gm ? g.games[gm] : null;
+          var ok = (!s || (g.name + ' ' + g.kind_name + ' ' + Object.keys(g.games).map(function (y) { return g.games[y].name + ' ' + g.games[y].says; }).join(' ')).toLowerCase().indexOf(s) >= 0) &&
+            (!gm || !!x) && (!k || g.kind === k);
+          a.style.display = ok ? '' : 'none'; if (ok) n++;
+          a.style.opacity = x && !x.found ? '.55' : '';
+          var w = a.querySelector('[data-why]'); if (w) w.textContent = x && !x.found ? (x.refs && x.refs.length ? 'named in its scripts, never handed out' : 'only in its item table') : '';
+        });
+        p.querySelectorAll('[data-kind]').forEach(function (sec) { var shown = [].filter.call(sec.querySelectorAll('[data-gear]'), function (a) { return a.style.display !== 'none'; }).length;
+          sec.style.display = shown ? '' : 'none'; sec.querySelector('[data-kn]').textContent = shown; });
+        p.querySelector('#gln').textContent = plural(n, 'item');
+        navQuiet('#/equipment' + qstring({q: f.q.value, g: gm, k: k}));
+      };
+      f.addEventListener('input', apply); f.addEventListener('change', apply); apply();
+    });
+    var opt = function (v, txt, cur) { return '<option value="' + esc(v) + '"' + (cur === v ? ' selected' : '') + '>' + esc(txt) + '</option>'; };
+    var A = P.apricorns || {};
     var apr = ['crystal', 'heartgold'].map(function (g) { return (A[g] || []).length ? '<div class="eyebrow" style="margin-top:10px">' + esc(GAME_NAME[g]) + (g === 'heartgold' ? ' and SoulSilver' : '') + '</div><table class="t"><tbody>' + A[g].map(function (x) {
       var b = Gear.ball(x.ball); return '<tr><td>' + esc(x.apricorn) + '</td><td>' + (b ? '<a href="#/ball/' + b.id + '">' + ballArt(b, 24) + ' ' + esc(b.name) + '</a>' : esc(x.ball)) + '</td><td class="tiny muted">' + esc((x.trees || []).join(', ') || '—') + '</td></tr>'; }).join('') + '</tbody></table>' : ''; }).join('');
+    var keyN = all.filter(function (g) { return g.item; }).length;
+    var counts = '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Game</th><th>Key items</th><th>A way found</th><th>Named, never handed out</th><th>Only in the item table</th></tr></thead><tbody>' + GEAR_GAMES.map(function (g) { var c = C[g] || {};
+      return '<tr><td>' + esc(gearGame(g)) + '</td><td>' + (c.key_items || 0) + '</td><td>' + (c.found || 0) + '</td><td>' + (c.named || 0) + '</td><td>' + ((c.key_items || 0) - (c.found || 0) - (c.named || 0)) + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+      '<div class="tiny muted" style="margin-top:6px">Which items: everything each game files in its Key Items pocket (' + esc(GEAR_GAMES.map(function (g) { return (P.gear_pockets || {})[g]; }).filter(Boolean).join('; ')) + '). How you get one: the games\' own scripts, read the same way as for the balls. The two Gen 3 games share one item table and HeartGold carries Platinum\'s, so a game can list an item it never hands out.</div>' +
+      ((P.gear_gaps || []).length ? '<details style="margin-top:6px"><summary class="tiny muted" style="cursor:pointer">What the reader couldn\'t settle (' + P.gear_gaps.length + ')</summary>' + P.gear_gaps.map(function (x) { return '<div class="tiny muted" style="margin-top:4px;overflow-wrap:anywhere">' + esc(x) + '</div>'; }).join('') + '</details>' : '');
     return '<div class="eyebrow">Equipment · Generations II to IV</div><h1 style="margin:6px 0">The equipment library</h1>' +
-      '<p class="lede">The trainer\'s gear beyond the Poké Balls: what each piece is for, in the game\'s own words, which games have it, how you get it, and what you have in each of yours.</p>' +
+      '<p class="lede">Every key item of Crystal, FireRed, Emerald, Platinum and HeartGold/SoulSilver (' + keyN + ' of them), and the four devices that aren\'t bag items: what each is for in each game\'s own words, which games have it, how you get it, and what you have in each of yours.</p>' +
+      '<form id="glf" class="card" style="margin-top:14px" onsubmit="return false"><div class="bd" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">' +
+        '<div style="flex:2;min-width:170px"><label class="l">Search</label><input class="f" name="q" value="' + esc(q.q || '') + '" placeholder="Bike, ticket, Kurt…"></div>' +
+        '<div><label class="l">Game</label><select class="f" name="g">' + opt('', 'any', q.g) + GEAR_GAMES.map(function (g) { return opt(g, gearGame(g), q.g); }).join('') + '</select></div>' +
+        '<div><label class="l">Group</label><select class="f" name="k">' + opt('', 'any', q.k) + Object.keys(kinds).filter(function (k) { return by[k]; }).map(function (k) { return opt(k, kinds[k], q.k); }).join('') + '</select></div>' +
+        '<div class="tiny muted" id="gln" style="padding-bottom:8px"></div></div></form>' +
       Object.keys(kinds).filter(function (k) { return by[k]; }).map(function (k) {
-        return '<div class="ornament" style="margin:22px 0 12px">' + esc(kinds[k]) + '</div><div class="pickgrid">' + by[k].map(function (g) {
-          var have = Object.keys(g.games).filter(function (gm) { var m = gearMine(g.id, gm); return m && m.owned; });
-          return '<a class="pick" href="#/equipment/' + g.id + '"><img class="pix" src="' + esc(artBase() + g.art) + '" alt="" onerror="this.style.visibility=\'hidden\'"><div><b>' + esc(g.name) + '</b><div class="tiny muted">' + esc(Object.keys(g.games).map(function (x) { return GAME_NAME[x]; }).join(', ')) + '</div>' +
-            (have.length ? '<div class="tiny" style="color:var(--forest-3)">yours in ' + esc(have.map(function (x) { return GAME_NAME[x]; }).join(', ')) + '</div>' : '') + '</div></a>'; }).join('') + '</div>'; }).join('') +
+        return '<div data-kind="' + k + '"><div class="ornament" style="margin:22px 0 12px">' + esc(kinds[k]) + ' · <span data-kn>' + by[k].length + '</span></div><div class="pickgrid">' + by[k].map(function (g) {
+          var have = Object.keys(g.games).filter(function (gm) { var m = gearMine(g.id, gm); return m && m.owned; }), found = gearFound(g),
+            table = Object.keys(g.games).filter(function (gm) { return found.indexOf(gm) < 0; });
+          return '<a class="pick" href="#/equipment/' + g.id + '" data-gear="' + g.id + '"><img class="pix" src="' + esc(artBase() + g.art) + '" alt="" onerror="this.style.visibility=\'hidden\'"><div><b>' + esc(g.name) + '</b>' +
+            '<div class="tiny muted">' + esc(found.map(function (x) { return GAME_NAME[x]; }).join(', ') || 'no game hands it out') + '</div>' +
+            (have.length ? '<div class="tiny" style="color:var(--forest-3)">yours in ' + esc(have.map(function (x) { return GAME_NAME[x]; }).join(', ')) + '</div>' : '') +
+            (table.length ? '<div class="tiny muted">in the item table of ' + esc(table.map(function (x) { return GAME_NAME[x]; }).join(', ')) + '</div>' : '') +
+            (g.story ? '<div class="tiny muted">story item</div>' : '') + '<div class="tiny muted" data-why></div></div></a>'; }).join('') + '</div></div>'; }).join('') +
+      '<div class="ornament" style="margin:22px 0 12px">Each game\'s key items</div>' + card('Where the list comes from', counts, {tools: false}) +
       '<div class="ornament" style="margin:22px 0 12px" id="apricorns">Apricorns</div>' + card('The seven Apricorns', '<div class="small">Kurt in Azalea Town makes each Apricorn into its own Poké Ball. They grow on trees in Johto (Crystal, HeartGold and SoulSilver).</div>' + (apr || '<div class="tiny muted">The Apricorn trees aren\'t extracted yet.</div>'), {tools: false});
   });
+}
+function gearWays(ways, game) {   // the balls' list of ways, with HeartGold's version checks said
+  return waysHtml(ways.map(function (w) { var c = {}; Object.keys(w).forEach(function (k) { c[k] = w[k]; });
+    if (w.version_check) c.note = (c.note ? c.note + '; ' : '') + 'the script checks which game it is first, so HeartGold and SoulSilver may differ';
+    return c; }), game).replace('From the game\'s own map scripts and marts', 'From the game\'s own scripts');
 }
 function equipmentItem(id) {
   return gearReady().then(function () {
     var g = Gear.gearItem(id);
     if (!g) return '<div class="notice">No equipment called ' + esc(id) + '.</div>';
+    var own = Object.keys(g.games).filter(function (gm) { var x = g.games[gm]; return x.found || (x.refs || []).length || gearMine(g.id, gm); });   // not a game's leftover
     after(function (p) { p.querySelectorAll('[data-own]').forEach(function (f) { f.onsubmit = function (e) { e.preventDefault();
       var game = f.getAttribute('data-own'), owned = f.owned.checked;
       Records.saveGear({item: g.id, game: game, owned: owned, qty: owned ? (+f.qty.value || 1) : 0, note: f.note.value}).then(function () { toast('Saved to My Gear.'); go(); })
@@ -330,11 +379,14 @@ function equipmentItem(id) {
       return false; }; }); });
     return '<a class="link" href="#/equipment">← The equipment library</a><section class="card" style="margin-top:10px"><div class="bd" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">' +
       '<img class="pix" src="' + esc(artBase() + g.art) + '" alt="" style="width:120px;height:120px;object-fit:contain" onerror="this.style.visibility=\'hidden\'"><div style="flex:1;min-width:220px"><div class="eyebrow">' + esc(g.kind_name) + '</div><h1 style="margin:4px 0">' + esc(g.name) + '</h1>' +
+      (g.story ? '<div class="small muted">' + chip('story item', '') + ' It matters only to the story: it opens a door or moves the plot on. (Blackthorn\'s sorting, not the games\'.)</div>' : '') +
       (g.connects ? '<div class="small muted">In Blackthorn it connects to ' + esc(g.connects) + '.</div>' : '') + '</div></div></section>' +
       '<div class="grid" style="margin-top:16px"><div class="c7">' + card('In each game', Object.keys(g.games).map(function (gm) { var x = g.games[gm];
-        return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b class="small">' + esc(GAME_NAME[gm]) + '</b>' + (x.item ? '' : ' ' + chip('not a bag item', '')) + '<div class="small" style="margin-top:3px">' + esc(x.says || '') + '</div>' +
-          '<div class="tiny muted">' + esc(x.from || '') + '</div>' + (x.ways && x.ways.length ? waysHtml(x.ways, gm) : '') + '</div>'; }).join(''), {eyebrow: 'What it does, in the game\'s words', tools: false}) + '</div>' +
-      '<div class="c5">' + card('Yours', Object.keys(g.games).map(function (gm) { var m = gearMine(g.id, gm);
+        return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b class="small">' + esc(gearGame(gm)) + '</b>' + (x.name && x.name !== g.name ? ' <span class="tiny muted">· called ' + esc(x.name) + '</span>' : '') +
+          (x.item ? '' : ' ' + chip('not a bag item', '')) + '<div class="small" style="margin-top:3px">' + esc(x.says || '') + '</div>' +
+          '<div class="tiny muted">' + esc(x.from || '') + '</div>' + (x.ways && x.ways.length ? gearWays(x.ways, gm) : x.item ? '<div class="small muted" style="margin-top:6px">' + esc(gearWhy(x, gm)) + '</div>' +
+            (x.refs || []).map(function (r) { return '<div class="tiny muted" style="overflow-wrap:anywhere">' + esc(r) + '</div>'; }).join('') : '') + '</div>'; }).join(''), {eyebrow: 'What it does, in the game\'s words', tools: false}) + '</div>' +
+      '<div class="c5">' + card('Yours', (own.length ? '' : '<div class="small muted">None of the games\' scripts hands it out or names it, so there\'s nothing to keep a record of.</div>') + own.map(function (gm) { var m = gearMine(g.id, gm);
         return '<form data-own="' + gm + '" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;border-bottom:1px solid var(--line)"><b class="small" style="width:90px">' + esc(GAME_NAME[gm]) + '</b>' +
           '<label class="tiny"><input type="checkbox" name="owned"' + (m && m.owned ? ' checked' : '') + '> have it</label><input class="f" name="qty" type="number" min="0" value="' + (m && m.qty != null ? m.qty : 1) + '" style="width:60px">' +
           '<input class="f" name="note" value="' + esc(m && m.note || '') + '" placeholder="a note" style="flex:1;min-width:100px"><button class="btn sm">Save</button></form>'; }).join('') +
@@ -345,6 +397,6 @@ function equipmentItem(id) {
 route(/^\/balls\/?(\?.*)?$/, ballsPage, 'Poké Ball Collection', '#/balls');
 route(/^\/balls\/catch\/?(\?.*)?$/, catchPage, 'Poké Balls · the catch planner', '#/balls');
 route(/^\/ball\/(\w+)\/?(\?.*)?$/, ballPage, function (i) { return 'Poké Balls · ' + i; }, '#/balls');
-route(/^\/equipment\/?$/, equipmentPage, 'The equipment library', '#/equipment');
+route(/^\/equipment\/?(\?.*)?$/, equipmentPage, 'The equipment library', '#/equipment');
 route(/^\/equipment\/([\w-]+)$/, equipmentItem, function (i) { return 'Equipment · ' + i; }, '#/equipment');
 </script>
