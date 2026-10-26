@@ -1,0 +1,97 @@
+{
+  "species": "Gastly",
+  "id": 92,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A body that is 95% gas, poisonous, almost invisible and almost weightless (1.3 m across but only 0.1 kg). Gastly can sneak into any place it likes, and it overpowers animals of any size by enveloping them: they faint, suffocate or are slowly poisoned through the skin, and one entry says it can topple an Indian elephant in two seconds. Its weakness is wind, which blows its body away, so groups cluster under the eaves of houses for shelter. It is the first stage of SoulSilver's Gengar. In HeartGold and SoulSilver it haunts Sprout Tower and Bell Tower, at night only.",
+  "sections": {
+    "anatomy": [
+      {"text": "A ball-shaped (Gen 4 shape) body 1.3 m across and only 0.1 kg, typed Ghost and Poison: the Gas Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its body is made of gas, 95% gas by one entry; it has no real shape and is almost invisible.", "class": "canon", "confidence": "high", "evidence": ["92.1", "92.2", "92.4", "92.6", "92.9", "92.12", "C92.3", "C92.6", "C92.9", "C92.16", "C92.20"]},
+      {"text": "The gas is poisonous: anyone engulfed by it would faint.", "class": "canon", "confidence": "high", "evidence": ["92.11", "C92.19"]},
+      {"text": "Strong wind blows its body away and makes it quickly dwindle.", "class": "canon", "confidence": "high", "evidence": ["92.3", "92.6", "92.7", "92.9", "C92.5", "C92.10", "C92.12"]}
+    ],
+    "diet": [
+      {"text": "It envelops its prey in its gas, which suffocates it or slowly weakens it by poisoning it through the skin.", "class": "canon", "confidence": "high", "evidence": ["92.4", "92.5", "92.12", "C92.7", "C92.8", "C92.21"]},
+      {"text": "It can topple an Indian elephant by enveloping it in two seconds.", "class": "canon", "confidence": "medium", "evidence": ["92.8", "C92.15"]},
+      {"text": "What it takes from its prey is never said. Its evolved forms steal life force (Haunter, 93.11) and heat (Gengar, 94.3), so the line most likely feeds on life energy rather than flesh.", "class": "inferred", "confidence": "medium", "evidence": ["93.11", "94.3", "C92.8"]},
+      {"text": "Hypnosis at level 1 and Dream Eater (Lv 33) and Nightmare (Lv 43) later fit the oldest entry: it cloaks a target and puts it to sleep without notice.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Hypnosis", "move:Dream Eater", "move:Nightmare", "92.1", "C92.1"]}
+    ],
+    "habitat": [
+      {"text": "It is said to appear in decrepit, deserted buildings; groups cluster under the eaves of houses. The Gen 3 Pokédex habitat is cave.", "class": "canon", "confidence": "medium", "evidence": ["92.2", "92.6", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in Sprout Tower (2F and 3F, 85%) and Bell Tower (2F to 10F, 80%), at night only, in both versions; the Johto Safari Zone has it only when its blocks call for it.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Kanto's Pokémon Tower held it in Red, Blue, Yellow, FireRed and LeafGreen; in HeartGold and SoulSilver that tower is gone (Lavender's Radio Tower stands there) and Kanto has no Gastly.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]},
+      {"text": "Towers and old buildings shelter a body that wind destroys: its habitat is set by its weakness.", "class": "inferred", "confidence": "high", "evidence": ["92.6", "92.7", "game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "With its gas-like body it can sneak into any place it desires.", "class": "canon", "confidence": "high", "evidence": ["92.3", "C92.4"]},
+      {"text": "Almost invisible, it cloaks the target and puts it to sleep without notice.", "class": "canon", "confidence": "high", "evidence": ["92.1", "C92.1"]},
+      {"text": "Nocturnal in the Johto games: every HeartGold and SoulSilver table has it at night only.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Groups of Gastly cluster under the eaves of houses to escape the wind.", "class": "canon", "confidence": "high", "evidence": ["92.6", "92.7", "C92.11", "C92.13"]},
+      {"text": "Clustering is for shelter, not said to be a social group with roles.", "class": "inferred", "confidence": "medium", "evidence": ["C92.11"]}
+    ],
+    "reproduction": [
+      {"text": "It is 'born from poison gases'.", "class": "canon", "confidence": "medium", "evidence": ["92.10", "92.11", "C92.17"]},
+      {"text": "Amorphous egg group, 20 egg cycles, an even sex ratio, medium-slow growth. How a gas-bodied animal lays or hatches from an egg is not explained.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Its poison gas is its defence as well as its weapon: it defeats even the largest foes by enveloping them.", "class": "canon", "confidence": "high", "evidence": ["92.10", "C92.18"]},
+      {"text": "Levitate makes it immune to Ground moves, and as a Ghost type it is immune to Normal and Fighting moves: there is little body to hit.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities", "game:types"]},
+      {"text": "Its one real danger is wind.", "class": "canon", "confidence": "high", "evidence": ["92.3", "C92.5"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. How a cloud of gas perceives anything is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Haunter at level 25 and Gengar only by trade: 1.3 m and 0.1 kg, then 1.6 m and 0.1 kg, then 1.5 m and 40.5 kg. The adult is the first stage with real weight.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Haunter", "species:Gengar"]},
+      {"text": "Read as development, the gas condenses: Gastly is all gas, Haunter has a gas tongue and gas hands (93.4, 93.12), Gengar weighs 40 kg and hides in shadows.", "class": "inferred", "confidence": "medium", "evidence": ["92.9", "93.4", "93.12", "94.4"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list is a stalker's: Hypnosis, Lick, Spite, Mean Look (Lv 8, the target can't flee), Curse, Night Shade, Confuse Ray, Sucker Punch, Payback, Shadow Ball, Dream Eater, Dark Pulse, Destiny Bond and Nightmare. Mean Look plus Hypnosis plus Dream Eater is the cloak-and-sleep feeding in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Mean Look", "move:Hypnosis", "move:Dream Eater", "move:Lick", "move:Curse", "C92.1"]}
+    ],
+    "ecology": [
+      {"text": "A predator of a strange kind: it subdues animals of any size by gas, and its line takes their life energy. In the towers it would feed on the people and Pokémon that come and go.", "class": "hypothesis", "confidence": "low", "evidence": ["92.4", "93.11", "game:encounters"], "note": "What Gastly itself takes is never stated."},
+      {"text": "In Sprout Tower and Bell Tower the floors are Rattata's by day and morning and Gastly's at night: the two never meet in the tables. Nothing names a predator of Gastly.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Rattata"]}
+    ],
+    "humans": [
+      {"text": "It shelters under the eaves of houses, and it is said to appear in decrepit, deserted buildings: a Pokémon of human places.", "class": "canon", "confidence": "medium", "evidence": ["92.2", "92.6"]},
+      {"text": "Its gas can make anyone faint; it can suffocate an opponent of any size.", "class": "canon", "confidence": "high", "evidence": ["92.11", "92.4"]}
+    ],
+    "homestead": [
+      {"text": "Dangerous to keep near people or livestock: its body is poison gas that makes anyone engulfed in it faint.", "class": "canon", "confidence": "high", "evidence": ["92.11"]},
+      {"text": "It needs shelter from wind; the highlands' winds would blow it away. An eave, a cellar or a still barn loft.", "class": "inferred", "confidence": "high", "evidence": ["92.6", "92.9"]},
+      {"text": "It can slip into any place, so locks and doors mean nothing to it.", "class": "canon", "confidence": "high", "evidence": ["92.3"], "capability": "scouting"},
+      {"text": "On windy nights the homestead's Gastly crowds into the bell of the old chapel, sulking.", "class": "creative", "evidence": ["92.7"]}
+    ]
+  },
+  "niche": {"guild": "psychotroph", "trophic_level": null, "microhabitat": ["old towers and deserted buildings", "under house eaves, out of the wind"], "activity": "nocturnal",
+            "foraging": "envelops prey in poisonous gas; what it takes from them is read from the line (life energy)", "evidence": ["92.4", "92.5", "93.11", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "Psychotroph, as for Gengar. Its own entries call what it envelops 'prey' without saying what it takes; trophic level left null."},
+  "relationships": [
+    {"with": "the life energy of animals it envelops", "kind": "feeds_on", "class": "inferred", "confidence": "low", "evidence": ["92.5", "93.11"], "note": "Haunter's 'life force', read back into the young."},
+    {"with": "house eaves and old buildings", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["92.2", "92.6"], "note": "Shelter from wind."},
+    {"with": "Rattata", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Rattata"], "note": "The same tower floors, Rattata by day and Gastly by night."},
+    {"with": "Haunter", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Marsh lantern", "moves": ["Will-O-Wisp", "Astonish"], "class": "hypothesis", "confidence": "low",
+     "reading": "Gengar's will-o'-the-wisp lineage in the young: a ghostly flame and a fright. A Gastly that lives out in damp hollows rather than towers, lit by its own wisps. Fits still, sheltered wetland at night.",
+     "behavior": "Drifts low over still water on calm nights.", "evidence": ["92.1", "move:Will-O-Wisp", "move:Astonish"]},
+    {"name": "Still-air haze", "moves": ["Haze", "Disable", "Psywave"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that works by fog: Haze clears every change, Disable stops a move, Psywave is a pulse of mind. A Gastly that lives in the stillest air of all, deep caves, and wears its prey down slowly. Fits caves with no wind.",
+     "behavior": "Never leaves the deep cave; envelops what wanders in.", "evidence": ["92.5", "game:habitat", "move:Haze", "move:Disable", "move:Psywave"]}
+  ],
+  "open_questions": [
+    "What does Gastly take from the prey it envelops: life energy, heat, or nothing it eats at all?",
+    "How is a gas 'born', and what is the egg of a body that is 95% gas?",
+    "Do Gastly gather under eaves only in wind, or live there?",
+    "Does it ever feed on people in Sprout Tower and Bell Tower, where monks and visitors come every day?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said to appear in decrepit, deserted buildings.", "kind": "said", "evidence": ["92.2", "C92.2"]}
+  ]
+}

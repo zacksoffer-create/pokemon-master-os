@@ -1,0 +1,100 @@
+{
+  "species": "Larvitar",
+  "id": 246,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The larva of the Tyranitar line, and the clearest life cycle in the Pokédex: it is born deep underground, eats the soil around it, and can't come up until it has eaten its way to the surface, where it sees its parents' faces for the first time. Once it has eaten enough to make a mountain it falls asleep and becomes a pupa, Pupitar. It is small but very heavy (0.6 m, 72.0 kg), a body of rock skin. In HeartGold and SoulSilver it lives only on Mt. Silver, one in twenty encounters on most floors and one in ten at the top.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small, upright animal (0.6 m) of great weight for its size (72.0 kg), typed Rock and Ground; its category is the Rock Skin Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "72 kg in a 0.6 m body is far denser than a soft-bodied animal; read with the soil diet, the body is largely mineral.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "C246.1"]}
+    ],
+    "diet": [
+      {"text": "It feeds on soil.", "class": "canon", "confidence": "high", "evidence": ["246.1", "246.6", "246.7", "C246.1", "C246.11"]},
+      {"text": "It eats its way out from underground: it can't emerge until it has consumed the soil around it, and it must eat through the soil above to reach the surface.", "class": "canon", "confidence": "high", "evidence": ["246.2", "246.4", "246.5", "C246.4", "C246.7", "C246.10"]},
+      {"text": "It keeps eating until it has eaten 'a large mountain', or 'enough dirt to make a mountain', and then sleeps.", "class": "canon", "confidence": "high", "evidence": ["246.1", "246.3", "246.6", "246.7", "C246.2", "C246.5"]},
+      {"text": "Whether it digests the minerals or the organic matter in soil (roots, fungi, the animals in it) is not said.", "class": "unknown", "confidence": "high", "evidence": ["C246.1"], "analogy": "Earthworms eat soil too, but live on the organic matter and microbes in it and pass the minerals through."}
+    ],
+    "habitat": [
+      {"text": "Mountains: born deep underground, and the Gen 3 Pokédex habitat is mountain.", "class": "canon", "confidence": "high", "evidence": ["246.2", "C246.3", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is found only on Mt. Silver: 5% on the mountainside and on floors 1F to 4F, 10% at the top (Lv 15-30), at any time of day, in both versions. The Johto Safari Zone has it only when its blocks are arranged for it.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Gold, Silver and Crystal also had it only on Mt. Silver; FireRed and LeafGreen in Sevault Canyon; Diamond with the Poké Radar on Route 207, Platinum in a swarm on Route 206.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Being commoner at the top of Mt. Silver than lower down suggests it surfaces high on the mountain, but a 5-10% encounter rate can't show where it is born.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters"], "note": "An encounter rate is how often you meet it, not how many there are."}
+    ],
+    "behavior": [
+      {"text": "Underground it eats; once it has eaten enough it falls asleep so that it can grow.", "class": "canon", "confidence": "high", "evidence": ["246.1", "246.7", "C246.2", "C246.13"]},
+      {"text": "Its activity pattern isn't stated; the HeartGold and SoulSilver tables list it at all times of day.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "It has parents and meets them only at the surface: until it eats its way up it 'cannot see its parent's face' (Ruby and Sapphire) or 'its parents' faces' (Emerald).", "class": "canon", "confidence": "high", "evidence": ["246.4", "246.5", "C246.8", "C246.10"]},
+      {"text": "So at least one parent waits, or lives, near where the young will come up, which implies some parental presence at the surface.", "class": "inferred", "confidence": "low", "evidence": ["246.4", "246.5"]},
+      {"text": "Nothing says whether the parents feed, guard or teach it once it emerges.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "It is born deep underground.", "class": "canon", "confidence": "high", "evidence": ["246.2", "246.3", "246.4", "246.5", "C246.3", "C246.6", "C246.9"]},
+      {"text": "Monster egg group, 40 egg cycles (twice the usual), an even sex ratio and slow growth: a long, slow start to life in game terms.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Being born deep underground means eggs or young are placed or left there, and an adult Tyranitar that brings down a mountain to make its nest (248.4) would bury its young under rubble in the process.", "class": "hypothesis", "confidence": "low", "evidence": ["246.2", "248.4"], "note": "Joins two entries that don't mention each other; Tyranitar's dossier asks the same question."}
+    ],
+    "defense": [
+      {"text": "Nothing in the Pokédex describes how a Larvitar defends itself. Underground, under tonnes of soil, it is out of reach of most animals.", "class": "inferred", "confidence": "low", "evidence": ["246.2"]},
+      {"text": "Its moves are aggressive rather than evasive: Bite, Leer, Screech and Scary Face early, Thrash at Lv 23. Guts, its ability, makes it hit harder when it is hurt or poisoned.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bite", "move:Screech", "move:Scary Face", "move:Thrash", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "It develops in darkness: it 'cannot see its parent's face' until it reaches the surface, so sight only matters once it is up.", "class": "canon", "confidence": "medium", "evidence": ["246.4", "C246.8"]},
+      {"text": "How it finds its way upward through soil is not said.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "Born underground, it eats its way to the surface, keeps eating until it has eaten enough to make a mountain, sleeps, and becomes a pupa.", "class": "canon", "confidence": "high", "evidence": ["246.3", "C246.5", "C246.12"]},
+      {"text": "It becomes Pupitar at level 30 (1.2 m, 152.0 kg) and Tyranitar at 55 (2.0 m, 202.0 kg): the line's own entries call the middle stage a pupa.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Pupitar", "species:Tyranitar", "247.3"]},
+      {"text": "Read as development, this is complete metamorphosis: a feeding larva, a non-feeding pupa, an adult that disperses (it 'wanders about in mountains'). The larva does the eating for the whole life.", "class": "inferred", "confidence": "medium", "evidence": ["246.3", "247.3", "248.4"], "analogy": "Holometabolous insects like beetles split life the same way: the larva eats and grows, the pupa rebuilds, the adult moves and breeds."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Sandstorm (Lv 5) and Rock Slide (Lv 14) are soil and rock in the air, what a burrower throws up when it surfaces. Earthquake (Lv 41) and Stone Edge (Lv 46) come late.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Sandstorm", "move:Rock Slide", "move:Earthquake", "move:Stone Edge"]},
+      {"text": "Dark Pulse, Payback and Crunch in its list point to the adult's Dark type, which Larvitar doesn't yet have: the moves come before the type.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Dark Pulse", "move:Payback", "move:Crunch", "game:types", "species:Tyranitar"]}
+    ],
+    "ecology": [
+      {"text": "A soil-eater that moves 'a large mountain' of earth through its body before it pupates is, in principle, a major mover of soil, as earthworms are, if it lives in numbers.", "class": "hypothesis", "confidence": "low", "evidence": ["246.1", "246.3"], "note": "Its numbers are unknown; an encounter rate is not an abundance."},
+      {"text": "As a soil-eater it sits near the bottom of the food web, feeding on soil and the rock it is made of.", "class": "inferred", "confidence": "medium", "evidence": ["C246.1", "C246.11"]},
+      {"text": "On Mt. Silver it shares the mountain with Sneasel, Phanpy (HeartGold) or Teddiursa (SoulSilver), Onix, Steelix, Graveler and Golbat. No entry names a predator of Larvitar.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Sneasel", "species:Onix", "species:Golbat"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Larvitar and people. Mt. Silver, its only home in Johto, is the restricted mountain the games open only to the strongest Trainers.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "Excavation: an animal that eats its way through soil could cut tunnels, clear spoil or dig a root cellar, if it can be led where to eat.", "class": "hypothesis", "confidence": "low", "evidence": ["246.4", "246.7"], "capability": "digging", "note": "Untested: whether it eats where it is directed."},
+      {"text": "It needs deep soil to live in, and it will sleep for a long time once it has eaten its fill: plan for the long pupal stage.", "class": "inferred", "confidence": "medium", "evidence": ["246.1", "247.3"]},
+      {"text": "Keep it away from foundations and terraces: it eats the ground they stand on.", "class": "inferred", "confidence": "medium", "evidence": ["246.2", "246.4"]},
+      {"text": "A Larvitar surfacing in the homestead's garden one spring, blinking at Zack as if he were the parent it was promised.", "class": "creative", "evidence": ["246.5"]}
+    ]
+  },
+  "niche": {"guild": "lithovore", "trophic_level": 1, "microhabitat": ["deep soil inside mountains", "Mt. Silver's slopes and caves"], "activity": "cathemeral",
+            "foraging": "eats its way through soil from deep underground up to the surface", "evidence": ["246.1", "246.4", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Lithovore, as for Tyranitar. Trophic level 1 because it eats soil; if it lives on the organic matter in the soil it would sit higher. Activity from the HGSS tables (all hours)."},
+  "relationships": [
+    {"with": "soil", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["246.1", "246.6"]},
+    {"with": "Pupitar", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Sneasel", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Sneasel"]},
+    {"with": "Onix", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Onix"]},
+    {"with": "Phanpy", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Phanpy"], "note": "HeartGold; Teddiursa holds the slot in SoulSilver."}
+  ],
+  "ecotypes": [
+    {"name": "Bedrock sleeper", "moves": ["Curse", "Iron Defense"], "class": "hypothesis", "confidence": "low",
+     "reading": "Tyranitar's slow, armoured lineage, seen in the larva: moves that harden and slow the body. A Larvitar that eats less, digs deeper and sleeps longer before it pupates. Fits the deepest, oldest rock of Mt. Silver.",
+     "behavior": "Rarely surfaces; a long, buried larval life.", "evidence": ["246.1", "move:Curse", "move:Iron Defense"]},
+    {"name": "Old-stone digger", "moves": ["Ancient Power", "Stomp"], "class": "hypothesis", "confidence": "low",
+     "reading": "Ancient Power is rock lifted from the ground; Stomp a heavy foot. A lineage that breaks stone rather than eating loose soil. Fits rocky ground with thin soil, where a larva has to break its way up.",
+     "behavior": "Comes up through rock, leaving a broken crater rather than a burrow.", "evidence": ["246.4", "move:Ancient Power", "move:Stomp"]}
+  ],
+  "open_questions": [
+    "Does it live on the soil's minerals or on its organic matter?",
+    "Do Tyranitar bury their eggs on purpose, and is the rubble nest (248.4) the same thing as being 'born deep underground'?",
+    "Do the parents wait at the surface, and do they care for the young once it emerges?",
+    "How long does a Larvitar spend underground?",
+    "One parent or two? Ruby and Sapphire say 'parent's face', Emerald 'parents' faces'."
+  ],
+  "contradictions": [
+    {"entries": ["246.4", "246.5"], "note": "One parent (Ruby and Sapphire: 'its parent's face') or both (Emerald: 'its parents' faces')."}
+  ],
+  "folklore": []
+}

@@ -1,0 +1,93 @@
+{
+  "species": "Gyarados",
+  "id": 130,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult of Magikarp, and the Pokédex's great example of transformation: a 6.5 m, 235 kg sea serpent of extreme violence. Every entry is about rage. Once it appears it rampages until it has demolished everything around it, sometimes for a month, burning places down even in a storm; the old entries and legends tie its appearances to human wars and strife. When Magikarp evolves, its brain cells change structure, which is said to explain the violence. No entry says what it eats. In HeartGold and SoulSilver it is fished from the Lake of Rage, Mt. Silver, Fuchsia, Cerulean Cave and the Seafoam Islands, and a red one waits at the Lake of Rage. It was in SoulSilver's former six.",
+  "sections": {
+    "anatomy": [
+      {"text": "A huge serpentine body (Gen 4 shape squiggle), 6.5 m and 235.0 kg, typed Water and Flying: the Atrocious Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It shoots Hyper Beam from its mouth, which totally incinerates its targets, and burns places down with intensely hot flames.", "class": "canon", "confidence": "high", "evidence": ["130.8", "130.9", "C130.14", "C130.16"]},
+      {"text": "Its brain cells undergo a structural transformation when Magikarp evolves into it.", "class": "canon", "confidence": "high", "evidence": ["130.6", "C130.9"]},
+      {"text": "Flames from a water serpent are unusual: the Water and Flying types give no fire, and the entries never explain them.", "class": "unknown", "confidence": "medium", "evidence": ["130.8", "game:types"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Gyarados eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Bite (Lv 20, its first move on evolving), Ice Fang (Lv 32) and Thrash point to a biting predator, but the moves name no food.", "class": "mechanic", "confidence": "low", "evidence": ["move:Bite", "move:Ice Fang", "move:Thrash"]},
+      {"text": "A 235 kg animal must eat a great deal; whether it eats fish, other Pokémon or anything at all is a gap.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size"], "note": "Size alone."}
+    ],
+    "habitat": [
+      {"text": "Rarely seen in the wild; the Gen 3 Pokédex habitat is waters-edge.", "class": "canon", "confidence": "medium", "evidence": ["130.1", "C130.1", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is fished or surfed at the Lake of Rage (Super Rod 30%), Mt. Silver (Super Rod 50%; the Good Rod at night), Fuchsia City and Cerulean Cave (Super Rod 30%) and the Seafoam Islands (Super Rod 40%), in both versions; the Johto Safari Zone has it when its water blocks are placed.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "At the Lake of Rage a single red Gyarados is a fixed encounter (Lv 30), not part of the lake's tables.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Every place it is found holds Magikarp too: a Gyarados is where its young are.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"]}
+    ],
+    "behavior": [
+      {"text": "Once it appears it goes on a rampage, and stays enraged until it has demolished everything around it.", "class": "canon", "confidence": "high", "evidence": ["130.4", "130.14", "C130.6", "C130.7", "C130.21"]},
+      {"text": "Its rage never settles until it has razed the fields and mountains around it; a rampage, once started, burns everything down even in a harsh storm, and records show rampages lasting a whole month.", "class": "canon", "confidence": "high", "evidence": ["130.7", "130.10", "130.12", "C130.11", "C130.12", "C130.17", "C130.19"]},
+      {"text": "It is extremely vicious, violent and aggressive.", "class": "canon", "confidence": "high", "evidence": ["130.2", "130.8", "130.9", "C130.3", "C130.13", "C130.15"]},
+      {"text": "Its activity pattern is not stated; Mt. Silver's Good Rod finds it only at night, other tables at any time.", "class": "mechanic", "confidence": "low", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups; the entries describe single animals on single rampages.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Water 2 and Dragon egg groups, only 5 egg cycles (the shortest), an even sex ratio, slow growth: eggs that hatch fast into Magikarp.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]},
+      {"text": "Fast-hatching eggs and young that survive anywhere (Magikarp's dossier) fit a fish that leaves numbers, not care, to carry its young through.", "class": "inferred", "confidence": "low", "evidence": ["game:egg_cycles", "species:Magikarp"], "analogy": "Many fish produce huge numbers of small eggs and give no parental care."}
+    ],
+    "defense": [
+      {"text": "Intimidate, its ability, lowers an opponent's Attack: few things will fight it at full strength.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Nothing in the Pokédex describes anything attacking a Gyarados.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Several entries say it appears when people fight; how it knows is not described.", "class": "unknown", "confidence": "high", "evidence": ["130.8"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Magikarp at level 20, from 0.9 m and 10.0 kg to 6.5 m and 235.0 kg, and the type changes from Water to Water and Flying.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Magikarp", "game:types"]},
+      {"text": "Its brain cells change structure when it evolves; it is said that this is to blame for its violent nature.", "class": "canon", "confidence": "medium", "evidence": ["130.6", "C130.9", "C130.10"]},
+      {"text": "Read as development, it is the most extreme metamorphosis in Johto: a weak, prey-like fish becomes a top predator in behaviour, with a different brain.", "class": "inferred", "confidence": "medium", "evidence": ["130.6", "129.4", "129.9"], "analogy": "Some amphibians and fish change drastically at metamorphosis, nervous system included, but none this much."}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list is all aggression: Thrash at level 1, then Bite, Dragon Rage, Leer, Twister, Ice Fang, Aqua Tail, Rain Dance, Hydro Pump, Dragon Dance and Hyper Beam (Lv 47), the beam the entries describe.", "class": "mechanic", "confidence": "high", "evidence": ["move:Thrash", "move:Bite", "move:Dragon Rage", "move:Twister", "move:Rain Dance", "move:Dragon Dance", "move:Hyper Beam", "130.9"]},
+      {"text": "Rain Dance in a storm-raging serpent: it calls up the weather it is said to rampage through.", "class": "inferred", "confidence": "low", "evidence": ["move:Rain Dance", "130.12"]},
+      {"text": "Magikarp has no egg moves, so the line carries no lineage moves to read as ecotypes.", "class": "mechanic", "confidence": "high", "evidence": ["game:learnset"]}
+    ],
+    "ecology": [
+      {"text": "Its role in a food web is unknown, because its diet is. By size and behaviour it would be a top predator wherever it lives.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "130.13"], "note": "Size and violence, not diet."},
+      {"text": "A rampage that razes fields and mountains, and burns them, is a disturbance on the scale of a wildfire: in principle it resets whole habitats.", "class": "inferred", "confidence": "low", "evidence": ["130.10", "130.12"]},
+      {"text": "In Seafoam and Cerulean Cave it shares the water with Seel, Horsea, Krabby, Golduck and Slowbro; at Mt. Silver with Poliwag, Goldeen and Quagsire. Nothing names its prey or its predators.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seel", "species:Goldeen"]}
+    ],
+    "humans": [
+      {"text": "They say that during past wars, or strife, Gyarados would appear and leave blazing ruins in its wake; it appears whenever there is world conflict.", "class": "canon", "confidence": "medium", "evidence": ["130.3", "130.5", "130.13", "C130.5", "C130.8", "C130.20"]},
+      {"text": "When humans begin to fight, it will appear and burn everything to the ground.", "class": "canon", "confidence": "medium", "evidence": ["130.8", "C130.14"]},
+      {"text": "It destroyed entire cities in ancient times, and old literature records one razing a village when violence flared.", "class": "canon", "confidence": "medium", "evidence": ["130.1", "130.2", "130.11", "C130.2", "C130.4", "C130.18"]}
+    ],
+    "homestead": [
+      {"text": "Not an animal for a homestead pond. A rampage, once begun, lasts until everything around it is demolished.", "class": "canon", "confidence": "high", "evidence": ["130.4", "130.7"]},
+      {"text": "It is drawn to human conflict: keep the homestead peaceful.", "class": "canon", "confidence": "low", "evidence": ["130.8"], "note": "The entries say it; whether it is literally true of a trained one is untested."},
+      {"text": "Raised from a Magikarp at the homestead, it would at least be familiar: whether that tempers a Gyarados is the open question.", "class": "hypothesis", "confidence": "low", "evidence": ["130.6", "game:friendship"]},
+      {"text": "A Gyarados that guards the lake below Blackthorn and has never once rampaged, because nobody there ever fights.", "class": "creative", "evidence": ["130.8"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["lakes and deep water (fished with the Super Rod)", "cave pools (Seafoam, Cerulean Cave, Mt. Silver)"], "activity": "unknown",
+            "foraging": "unknown; no entry says what it eats", "evidence": ["game:encounters", "game:habitat"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty: the machine reading's filter feeder comes from the Water type alone. Magikarp is filed as an omnivore, so the line is listed as one filed two ways."},
+  "relationships": [
+    {"with": "Magikarp", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Magikarp"], "note": "Every HGSS place with Gyarados has Magikarp."},
+    {"with": "fields, mountains and towns", "kind": "engineers", "class": "canon", "confidence": "low", "evidence": ["130.10"], "note": "By rampage."}
+  ],
+  "ecotypes": [],
+  "open_questions": [
+    "What does Gyarados eat?",
+    "Where do its flames come from, in a Water and Flying serpent?",
+    "Is its link to human wars real, or only legend?",
+    "Does the brain change at evolution make every Gyarados violent, or only some?",
+    "Should the red Gyarados of the Lake of Rage count as part of the lake's community?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that the change in its brain cells at evolution is to blame for its wildly violent nature.", "kind": "said", "evidence": ["130.6", "C130.10"]},
+    {"text": "They say that during past wars and strife, Gyarados would appear and leave blazing ruins in its wake.", "kind": "said", "evidence": ["130.3", "130.13"]}
+  ]
+}

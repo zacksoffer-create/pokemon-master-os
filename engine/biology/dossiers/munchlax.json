@@ -1,0 +1,96 @@
+{
+  "species": "Munchlax",
+  "id": 446,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The young of Snorlax: a small, astonishingly heavy animal (0.6 m, 105.0 kg) that wolfs down its own weight in food once a day and swallows it whole with almost no chewing. It hides food under the long fur on its body and carries the stash about with it, but in its hurry to gulp food down it forgets what it has hidden. It is a baby Pokémon in the games' terms and can't breed until it becomes Snorlax. In the Gen I-IV games it is wild only in Sinnoh, in honey trees; HeartGold and SoulSilver have no wild Munchlax.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small upright animal (Gen 4 shape humanoid), 0.6 m and 105.0 kg, typed Normal: the Big Eater Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It has long fur on its body that it hides food under.", "class": "canon", "confidence": "high", "evidence": ["446.2", "446.4", "C446.2", "C446.5"]},
+      {"text": "105 kg in 0.6 m is extremely dense for a furred animal; most of that mass is presumably the food it has eaten and stored.", "class": "hypothesis", "confidence": "low", "evidence": ["game:size", "C446.1"], "note": "No entry explains the weight."},
+      {"text": "Thick Fat, one of its abilities, makes it resist fire and ice: a layer of fat that insulates.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]}
+    ],
+    "diet": [
+      {"text": "It wolfs down its weight in food once a day, swallowing food whole with almost no chewing.", "class": "canon", "confidence": "high", "evidence": ["446.1", "C446.1"]},
+      {"text": "It carries a food stash under its fur and swallows it without chewing.", "class": "canon", "confidence": "high", "evidence": ["446.4", "C446.5", "C446.6"]},
+      {"text": "What the food is isn't said; the adult eats anything, even moldy food, so the young is most likely a generalist too.", "class": "inferred", "confidence": "medium", "evidence": ["143.2", "C446.1"]},
+      {"text": "Its level-up moves include Stockpile (Lv 25) and Swallow (Lv 28), storing and then swallowing, and Recycle (Lv 17), which gets back a used item: the hoarding and gulping in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Stockpile", "move:Swallow", "move:Recycle", "C446.6"]}
+    ],
+    "habitat": [
+      {"text": "No entry says where it lives, and the Gen 3 Pokédex has no habitat for it (it was new in Gen 4).", "class": "unknown", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In Diamond, Pearl and Platinum it comes only to honey trees, as a rare visitor to slathered trees all over Sinnoh. HeartGold and SoulSilver have no wild Munchlax.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Honey trees draw it with food, which fits an animal that goes where food is rather than holding a fixed range.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters", "C446.1"]}
+    ],
+    "behavior": [
+      {"text": "In its desperation to gulp down food, it forgets the food it has hidden under its fur.", "class": "canon", "confidence": "high", "evidence": ["446.3", "C446.4"]},
+      {"text": "It hides food, then forgets it has hidden it.", "class": "canon", "confidence": "high", "evidence": ["446.2", "C446.3"]},
+      {"text": "Pickup, its other ability, lets it pick up items: a forager that collects whatever it finds.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]},
+      {"text": "Its activity pattern is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or how it behaves with its own kind.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Charm is one of its line's egg moves and Metronome is its first level-up move; neither says anything certain about social life.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Charm", "move:Metronome"], "note": "Moves are a weak lead on behaviour."}
+    ],
+    "reproduction": [
+      {"text": "A baby Pokémon: Undiscovered egg group, so it can't breed; Snorlax lays the eggs it hatches from. 40 egg cycles, 87.5% male, slow growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Nothing in the Pokédex describes how it defends itself.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its moves lean on bulk: Defense Curl (Lv 4), Amnesia (Lv 9), Body Slam (Lv 33) and Rollout (Lv 41); Thick Fat protects it from fire and cold.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Defense Curl", "move:Amnesia", "move:Body Slam", "move:Rollout", "game:abilities"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Odor Sleuth at level 1 suggests a nose for food.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Odor Sleuth"], "note": "A move, not a statement about its senses."}
+    ],
+    "life_cycle": [
+      {"text": "It evolves into Snorlax with high friendship, from 0.6 m and 105.0 kg to 2.1 m and 460.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Snorlax"]},
+      {"text": "The young hoards and gulps; the adult eats anything until it has had its fill and then sleeps (143.1). Development keeps the appetite and drops the hoarding.", "class": "inferred", "confidence": "medium", "evidence": ["446.2", "143.1"]},
+      {"text": "Evolving needs high friendship, so in the games a Snorlax grows from a Munchlax that has been cared for.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:friendship"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list is a forager's: Odor Sleuth, Lick (Lv 12), Recycle, Stockpile, Swallow, Fling (Lv 36, which throws a held item) and Natural Gift (Lv 44, which uses a held Berry). Two moves that need something held fit an animal that carries a stash.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Odor Sleuth", "move:Lick", "move:Fling", "move:Natural Gift", "C446.6"]},
+      {"text": "Last Resort (Lv 49) can only be used after every other move; a joke on a creature that forgets.", "class": "creative", "evidence": ["move:Last Resort"]}
+    ],
+    "ecology": [
+      {"text": "A generalist that hides food and forgets it: forgotten stashes dropped from its fur could leave seeds or fruit far from where they were picked, a seed disperser by accident.", "class": "hypothesis", "confidence": "low", "evidence": ["446.2", "446.3"], "analogy": "Squirrels and jays that cache acorns and fail to recover them plant oak woods."},
+      {"text": "Eating its own weight in food a day is a heavy demand on any place it lives.", "class": "inferred", "confidence": "medium", "evidence": ["446.1"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Munchlax and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "It will eat its own weight in food every day. Store food where it can't reach it.", "class": "canon", "confidence": "high", "evidence": ["446.1"]},
+      {"text": "It picks things up (Pickup) and hides food in its fur; check its coat for 'lost' tools, berries and kitchen scraps.", "class": "inferred", "confidence": "medium", "evidence": ["446.4", "game:abilities"], "capability": "foraging"},
+      {"text": "Thick fat makes it tolerant of the highland cold.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"], "capability": "cold_tolerance"},
+      {"text": "The homestead's Munchlax as the one who always knows where the last of the Berries went, and has forgotten.", "class": "creative", "evidence": ["446.3"]}
+    ]
+  },
+  "niche": {"guild": "generalist", "trophic_level": 2.5, "microhabitat": ["wherever food is (honey trees in Sinnoh)"], "activity": "unknown",
+            "foraging": "gulps its own weight in food a day; hides a stash in its fur and forgets it", "evidence": ["446.1", "446.4", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Generalist, as for Snorlax: no entry names its food."},
+  "relationships": [
+    {"with": "any available food", "kind": "feeds_on", "class": "inferred", "confidence": "medium", "evidence": ["446.1", "143.2"]},
+    {"with": "seeds and fruit it hides and forgets", "kind": "disperses", "class": "hypothesis", "confidence": "low", "evidence": ["446.2"]},
+    {"with": "Snorlax", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Charming beggar", "moves": ["Charm", "Lick"], "class": "hypothesis", "confidence": "low",
+     "reading": "Snorlax's begging lineage in the young: charm and a lick, a Munchlax that gets food given to it rather than finding it. Fits towns and farms with people who feed it.",
+     "behavior": "Hangs about kitchens and picnic spots; rarely forages for itself.", "evidence": ["446.1", "move:Charm", "move:Lick"]},
+    {"name": "Larder guard", "moves": ["Counter", "Curse", "Pursuit"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that defends its stash: it hits back, braces itself, and chases what runs off with its food. The opposite of the forgetful hoarder in the entries.",
+     "behavior": "Remembers its stash and keeps it.", "evidence": ["446.4", "move:Counter", "move:Curse", "move:Pursuit"]}
+  ],
+  "open_questions": [
+    "What does a wild Munchlax eat besides honey-tree bait?",
+    "Where does it live when it isn't at a honey tree?",
+    "Does it ever go back to the food it hides, and if not, does the stash rot or sprout?",
+    "How does a 0.6 m animal weigh 105 kg?",
+    "Is it in Johto or Kanto at all? HeartGold and SoulSilver have no wild one."
+  ],
+  "contradictions": [
+    {"entries": ["446.2", "446.4"], "note": "Pearl says it forgets the food it hides; HeartGold and SoulSilver say it carries the stash and swallows it (the existing finding: forgets or eats)."}
+  ],
+  "folklore": []
+}

@@ -1,0 +1,95 @@
+{
+  "species": "Cyndaquil",
+  "id": 155,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small, timid fire-backed animal that spends most of its time curled into a ball or hunched over, and shows its fire only when something frightens or angers it. The flames on its back are its whole defence: they flare when it is startled, burn hottest when it is angry, and sputter with incomplete combustion when it is tired, so its fire tells you its mood and its energy. No entry says what it eats or where a wild one lives; in every Johto game it comes from a professor in New Bark Town. It is the first stage of HeartGold's Typhlosion.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small animal, 0.5 m and 7.9 kg, typed Fire, with a Gen 4 body shape of humanoid (it stands on two legs).", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types"]},
+      {"text": "Fire comes out of its back: it shoots or flares flames from there when angry, surprised or attacked.", "class": "canon", "confidence": "high", "evidence": ["155.2", "155.4", "C155.4", "C155.7"]},
+      {"text": "The flames are a combustion that can be incomplete: when it is tired they splutter fitfully, so the fire depends on the animal's own condition, not on an outside fuel.", "class": "canon", "confidence": "high", "evidence": ["155.4", "155.5", "C155.9", "C155.12"]},
+      {"text": "Incomplete combustion when tired suggests the fire burns something the body supplies and runs short of, a fuel or gas made from what it eats.", "class": "hypothesis", "confidence": "low", "evidence": ["C155.9"], "note": "No entry names the fuel. Quilava's 'superheated air' (156.4) points the same way.", "analogy": "Incomplete combustion in a flame starved of oxygen or fuel gives a smoky, guttering burn, which is what 'splutter fitfully' describes."}
+    ],
+    "diet": [
+      {"text": "No entry for any stage of the line says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "The machine reading files it as a thermotroph only because it is a Fire type; nothing in the Pokédex says it takes in heat.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types"], "note": "Kept out of the niche, as Typhlosion's dossier does."},
+      {"text": "Fury Swipes, Crush Claw and Foresight are egg moves of the line: some lineages may dig and scratch for food on the ground, but this is a reading of moves, not a record of diet.", "class": "hypothesis", "confidence": "low", "evidence": ["move:Fury Swipes", "move:Crush Claw", "move:Foresight"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is grassland; no entry describes where it lives.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "It is never wild in any Gen I-IV game. In Gold, Silver, Crystal, HeartGold and SoulSilver it is a gift in New Bark Town; in Emerald a gift in Littleroot Town.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "With no wild record anywhere, its natural range in Johto or Kanto is unknown.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It is timid and always curls itself up in a ball.", "class": "canon", "confidence": "high", "evidence": ["155.1", "155.6", "C155.1", "C155.13"]},
+      {"text": "It usually stays hunched over.", "class": "canon", "confidence": "high", "evidence": ["155.2", "C155.3"]},
+      {"text": "It has a timid nature, and when startled the flames on its back burn more vigorously.", "class": "canon", "confidence": "high", "evidence": ["155.7", "C155.14", "C155.15"]},
+      {"text": "Curling up and staying hunched keep the back, and so the fire, outermost: the resting posture is already the defensive one.", "class": "inferred", "confidence": "medium", "evidence": ["C155.1", "C155.2"]},
+      {"text": "Its activity pattern is not stated, and with no wild encounters there are no tables to read it from.", "class": "unknown", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups, pairs or how it treats its own kind.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, 87.5% male (the usual starter ratio), medium-slow growth. Nothing in the Pokédex describes breeding or young.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "If attacked, it flares up its back for protection.", "class": "canon", "confidence": "high", "evidence": ["155.1", "155.6", "C155.2"]},
+      {"text": "The fire on its back burns hottest when it is angry, and the flaring flames intimidate foes.", "class": "canon", "confidence": "high", "evidence": ["155.3", "C155.5", "C155.6"]},
+      {"text": "It protects itself by flaring the flames on its back, vigorous when it is angry; when tired, the flames splutter, so a worn-out Cyndaquil is a poorly defended one.", "class": "canon", "confidence": "high", "evidence": ["155.4", "155.5", "C155.7", "C155.8", "C155.10", "C155.11"]},
+      {"text": "Smokescreen (Lv 6) fits an animal whose fire smokes: a cloud to hide in before it runs. Defense Curl (Lv 22) is the curl-into-a-ball habit in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Smokescreen", "move:Defense Curl", "C155.1"]},
+      {"text": "The defence is a display first: fire shown to intimidate, used to burn only if that fails.", "class": "inferred", "confidence": "medium", "evidence": ["C155.6", "C155.2"], "analogy": "Deimatic (startle) displays, like a moth flashing eyespots, scare off an attacker before any fight."}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Being startled easily implies it notices threats quickly, but how is not described.", "class": "unknown", "confidence": "high", "evidence": ["155.7"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Quilava at level 14 (the archive also lists 17), and Typhlosion at 36: from 0.5 m and 7.9 kg to 0.9 m and 19.0 kg, then 1.7 m and 79.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:size", "species:Quilava", "species:Typhlosion"]},
+      {"text": "Development turns a timid, curled-up juvenile into a nimble middle stage covered in nonflammable fur that turns its back to show its fire before battle, and then a large animal that hides in its own heat haze: the fire goes from a startle defence to a weapon.", "class": "inferred", "confidence": "medium", "evidence": ["155.1", "156.2", "156.3", "157.4"]},
+      {"text": "The body shape changes from upright two-legged (humanoid) to four-legged (Quilava, quadruped).", "class": "mechanic", "confidence": "high", "evidence": ["game:shape", "species:Quilava"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its own level-up list is fire and escape: Smokescreen, Ember (Lv 10), Quick Attack (Lv 13), Flame Wheel (Lv 19), Defense Curl, Swift, Lava Plume (Lv 31), Flamethrower (Lv 37), Rollout (Lv 40) and Eruption (Lv 49). Rollout after Defense Curl matches a ball-shaped animal that can roll away.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Smokescreen", "move:Ember", "move:Quick Attack", "move:Flame Wheel", "move:Defense Curl", "move:Rollout", "move:Lava Plume", "move:Eruption"]},
+      {"text": "Eruption, its last level-up move, is the strongest when the user is unhurt; it fits an animal whose fire is fiercest when it is fresh and splutters when it is tired.", "class": "inferred", "confidence": "low", "evidence": ["move:Eruption", "C155.9"]}
+    ],
+    "ecology": [
+      {"text": "Its place in a food web can't be set: nothing says what it eats or where a wild one lives.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A small, timid fire-bearer in grassland would be a fire risk in dry grass whenever it is startled. Nothing in the games shows it starting a fire.", "class": "hypothesis", "confidence": "low", "evidence": ["game:habitat", "155.7"], "note": "Follows from the flames and the listed habitat only."}
+    ],
+    "humans": [
+      {"text": "It reaches people as one of the three Johto starters, given by Professor Elm in New Bark Town.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Its moods are easy to read from its back: bright flames mean anger or fright, guttering flames mean it is tired.", "class": "inferred", "confidence": "high", "evidence": ["C155.8", "C155.9", "C155.15"]}
+    ],
+    "homestead": [
+      {"text": "A small heat source that a Trainer can read at a glance: steady flames, a settled animal; spluttering flames, a tired one.", "class": "inferred", "confidence": "medium", "evidence": ["155.4", "155.5"], "capability": "heat_source"},
+      {"text": "It needs a quiet place to curl up. Sudden noise or handling will make it flare, so keep it away from dry straw and bedding.", "class": "inferred", "confidence": "medium", "evidence": ["155.1", "155.7"]},
+      {"text": "A Fire type, so it would cope with heat better than the cold of the highlands; it would want a warm corner in winter.", "class": "hypothesis", "confidence": "low", "evidence": ["game:types"], "note": "Nothing says how it copes with cold."},
+      {"text": "The homestead's Cyndaquil as the hearth-keeper's apprentice: curled by the stove, flaring only when the kettle whistles.", "class": "creative", "evidence": ["155.1", "155.7"]}
+    ]
+  },
+  "niche": {"guild": null, "trophic_level": null, "microhabitat": ["open grassland (listed habitat)"], "activity": "unknown",
+            "foraging": "unknown; no entry says what any stage eats", "evidence": ["game:habitat", "155.1"], "class": "unknown", "confidence": "high",
+            "note": "Guild left empty, as for Typhlosion: the machine reading's thermotroph comes from the Fire type alone."},
+  "relationships": [
+    {"with": "Quilava", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Grass-root forager", "moves": ["Fury Swipes", "Crush Claw", "Foresight"], "class": "hypothesis", "confidence": "low",
+     "reading": "The same lineage as Typhlosion's grass-root foragers, seen in the young: claws for scratching and a move for finding what hides. A juvenile that forages head-down in the grass, which is also the hunched posture the entries describe.",
+     "behavior": "Scratches and roots in the grass with its back held up and ready to flare.", "evidence": ["155.2", "move:Fury Swipes", "move:Crush Claw", "move:Foresight"]},
+    {"name": "Last-ditch flarer", "moves": ["Reversal", "Flare Blitz"], "class": "hypothesis", "confidence": "low",
+     "reading": "Reversal hits hardest when the user is nearly beaten, and Flare Blitz throws the whole body into the flames. A lineage whose timid young do nothing until cornered, then go all in. Fits open grassland with little cover, where a small animal can't always run.",
+     "behavior": "Curls up and waits out most threats, then explodes into fire when there is no way out.", "evidence": ["155.1", "155.3", "move:Reversal", "move:Flare Blitz"]}
+  ],
+  "open_questions": [
+    "What does it eat, and what does its fire burn? Spluttering when tired (155.4) says the fuel comes from the body.",
+    "Where would a wild Cyndaquil live? The games never put one in the wild; 'grassland' is the only habitat on record.",
+    "Is it active by day or night?",
+    "Does it ever start grass fires when startled?",
+    "Why 87.5% male, and what does that mean for a wild population (a game convention for starters, or biology)?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

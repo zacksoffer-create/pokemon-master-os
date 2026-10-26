@@ -1,0 +1,94 @@
+{
+  "species": "Houndoom",
+  "id": 229,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A black, horned hound of rough country and the rival's FireRed Pokémon. Houndoom lives in packs led by the one whose horns rake sharply back, and the pack chooses its leader by fighting. Its flame is made by toxins burning in its body: it smells pungent, and a burn from it is said to hurt forever. Its eerie howl sends other Pokémon shivering back to their nests, and people long ago imagined it was the call of the grim reaper. Its young, Houndour, are cooperative pack hunters that corner prey with barks only they understand. In HeartGold and SoulSilver, Houndoom is found only in the Johto Safari Zone; Houndour lives on Kanto's Route 7 at night.",
+  "sections": {
+    "anatomy": [
+      {"text": "A four-legged hound (Gen 4 shape quadruped), 1.4 m and 35.0 kg, typed Dark and Fire, with horns.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "229.4"]},
+      {"text": "The pungent-smelling flame that shoots from its mouth comes from toxins burning in its body; the flames it breathes when angry contain those toxins.", "class": "canon", "confidence": "high", "evidence": ["229.3", "229.7", "C229.3", "C229.9"]},
+      {"text": "A flame made by burning toxins means its body makes something combustible and poisonous, an internal chemistry, not an outside fuel.", "class": "inferred", "confidence": "medium", "evidence": ["C229.3"]}
+    ],
+    "diet": [
+      {"text": "No entry says what Houndoom eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its young hunt as a coordinated pack and corner prey with barks only they understand (228.2, 228.4), so the line is a pack predator.", "class": "canon", "confidence": "medium", "evidence": ["228.2", "228.4", "228.7"]},
+      {"text": "Bite (Lv 17), Fire Fang (Lv 32) and Crunch (Lv 54) are a hound's bite; Odor Sleuth (Lv 22) the tracking nose.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Bite", "move:Fire Fang", "move:Crunch", "move:Odor Sleuth"]}
+    ],
+    "habitat": [
+      {"text": "The Gen 3 Pokédex habitat is rough terrain.", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]},
+      {"text": "In HeartGold and SoulSilver Houndoom is found only in the Johto Safari Zone, when its peak blocks are placed (10%, Lv 43-44). Houndour is wild on Kanto's Route 7 at night (5%), and in the Safari Zone.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Houndour"]},
+      {"text": "A wild Houndoom of Kanto would be expected near Route 7, between Celadon and Saffron, where its young live; the games show none there.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Houndour"], "note": "From the young's range only."}
+    ],
+    "behavior": [
+      {"text": "Upon hearing its eerie howls, other Pokémon get the shivers and head straight back to their nests.", "class": "canon", "confidence": "high", "evidence": ["229.2", "C229.2"]},
+      {"text": "Its young howl at dawn to announce their territory (228.3).", "class": "canon", "confidence": "medium", "evidence": ["228.3"]},
+      {"text": "Early Bird, one of its abilities, wakes it quickly from sleep; Houndour is found only at night on Route 7. The line's activity leans to the dark hours and dawn.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities", "game:encounters", "228.3"]}
+    ],
+    "social": [
+      {"text": "It lives in packs; the one with its horns raked sharply back serves as leader, and they choose their leader by fighting among themselves.", "class": "canon", "confidence": "high", "evidence": ["229.4", "229.5", "C229.4", "C229.5", "C229.6", "C229.7"], "analogy": "Wolf packs have a breeding pair at their head, though rank is settled more by family than by fighting."},
+      {"text": "Its young use a variety of cries to communicate and to corner prey; their teamwork is said to be unparalleled.", "class": "canon", "confidence": "high", "evidence": ["228.1", "228.4", "228.5", "228.6", "228.8"]},
+      {"text": "Beat Up (Lv 28), a move that calls on every ally to strike, is the pack's attack in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Beat Up"]}
+    ],
+    "reproduction": [
+      {"text": "Field egg group, 20 egg cycles, an even sex ratio, slow growth. Nothing describes breeding or who in the pack breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Its flame's burn is said to hurt forever: if you are burned by it, the pain will never go away.", "class": "canon", "confidence": "high", "evidence": ["229.1", "229.7", "C229.1", "C229.10"]},
+      {"text": "Flash Fire, its other ability, turns fire attacks into power: fire can't hurt it.", "class": "mechanic", "confidence": "high", "evidence": ["game:abilities"]},
+      {"text": "Its howl is a defence by fear: it clears other Pokémon from the area.", "class": "inferred", "confidence": "medium", "evidence": ["229.2"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its own senses. Odor Sleuth and its young's bark-based teamwork suggest a nose and ears for hunting.", "class": "inferred", "confidence": "low", "evidence": ["move:Odor Sleuth", "228.2"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Houndour at level 24, from 0.6 m and 10.8 kg to 1.4 m and 35.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Houndour"]},
+      {"text": "Read as development, the young's cries for cornering prey become the adult's howl that empties the hills: the same voice, turned from teamwork to intimidation.", "class": "inferred", "confidence": "low", "evidence": ["228.2", "229.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Howl, Smog, Roar (Lv 14), Bite, Odor Sleuth, Beat Up, Fire Fang, Feint Attack, Embargo, Flamethrower, Crunch and Nasty Plot. Smog at level 1 is the toxic smoke of its flame; Howl and Roar its voice.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Smog", "move:Howl", "move:Roar", "move:Flamethrower", "C229.3"]}
+    ],
+    "ecology": [
+      {"text": "A pack predator of rough terrain, near the top of any web it lives in; its prey is never named.", "class": "inferred", "confidence": "medium", "evidence": ["228.4", "229.4", "game:habitat"]},
+      {"text": "Its howl sends other Pokémon back to their nests: the pack shapes when and where other animals move, a landscape of fear.", "class": "inferred", "confidence": "low", "evidence": ["229.2"], "analogy": "Wolves change where elk feed by making some places riskier: the 'landscape of fear'."},
+      {"text": "Managed in the Safari Zone, it has no wild Johto or Kanto web of its own.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Long ago, people imagined its eerie howls to be the call of the grim reaper.", "class": "canon", "confidence": "high", "evidence": ["229.6", "C229.8"]},
+      {"text": "A burn from its flame is said never to stop hurting.", "class": "canon", "confidence": "high", "evidence": ["229.1"]}
+    ],
+    "homestead": [
+      {"text": "A guard animal by voice: its howl sends other Pokémon home to their nests, which could keep pests and raiders off at night.", "class": "inferred", "confidence": "low", "evidence": ["229.2"], "capability": "deterrence"},
+      {"text": "Its flames carry toxins and leave burns that don't heal well: never use it as a cooking fire.", "class": "canon", "confidence": "high", "evidence": ["229.3", "229.7"]},
+      {"text": "A pack animal that settles rank by fighting: keep only one, or a family, and expect challenges.", "class": "canon", "confidence": "medium", "evidence": ["229.4"]},
+      {"text": "The rival's Houndoom, howling once at dusk from the ridge above Blackthorn, and the Swinub running for the Ice Path.", "class": "creative", "evidence": ["229.2"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["rough terrain (listed habitat)", "Kanto's Route 7 at night (its young)"], "activity": "unknown",
+            "foraging": "pack hunting: its young corner prey together using cries", "evidence": ["228.4", "229.4", "game:habitat"], "class": "inferred", "confidence": "medium",
+            "note": "The line's pack hunting is from Houndour's entries; Houndoom's own diet is never stated."},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "inferred", "confidence": "medium", "evidence": ["228.4", "228.7"]},
+    {"with": "Pokémon that hear its howl", "kind": "competes_with", "class": "canon", "confidence": "low", "evidence": ["229.2"], "note": "They flee to their nests; read as the pack pushing others out of the area."},
+    {"with": "Houndour", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Houndour"], "note": "Both in the Johto Safari Zone."}
+  ],
+  "ecotypes": [
+    {"name": "Coursing pack", "moves": ["Pursuit", "Beat Up", "Feint"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that hunts the way the Houndour entries describe: chase the runner, all strike together, feint to break the prey's guard. Fits open, rough country where prey runs.",
+     "behavior": "Hunts in a tight pack; rarely alone.", "evidence": ["228.4", "move:Pursuit", "move:Beat Up", "move:Feint"]},
+    {"name": "Hellfire hound", "moves": ["Will-O-Wisp", "Fire Spin", "Spite"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage whose toxic fire lingers: a burn that won't heal, a trapping ring of flame, and a spiteful move. The hound of the grim-reaper stories. Fits dark ravines and old ruins.",
+     "behavior": "Lets its fire do the work; burns and waits.", "evidence": ["229.1", "229.6", "move:Will-O-Wisp", "move:Fire Spin", "move:Spite"]}
+  ],
+  "open_questions": [
+    "What does a Houndoom pack hunt?",
+    "Where do wild Houndoom live in Kanto or Johto, outside the Safari Zone?",
+    "What toxins burn in its body, and where do they come from (229.3)?",
+    "Does the leader fight for rank every season, or once?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "Long ago, people imagined its eerie howls to be the call of the grim reaper.", "kind": "belief", "evidence": ["229.6", "C229.8"]}
+  ]
+}

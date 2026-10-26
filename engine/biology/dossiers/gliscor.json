@@ -1,0 +1,86 @@
+{
+  "species": "Gliscor",
+  "id": 472,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult of Gligar, a silent, gliding fanged hunter and the rival's Platinum Pokémon. Gliscor watches for prey while hanging upside down from branches, and when the chance comes it swoops; its flight makes no sound, it carries prey off with its long tail, and its long fangs finish it. It is such a glider that, catching even a faint breeze properly, it could circle the globe without flapping once. Only a Gligar holding a Razor Fang, levelled up at night, becomes one, so it is never wild in a Gen I-IV game; Gligar lives on Route 45 in HeartGold.",
+  "sections": {
+    "anatomy": [
+      {"text": "A winged animal (Gen 4 shape wings), 2.0 m and 42.5 kg, typed Ground and Flying: the Fang Scorpion Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It has a lengthy tail it carries prey off with, and elongated fangs.", "class": "canon", "confidence": "high", "evidence": ["472.3", "C472.5", "C472.6"]},
+      {"text": "Light for its size (42.5 kg at 2.0 m against Gligar's 64.8 kg at 1.1 m): a body built for gliding.", "class": "inferred", "confidence": "medium", "evidence": ["game:size", "species:Gligar", "472.2"]}
+    ],
+    "diet": [
+      {"text": "It observes prey while hanging inverted from branches, and swoops when the chance presents itself.", "class": "canon", "confidence": "high", "evidence": ["472.1", "C472.1", "C472.2"]},
+      {"text": "It uses its lengthy tail to carry off its prey, then its elongated fangs do the rest.", "class": "canon", "confidence": "high", "evidence": ["472.3", "C472.5", "C472.6"]},
+      {"text": "Its prey is never named. Gligar aims for the prey's face and injects poison (207.1, 207.4), so the line takes animals it can grab and carry.", "class": "inferred", "confidence": "low", "evidence": ["207.1", "207.4", "472.3"]},
+      {"text": "Its level-1 moves are three fangs (Thunder Fang, Ice Fang, Fire Fang) and Poison Jab: a biter and a stinger in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Thunder Fang", "move:Ice Fang", "move:Fire Fang", "move:Poison Jab"]}
+    ],
+    "habitat": [
+      {"text": "Trees with branches to hang from (Gliscor's own entry); its young cling to and nest on steep cliffs (207.2, 207.3).", "class": "canon", "confidence": "medium", "evidence": ["472.1", "207.2", "207.3"]},
+      {"text": "It is never wild in any Gen I-IV game: it comes only from a Gligar holding a Razor Fang, levelled up at night. In HeartGold, Gligar lives on Route 45 (20%); SoulSilver has Skarmory in that slot.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution", "species:Gligar", "species:Skarmory"]},
+      {"text": "No Gen 3 habitat is given (it is from Generation 4).", "class": "mechanic", "confidence": "high", "evidence": ["game:habitat"]}
+    ],
+    "behavior": [
+      {"text": "Its flight is soundless.", "class": "canon", "confidence": "high", "evidence": ["472.3", "C472.4"]},
+      {"text": "If it catches even a faint breeze properly, it can circle the globe without flapping once.", "class": "canon", "confidence": "medium", "evidence": ["472.2", "C472.3"], "analogy": "Albatrosses cross oceans almost without flapping by dynamic soaring on the wind."},
+      {"text": "Its activity pattern isn't stated; it evolves only at night, holding a Razor Fang, which in game terms ties the adult to the dark.", "class": "mechanic", "confidence": "low", "evidence": ["game:evolution"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups or pairs.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "Bug egg group, 20 egg cycles, an even sex ratio, medium-slow growth. Its young nest on steep cliffs (207.3).", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "207.3"]}
+    ],
+    "defense": [
+      {"text": "Nothing in its own entries describes defence. Hyper Cutter keeps its Attack from being lowered; Sand Veil helps it dodge in a sandstorm.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]},
+      {"text": "Harden (Lv 9) and Sand Attack (Lv 5) are its defensive moves.", "class": "mechanic", "confidence": "low", "evidence": ["move:Harden", "move:Sand Attack"]}
+    ],
+    "senses": [
+      {"text": "It observes prey from a hanging perch before it swoops, so it hunts by sight; nothing more is said.", "class": "inferred", "confidence": "low", "evidence": ["472.1"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Gligar when Gligar levels up holding a Razor Fang at night, growing from 1.1 m to 2.0 m but losing 22 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Gligar"]},
+      {"text": "Read as development, the line goes from a cliff-clinging glider that hops home along the ground (207.3) to a branch-hanging glider that could ride the wind around the world: more airborne with age.", "class": "inferred", "confidence": "medium", "evidence": ["207.3", "472.1", "472.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its list is a hunter's: the three fangs and Poison Jab, Knock Off, Quick Attack, Fury Cutter, Feint Attack, Screech, Night Slash, Swords Dance, U-turn, X-Scissor and Guillotine (Lv 45). U-turn, a strike and a retreat, fits a swoop-and-away hunter.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Poison Jab", "move:Night Slash", "move:U-turn", "move:X-Scissor", "move:Guillotine"]}
+    ],
+    "ecology": [
+      {"text": "An aerial ambush predator; with no wild Gliscor in any game, it has no place in a Johto or Kanto web. Its young are a predator of the highlands (Route 45, HeartGold).", "class": "inferred", "confidence": "medium", "evidence": ["472.1", "game:encounters", "species:Gligar"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Gliscor and people.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "homestead": [
+      {"text": "A silent glider that could scout the mountainside from the air.", "class": "inferred", "confidence": "low", "evidence": ["472.2", "472.3"], "capability": "scouting"},
+      {"text": "It wants trees or a high beam to hang from.", "class": "canon", "confidence": "medium", "evidence": ["472.1"]},
+      {"text": "Keep small Pokémon out of reach of its tail: it carries prey off.", "class": "canon", "confidence": "medium", "evidence": ["472.3"]},
+      {"text": "The rival's Gliscor, hanging from the barn rafters upside down, watching the chickens, every visit.", "class": "creative", "evidence": ["472.1"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 3.5, "microhabitat": ["branches it hangs from", "open air (gliding)"], "activity": "unknown",
+            "foraging": "watches from an inverted perch, swoops silently, carries prey off with its tail and finishes it with its fangs", "evidence": ["472.1", "472.3"], "class": "inferred", "confidence": "medium",
+            "note": "Prey never named."},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["472.1", "472.3"]},
+    {"with": "tree branches", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["472.1"], "note": "To hang from while it watches."}
+  ],
+  "ecotypes": [
+    {"name": "Sand-trap glider", "moves": ["Sand Tomb", "Feint"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that pins prey in sand after the swoop: a trapping sand vortex and a feint to get past a guard. Fits dry, sandy slopes with little cover.",
+     "behavior": "Lands with its prey and buries it in sand rather than carrying it off.", "evidence": ["472.3", "move:Sand Tomb", "move:Feint"]},
+    {"name": "Poison-cross striker", "moves": ["Cross Poison", "Night Slash", "Agility"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that leans on its poison: a venomous cross-cut and a critical slash, delivered fast. The line's sting, kept into adulthood. Fits wooded cliffs where prey is quick.",
+     "behavior": "Strikes on the swoop and leaves; the prey dies later.", "evidence": ["207.4", "move:Cross Poison", "move:Night Slash", "move:Agility"]}
+  ],
+  "open_questions": [
+    "What does Gliscor hunt?",
+    "Does it keep Gligar's cliff nests, or move to trees?",
+    "Could it really circle the globe on a breeze (472.2)?",
+    "Where are the wild Gliscor that would come from Route 45's Gligar?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

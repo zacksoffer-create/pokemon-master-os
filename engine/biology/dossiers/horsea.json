@@ -1,0 +1,94 @@
+{
+  "species": "Horsea",
+  "id": 116,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "A small sea-horse of coral and rock, the first stage of the rival's Kingdra. Horsea eats small insects and moss off rocks, and is known to shoot down flying bugs with precision blasts of ink from the surface. It swims by flicking the fins on its back, moving in any direction or even backwards while still facing forward, anchors itself with its coiled tail when the current runs fast, and nests in the shade of corals. When danger comes it sprays a dense black ink and flees. In HeartGold and SoulSilver it lives in the Whirl Islands and the deepest floor of the Seafoam Islands.",
+  "sections": {
+    "anatomy": [
+      {"text": "A small water animal (Gen 4 shape blob), 0.4 m and 8.0 kg, typed Water: the Dragon Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It swims by flapping or flicking the fins on its back, which lets it move in any direction, or backwards, while still facing forward.", "class": "canon", "confidence": "high", "evidence": ["116.4", "116.7", "116.8", "C116.4", "C116.9", "C116.10"], "analogy": "Real seahorses swim upright the same way, driven by a fast-beating dorsal fin."},
+      {"text": "Its tail is wound up like a coil; it keeps its balance with it and wraps it round rocks or coral to hold on in a fast current.", "class": "canon", "confidence": "high", "evidence": ["116.6", "116.9", "C116.7", "C116.12"]},
+      {"text": "It can spray water, or a special dense black ink, from its mouth.", "class": "canon", "confidence": "high", "evidence": ["116.2", "116.7", "116.9", "C116.2", "C116.8", "C116.13"]}
+    ],
+    "diet": [
+      {"text": "Horsea eats small insects and moss off of rocks.", "class": "canon", "confidence": "high", "evidence": ["116.6", "C116.6"]},
+      {"text": "It is known to shoot down flying bugs with precision blasts of ink from the surface of the water.", "class": "canon", "confidence": "high", "evidence": ["116.1", "C116.1"], "analogy": "Archerfish knock insects off overhanging leaves with jets of water from below the surface."},
+      {"text": "In the sea caves where the Johto games put it there are no flying insects to shoot, so there it would take the small animals and growth on the rocks: the sea's equivalent of insects and moss.", "class": "inferred", "confidence": "low", "evidence": ["116.6", "game:encounters"]},
+      {"text": "Water Gun (Lv 11), Octazooka (an egg move: an ink shot) and Bubble are its shooting moves.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Water Gun", "move:Octazooka", "move:Bubble"]}
+    ],
+    "habitat": [
+      {"text": "The sea, among coral and rock: it nests in the shade of corals and anchors to rocks; the Gen 3 Pokédex habitat is sea.", "class": "canon", "confidence": "high", "evidence": ["116.6", "116.10", "C116.14", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it lives in the Whirl Islands (1F, B2F: surf 30-60%, Good Rod 10%, Super Rod 30%) and on the Seafoam Islands' B4F (surf 30%, Lv 30-40), at any time of day, in both versions.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Both are sea caves, the sheltered, current-swept water a tail-anchoring, nest-building sea-horse would choose.", "class": "inferred", "confidence": "medium", "evidence": ["game:encounters", "116.6"]}
+    ],
+    "behavior": [
+      {"text": "If attacked by a larger enemy, it quickly swims to safety by adeptly controlling its dorsal fin.", "class": "canon", "confidence": "high", "evidence": ["116.3", "116.11", "C116.3", "C116.16"]},
+      {"text": "If the current turns fast it wraps its tail round rocks or coral so it isn't washed away.", "class": "canon", "confidence": "high", "evidence": ["116.6", "C116.7"]},
+      {"text": "Its activity pattern is not stated; the HGSS tables have it at any time.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "When they're in a safe location, they can be seen playfully tangling their tails together.", "class": "canon", "confidence": "high", "evidence": ["116.5", "C116.5"]},
+      {"text": "Tail-tangling in safety reads as social or courtship behaviour between Horsea.", "class": "hypothesis", "confidence": "low", "evidence": ["116.5"], "note": "The entry calls it play.", "analogy": "Seahorse pairs link tails and 'dance' each morning as part of their pair bond."}
+    ],
+    "reproduction": [
+      {"text": "It makes its nest in the shade of corals.", "class": "canon", "confidence": "high", "evidence": ["116.10", "C116.14"]},
+      {"text": "In Seadra the male raises the young (117.5), so the line's fathers care for the brood.", "class": "canon", "confidence": "medium", "evidence": ["117.5"], "analogy": "In real seahorses the male carries the eggs in a brood pouch until they hatch."},
+      {"text": "Water 1 and Dragon egg groups, 20 egg cycles, an even sex ratio, medium growth.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "If it senses danger, it reflexively sprays a dense black ink, or murky ink, and tries to escape.", "class": "canon", "confidence": "high", "evidence": ["116.2", "116.7", "116.8", "116.10", "C116.8", "C116.11", "C116.15"], "analogy": "Squid and octopuses escape behind a cloud of ink."},
+      {"text": "Smokescreen (Lv 4) is the ink cloud in game form; Agility (Lv 23) the fast escape.", "class": "mechanic", "confidence": "high", "evidence": ["move:Smokescreen", "move:Agility"]}
+    ],
+    "senses": [
+      {"text": "It senses danger quickly enough to ink reflexively, and aims ink precisely at flying bugs from under the surface, so it sees well through water and air.", "class": "inferred", "confidence": "medium", "evidence": ["116.1", "116.7"]},
+      {"text": "Sniper, one of its abilities, powers up critical hits: the precision of the ink shot in game form.", "class": "mechanic", "confidence": "low", "evidence": ["game:abilities", "116.1"]}
+    ],
+    "life_cycle": [
+      {"text": "It becomes Seadra at level 32 and Kingdra only by trade while holding a Dragon Scale: 0.4 m and 8.0 kg, then 1.2 m and 25.0 kg, then 1.8 m and 152.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Seadra", "species:Kingdra"]},
+      {"text": "Read as development, the line moves from a shallow, ink-squirting forager to a spiny, poisonous predator to a sleeper of the deepest sea floor.", "class": "inferred", "confidence": "medium", "evidence": ["116.6", "117.7", "230.3"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Ink and water: Bubble, Smokescreen, Water Gun, Bubble Beam, Brine, Hydro Pump. Escape: Agility. And the dragon in it: Twister (Lv 26), Dragon Dance (Lv 38) and Dragon Pulse (Lv 42).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Smokescreen", "move:Water Gun", "move:Agility", "move:Twister", "move:Dragon Dance", "move:Dragon Pulse"]}
+    ],
+    "ecology": [
+      {"text": "A small grazer and insect-eater of rock and coral, low in the web: on the evidence, it eats both small animals and moss or algae.", "class": "inferred", "confidence": "medium", "evidence": ["116.6", "C116.6"]},
+      {"text": "It flees larger enemies; in Seafoam those would include Gyarados and Golduck, and in the Whirl Islands Tentacruel, but no entry names a predator.", "class": "hypothesis", "confidence": "low", "evidence": ["116.3", "game:encounters", "species:Gyarados", "species:Tentacruel"], "note": "Co-occurrence and size only."}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Horsea and people. Its evolved form's fins and bones are prized in traditional medicine (117.4), which makes the whole line a target for harvest.", "class": "inferred", "confidence": "low", "evidence": ["117.4"]}
+    ],
+    "homestead": [
+      {"text": "It would need sea water with rock or coral to anchor to and shade to nest in: not a homestead animal unless a saltwater pool is built for it.", "class": "inferred", "confidence": "medium", "evidence": ["116.6", "116.10"]},
+      {"text": "A precise ink shot at flying insects: around a pond, a natural insect control.", "class": "hypothesis", "confidence": "low", "evidence": ["116.1"], "note": "Untested in fresh water."},
+      {"text": "Its ink is a defence, not a mess to clean: give it calm water and it won't use it.", "class": "inferred", "confidence": "low", "evidence": ["116.2", "116.5"]},
+      {"text": "A pair of Horsea with tails tangled in the shade of the dock, the morning the rival comes to visit.", "class": "creative", "evidence": ["116.5"]}
+    ]
+  },
+  "niche": {"guild": "omnivore", "trophic_level": 2.5, "microhabitat": ["coral and rock in sea caves", "shade of corals (nests)"], "activity": "unknown",
+            "foraging": "picks small insects and moss off rocks; shoots flying bugs down with ink from the surface", "evidence": ["116.1", "116.6", "game:encounters"], "class": "inferred", "confidence": "medium"},
+  "relationships": [
+    {"with": "small insects (non-Pokémon)", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["116.6"]},
+    {"with": "moss off rocks", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["116.6"]},
+    {"with": "rocks and coral", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["116.6", "116.10"], "note": "To anchor in currents and to nest in the shade of."},
+    {"with": "Seadra", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "Seel", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Seel"]}
+  ],
+  "ecotypes": [
+    {"name": "Ink archer", "moves": ["Octazooka", "Signal Beam"], "class": "hypothesis", "confidence": "low",
+     "reading": "The insect-shooting lineage the oldest entry describes: an ink shot and a beam. A Horsea that hunts at the surface for flying bugs. Fits sheltered shallows and mangrove-like edges with insects overhead, not deep caves.",
+     "behavior": "Hangs just under the surface, aiming upward.", "evidence": ["116.1", "move:Octazooka", "move:Signal Beam"]},
+    {"name": "Storm-drake", "moves": ["Dragon Breath", "Dragon Rage", "Razor Wind"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that leans into the dragon it will become: dragon fire and a wind-blade, in a 0.4 m sea-horse. The line most likely to reach Kingdra. Fits stormy, current-swept caves like the Whirl Islands.",
+     "behavior": "Bolder than other Horsea; inks less, fights more.", "evidence": ["230.5", "move:Dragon Breath", "move:Dragon Rage", "move:Razor Wind"]}
+  ],
+  "open_questions": [
+    "What does it eat in sea caves, where there are no flying bugs to shoot?",
+    "Is tail-tangling play, courtship or pair-bonding?",
+    "Does the male Horsea brood the young, as Seadra's male raises them (117.5)?",
+    "Does the 'moss' it eats mean algae on sea rocks?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

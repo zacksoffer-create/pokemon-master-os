@@ -1,0 +1,89 @@
+{
+  "species": "Monferno",
+  "id": 391,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The middle stage of the Infernape line, a fire-and-fighting primate that lives in packs with a visible rank: the bigger the fire on its tail and the brighter the blue pattern on its face, the higher its standing. It stretches its tail fire to look bigger when threatened, controls the flame's intensity to keep foes at just the right distance, and uses ceilings and walls to launch attacks from above. Nothing says what it eats, and no game has it in the wild.",
+  "sections": {
+    "anatomy": [
+      {"text": "An upright animal (Gen 4 shape upright), 0.9 m and 22.0 kg, typed Fire and Fighting: the Playful Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It has a fire on its tail whose size and intensity it controls.", "class": "canon", "confidence": "high", "evidence": ["391.1", "391.3", "C391.1", "C391.4"]},
+      {"text": "It has a blue pattern on its face that is brighter in higher-ranking animals.", "class": "canon", "confidence": "high", "evidence": ["391.4", "C391.5"]},
+      {"text": "The tail fire is 'but one weapon': it fights with its body too.", "class": "canon", "confidence": "high", "evidence": ["391.2", "C391.3"]}
+    ],
+    "diet": [
+      {"text": "No entry for any stage of the line says what it eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "Its line is filed as an omnivore only as a guess from its body plan and Human-Like egg group; nothing in the Pokédex supports it.", "class": "hypothesis", "confidence": "low", "evidence": ["game:shape", "game:egg_groups"]}
+    ],
+    "habitat": [
+      {"text": "It uses ceilings and walls to launch aerial attacks, which fits caves, overhangs and cliff faces.", "class": "inferred", "confidence": "medium", "evidence": ["391.2", "C391.2"]},
+      {"text": "Its young live atop craggy mountains (390.1), so a pack's home is likely the same crags.", "class": "inferred", "confidence": "low", "evidence": ["390.1"]},
+      {"text": "It is never wild in any Gen I-IV game, and no Johto or Kanto game offers the line except by trade.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "It skilfully controls the intensity of the fire on its tail to keep its foes at an ideal distance.", "class": "canon", "confidence": "high", "evidence": ["391.3", "C391.4"]},
+      {"text": "It uses ceilings and walls to launch aerial attacks.", "class": "canon", "confidence": "high", "evidence": ["391.2", "C391.2"]},
+      {"text": "Distance control by fire is a fighting style: it decides how close a fight gets.", "class": "inferred", "confidence": "medium", "evidence": ["C391.4"]},
+      {"text": "Its activity pattern is not stated.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "social": [
+      {"text": "It lives in packs with ranks, and its rank shows: a bigger tail fire and a brighter blue face pattern mean a higher rank.", "class": "canon", "confidence": "high", "evidence": ["391.4", "C391.5"]},
+      {"text": "Rank shown by fire size and colour is an honest signal: a strong, healthy animal can keep a bigger fire (a sick Chimchar's fire burns weakly, 390.4).", "class": "inferred", "confidence": "medium", "evidence": ["391.4", "390.4"], "analogy": "In mandrills, the brightest red and blue faces belong to the dominant males, and colour fades with lost rank."},
+      {"text": "Infernape's cooperative egg moves (Helping Hand, Assist) fit a pack animal.", "class": "mechanic", "confidence": "low", "evidence": ["move:Helping Hand", "move:Assist"]}
+    ],
+    "reproduction": [
+      {"text": "Field and Human-Like egg groups, 20 egg cycles, 87.5% male, medium-slow growth. Nothing describes breeding or who in the pack breeds.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "To intimidate attackers, it stretches the fire on its tail to make itself look bigger.", "class": "canon", "confidence": "high", "evidence": ["391.1", "C391.1"]},
+      {"text": "Its moves are a fighter's: Mach Punch (Lv 14, its first Fighting move), Feint (Lv 26), Close Combat (Lv 36) and Flare Blitz (Lv 49).", "class": "mechanic", "confidence": "high", "evidence": ["move:Mach Punch", "move:Feint", "move:Close Combat", "move:Flare Blitz"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Reading rank from fire size and face colour implies that pack members see colour and brightness well.", "class": "inferred", "confidence": "low", "evidence": ["391.4"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Chimchar at level 14 and into Infernape at 36: 0.9 m and 22.0 kg to 1.2 m and 55.0 kg. It is the first stage with the Fighting type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:types", "species:Chimchar", "species:Infernape"]},
+      {"text": "Rank in the pack is read from the tail fire; Infernape's fire moves to its head as a crown (392.2), so the adult's signal is where everyone can see it.", "class": "inferred", "confidence": "low", "evidence": ["391.4", "392.2"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its own list mixes fire and fists: Ember, Taunt, Mach Punch, Fury Swipes, Flame Wheel, Feint, Torment, Close Combat, Fire Spin, Slack Off and Flare Blitz. Fire Spin, a ring of flame that traps, fits keeping a foe at the distance it chooses.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Fire Spin", "move:Mach Punch", "move:Close Combat", "move:Taunt", "C391.4"]}
+    ],
+    "ecology": [
+      {"text": "Its role in a food web can't be set: no entry says what the line eats.", "class": "unknown", "confidence": "high", "evidence": []},
+      {"text": "A ranked pack of fire-bearers on crags would hold and defend ledges, competing with other cliff animals for space.", "class": "hypothesis", "confidence": "low", "evidence": ["391.4", "390.1"], "note": "From pack life and the young's habitat only."}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Monferno and people. It reaches them only by raising a Sinnoh starter.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution"]}
+    ],
+    "homestead": [
+      {"text": "A pack animal with a rank: at the homestead, the people and Pokémon around it are its pack, and it will want to know where it stands.", "class": "hypothesis", "confidence": "low", "evidence": ["391.4"], "note": "How a captive Monferno treats a mixed household is untested."},
+      {"text": "It controls its fire's intensity finely, which makes it a usable heat source for cooking or drying.", "class": "inferred", "confidence": "medium", "evidence": ["391.3"], "capability": "heat_source"},
+      {"text": "It climbs and uses walls and ceilings: give it height, and secure the lamps.", "class": "inferred", "confidence": "medium", "evidence": ["391.2"], "capability": "climbing"},
+      {"text": "A bright face and a tall tail fire on the morning it decides it outranks the Quilava.", "class": "creative", "evidence": ["391.4"]}
+    ]
+  },
+  "niche": {"guild": "omnivore", "trophic_level": null, "microhabitat": ["crags and cliff faces", "overhangs and cave walls"], "activity": "unknown",
+            "foraging": "unknown; no entry says what any stage eats", "evidence": ["391.2", "390.1", "game:shape"], "class": "hypothesis", "confidence": "low",
+            "note": "Omnivore guessed from body plan and egg group, as for Chimchar and Infernape."},
+  "relationships": [
+    {"with": "Infernape", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "cliffs, walls and ceilings", "kind": "uses_resource", "class": "canon", "confidence": "medium", "evidence": ["391.2"]}
+  ],
+  "ecotypes": [
+    {"name": "Cliff trickster", "moves": ["Encore", "Counter", "Focus Energy"], "class": "hypothesis", "confidence": "low",
+     "reading": "Infernape's tricky lineage at the pack stage: Encore locks a rival into repeating itself, Counter turns its blow back, Focus Energy readies the decisive hit. A Monferno that rises in rank by outwitting rivals rather than outburning them.",
+     "behavior": "Wins rank fights with timing; small fire, high rank.", "evidence": ["391.4", "move:Encore", "move:Counter", "move:Focus Energy"]},
+    {"name": "Wall-runner", "moves": ["Double Kick", "Blaze Kick", "Fake Out"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage that fights from above and with its feet: kicks and a first-strike flinch, matching the entries' launches from walls and ceilings. Fits caves and overhangs.",
+     "behavior": "Drops from the ceiling feet first.", "evidence": ["391.2", "move:Double Kick", "move:Blaze Kick", "move:Fake Out"]}
+  ],
+  "open_questions": [
+    "What does it eat?",
+    "Where do wild Monferno packs live, and how big are they?",
+    "Who leads a pack: the highest-ranked Monferno, or an Infernape?",
+    "Does rank change the fire, or the fire the rank? Can a sick Monferno lose rank as its fire weakens?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

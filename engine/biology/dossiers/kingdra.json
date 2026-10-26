@@ -1,0 +1,95 @@
+{
+  "species": "Kingdra",
+  "id": 230,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The adult of the Horsea line, and the rival's Crystal Pokémon: a 152 kg sea dragon that sleeps on the deepest sea floor, at depths where nothing else can survive, to build up its energy. When it moves it makes whirlpools, giant enough to swallow ships when it comes to the surface. Much of what is told of it is told as belief: that it hides in underwater caves, that its yawning makes spiralling ocean currents, that it causes tornadoes as it wakes, and that it wakes with storms to wander in search of prey. It is never wild in a Gen I-IV game: it comes only from trading a Seadra that holds a Dragon Scale.",
+  "sections": {
+    "anatomy": [
+      {"text": "A large sea animal (Gen 4 shape blob), 1.8 m and 152.0 kg, typed Water and Dragon: the Dragon Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "It creates giant whirlpools every time it moves.", "class": "canon", "confidence": "high", "evidence": ["230.7", "C230.12"]},
+      {"text": "Its body is never described in its own entries; its spiny young (Seadra) bristle with poison, but Kingdra's abilities (Swift Swim, Sniper) carry no poison.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "117.9"]}
+    ],
+    "diet": [
+      {"text": "When a storm arrives, it is said to awaken and wander about in search of prey.", "class": "canon", "confidence": "medium", "evidence": ["230.5", "C230.9"], "note": "Told as belief ('is said')."},
+      {"text": "Its prey is never named. Its young swallow prey whole after weakening it in whirlpools (117.7); the adult's whirlpools would serve the same.", "class": "inferred", "confidence": "low", "evidence": ["117.7", "230.7"]},
+      {"text": "A sleeper on a lifeless sea floor must feed somewhere else: it stores energy by sleeping, and feeds when it rises.", "class": "inferred", "confidence": "medium", "evidence": ["230.3", "230.5"]}
+    ],
+    "habitat": [
+      {"text": "Extreme ocean depths that are otherwise uninhabited: it sleeps on the seafloor, where no other life forms can survive, and lives in caves on the seafloor.", "class": "canon", "confidence": "high", "evidence": ["230.2", "230.3", "230.4", "230.5", "230.6", "230.7", "C230.3", "C230.5", "C230.6", "C230.8", "C230.10", "C230.12"]},
+      {"text": "It is never wild in any Gen I-IV game: it comes only from trading a Seadra holding a Dragon Scale.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "game:evolution"]},
+      {"text": "Its young live in the Whirl Islands and Seafoam, both sea caves; Kingdra's 'caves on the seafloor' are the deep end of the same world.", "class": "inferred", "confidence": "low", "evidence": ["230.7", "game:encounters", "species:Seadra"]}
+    ],
+    "behavior": [
+      {"text": "It sleeps deep on the ocean floor to build its energy; it sleeps quietly.", "class": "canon", "confidence": "high", "evidence": ["230.2", "230.6", "C230.3", "C230.10"]},
+      {"text": "When it comes up to the surface it creates a huge whirlpool that can swallow even ships.", "class": "canon", "confidence": "high", "evidence": ["230.6", "C230.11"]},
+      {"text": "It can create whirlpools by yawning.", "class": "canon", "confidence": "medium", "evidence": ["230.1", "C230.2"]},
+      {"text": "Its activity is set by sleep and storms, not by day and night: it rests to store energy and rises when a storm comes, by belief.", "class": "inferred", "confidence": "low", "evidence": ["230.3", "230.5"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about Kingdra together. A sleeper in uninhabited depths is presumably alone.", "class": "inferred", "confidence": "low", "evidence": ["230.4"]}
+    ],
+    "reproduction": [
+      {"text": "Water 1 and Dragon egg groups, 20 egg cycles, an even sex ratio, medium growth. Its line's males raise the young (Seadra, 117.5); nothing says Kingdra does.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "117.5"]}
+    ],
+    "defense": [
+      {"text": "Nothing is said about how Kingdra defends itself. At depths where nothing else survives, nothing threatens it.", "class": "inferred", "confidence": "low", "evidence": ["230.3"]},
+      {"text": "Its Dragon typing leaves it weak only to Dragon moves in the games: few attackers can hurt it much.", "class": "mechanic", "confidence": "medium", "evidence": ["game:types"]}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses. Waking with storms implies it senses them from the sea floor; how is not said.", "class": "unknown", "confidence": "high", "evidence": ["230.5"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Seadra only by trade while holding a Dragon Scale, growing from 1.2 m and 25.0 kg to 1.8 m and 152.0 kg and gaining the Dragon type.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Seadra"]},
+      {"text": "In the games every Kingdra comes through people, by trade with a Dragon Scale; there is no natural route in the data.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "game:encounters"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Yawn at level 1, the yawn that makes whirlpools in the entries; Twister, Brine, Hydro Pump, Dragon Dance (Lv 48) and Dragon Pulse (Lv 57).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Yawn", "move:Twister", "move:Dragon Dance", "move:Dragon Pulse", "230.1"]},
+      {"text": "Swift Swim, its ability, speeds it up in rain: the storm-woken hunter in game form.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "230.5"]}
+    ],
+    "ecology": [
+      {"text": "A deep-sea sleeper that rises to hunt: it links the lifeless deep floor with the life above only through its own feeding trips.", "class": "inferred", "confidence": "low", "evidence": ["230.3", "230.5"]},
+      {"text": "With no wild Kingdra in any game, it has no place in a Johto or Kanto web.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "humans": [
+      {"text": "Its surfacing whirlpools can swallow ships: a hazard to sailors where it rises.", "class": "canon", "confidence": "medium", "evidence": ["230.6"]},
+      {"text": "People long believed its yawn makes spiralling ocean currents and its waking makes tornadoes.", "class": "canon", "confidence": "medium", "evidence": ["230.2", "230.4", "C230.4", "C230.7"]}
+    ],
+    "homestead": [
+      {"text": "It is a deep-sea animal: Blackthorn's lakes and the Dragon's Den pool are no place for it.", "class": "inferred", "confidence": "high", "evidence": ["230.3", "230.4"]},
+      {"text": "Its whirlpools make any small body of water dangerous.", "class": "canon", "confidence": "medium", "evidence": ["230.7"]},
+      {"text": "Swift Swim and Water type: a fast companion for crossing water in rain.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities", "game:types"], "capability": "water_travel"},
+      {"text": "The rival's Kingdra, visiting, asleep at the bottom of the Dragon's Den pool and stirring the water only when the weather turns.", "class": "creative", "evidence": ["230.5"]}
+    ]
+  },
+  "niche": {"guild": "predator", "trophic_level": 4, "microhabitat": ["the deepest sea floor", "caves on the seafloor"], "activity": "unknown",
+            "foraging": "sleeps to store energy; said to wake with storms and wander in search of prey", "evidence": ["230.3", "230.5", "230.7"], "class": "inferred", "confidence": "low",
+            "note": "The prey-seeking is told as belief (230.5); trophic level assumes it eats predators such as other fish."},
+  "relationships": [
+    {"with": "unnamed prey", "kind": "feeds_on", "class": "canon", "confidence": "low", "evidence": ["230.5"], "note": "Said, not stated."},
+    {"with": "the sea floor", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["230.2", "230.7"]},
+    {"with": "ocean currents and whirlpools", "kind": "engineers", "class": "canon", "confidence": "medium", "evidence": ["230.6", "230.7"]}
+  ],
+  "ecotypes": [
+    {"name": "Storm-drake", "moves": ["Dragon Breath", "Dragon Rage", "Razor Wind"], "class": "hypothesis", "confidence": "low",
+     "reading": "The lineage the entries describe: a dragon that wakes with storms. Dragon fire and a wind-blade, carried down from Horsea. Fits open, stormy seas.",
+     "behavior": "Rises with every storm.", "evidence": ["230.5", "move:Dragon Breath", "move:Dragon Rage", "move:Razor Wind"]},
+    {"name": "Cold-deep sleeper", "moves": ["Aurora Beam", "Flail", "Splash"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage of the coldest, deepest water: an ice beam, and two moves of an animal that thrashes in the shallows. A Kingdra that sleeps longest and rises least. Fits the coldest, deepest water.",
+     "behavior": "Rarely seen at all; the whirlpools are the only sign.", "evidence": ["230.3", "move:Aurora Beam", "move:Flail", "move:Splash"]}
+  ],
+  "open_questions": [
+    "What does Kingdra eat, and how often does it rise to feed?",
+    "Does it really wake with storms (230.5), or is that belief?",
+    "Where does a Kingdra come from in the wild, when the games make it only by trade?",
+    "Does it hide in underwater caves (said, 230.1) or live in them (230.7)?"
+  ],
+  "contradictions": [],
+  "folklore": [
+    {"text": "It is said that it usually hides in underwater caves.", "kind": "said", "evidence": ["230.1", "C230.1"]},
+    {"text": "It is said to cause tornadoes as it wakes.", "kind": "said", "evidence": ["230.2", "C230.4"]},
+    {"text": "It has long been believed that its yawning creates spiralling ocean currents.", "kind": "belief", "evidence": ["230.4", "C230.7"]},
+    {"text": "When a storm arrives, it is said to awaken and wander about in search of prey.", "kind": "said", "evidence": ["230.5", "C230.9"]}
+  ]
+}

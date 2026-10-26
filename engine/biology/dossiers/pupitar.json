@@ -1,0 +1,93 @@
+{
+  "species": "Pupitar",
+  "id": 247,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The pupa of the Tyranitar line, and a pupa that won't keep still. Pupitar's shell is as hard as sheet rock or bedrock, and inside it the animal already has arms and legs and can move freely. It makes a gas in its body, compresses it and blasts it out to launch itself like a jet or a rocket, and its body can hit solid steel without harm. Its thrashing can topple a mountain. In HeartGold and SoulSilver it lives only on Mt. Silver's third floor, one encounter in twenty.",
+  "sections": {
+    "anatomy": [
+      {"text": "A heavy, limbless-looking body (Gen 4 shape squiggle), 1.2 m and 152.0 kg, typed Rock and Ground: the Hard Shell Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its shell is as hard as sheet rock, its body as hard as bedrock, and it can hit solid steel without being damaged.", "class": "canon", "confidence": "high", "evidence": ["247.1", "247.4", "247.5", "247.7", "C247.1", "C247.8", "C247.10", "C247.12"]},
+      {"text": "Under the shell it already has arms and legs, and even sealed in, it can move freely.", "class": "canon", "confidence": "high", "evidence": ["247.2", "247.3", "247.6", "C247.3", "C247.6"]},
+      {"text": "It makes a gas inside its body, compresses it, and ejects it to propel itself like a jet.", "class": "canon", "confidence": "high", "evidence": ["247.4", "247.5", "247.7", "C247.7", "C247.9", "C247.13"]},
+      {"text": "Where the gas comes from is not said. A pupa that doesn't eat would have to make it from its own stores, the soil it ate as a larva.", "class": "hypothesis", "confidence": "low", "evidence": ["C247.7", "246.1"], "note": "Joins the pupa's gas with the larva's diet; no entry links them."}
+    ],
+    "diet": [
+      {"text": "No entry says Pupitar eats. The line's entries put all the eating in the larva, which sleeps once it has eaten enough to make a mountain.", "class": "inferred", "confidence": "medium", "evidence": ["246.1", "246.3"]},
+      {"text": "Whether a Pupitar feeds at all is unknown.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "habitat": [
+      {"text": "Mountains: the Gen 3 Pokédex habitat is mountain, and its thrashing can topple one.", "class": "canon", "confidence": "medium", "evidence": ["247.1", "C247.2", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is found only on Mt. Silver's 3F, 5% at any time (Lv 45 in HeartGold, Lv 30 in SoulSilver). Crystal had it at the top of Mt. Silver by day and morning, 1%.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Being met inside the mountain, deeper than where Larvitar is commonest (the top), fits a pupa that rests in caves or burrows, but the tables can't show where it pupates.", "class": "hypothesis", "confidence": "low", "evidence": ["game:encounters", "species:Larvitar"], "note": "Encounter rates only."}
+    ],
+    "behavior": [
+      {"text": "It will not stay still, even while it is a pupa.", "class": "canon", "confidence": "high", "evidence": ["247.3", "C247.5"]},
+      {"text": "Hard and fast, it has outstanding destructive power; its thrashing can topple a mountain.", "class": "canon", "confidence": "high", "evidence": ["247.1", "247.2", "247.6", "C247.2", "C247.4", "C247.11"]},
+      {"text": "It travels by jet: venting pressurised gas launches it like a rocket.", "class": "canon", "confidence": "high", "evidence": ["247.4", "247.7", "C247.13"]},
+      {"text": "Its activity pattern isn't stated; the HGSS tables list it at any time of day.", "class": "mechanic", "confidence": "medium", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about pupae together or with adults.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "reproduction": [
+      {"text": "As a pupa it doesn't breed in its own right; the egg group (Monster), 40 egg cycles and an even sex ratio are the line's.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender"]}
+    ],
+    "defense": [
+      {"text": "Armour: a shell as hard as bedrock that survives a collision with solid steel.", "class": "canon", "confidence": "high", "evidence": ["247.5", "247.7"]},
+      {"text": "Shed Skin, its ability, lets it heal its own status problems: a pupa that sloughs off what ails it.", "class": "mechanic", "confidence": "medium", "evidence": ["game:abilities"]},
+      {"text": "Unlike most pupae it is not defenceless: it can move, thrash and launch itself, which turns the vulnerable stage of the life cycle into a dangerous one to approach.", "class": "inferred", "confidence": "medium", "evidence": ["247.3", "247.4", "C247.4"], "analogy": "Most insect pupae can only wriggle; some, like mosquito pupae ('tumblers'), can swim away, but none fight back."}
+    ],
+    "senses": [
+      {"text": "Nothing is said about its senses.", "class": "unknown", "confidence": "high", "evidence": []}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Larvitar at level 30 and into Tyranitar at 55, growing from 1.2 m and 152.0 kg to 2.0 m and 202.0 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Larvitar", "species:Tyranitar"]},
+      {"text": "The line's own words call it a pupa (Crystal: 'even while it's a pupa'; Larvitar 'becomes a pupa'), and the limbs under the shell are the adult's, already formed.", "class": "canon", "confidence": "high", "evidence": ["247.3", "246.3", "C247.6"]},
+      {"text": "Read as development, Pupitar is where the adult's body is built inside a shell: arms and legs form, the mass grows by half again, and the type will change from Ground to Dark.", "class": "inferred", "confidence": "medium", "evidence": ["247.3", "game:types", "species:Tyranitar"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Its level-up list is Larvitar's with later levels: Sandstorm, Screech, Rock Slide, Scary Face, Thrash (Lv 23, the 'thrashing' that topples a mountain), Dark Pulse, Payback, Crunch, Earthquake (Lv 47), Stone Edge (Lv 54).", "class": "mechanic", "confidence": "medium", "evidence": ["move:Thrash", "move:Rock Slide", "move:Earthquake", "move:Stone Edge", "C247.2"]},
+      {"text": "No move is a jet or a launch; the gas-propelled travel is described only by the entries.", "class": "mechanic", "confidence": "medium", "evidence": ["game:learnset", "C247.7"]}
+    ],
+    "ecology": [
+      {"text": "A non-feeding stage, if it truly doesn't eat: it takes nothing from the food web, but its thrashing and launches break rock and soil, so it reshapes the ground it rests in.", "class": "hypothesis", "confidence": "low", "evidence": ["247.1", "247.4"], "note": "The diet is unstated, not stated to be nothing."},
+      {"text": "On Mt. Silver's 3F it shares the cave with Golbat, Graveler, Onix, Steelix and Sneasel; nothing is said to prey on it, and a bedrock shell leaves little to try.", "class": "inferred", "confidence": "low", "evidence": ["game:encounters", "247.7", "species:Golbat"]}
+    ],
+    "humans": [
+      {"text": "Nothing is said about Pupitar and people. A rock pupa that launches itself like a rocket is a hazard to anyone climbing Mt. Silver.", "class": "inferred", "confidence": "low", "evidence": ["247.4", "game:encounters"]}
+    ],
+    "homestead": [
+      {"text": "It may need nothing for a long stretch: if it doesn't eat, a sheltered, quiet cave and time are what it wants.", "class": "hypothesis", "confidence": "low", "evidence": ["246.1", "247.3"], "note": "Depends on whether a pupa feeds."},
+      {"text": "Keep it away from anything breakable: it doesn't stay still, its thrashing breaks rock, and it can launch itself without warning.", "class": "canon", "confidence": "high", "evidence": ["247.1", "247.3", "247.4"]},
+      {"text": "Its strength could break rock for building stone if it can be set to thrash where it is wanted.", "class": "hypothesis", "confidence": "low", "evidence": ["247.1", "C247.4"], "capability": "construction", "note": "Untested: whether a Pupitar's thrashing can be directed."},
+      {"text": "The Ice Path's echo, some winters, of a Pupitar going off like a cork.", "class": "creative", "evidence": ["247.7"]}
+    ]
+  },
+  "niche": {"guild": "lithovore", "trophic_level": null, "microhabitat": ["Mt. Silver's inner caves (3F)"], "activity": "cathemeral",
+            "foraging": "none recorded; the line's eating is the larva's", "evidence": ["246.1", "247.3", "game:encounters"], "class": "hypothesis", "confidence": "low",
+            "note": "Filed with the line as a lithovore so the line reads as one guild; a pupa may not feed at all. Trophic level left null."},
+  "relationships": [
+    {"with": "Tyranitar", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]},
+    {"with": "rock and soil", "kind": "engineers", "class": "canon", "confidence": "medium", "evidence": ["247.1"], "note": "Its thrashing can topple a mountain."},
+    {"with": "Larvitar", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Larvitar"]},
+    {"with": "Steelix", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Steelix"]}
+  ],
+  "ecotypes": [
+    {"name": "Ridge rampager", "moves": ["Dragon Dance", "Outrage", "Stomp"], "class": "hypothesis", "confidence": "low",
+     "reading": "Tyranitar's rampaging lineage, seen in the pupa: a display, a frenzy and a heavy stamp. A Pupitar of this lineage thrashes more and rests less, the one whose thrashing topples mountains. Fits high, broken ridges.",
+     "behavior": "Restless even for a Pupitar; leaves rockfalls behind it.", "evidence": ["247.1", "move:Dragon Dance", "move:Outrage", "move:Stomp"]},
+    {"name": "Iron-head jet", "moves": ["Iron Head", "Iron Defense"], "class": "hypothesis", "confidence": "low",
+     "reading": "A lineage whose shell is the weapon: launched by its gas jet, head first, into whatever is in the way, and braced for the impact. The entries already say its body survives hitting steel. Fits narrow caves where the only way out is through.",
+     "behavior": "Rockets into walls and rivals and comes out unhurt.", "evidence": ["247.4", "247.5", "move:Iron Head", "move:Iron Defense"]}
+  ],
+  "open_questions": [
+    "Does a Pupitar eat anything?",
+    "What gas does it make, and from what?",
+    "Where does a Larvitar go to pupate, and does it move about the mountain as a pupa?",
+    "How long is the pupal stage? Larvitar 'falls asleep so it can grow' (246.7): is Pupitar asleep inside the shell while it thrashes?"
+  ],
+  "contradictions": [],
+  "folklore": []
+}

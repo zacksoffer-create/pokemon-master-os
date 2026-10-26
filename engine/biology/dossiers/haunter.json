@@ -1,0 +1,98 @@
+{
+  "species": "Haunter",
+  "id": 93,
+  "status": "draft",
+  "written_by": "Claude (draft for Zack's review)",
+  "date": "2026-10-26",
+  "summary": "The middle stage of the Gengar line, and the most plainly predatory: Haunter lurks in total darkness, silently stalking its next victim, and steals life force by licking with a tongue made of gas. A victim it licks or touches starts shaking and can't stop, until death in the older entries. It slips through walls and lurks inside them to watch, and if one beckons you while floating in the dark, the entries say never to go. It still weighs only 0.1 kg. In HeartGold and SoulSilver it lives on Route 8, at night, one encounter in three.",
+  "sections": {
+    "anatomy": [
+      {"text": "A gas body with arms (Gen 4 shape arms), 1.6 m and 0.1 kg, typed Ghost and Poison: the Gas Pokémon.", "class": "mechanic", "confidence": "high", "evidence": ["game:size", "game:shape", "game:types", "game:genus"]},
+      {"text": "Its tongue is made of gas, and it has gaseous hands.", "class": "canon", "confidence": "high", "evidence": ["93.4", "93.11", "93.12", "C93.5", "C93.18"]},
+      {"text": "It can slip through any obstacle, block walls included.", "class": "canon", "confidence": "high", "evidence": ["93.10", "C93.14"]}
+    ],
+    "diet": [
+      {"text": "It licks with its gaseous tongue to steal the victim's life force; it will try to lick a person and steal their life away.", "class": "canon", "confidence": "high", "evidence": ["93.2", "93.6", "93.7", "93.11", "C93.2", "C93.10", "C93.16"]},
+      {"text": "It lurks in darkness for prey.", "class": "canon", "confidence": "high", "evidence": ["93.11", "C93.17"]},
+      {"text": "It hides in the dark, planning to take the life of the next living thing that wanders close by.", "class": "canon", "confidence": "high", "evidence": ["93.5", "C93.7"]},
+      {"text": "Life force taken by licking makes it an energy-feeder rather than a flesh-eater: nothing is said to be consumed.", "class": "inferred", "confidence": "medium", "evidence": ["C93.16"]}
+    ],
+    "habitat": [
+      {"text": "Darkness: total darkness where nothing is visible, and the inside of walls. The Gen 3 Pokédex habitat is cave.", "class": "canon", "confidence": "high", "evidence": ["93.3", "93.10", "C93.4", "C93.15", "game:habitat"]},
+      {"text": "In HeartGold and SoulSilver it is wild only on Route 8, between Saffron and Lavender, at night (30%, Lv 19), in both versions; the Johto Safari Zone has it only when its blocks call for it.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]},
+      {"text": "Gold and Silver had it on Route 8 too; Crystal also put it in Rock Tunnel at night.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "behavior": [
+      {"text": "In total darkness Haunter lurks, silently stalking its next victim.", "class": "canon", "confidence": "high", "evidence": ["93.3", "C93.4"]},
+      {"text": "It beckons while floating in darkness; anyone who approaches will be licked.", "class": "canon", "confidence": "high", "evidence": ["93.6", "93.7", "C93.9", "C93.11"]},
+      {"text": "It lurks inside walls to keep an eye on its foes, and likes to tap shoulders in the dark with a gaseous hand.", "class": "canon", "confidence": "high", "evidence": ["93.10", "93.12", "C93.15", "C93.18"]},
+      {"text": "If you feel watched in darkness when nobody is around, Haunter is there.", "class": "canon", "confidence": "medium", "evidence": ["93.8", "C93.12"]},
+      {"text": "Nocturnal: every HeartGold and SoulSilver table has it at night only.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters"]}
+    ],
+    "social": [
+      {"text": "Nothing is said about groups; every entry describes a lone stalker.", "class": "inferred", "confidence": "low", "evidence": ["93.3", "93.5"]}
+    ],
+    "reproduction": [
+      {"text": "Amorphous egg group, 20 egg cycles, an even sex ratio, medium-slow growth; nothing describes breeding.", "class": "mechanic", "confidence": "high", "evidence": ["game:egg_groups", "game:egg_cycles", "game:gender", "game:growth"]}
+    ],
+    "defense": [
+      {"text": "Haunter is a dangerous Pokémon.", "class": "canon", "confidence": "high", "evidence": ["93.6", "C93.8"]},
+      {"text": "It passes through walls and hides inside them, and Levitate and its Ghost type leave little that can hit it.", "class": "canon", "confidence": "high", "evidence": ["93.10", "game:abilities"]},
+      {"text": "Destiny Bond (Lv 50) takes its attacker down with it, and Spite and Curse punish what fights it.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Destiny Bond", "move:Spite", "move:Curse"]}
+    ],
+    "senses": [
+      {"text": "It stalks in total darkness, where nothing is visible, so it finds its victims by something other than sight; what is not said.", "class": "inferred", "confidence": "medium", "evidence": ["93.3"]}
+    ],
+    "life_cycle": [
+      {"text": "It evolves from Gastly at level 25 and becomes Gengar only by trade, going from 0.1 kg to 40.5 kg.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution", "species:Gastly", "species:Gengar"]},
+      {"text": "It is where the line's gas grows limbs and a tongue: a feeding apparatus, where Gastly could only envelop.", "class": "inferred", "confidence": "medium", "evidence": ["92.4", "93.4", "93.12"]},
+      {"text": "In the games no wild Haunter becomes a Gengar: that needs a trade, so every Gengar comes through people.", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+    ],
+    "moves_in_the_wild": [
+      {"text": "Lick at level 1, the feeding act; Mean Look to keep the victim from leaving; Hypnosis, Dream Eater and Nightmare to feed on the sleeping; Shadow Punch (Lv 25, learned on evolving), the gaseous hand.", "class": "mechanic", "confidence": "medium", "evidence": ["move:Lick", "move:Mean Look", "move:Hypnosis", "move:Dream Eater", "move:Nightmare", "move:Shadow Punch", "C93.18"]}
+    ],
+    "ecology": [
+      {"text": "A night predator of life force on Route 8; whatever it licks is drained but, by the entries, not eaten.", "class": "inferred", "confidence": "medium", "evidence": ["93.11", "game:encounters"]},
+      {"text": "On Route 8 at night it shares the grass with Meowth, Noctowl, Vulpix, Growlithe and Abra. No entry names a predator of Haunter.", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Noctowl", "species:Meowth"]}
+    ],
+    "humans": [
+      {"text": "The entries warn people directly: if one beckons you in the dark, never approach; it will try to lick you and steal your life away.", "class": "canon", "confidence": "high", "evidence": ["93.6", "93.7"]},
+      {"text": "Its touch causes endless shuddering, and the older entries say the shaking lasts until death.", "class": "canon", "confidence": "high", "evidence": ["93.2", "93.4", "93.12", "C93.3", "C93.6", "C93.19"]}
+    ],
+    "homestead": [
+      {"text": "Not a Pokémon to leave near people at night. Its lick drains life.", "class": "canon", "confidence": "high", "evidence": ["93.6", "93.11"]},
+      {"text": "It can pass through any obstacle and watch from inside walls: a scout that no door keeps out.", "class": "canon", "confidence": "high", "evidence": ["93.10"], "capability": "scouting"},
+      {"text": "A night guard, if its stalking can be turned on intruders, and only if it can be trusted with the household.", "class": "hypothesis", "confidence": "low", "evidence": ["93.3", "93.8"], "capability": "night_travel", "note": "Untested, and the entries give every reason for caution."},
+      {"text": "The feeling of being watched in the homestead's cellar, explained.", "class": "creative", "evidence": ["93.8"]}
+    ]
+  },
+  "niche": {"guild": "psychotroph", "trophic_level": null, "microhabitat": ["total darkness", "inside walls", "Route 8's grass at night"], "activity": "nocturnal",
+            "foraging": "stalks in darkness and licks to steal life force", "evidence": ["93.3", "93.11", "game:encounters"], "class": "inferred", "confidence": "medium",
+            "note": "Psychotroph, as for Gengar: it takes life force, not flesh. Trophic level left null."},
+  "relationships": [
+    {"with": "the life force of its victims", "kind": "feeds_on", "class": "canon", "confidence": "high", "evidence": ["93.11"]},
+    {"with": "darkness and the inside of walls", "kind": "uses_resource", "class": "canon", "confidence": "high", "evidence": ["93.3", "93.10"]},
+    {"with": "Noctowl", "kind": "shares_habitat", "class": "mechanic", "confidence": "high", "evidence": ["game:encounters", "species:Noctowl"]},
+    {"with": "Gengar", "kind": "evolves_into", "class": "mechanic", "confidence": "high", "evidence": ["game:evolution"]}
+  ],
+  "ecotypes": [
+    {"name": "Death-song haunt", "moves": ["Perish Song", "Grudge"], "class": "hypothesis", "confidence": "low",
+     "reading": "Gengar's most sinister lineage, in its stalking stage: a song that dooms everyone who hears it and a grudge that drains whatever kills it. A Haunter that makes a place deadly to stay in. Fits old towers and ruins.",
+     "behavior": "Its haunt empties of other life over time.", "evidence": ["93.5", "move:Perish Song", "move:Grudge"]},
+    {"name": "Fist of shadow", "moves": ["Fire Punch", "Ice Punch", "Thunder Punch"], "class": "hypothesis", "confidence": "low",
+     "reading": "Three elemental punches carried by the line: a Haunter whose gaseous hands strike rather than tap. Fits places with trainers and rivals to fight, where a stalker has to defend its dark corner.",
+     "behavior": "Taps shoulders, then hits.", "evidence": ["93.12", "move:Fire Punch", "move:Ice Punch", "move:Thunder Punch"]}
+  ],
+  "open_questions": [
+    "What is the life force it takes, and does taking it kill (the older entries) or only exhaust?",
+    "Why Route 8, in grass by a road, when every entry puts it in total darkness?",
+    "Does it live alone?",
+    "How does it find victims in total darkness?"
+  ],
+  "contradictions": [
+    {"entries": ["93.2", "93.4", "93.12"], "note": "Yellow and SoulSilver say the shaking lasts until death; Platinum says only that its touch causes endless shuddering."}
+  ],
+  "folklore": [
+    {"text": "Because it can slip through block walls, it is said to be from another dimension.", "kind": "said", "evidence": ["93.1", "93.9", "C93.1", "C93.13"]}
+  ]
+}
