@@ -1691,7 +1691,7 @@
   },
   {
    "id": "A-109",
-   "decision": "D-037",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "Who lives on the estate",
    "what": "The residents are the Pokémon on your six teams. Any of them could retire to the ranch, and nobody is assigned (D-037 stays open). A toggle on the estate page adds your other Pokémon too. The census, the land counts and the nursery pens all come from them, recomputed every visit.",
@@ -1707,7 +1707,7 @@
   },
   {
    "id": "A-110",
-   "decision": "D-079",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "Geothermal ground at Blackthorn",
    "what": "Your A-64 answer (geothermal ground in the highlands) is read two ways. It counts as volcanic land at the headquarters, so fire Pokémon like Magcargo and Typhlosion live at Blackthorn. It's also the heat for the Glasshouse and the Climate facility, as geothermal pipes. The Sevii Islands are then mostly for the sea Pokémon.",
@@ -1723,7 +1723,7 @@
   },
   {
    "id": "A-111",
-   "decision": "D-039",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "World records on your v2 Pokémon",
    "what": "The world records approved for the companions (W-001 to W-015, D-033) now follow your Pokémon of that species in that game. W-001 (heat) goes to your HeartGold Typhlosion, for example, whichever one is on the team. W-016 and W-017 wait on your Emerald Meganium and your Crystal Miltank. You can also approve new records in the app, from a facility's job: each one is a Journal row, the newest row per record wins, and you can withdraw one the same way.",
@@ -1739,7 +1739,7 @@
   },
   {
    "id": "A-112",
-   "decision": "D-039",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "The land meets some jobs",
    "what": "Some jobs are met by the land itself, and that counts the same as a Pokémon covering it with kit: the Glasshouse's heat (geothermal pipes), its water (the Route 45 river and rain cisterns), the cold vault's cold (the Ice Path's own ice), and the Climate facility's heat and cold. Built things, like a boiler or electric lamps, don't count until they're built.",
@@ -1755,7 +1755,7 @@
   },
   {
    "id": "A-113",
-   "decision": "D-039",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "Staffing stays a plan",
    "what": "Each facility page has Suggest a staff plan. It gives each job to a resident who holds it on a game mechanic or your record, spreading the work so one Pokémon doesn't do everything. Nothing is saved until you save the plan, and a plan never takes anyone off a team.",
@@ -1771,7 +1771,7 @@
   },
   {
    "id": "A-114",
-   "decision": "D-079",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "The preserve's clients",
    "what": "The Day-Care preserve page lists who could be a client: the Champions and the Elite Four from the Trainer Library, for \"other amazing trainers\". It's a proposal. Nobody has booked, and nothing about stays, prices or the preserve's land is made up: those stay open on the page.",
@@ -1787,7 +1787,7 @@
   },
   {
    "id": "A-115",
-   "decision": "D-079",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "The Sevii Islands page",
    "what": "The satellite's page shows its game facts, the residents whose land is only there (the sea, mostly), and every Sevii place with the wild Pokémon FireRed's encounter tables put there. HeartGold and SoulSilver have no Sevii Islands, so FireRed is the source.",
@@ -1803,7 +1803,7 @@
   },
   {
    "id": "A-116",
-   "decision": "D-045",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "The Glasshouse on your records",
    "what": "The Glasshouse reads your records now. The egg schedule comes from your blueprints' lines, then your teams' lines, slowest first (species that can't breed are left out). The crop plan is the medicine crop plus every berry one of your builds holds. Each room's jobs come from the facility list, with who of yours could hold them. The studbook tab lists your Pokémon with a sire, a dam, a blueprint or hatch moves. Nutrition reads the residents' body sizes. The plan's drawing no longer names Magcargo, Ampharos or Mamoswine as staff; the design text (D-045) still describes the Magcargo hearth.",
@@ -1819,7 +1819,7 @@
   },
   {
    "id": "A-117",
-   "decision": "D-078",
+   "decision": "D-080",
    "phase": "v2.5 · The Estate",
    "area": "One compound",
    "what": "The Estate, the Homestead and the facilities are one drill-down: the estate page, then a facility, then its jobs. The old Homestead link opens the estate. The map has a pin for every facility, coloured by how well your residents cover it. The menu's World section lists the Estate, the Glasshouse, the Day-Care preserve and the Sevii Islands.",
