@@ -58,45 +58,115 @@ function chainSteps(plan, res) {   // a lineage, oldest father first, as steps y
   return '<ol class="small" style="margin:6px 0 0 18px;padding:0">' + steps.join('') + '</ol>';
 }
 
-/* ---- #/stock: your blueprints and where to start ---- */
+/* ---- the parts every stock page shares: the tabs, a showcase card (v2.5) ---- */
+function stockNav(on) {
+  return '<div class="tabs">' + [['show', '#/stock', 'Showcase'], ['new', '#/stock/new', 'New stock'], ['compare', '#/stock/compare', 'Compare']].map(function (t) {
+    return '<a href="' + t[1] + '" class="' + (t[0] === on ? 'on' : '') + '">' + t[2] + '</a>'; }).join('') + '<a href="#/breeding" style="margin-left:auto" class="tiny">Lineage &amp; studbook →</a></div>';
+}
+function labelsOf(b) { return String(b.labels || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean); }
+function isFeatured(b) { return labelsOf(b).some(function (x) { return x.toLowerCase() === 'featured'; }); }
+function hatchedFrom(id) { return mineList().filter(function (i) { return i.blueprint === id && i.status !== 'retired'; }); }
+function stockTitle(b) { return b.name ? esc(b.name) : '<span class="ph" title="Not named yet: name it on its page">' + esc(b.species) + ', unnamed</span>'; }
+function stockMoveChips(b, r) {   // the four moves, coloured by how each gets into the egg
+  var how = {}; ((r && r.recipe) ? r.recipe.slots : []).forEach(function (s) { how[s.move] = s.how; });
+  return (b.moves || []).map(function (m) { var c = HOW_CHIP[how[m]] || ['not in the set', 'ember']; return '<span class="chip ' + c[1] + '" title="' + esc(c[0]) + '">' + esc(m) + '</span>'; }).join('');
+}
+function stockCard(b, big) {
+  var r = bpRead(b), v = r.verdict, n = hatchedFrom(b.id).length, t = (dexOf(b.species) || {t: ['Normal']}).t;
+  var hay = [b.name, b.species, Battle.GAME_TITLE[b.game] || b.game, b.purpose, b.labels].concat(b.moves || []).join(' ').toLowerCase();
+  return '<a class="stkcard' + (big ? ' big' : '') + '" href="#/stock/bp/' + encodeURIComponent(b.id) + '" data-hay="' + esc(hay) + '" data-game="' + esc(b.game) + '" data-purpose="' + esc(b.purpose || '') + '" data-at="' + esc(b.at || '') +
+      '" data-name="' + esc((b.name || '~' + b.species).toLowerCase()) + '" data-sp="' + esc(b.species) + '" data-n="' + n + '" style="--tc:' + (TYPE[t[0]] || '#888') + '">' +
+    '<div class="stkart"><img src="' + art(numOf(b.species)) + '" alt="" loading="lazy">' + (isFeatured(b) ? '<span class="stkstar" title="Signature stock">★</span>' : '') + '</div>' +
+    '<div class="stkbody"><div class="stkname">' + stockTitle(b) + '</div><div class="tiny muted">' + esc(b.species) + ' · ' + esc(Battle.GAME_TITLE[b.game] || b.game) + ' · v' + (b.v || 1) + (n ? ' · ' + n + ' hatched' : '') + '</div>' +
+    '<div class="stkmoves">' + stockMoveChips(b, r) + '</div><div style="margin-top:8px">' + (v ? verdictChips(v) : chip('can\'t read: ' + (r.error || '?'), 'ember')) + (b.purpose ? ' ' + chip(b.purpose, '') : '') +
+    labelsOf(b).filter(function (x) { return x.toLowerCase() !== 'featured'; }).map(function (x) { return ' ' + chip(x, 'violet'); }).join('') + '</div></div></a>';
+}
+
+/* ---- #/stock: the showcase of your designer stock ---- */
 function stockHome() {
   return stockReady().then(function () {
-    var game = stockGame(), bps = blueprints(), by = {};
-    bps.forEach(function (b) { (by[b.species] = by[b.species] || []).push(b); });
-    after(function (p) { stockPickBind(p); });
+    var game = stockGame(), bps = blueprints(), feat = bps.filter(isFeatured), sps = {}, hatched = 0;
+    bps.forEach(function (b) { sps[b.species] = 1; hatched += hatchedFrom(b.id).length; });
+    var games = Object.keys(Stock.GAMES).filter(function (g) { return bps.some(function (b) { return b.game === g; }); });
+    var f = store('stock-filter') || {};
+    after(function (p) { stockPickBind(p); stockFilterBind(p); });
     var lines = (typeof linesAll === 'function' ? linesAll() : []);
-    return '<div class="eyebrow">Builder &amp; Studio · breeding stock</div><h1 style="margin:6px 0">Breeding stock</h1>' +
-      '<p class="lede">Whole starting sets: the four moves an egg hatches with, checked against each game\'s own hatch code, with the parents and the crosses that make them. Keep as many as you like; which animals actually live at the ranch is still D-038\'s call.</p>' +
-      '<div class="grid" style="margin-top:12px"><div class="c5">' + card('Explore a line', stockPicker(game, 'explore'), {eyebrow: 'What could its eggs start with?', tools: false}) +
-      card('The four answers', '<div class="small"><b>1 · Possible.</b> The hatch rules can make this exact set from parents who know the right moves.</div><div class="small" style="margin-top:6px"><b>2 · Obtainable.</b> Those parents can actually be had in the generation: a father who can know the moves together (bred into him if needed, up to three generations back) and a mother for any move both must know. It says whether that takes trades or a transfer.</div>' +
-        '<div class="small" style="margin-top:6px"><b>3 · PKHeX.</b> PKHeX checks each move\'s source and the hatch order, not whether a father could carry the set: a set can pass PKHeX and still be impossible in the game. Not run here.</div><div class="small" style="margin-top:6px"><b>4 · Documented.</b> One of your Pokémon is recorded as hatching with it.</div>' +
-        '<div class="tiny muted" style="margin-top:8px">The verdict informs; learnability stays the gate (D-024, D-048).</div>', {eyebrow: 'How a blueprint is read', tools: false, style: 'margin-top:16px'}) + '</div>' +
-      '<div class="c7">' + card('Your blueprints', bps.length ? Object.keys(by).sort().map(function (sp) {
-          return '<div style="margin-bottom:12px"><div class="eyebrow">' + esc(sp) + ' · ' + plural(by[sp].length, 'blueprint') + '</div>' + by[sp].map(bpRow).join('') + '</div>'; }).join('') :
-        '<div class="empty">No blueprints yet. Explore a line, design a starting set, and save it: it goes to your My Builds tab as breeding stock.</div>', {eyebrow: 'Saved in My Builds', tools: false}) +
+    return stockNav('show') + '<div class="eyebrow">Builder &amp; Studio · breeding stock</div><h1 style="margin:6px 0">Designer breeding stock</h1>' +
+      '<p class="lede">Your designer stock: the exact starting sets your eggs hatch with, each one named by you, kept in versions, and checked against the game\'s own hatch rules. Design one in the lab, then show it off here.</p>' +
+      '<div class="stkstats"><div><b>' + bps.length + '</b>' + (bps.length === 1 ? 'design' : 'designs') + '</div><div><b>' + Object.keys(sps).length + '</b>species</div><div><b>' + feat.length + '</b>signature</div><div><b>' + hatched + '</b>hatched from them</div></div>' +
+      '<div class="grid" style="margin-top:12px"><div class="c8">' +
+      (feat.length ? card('Signature stock', '<div class="stkgrid big">' + feat.map(function (b) { return stockCard(b, true); }).join('') + '</div>', {eyebrow: 'Starred on its own page', tools: false, style: 'margin-bottom:16px'}) : '') +
+      card('All your stock', bps.length ? '<div class="stkfilter"><input class="f" id="stkq" placeholder="Search a name, species, move or label" value="' + esc(f.q || '') + '">' +
+          '<select class="f" id="stkg"><option value="">Every game</option>' + games.map(function (g) { return '<option value="' + g + '"' + (f.g === g ? ' selected' : '') + '>' + esc(Battle.GAME_TITLE[g] || g) + '</option>'; }).join('') + '</select>' +
+          '<select class="f" id="stkp"><option value="">Any purpose</option>' + PURPOSES.map(function (x) { return '<option' + (f.p === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select>' +
+          '<select class="f" id="stks">' + [['new', 'Newest first'], ['name', 'By name'], ['sp', 'By species'], ['n', 'Most hatched']].map(function (x) { return '<option value="' + x[0] + '"' + (f.s === x[0] ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select></div>' +
+          '<div class="stkgrid" id="stkall">' + bps.map(function (b) { return stockCard(b); }).join('') + '</div><div class="tiny muted" id="stknone" style="display:none;margin-top:8px">Nothing matches.</div>'
+        : '<div class="stkempty"><b style="color:var(--ivory)">Your showcase is empty.</b><div class="small" style="margin-top:6px">Design a starting set in the lab: pick a species, choose the moves its egg hatches with, name it and save it. Every save is a version, and each one is checked against the game\'s hatch rules.</div>' +
+          '<div style="margin-top:12px"><a class="btn gold" href="#/stock/new">New breeding stock</a></div></div>', {eyebrow: plural(bps.length, 'design') + ' · saved in My Builds', tools: false}) + '</div>' +
+      '<div class="c4">' + card('Start new stock', stockPicker(game, 'new'), {eyebrow: 'Pick a species: the lab opens', tools: false}) +
+      card('How each one is read', '<div class="small"><b>1 · Possible.</b> The hatch rules can make this exact set from parents who know the right moves.</div><div class="small" style="margin-top:6px"><b>2 · Obtainable.</b> Those parents can actually be had in the generation, fathers bred up to three generations back.</div>' +
+        '<div class="small" style="margin-top:6px"><b>3 · PKHeX.</b> PKHeX checks each move\'s source and the hatch order, not whether a father could carry the set. Not run here.</div><div class="small" style="margin-top:6px"><b>4 · Documented.</b> One of your Pokémon is recorded as hatching with it.</div>' +
+        '<div class="tiny muted" style="margin-top:8px">The move chips are coloured by how each gets into the egg: gold an egg move, blue the father\'s TM, green both parents, plain at hatch.</div>', {eyebrow: 'The four answers', tools: false, style: 'margin-top:16px'}) +
       (lines.length ? card('Lines to start from', lines.map(function (l) {
           return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)">' + portrait(l.offspring, 28) + ' <b>' + esc(l.offspring) + '</b> <span class="tiny muted">' + esc(Battle.GAME_TITLE[l.game] || l.game) + ' · ' + esc(l.moves.join(', ')) + '</span> ' +
-            '<a class="link" href="' + designHref(l.game, l.offspring, l.moves, null) + '">Open as a blueprint →</a> <a class="link tiny" href="#/lines/' + encodeURIComponent(l.id) + '">the line</a></div>'; }).join(''), {eyebrow: 'The breeding lab\'s lines', tools: false, style: 'margin-top:16px'}) : '') + '</div></div>';
+            '<a class="link" href="' + designHref(l.game, l.offspring, l.moves, null) + '">Open in the lab →</a></div>'; }).join(''), {eyebrow: 'The breeding lab\'s lines', tools: false, style: 'margin-top:16px'}) : '') + '</div></div>';
   });
+}
+function stockFilterBind(p) {
+  var box = p.querySelector('#stkall'); if (!box) return;
+  var cards = Array.prototype.slice.call(box.children), q = p.querySelector('#stkq'), g = p.querySelector('#stkg'), pu = p.querySelector('#stkp'), so = p.querySelector('#stks');
+  var run = function () {
+    var f = {q: q.value.trim().toLowerCase(), g: g.value, p: pu.value, s: so.value}, shown = 0; store('stock-filter', f);
+    var key = {new: function (c) { return c.getAttribute('data-at'); }, name: function (c) { return c.getAttribute('data-name'); }, sp: function (c) { return c.getAttribute('data-sp'); }, n: function (c) { return ('000' + c.getAttribute('data-n')).slice(-4); }}[f.s] || null;
+    var desc = f.s === 'new' || f.s === 'n';
+    cards.slice().sort(function (a, b) { if (!key) return 0; var x = key(a), y = key(b); return (x < y ? -1 : x > y ? 1 : 0) * (desc ? -1 : 1); }).forEach(function (c) { box.appendChild(c); });
+    cards.forEach(function (c) { var ok = (!f.q || c.getAttribute('data-hay').indexOf(f.q) >= 0) && (!f.g || c.getAttribute('data-game') === f.g) && (!f.p || c.getAttribute('data-purpose') === f.p);
+      c.style.display = ok ? '' : 'none'; if (ok) shown++; });
+    p.querySelector('#stknone').style.display = shown ? 'none' : '';
+  };
+  [q, g, pu, so].forEach(function (el) { el.addEventListener(el === q ? 'input' : 'change', run); });
+  run();
+}
+
+/* ---- #/stock/new: pick a species, and the lab opens ---- */
+function stockNew() {
+  return stockReady().then(function () {
+    var game = stockGame(), ok = function (sp) { try { Stock.hatchSpecies(sp, game); return true; } catch (e) { return false; } };
+    var uniq = function (xs) { return xs.filter(function (x, i) { return xs.indexOf(x) === i && ok(x); }); };
+    var team = uniq(Teams.members(Teams.get(game)).filter(Boolean).map(function (m) { return m.ind.species; }));
+    var recent = uniq(blueprints(function (b) { return b.game === game; }).map(function (b) { return b.species; })).slice(0, 8);
+    var quick = function (list, title) { return list.length ? '<div class="eyebrow" style="margin:14px 0 6px">' + esc(title) + '</div><div class="pickgrid">' + list.map(function (sp) {
+      return '<a class="pick" href="' + designHref(game, sp, [], null) + '"><img src="' + sprite(numOf(sp), game) + '" alt=""><div><b>' + esc(sp) + '</b><div class="tiny muted">design its stock →</div></div></a>'; }).join('') + '</div>' : ''; };
+    after(function (p) { stockPickBind(p); });
+    return stockNav('new') + '<div class="eyebrow">Breeding stock · the lab</div><h1 style="margin:6px 0">New breeding stock</h1>' +
+      '<p class="lede">Pick a species and a game. The lab opens with every move its egg can start with, ideas from the line, and how to make each set, live as you choose.</p>' +
+      '<div class="grid" style="margin-top:12px"><div class="c6">' + card('Pick a species', stockPicker(game, 'new'), {eyebrow: 'The adult or the egg: it reads what hatches', tools: false}) + '</div>' +
+      '<div class="c6">' + card('Quick picks', (quick(team, 'On your ' + (GAME_NAME[game] || game) + ' team') + quick(recent, 'Designed before in ' + (GAME_NAME[game] || game))) ||
+        '<div class="tiny muted">Your ' + esc(GAME_NAME[game] || game) + ' team and earlier designs show here. Change the game on the left to see another\'s.</div>', {eyebrow: GAME_NAME[game] || game, tools: false}) + '</div></div>';
+  });
+}
+function stockPicker(game, mode, species) {
+  return '<form id="stpick"><div class="row"><div><label class="l">Game</label><select class="f" name="game">' + Object.keys(Stock.GAMES).map(function (g) { return '<option value="' + g + '"' + (g === game ? ' selected' : '') + '>' + esc(Battle.GAME_TITLE[g] || g) + '</option>'; }).join('') + '</select></div>' +
+    '<div><label class="l">Species</label><input class="f" name="species" list="stsp" value="' + esc(species || '') + '" placeholder="Larvitar, Swinub…" autocomplete="off"></div></div>' +
+    '<datalist id="stsp">' + Stock.breedable(game).map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>' +
+    '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' + (mode === 'explore' ? '<button class="btn gold" data-go="explore">Explore the line</button>' :
+      '<button class="btn gold" data-go="design">Design it in the lab</button><button class="btn" data-go="explore">What can its eggs start with?</button>') + '</div></form>';
+}
+function stockPickBind(p) {
+  var f = p.querySelector('#stpick'); if (!f) return;
+  var mode = 'design';
+  f.querySelectorAll('[data-go]').forEach(function (b) { b.addEventListener('click', function () { mode = b.getAttribute('data-go'); }); });
+  f.game.onchange = function () { store('stock-game', f.game.value); var dl = p.querySelector('#stsp'); if (dl) dl.innerHTML = Stock.breedable(f.game.value).map(function (n) { return '<option value="' + esc(n) + '">'; }).join('');
+    if (/^#\/stock\/new/.test(NAVI.hash)) nav('#/stock/new', true); };   // the quick picks are the game's
+  f.onsubmit = function (e) { e.preventDefault(); var sp = f.species.value.trim(); if (!sp) { toast('Type a species first.'); return false; }
+    try { Stock.sid(sp); } catch (err) { toast('No species called ' + esc(sp) + '.'); return false; }
+    store('stock-game', f.game.value); nav(mode === 'explore' ? '#/stock/' + f.game.value + '/' + encodeURIComponent(sp) : designHref(f.game.value, sp, [], null)); return false; };
 }
 function bpRow(b) {
   var r = bpRead(b), v = r.verdict;
   return '<a class="pick" href="#/stock/bp/' + encodeURIComponent(b.id) + '" style="align-items:flex-start;margin-top:6px"><img src="' + sprite(numOf(b.species), b.game) + '" alt=""><div style="flex:1"><b>' + (b.name ? esc(b.name) : '<span class="ph">⟨unnamed⟩</span>') + '</b> <span class="tiny muted">' + esc(Battle.GAME_TITLE[b.game] || b.game) + ' · v' + (b.v || 1) + '</span>' +
     '<div class="tiny">' + esc((b.moves || []).join(' · ')) + '</div><div style="margin-top:4px">' + (v ? verdictChips(v) : chip('can\'t read: ' + (r.error || '?'), 'ember')) + (b.purpose ? ' ' + chip(b.purpose, '') : '') +
     (b.labels ? String(b.labels).split(',').map(function (x) { return x.trim() ? ' ' + chip(x.trim(), 'violet') : ''; }).join('') : '') + '</div></div></a>';
-}
-function stockPicker(game, mode, species) {
-  return '<form id="stpick"><div class="row"><div><label class="l">Game</label><select class="f" name="game">' + Object.keys(Stock.GAMES).map(function (g) { return '<option value="' + g + '"' + (g === game ? ' selected' : '') + '>' + esc(Battle.GAME_TITLE[g] || g) + '</option>'; }).join('') + '</select></div>' +
-    '<div><label class="l">Species</label><input class="f" name="species" list="stsp" value="' + esc(species || '') + '" placeholder="Larvitar, Swinub…" autocomplete="off"></div></div>' +
-    '<datalist id="stsp">' + Stock.breedable(game).map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>' +
-    '<div style="margin-top:10px"><button class="btn gold">' + (mode === 'explore' ? 'Explore the line' : 'Open') + '</button> <span class="tiny muted">Ask for the adult (Tyranitar) or the egg (Larvitar): it reads what hatches.</span></div></form>';
-}
-function stockPickBind(p) {
-  var f = p.querySelector('#stpick'); if (!f) return;
-  f.game.onchange = function () { store('stock-game', f.game.value); var dl = p.querySelector('#stsp'); if (dl) dl.innerHTML = Stock.breedable(f.game.value).map(function (n) { return '<option value="' + esc(n) + '">'; }).join(''); };
-  f.onsubmit = function (e) { e.preventDefault(); var sp = f.species.value.trim(); if (!sp) return false;
-    try { Stock.sid(sp); } catch (err) { toast('No species called ' + esc(sp) + '.'); return false; }
-    store('stock-game', f.game.value); nav('#/stock/' + f.game.value + '/' + encodeURIComponent(sp)); return false; };
 }
 function designHref(game, species, moves, bp) {
   return '#/stock/' + game + '/' + encodeURIComponent(species) + '/design' + (moves && moves.length ? '?m=' + moves.map(encodeURIComponent).join('|') : '') + (bp ? (moves && moves.length ? '&' : '?') + 'bp=' + encodeURIComponent(bp) : '');
@@ -121,11 +191,11 @@ function stockLine(game, species) {
     var bundles = e.bundles.map(function (b) {
       return '<div style="padding:8px 0;border-top:1px solid var(--line)"><div>' + b.moves.map(function (m) { return chip(m, 'gold'); }).join(' ') + '</div><div class="tiny muted" style="margin-top:4px">A ' + esc(b.fathers.join(', ')) + ' ♂ can learn ' + (b.moves.length > 4 ? 'any four of these' : 'these') + ' himself and pass them in one egg. ' +
         '<a class="link" href="' + designHref(game, e.species, b.moves.slice(0, 4), null) + '">Design with ' + (b.moves.length > 4 ? 'the first four' : 'them') + ' →</a></div></div>'; }).join('');
-    return '<a class="link" href="#/stock">← Breeding stock</a><div class="grid" style="margin-top:12px;align-items:center"><div class="c3"><img src="' + art(numOf(e.species)) + '" style="width:100%;max-width:200px" alt=""></div><div class="c9">' +
+    return stockNav('') + '<a class="link" href="#/stock">← The showcase</a><div class="grid" style="margin-top:12px;align-items:center"><div class="c3"><img src="' + art(numOf(e.species)) + '" style="width:100%;max-width:200px" alt=""></div><div class="c9">' +
       '<div class="eyebrow">' + esc(Battle.GAME_TITLE[game] || game) + ' · Gen ' + gen + ' · hatches at Lv ' + e.hatch_level + '</div><h1 style="margin:6px 0">What a ' + esc(e.species) + ' egg can start with</h1>' +
       '<div class="small">The ' + esc(e.family.join(' → ')) + ' line. It always knows ' + esc(e.defaults.join(', ') || 'nothing') + ' at hatch, until four inherited moves push them out.' + (e.incense ? ' It hatches only if a parent holds ' + esc(e.incense) + '.' : '') + '</div>' +
       e.feasibility.notes.map(function (n) { return '<div class="tiny muted">' + esc(n) + '</div>'; }).join('') +
-      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="' + designHref(game, e.species, [], null) + '">Design a starting set</a><a class="btn" href="#/atlas/' + numOf(e.species) + '">Its biology</a></div></div></div>' +
+      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="' + designHref(game, e.species, [], null) + '">Design stock in the lab</a><a class="btn" href="#/atlas/' + numOf(e.species) + '">Its biology</a></div></div></div>' +
       e.evolution.map(function (x) { return '<div class="callout" style="margin-top:12px"><b>' + esc(x.line) + '.</b> <span class="small">' + esc(x.ways.join('; ')) + '.</span></div>'; }).join('') +
       '<div class="grid" style="margin-top:16px"><div class="c7">' +
       card('Egg moves', eggRows || '<div class="empty">No egg moves for this line in ' + esc(Battle.GAME_TITLE[game] || game) + '.</div>', {eyebrow: plural(e.egg.length, 'egg move') + ' · each from the father', tools: false}) +
@@ -138,42 +208,44 @@ function stockLine(game, species) {
   });
 }
 
-/* ---- the designer: an exact starting set, how to make it, save it ---- */
+/* ---- the lab: an exact starting set, how to make it, name it, save it ---- */
 function stockDesign(game, species, query) {
   return stockReady().then(function () {
     if (!Stock.GAMES[game]) return '<div class="notice">No game called ' + esc(game) + '.</div>';
     var q = {}; String(query || '').replace(/^\?/, '').split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); });
     var hs; try { hs = Stock.hatchSpecies(species, game); } catch (e) { return '<div class="notice">No species called ' + esc(species) + '.</div>'; }
-    var hatch = Stock.name(hs[0]), gen = Stock.GAMES[game][0], bp = q.bp ? storeBuild(q.bp) : null;
-    var base = bp ? {moves: (bp.moves || []).slice(), name: bp.name || '', purpose: bp.purpose || '', labels: bp.labels || '', ability: bp.ability || '', nature: bp.nature || '', ivs: bp.ivs ? Records.encStats(bp.ivs) : ''} :
+    var hatch = Stock.name(hs[0]), gen = Stock.GAMES[game][0], bp = q.bp ? storeBuild(q.bp) : null, dup = q.dup ? storeBuild(q.dup) : null, from = bp || dup;
+    var base = from ? {moves: (from.moves || []).slice(), name: bp ? bp.name || '' : '', purpose: from.purpose || '', labels: from.labels || '', ability: from.ability || '', nature: from.nature || '', ivs: from.ivs ? Records.encStats(from.ivs) : ''} :
       {moves: q.m ? q.m.split('|').filter(Boolean) : [], name: '', purpose: '', labels: '', ability: '', nature: '', ivs: ''};
-    var key = 'stock:' + (bp ? bp.id : game + '/' + hatch), dr = !q.m ? Records.draft(key) : null;
+    var key = 'stock:' + (bp ? bp.id : game + '/' + hatch), dr = !q.m && !dup ? Records.draft(key) : null;
     if (dr && dr.build) base = Object.assign(base, dr.build);
     ST.d = {game: game, species: hatch, asked: species, gen: gen, bp: bp, key: key, cur: base, draft: !!(dr && dr.build)};
     after(function (p) { stockDesignBind(p); stockRender(); });
-    var pool = Stock.startMoves(hatch, game);
+    var pool = Stock.startMoves(hatch, game), ex = null; try { ex = Stock.explore(hatch, game); } catch (e) { ex = null; }
     var abil = gen >= 3 ? Battle.abilities(gen, hatch) : [], natures = gen >= 3 ? (S.builds.natures || []).map(function (x) { return x.name; }) : [];
     var sel = function (i) { var v = base.moves[i] || ''; return '<select class="f" data-mv="' + i + '"><option value="">(empty)</option>' + pool.map(function (m) { return '<option' + (m === v ? ' selected' : '') + '>' + esc(m) + '</option>'; }).join('') + '</select>'; };
-    var vs = bp ? Records.versions(bp.id) : [];
-    return '<a class="link" href="#/stock/' + game + '/' + encodeURIComponent(hatch) + '">← What a ' + esc(hatch) + ' egg can start with</a>' +
-      '<div class="eyebrow" style="margin-top:10px">' + esc(Battle.GAME_TITLE[game] || game) + ' · breeding stock · ' + (bp ? 'blueprint ' + esc(bp.id) + ' v' + (bp.v || 1) : 'a new blueprint') + '</div>' +
-      '<h1 style="margin:6px 0">' + (bp && bp.name ? esc(bp.name) : esc(hatch) + ' starting set') + '</h1>' + (ST.d.draft ? '<div class="draftline tiny">Unsaved changes from earlier, kept in this browser. <a class="link" href="javascript:void 0" id="stdiscard">Discard them</a></div>' : '') +
-      '<div class="grid" style="margin-top:12px"><div class="c4">' + card('The four moves', '<form id="stform">' + [0, 1, 2, 3].map(sel).join('<div style="height:6px"></div>') +
-        '<div class="tiny muted" style="margin-top:6px">Leave slots empty and the egg\'s own moves at hatch fill them. Every move here can be in a ' + esc(hatch) + ' egg\'s starting set in ' + esc(Battle.GAME_TITLE[game] || game) + '.</div>' +
+    var vs = bp ? Records.versions(bp.id) : [], next = (vs.length ? vs[vs.length - 1].v || 1 : 1) + 1;
+    var ideas = ex ? (ex.bundles.length ? '<div class="tiny muted">Sets one father passes in a single step:</div>' + ex.bundles.slice(0, 6).map(function (b) { return '<div style="margin:4px 0"><span class="chip stkidea" data-set="' + esc(b.moves.slice(0, 4).join('|')) + '" title="Put these in the slots">' + esc(b.moves.slice(0, 4).join(' · ')) + '</span> <span class="tiny muted">' + esc(b.fathers.slice(0, 3).join(', ')) + '</span></div>'; }).join('') : '') +
+      (ex.egg.length ? '<div class="tiny muted" style="margin-top:8px">Its egg moves (tap one to add it):</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">' + ex.egg.map(function (x) { return '<span class="chip gold stkidea" data-add="' + esc(x.move) + '" title="' + esc(x.one_step.length ? plural(x.one_step.length, 'father') + ' learn it themselves' : 'a father must be bred to it first') + '">' + esc(x.move) + '</span>'; }).join('') + '</div>' : '<div class="tiny muted">No egg moves for this line here.</div>') : '';
+    return stockNav(bp ? '' : 'new') + (bp ? '<a class="link" href="#/stock/bp/' + encodeURIComponent(bp.id) + '">← ' + stockTitle(bp) + '</a>' : '<a class="link" href="#/stock/' + game + '/' + encodeURIComponent(hatch) + '">← What a ' + esc(hatch) + ' egg can start with</a>') +
+      '<div class="eyebrow" style="margin-top:10px">' + esc(Battle.GAME_TITLE[game] || game) + ' · the lab · ' + (bp ? 'editing v' + (bp.v || 1) + ': saving makes v' + next : dup ? 'a copy of ' + esc(dup.name || dup.id) + ', as new stock' : 'new stock') + '</div>' +
+      '<h1 style="margin:6px 0">' + (bp && bp.name ? esc(bp.name) : esc(hatch) + ' breeding stock') + '</h1>' + (ST.d.draft ? '<div class="draftline tiny">Unsaved changes from earlier, kept in this browser. <a class="link" href="javascript:void 0" id="stdiscard">Discard them</a></div>' : '') +
+      '<div class="grid" style="margin-top:12px"><div class="c4">' + card('The design', '<form id="stform"><label class="l">Name</label><input class="f" name="name" value="' + esc(base.name || '') + '" placeholder="Your name for it (or leave it for later)" style="font-size:15px">' +
+        '<div class="eyebrow" style="margin-top:12px">The moves it hatches with</div>' + [0, 1, 2, 3].map(sel).join('<div style="height:6px"></div>') +
+        '<div class="tiny muted" style="margin-top:6px">Empty slots fill with the egg\'s own moves at hatch. Every move listed can be in a ' + esc(hatch) + ' egg\'s starting set in ' + esc(Battle.GAME_TITLE[game] || game) + '.</div>' +
         (gen >= 3 ? '<div class="row" style="margin-top:10px"><div><label class="l">Ability</label><select class="f" name="ability"><option value="">(either)</option>' + abil.map(function (a) { return '<option' + (a === base.ability ? ' selected' : '') + '>' + esc(a) + '</option>'; }).join('') + '</select></div>' +
           '<div><label class="l">Nature</label><select class="f" name="nature"><option value="">(any)</option>' + natures.map(function (n) { return '<option' + (n === base.nature ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</select></div></div>' : '<div class="tiny muted" style="margin-top:10px">Gen 2 has no natures or abilities.</div>') +
         '<label class="l" style="margin-top:6px">IVs ' + (gen === 2 ? '(DVs)' : '') + ' <span class="tiny muted">HP/Atk/Def/SpA/SpD/Spe, optional</span></label><input class="f" name="ivs" value="' + esc(base.ivs || '') + '" placeholder="31/31/31/31/31/31">' +
-        '<div class="eyebrow" style="margin-top:12px">Keep it</div><label class="l">Name</label><input class="f" name="name" value="' + esc(base.name || '') + '" placeholder="(your name for it, optional)">' +
         '<div class="row" style="margin-top:6px"><div><label class="l">Purpose</label><select class="f" name="purpose"><option value="">(none)</option>' + PURPOSES.map(function (x) { return '<option' + (x === base.purpose ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
         '<div><label class="l">Labels</label><input class="f" name="labels" value="' + esc(base.labels || '') + '" placeholder="comma, separated"></div></div>' +
         '<label class="l" style="margin-top:6px">Note on this save</label><input class="f" name="note" placeholder="what changed (optional)">' +
-        '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' + (bp ? '<button class="btn gold" data-save="next">Save as v' + ((vs.length ? vs[vs.length - 1].v || 1 : 1) + 1) + '</button><button class="btn" data-save="new">Save as a new blueprint</button>' : '<button class="btn gold" data-save="new">Save the blueprint</button>') + '</div></form>' +
-        '<div class="tiny muted" style="margin-top:8px">Saved to your My Builds tab as breeding stock; a save adds a version and the old one stays.</div>', {eyebrow: esc(hatch) + ' · hatches at Lv ' + Stock.HATCH_LEVEL[gen], tools: false}) +
-        (bp ? card('This blueprint', '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm gold" id="sthatch">Record one hatched</button><a class="btn sm" href="#/stock/' + game + '/' + encodeURIComponent(hatch) + '">Compare with another</a></div>' +
-          '<div class="tiny muted" style="margin-top:6px">Recording a hatch makes one of your Pokémon from it: its hatch moves are kept for good, and PKHeX export can make it.</div>' +
-          (vs.length > 1 ? '<div style="margin-top:10px">' + vs.slice().reverse().map(function (x) { return '<div class="small" style="padding:4px 0;border-top:1px solid var(--line)"><b>v' + (x.v || 1) + '</b> <span class="tiny muted">' + esc(x.at ? fmtDate(x.at) : '') + '</span> <span class="tiny">' + esc((x.moves || []).join(' · ')) + '</span>' + (x.note ? '<div class="tiny muted">“' + esc(x.note) + '”</div>' : '') + '</div>'; }).join('') + '</div>' : ''),
-          {eyebrow: plural(vs.length, 'version'), tools: false, style: 'margin-top:16px'}) : '') +
-      '</div><div class="c8" id="stres"><div class="empty">Reading…</div></div></div>';
+        '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">' + (bp ? '<button class="btn gold" data-save="next">Save as v' + next + '</button><button class="btn" data-save="new">Save as new stock</button>' : '<button class="btn gold" data-save="new">Save the stock</button>') + '</div></form>' +
+        '<div class="tiny muted" style="margin-top:8px">Saved to your My Builds tab as breeding stock. A save adds a version; the old one stays.</div>', {eyebrow: esc(hatch) + ' · hatches at Lv ' + Stock.HATCH_LEVEL[gen], tools: false}) +
+        (ideas ? card('Ideas from the line', ideas + '<div style="margin-top:8px"><a class="link tiny" href="#/stock/' + game + '/' + encodeURIComponent(hatch) + '">Everything its eggs can start with →</a></div>', {eyebrow: 'Tap to put them in the set', tools: false, style: 'margin-top:16px'}) : '') +
+        (bp ? card('This stock', '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm gold" id="sthatch">Record one hatched</button><a class="btn sm" href="#/stock/bp/' + encodeURIComponent(bp.id) + '">Its page</a></div>' +
+          '<div class="tiny muted" style="margin-top:6px">Recording a hatch makes one of your Pokémon from it: its hatch moves are kept for good, and PKHeX export can make it.</div>', {eyebrow: plural(vs.length, 'version'), tools: false, style: 'margin-top:16px'}) : '') +
+      '</div><div class="c8"><div class="stkjump" id="stjump"><span class="tiny muted" style="align-self:center">Jump to</span>' + [['st-verdict', 'Verdict'], ['st-egg', 'The egg'], ['st-parents', 'Parents'], ['st-lineage', 'Lineage'], ['st-odds', 'What else passes'], ['st-read', 'What it suggests']].map(function (j) { return '<a data-jump="' + j[0] + '">' + j[1] + '</a>'; }).join('') + '</div>' +
+      '<div id="stres"><div class="empty">Reading…</div></div></div></div>';
   });
 }
 function stockCur(form) {
@@ -189,6 +261,13 @@ function stockDesignBind(p) {
   form.querySelectorAll('[data-save]').forEach(function (b) { b.onclick = function (e) { e.preventDefault(); stockSave(b.getAttribute('data-save') === 'new'); }; });
   form.onsubmit = function (e) { e.preventDefault(); return false; };
   var h = p.querySelector('#sthatch'); if (h) h.onclick = stockHatch;
+  p.querySelectorAll('.stkidea').forEach(function (c) { c.onclick = function () {   // an idea from the line goes into the set
+    var sels = Array.prototype.slice.call(form.querySelectorAll('[data-mv]')), set = c.getAttribute('data-set'), add = c.getAttribute('data-add');
+    if (set) set.split('|').concat(['', '', '', '']).slice(0, 4).forEach(function (m, i) { sels[i].value = m; });
+    else if (add) { if (sels.some(function (s) { return s.value === add; })) { toast(esc(add) + ' is already in the set.'); return; }
+      var free = sels.filter(function (s) { return !s.value; })[0]; if (!free) { toast('The four slots are full: empty one first.'); return; } free.value = add; }
+    changed(); }; });
+  var jump = p.querySelector('#stjump'); if (jump) jump.addEventListener('click', function (e) { var a = e.target.closest('[data-jump]'); if (!a) return; var t = document.getElementById(a.getAttribute('data-jump')); if (t) t.scrollIntoView({behavior: 'smooth', block: 'start'}); });
 }
 function stockRender() {
   var d = ST.d, el = document.getElementById('stres'); if (!d || !el) return;
@@ -196,16 +275,16 @@ function stockRender() {
   el.innerHTML = stockResult(res, d);
 }
 function stockResult(res, d) {
-  var gen = res.generation, v = res.verdict, r = res.recipe, html = card('The verdict', verdictStrip(v), {eyebrow: 'Four separate claims', tools: false});
+  var gen = res.generation, v = res.verdict, r = res.recipe, html = '<div id="st-verdict"></div>' + card('The verdict', verdictStrip(v), {eyebrow: 'Four separate claims', tools: false});
   var probs = res.moves.filter(function (m) { return m.problem; }).map(function (m) { return '<div class="notice">' + esc(m.problem) + '</div>'; }).join('') + (res.unknown.length ? '<div class="notice">Not moves the reference knows: ' + esc(res.unknown.join(', ')) + '</div>' : '');
   if (r) {
-    html += card('The egg', r.slots.map(function (s, i) { return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)"><span class="tiny muted">slot ' + (i + 1) + '</span> <b>' + esc(s.move) + '</b> ' + howChip(s.how) + '<div class="tiny muted">' + esc(s.why) + '</div></div>'; }).join('') +
+    html += '<div id="st-egg"></div>' + card('The egg', r.slots.map(function (s, i) { return '<div class="small" style="padding:6px 0;border-top:1px solid var(--line)"><span class="tiny muted">slot ' + (i + 1) + '</span> <b>' + esc(s.move) + '</b> ' + howChip(s.how) + '<div class="tiny muted">' + esc(s.why) + '</div></div>'; }).join('') +
       '<div class="tiny muted" style="margin-top:6px">In this slot order: that\'s what PKHeX checks. ' + (res.incense ? 'It hatches as ' + esc(res.species) + ' only if a parent holds ' + esc(res.incense) + '.' : '') + '</div>', {eyebrow: 'What hatches, slot by slot', tools: false, style: 'margin-top:16px'});
-    html += card('The parents', '<div class="small"><b>The father</b> knows ' + (r.father.length ? esc(r.father.join(', ')) + (r.order_matters ? ' <span style="color:var(--ember-2)">in this order</span> (swap them on his summary screen)' : '') : 'none of these: any compatible father who knows nothing the egg could inherit') + '.</div>' +
+    html += '<div id="st-parents"></div>' + card('The parents', '<div class="small"><b>The father</b> knows ' + (r.father.length ? esc(r.father.join(', ')) + (r.order_matters ? ' <span style="color:var(--ember-2)">in this order</span> (swap them on his summary screen)' : '') : 'none of these: any compatible father who knows nothing the egg could inherit') + '.</div>' +
       (r.father.length ? '<div class="tiny muted">Anything else he knows must be a move this egg can\'t take; the Move Deleter clears the rest.</div>' : '') +
       '<div class="small" style="margin-top:8px"><b>The mother</b>: ' + esc(res.mother.map(function (n) { return n.replace(/: (.+)$/, function (m, r) { return ': ' + prettyRoute(r); }); }).join('; ')) + '.</div>' + (r.light_ball ? '<div class="small" style="margin-top:8px"><b>A Light Ball</b> held by either parent.</div>' : ''), {eyebrow: 'Who knows what when the egg is made', tools: false, style: 'margin-top:16px'});
     var plans = res.lineage.plans;
-    html += card('The father\'s lineage', !r.father.length ? '<div class="small">No father has to know anything: no lineage needed.</div>' : plans.length ? chainSteps(plans[0], res) +
+    html += '<div id="st-lineage"></div>' + card('The father\'s lineage', !r.father.length ? '<div class="small">No father has to know anything: no lineage needed.</div>' : plans.length ? chainSteps(plans[0], res) +
         (plans.length > 1 ? '<div class="tiny muted" style="margin-top:8px">Other fathers that work: ' + esc(plans.slice(1).map(function (x) { return x.father + ' (' + plural(x.steps, 'step') + ')'; }).join(', ')) + '.</div>' : '') :
         '<div class="notice">' + esc(res.lineage.note || 'No father who can know ' + r.father.join(', ') + ' together was found within three generations of fathers.') + '</div>', {eyebrow: plans.length ? plural(plans[0].steps, 'generation') + ' of fathers' : 'The father has to know these together', tools: false, style: 'margin-top:16px'});
   }
@@ -216,8 +295,8 @@ function stockResult(res, d) {
   res.feasibility.notes.forEach(function (n) { notes.push(esc(n)); });
   html = probs + html;
   if (notes.length) html += card('Worth knowing', notes.map(function (n) { return '<div class="small" style="padding:4px 0">' + n + '</div>'; }).join(''), {eyebrow: 'Other routes, timing, evolution', tools: false, style: 'margin-top:16px'});
-  html += card('What else the parents pass', stockOdds(res, d), {eyebrow: 'Mechanics and chances; how long it takes isn\'t estimated', tools: false, style: 'margin-top:16px'});
-  html += card('What this set might suggest', stockSuggests(res, d), {eyebrow: 'The evidence by kind of claim, then a reading of it', tools: false, style: 'margin-top:16px'});
+  html += '<div id="st-odds"></div>' + card('What else the parents pass', stockOdds(res, d), {eyebrow: 'Mechanics and chances; how long it takes isn\'t estimated', tools: false, style: 'margin-top:16px'});
+  html += '<div id="st-read"></div>' + card('What this set might suggest', stockSuggests(res, d), {eyebrow: 'The evidence by kind of claim, then a reading of it', tools: false, style: 'margin-top:16px'});
   return html;
 }
 function stockOdds(res, d) {
@@ -452,11 +531,115 @@ function stockHatch() {   // a realized individual from the blueprint: a build o
   }).then(function (ind) { toast('Recorded. Its hatch moves stay on its profile whatever it learns later.'); nav('#/mon/' + encodeURIComponent(ind.id)); })
     .catch(function (e) { toast('Couldn\'t record it: ' + esc(e && e.message || e)); });
 }
-function stockBp(id) {
+/* ---- #/stock/bp/<id>: one design, shown off: the set, its lineage, its versions, what hatched from it ---- */
+function stockLineage(r, game) {   // the lineage as a picture: the fathers, oldest first, the mother, the egg
+  var rec = r.recipe; if (!rec) return '<div class="notice">' + esc(r.verdict ? r.verdict.possible.why : r.error || 'The hatch rules can\'t make this set.') + '</div>';
+  var plans = r.lineage.plans, out = [];
+  var node = function (sp, role, body, cls) { return '<div class="lnode ' + (cls || '') + '">' + (sp ? '<img src="' + sprite(numOf(sp), game) + '" alt="" onerror="this.style.opacity=0">' : '') +
+    '<div class="tiny muted">' + esc(role) + '</div><b class="small">' + esc(sp || '') + '</b><div class="tiny" style="margin-top:2px">' + body + '</div></div>'; };
+  if (rec.father.length && plans.length) {
+    var chain = [], n = plans[0]; while (n) { chain.push(n); n = n.via; } chain.reverse();
+    chain.forEach(function (st, i) { var learns = Object.keys(st.learns_itself);
+      out.push(node(st.father, i === 0 ? 'father ♂' : 'his son ♂, generation ' + (i + 1), [i ? 'hatches knowing ' + esc(st.inherits.join(', ')) : '', learns.length ? 'learns ' + esc(learns.join(', ')) : ''].filter(Boolean).join('; ') +
+        (st.catchable_in_game ? '' : ' <span class="muted">(a trade)</span>')));
+      if (i < chain.length - 1) out.push('<div class="larrow" title="bred with a female of the next line">→</div>'); });
+  } else if (rec.father.length) out.push('<div class="lnode warn"><b class="small">No father found</b><div class="tiny">' + esc(r.lineage.note || 'No father who can know ' + rec.father.join(', ') + ' together within three generations.') + '</div></div>');
+  else out.push(node(null, 'father ♂', 'any father of a shared egg group: he needn\'t know anything'));
+  out.push('<div class="larrow" title="the cross">×</div>');
+  out.push(node(r.species, 'mother ♀, a ' + r.species + '-line female', rec.mother.length ? 'knows ' + esc(rec.mother.join(', ')) : 'needs no moves'));
+  out.push('<div class="larrow">=</div>');
+  out.push(node(r.species, 'the egg', 'hatches knowing ' + esc(rec.slots.map(function (s) { return s.move; }).join(', ')), 'egg'));
+  return '<div class="lflow">' + out.join('') + '</div>' + (rec.father.length && plans.length ? '<details style="margin-top:10px"><summary class="tiny muted">The same, as steps</summary>' + chainSteps(plans[0], r) +
+    (plans.length > 1 ? '<div class="tiny muted" style="margin-top:6px">Other fathers that work: ' + esc(plans.slice(1).map(function (x) { return x.father + ' (' + plural(x.steps, 'step') + ')'; }).join(', ')) + '.</div>' : '') + '</details>' : '');
+}
+function stockVersions(b) {
+  var vs = Records.versions(b.id), cur = b.v || 1;
+  return vs.slice().reverse().map(function (x) {
+    var k = vs.indexOf(x), prev = k > 0 ? vs[k - 1] : null, pm = prev ? prev.moves || [] : [], mv = x.moves || [];
+    var gone = prev ? pm.filter(function (m) { return mv.indexOf(m) < 0; }) : [], what = [];
+    if (prev) [['name', 'named'], ['ability', 'ability'], ['nature', 'nature'], ['purpose', 'purpose'], ['labels', 'labels']].forEach(function (f) {
+      if (String(prev[f[0]] || '') !== String(x[f[0]] || '')) what.push(f[1] + ': ' + (x[f[0]] || 'none')); });
+    return '<div class="vrow"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>v' + (x.v || 1) + '</b> <span class="tiny muted">' + esc(x.at ? fmtDate(x.at) : '') + '</span>' +
+      ((x.v || 1) === cur ? chip('current', 'forest') : '<button class="btn sm" data-restore="' + (x.v || 1) + '" title="Save this version again, as the newest">Make it current</button>') + '</div>' +
+      '<div class="small" style="margin-top:4px">' + mv.map(function (m) { return prev && pm.indexOf(m) < 0 ? '<b style="color:var(--gold)">' + esc(m) + '</b>' : esc(m); }).join(' · ') + '</div>' +
+      (gone.length ? '<div class="tiny muted">dropped ' + esc(gone.join(', ')) + '</div>' : '') + (what.length ? '<div class="tiny muted">' + esc(what.join(' · ')) + '</div>' : '') +
+      (x.note ? '<div class="tiny muted">“' + esc(x.note) + '”</div>' : '') + '</div>'; }).join('');
+}
+function stockRecipe(b, r) {   // the design as plain text, to keep or send
+  var t = [(b.name || b.species + ' (unnamed)') + ' · ' + (Battle.GAME_TITLE[b.game] || b.game) + ' · breeding stock v' + (b.v || 1), 'Hatches as ' + r.species + ' at Lv ' + r.hatch_level + ' knowing: ' + (b.moves || []).join(' / ')];
+  if (b.ability || b.nature) t.push([b.ability ? 'Ability ' + b.ability : '', b.nature ? b.nature + ' nature' : ''].filter(Boolean).join(', '));
+  if (r.recipe) {
+    var plans = r.lineage.plans, chain = [], n = plans[0]; while (n) { chain.push(n); n = n.via; } chain.reverse();
+    if (r.recipe.father.length && chain.length) chain.forEach(function (st, i) { t.push((i + 1) + '. ' + (i ? 'Breed to a ' + st.family[0] + '-line female; the son (' + st.father + ') hatches knowing ' + st.inherits.join(', ') : 'A ' + st.father + ' ♂') + (Object.keys(st.learns_itself).length ? '; teach him ' + Object.keys(st.learns_itself).join(', ') : '') + '.'); });
+    t.push('Father knows ' + (r.recipe.father.join(', ') || 'nothing it needs') + (r.recipe.order_matters ? ' (in this order)' : '') + '; mother knows ' + (r.recipe.mother.join(', ') || 'nothing it needs') + (r.recipe.light_ball ? '; a parent holds a Light Ball' : '') + '.');
+  }
+  if (r.verdict) t.push('Possible: ' + (r.verdict.possible.ok ? 'yes' : 'no') + ' · obtainable: ' + (r.verdict.obtainable.ok ? 'yes, ' + r.verdict.obtainable.scope : 'no') + ' · documented: ' + (r.verdict.documented.ok ? 'yes' : 'no'));
+  return t.join('\n');
+}
+function stockShow(id) {
   return stockReady().then(function () {
     var b = storeBuild(id);
-    if (!b || b.kind !== 'blueprint') return '<div class="notice">No blueprint called ' + esc(id) + '. <a href="#/stock">Breeding stock</a></div>';
-    return stockDesign(b.game, b.species, '?bp=' + encodeURIComponent(id));
+    if (!b || b.kind !== 'blueprint') return stockNav('show') + '<div class="notice">No breeding stock called ' + esc(id) + '. <a href="#/stock">The showcase</a></div>';
+    var r = bpRead(b), v = r.verdict, gen = r.generation || (Stock.GAMES[b.game] || [4])[0], kids = hatchedFrom(b.id), t = (dexOf(b.species) || {t: ['Normal']}).t;
+    var fam = []; try { fam = Stock.explore(b.species, b.game).family; } catch (e) { fam = [b.species]; }
+    var others = blueprints(function (x) { return x.id !== b.id; }), feat = isFeatured(b);
+    var d = {game: b.game, cur: {moves: b.moves || [], ability: b.ability || '', nature: b.nature || '', ivs: b.ivs ? Records.encStats(b.ivs) : '', purpose: b.purpose || ''}};
+    after(function (p) { stockShowBind(p, b, r); });
+    var tiles = r.recipe ? r.recipe.slots.map(function (s, i) { var mv = null; try { mv = Battle.move(gen, s.move); } catch (e) { mv = null; }
+      return '<div class="stkmove" style="--mc:' + (mv && TYPE[mv.type] || '#888') + '"><div class="tiny muted">slot ' + (i + 1) + '</div><b>' + esc(s.move) + '</b><div class="tiny">' + (mv ? esc(mv.type + ' · ' + mv.cat + (mv.bp ? ' · ' + mv.bp : '')) : '') + '</div>' +
+        '<div style="margin-top:6px">' + howChip(s.how) + '</div><div class="tiny muted" style="margin-top:4px">' + esc(s.why) + '</div></div>'; }).join('') : '';
+    return stockNav('show') + '<a class="link" href="#/stock">← The showcase</a>' +
+      '<div class="stkshow" style="margin-top:12px;--tc:' + (TYPE[t[0]] || '#888') + '"><div class="stkshowart"><img src="' + art(numOf(b.species)) + '" alt=""></div><div>' +
+      '<div class="eyebrow">' + esc(Battle.GAME_TITLE[b.game] || b.game) + ' · Gen ' + gen + ' · breeding stock · v' + (b.v || 1) + (Records.versions(b.id).length > 1 ? ' of ' + Records.versions(b.id).length : '') + '</div>' +
+      '<h1 style="margin:6px 0" id="stkname">' + stockTitle(b) + ' <button class="btn sm" id="stkstar" title="' + (feat ? 'Take it out of your signature stock' : 'Make it signature stock: it leads the showcase') + '" style="vertical-align:middle">' + (feat ? '★ Signature' : '☆ Make signature') + '</button></h1>' +
+      (b.name ? '<a class="link tiny" href="javascript:void 0" id="stkrenameopen">✎ Rename</a>' : '') +
+      '<div id="stkrename" class="row" style="max-width:520px;margin:6px 0' + (b.name ? ';display:none' : '') + '"><input class="f" id="stknamein" value="' + esc(b.name || '') + '" placeholder="Name this stock"><button class="btn sm gold" id="stknamesave">' + (b.name ? 'Rename' : 'Name it') + '</button></div>' +
+      '<div class="small" style="color:var(--text-2)">Hatches as <b>' + esc(r.species || b.species) + '</b> at Lv ' + esc(r.hatch_level || '') + (fam.length > 1 ? ', grows into ' + esc(fam.slice(1).join(' → ')) : '') + (b.ability ? ' · ' + esc(b.ability) : '') + (b.nature ? ' · ' + esc(b.nature) : '') + '</div>' +
+      '<div style="margin-top:8px">' + (v ? verdictChips(v) : chip('can\'t read: ' + (r.error || '?'), 'ember')) + (b.purpose ? ' ' + chip(b.purpose, '') : '') + labelsOf(b).filter(function (x) { return x.toLowerCase() !== 'featured'; }).map(function (x) { return ' ' + chip(x, 'violet'); }).join('') + (kids.length ? ' ' + chip(kids.length + ' hatched', 'gold') : '') + '</div>' +
+      '<div class="stkacts"><a class="btn gold" href="' + designHref(b.game, b.species, [], b.id) + '">Open in the lab</a><a class="btn" href="' + designHref(b.game, b.species, [], null) + '?dup=' + encodeURIComponent(b.id) + '">Duplicate as new stock</a>' +
+        '<button class="btn" id="sthatch">Record one hatched</button><button class="btn" id="stkcopy">Copy the recipe</button>' +
+        (others.length ? '<select class="f" id="stkcmp" style="width:auto"><option value="">Compare with…</option>' + others.map(function (x) { return '<option value="' + esc(x.id) + '">' + esc((x.name || x.species + ', unnamed') + ' · ' + (Battle.GAME_TITLE[x.game] || x.game)) + '</option>'; }).join('') + '</select>' : '') + '</div></div></div>' +
+      '<div style="margin-top:18px">' + card('The starting set', (tiles ? '<div class="stkset">' + tiles + '</div>' : '<div class="notice">' + esc(v ? v.possible.why : r.error || '') + '</div>') + '<div class="tiny muted" style="margin-top:8px">In hatch order, slot by slot: that\'s what PKHeX checks.' + (r.incense ? ' It hatches as ' + esc(r.species) + ' only if a parent holds ' + esc(r.incense) + '.' : '') + '</div>', {eyebrow: 'What the egg hatches with', tools: false}) + '</div>' +
+      '<div style="margin-top:16px">' + card('The lineage', stockLineage(r, b.game), {eyebrow: r.recipe && r.recipe.father.length && r.lineage.plans.length ? plural(r.lineage.plans[0].steps, 'generation') + ' of fathers, then the cross' : 'The cross', tools: false}) + '</div>' +
+      '<div class="grid" style="margin-top:16px"><div class="c7">' + (v ? card('The verdict', verdictStrip(v), {eyebrow: 'Four separate claims', tools: false}) : '') +
+        '<details class="card" style="margin-top:16px;padding:14px 16px"><summary class="small" style="cursor:pointer"><b>What this set might suggest</b> <span class="tiny muted">the evidence, then a reading of it (hypotheses)</span></summary><div style="margin-top:10px">' + (r.recipe || r.moves ? stockSuggests(r, d) : '') + '</div></details>' +
+        (r.odds ? '<details class="card" style="margin-top:16px;padding:14px 16px"><summary class="small" style="cursor:pointer"><b>What else the parents pass</b> <span class="tiny muted">IVs, nature, ability, egg cycles</span></summary><div style="margin-top:10px">' + stockOdds(r, d) + '</div></details>' : '') + '</div>' +
+      '<div class="c5">' + card('Versions', stockVersions(b) + '<div class="tiny muted" style="margin-top:8px">Every save is kept. Make an old one current and its set (moves, ability, nature, IVs) is saved again as the newest; the name and the star stay.</div>', {eyebrow: plural(Records.versions(b.id).length, 'version'), tools: false}) +
+        card('Hatched from it', kids.length ? kids.map(function (i) { return '<a class="pick" href="#/mon/' + encodeURIComponent(i.id) + '" style="margin-top:6px"><img src="' + spriteOf(numOf(i.species), i.game, i.shiny) + '" alt=""><div><b>' + esc(i.nickname || i.species) + '</b><div class="tiny muted">' + esc(GAME_NAME[i.game] || i.game) + ' · hatched with ' + esc((i.hatch_moves || []).join(', ')) + '</div></div></a>'; }).join('')
+          : '<div class="tiny muted">Nothing yet. Record one hatched and it joins your Pokémon with its hatch moves kept for good.</div>', {eyebrow: 'Your Pokémon bred to it', tools: false, style: 'margin-top:16px'}) + '</div></div>';
+  });
+}
+function stockSaveAs(b, change, note) {   // the current version again, with one thing changed, as the next version
+  var x = {id: b.id, species: b.species, game: b.game, generation: b.generation, level: b.level, moves: (b.moves || []).slice(), kind: 'blueprint', name: b.name || null, purpose: b.purpose || null, labels: b.labels || null, ability: b.ability || null, nature: b.nature || null, ivs: b.ivs || null};
+  return Records.saveBuild(Object.assign(x, change), {note: note});
+}
+function stockShowBind(p, b, r) {
+  var again = function (msg) { return function (saved) { toast(msg); nav('#/stock/bp/' + encodeURIComponent(saved.id), true); }; };
+  var fail = function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); };
+  var star = p.querySelector('#stkstar'); if (star) star.onclick = function () { var ls = labelsOf(b).filter(function (x) { return x.toLowerCase() !== 'featured'; }), on = !isFeatured(b);
+    star.disabled = true; stockSaveAs(b, {labels: (on ? ls.concat(['featured']) : ls).join(', ') || null}, on ? 'made signature stock' : 'no longer signature stock').then(again(on ? 'Signature stock: it leads the showcase.' : 'Taken out of your signature stock.')).catch(fail); };
+  var nm = p.querySelector('#stknamesave'); if (nm) nm.onclick = function () { var v = p.querySelector('#stknamein').value.trim();
+    if (v === (b.name || '')) { toast('That\'s already its name.'); return; } nm.disabled = true; stockSaveAs(b, {name: v || null}, v ? 'named ' + v : 'name cleared').then(again(v ? 'Named: ' + esc(v) + '.' : 'Name cleared.')).catch(fail); };
+  var ro = p.querySelector('#stkrenameopen'); if (ro) ro.onclick = function () { p.querySelector('#stkrename').style.display = ''; ro.style.display = 'none'; p.querySelector('#stknamein').focus(); };
+  var inp = p.querySelector('#stknamein'); if (inp) inp.onkeydown = function (e) { if (e.key === 'Enter') { e.preventDefault(); nm.click(); } };
+  p.querySelectorAll('[data-restore]').forEach(function (btn) { btn.onclick = function () { var n = +btn.getAttribute('data-restore'), old = Records.version(b.id, n); if (!old) return;
+    btn.disabled = true; stockSaveAs(b, {moves: (old.moves || []).slice(), ability: old.ability || null, nature: old.nature || null, ivs: old.ivs || null}, 'back to v' + n + '\'s set').then(again('v' + n + ' is current again, saved as the newest.')).catch(fail); }; });
+  var cmp = p.querySelector('#stkcmp'); if (cmp) cmp.onchange = function () { if (cmp.value) nav('#/stock/compare/' + encodeURIComponent(b.id) + '/' + encodeURIComponent(cmp.value)); };
+  var cp = p.querySelector('#stkcopy'); if (cp) cp.onclick = function () { var txt = stockRecipe(b, r);
+    openDrawer('<div class="eyebrow">Breeding stock · the recipe</div><h2 style="margin:6px 0 10px">' + stockTitle(b) + '</h2><textarea class="f" id="stkrecipe" rows="12" style="font-family:var(--mono);font-size:12px">' + esc(txt) + '</textarea><div style="margin-top:10px"><button class="btn gold" id="stkrecipecopy">Copy</button></div>');
+    var ta = document.getElementById('stkrecipe'); document.getElementById('stkrecipecopy').onclick = function () { ta.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      if (navigator.clipboard && !ok) navigator.clipboard.writeText(txt).then(function () { toast('Copied.'); }).catch(function () { toast('Select the text and copy it.'); }); else toast(ok ? 'Copied.' : 'Select the text and copy it.'); }; };
+  var h = p.querySelector('#sthatch'); if (h) h.onclick = function () { ST.d = {game: b.game, species: r.species, bp: b, res: r}; stockHatch(); };
+}
+
+/* ---- #/stock/compare: pick two designs ---- */
+function stockComparePick() {
+  return stockReady().then(function () {
+    var bps = blueprints(), opt = function (sel) { return bps.map(function (x, i) { return '<option value="' + esc(x.id) + '"' + (i === sel ? ' selected' : '') + '>' + esc((x.name || x.species + ', unnamed') + ' · ' + x.species + ' · ' + (Battle.GAME_TITLE[x.game] || x.game)) + '</option>'; }).join(''); };
+    after(function (p) { var f = p.querySelector('#stkcmpf'); if (f) f.onsubmit = function (e) { e.preventDefault(); if (f.a.value === f.b.value) { toast('Pick two different designs.'); return false; } nav('#/stock/compare/' + encodeURIComponent(f.a.value) + '/' + encodeURIComponent(f.b.value)); return false; }; });
+    return stockNav('compare') + '<div class="eyebrow">Breeding stock · compare</div><h1 style="margin:6px 0">What makes two designs different</h1>' +
+      (bps.length < 2 ? '<div class="stkempty" style="margin-top:12px">Comparing takes two designs; you have ' + bps.length + '. <a href="#/stock/new">Design another →</a></div>' :
+        card('Pick two', '<form id="stkcmpf"><div class="row"><div><label class="l">First</label><select class="f" name="a">' + opt(0) + '</select></div><div><label class="l">Second</label><select class="f" name="b">' + opt(1) + '</select></div></div><div style="margin-top:10px"><button class="btn gold">Compare</button></div></form>', {tools: false, style: 'margin-top:12px'}));
   });
 }
 
@@ -485,17 +668,19 @@ function stockCompare(a, b) {
       return card(title(x), '<div class="tiny muted">' + esc(Battle.GAME_TITLE[x.game] || x.game) + ' · ' + esc(x.species) + ' · v' + (x.v || 1) + (x.purpose ? ' · ' + esc(x.purpose) : '') + '</div>' +
         (r.recipe ? r.recipe.slots.map(function (s) { return '<div class="small" style="padding:4px 0;border-top:1px solid var(--line)"><b' + (both.indexOf(s.move) < 0 ? ' style="color:var(--gold)"' : '') + '>' + esc(s.move) + '</b> ' + howChip(s.how) + ' <span class="tiny muted">' + esc(desc(r, s.move)) + '</span></div>'; }).join('') : '<div class="notice">' + esc(r.verdict ? r.verdict.possible.why : r.error) + '</div>') +
         (r.verdict ? '<div style="margin-top:8px">' + verdictStrip(r.verdict, true) + '</div>' : '') +
-        '<div style="margin-top:8px"><a class="link" href="#/stock/bp/' + encodeURIComponent(x.id) + '">Open it →</a></div>', {tools: false});
+        '<div style="margin-top:8px"><a class="link" href="#/stock/bp/' + encodeURIComponent(x.id) + '">Its page →</a></div>', {tools: false});
     };
-    return '<a class="link" href="#/stock">← Breeding stock</a><div class="eyebrow" style="margin-top:10px">Breeding stock · compare</div><h1 style="margin:6px 0">What makes these two different</h1>' +
+    return stockNav('compare') + '<a class="link" href="#/stock">← The showcase</a><div class="eyebrow" style="margin-top:10px">Breeding stock · compare</div><h1 style="margin:6px 0">What makes these two different</h1>' +
       card('The differences', (diffs.length ? diffs.map(function (x) { return '<div class="small" style="padding:4px 0">' + x + '</div>'; }).join('') : '<div class="small">The same starting set, made the same way.</div>') +
         (both.length ? '<div class="tiny muted" style="margin-top:8px">Both start with ' + esc(both.join(', ')) + '.</div>' : ''), {eyebrow: 'Moves, how they get in, effort, verdict', tools: false, style: 'margin-top:12px'}) +
       '<div class="grid" style="margin-top:16px"><div class="c6">' + col(A, ra) + '</div><div class="c6">' + col(B, rb) + '</div></div>';
   });
 }
 route(/^\/stock\/?$/, stockHome, 'Breeding stock', '#/stock');
-route(/^\/stock\/bp\/(.+)$/, stockBp, function (i) { return 'Breeding stock · ' + i; }, '#/stock');
+route(/^\/stock\/new\/?$/, stockNew, 'Breeding stock · new', '#/stock');
+route(/^\/stock\/compare\/?$/, stockComparePick, 'Breeding stock · compare', '#/stock');
+route(/^\/stock\/bp\/(.+)$/, stockShow, function (i) { var b = storeBuild(i); return 'Breeding stock · ' + (b && b.name || i); }, '#/stock');
 route(/^\/stock\/compare\/([^/]+)\/([^/]+)$/, stockCompare, 'Breeding stock · compare', '#/stock');
-route(/^\/stock\/(\w+)\/([^/?]+)\/design\/?(\?.*)?$/, stockDesign, function (g, s) { return 'Breeding stock · ' + s + ' · design'; }, '#/stock');
+route(/^\/stock\/(\w+)\/([^/?]+)\/design\/?(\?.*)?$/, stockDesign, function (g, s) { return 'Breeding stock · ' + s + ' · the lab'; }, '#/stock');
 route(/^\/stock\/(\w+)\/([^/?]+)\/?$/, stockLine, function (g, s) { return 'Breeding stock · ' + s; }, '#/stock');
 </script>

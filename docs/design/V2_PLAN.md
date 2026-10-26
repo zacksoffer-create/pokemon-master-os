@@ -214,6 +214,18 @@ described, take the reins and build it."*
 - **The Day-Care preserve (A-114) and the Sevii Islands (A-115).** Each has its own page. The preserve lists who could
   be a client, and the islands list FireRed's wild Pokémon.
 
+**Breeding stock as a showcase and a lab (A-118).** Zack: *"more navigable, more user friendly, and more focused on
+the breeding stock and being a showcase and lab ... these are our designer builds or designer breeding stock."*
+- **The showcase (`#/stock`).** Your designs as cards, named by you. Signature stock leads, and there's search, filters
+  by game and purpose, and sorting.
+- **Each design's own page.** The starting set slot by slot, and the lineage drawn from the first father, through his
+  sons, to the cross and the egg. It also has the verdict, every version (any one can be made current again), the
+  Pokémon hatched from it, and the recipe as text. Rename it, star it, duplicate it, compare it or record a hatch from
+  there.
+- **The lab.** The name comes first. The line's egg moves and its one-father sets are a tap away, and a jump bar runs
+  over the results.
+- **Tabs.** Showcase, New stock and Compare sit across every stock page; lineage and the studbook stay a link away.
+
 **Also in v2.5:**
 - **The opening where you create a Pokémon.** It plays beside the ball you pick, and again when the ball, shiny or
   species changes. A new nickname doesn't replay it.

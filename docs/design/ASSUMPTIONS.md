@@ -1115,3 +1115,13 @@ The Estate, the Homestead and the facilities are one drill-down: the estate page
 - **Why:** You described it as all one thing: "It's all a part of it."
 - **See it:** `#/estate` (The Estate)
 - **Could instead:** keep a separate Homestead page for the jobs and an Estate page for the land
+
+## v2.5 · Breeding stock
+
+### A-118 · Breeding stock as a showcase and a lab (D-081)
+
+Breeding stock is a showcase now. #/stock shows your designs as cards: the name you gave each one, the four moves coloured by how they get into the egg, and the verdict. Signature stock comes first, and there's search, filters and sorting. Each design has its own page: the starting set, the lineage drawn from the first father to the egg, the verdict, every version (any can be made current again), the Pokémon hatched from it, and the recipe as text to copy. The lab asks for the name first and lets you tap the line's egg moves or a one-father set into the slots. Starring a design (signature) is the label 'featured'; renaming, starring and restoring each save a version, and restoring brings back the set while keeping the name and the star.
+
+- **Why:** Your call: "I'd like to make it a lot easier to add a breeding stock version, you get a name for the build, you can see the lineage ... more navigable, more user friendly, and more focused on the breeding stock and being a showcase and lab." The name is a field you fill in, since you're building the naming system yourself.
+- **See it:** `#/stock` (Breeding stock)
+- **Could instead:** star a design without saving a version (kept in this browser only); restoring an old version brings back its name and labels too; the app proposes a name from the build-name ladder until your naming system is ready

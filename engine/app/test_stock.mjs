@@ -131,36 +131,72 @@ expect('A-09: every reading on the page is marked a hypothesis and says what it 
 await page.fill('#stform [name=name]', 'Cold-adapted test');
 await page.fill('#stform [name=labels]', 'hail, test');
 await page.click('#stform [data-save=new]');
-await settle('#sthatch');
+await settle('.stkshow #sthatch');
 const bpId = await page.evaluate(() => decodeURIComponent((NAVI.hash.match(/#\/stock\/bp\/(.+)$/) || [])[1] || ''));
-expect('saving opens the blueprint (' + bpId + ')', /^yours:Swinub-/.test(bpId));
-// a second version: Bite becomes Take Down (saved moves are in hatch order, so find Bite's slot)
+expect('saving opens the stock\'s own page (' + bpId + ')', /^yours:Swinub-/.test(bpId));
+t = await text();
+expect('v2.5: its page shows the name, the starting set and the lineage as a picture', /Cold-adapted test/.test(t) && /The starting set/.test(t) && await page.evaluate(() => document.querySelectorAll('.lflow .lnode').length >= 3));
+// a second version, made in the lab: Bite becomes Take Down (saved moves are in hatch order, so find Bite's slot)
+await go('#/stock/heartgold/Swinub/design?bp=' + encodeURIComponent(bpId), '#stres .card');
+expect('v2.5: the lab says what saving makes', /saving makes v2/i.test(await text()));
 const biteAt = await page.evaluate(() => [...document.querySelectorAll('#stform [data-mv]')].findIndex((x) => x.value === 'Bite'));
 await page.selectOption('#stform [data-mv="' + biteAt + '"]', 'Take Down');
 await page.waitForTimeout(400);
 await page.click('#stform [data-save=next]');
-await page.waitForFunction((id) => Records.versions(id).length === 2 && /Save as v3/.test(document.getElementById('page').innerText), bpId, { timeout: 60000 }).catch(() => {});
-await settle('#sthatch');
+await page.waitForFunction((id) => Records.versions(id).length === 2 && document.querySelector('.stkshow'), bpId, { timeout: 60000 }).catch(() => {});
+await settle('.stkshow #sthatch');
 const nv = await page.evaluate((id) => Records.versions(id).length, bpId);
 expect('a save adds a version and keeps the old one (' + nv + ')', nv === 2);
+// v2.5: name it, star it, bring v1 back, all from its page; each one a version
+await page.click('#stkrenameopen');
+await page.fill('#stknamein', 'Cold-adapted, renamed');
+await page.click('#stknamesave');
+await page.waitForFunction((id) => Records.versions(id).length === 3, bpId, { timeout: 60000 }).catch(() => fails.push('rename: no new version'));
+await settle('.stkshow #stkstar');
+expect('rename: the name is the new one', await page.evaluate((id) => storeBuild(id).name, bpId) === 'Cold-adapted, renamed');
+await page.click('#stkstar');
+await page.waitForFunction((id) => /featured/.test(storeBuild(id).labels || ''), bpId, { timeout: 60000 }).catch(() => fails.push('star: not made signature stock'));
+await settle('.stkshow [data-restore="1"]');
+await page.click('[data-restore="1"]');
+await page.waitForFunction((id) => Records.versions(id).length === 5, bpId, { timeout: 60000 }).catch(() => fails.push('restore: no new version'));
+const restored = await page.evaluate((id) => storeBuild(id), bpId);
+expect('restore: v1\'s moves are current again, the name and the star kept (' + JSON.stringify(restored.moves) + ')', restored.moves.indexOf('Bite') >= 0 && restored.moves.indexOf('Take Down') < 0 && restored.v === 5 && restored.name === 'Cold-adapted, renamed' && /featured/.test(restored.labels));
+await settle('.stkshow #sthatch');
 // 3. record a hatch: its hatch moves stay
 await page.click('#sthatch');
 await settle('.mhero');
 t = await text();
 expect('the hatched Pokémon shows what it hatched with', /Where it came from/.test(t) && /Hatched with/.test(t) && /Bred to the blueprint/.test(t));
-await go('#/stock/bp/' + encodeURIComponent(bpId), '#stres .card');
-expect('the blueprint is documented now', /4 · Documented in your collection[\s\S]{0,60}Yes/.test(await text()));
+await go('#/stock/bp/' + encodeURIComponent(bpId), '.stkshow');
+t = await text();
+expect('the stock is documented now', /4 · Documented in your collection[\s\S]{0,60}Yes/.test(t));
+expect('v2.5: what hatched from it is on its page', /Hatched from it[\s\S]{0,200}Swinub/.test(t));
 
 // 4. what makes two sets different?
 await go('#/stock/heartgold/Swinub/design?m=' + ['Ancient Power', 'Hail'].map(encodeURIComponent).join('|'), '#stres .card');
 await page.click('#stform [data-save=new]');
-await settle('#sthatch');
+await settle('.stkshow #sthatch');
 const bp2 = await page.evaluate(() => decodeURIComponent((NAVI.hash.match(/#\/stock\/bp\/(.+)$/) || [])[1] || ''));
 await go('#/stock/compare/' + encodeURIComponent(bpId) + '/' + encodeURIComponent(bp2), '.card');
 t = await text();
 expect('compare names the differences', /What makes these two different/.test(t) && /The (first|second) starts with/.test(t));
+await go('#/stock/compare', '#stkcmpf');
 await go('#/stock', '#stpick');
-expect('your blueprints are listed', /Cold-adapted test/.test(await text()));
+t = await text();
+expect('the showcase lists your stock by name, signature first', /Signature stock[\s\S]*Cold-adapted, renamed/.test(t) && /Swinub, unnamed/.test(t));
+await page.fill('#stkq', 'renamed');
+await page.waitForTimeout(200);
+expect('v2.5: the showcase search narrows the cards', await page.evaluate(() => [...document.querySelectorAll('#stkall .stkcard')].filter((c) => c.style.display !== 'none').length === 1));
+await page.fill('#stkq', '');
+// the lab: an idea from the line goes into the set; a duplicate starts unnamed with the same moves
+await go('#/stock/heartgold/Larvitar/design', '#stres .card');
+await page.click('.stkidea[data-add="Dragon Dance"]');
+await page.waitForTimeout(300);
+expect('v2.5: tapping an egg move puts it in the set', await page.evaluate(() => [...document.querySelectorAll('#stform [data-mv]')].some((x) => x.value === 'Dragon Dance')));
+await page.evaluate(() => Records.clearDraft('stock:heartgold/Larvitar'));   // the tap kept a draft; the checks below want the line fresh
+await go('#/stock/heartgold/Swinub/design?dup=' + encodeURIComponent(bpId), '#stres .card');
+expect('v2.5: duplicate starts unnamed with the same moves', await page.evaluate(() => document.querySelector('#stform [name=name]').value === '' && [...document.querySelectorAll('#stform [data-mv]')].some((x) => x.value === 'Ancient Power')));
+await go('#/stock/new', '#stpick');
 
 // possible is not obtainable
 await go('#/stock/heartgold/Larvitar/design?m=' + ['Dragon Dance', 'Pursuit'].map(encodeURIComponent).join('|'), '#stres .card', true);
