@@ -58,6 +58,8 @@ analogy):
 - **Places:** each ecotype is fitted to the Johto places in its species' range.
 - **Evidence:** the dossiers' curated ecotypes come first; machine ecotypes are hypotheses.
 - **Your Pokémon:** `#/ecotypes` reads the egg moves your Pokémon carry against both.
+- **Breeding stock:** the same reading of every Gen I–IV move ships with the ecotypes (`moves` in `ecotypes.json`).
+  The breeding-stock designer reads a whole starting set with it (A-09, `docs/APP.md`).
 
 ## Pages
 

@@ -10,6 +10,9 @@ cold-water move, a social call), and a lineage that carries two functions togeth
 Sedative forager. Each one is a hypothesis (class hypothesis, made by these rules), says which moves it rests on, and
 names the places in Johto whose habitat it fits, from the species' own range first. The curated ecotypes in the
 dossiers (biology/dossiers/) come first wherever they exist.
+
+The same reading of each move, for every Gen I-IV move, goes out with the ecotypes (`moves`), so the breeding-stock
+page can read a whole starting set by these rules (web/88_stock.html, A-09).
 """
 import json
 import os
@@ -69,6 +72,19 @@ TYPE_FN = {"poison": "chemical", "water": "aquatic", "ice": "cold", "fire": "hea
            "flying": "aerial", "dark": "shadow", "ghost": "shadow", "electric": "electric", "psychic": "mind", "fighting": "brawn"}
 
 
+def functions(ident, type_, status):
+    """What one move says about how a lineage lives: the sets above by name, a damaging move by its type, a poison
+    status move as chemical, a plain Normal hit as brawn."""
+    fns = [f for f, s in SETS.items() if ident in s]
+    if not status and type_ in TYPE_FN and TYPE_FN[type_] not in fns:
+        fns.append(TYPE_FN[type_])
+    if status and type_ == "poison":
+        fns.append("chemical")
+    if not fns and not status and type_ == "normal":
+        fns.append("brawn")
+    return fns
+
+
 def load(name):
     with open(os.path.join(MAN, name), encoding="utf-8") as fh:
         return json.load(fh)
@@ -80,8 +96,8 @@ class Ecotypes:
         q = self.db.execute
         self.type_name = {r[0]: r[1] for r in q("SELECT id, identifier FROM types")}
         self.moves = {}
-        for mid, ident, tid, dc in q("SELECT id, identifier, type_id, damage_class_id FROM moves"):
-            self.moves[mid] = {"ident": ident, "type": self.type_name.get(tid), "status": dc == 1}
+        for mid, ident, tid, dc, gen in q("SELECT id, identifier, type_id, damage_class_id, generation_id FROM moves"):
+            self.moves[mid] = {"ident": ident, "type": self.type_name.get(tid), "status": dc == 1, "gen": gen}
         self.move_name = {r[0]: r[1] for r in q("SELECT move_id, name FROM move_names WHERE local_language_id=9")}
         self.archive = load("archive.json")
         self.sp = {s["name"]: s for s in self.archive["species"]}
@@ -108,14 +124,12 @@ class Ecotypes:
 
     def functions_of(self, mid):
         m = self.moves[mid]
-        fns = [f for f, s in SETS.items() if m["ident"] in s]
-        if not m["status"] and m["type"] in TYPE_FN and TYPE_FN[m["type"]] not in fns:
-            fns.append(TYPE_FN[m["type"]])
-        if m["status"] and m["type"] == "poison":
-            fns.append("chemical")
-        if not fns and not m["status"] and m["type"] == "normal":
-            fns.append("brawn")
-        return fns
+        return functions(m["ident"], m["type"], m["status"])
+
+    def move_table(self, last_gen=4):
+        """Every move of Gens I-IV that reads as something, by name: {move: [functions]}."""
+        return {self.move_name[mid]: fns for mid in sorted(self.moves)
+                if (self.moves[mid]["gen"] or 99) <= last_gen and mid in self.move_name and (fns := self.functions_of(mid))}
 
     def range_of(self, name):
         """The Johto places the species is resident in (HG/SS), with their biomes."""
@@ -173,7 +187,8 @@ class Ecotypes:
             out[s["name"]] = self.lineage(s["name"])
         return {"_note": "Built by engine/biology/ecotypes.py (v1 B10). Egg moves (HeartGold/SoulSilver, the whole line) read as ecological functions; "
                          "machine ecotypes are hypotheses made by these rules, curated ones come from the dossiers.",
-                "functions": {k: {"name": v[0], "reading": v[3], "biomes": v[4]} for k, v in FUNCTIONS.items()}, "species": out}
+                "functions": {k: {"name": v[0], "reading": v[3], "biomes": v[4]} for k, v in FUNCTIONS.items()},
+                "type_fn": TYPE_FN, "moves": self.move_table(), "species": out}
 
 
 def main():

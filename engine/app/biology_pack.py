@@ -8,7 +8,8 @@ that need it (web/36_ecology.html, 95_biology.html).
                  what nobody has said): the field guide's source for all 493
 - dossiers.json  the curated dossiers (biology/dossiers/), each statement with its evidence class and citations
 - ecology.json   Johto as a landscape, every place's community, and the food webs with their analysis (biology/ecology.py)
-- ecotypes.json  egg moves read as ecotypes, curated and machine (biology/ecotypes.py), compact
+- ecotypes.json  egg moves read as ecotypes, curated and machine (biology/ecotypes.py), compact, with the reading of
+                 every Gen I-IV move by the same rules (the breeding-stock page reads whole starting sets with it)
 - ranges.json    where each species lives in every Gen I-IV game (area, method, rate, levels, time, conditions)
 """
 import json
@@ -70,7 +71,7 @@ def main():
     eco = load("ecology.json")
     sizes["ecology.json"] = dump("ecology.json", eco)
     et = load("ecotypes.json")
-    sizes["ecotypes.json"] = dump("ecotypes.json", {"functions": et["functions"], "species": {k: {
+    sizes["ecotypes.json"] = dump("ecotypes.json", {"functions": et["functions"], "type_fn": et["type_fn"], "moves": et["moves"], "species": {k: {
         "e": v["egg_moves"], "f": v["functions"], "cur": v["curated"],
         "m": [[m["name"], m["functions"], m["moves"], m["where"], m["fits"]] for m in v["machine"]]} for k, v in et["species"].items() if v["egg_moves"] or v["curated"]}})
     areas = archive["areas"]

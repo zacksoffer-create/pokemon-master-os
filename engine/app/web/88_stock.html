@@ -5,14 +5,17 @@
    (23_stock, the browser's copy of breeding/stock.py, held to it by app/test_stock_parity.mjs). Saving adds a version;
    recording a hatch makes one of your Pokémon from it (its hatch moves kept for good). The spec's four questions:
    what a line can start with (#/stock/<game>/<species>), how to make an exact set (the designer), what makes two sets
-   different (compare), and what a set might suggest (the evidence only; nothing here invents biology). */
+   different (compare), and what a set might suggest (the evidence by kind, then a reading of it by fixed rules, each
+   sentence a hypothesis that names what it rests on: A-09). */
 var ST = {d: null, timer: null};
 var PURPOSES = ['competitive', 'environment', 'versatility', 'personal', 'other'];
 var HOW_CHIP = {'default': ['at hatch', ''], egg: ['egg move', 'gold'], tm: ['father\'s TM', 'ice'], shared: ['both parents', 'forest'], 'light-ball': ['Light Ball', 'violet']};
 var WEATHER = {Hail: ['Snow Cloak', 'Ice Body'], Sandstorm: ['Sand Veil'], 'Rain Dance': ['Swift Swim', 'Rain Dish', 'Hydration', 'Dry Skin'],
   'Sunny Day': ['Chlorophyll', 'Solar Power', 'Leaf Guard', 'Flower Gift', 'Dry Skin']};   // abilities that act in the weather a move calls (Gens 3-4)
 function stockReady() {
-  if (!S.stockP) S.stockP = Promise.all([labsReady(), API.data('breeding'), fieldReady().catch(function () { return null; })]).then(function (r) { if (!Stock.ready()) Stock.init(r[1]); return true; })
+  var none = function () { return null; };   // the field evidence, the ecotypes and the capability tags only feed the card on what a set might suggest
+  if (!S.stockP) S.stockP = Promise.all([labsReady(), API.data('breeding'), fieldReady().catch(none), Eco.ready(['ecotypes']).catch(none), capReady().catch(none)])
+    .then(function (r) { if (!Stock.ready()) Stock.init(r[1]); return true; })
     .catch(function (e) { S.stockP = null; throw e; });
   return S.stockP;
 }
@@ -214,7 +217,7 @@ function stockResult(res, d) {
   html = probs + html;
   if (notes.length) html += card('Worth knowing', notes.map(function (n) { return '<div class="small" style="padding:4px 0">' + n + '</div>'; }).join(''), {eyebrow: 'Other routes, timing, evolution', tools: false, style: 'margin-top:16px'});
   html += card('What else the parents pass', stockOdds(res, d), {eyebrow: 'Mechanics and chances; how long it takes isn\'t estimated', tools: false, style: 'margin-top:16px'});
-  html += card('What this set might suggest', stockSuggests(res, d), {eyebrow: 'The evidence, by kind of claim', tools: false, style: 'margin-top:16px'});
+  html += card('What this set might suggest', stockSuggests(res, d), {eyebrow: 'The evidence by kind of claim, then a reading of it', tools: false, style: 'margin-top:16px'});
   return html;
 }
 function stockOdds(res, d) {
@@ -226,26 +229,207 @@ function stockOdds(res, d) {
     '<div class="small" style="margin-top:6px"><b>Egg cycles.</b> ' + res.egg_cycles + ' (a species\' fixed number; a Flame Body or Magma Armor partner halves the walking in Gen 4).</div>' +
     '<div class="tiny muted" style="margin-top:6px">Sources: ' + esc(o.source) + '. Probabilities are mechanics; time per egg depends on how you play, so it isn\'t estimated.</div>';
 }
-function stockSuggests(res, d) {   // the spec's fourth question, answered with evidence only (no invented biology)
+function stockSuggests(res, d) {   // the spec's fourth question: the evidence by kind, then a reading of that evidence (A-09)
+  var ev = stockEvidence(res, d);
+  return '<div class="eyebrow">Game mechanics</div>' + (ev.mech.length ? ev.mech.map(function (x) { return '<div class="small" style="padding:3px 0">' + x + '</div>'; }).join('') : '<div class="tiny muted">None recorded.</div>') +
+    '<div class="eyebrow" style="margin-top:10px">Canon about the species</div>' + (ev.canon.length ? ev.canon.map(function (x) { return '<div class="small" style="padding:3px 0">' + x + '</div>'; }).join('') : '<div class="tiny muted">None recorded.</div>') +
+    stockReading(stockInterpret(ev.facts), res);
+}
+function stockEvidence(res, d) {   // what the card lists (mech, canon), and the same evidence as plain facts for the reading
   var gen = res.generation, slots = res.recipe ? res.recipe.slots.map(function (s) { return s.move; }) : res.moves.map(function (m) { return m.move; });
-  var mech = [], canon = [], fieldMoves = S.field ? (S.field.data().field_moves || {}) : {};
+  var mech = [], canon = [], fieldMoves = S.field ? (S.field.data().field_moves || {}) : {}, rows = S.field ? Field.evidence(d.game, res.species) : [];
+  var ET = Eco.D().ecotypes || null, CM = S.cap ? Cap.pack().model : null, how = {}, v = res.verdict;
+  (res.recipe ? res.recipe.slots : []).forEach(function (s) { how[s.move] = s.how; });
+  var f = {species: res.species, game: d.game, title: Battle.GAME_TITLE[d.game] || d.game, gen: gen, possible: !!v.possible.ok, obtainable: !!v.obtainable.ok,
+    scope: v.obtainable.scope || null, obtainable_why: v.obtainable.why || '', defaults: res.defaults.slice(), slots: [], ability: null, ability_field: [], weather: [],
+    evolution: [], canon: {dex: null, dexg: null, hab: null, lore: []}, own: {}, nature: null, ivs: null, purpose: d.cur.purpose || '', lineage: null, ecotypes: [],
+    fn: {}, caps: {}, read_moves: !!ET};
+  var capName = function (c) { f.caps[c] = CM && CM.capabilities[c] ? CM.capabilities[c].name : cap(c.replace(/_/g, ' ')); return c; };
   slots.forEach(function (m) { var mv = null, eff = null; try { mv = Battle.move(gen, m); eff = Battle.mbGet(gen, mv.name); } catch (e) { mv = null; }
     if (mv) mech.push('<b>' + esc(m) + '</b>: ' + esc([mv.type, mv.cat, mv.bp ? mv.bp + ' power' : null].filter(Boolean).join(' · ')) + (eff && eff.effect ? ' — ' + esc(eff.effect) : ''));
-    if (fieldMoves[m]) mech.push('<b>' + esc(m) + '</b> outside battle: ' + esc(fieldMoves[m]) + '.'); });
+    if (fieldMoves[m]) mech.push('<b>' + esc(m) + '</b> outside battle: ' + esc(fieldMoves[m]) + '.');
+    var row = {move: m, how: how[m] || null, type: mv ? mv.type : null, cat: mv ? mv.cat : null, bp: mv ? mv.bp || 0 : 0, fns: ET ? (ET.moves[m] || []).slice() : [], field: [], uses: []};
+    rows.forEach(function (e) { if (e.source === m + ' (field move)' && row.field.indexOf(e.capability) < 0) row.field.push(capName(e.capability)); });
+    if (CM) Object.keys(CM.move_uses).forEach(function (c) { if (c.charAt(0) !== '_' && CM.move_uses[c].indexOf(m) >= 0 && row.field.indexOf(c) < 0) row.uses.push(capName(c)); });
+    f.slots.push(row); });
   if (d.cur.ability) {
     var at = Explain.data() && Explain.data().abilities[d.cur.ability], txt = at ? ((at.game_text || {})[String(gen)] || at.summary) : null;
+    f.ability = d.cur.ability;
     if (txt) mech.push('<b>' + esc(d.cur.ability) + '</b>: ' + esc(txt));
-    if (S.field) Field.evidence(d.game, res.species).forEach(function (e) { if (e.source.indexOf(d.cur.ability) === 0) mech.push('<b>' + esc(d.cur.ability) + '</b> outside battle: ' + esc(e.detail || e.source) + '.'); });
-    Object.keys(WEATHER).forEach(function (w) { if (slots.indexOf(w) >= 0 && WEATHER[w].indexOf(d.cur.ability) >= 0) mech.push('<b>' + esc(w) + ' and ' + esc(d.cur.ability) + '</b>: the ability works in the weather the move calls.'); });
+    rows.forEach(function (e) { if (e.source.indexOf(d.cur.ability) === 0) { mech.push('<b>' + esc(d.cur.ability) + '</b> outside battle: ' + esc(e.detail || e.source) + '.');
+      if (f.ability_field.indexOf(e.capability) < 0) f.ability_field.push(capName(e.capability)); } });
+    Object.keys(WEATHER).forEach(function (w) { if (slots.indexOf(w) >= 0 && WEATHER[w].indexOf(d.cur.ability) >= 0) { mech.push('<b>' + esc(w) + ' and ' + esc(d.cur.ability) + '</b>: the ability works in the weather the move calls.'); f.weather.push([w, d.cur.ability]); } });
   }
-  res.evolution.forEach(function (x) { if (slots.indexOf(x.move) >= 0) mech.push('<b>' + esc(x.move) + '</b> is what lets ' + esc(x.from) + ' become ' + esc(x.to) + '.'); });
+  res.evolution.forEach(function (x) { if (slots.indexOf(x.move) >= 0) { mech.push('<b>' + esc(x.move) + '</b> is what lets ' + esc(x.from) + ' become ' + esc(x.to) + '.'); f.evolution.push({move: x.move, from: x.from, to: x.to}); } });
   var dd = dexOf(res.species) || {};
-  if (dd.dex) canon.push('“' + esc(dd.dex) + '” <span class="tiny muted">(' + esc(cap(dd.dexg || '')) + ' Pokédex)</span>');
-  if (dd.hab) canon.push('Lives in ' + esc(dd.hab) + ' (the Pokédex habitat).');
-  if (S.field) Field.evidence(d.game, res.species).filter(function (e) { return e.tier === 'lore'; }).slice(0, 4).forEach(function (e) { canon.push(esc(cap(e.capability.replace(/_/g, ' '))) + ': its ' + esc(e.source) + ' entry suggests it' + (e.detail ? ' (“' + esc(e.detail) + '”)' : '') + '.'); });
-  return '<div class="eyebrow">Game mechanics</div>' + (mech.length ? mech.map(function (x) { return '<div class="small" style="padding:3px 0">' + x + '</div>'; }).join('') : '<div class="tiny muted">None recorded.</div>') +
-    '<div class="eyebrow" style="margin-top:10px">Canon about the species</div>' + (canon.length ? canon.map(function (x) { return '<div class="small" style="padding:3px 0">' + x + '</div>'; }).join('') : '<div class="tiny muted">None recorded.</div>') +
-    '<div class="eyebrow" style="margin-top:10px">Interpretation</div><div class="small">Blackthorn draws no conclusion from a starting set on its own. A move doesn\'t make a lineage: an Extrasensory Cyndaquil is an individual specialization until something more shows otherwise. A reading of this set would be a hypothesis, filed in the <a class="link" href="#/journal">research journal</a>, next to <a class="link" href="#/atlas/' + numOf(res.species) + '">its biology</a>.</div>';
+  if (dd.dex) { canon.push('“' + esc(dd.dex) + '” <span class="tiny muted">(' + esc(cap(dd.dexg || '')) + ' Pokédex)</span>'); f.canon.dex = dd.dex; f.canon.dexg = dd.dexg || null; }
+  if (dd.hab) { canon.push('Lives in ' + esc(dd.hab) + ' (the Pokédex habitat).'); f.canon.hab = dd.hab; }
+  rows.filter(function (e) { return e.tier === 'lore'; }).slice(0, 4).forEach(function (e) { canon.push(esc(cap(e.capability.replace(/_/g, ' '))) + ': its ' + esc(e.source) + ' entry suggests it' + (e.detail ? ' (“' + esc(e.detail) + '”)' : '') + '.');
+    f.canon.lore.push({capability: capName(e.capability), source: e.source}); });
+  // the rest of the facts: its types, your choices, the father's lineage and the line's ecotypes
+  if (ET) (dd.t || []).forEach(function (t) { var x = ET.type_fn[t.toLowerCase()]; if (x && !f.own[x]) f.own[x] = t; });
+  var nt = d.cur.nature ? ((S.builds || {}).natures || []).filter(function (x) { return x.name === d.cur.nature; })[0] : null;
+  if (nt) f.nature = {name: nt.name, up: nt.up || null, down: nt.down || null, likes: nt.up ? nt.likes || null : null};
+  if (d.cur.ivs) { try { f.ivs = Records.decStats(d.cur.ivs); } catch (e) { f.ivs = null; } }
+  var plans = (res.lineage || {}).plans || [];
+  if (res.recipe && res.recipe.father.length && plans.length) { var chain = [], n = plans[0]; while (n) { chain.unshift(n.father); n = n.via; }
+    f.lineage = {steps: plans[0].steps, chain: chain, line: plans[0].family[0], inherits: plans[0].inherits.slice(), only: plans.length === 1}; }
+  if (ET) { var seen = {};
+    res.family.forEach(function (sp) { var t = ET.species[sp]; if (!t) return;
+      (t.cur || []).forEach(function (e) { f.ecotypes.push({name: e.name, moves: e.moves.slice(), reading: e.reading, conf: e.confidence || 'low', src: 'dossier', of: sp}); });
+      (t.m || []).forEach(function (m) { var k = m[0] + '|' + m[2].join(','); if (seen[k]) return; seen[k] = 1; f.ecotypes.push({name: m[0], moves: m[2].slice(), fns: m[1].slice(), conf: 'low', src: 'machine', of: sp}); }); });
+    Object.keys(ET.functions).forEach(function (k) { f.fn[k] = [ET.functions[k].name, ET.functions[k].reading]; }); }
+  return {mech: mech, canon: canon, facts: f};
+}
+
+/* ---- the reading (A-09) ----
+   Zack, 2026-10-26: "You can propose an interpretation, that's fine." So the card reads its own evidence, by the rules
+   below and nothing else (stockInterpret is a plain function of the facts stockEvidence gathers, so a set you edit
+   reads again as you type). Every sentence is a hypothesis and names what it rests on. The parents' moves are read as
+   the line's; the ability, nature, IVs and purpose as what you intend, since none of them is passed down as a trait.
+   A move is read with the ecotype rules (biology/ecotypes.py, shipped as ecotypes.json `moves`), so a set means here
+   what its egg moves mean on #/ecotypes. With nothing to go on it says there's too little to read. docs/APP.md lists
+   the rules in plain words; app/test_stock.mjs holds fixed sets to their sentences. */
+var READ_RULES = {
+  ecotype: 'two or more inherited moves are the moves of one of the line\'s ecotypes: a dossier\'s first, then the ecotype rules\'',
+  kit: 'two or more inherited moves read as the same kind of thing (a hunter\'s kit, a defensive kit, two cold moves)',
+  lone: 'one egg move, or egg moves that point different ways: an individual, not a lineage',
+  weather: 'a weather move with the ability that works in it, or with canon that puts the species in that weather',
+  evolution: 'a starting move its line needs in order to evolve',
+  lineage: 'a father who must be bred to his moves first, or only one line of fathers that works',
+  origin: 'a pedigree that takes trades, a transfer, or can\'t be had in the generation at all',
+  battle: 'a nature that raises the stat its attacks use (or Speed, sparing it), a top IV in that stat, or a nature made for the other kind of attack',
+  show: 'in Emerald or Platinum, a nature made for the other kind of attack, read by the flavour it likes',
+  work: 'moves, and an ability, with uses away from battle: field moves and the capability tags'
+};
+var KITS = [   // kinds of ecotype function that make one kit, what it's called, and the line it could mark
+  ['hunting', ['ambush', 'pursuit', 'paralytic', 'sedative', 'theft'], 'a hunter\'s kit', 'a line that catches, stops or robs other animals for a living'],
+  ['defence', ['armour', 'recovery', 'chemical'], 'a defensive kit', 'a line that takes a hit, outlasts it or makes an attacker pay'],
+  ['social', ['social', 'vocal'], 'a social kit', 'a line that lives with others: care, calls and help'],
+  ['display', ['display'], 'a display kit', 'a line that builds itself up before it commits'],
+  ['deception', ['trick'], 'a trickster\'s kit', 'a line that confuses and misdirects']];
+var PLACE_FNS = ['cold', 'heat', 'aquatic', 'lithic', 'flora', 'aerial', 'shadow', 'electric', 'mind'];   // two moves of one of these: a lineage of that kind
+var CLIMATE = {   // a weather move counts as the climate it calls; the canon words and capabilities that put a species there
+  Hail: {fn: 'cold', words: /\b(snow\w*|ice|icy|cold|frozen|freez\w*|glacier\w*|blizzard\w*|frost\w*)\b/i, caps: ['cold_tolerance'], place: 'the cold', life: 'a life in hail and snow'},
+  Sandstorm: {fn: 'lithic', words: /\b(sand\w*|desert\w*|dust\w*)\b/i, caps: [], place: 'sand', life: 'a life in sandstorms'},
+  'Rain Dance': {fn: 'aquatic', words: /\b(rain\w*|downpour\w*)\b/i, caps: [], place: 'the rain', life: 'a life in the rain'},
+  'Sunny Day': {fn: 'heat', words: /\b(sun|suns|sunny|sunlight|sunshine|desert\w*)\b/i, caps: ['heat_tolerance'], place: 'strong sun', life: 'a life in strong sun'}};
+var CONTESTS = {emerald: ['Contests', 'Pokéblock'], platinum: ['Super Contests', 'Poffin']};   // the games in scope that have them
+var FLAVOUR = {spicy: 'Coolness', dry: 'Beauty', sweet: 'Cuteness', bitter: 'Smartness', sour: 'Toughness'};   // what each flavour builds
+var STAT_WORD = {hp: 'HP', atk: 'Attack', def: 'Defense', spa: 'Special Attack', spd: 'Special Defense', spe: 'Speed'};
+function stockInterpret(f) {   // facts -> {line, choices: [{rule, text, rests, conf}], thin, notes}
+  var out = {line: [], choices: [], thin: null, notes: []}, sp = f.species;
+  var HOW = {'default': 'at hatch', egg: 'egg move', tm: 'father\'s TM', shared: 'both parents', 'light-ball': 'Light Ball'};
+  var said = function (s) { return s.move + ' (' + (HOW[s.how] || 'in the set') + ')'; };
+  var names = function (xs) { return xs.map(function (s) { return s.move; }); };
+  var list = function (xs) { return xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1]; };
+  var add = function (part, rule, text, rests, conf) { out[part].push({rule: rule, text: text, rests: rests, conf: conf || 'low'}); };
+  var fnName = function (x) { return (f.fn[x] || [x])[0]; }, capWord = function (c) { return (f.caps[c] || c.replace(/_/g, ' ')).toLowerCase(); };
+  var fnsOf = function (s) { var x = s.fns.slice(), c = CLIMATE[s.move]; if (c && x.indexOf(c.fn) < 0) x.push(c.fn); return x; };
+  var GAME = {heartgold: 'HeartGold', soulsilver: 'SoulSilver', firered: 'FireRed', leafgreen: 'LeafGreen'}, game = function (g) { return GAME[g] || cap(g); };
+  var dexSrc = function (src) { var m = /^Pokédex \(([^)]+)\)$/.exec(src); return m ? game(m[1]) + ' Pokédex' : src; };
+  if (f.gen >= 3) out.notes.push('the ability (an egg gets one of its species\' abilities at random in Gens 3–4; it isn\'t passed down)');
+  out.notes.push(f.gen === 2 ? 'the ball (Gen 2 keeps no ball)' : 'the ball (every egg hatches in a Poké Ball)');
+  if (!f.possible) { out.thin = 'Too little to read: the hatch rules can\'t make this set, so there\'s no line to read yet.'; return out; }
+  var inh = f.slots.filter(function (s) { return s.how && s.how !== 'default'; }), eggs = inh.filter(function (s) { return s.how === 'egg'; }), by = {}, used = {};
+  f.slots.forEach(function (s) { by[s.move] = s; });
+  var has = function (m) { return inh.some(function (s) { return s.move === m; }); };
+  // ecotype: the line's own ecotypes, the dossier's before the machine's, by how many of their moves the set carries
+  var best = null;
+  f.ecotypes.forEach(function (e) { var hit = e.moves.filter(has);
+    if (hit.length >= 2 && (!best || hit.length > best.hit.length || (hit.length === best.hit.length && e.src === 'dossier' && best.e.src !== 'dossier'))) best = {e: e, hit: hit}; });
+  if (best) { var e = best.e, hit = best.hit.map(function (m) { return by[m]; }); hit.forEach(function (s) { used[s.move] = 1; });
+    if (e.src === 'dossier') { var first = e.reading.search(/\.\s/);
+      add('line', 'ecotype', 'The ' + e.of + ' dossier reads ' + list(names(hit)) + ' as an ecotype, the “' + e.name + '”: “' + (first > 0 ? e.reading.slice(0, first + 1) : e.reading) + '” This set carries ' + (hit.length === 2 ? 'both' : 'all ' + hit.length) + '.',
+        hit.map(said).concat(['the ' + e.of + ' dossier\'s ecotypes']), e.conf); }
+    else add('line', 'ecotype', 'By the ecotype rules, ' + list(names(hit)) + ' read as an ecotype, the “' + e.name + '”: ' + e.fns.map(function (x) { return (f.fn[x] || ['', x])[1]; }).join(', and ') + '.', hit.map(said).concat(['the ecotype rules']), e.conf); }
+  // kit: two or more inherited moves of one kind (a weather move counts as the climate it calls)
+  var groups = [], defence = null;
+  KITS.forEach(function (k) { var ms = inh.filter(function (s) { return fnsOf(s).some(function (x) { return k[1].indexOf(x) >= 0; }); });
+    if (ms.length >= 2) { groups.push({k: k, ms: ms}); if (k[0] === 'defence') defence = ms; } });
+  PLACE_FNS.forEach(function (fn) { var ms = inh.filter(function (s) { return fnsOf(s).indexOf(fn) >= 0; }); if (ms.length >= 2) groups.push({fn: fn, ms: ms}); });
+  groups.filter(function (g) { return !g.ms.every(function (s) { return used[s.move]; }); })
+    .sort(function (a, b) { return b.ms.length - a.ms.length; }).slice(0, 2).forEach(function (g) {
+      var rests = g.ms.map(said).concat(['the ecotype rules\' reading of each move' + (g.ms.some(function (s) { return CLIMATE[s.move]; }) ? ', a weather move as the climate it calls' : '')]);
+      g.ms.forEach(function (s) { used[s.move] = 1; });
+      if (g.k) add('line', 'kit', list(names(g.ms)) + ' together make ' + g.k[2] + ' (' + g.ms.map(function (s) { return s.move + ': ' + fnsOf(s).filter(function (x) { return g.k[1].indexOf(x) >= 0; }).map(function (x) { return fnName(x).toLowerCase(); }).join(', '); }).join('; ') +
+        '): one reading is ' + g.k[3] + '.', rests);
+      else add('line', 'kit', list(names(g.ms)) + ' are ' + (g.ms.length === 2 ? 'both ' : 'all ') + fnName(g.fn).toLowerCase() + ' moves: together they could mark ' + (f.fn[g.fn] || ['', 'a lineage of that kind'])[1] + '.' +
+        (f.own[g.fn] ? ' ' + f.own[g.fn] + ' is its own type, so this would sharpen what every ' + sp + ' already is rather than set the line apart.' : ''), rests); });
+  // lone: one egg move on its own, or egg moves that point different ways (the spec's Extrasensory Cyndaquil)
+  var loose = eggs.filter(function (s) { return !used[s.move]; });
+  if (eggs.length === 1 && loose.length === 1) add('line', 'lone', 'One egg move on its own (' + eggs[0].move + ') reads best as an individual specialization: nothing else in the set points the same way, so it doesn\'t make a lineage.', [said(eggs[0])]);
+  else if (eggs.length >= 2 && loose.length === eggs.length) add('line', 'lone', 'Its egg moves (' + list(names(eggs)) + ') don\'t point the same way by the ecotype rules: read as one individual\'s mix rather than a lineage.', eggs.map(said).concat(['the ecotype rules\' reading of each move']));
+  // weather: a weather move with its ability, or with canon that puts the species in that weather
+  Object.keys(CLIMATE).forEach(function (w) { var s = by[w], C = CLIMATE[w]; if (!s) return;
+    var pair = f.weather.filter(function (p) { return p[0] === w; })[0], sup = [];
+    if (f.canon.dex && C.words.test(f.canon.dex)) sup.push(['its ' + (f.canon.dexg ? game(f.canon.dexg) + ' ' : '') + 'Pokédex entry', (f.canon.dexg ? game(f.canon.dexg) + ' ' : '') + 'Pokédex entry']);
+    if (f.canon.hab && C.words.test(f.canon.hab)) sup.push(['its Pokédex habitat, ' + f.canon.hab, 'Pokédex habitat: ' + f.canon.hab]);
+    f.canon.lore.forEach(function (l) { if (C.caps.indexOf(l.capability) >= 0) sup.push([capWord(l.capability) + ' in its ' + dexSrc(l.source) + ' entry', capWord(l.capability) + ': ' + dexSrc(l.source)]); });
+    if (!pair && !sup.length) return;
+    var rests = [said(s)].concat(pair ? [pair[1] + ' (ability)'] : [], sup.map(function (x) { return x[1] + ' (canon)'; }));
+    sup = sup.map(function (x) { return x[0]; });
+    if (pair) add('line', 'weather', w + ' calls the weather ' + pair[1] + ' works in' + (sup.length ? ', and its canon puts ' + sp + ' in ' + C.place + ' (' + list(sup) + ')' : '') + ': one reading is a set made for ' + C.life + '. The ability isn\'t passed down, so that half of the fit is this individual\'s, not the line\'s.', rests);
+    else add('line', 'weather', w + ' fits what its canon says about ' + sp + ' and ' + C.place + ' (' + list(sup) + '): one reading is a set that suits the climate the species already lives in, not a new trait.', rests); });
+  // evolution: a starting move the line needs to evolve
+  f.evolution.forEach(function (x) { if (by[x.move]) add('line', 'evolution', 'Every egg of this set hatches knowing ' + x.move + ', the move a ' + x.from + ' needs to become ' + x.to + ': one reading is a line bred toward ' + x.to + '.',
+    [said(by[x.move]), x.from + ' evolves into ' + x.to + ' only while it knows ' + x.move + ' (game data)']); });
+  // lineage: the father's own pedigree
+  var L = f.lineage;
+  if (L && L.steps >= 2) add('line', 'lineage', 'Its father has to be bred to ' + list(L.inherits) + ' first, over ' + L.steps + ' generations of fathers (' + L.chain.concat([sp]).join(' → ') + '): as a story, a breeding family that carries the ' + L.chain[0] + ' line\'s move' + (L.inherits.length > 1 ? 's' : '') + ' down to this egg.',
+    ['the father\'s lineage (the hatch rules, ' + L.steps + ' generations)']);
+  else if (L && L.only) add('line', 'lineage', 'Only the ' + L.line + ' line can father this set: every egg like it has a ' + L.chain[0] + ' father, so the line\'s story starts there.', ['the father\'s lineage (the hatch rules: the only father found within three generations)']);
+  // origin: where the parents can be had
+  var why = String(f.obtainable_why).split('; ')[0];
+  if (!f.obtainable) add('line', 'origin', 'No parents in the generation can make this set (the verdict\'s second answer), so no pedigree stands behind it: there\'s a design here, but no lineage to read.', ['verdict 2: not obtainable (the hatch rules)']);
+  else if (f.scope === 'with a transfer') add('line', 'origin', 'Its pedigree needs a transfer from an earlier generation\'s games: ' + why + '. As a story, an imported line.', ['verdict 2: obtainable with a transfer (game data)']);
+  else if (f.scope === 'with trades or gifts') add('line', 'origin', 'Its pedigree needs trades or gifts: ' + why + '. As a story, a line brought together from beyond ' + f.title + '.', ['verdict 2: obtainable with trades or gifts (game data)']);
+  // battle and show: what the nature and IVs do for the stat its attacks use (only attacks with a power count: Bide, Counter and one-hit KOs use no stat)
+  var phys = f.slots.filter(function (s) { return s.cat === 'Physical' && s.bp > 0; }), spec = f.slots.filter(function (s) { return s.cat === 'Special' && s.bp > 0; });
+  var main = phys.length >= 2 && phys.length > spec.length ? 'atk' : spec.length >= 2 && spec.length > phys.length ? 'spa' : null, uses = main === 'atk' ? phys : spec;
+  var N = f.nature, top = f.gen === 2 ? 15 : 31, items = [], rests = [], usesSaid = uses.map(function (s) { return s.move + ' (' + s.cat + ')'; });
+  if (main) {
+    if (N && N.up === main) { items.push(N.name + ' raises ' + STAT_WORD[main] + ', which ' + list(names(uses)) + ' use'); rests.push(N.name + ' (your nature)'); }
+    else if (N && N.up === 'spe' && N.down !== main) { items.push(N.name + ' raises Speed and spares ' + STAT_WORD[main]); rests.push(N.name + ' (your nature)'); }
+    if (f.ivs && +f.ivs[main] === top) { items.push('its ' + STAT_WORD[main] + ' IV is ' + top); rests.push(STAT_WORD[main] + ' IV ' + top + ' (your IVs)'); }
+    if (items.length) { if (f.purpose === 'competitive') { items.push('you marked it competitive'); rests.push('purpose: competitive (yours)'); }
+      add('choices', 'battle', cap(list(items)) + ': the choices could mark a line bred for battle, as a ' + (main === 'atk' ? 'physical' : 'special') + ' attacker.', usesSaid.concat(rests)); }
+    else if (N && N.down === main && N.up === (main === 'atk' ? 'spa' : 'atk')) { var against = N.name + ' lowers ' + STAT_WORD[main] + ', which ' + list(names(uses)) + ' use', C = CONTESTS[f.game];
+      if (C && N.likes) add('choices', 'show', against + ', so it doesn\'t serve these attacks. In ' + f.title + ' a nature also decides the ' + C[1] + ' flavour it likes (' + cap(N.likes) + ', the one that builds ' + FLAVOUR[N.likes] + ' for ' + C[0] + '): one reading is a show line.',
+        [N.name + ' (your nature)'].concat(usesSaid, [N.name + ' likes ' + cap(N.likes) + ' (game data)'], f.purpose === 'personal' ? ['purpose: personal (yours)'] : []));
+      else add('choices', 'battle', against + ': the nature isn\'t chosen for these attacks, so the set could be kept for something other than battle.', [N.name + ' (your nature)'].concat(usesSaid)); }
+  } else if (N && (N.up === 'def' || N.up === 'spd') && defence) add('choices', 'battle', N.name + ' raises ' + STAT_WORD[N.up] + ', and ' + list(names(defence)) + ' are a defensive kit: the choices could mark a line bred for battle, as a wall.',
+    [N.name + ' (your nature)'].concat(defence.map(said)));
+  // work: uses away from battle, from the field moves (game data) and the capability tags (hypotheses)
+  var jobs = [], jobRests = [], caps = {}, moved = 0;
+  f.slots.forEach(function (s) { if (!s.field.length && !s.uses.length) return; moved++;
+    jobs.push(s.move + ' (' + s.field.concat(s.uses).map(capWord).join(', ') + ')');
+    jobRests.push(s.move + ' (' + [s.field.length ? 'a field move' : '', s.uses.length ? 'capability tags, hypotheses' : ''].filter(Boolean).join('; ') + ')');
+    s.field.concat(s.uses).forEach(function (c) { caps[c] = 1; }); });
+  if (f.ability && f.ability_field.length) { jobs.push(f.ability + ' (' + f.ability_field.map(capWord).join(', ') + ')'); jobRests.push(f.ability + ' (its effect outside battle)'); f.ability_field.forEach(function (c) { caps[c] = 1; }); }
+  var ncap = Object.keys(caps).length;
+  if ((ncap >= 2 && moved >= 2) || (ncap >= 1 && f.purpose === 'environment'))
+    add('choices', 'work', 'Away from battle, ' + list(jobs) + (jobs.length > 1 ? ' have uses' : ' has a use') + ': one reading is a working line for the homestead\'s jobs' + (f.purpose === 'environment' ? ', as its purpose says' : '') + '.',
+      jobRests.concat(f.purpose === 'environment' ? ['purpose: environment (yours)'] : []));
+  // too little to read: no rule fired on the moves themselves (where its parents come from doesn't count)
+  if (!out.line.filter(function (r) { return r.rule !== 'origin'; }).length) {
+    var thin = !inh.length ? 'the set is only the egg\'s own moves at hatch' + (f.defaults.length ? ' (' + list(f.defaults) + ')' : '') + ', which every ' + sp + ' egg starts with'
+      : list(inh.map(said)) + (inh.length > 1 ? ' don\'t point anywhere together' : ' points nowhere on its own') + ' by these rules';
+    if (!f.read_moves) thin += ' (the ecotype rules didn\'t load, so the moves weren\'t read for a way of life)';
+    out.thin = 'Too little to read' + (out.line.length || out.choices.length ? ' in the moves' : '') + ': ' + thin + '.';
+  }
+  return out;
+}
+function stockReading(R, res) {   // the reading under the evidence: each sentence with its class, its rule and what it rests on
+  var row = function (r) {
+    return '<div class="biost"><div class="small">' + esc(r.text) + '</div><div class="tiny" style="margin-top:3px">' + bioClass('hypothesis', r.conf) + ' <span class="muted" title="' + esc(READ_RULES[r.rule] || '') + '">rule: ' + esc(r.rule) + '</span>' +
+      ' <span class="muted">· rests on</span> ' + r.rests.map(function (x) { return '<span class="bioev">' + esc(x) + '</span>'; }).join(' ') + '</div></div>';
+  };
+  var part = function (title, rs) { return rs.length ? '<div class="tiny muted" style="margin-top:8px">' + title + '</div>' + rs.map(row).join('') : ''; };
+  return '<div class="eyebrow" style="margin-top:10px">Interpretation ' + bioClass('hypothesis') + '</div>' +
+    '<div class="tiny muted">Read from the evidence above by fixed rules. Every line is a hypothesis, not a fact, and says what it rests on; hover a rule for what it does.</div>' +
+    (R.thin ? '<div class="small" style="padding:6px 0 2px">' + esc(R.thin) + '</div>' : '') + part('About the line', R.line) + part('About what it\'s for', R.choices) +
+    '<div class="tiny muted" style="margin-top:8px">Not read as the line\'s: ' + esc(R.notes.join('; ')) + '. Your nature, IVs and purpose are read as what you intend. To keep a reading, file it as a hypothesis in the <a class="link" href="#/journal">research journal</a>, next to <a class="link" href="#/atlas/' + numOf(res.species) + '">its biology</a>.</div>';
 }
 function stockSave(asNew) {
   var d = ST.d, c = d.cur, res = d.res || Stock.blueprint(d.species, c.moves, d.game, mineList());

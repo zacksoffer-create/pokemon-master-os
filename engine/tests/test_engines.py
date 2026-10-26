@@ -2520,6 +2520,19 @@ class FieldBiology(unittest.TestCase):
         self.assertTrue(all(set(m["moves"]) <= set(d["egg_moves"]) for m in d["machine"]))
         self.assertTrue(d["curated"])                                   # the dossier's own come first
 
+    def test_every_move_reads_the_way_the_ecotypes_read_it(self):
+        """A-09: the breeding-stock page reads a whole starting set with the per-move table shipped with the ecotypes;
+        it must be the reading every line's egg moves got."""
+        mv = self.et["moves"]
+        for name, d in self.et["species"].items():
+            for fn, moves in d["functions"].items():
+                for m in moves:
+                    self.assertIn(fn, mv[m], (name, m))
+        self.assertEqual(mv["Ancient Power"], ["lithic"])
+        self.assertEqual(mv["Ice Shard"], ["ambush", "cold"])
+        self.assertNotIn("Hail", mv)                                    # a weather move is the stock page's own rule
+        self.assertEqual(self.et["type_fn"]["ice"], "cold")
+
     def test_the_trainer_ecosystem_checks_out(self):
         from trainers.ecosystem import check
         errs, _, eco = check()
