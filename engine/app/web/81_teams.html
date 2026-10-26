@@ -43,11 +43,17 @@ var Teams = (function () {
     while (slots.length < 6) slots.push(null);
     return {id: t.id, game: game, kind: 'journey', title: t.title || GAME_NAME[game] + ' team', slots: slots, profile: Object.assign(defaultTrainer(game), t.profile || {}), note: t.note || '', at: t.at || null, saved: true};
   }
-  function save(t, line) {
+  function write(t) {
     var rec = {id: id(t.game), game: t.game, kind: 'journey', title: t.title, note: t.note || '', status: 'saved', profile: t.profile,
       slots: t.slots.map(function (s) { if (!s) return null; var i = ind(s); return {ind: s.ind, species: i ? i.species : s.species}; })};
     return Records.saveTeam(rec).then(function () { return get(t.game); });
   }
+  var CHAIN = {};
+  function update(game, fn) {   // a change to the team, made in turn: each one starts from the team as the last save left it, so two quick changes can't undo each other
+    var run = function () { var t = get(game), r = fn(t); return r === false ? get(game) : write(r || t); };
+    return (CHAIN[game] = (CHAIN[game] || Promise.resolve()).then(run, run));
+  }
+  function save(t) { return update(t.game, function () { return t; }); }   // the whole team as given (in turn with the others)
   function ind(s) { return s && s.ind ? ((S.store || {}).individuals || {})[s.ind] || null : null; }
   function members(t) {   // [{slot, ind, build}] for the filled slots, in order
     return t.slots.map(function (s, i) { var x = ind(s); return x ? {slot: i, ind: x, build: indBuild(x)} : null; });
@@ -60,7 +66,7 @@ var Teams = (function () {
   function asSlots(t) {   // the team as the Arena and the Trainer Library read a saved team: species and build per slot
     return members(t).filter(Boolean).map(function (m) { var b = Object.assign({}, m.build); delete b.id; return {species: m.ind.species, build: b, from: m.ind.id}; });
   }
-  return {id: id, get: get, save: save, blank: blank, members: members, filled: filled, onTeam: onTeam, asSlots: asSlots, defaultTrainer: defaultTrainer};
+  return {id: id, get: get, save: save, update: update, blank: blank, members: members, filled: filled, onTeam: onTeam, asSlots: asSlots, defaultTrainer: defaultTrainer};
 })();
 function whose(t) { var n = t && t.profile && t.profile.name; return n && n !== 'You' ? n + '\'s' : 'Your'; }   // "Zack's HeartGold" / "Your HeartGold"
 function journeyRegions(game) { return JOURNEY[game].regions.map(function (r) { return REGION[r]; }); }

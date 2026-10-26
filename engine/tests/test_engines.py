@@ -2620,6 +2620,14 @@ class WebApp(unittest.TestCase):
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
+    def test_six_taps_make_a_team_of_six(self):
+        """v2.2 regression (app/test_teamflow.mjs, in Chromium): tapping an empty tile and a species, six times, makes
+        six Pokémon in six slots; an arrow tap moves one place; the never-built spares are set aside and come back."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_teamflow.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_breeding_stock_pages_answer_the_four_questions(self):
         """The breeding-stock pages in the preview (app/test_stock.mjs, in Chromium): what a line can start with, how to
         make an exact set, what makes two different, what a set might suggest; save, version, record a hatch; the

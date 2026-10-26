@@ -58,7 +58,8 @@ function tmSix() {
 }
 function tmSaveSoon(msg) {   // order changes come in bursts: save once they settle
   clearTimeout(TM.saveT);
-  TM.saveT = setTimeout(function () { Teams.save(TM.team).then(function (t) { TM.team = t; if (msg) toast(msg); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); }); }, 900);
+  TM.saveT = setTimeout(function () { var slots = TM.team.slots.slice();   // the order on screen, over the team as last saved (its trainer kept)
+    Teams.update(TM.game, function (t) { t.slots = slots; return t; }).then(function (t) { TM.team = t; if (msg) toast(msg); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); }); }, 900);
 }
 function tmMove(from, to) {
   if (to < 0 || to > 5 || from === to) return;
@@ -107,7 +108,7 @@ function tmSaveTrainer(f) {
   if (document.querySelector('[data-dial]')) p.params = tmDialValues();
   else if (f.style.value !== (TM.team.profile.style || 'default')) p.params = Object.assign({}, (TR_PHILOSOPHY[f.style.value] || {}).params || {});
   TM.team.profile = p;
-  Teams.save(TM.team).then(function (t) { TM.team = t; document.getElementById('tmtitle').textContent = whose({profile: p}) + ' ' + GAME_NAME[TM.game];
+  Teams.update(TM.game, function (t) { t.profile = p; return t; }).then(function (t) { TM.team = t; document.getElementById('tmtitle').textContent = whose({profile: p}) + ' ' + GAME_NAME[TM.game];
     document.getElementById('tmphil').innerHTML = p.philosophy ? '“' + esc(p.philosophy) + '”' : ''; toast('Saved. The Arena plays this team this way.'); })
     .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
 }
@@ -358,7 +359,7 @@ function tmCandRun() {
     '<div class="tiny muted" style="margin-top:8px">' + list.length + ' fit the filters. A build from the book goes in as a new Pokémon of yours (its own record, the book unchanged). "Closes" and "opens" are the checks that change with it in slot ' + (slot + 1) + '.</div>';
 }
 function tmPut(id, slot) {
-  var put = function (ind) { TM.team.slots[slot] = {ind: ind.id, species: ind.species}; return Teams.save(TM.team).then(function (t) { TM.team = t; toast(esc(ind.nickname || ind.species) + ' is in slot ' + (slot + 1) + '.'); nav('#/team/' + TM.game, true); }); };
+  var put = function (ind) { return Teams.update(TM.game, function (t) { t.slots[slot] = {ind: ind.id, species: ind.species}; return t; }).then(function (t) { TM.team = t; toast(esc(ind.nickname || ind.species) + ' is in slot ' + (slot + 1) + '.'); nav('#/team/' + TM.game, true); }); };
   var mine = S.store.individuals[id];
   if (mine) { put(mine).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); }); return; }
   var src = storeBuild(id); if (!src) return; var d = dexOf(src.species) || {};

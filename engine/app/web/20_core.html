@@ -203,7 +203,11 @@ function go() {
   links.forEach(function (a) { var on = exact ? a.getAttribute('data-nav') === here : a.getAttribute('data-nav') === (r.nav || '#/'); a.classList.toggle('on', on);
     if (on) { var sec = a.closest('.nav-sec'); if (sec) sec.classList.remove('folded'); } });
   document.getElementById('rail').classList.remove('on');
-  var page = document.getElementById('page');
+  // a fresh page element for every page: listeners a page binds to #page (the team page, the species picker, a
+  // facility) go with it, instead of piling up and firing once per earlier visit (v2.1 fix: one tap on a species
+  // added it once per visit to the picker, and the copies overwrote each other's team slots)
+  var old = document.getElementById('page'), page = old.cloneNode(false);
+  old.parentNode.replaceChild(page, old);
   page.innerHTML = '<div class="empty">Opening…</div>';
   page._after = [];
   Promise.resolve(r.fn.apply(null, m.slice(1).map(decodeURIComponent))).then(function (html) {

@@ -84,7 +84,7 @@
    "decision": "D-067",
    "phase": "Phase 4 · breeding stock",
    "area": "Hatch rules",
-   "what": "'Possible' follows the hatch rules as the games' own code builds an egg (the pret decompilations: move order, push-out, hatch level 5 in Gens 2-3 and 1 in Gen 4). The four-state verdict informs and decides nothing; learnability stays the gate.",
+   "what": "When the breeding page says a moveset is 'possible', it means an egg could really hatch with those moves, the way the games build an egg: which moves are passed down, which get pushed out when there are more than four, and the level it hatches at (5 in Gens II-III, 1 in Gen IV). It's information only: whether a Pokémon can learn a move is still what decides what you can build.",
    "why": "The code is the most exact source there is.",
    "where": [
     "#/stock/heartgold/Swinub",
@@ -92,7 +92,8 @@
    ],
    "instead": [
     "a simpler 'any egg move' rule"
-   ]
+   ],
+   "plain": true
   },
   {
    "id": "A-07",
@@ -613,7 +614,7 @@
    "decision": "D-076",
    "phase": "Phase 7 · Capability, survival and homestead",
    "area": "How evidence reads",
-   "what": "Every piece of evidence keeps three separate labels: its layer (A game mechanic, B biology, C equipment), its class (mechanic, inferred, hypothesis, Blackthorn) and whether you approved it. A need then reads Covered, With equipment, If taught, Plausible, Needs your approval or Gap. There's no overall score. A species' overworld ability counts as covered only when every ability it can have does the job (Magcargo's two both warm eggs); otherwise it's plausible until the build names the ability.",
+   "what": "On the Survival Lab and Homestead pages, each piece of evidence that a Pokémon can do a job is labelled three ways: where it comes from (a game mechanic, its biology, or equipment), how sure it is (a game fact, an inference, a guess, or a Blackthorn invention), and whether you've approved it. Each job then reads Covered, With equipment, If taught, Plausible, Needs your approval or Gap; there's no single overall score. An ability counts only when every ability the species can have does the job; otherwise it's plausible until your build names the ability.",
    "why": "The spec forbids an opaque score and asks for canon kept apart from interpretation (Test E).",
    "where": [
     "#/survival",
@@ -622,7 +623,8 @@
    "instead": [
     "a weighted readiness percentage",
     "count teachable field moves as covered"
-   ]
+   ],
+   "plain": true
   },
   {
    "id": "A-41",
@@ -755,7 +757,7 @@
    "decision": "D-076",
    "phase": "Phase 7 · Capability, survival and homestead",
    "area": "World records follow your Pokémon",
-   "what": "W-001 to W-017 are about one of your Pokémon, so they follow it wherever it's assessed: your Emerald Meganium's W-016 counts at the Glasshouse even though the Homestead reads everyone in HeartGold. A species on someone else's team doesn't get them.",
+   "what": "A few world records (W-001 to W-017) were written about one particular Pokémon of yours, such as your Emerald Meganium tending the Glasshouse. Those records stay with that one Pokémon: they count for it wherever it's assessed, and not for any other Meganium. While the fresh start is on, those old Pokémon are hidden, so these records don't show.",
    "why": "MASTER_PLAN's 'species-level records across games', resolved by the individual the record describes.",
    "where": [
     "#/facility/glasshouse",
@@ -763,7 +765,8 @@
    ],
    "instead": [
     "apply a W-record to every Pokémon of that species"
-   ]
+   ],
+   "plain": true
   },
   {
    "id": "A-50",
@@ -818,7 +821,7 @@
    "decision": "D-077",
    "phase": "v1 · The Arena",
    "area": "Arena engine",
-   "what": "The 6v6 engine runs in the page: the battle-only build (2.8 MB, loaded only by Arena pages), Web Workers where the page allows them and the page itself where it doesn't (same battles either way). Legality is checked once in Node for every team the pack can field (393); a team you saved in My Teams is checked by the app's builder instead, and its result says so.",
+   "what": "The Arena's battles run in your browser, on a smaller battle-only copy of the engine that loads only on Arena pages. Where the browser allows it, several battles run at once in the background; otherwise they run one at a time, with the same results. The trainers' teams were checked for legality in advance; a team you build is checked by the builder, and the result says so.",
    "why": "The full build (6.9 MB, with learnsets) is too heavy to load in the app; the battle-only build can't check legality, so the checks travel with it. The browser test proves the page plays exactly Node's battles (the fingerprint).",
    "where": [
     "#/arena",
@@ -827,7 +830,8 @@
    "instead": [
     "load the full build on demand to check your saved teams with Showdown's validator",
     "run the engine on the home laptop and send results back"
-   ]
+   ],
+   "plain": true
   },
   {
    "id": "A-54",

@@ -11,6 +11,7 @@ The Ace score is the plain average of the two win rates (Elite Four and Champion
 - **Why:** Q1 of the master plan was open and blocked the build; the average was already what the engine computed.
 - **See it:** `#/standards` (The standards)
 - **Could instead:** weight the Champions more; use the lower of the two rates
+- **Your call** (2026-10-26, chat): Keep: "the ace score is fine where it is"
 
 ### A-02 · Ace test (D-066)
 
@@ -19,6 +20,7 @@ The Elite Four's and Champions' Pokémon fight with no EVs (the games give train
 - **Why:** Q2: it's how the Ace count you accepted in D-064 was made, so the numbers stay what you saw.
 - **See it:** `#/standards` (The standards)
 - **Could instead:** give their side 85 each too (every Ace number would move)
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-03 · Storage (D-066)
 
@@ -27,6 +29,7 @@ Reference data and definitions live in git; your own records (My Pokémon, My Bu
 - **Why:** Q3, read as approved by D-065 (use the old framework, build the new plan).
 - **See it:** `#/record` (The record)
 - **Could instead:** everything in the Sheet; everything in git
+- **Your call** (2026-10-26, chat): Change: everything in git. "We should probably keep everything in Git."
 
 ### A-04 · Your Pokémon (D-066)
 
@@ -35,6 +38,7 @@ You can have several of the same species in one game; each gets its own id with 
 - **Why:** Q4: a breeding program needs more than one of a line.
 - **See it:** `#/mine` (Your Pokémon)
 - **Could instead:** one per species per game
+- **Your call** (2026-10-26, chat): Keep
 
 ## Phase 4 · breeding stock
 
@@ -45,14 +49,16 @@ A blueprint is a design: a build marked kind 'blueprint' in My Builds, as many a
 - **Why:** Q10 of the master plan; a design costs nothing to keep.
 - **See it:** `#/stock` (Breeding stock)
 - **Could instead:** cap blueprints per line; blueprints only for ranch lines
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-06 · Hatch rules (D-067)
 
-'Possible' follows the hatch rules as the games' own code builds an egg (the pret decompilations: move order, push-out, hatch level 5 in Gens 2-3 and 1 in Gen 4). The four-state verdict informs and decides nothing; learnability stays the gate.
+When the breeding page says a moveset is 'possible', it means an egg could really hatch with those moves, the way the games build an egg: which moves are passed down, which get pushed out when there are more than four, and the level it hatches at (5 in Gens II-III, 1 in Gen IV). It's information only: whether a Pokémon can learn a move is still what decides what you can build.
 
 - **Why:** The code is the most exact source there is.
 - **See it:** `#/stock/heartgold/Swinub` (Swinub's catalogue)
 - **Could instead:** a simpler 'any egg move' rule
+- **Your call** (2026-10-26, chat): Not sure what it means: asked for plainer words (rewritten). *(later)*
 
 ### A-07 · Lineages (D-067)
 
@@ -61,6 +67,7 @@ A line's own male can be a link in a breeding chain (hatched with some moves, le
 - **Why:** Larvitar's lines were empty without it.
 - **See it:** `#/stock/heartgold/Tyranitar` (Larvitar's catalogue)
 - **Could instead:** fathers from other lines only
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-08 · Studbook (D-067)
 
@@ -69,6 +76,7 @@ Among equally short planned pedigrees, the studbook prefers a journey companion 
 - **Why:** It keeps a plan doable on real cartridges.
 - **See it:** `#/breeding/studbook` (The studbook)
 - **Could instead:** no preference; only same-generation companions
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-09 · What a set suggests (D-067)
 
@@ -77,6 +85,7 @@ Among equally short planned pedigrees, the studbook prefers a journey companion 
 - **Why:** An interpretation would be a hypothesis for the journal, not a fact.
 - **See it:** `#/stock` (Breeding stock)
 - **Could instead:** let it propose an interpretation, marked hypothetical
+- **Your call** (2026-10-26, chat): Change: let it propose an interpretation, marked hypothetical. "You can propose an interpretation, that's fine."
 
 ## Phase 5 · Trainer Library
 
@@ -87,6 +96,7 @@ Every Gym Leader, Elite Four member, Champion, rival meeting, rematch and villai
 - **Why:** The spec's 'notable trainers'; the left-out ones are thousands of teams nobody benchmarks against.
 - **See it:** `#/trainers` (The directory)
 - **Could instead:** add the Frontier Brains; add the Battle Tower or route trainers
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-11 · Names (D-068)
 
@@ -95,6 +105,7 @@ Rivals you name in the game get their usual names: Crystal and HeartGold's '?' i
 - **Why:** The data holds a placeholder, not a name; these are the names everyone uses.
 - **See it:** `#/trainer/silver` (Silver)
 - **Could instead:** your own names for them
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-12 · Identities (D-068)
 
@@ -103,6 +114,7 @@ The games' Blue and the anime's Gary are one trainer (Gary, also listed as Blue)
 - **Why:** They're the same character; the library is identity → versions.
 - **See it:** `#/trainer/gary` (Gary)
 - **Could instead:** two identities, Blue and Gary
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-13 · Identities (D-068)
 
@@ -111,6 +123,7 @@ The anime's May and Emerald's rival May are one trainer. Brendan stays his own.
 - **Why:** Same character across media, like Blue and Gary.
 - **See it:** `#/trainer/may` (May)
 - **Could instead:** separate the anime May from the games' May
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-14 · Identities (D-068)
 
@@ -119,6 +132,7 @@ Crystal's unnamed Rocket Executives are one group identity (Rocket Executives, C
 - **Why:** Crystal doesn't say which executive is which; the Kimono Girls fight as a set.
 - **See it:** `#/trainer/rocket-executive` (Rocket Executives)
 - **Could instead:** map Crystal's executives onto Archer, Ariana, Petrel and Proton; each Kimono Girl her own trainer
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-15 · Encounters (D-068)
 
@@ -127,6 +141,7 @@ Each encounter is its own version: a rematch is its own record, a rival's team p
 - **Why:** The spec asks for versions you can compare and pick; one record per real fight does that.
 - **See it:** `#/trainer/silver` (Silver's meetings)
 - **Could instead:** fold rival starter variants into one version
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-16 · Abilities and natures (D-068)
 
@@ -135,6 +150,7 @@ When the game doesn't fix a trainer Pokémon's ability, Blackthorn reads the spe
 - **Why:** The ability and nature are rolled from values the trainer data doesn't hold; guessing would look like fact.
 - **See it:** `#/trainer/cynthia` (Cynthia's team)
 - **Could instead:** compute the Gen 4 personality value (deterministic, but a lot of code); try both abilities
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-17 · Evidence classes (D-068)
 
@@ -143,6 +159,7 @@ Every field of every team member carries one of five classes. Cartridge: species
 - **Why:** Spec criterion 3: say what a version rests on, field by field.
 - **See it:** `#/trainer/ash/ash%2Fsinnoh` (Sinnoh Ash's research)
 - **Could instead:** fewer classes (known / assumed)
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-18 · How they think (D-068)
 
@@ -151,6 +168,7 @@ The games' AI flags are read two ways: tendencies (sets up early, takes risks, w
 - **Why:** A flag says how moves get scored, not what the trainer plans; keeping the kinds apart stops an interpretation passing as a measurement.
 - **See it:** `#/trainer/cynthia` (How Cynthia thinks)
 - **Could instead:** one combined 'AI level'
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-19 · Benchmarks (D-068)
 
@@ -159,6 +177,7 @@ A collection's default bar is 70%. The Ace collections keep the Ace test's own b
 - **Why:** 70% matches the Champion bar you already accepted.
 - **See it:** `#/bench` (Benchmarks)
 - **Could instead:** a different default; a bar per collection
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-20 · Benchmarks (D-068)
 
@@ -167,6 +186,7 @@ A group's rate counts each distinct Pokémon once (the same species, set and lev
 - **Why:** It's the Ace test's rule, so the Ace collections give the Ace test's numbers. How rematches should weigh is still master plan Q6.
 - **See it:** `#/bench?c=ace-champion-gen4` (The Ace collections)
 - **Could instead:** count every team slot (a rematch counts twice); a draw as half a win
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-21 · Lenses (D-068)
 
@@ -175,6 +195,7 @@ Two lenses. 'As encountered': their team exactly as the game has it, yours at th
 - **Why:** The spec asks both 'how would mine do in the game' and 'how does mine compare on equal footing'.
 - **See it:** `#/bench` (Benchmarks)
 - **Could instead:** yours at its own level; a level cap per game
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-22 · Benchmarks (D-068)
 
@@ -183,6 +204,7 @@ A benchmark runs in your Pokémon's generation; a team from another generation i
 - **Why:** Converting a team across generations would invent moves and mechanics.
 - **See it:** `#/bench` (Benchmarks)
 - **Could instead:** read Gen 3 teams in Gen 4 rules
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-23 · Your versions (D-068)
 
@@ -191,6 +213,7 @@ Your versions of a trainer are teams in My Teams with three new fields (kind, tr
 - **Why:** Spec criterion 9, on the record store you already have; the team lab opens them like any saved team.
 - **See it:** `#/trainers/variant/platinum%2Fcynthia` (Make a version of Cynthia)
 - **Could instead:** a separate Trainer Versions tab; optimize by fights instead of the strongest set
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-24 · Your groups (D-068)
 
@@ -199,6 +222,7 @@ Groups of teams you make on the benchmark page stay in this browser, not the She
 - **Why:** A quick test shouldn't need a Sheet change; if you use them a lot they can move to a tab.
 - **See it:** `#/bench` (Benchmarks)
 - **Could instead:** save them to a My Groups tab in the Sheet
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-25 · Collections (D-068)
 
@@ -207,6 +231,7 @@ The collections are: per game, the Gym Leaders, Gym rematches, Elite Four with t
 - **Why:** One group per question you'd ask of a game; the Ace pools so the library and the Ace test agree.
 - **See it:** `#/trainers` (The directory's collections)
 - **Could instead:** add a 'whole league' group per game; add your Gen 2-3 journey teams
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-26 · Intake (D-068)
 
@@ -215,6 +240,7 @@ A new claim kind, trainer_version, adds a version of a trainer with its roster o
 - **Why:** The master plan's 'intake that can create versions and rosters', without ever overwriting a version (D-049: approved before it lands).
 - **See it:** `#/inbox` (The inbox)
 - **Could instead:** let a claim replace a version's roster in place; a separate claim kind per roster change
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-27 · Corrections (D-068)
 
@@ -223,6 +249,7 @@ A correction to a build in the library makes a new version of it: the old values
 - **Why:** The master plan: approved corrections overwrote build fields in place, which broke 'never overwrite canonical'.
 - **See it:** `#/inbox` (The inbox)
 - **Could instead:** version trainer corrections too; make each correction a separate build id
+- **Your call** (2026-10-26, chat): Keep
 
 ## Phase 6 · Poké Balls and equipment
 
@@ -233,6 +260,7 @@ Each ball's exterior is the official Dream World art where it exists (15 balls),
 - **Why:** Image generation isn't open to this project's free Gemini key, the spec rules out new paid services, and a made-up exterior could get the design wrong.
 - **See it:** `#/balls` (The Poké Ball Collection)
 - **Could instead:** commission or generate high-resolution exteriors and upload them; hotlink a fan wiki's renders
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-29 · Interior art (D-070)
 
@@ -241,6 +269,7 @@ Every ball has a written interior direction (creative, labelled) and a brief to 
 - **Why:** No image generator is available here; the spec allows the brief-and-upload workflow when there isn't one.
 - **See it:** `#/ball/luxury` (The Luxury Ball's interior)
 - **Could instead:** connect a paid image service; a set of commissioned interiors
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-30 · Mechanics (D-070)
 
@@ -249,6 +278,7 @@ Every ball's effect comes from the game's own catch code at a pinned commit (Red
 - **Why:** The spec asks for verified, game-specific mechanics; the code is the most exact source.
 - **See it:** `#/ball/moon` (The Moon Ball, Crystal vs HeartGold)
 - **Could instead:** the intended behaviour, with the bugs as footnotes
+- **Your call** (2026-10-26, chat): Keep: and bring in more of the animation of a Pokémon coming out of its ball, if there's a way
 
 ### A-31 · The catch calculator (D-070)
 
@@ -257,6 +287,7 @@ One throw's chance, worked out the game's own way: the wild Pokémon's max HP as
 - **Why:** These are the only inputs the calculator can't know; the defaults are the average case.
 - **See it:** `#/balls/catch` (The catch planner)
 - **Could instead:** let you set IVs; model Safari bait and rocks
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-32 · Ball names (D-070)
 
@@ -265,6 +296,7 @@ Crystal's Park Ball (the Bug-Catching Contest's ball) and HeartGold's Sport Ball
 - **Why:** That's how the games and PKHeX number them (24 and 25).
 - **See it:** `#/ball/sport` (The Sport Ball)
 - **Could instead:** list Crystal's Park Ball as its own ball
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-33 · Could it be in that ball? (D-070)
 
@@ -273,6 +305,7 @@ Blackthorn checks a ball against how the species (or what it evolved from) is me
 - **Why:** The spec asks for the legal ball for an individual in its game; your story still wins.
 - **See it:** `#/pokemon/me%3Aheartgold%2FSnorlax` (Snorlax's ball in the Studio)
 - **Could instead:** block illegal balls; drop the check
+- **Your call** (2026-10-26, chat): Keep: "I like that it's a note and not a block"
 
 ### A-34 · Categories (D-070)
 
@@ -281,6 +314,7 @@ Six kinds: Standard (Poké, Great, Ultra, Master), Apricorn (Kurt's seven), Spec
 - **Why:** The spec's categories, made to cover all 25 without overlap.
 - **See it:** `#/balls` (The collection's filters)
 - **Could instead:** put Luxury and Heal under Specialized
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-35 · The equipment library (D-070)
 
@@ -289,6 +323,7 @@ Six kinds: Standard (Poké, Great, Ultra, Master), Apricorn (Kurt's seven), Spec
 - **Why:** The spec asks for a simpler library beyond the balls.
 - **See it:** `#/equipment` (The equipment library)
 - **Could instead:** include every key item; only gear with a field use
+- **Your call** (2026-10-26, chat): Change: include every key item.
 
 ### A-36 · Your inventory (D-070)
 
@@ -297,6 +332,7 @@ Your gear is a new My Gear tab in the Sheet: one row per item per game (have it,
 - **Why:** The same append-only pattern as your Pokémon, builds and teams.
 - **See it:** `#/equipment/super-rod` (The Super Rod's inventory)
 - **Could instead:** keep inventory in the browser only
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-37 · Menu (D-070)
 
@@ -305,6 +341,7 @@ Poké Balls and Equipment sit under Pokédex & Reference; your ball shows on eac
 - **Why:** They're reference libraries first; the personal side lives on your Pokémon.
 - **See it:** `#/balls` (The menu)
 - **Could instead:** a sixth space for Equipment; under My World
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-38 · How you get each ball (D-070)
 
@@ -313,6 +350,7 @@ Read from each game's own scripts, marts, item balls, hidden items, phone gifts,
 - **Why:** The spec asks for acquisition that's accurate per game; the code is exact, and saying what wasn't read keeps a gap from looking like a fact.
 - **See it:** `#/ball/luxury?g=emerald` (The Luxury Ball in Emerald)
 - **Could instead:** fill the gaps from Bulbapedia, labelled as such; read the gear's gifts the same way
+- **Your call** (2026-10-26, chat): Keep
 
 ## Phase 7 · Capability, survival and homestead
 
@@ -323,14 +361,16 @@ One model of 35 capabilities in seven areas: the spec's six (mobility, food and 
 - **Why:** The spec asks for a capability modelled once and reused everywhere, and names these gaps.
 - **See it:** `#/capabilities` (Capabilities)
 - **Could instead:** fewer, broader capabilities; split heat source into warmth and cooking fire
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-40 · How evidence reads (D-076)
 
-Every piece of evidence keeps three separate labels: its layer (A game mechanic, B biology, C equipment), its class (mechanic, inferred, hypothesis, Blackthorn) and whether you approved it. A need then reads Covered, With equipment, If taught, Plausible, Needs your approval or Gap. There's no overall score. A species' overworld ability counts as covered only when every ability it can have does the job (Magcargo's two both warm eggs); otherwise it's plausible until the build names the ability.
+On the Survival Lab and Homestead pages, each piece of evidence that a Pokémon can do a job is labelled three ways: where it comes from (a game mechanic, its biology, or equipment), how sure it is (a game fact, an inference, a guess, or a Blackthorn invention), and whether you've approved it. Each job then reads Covered, With equipment, If taught, Plausible, Needs your approval or Gap; there's no single overall score. An ability counts only when every ability the species can have does the job; otherwise it's plausible until your build names the ability.
 
 - **Why:** The spec forbids an opaque score and asks for canon kept apart from interpretation (Test E).
 - **See it:** `#/survival` (World readiness)
 - **Could instead:** a weighted readiness percentage; count teachable field moves as covered
+- **Your call** (2026-10-26, chat): Keep: though the wording wasn't clear (rewritten)
 
 ### A-41 · Bodies (D-076)
 
@@ -339,6 +379,7 @@ The Gen 4 Pokédex's body shape is read as anatomy: arms, two legs with free for
 - **Why:** It's the games' own body data, so it's better evidence than a guess from type.
 - **See it:** `#/capability/manipulation` (Manipulation)
 - **Could instead:** hand-authored anatomy per species; no anatomy, Pokédex text only
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-42 · Pokédex misreadings fixed (D-076)
 
@@ -347,6 +388,7 @@ Four of the wilderness engine's Pokédex patterns read too much: 'not used for f
 - **Why:** A misreading presented as evidence is what the spec warns against.
 - **See it:** `#/capability/air_travel` (Air travel)
 - **Could instead:** keep the broad patterns and hand-reject false hits
+- **Your call** (2026-10-26, chat): Keep: and fix any other pattern that reads too broad or too narrow, if possible
 
 ### A-43 · Moves put to use (D-076)
 
@@ -355,6 +397,7 @@ A move a build actually knows can be put to use outside battle, as a hypothesis:
 - **Why:** The spec asks that learned and inherited moves shape an individual's specialisation without being treated as canon.
 - **See it:** `#/survival` (A member's holders)
 - **Could instead:** no move uses; only egg moves count
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-44 · Equipment and training (D-076)
 
@@ -363,6 +406,7 @@ Seven equipment rules, proposed: a harness or a saddle for large Pokémon that h
 - **Why:** Layer C is the spec's equipment-assisted capability; the anatomy decides who can use what.
 - **See it:** `#/capability/construction` (Construction)
 - **Could instead:** no layer C until you author each one; a longer equipment list
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-45 · The kit (D-076)
 
@@ -371,6 +415,7 @@ Game items do what the game says (Potions heal, an Escape Rope gets you out of a
 - **Why:** Equipment is half of survival; game items are canon, camp gear isn't.
 - **See it:** `#/survival` (Kit)
 - **Could instead:** no camp gear: game items only
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-46 · Scenarios (D-076)
 
@@ -379,6 +424,7 @@ Eleven scenarios: the spec's eight (winter mountain, dense forest, coastal or ma
 - **Why:** The spec's list, made concrete so a team can be assessed against them.
 - **See it:** `#/survival` (Scenario)
 - **Could instead:** fewer, simpler scenarios; scenarios tied to real game locations
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-47 · Provisions (D-076)
 
@@ -387,6 +433,7 @@ What to carry if nobody forages: rations a day by body size (small 1, medium 2, 
 - **Why:** The spec asks to estimate consumption without inventing precision; this is a stated method you can change.
 - **See it:** `#/survival` (Provisions)
 - **Could instead:** by weight instead of size class; no estimate at all
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-48 · Slot cost (D-076)
 
@@ -395,14 +442,16 @@ A field move earns its place in a battle moveset if it does at least 70 damage t
 - **Why:** The spec asks for battle moveset opportunity costs; the threshold is stated and changeable.
 - **See it:** `#/survival` (Cartridge readiness)
 - **Could instead:** a different power line; judge each move by hand
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-49 · World records follow your Pokémon (D-076)
 
-W-001 to W-017 are about one of your Pokémon, so they follow it wherever it's assessed: your Emerald Meganium's W-016 counts at the Glasshouse even though the Homestead reads everyone in HeartGold. A species on someone else's team doesn't get them.
+A few world records (W-001 to W-017) were written about one particular Pokémon of yours, such as your Emerald Meganium tending the Glasshouse. Those records stay with that one Pokémon: they count for it wherever it's assessed, and not for any other Meganium. While the fresh start is on, those old Pokémon are hidden, so these records don't show.
 
 - **Why:** MASTER_PLAN's 'species-level records across games', resolved by the individual the record describes.
 - **See it:** `#/facility/glasshouse` (Tending the berry beds)
 - **Could instead:** apply a W-record to every Pokémon of that species
+- **Your call** (2026-10-26, chat): Not sure what it means: asked for plainer words (rewritten). *(later)*
 
 ### A-50 · Facilities (D-076)
 
@@ -411,6 +460,7 @@ Fourteen facilities as capability networks: the Glasshouse and its cold vault (a
 - **Why:** The spec's facility model, kept inside D-039.
 - **See it:** `#/homestead` (The Homestead)
 - **Could instead:** leave the four new facilities out until you ask; let biology staff a job
+- **Your call** (2026-10-26, chat): Keep: the facilities are being reworked anyway
 
 ### A-51 · Plans, not facts (Q13) (D-076)
 
@@ -419,6 +469,7 @@ Staff and expedition plans are plans: saving one changes nobody's team or home (
 - **Why:** Q13's proposal, taken as the default.
 - **See it:** `#/facility/glasshouse` (Save this staff plan)
 - **Could instead:** assignments as facts that move a Pokémon; a separate My Plans tab
+- **Your call** (2026-10-26, chat): Keep: the base is good; how it reads and what it outputs will change
 
 ### A-52 · Menu (D-076)
 
@@ -427,16 +478,18 @@ The Survival Lab replaces Field readiness under Labs (the old #/field address op
 - **Why:** MASTER_PLAN §3.1 maps Field readiness to the Survival Lab.
 - **See it:** `#/survival` (The menu)
 - **Could instead:** keep Field readiness as well; a separate Survival space
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · The Arena
 
 ### A-53 · Arena engine (D-077)
 
-The 6v6 engine runs in the page: the battle-only build (2.8 MB, loaded only by Arena pages), Web Workers where the page allows them and the page itself where it doesn't (same battles either way). Legality is checked once in Node for every team the pack can field (393); a team you saved in My Teams is checked by the app's builder instead, and its result says so.
+The Arena's battles run in your browser, on a smaller battle-only copy of the engine that loads only on Arena pages. Where the browser allows it, several battles run at once in the background; otherwise they run one at a time, with the same results. The trainers' teams were checked for legality in advance; a team you build is checked by the builder, and the result says so.
 
 - **Why:** The full build (6.9 MB, with learnsets) is too heavy to load in the app; the battle-only build can't check legality, so the checks travel with it. The browser test proves the page plays exactly Node's battles (the fingerprint).
 - **See it:** `#/arena` (The Arena)
 - **Could instead:** load the full build on demand to check your saved teams with Showdown's validator; run the engine on the home laptop and send results back
+- **Your call** (2026-10-26, chat): Not sure what it means: asked for plainer words (rewritten). *(later)*
 
 ### A-54 · Gen II-III teams (D-077)
 
@@ -445,6 +498,7 @@ Crystal, FireRed and Emerald teams (yours and the trainers') play in the Arena u
 - **Why:** The engine plays Gen IV only, and Legends and all-time leagues need your Crystal, FireRed and Emerald sixes and Lance, Red, Blue and Wallace.
 - **See it:** `#/legends` (Legends)
 - **Could instead:** leave Gen II-III teams out of the Arena; a separate Gen III engine later
+- **Your call** (2026-10-26, chat): Keep: everything in the Arena plays by Gen IV rules; the games and the wilderness are a separate conversation
 
 ## v1 · Recognition 2.0
 
@@ -455,6 +509,7 @@ Every stat-gated badge gets a name at each tier, FIFA-style: Speed Bronze-Elite 
 - **Why:** Your 2K/FIFA brief: 'if you had a heading power of over 85, you automatically got the power header trait'. The thresholds were already stat-gated; this names them.
 - **See it:** `#/standards` (The standards)
 - **Could instead:** rename any of them; no names: tiers only
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · The Arena
 
@@ -465,6 +520,7 @@ The Legends field is every Champion at their strongest (Crystal Lance and Red, F
 - **Why:** Your '96 Bulls question needs a fixed all-time field; D-072 is how your teams fight everywhere else in the 6v6 engine.
 - **See it:** `#/legends` (Legends)
 - **Could instead:** put your teams on 85 EVs in Legends (even footing); the cartridge AI for cartridge trainers; more battles per pairing
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-57 · Your trainer (D-077)
 
@@ -473,6 +529,7 @@ Your trainer is the same nine dials every library trainer is read onto (aggressi
 - **Why:** 2K's coach settings and MyGM traits; one scale means your style and Cynthia's can be compared.
 - **See it:** `#/trainer` (Your trainer)
 - **Could instead:** save your trainer in the Sheet so every device has it; settings per team
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-58 · The Draft (D-077)
 
@@ -481,6 +538,7 @@ The Draft pool is every Pokémon an era's trainers use (HeartGold, Platinum, or 
 - **Why:** MyTEAM and MyGM: build the best six you can against GMs who think differently.
 - **See it:** `#/draft` (The Draft)
 - **Could instead:** draft from your own builds too; a salary-cap or points draft; more GMs
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-59 · Arena records (D-077)
 
@@ -489,6 +547,7 @@ Results you play are kept by default in an append-only Arena tab (one row a matc
 - **Why:** MyCAREER needs a record; append-only is how every record of yours is kept.
 - **See it:** `#/halloffame` (Hall of Fame)
 - **Could instead:** keep only when you press Keep; a separate tab per mode
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · The trainer ecosystem
 
@@ -499,6 +558,7 @@ Results you play are kept by default in an append-only Arena tab (one row a matc
 - **Why:** Your brief: 12 versions of Ash, four of Gary and Paul, every champion, tagged by accomplishments, as the standard everything else is set against.
 - **See it:** `#/trainers` (Trainer Library)
 - **Could instead:** approve them into canon one by one; drop the low-confidence versions (early Paul, Silver Conference Ash)
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · The Arena
 
@@ -509,6 +569,7 @@ Trainer criterion 6 (how a trainer's tendencies show in battle) is answered on e
 - **Why:** The decisions are what the engine logs; counting them shows the reading at work, not just its settings.
 - **See it:** `#/trainers` (Trainer Library)
 - **Could instead:** against a fixed reference team that isn't yours; more battles
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · Field Biology
 
@@ -519,6 +580,7 @@ Trainer criterion 6 (how a trainer's tendencies show in battle) is answered on e
 - **Why:** Your biology brief ('I want this to be real'), and the other assistant's evidence classes.
 - **See it:** `#/biology` (Field Biology)
 - **Could instead:** a stricter class set; your own dossiers written alongside
+- **Your call** (2026-10-26, chat): Keep: and more of them: "Want more of it."
 
 ### A-63 · Encounter tables (D-077)
 
@@ -527,6 +589,7 @@ Encounter tables are read as evidence-based reconstruction: a Pokémon found the
 - **Why:** The open question from the ecology conversation; the other assistant recommended this one, and it keeps the games' data primary without treating it as a census.
 - **See it:** `#/ecosystems` (Ecosystems)
 - **Could instead:** strict game ecology (only what the tables show, nothing added); naturalistic first (the tables as a hint)
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-64 · Non-Pokémon life (D-077)
 
@@ -535,6 +598,7 @@ Each habitat gets the non-Pokémon life it needs by principle, by biome: trees, 
 - **Why:** Pokémon alone can't feed a forest; Ilex Forest has no Pokémon decomposer at all. Geothermal heat waits for your answer on Magcargo.
 - **See it:** `#/ecosystem/ilex-forest` (Ilex Forest)
 - **Could instead:** Pokémon only; geothermal ground in the highlands
+- **Your call** (2026-10-26, chat): Change: geothermal ground in the highlands.
 
 ### A-65 · Food-web links (D-077)
 
@@ -543,6 +607,7 @@ A link comes first from a curated dossier, then from the species' own Pokédex d
 - **Why:** Every Pokémon-on-Pokémon link in both flagship webs is a hypothesis: no entry names a predator and its prey inside one community. The rule makes those guesses the same everywhere.
 - **See it:** `#/ecosystem/ilex-forest` (Ilex Forest)
 - **Could instead:** no rule: only links a dossier or the Pokédex gives; a stricter size window
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-66 · Johto's landscape (D-077)
 
@@ -551,6 +616,7 @@ Johto's places connect as the games' map joins them (paths, caves, sea routes). 
 - **Why:** The reference data has no adjacency, so the graph was authored from the games' map.
 - **See it:** `#/ecosystems` (Ecosystems)
 - **Could instead:** add Kanto; your own biome for any place
+- **Your call** (2026-10-26, chat): Change: add Kanto. "HeartGold does both of them."
 
 ### A-67 · Flagship ecosystems (D-077)
 
@@ -559,6 +625,7 @@ Two flagships: Ilex Forest (one web holding both versions' bug lines, as the Nat
 - **Why:** The dossier writers asked; one web per place is simpler to read, and the flags keep the versions visible.
 - **See it:** `#/ecosystem/blackthorn-highlands` (The highlands)
 - **Could instead:** one web per version; add Mt. Silver to the highlands
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-68 · The Level 3 model (D-077)
 
@@ -567,6 +634,7 @@ Level 3 is an allometric trophic network (Brose, Williams and Martinez 2006, aft
 - **Why:** A model of a world nobody has counted is only as good as what it lets you vary.
 - **See it:** `#/ecosystem/ilex-forest` (Ilex Forest)
 - **Could instead:** logistic growth only (the simpler model in the ecology conversation); a Python copy for reports
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-69 · Ecotypes (D-077)
 
@@ -575,6 +643,7 @@ Ecotypes for every line with egg moves: each egg move is read as an ecological f
 - **Why:** Your orca analogy: lineages that differ by how they live, carried through the parents.
 - **See it:** `#/ecotypes` (Ecotypes)
 - **Could instead:** curated ecotypes only; read level-up moves too
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-70 · Your review (D-077)
 
@@ -583,6 +652,7 @@ Agree, disagree or note on any statement, claim, relationship or link goes to th
 - **Why:** Your review is the evidence of a different kind, and it shouldn't overwrite what the author wrote.
 - **See it:** `#/biology` (Field Biology)
 - **Could instead:** edit the dossier in the app
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-71 · Field guide (D-077)
 
@@ -591,6 +661,7 @@ The other 429 species get a field guide made from their own claims, grouped by d
 - **Why:** Every species has a page now; a curated dossier replaces the guide when one is written.
 - **See it:** `#/biology/Heracross` (A field guide)
 - **Could instead:** write dossiers for every species, cohort by cohort
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-72 · Capability readings (D-077)
 
@@ -599,6 +670,7 @@ The dossier writers found capability records that misread entries: Weedle, Oddis
 - **Why:** Reading every entry closely found what the pattern reading missed.
 - **See it:** `#/capabilities` (Capabilities)
 - **Could instead:** keep them and let you reject each
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · Careers
 
@@ -609,6 +681,7 @@ An Arena result is credited to the Pokémon that played it: for your journey tea
 - **Why:** The journey teams fight as species with builds, not as individuals; this ties the record to the one you have.
 - **See it:** `#/mine` (Your Pokémon)
 - **Could instead:** link each journey slot to an individual explicitly
+- **Your call** (2026-10-26, chat): Keep: the Arena is a live comparison, not the game, so its results don't need tracking
 
 ### A-74 · Titles and achievements (D-077)
 
@@ -625,6 +698,7 @@ Each Pokémon's career timeline merges its Arena results, build versions and Tim
 - **Why:** The automatic record says what happened; the Chronicle says what it meant.
 - **See it:** `#/mine` (Your Pokémon)
 - **Could instead:** a separate Chronicle tab
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · The product
 
@@ -635,6 +709,7 @@ Home opens with the modes (Play now, Legends, Leagues, the Draft, MyCAREER, Your
 - **Why:** 2K's main menu: modes first.
 - **See it:** `#/` (Home)
 - **Could instead:** the dashboard first; modes in the menu only
+- **Your call** (2026-10-26, chat): Keep
 
 ## v1 · Field Biology
 
@@ -645,6 +720,7 @@ Where two dossiers of one line file it differently, both stand and the differenc
 - **Why:** Each writer read its species' own entries; a line can change its diet as it grows, so a forced match would hide a real question.
 - **See it:** `#/biology` (Field Biology)
 - **Could instead:** one guild for each line
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-78 · Borrowing from relatives (D-077)
 
@@ -653,6 +729,7 @@ When a species' own entries say nothing, a dossier may lean on its line's entrie
 - **Why:** Without it, most young forms would have no diet at all.
 - **See it:** `#/biology/Zubat` (Zubat)
 - **Could instead:** a species' own entries only
+- **Your call** (2026-10-26, chat): Keep
 
 ## v2 · The fresh start
 
@@ -663,6 +740,7 @@ The fresh start hides your old records in the app (journeys, builds, lineups, th
 - **Why:** You asked for a blank slate to learn from; keeping the archive means nothing you built is lost and it can come back with one switch.
 - **See it:** `#/` (Home)
 - **Could instead:** delete the old records; archive them to a separate Drive file
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-80 · The world stays (D-078)
 
@@ -671,6 +749,7 @@ What the fresh start keeps: the reference world (species, moves, trainers, the b
 - **Why:** They're the world and the project's record, not your playthrough; the Estate's facilities are design, their staff were your Pokémon.
 - **See it:** `#/estate` (The Estate)
 - **Could instead:** blank the facilities too; hide the decision record
+- **Your call** (2026-10-26, chat): Keep
 
 ## v2 · Teams
 
@@ -681,6 +760,7 @@ Each game has exactly one team (My Teams row journey:<game>), with its own train
 - **Why:** Your words: 'think of it as separate trainers, as separate journeys'; and 'I don't want different versions'.
 - **See it:** `#/team/heartgold` (HeartGold team)
 - **Could instead:** several saved versions per game; one trainer across all six
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-82 · The region is beaten (D-078)
 
@@ -689,6 +769,7 @@ Every team's page counts the region's badges, the Elite Four and Champion, the P
 - **Why:** Your call: 'assume ... I've beat the region and I have the national Pokédex'.
 - **See it:** `#/team/heartgold` (HeartGold team)
 - **Could instead:** track them as you go
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-83 · A candidate becomes yours (D-078)
 
@@ -697,6 +778,7 @@ Putting a build from the builds book on a team makes it a new Pokémon of yours 
 - **Why:** A team holds your Pokémon; a reference set shouldn't be edited in place.
 - **See it:** `#/team/heartgold` (HeartGold team)
 - **Could instead:** link the book's build directly
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-84 · Legendaries left out of candidates (D-078)
 
@@ -705,6 +787,7 @@ The candidates list leaves legendary and mythical Pokémon out unless you includ
 - **Why:** Ubers-level sets crowd the top of a sorted list, and your teams have been non-legendary (D-008's spirit).
 - **See it:** `#/team/heartgold` (HeartGold team)
 - **Could instead:** include them by default
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-85 · Nine team shapes (D-078)
 
@@ -713,6 +796,7 @@ A team's shape is the first of nine competitive archetypes it fits, in this orde
 - **Why:** Smogon's team archetypes, read from the five roles and the moves and abilities the six carry.
 - **See it:** `#/team/heartgold` (HeartGold team)
 - **Could instead:** v1's five shapes; shapes you define
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-86 · Scouting report, not questions (D-078)
 
@@ -721,6 +805,7 @@ The team's scenario questions became a scouting report: strengths, weaknesses an
 - **Why:** Your call: 'not questions, but more just strengths, weaknesses ... tendencies'.
 - **See it:** `#/team/heartgold` (HeartGold team)
 - **Could instead:** keep the questions alongside
+- **Your call** (2026-10-26, chat): Keep
 
 ## v2 · The builder
 
@@ -731,6 +816,7 @@ Save writes a new build version and the individual together, with an optional no
 - **Why:** Fewer steps between choosing a move and seeing it stick.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** ask what changed on every save
+- **Your call** (2026-10-26, chat): Keep: "I'd like saving to be one button"
 
 ### A-88 · IVs start at 31 (D-078)
 
@@ -739,6 +825,7 @@ A new build starts with 31 in every IV (Max IVs) and no EVs; EVs left blank stil
 - **Why:** A 'perfect' build is the usual starting point; you lower what you want lower.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** IVs blank until set
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-89 · Species follows evolution (D-078)
 
@@ -747,6 +834,7 @@ The species on a Pokémon can change only within its evolution line (Cyndaquil t
 - **Why:** It's the same individual when it evolves.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** any species
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-90 · Held items (D-078)
 
@@ -755,6 +843,7 @@ The item dropdown lists items a Pokémon can hold to effect in that generation: 
 - **Why:** The full item list includes balls, TMs and key items that do nothing held.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** every item
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-91 · Move descriptions (D-078)
 
@@ -763,6 +852,7 @@ Each move shows its type, category, power, accuracy, PP and priority, what it do
 - **Why:** Your call: 'I want to see the move description in there as well'.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** the effect text only
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-92 · Hand-set roles left out (D-078)
 
@@ -771,6 +861,7 @@ The builder doesn't offer setting a team role by hand (D-059's overrides still a
 - **Why:** It kept the page simpler while you rebuild; it can come back.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** keep the override menu on each role
+- **Your call** (2026-10-26, chat): Keep
 
 ## v2 · Roles
 
@@ -781,6 +872,7 @@ Sweeper, Support and Wall are now read from the same League one-on-ones as Ace (
 - **Why:** Each role answers one competitive question with numbers you can check; v1 read two of them from composite scores.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** v1's definitions
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-94 · The role bars (D-078)
 
@@ -789,6 +881,7 @@ Sweeper: moves first against 80%, 2HKOs 80% and OHKOs 30% (one use of its setup 
 - **Why:** Set against 1,076 builds so each role picks out about a fifth of them (246 Sweepers, 226 Walls, 195 Tanks, 181 Supports; 448 Aces at D-064's bars).
 - **See it:** `#/v2` (What's new in v2 (docs/roles/ROLE_SCORES.md))
 - **Could instead:** the first bars (60/60): about twice as many
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-95 · One boost, as an estimate (D-078)
 
@@ -797,6 +890,7 @@ A Sweeper's setup is counted as one use (capped at +2), applied as the stat stag
 - **Why:** A setup sweeper is judged after its boost; the stage multiplier is the mechanic, the damage scaling is close but not exact.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** re-run the fights boosted
+- **Your call** (2026-10-26, chat): Keep
 
 ### A-96 · Two-part scores (D-078)
 
@@ -805,6 +899,7 @@ Sweeper's and Tank's scores are the geometric mean of their two shares, so a Pok
 - **Why:** With a plain mean, a fast frail attacker scored halfway to Tank.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** the plain mean
+- **Your call** (2026-10-26, chat): Keep
 
 ## v2 · Badges
 
@@ -815,6 +910,7 @@ Badges are grouped as Speed, Power, Bulk, Finishing, Sustain and Utility. Speed 
 - **Why:** Your call: rework the badges around competitive Pokémon; these are the axes competitive players read a set on.
 - **See it:** `#/pokemon` (Your Pokémon)
 - **Could instead:** v1's flat list
+- **Your call** (2026-10-26, chat): Keep
 
 ## v2 · Naming
 
@@ -825,6 +921,7 @@ Every naming slot has a generated proposal (Ember, Berserker, Rising, Crowned, N
 - **Why:** Your call: 'I do want that massive list ... mainly generated'; names stay yours to approve (D-059).
 - **See it:** `#/v2` (What's new in v2 (docs/naming/ALL_COMBINATIONS.md))
 - **Could instead:** apply the proposals now
+- **Your call** (2026-10-26, chat): Keep: workshop the list; Zack uploads it back once it's finished
 
 ## v2 · Navigation
 

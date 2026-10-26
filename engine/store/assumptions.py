@@ -31,7 +31,8 @@ def load():
     return items
 
 
-def markdown(items):
+def markdown(items, said=None):
+    said = answers() if said is None else said
     out = ["# Assumptions register", "",
            "What the assistant assumed while building, so you can see each one and keep, change or reject it "
            "(Zack, 2026-10-24: *\"make assumptions and decisions as you need to, just keep track so I can have my input\"*). "
@@ -45,8 +46,19 @@ def markdown(items):
             out += [f"## {phase}", ""]
         out += [f"### {a['id']} · {a['area']} ({a['decision']})", "", a["what"], "",
                 f"- **Why:** {a['why']}", f"- **See it:** `{a['where'][0]}` ({a['where'][1]})",
-                f"- **Could instead:** {'; '.join(a['instead'])}", ""]
+                f"- **Could instead:** {'; '.join(a['instead'])}"]
+        z = said.get(a["id"])
+        out += ([f"- **Your call** ({z['at']}, {z['via']}): {z['text']}" + (" *(later)*" if z["status"] == "deferred" else "")] if z else []) + [""]
     return "\n".join(out)
+
+
+def answers():
+    """store/answers.json: Zack's answers given outside the app (in chat), {id: {text, status, at, via}}."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "answers.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)["answers"]
 
 
 def main():

@@ -313,7 +313,7 @@ def hq(store, bt):
             "lineage": lineage, "fathers": bt["fathers"],
             "tinker": [{"c": r["companion"], "roles": r["roles"], "menu": r.get("tinker_menu") or {},
                         "as_father": r["as_father"]} for r in bt["breeding_roles"]],
-            "questions": bt["questions"], "world": world, "assumptions": assumptions.load(),
+            "questions": bt["questions"], "world": world, "assumptions": assumptions.load(), "answers": assumptions.answers(),
             "decisions": [{k: d[k] for k in ("id", "date", "title", "area", "status", "who")} for d in bt["decisions"]],
             "locks": bt["locks"], "single_points": bt["single_points"], "open_jobs": bt["open_jobs"],
             "staff_hires": bt["staff_proposals"]}

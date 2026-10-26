@@ -4,7 +4,8 @@ function statusChip(s) { s = String(s || ''); var k = /^LOCKED/.test(s) ? 'gold'
   return chip(s, k); }
 function answers() {
   return Promise.all([API.tab('Your Calls').catch(function () { return []; }), API.tab('Answers').catch(function () { return []; })]).then(function (r) {
-    var by = {}; (r[0] || []).forEach(function (x) { var id = x.id || x.ID; if (id && (x['Your call'] || x.Status !== 'open')) by[id] = {text: x['Your call'] || '', status: x.Status || 'open'}; });
+    var by = {}; Object.keys((S.hq || {}).answers || {}).forEach(function (id) { by[id] = Object.assign({}, S.hq.answers[id]); });   // v2.2: answers you gave in chat (store/answers.json); the Sheet's override them
+    (r[0] || []).forEach(function (x) { var id = x.id || x.ID; if (id && (x['Your call'] || x.Status !== 'open')) by[id] = {text: x['Your call'] || '', status: x.Status || 'open'}; });
     (r[1] || []).forEach(function (x) { by[x.id] = {text: x.text, status: x.status, at: x.at}; });
     return by;
   });
@@ -13,19 +14,19 @@ function answers() {
    Zack, 2026-10-26: "I can't find the your calls list ... that needs to be better presented to me." The calls now open
    with the newest batch, each answered with one tap (Keep, Change, Reject, Later) and updated in place; the menu and the
    top bar carry how many are waiting. */
-function callVerdict(ans) {
+function callVerdict(ans, kind) {
   if (!ans || !ans.status || ans.status === 'open') return null;
   if (ans.status === 'deferred') return ['later', ''];
-  return /^keep|^approve|^confirm(?! with)/i.test(ans.text) ? ['kept', 'forest'] : /^reject/i.test(ans.text) ? ['rejected', 'ember'] : ['changed', 'gold'];
+  return /^keep|^approve|^confirm(?! with)/i.test(ans.text) ? ['kept', 'forest'] : /^reject/i.test(ans.text) ? ['rejected', 'ember'] : kind === 'question' ? ['answered', 'forest'] : ['changed', 'gold'];
 }
 function callItem(x, ans) {   // x: {id, kind: 'assumption'|'question', eyebrow, title, why, see, options, blocks}
-  var v = callVerdict(ans), done = v && v[0] !== 'later', quick = x.kind === 'assumption' ? [['Keep', '✓ Keep'], ['Reject', '✕ Reject']] : x.options.slice(0, 3).map(function (o) { return [o, o]; });
+  var v = callVerdict(ans, x.kind), done = v && v[0] !== 'later', quick = x.kind === 'assumption' ? [['Keep', '✓ Keep'], ['Reject', '✕ Reject']] : x.options.slice(0, 3).map(function (o) { return [o, o]; });
   var change = x.kind === 'assumption' ? x.options.map(function (o) { return 'Change: ' + o; }) : [];
   return '<div class="card call' + (done ? ' done' : '') + '" id="call-' + esc(x.id) + '" data-call="' + esc(x.id) + '"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(x.id) + ' · ' + esc(x.eyebrow) + '</div>' +
     '<h3 class="calltitle">' + esc(x.title) + '</h3></div>' + (v ? chip(v[0], v[1]) : chip('waiting on you', 'ember')) + '</div><div class="bd">' +
     '<p class="small" style="color:var(--text-2);margin:0">' + (x.why ? '<b>Why:</b> ' + esc(x.why) : '') + (x.see ? ' <a class="link" href="' + esc(x.see[0]) + '">See it: ' + esc(x.see[1]) + ' →</a>' : '') + '</p>' +
     (x.blocks ? '<div class="tiny" style="color:var(--ember-2);margin-top:6px">Blocks: ' + esc(x.blocks) + '</div>' : '') +
-    (done ? '<div class="small" style="margin-top:8px"><b>You said:</b> ' + esc(ans.text) + (ans.at ? ' <span class="tiny muted">' + esc(fmtLoose(ans.at) || '') + '</span>' : '') + ' <a class="link tiny" href="javascript:void 0" data-callredo="1">change my answer</a></div>' : '') +
+    (v ? '<div class="small" style="margin-top:8px"><b>You said:</b> ' + esc(ans.text) + (ans.at ? ' <span class="tiny muted">' + esc(fmtLoose(ans.at) || '') + (ans.via === 'chat' ? ', in chat' : '') + '</span>' : '') + (done ? ' <a class="link tiny" href="javascript:void 0" data-callredo="1">change my answer</a>' : '') + '</div>' : '') +
     '<div class="callacts"' + (done ? ' style="display:none"' : '') + '>' + quick.map(function (q) { return '<button type="button" class="btn sm' + (/^(Keep|Approve|Confirm)$/.test(q[0]) ? ' gold' : '') + '" data-callquick="' + esc(q[0]) + '">' + esc(q[1]) + '</button>'; }).join('') +
       '<button type="button" class="btn sm" data-callopen="1">' + (x.kind === 'assumption' ? '✎ Change…' : '✎ In my words…') + '</button><button type="button" class="btn sm" data-calllater="1">Later</button></div>' +
     '<div class="callmore" style="display:none">' + (change.length ? '<div class="opts">' + change.map(function (o) { return '<button type="button" class="opt" onclick="pickOpt(this)">' + esc(o) + '</button>'; }).join('') + '</div>' : '') +

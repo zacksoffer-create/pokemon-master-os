@@ -364,6 +364,16 @@ table.board td, table.board th { padding: 6px 8px; }
 .inball .ib-plain { border-radius: 50%; background: radial-gradient(circle at 50% 35%, #3a3f4a 0 48%, #1c1f26 49% 52%, #2b2f38 53%); }
 .inball .ib-mon { position: relative; width: 86% !important; height: 86% !important; object-fit: contain; filter: drop-shadow(0 6px 8px rgba(0,0,0,.5)); }
 .inball .ib-shiny { position: absolute; top: 2px; right: 4px; color: var(--gold-2); font-size: 14px; text-shadow: 0 0 6px rgba(226,204,152,.8); }
+/* v2.2 (A-30): the Pokémon comes out of its ball: the ball rocks, a flash, the Pokémon pops out (the builder's portrait and the team's six) */
+@keyframes ib-rock { 0% { transform: rotate(0) scale(1); opacity: 1; } 20% { transform: rotate(-14deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(0) scale(1.06); opacity: 1; } 100% { transform: rotate(0) scale(1); opacity: .55; } }
+@keyframes ib-out { 0%, 55% { transform: scale(.1); opacity: 0; } 80% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes ib-flash { 0%, 50% { opacity: 0; transform: scale(.2); } 62% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(1.35); } }
+#pbportrait .inball .ib-ball, .six .tile .inball .ib-ball { animation: ib-rock .9s ease-out var(--ibd, 0s) both; }
+#pbportrait .inball .ib-mon, .six .tile .inball .ib-mon { animation: ib-out 1s ease-out var(--ibd, 0s) both; }
+#pbportrait .inball::after, .six .tile .inball::after { content: ''; position: absolute; inset: 8%; border-radius: 50%; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.95), rgba(255,236,190,.45) 45%, transparent 70%); animation: ib-flash 1s ease-out var(--ibd, 0s) both; }
+.six .tile:nth-child(2) { --ibd: .08s; } .six .tile:nth-child(3) { --ibd: .16s; } .six .tile:nth-child(4) { --ibd: .24s; } .six .tile:nth-child(5) { --ibd: .32s; } .six .tile:nth-child(6) { --ibd: .4s; }
+@media (prefers-reduced-motion: reduce) { #pbportrait .inball *, .six .tile .inball *, #pbportrait .inball::after, .six .tile .inball::after { animation: none !important; } }
 .pix { image-rendering: pixelated; }
 .pbtop { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .teamstrip { display: flex; gap: 6px; }

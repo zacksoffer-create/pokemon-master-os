@@ -144,7 +144,28 @@ Groups below Play start folded. Home leads with your six teams and what to do ne
 | *"Easily researchable, and easily enrichable through research"* | Every natural-history page has **Research it**:<ul><li>what's still open;</li><li>links to Bulbapedia, Serebii, Pokémon Database and Smogon;</li><li>a research brief to copy;</li><li>a form, or a paste of several lines (`topic \| finding \| source \| link`), for your findings.</li></ul>A finding is a Journal row marked proposed, shown on the page as yours. (A-104) |
 | *"I can't find the your calls list ... that needs to be better presented to me."* | **Your calls** is second in the menu, with a count. The top bar and Start here show the newest batch. The page opens with that batch. Each call is one tap (Keep, Change, Reject, Later) and updates in place, with a progress bar. (A-105) |
 
-## 10. Not reworked yet (the next updates)
+## 10. v2.2: the team bug, and your answers (2026-10-26)
+
+| What | Done |
+|---|---|
+| **The bug: six Pokémon wouldn't go on a team.** Every visit to the species picker (and to the team page, and a Homestead facility) added another click handler to the page, and none were ever removed. On the nth visit, one tap on a species ran the add n times: 36 Pokémon for 8 tries, and the copies overwrote each other's slots. | **Fixed:** each page now gets a fresh page element, so the last page's handlers go with it. Changes to a team also now run one at a time, each starting from the team as the last save left it, so two quick changes can't undo each other. `app/test_teamflow.mjs` taps six tiles and six species, and checks for six Pokémon in six slots and one move per arrow tap. |
+| The extra copies | Your Pokémon offers to **set aside** the ones that were never built and aren't on the team. Setting aside is reversible (Bring back), and nothing is deleted. The builder's More menu has "Set it aside" too. |
+| Your answers to the calls (in chat) | Recorded in `engine/store/answers.json` (D-079). The app shows them as answered; answering again in the app wins. Four calls you didn't follow (A-06, A-40, A-49, A-53) are rewritten in plain words. |
+| Geothermal ground in the highlands (A-64) | The six highland places have geothermal heat (`biology/ecology.py`), shown in their webs. |
+| The ball animation (A-30) | The builder's portrait and the team's six now play it: the ball rocks, flashes, and the Pokémon pops out. |
+
+**Asked for, still to do** (your answers in D-079):
+
+| Call | What's asked |
+|---|---|
+| A-03 | Everything in git. The app can only write to the Sheet, so the plan is a snapshot of your Sheet records into the project on each rebuild. To discuss first. |
+| A-09 | Let "what a set might suggest" propose an interpretation, marked hypothetical. |
+| A-35 | Every key item in the equipment library. |
+| A-42 | A pass over the wilderness engine's Pokédex patterns, for others that read too broad or too narrow. |
+| A-62 | More dossiers. Your teams' species first. |
+| A-66 | Add Kanto to the landscape, since HeartGold covers both regions. |
+
+## 11. Not reworked yet (the next updates)
 
 This update rebuilt the path from a team to one Pokémon and back. The rest still works, but some of it was built
 around the old journey.

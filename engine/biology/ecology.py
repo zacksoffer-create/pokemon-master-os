@@ -51,7 +51,8 @@ RESOURCES = {
                             "why": "Pokémon-world energy: several entries have Pokémon taking in electricity"},
     "moonlight": {"name": "Moonlight", "group": "abiotic", "biomes": [b for b in EVERY if b not in DARK]},
     "geothermal-heat": {"name": "Geothermal heat", "group": "abiotic", "biomes": [],
-                        "why": "nowhere in Johto by default: no place is shown with vents or magma (an open question for the highlands)"},
+                        "places": ["ice-path", "blackthorn-city", "dragons-den", "johto-route-45", "dark-cave", "johto-route-44"],
+                        "why": "geothermal ground in the Blackthorn highlands, Zack's call (A-64, 2026-10-26); a Blackthorn reading, since the games show no vents or magma there"},
     "psychic-energy": {"name": "Dreams and emotions", "group": "abiotic", "biomes": ["urban", "tower", "ruins"],
                        "why": "Pokémon-world energy: entries have Pokémon feeding on dreams or feelings, so it follows people"},
     "trees": {"name": "Trees (wood, bark, sap)", "group": "producer", "biomes": ["forest", "woodland-edge", "montane", "urban"], "eats": ["sunlight", "soil"]},
@@ -178,7 +179,8 @@ class Ecology:
 
     def web(self, key, places, communities):
         biomes = sorted({b for p in places for b in self.land["nodes"][p]["biome"]} | {w for p in places for w in self.land["nodes"][p].get("water", [])})
-        present_res = set(self.resources_for(biomes))
+        by_place = {rid for rid, r in RESOURCES.items() if set(r.get("places", [])) & set(places)}   # a resource a place has, whatever its biome
+        present_res = set(self.resources_for(biomes)) | by_place
         comm = {}
         for p in places:
             for r in communities[p]:
@@ -297,6 +299,7 @@ class Ecology:
             if rid in present_res:
                 keep.add(rid)
                 keep |= {f for f in RESOURCES[rid].get("eats", []) if f in present_res}
+        keep |= by_place                      # so does what the ground itself gives (geothermal heat in the highlands)
         nodes = {k: v for k, v in nodes.items() if k in keep}
         links = [l for l in links if l["from"] in nodes and l["to"] in nodes]
         nontrophic = [l for l in nontrophic if l["from"] in nodes and l["to"] in nodes]

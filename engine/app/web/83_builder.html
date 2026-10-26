@@ -37,13 +37,19 @@ function familyOf(species) {   // its evolution line, base first (for changing s
 /* ---- your Pokémon: every one, by team ---- */
 function pokemonIndex() {
   return labsReady().then(function () {
-    var inds = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; }).filter(function (i) { return i.status !== 'retired'; });
+    var all = Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; });
+    var inds = all.filter(function (i) { return i.status !== 'retired'; }), aside = all.filter(function (i) { return i.status === 'retired'; });
     var byGame = {}; inds.forEach(function (i) { (byGame[i.game] = byGame[i.game] || []).push(i); });
+    after(function (p) { p.querySelectorAll('[data-tidy]').forEach(function (b) { b.onclick = function () { pbTidy(b.getAttribute('data-tidy')); }; });
+      p.querySelectorAll('[data-back]').forEach(function (b) { b.onclick = function () { pbSetAside([b.getAttribute('data-back')], false); }; }); });
     var blocks = JOURNEYS.map(function (g) {
       var list = (byGame[g] || []).sort(function (a, b) { return (a.nickname || a.species).localeCompare(b.nickname || b.species); }), t = Teams.get(g);
       var on = {}; t.slots.forEach(function (s, k) { if (s) on[s.ind] = k + 1; });
+      var spare = pbSpares(g);
       return '<div class="card" style="margin-top:14px"><div class="hd"><div style="flex:1"><div class="eyebrow">' + esc(GAME_NAME[g]) + ' · ' + plural(list.length, 'Pokémon') + '</div><h3>' + esc(whose(t) + ' ' + GAME_NAME[g]) + '</h3></div>' +
         '<a class="link" href="#/team/' + g + '">The team →</a> <a class="btn sm" href="#/pokemon/new/' + g + '" style="margin-left:10px">Add a Pokémon</a></div><div class="bd">' +
+        (spare.length > 1 ? '<div class="notice" style="margin-bottom:10px"><span>' + plural(spare.length, 'Pokémon') + ' here ' + (spare.length === 1 ? 'was' : 'were') + ' added but never built, and ' + (spare.length === 1 ? 'isn\'t' : 'aren\'t') + ' on the team: most likely the extra copies an add bug made (fixed in v2.2). ' +
+          '<button class="btn sm" data-tidy="' + g + '" style="margin-left:6px">Set the ' + spare.length + ' aside</button> <span class="tiny muted">Reversible: they move to Set aside below, nothing is deleted.</span></span></div>' : '') +
         (list.length ? '<div class="pickgrid">' + list.map(function (i) { return '<a class="pick" href="#/pokemon/' + encodeURIComponent(i.id) + '">' + inBall(i.species, i.game, i.ball, i.shiny, 56) +
           '<div><b>' + esc(i.nickname || i.species) + '</b>' + (i.nickname ? ' <span class="tiny muted">' + esc(i.species) + '</span>' : '') +
           '<div class="tiny muted">' + (on[i.id] ? 'on the team, slot ' + on[i.id] : 'not on the team') + (i.build ? '' : ' · not built yet') + '</div></div></a>'; }).join('') + '</div>'
@@ -52,10 +58,26 @@ function pokemonIndex() {
     return '<div class="eyebrow">Build · your Pokémon</div><h1 style="margin:6px 0">Your Pokémon</h1>' +
       '<p class="lede">Every Pokémon of yours, by journey. Open one to build it: its moves, nature, ability, item, ball and spread, with its roles, badges and scouting report read live as you go. The quickest way in is through a team: open it and click a slot.</p>' +
       '<div class="tabs" style="margin:12px 0">' + JOURNEYS.map(function (g) { return '<a href="#/team/' + g + '">' + esc(GAME_NAME[g]) + ' team</a>'; }).join('') + '</div>' + blocks +
+      (aside.length ? '<details class="card" style="margin-top:14px"><summary class="hd" style="cursor:pointer"><div><div class="eyebrow">Set aside · ' + plural(aside.length, 'Pokémon') + '</div><h3>Out of view, not deleted</h3></div></summary><div class="bd"><div class="pickgrid">' +
+        aside.map(function (i) { return '<div class="pick">' + inBall(i.species, i.game, i.ball, i.shiny, 48) + '<div><b>' + esc(i.nickname || i.species) + '</b><div class="tiny muted">' + esc(GAME_NAME[i.game] || i.game) + '</div><button class="btn xs" data-back="' + esc(i.id) + '">Bring back</button></div></div>'; }).join('') + '</div></div></details>' : '') +
       card('Any species', '<div style="display:flex;gap:8px;flex-wrap:wrap"><input class="f" id="plq" placeholder="A species, e.g. Typhlosion" style="flex:1;min-width:180px"><button class="btn" onclick="var v=document.getElementById(\'plq\').value.trim();if(v)nav(\'#/compare/\'+encodeURIComponent(cap(v.toLowerCase())))">Its builds in the builds book</button></div>',
         {eyebrow: 'Reference', tools: false, style: 'margin-top:16px'});
   });
 }
+
+function pbSpares(game) {   // never built, not on the team, added in the app: what to tidy up
+  return Object.keys(S.store.individuals || {}).map(function (k) { return S.store.individuals[k]; })
+    .filter(function (i) { return i.game === game && i.status !== 'retired' && !i.build && i.origin === 'added in the app' && !Teams.onTeam(i.id); });
+}
+function pbSetAside(ids, away) {   // set aside (status retired) or bring back: a new row each, the newest wins; nothing is deleted
+  var n = 0;
+  return ids.reduce(function (pr, id) { return pr.then(function () { var i = S.store.individuals[id]; if (!i) return;
+    n++; if (ids.length > 3) toast((away ? 'Setting aside ' : 'Bringing back ') + n + ' of ' + ids.length + '…');
+    return Records.saveIndividual(Object.assign({}, i, {status: away ? 'retired' : 'working'}), (away ? 'Set aside ' : 'Brought back ') + (i.nickname || i.species) + ' (' + (GAME_NAME[i.game] || i.game) + ')'); }); }, Promise.resolve())
+    .then(function () { toast((away ? 'Set aside ' : 'Brought back ') + plural(ids.length, 'Pokémon') + '.'); nav('#/pokemon', true); })
+    .catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
+}
+function pbTidy(game) { var ids = pbSpares(game).map(function (i) { return i.id; }); if (ids.length) pbSetAside(ids, true); }
 
 /* ---- a new Pokémon: pick the species (into a team slot when one is given) ---- */
 function newPokemon(game, slot) {
@@ -85,10 +107,10 @@ function addPokemon(species, game, slot) {
   var d = dexOf(species) || {}, g = d.gr === -1 ? 'genderless' : d.gr === 8 ? 'F' : 'M', here = NAVI.hash;
   Records.saveIndividual({species: species, game: game, gender: g, shiny: false, ball: 'Poké Ball', origin: 'added in the app', status: 'working'}, 'Added ' + species + ' (' + GAME_NAME[game] + ')')
     .then(function (ind) {
-      var t = Teams.get(game), k = slot != null ? +slot : t.slots.indexOf(null);
-      if (k < 0) { toast('Added. The team is full, so it\'s in your Pokémon, not on the team.'); if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(ind.id)); return; }
-      t.slots[k] = {ind: ind.id, species: species};
-      return Teams.save(t).then(function () { toast(esc(species) + ' is in slot ' + (k + 1) + '. Build it here.'); if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(ind.id)); });
+      var k = -1;   // the slot you picked if it's still free, else the first free one; never over someone already there
+      return Teams.update(game, function (t) { k = slot != null && !t.slots[+slot] ? +slot : t.slots.indexOf(null); if (k < 0) return false; t.slots[k] = {ind: ind.id, species: species}; return t; }).then(function () {
+        toast(k < 0 ? 'Added. The team is full, so it\'s in your Pokémon, not on the team.' : esc(species) + ' is in slot ' + (k + 1) + '. Build it here.');
+        if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(ind.id)); });
     }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
 }
 
@@ -125,7 +147,8 @@ function pbShell() {
     '<input class="f" id="pbnote" placeholder="What this version is for (optional)" style="width:240px"><button class="btn gold" id="pbsave">Save</button><button class="btn" id="pbrevert">Revert</button>' +
       '<details class="more"><summary class="btn">More ▾</summary><div class="menu"><a href="#/mon/' + encodeURIComponent(PB.id) + '">Its profile and career</a><a href="#/pkhex/' + encodeURIComponent(PB.id) + '">PKHeX export</a>' +
       '<a href="#/compare/' + encodeURIComponent(PB.species) + '">Every build of ' + esc(PB.species) + '</a><a href="#/bench?ind=' + encodeURIComponent(PB.id) + '">Benchmark it</a>' +
-      (PB.team ? '<a href="javascript:void 0" onclick="pbOffTeam()">Take it off the team</a>' : '<a href="javascript:void 0" onclick="pbOnTeam()">Put it on the ' + esc(GAME_NAME[PB.game]) + ' team</a>') + '</div></details>'
+      (PB.team ? '<a href="javascript:void 0" onclick="pbOffTeam()">Take it off the team</a>' : '<a href="javascript:void 0" onclick="pbOnTeam()">Put it on the ' + esc(GAME_NAME[PB.game]) + ' team</a>' +
+        '<a href="javascript:void 0" onclick="pbSetAside([PB.id], true)">Set it aside (out of view, not deleted)</a>') + '</div></details>'
     : '<button class="btn gold" id="pbmine">Make it mine (' + esc(GAME_NAME[PB.game]) + ')</button><a class="btn" href="#/compare/' + encodeURIComponent(PB.species) + '">Every build of ' + esc(PB.species) + '</a>';
   return '<div class="pbtop">' + back + strip + '</div>' +
     '<div class="pbhead"><div id="pbportrait">' + inBall(PB.species, PB.game, PB.who.ball, PB.who.shiny, 112) + '</div><div style="flex:1;min-width:220px">' +
@@ -336,16 +359,15 @@ function pbMakeMine() {   // a reference build becomes one of yours, in this gam
   Records.saveBuild(b, {asNew: true, parent: from + '@' + (PB.rec.v || 1), note: 'from ' + from}).then(function (saved) {
     return Records.saveIndividual({species: sp, game: game, build: saved.id, gender: d.gr === 8 ? 'F' : d.gr === -1 ? 'genderless' : 'M', shiny: false, ball: 'Poké Ball', origin: 'from ' + from, status: 'working'}, 'Made ' + sp + ' from ' + from + ' your own');
   }).then(function (ind) {
-    var t = Teams.get(game), k = t.slots.indexOf(null);
-    if (k < 0) return ind;
-    t.slots[k] = {ind: ind.id, species: ind.species}; return Teams.save(t).then(function () { return ind; });
+    return Teams.update(game, function (t) { var k = t.slots.indexOf(null); if (k < 0) return false; t.slots[k] = {ind: ind.id, species: ind.species}; return t; }).then(function () { return ind; });
   }).then(function (ind) { toast('It\'s yours now.'); if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(ind.id)); }).catch(function (e) { toast('Couldn\'t save: ' + esc(e && e.message || e)); });
 }
-function pbOffTeam() { var t = Teams.get(PB.team.game), here = NAVI.hash; t.slots[PB.team.slot] = null; Teams.save(t).then(function () { toast('Off the team. It stays in your Pokémon.'); if (NAVI.hash === here) nav('#/team/' + t.game); }); }
+function pbOffTeam() { var g = PB.team.game, id = PB.id, here = NAVI.hash; Teams.update(g, function (t) { t.slots = t.slots.map(function (s) { return s && s.ind === id ? null : s; }); return t; }).then(function () { toast('Off the team. It stays in your Pokémon.'); if (NAVI.hash === here) nav('#/team/' + g); }); }
 function pbOnTeam() {
-  var t = Teams.get(PB.game), k = t.slots.indexOf(null);
-  if (k < 0) { toast('The ' + esc(GAME_NAME[PB.game]) + ' team is full: take someone off first.'); return; }
-  var id = PB.id, here = NAVI.hash; t.slots[k] = {ind: id, species: PB.species}; Teams.save(t).then(function () { toast('On the team, slot ' + (k + 1) + '.'); if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(id), true); });
+  var id = PB.id, sp = PB.species, game = PB.game, here = NAVI.hash, k = -1;
+  Teams.update(game, function (t) { if (t.slots.some(function (s) { return s && s.ind === id; })) return false; k = t.slots.indexOf(null); if (k < 0) return false; t.slots[k] = {ind: id, species: sp}; return t; }).then(function () {
+    if (k < 0) { toast('The ' + esc(GAME_NAME[game]) + ' team is full: take someone off first.'); return; }
+    toast('On the team, slot ' + (k + 1) + '.'); if (NAVI.hash === here) nav('#/pokemon/' + encodeURIComponent(id), true); });
 }
 
 /* ---- binding ---- */
