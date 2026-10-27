@@ -133,6 +133,18 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 .note { font-size: 13px; color: var(--muted); }
 
 #game { position: fixed; inset: 0; z-index: 50; background: var(--night); }
+#pmgame { position: fixed; inset: 0; z-index: 50; background: var(--night); }
+.mode.pm { background: #1d2a44; border-color: rgba(143,180,255,0.28); }
+.mode.pm:hover { background: #22325a; }
+.mode.pm p { color: #c9d6f2; }
+.mode.pm .rec { color: #8fb4ff; }
+.boards { display: grid; gap: 8px; }
+.brow { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--asphalt); border: 1px solid var(--line); text-align: left; cursor: pointer; }
+.brow:hover { background: var(--asphalt-2); }
+.brow b { font: 800 18px/1.1 var(--display); text-transform: uppercase; letter-spacing: 0.03em; }
+.brow small { display: block; color: var(--muted); font-size: 12px; }
+.brow .g { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; font: 900 18px/1 var(--display); color: #0b0f18; background: rgba(255,255,255,0.12); }
+.brow .g.A { background: var(--good); } .brow .g.B { background: #c5e27e; } .brow .g.C { background: #ffd166; } .brow .g.D { background: #ff9a66; } .brow .g.F { background: #ff5d4a; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 
@@ -153,6 +165,10 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       <button class="mode feature" type="button" data-go="rr">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="10" r="3" fill="none" stroke="#ff8a4c" stroke-width="2"/><circle cx="32" cy="34" r="5" fill="#ff7a66"/><circle cx="32" cy="54" r="5" fill="#ffb547"/><path d="M24 50 L14 38 M40 50 L50 38" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/><path d="M14 38 l1 6 M14 38 l6 1 M50 38 l-1 6 M50 38 l-6 1" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/></svg>
         <div><h2>Read &amp; React</h2><p>Ten possessions, a different defender each time. Read him to get by him; when help comes, read the help to pick your finish.</p><div class="rec" id="rec-rr"></div></div>
+      </button>
+      <button class="mode pm" type="button" data-go="pm">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="50" r="5" fill="#ffb547"/><circle cx="10" cy="30" r="4" fill="#7ee2a8"/><circle cx="54" cy="30" r="4" fill="#7ee2a8"/><circle cx="32" cy="22" r="4" fill="#7ee2a8"/><path d="M28 46 Q16 40 13 33" fill="none" stroke="#8fb4ff" stroke-width="2" stroke-dasharray="3 3"/><path d="M13 33 l1 -5 M13 33 l5 -1" stroke="#8fb4ff" stroke-width="2" stroke-linecap="round"/><path d="M42 28 l6 6 M48 28 l-6 6" stroke="#ff7a66" stroke-width="2" stroke-linecap="round"/></svg>
+        <div><h2>Playmaker</h2><p>Five on five, and you're passing. Flick it to a spot, drive to draw help, find the man they left. Every defense leaves somebody.</p><div class="rec" id="rec-pm"></div></div>
       </button>
       <button class="mode" type="button" data-go="rack">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 6 V20 A26 26 0 0 0 58 20 V6" fill="none" stroke="#f3f1ea" stroke-width="2"/><g fill="#e0661f"><circle cx="8" cy="30" r="4"/><circle cx="16" cy="46" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="48" cy="46" r="4"/></g><circle cx="56" cy="30" r="4" fill="#e6ecf8" stroke="#2a4fb0" stroke-width="1.5"/></svg>
@@ -196,6 +212,30 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     </div>
   </section>
 
+  <section class="screen" id="pm" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Playmaker</h2></div>
+    <p class="lede">Same court, same feel, but the ball is in your hands and the shot is somebody else's. Read the defense, make the pass, and the right read gets an open look.</p>
+    <div class="ctas"><button class="cta" type="button" data-pm="play">Play 8 possessions</button></div>
+    <div class="panel"><h3>Draw It Up</h3><p class="note" style="margin:0 0 10px">A whiteboard. Draw a cut, draw the pass, then watch it run.</p><div class="boards" id="pm-boards"></div></div>
+    <div class="panel"><h3>Featured</h3><div class="saved" id="pm-featured"></div></div>
+    <details class="moves" id="pm-moves">
+      <summary>Passing</summary>
+      <dl>
+        <dt>Flick</dt><dd>Pass to a spot, not a player. A longer flick throws it farther; your first two passes set how far.</dd>
+        <dt>Quick flick</dt><dd>Bullet. Flat and fast, beats a rotation.</dd>
+        <dt>Soft flick</dt><dd>Lob. Floats over hands but hangs. At the rim, it's an alley-oop.</dd>
+        <dt>Pull back, flick</dt><dd>Bounce pass. Under the hands of a man in the lane.</dd>
+        <dt>Curl it</dt><dd>Bends the pass around a defender.</dd>
+        <dt>Drag</dt><dd>Drive. Steer like a joystick from where you touched. Snap the other way to cross him.</dd>
+        <dt>Drag, then flick</dt><dd>Pass on the move: drive and kick in one motion.</dd>
+        <dt>Hold still</dt><dd>Court vision. The floor slows down and shows you the gaps, for a second or so each possession.</dd>
+        <dt>Tap</dt><dd>Pass fake. Lane jumpers jump.</dd>
+        <dt>On the money</dt><dd>Hit him in the shooting pocket, leading him if he's moving, and he gets a rhythm shot. Behind him or at his feet, it's late.</dd>
+      </dl>
+    </details>
+    <div class="row-links" style="grid-template-columns:1fr"><button class="link" type="button" data-pm="recal">Find my pass again</button></div>
+  </section>
+
   <section class="screen" id="horse" hidden>
     <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>HORSE</h2></div>
     <p class="lede">Make your shot and they have to match it from the same spot. Miss a match and you take a letter.</p>
@@ -219,6 +259,9 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <h3 class="subhead">Help defense</h3>
     <p class="lede">Beat your man and one of these comes. Where he starts tells you who he is; what he does tells you which finish is open.</p>
     <div class="scout" id="help-list"></div>
+    <h3 class="subhead">Defenses</h3>
+    <p class="lede">Playmaker. Every scheme takes something away and leaves somebody.</p>
+    <div class="scout" id="def-list"></div>
   </section>
 
   <section class="screen" id="chart" hidden>
@@ -233,6 +276,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   </section>
 </main>
 <div id="game" hidden></div>
+<div id="pmgame" hidden></div>
 
 <script>
 /* Engine 1 · Gesture
@@ -3170,6 +3214,2026 @@ const HoopsEngine = (() => {
 
   return { create, FEEL, RINGS };
 })();
+/* Playmaker data: who's on your team, how each defense plays, and the
+   whiteboard puzzles. Like the defenders in defense.js, a new defense is a new
+   row here, not new code. Positions are court feet (x across, z out from the
+   baseline); the rim is at x 0, z 5.25. */
+const PMPlays = (() => {
+  // Teammates. rating feeds the same shot model the scoring game uses; range
+  // is how far out he'll shoot on the catch.
+  const ROLES = {
+    guard: { id: 'guard', label: 'Guard', rating: 72, range: 27, speed: 15.5, finish: 70 },
+    shooter: { id: 'shooter', label: 'Shooter', rating: 84, range: 27.5, speed: 14.5, finish: 62 },
+    slasher: { id: 'slasher', label: 'Slasher', rating: 64, range: 25, speed: 17.5, finish: 80, backdoor: true },
+    big: { id: 'big', label: 'Big', rating: 46, range: 9, speed: 13.5, finish: 88, roll: true }
+  };
+
+  // 4 out, 1 in: you at the top, two wings, a corner, the big at the dunker
+  // spot on the side without a corner. Mirrored at random.
+  const LINEUP = [
+    { role: 'guard', spot: 'top', number: 3, skin: '#c68642' },
+    { role: 'shooter', spot: 'lw', number: 11, skin: '#8d5524' },
+    { role: 'slasher', spot: 'rw', number: 7, skin: '#e0ac69' },
+    { role: 'shooter', spot: 'rc', number: 24, skin: '#5c3a1e' },
+    { role: 'big', spot: 'ldunk', number: 44, skin: '#a86b3c' }
+  ];
+
+  /* Defensive schemes, one per possession.
+     sink: how far the off-ball men sag toward the paint (two passes away most).
+     deny: one-pass-away men sit in the passing lane with a hand in it.
+     antic: how early they read a pass. jumpers: which spots gamble on lanes.
+     helper / helpType: who comes when you get by your man, as a Help type.
+     xout: how the next man rotates behind the helper. watch: chance a weak-side
+     man turns his head to watch a drive. close: how they close out on a catch.
+     answers: the reads that beat it, for the card. */
+  const SCHEMES = {
+    packline: {
+      id: 'packline', name: 'Pack Line', tag: 'Packs the paint',
+      tell: 'Everybody but your man is sitting in the paint.',
+      read: 'Driving into that is driving into a crowd. Kick it or skip it: they are a long way from the shooters.',
+      sink: 0.95, gap1: 0.36, deny: 0, antic: 0.15, react: 0.24, helper: 'nearest', helpType: 'charge', xout: 'slow', watch: 0.2,
+      close: { speed: 11.5, gap: 2.4, length: 1.0 }, onBall: { gap: 3.4, lateral: 0.55 },
+      answers: ['kick', 'skip', 'corner'], colors: { jersey: '#7b2335', shorts: '#5f1a29', trim: '#f2d16b' }
+    },
+    denial: {
+      id: 'denial', name: 'Denial', tag: 'Overplays the wings',
+      tell: 'The wing defenders are up in the passing lanes with a hand in them.',
+      read: 'Don\'t throw it into the hand. The wing goes backdoor: bounce it to him at the rim.',
+      sink: 0.35, gap1: 0.1, deny: 1, antic: 0.75, react: 0.18, helper: 'big', helpType: 'late', xout: 'none', watch: 0,
+      close: { speed: 15, gap: 1.8, length: 1.05 }, onBall: { gap: 2.6, lateral: 0.5 },
+      answers: ['backdoor', 'bounce'], colors: { jersey: '#1f4e79', shorts: '#183d5f', trim: '#ffffff' }
+    },
+    cornerhelp: {
+      id: 'cornerhelp', name: 'Corner Help', tag: 'Helps off the corner',
+      tell: 'The corner defender is creeping toward the lane.',
+      read: 'Get downhill. When he leaves the corner to stop you, the corner three is open.',
+      sink: 0.55, gap1: 0.2, deny: 0, antic: 0.25, react: 0.22, helper: 'corner', helpType: 'late', xout: 'none', watch: 0.3,
+      close: { speed: 12.5, gap: 2.2, length: 1.0 }, onBall: { gap: 3.0, lateral: 0.45 },
+      answers: ['corner', 'kick'], colors: { jersey: '#2f62b8', shorts: '#264f94', trim: '#ffffff' }
+    },
+    rim: {
+      id: 'rim', name: 'Rim Protector', tag: 'Big man at the rim',
+      tell: 'Their big is parked under the basket.',
+      read: 'Make him step up to you, then dump it off or throw the lob to your big.',
+      sink: 0.45, gap1: 0.18, deny: 0, antic: 0.3, react: 0.22, helper: 'big', helpType: 'leaper', xout: 'none', watch: 0.25,
+      close: { speed: 13, gap: 2.2, length: 1.0 }, onBall: { gap: 3.0, lateral: 0.4 }, rimBig: true,
+      answers: ['dump', 'lob'], colors: { jersey: '#3a3f4b', shorts: '#2c3039', trim: '#ffb547' }
+    },
+    lanejumper: {
+      id: 'lanejumper', name: 'Lane Jumper', tag: 'Gambles on passes',
+      tell: 'A wing defender is cheating into the passing lane, watching your eyes.',
+      read: 'Bounce it under him, fake him out of the lane, or hit his man on the back cut.',
+      sink: 0.4, gap1: 0.16, deny: 0, antic: 0.35, react: 0.2, jumpers: ['wing'], helper: 'nearest', helpType: 'digger', xout: 'none', watch: 0.2,
+      close: { speed: 14, gap: 2.0, length: 1.0 }, onBall: { gap: 3.0, lateral: 0.5 },
+      answers: ['bounce', 'backdoor', 'fake'], colors: { jersey: '#c4502a', shorts: '#9e3f20', trim: '#ffffff' }
+    },
+    scramble: {
+      id: 'scramble', name: 'Scramble', tag: 'Flies at the first pass',
+      tell: 'They help hard and sprint out at whoever catches it first.',
+      read: 'Make the extra pass. Drive, kick, and swing it one more time to the guy they left.',
+      sink: 0.5, gap1: 0.2, deny: 0, antic: 0.3, react: 0.2, helper: 'nearest', helpType: 'late', xout: 'fly', watch: 0.2,
+      close: { speed: 18, gap: 1.4, length: 1.05 }, onBall: { gap: 3.0, lateral: 0.5 },
+      answers: ['extra'], colors: { jersey: '#6b3fa0', shorts: '#55317f', trim: '#ffffff' }
+    }
+  };
+  const SCHEME_IDS = Object.keys(SCHEMES);
+
+  /* Draw It Up: frozen boards. You trace one teammate's cut (optional) and
+     the pass, then it runs on the same simulation. off/def: [x, z]; def
+     entries can carry a behavior: watch (eyes on the ball), deny, sunk,
+     front (fronting the post), jump (lane gambler), behind (posted up). */
+  const BOARDS = [
+    {
+      id: 'watcher', name: 'Ball-Watcher', situation: 'Weak side, his eyes are on you',
+      text: 'The left wing\'s man has turned his head to watch the ball.',
+      answer: 'Cut the left wing behind him to the rim and lead him with a bounce or a lob.',
+      clock: 6, holder: 0, scheme: 'cornerhelp',
+      off: [[9, 25, 'guard'], [-18, 19, 'slasher'], [19, 18, 'shooter'], [21, 4, 'shooter'], [5, 6.5, 'big']],
+      def: [[7, 21.5], [-9.5, 14, 'watch'], [14, 15.5], [16, 6.5], [3.4, 8.2]]
+    },
+    {
+      id: 'denied', name: 'Overplayed', situation: 'They won\'t let you swing it',
+      text: 'Both wing defenders are sitting in the passing lanes.',
+      answer: 'Send the right wing backdoor and bounce it to him at the rim. A pass to the wing gets picked.',
+      clock: 7, holder: 0, scheme: 'denial',
+      off: [[0, 26, 'guard'], [-18, 19, 'shooter'], [18, 19, 'slasher'], [-21, 4, 'shooter'], [-5, 6.5, 'big']],
+      def: [[0, 22.5], [-14.5, 20.5, 'deny'], [14.5, 20.5, 'deny'], [-16, 6], [-3.4, 8.2]]
+    },
+    {
+      id: 'sunk', name: 'Sunk In', situation: 'Their corner man is in the lane',
+      text: 'The defender who should be on the left corner is standing in the paint.',
+      answer: 'Skip it to the left corner. Nothing fancy: get it there on time and he has a rhythm three.',
+      clock: 6, holder: 0, scheme: 'packline',
+      off: [[16, 19, 'guard'], [-3, 25, 'shooter'], [21, 5, 'slasher'], [-21, 3.5, 'shooter'], [5, 6.5, 'big']],
+      def: [[12.5, 16], [-2, 20], [16.5, 7], [-6, 9, 'sunk'], [3.2, 8.4]]
+    },
+    {
+      id: 'fourseconds', name: 'Four Seconds', situation: 'Down 2 · 4 seconds left',
+      text: 'Their big is fronting yours, between him and the ball.',
+      answer: 'Throw the lob over the front. Your big goes up and gets it at the rim.',
+      clock: 4, holder: 0, scheme: 'rim',
+      off: [[0, 25, 'guard'], [-18, 19, 'shooter'], [18, 19, 'shooter'], [21, 4, 'shooter'], [-4.5, 7, 'big']],
+      def: [[0, 21.5], [-15, 17], [15, 17], [17, 6], [-4.2, 10, 'front']]
+    },
+    {
+      id: 'switch', name: 'Mismatch', situation: 'They switched a guard onto your big',
+      text: 'A small guard is behind your big on the right block.',
+      answer: 'Throw it in to the big right away. He scores over the little man before help gets there.',
+      clock: 6, holder: 0, scheme: 'cornerhelp',
+      off: [[17, 17, 'guard'], [-17, 19, 'shooter'], [0, 26, 'shooter'], [-21, 4, 'shooter'], [7.5, 7.5, 'big']],
+      def: [[13.5, 14.5], [-13, 16], [0, 22], [-15, 6.5], [7.2, 4.7, 'behind', 'small']]
+    },
+    {
+      id: 'gambler', name: 'Lane Jumper', situation: 'He\'s guessing on the pass',
+      text: 'The right wing defender is cheating into the lane, waiting for the pass.',
+      answer: 'Let him guess. Cut the wing behind him and bounce it to the rim, under his hands.',
+      clock: 7, holder: 0, scheme: 'lanejumper',
+      off: [[0, 26, 'guard'], [-18, 19, 'shooter'], [18, 19, 'slasher'], [-21, 4, 'shooter'], [-5, 6.5, 'big']],
+      def: [[0, 22.5], [-14, 16.5], [11.5, 21, 'jump'], [-15.5, 6], [-3.4, 8.2]]
+    }
+  ];
+
+  return { ROLES, LINEUP, SCHEMES, SCHEME_IDS, BOARDS };
+})();
+/* Playmaker simulation: five on five in the half court, one ball. Moves
+   everybody, flies passes, decides tips and picks, and runs catch-and-shoots
+   through the same shot model the scoring game uses. No drawing here.
+
+   The on-ball defender is a Defense instance and the man who helps on a drive
+   is a Help instance, so drives, cutoffs and help read exactly the way they do
+   in the scoring game. */
+const PMSim = (() => {
+  const { V, RIM } = Court3D;
+  const G = HoopPhysics.G;
+  const RIMF = [RIM.x, 0, RIM.z];
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const flat = p => [p[0], 0, p[2]];
+  const gap = (a, b) => Math.hypot(a[0] - b[0], a[2] - b[2]);
+  const unit = v => { const l = Math.hypot(v[0], v[2]) || 1; return [v[0] / l, 0, v[2] / l]; };
+  const dot2 = (a, b) => a[0] * b[0] + a[2] * b[2];
+  const rimDist = p => Math.hypot(p[0] - RIM.x, p[2] - RIM.z);
+  const sideVec = p => { const d = Court3D.dirToRim(p); return [-d[2], 0, d[0]]; };
+  const SKIN = ['#8d5524', '#c68642', '#e0ac69', '#f1c27d', '#5c3a1e', '#a86b3c'];
+  const HAIR = ['#1b1410', '#2b1d14', '#3b2716', '#0f0f10'];
+  const gauss = HoopPhysics.gauss;
+
+  // ---------- poses (the shared ones, plus a few for passing) ----------
+  const P0 = Court3D.POSES;
+  const tweak = (base, ch) => { const o = {}; Object.keys(base).forEach(k => { o[k] = (ch[k] || base[k]).slice(); }); return o; };
+  const POSES = Object.assign({}, P0, {
+    ready: tweak(P0.stand, { lel: [-0.75, 4.35, 0.55], rel: [0.75, 4.35, 0.55], lha: [-0.45, 4.85, 1.1], rha: [0.45, 4.85, 1.1] }),
+    dribble: tweak(P0.guard, { lha: [-1.4, 4.0, 0.9], lel: [-1.2, 4.3, 0.5], rel: [1.15, 3.9, 0.45], rha: [1.2, 2.9, 0.75], head: [0, 5.6, 0.35] }),
+    pass: tweak(P0.stand, { lel: [-0.6, 4.5, 0.85], rel: [0.6, 4.5, 0.85], lha: [-0.3, 4.6, 1.7], rha: [0.3, 4.6, 1.7] }),
+    denyR: tweak(P0.guard, { rel: [1.3, 4.7, 0.6], rha: [2.1, 4.6, 1.3] }),
+    denyL: tweak(P0.guard, { lel: [-1.3, 4.7, 0.6], lha: [-2.1, 4.6, 1.3] }),
+    lunge: tweak(P0.guard, { lel: [-0.9, 4.4, 1.2], lha: [-0.6, 4.2, 2.3], rel: [0.9, 4.4, 1.2], rha: [0.6, 4.2, 2.3], head: [0, 5.3, 0.8] })
+  });
+
+  // ---------- passes ----------
+  /* speed: feet per second along the floor. from/to: hand heights. A lob and
+     a skip are thrown overhead and arc; a bounce pass hits the floor about
+     sixty percent of the way. */
+  const PASS = {
+    bullet: { id: 'bullet', label: 'Bullet pass', speed: 46, from: 4.7, to: 4.5 },
+    chest: { id: 'chest', label: 'Chest pass', speed: 33, from: 4.7, to: 4.5 },
+    bounce: { id: 'bounce', label: 'Bounce pass', speed: 27, from: 3.9, at: 0.6, e: 0.74 },
+    lob: { id: 'lob', label: 'Lob', from: 7.4, to: 6.4 },
+    skip: { id: 'skip', label: 'Skip pass', from: 7.6, to: 5.4 }
+  };
+
+  function makePass(S, E, type, opts) {
+    const o = opts || {};
+    const T0 = PASS[type] || PASS.chest;
+    const D = Math.max(0.5, gap(S, E));
+    const y0 = T0.from, y1 = o.toY != null ? o.toY : (T0.to != null ? T0.to : 2.6);
+    const P = { type, label: T0.label, S: flat(S), E: flat(E), D, y0, y1, bend: o.bend || 0 };
+    if (type === 'lob' || type === 'skip') {
+      const apex = type === 'lob' ? Math.max(y0 + 1.6 + D * 0.12, y1 + 1.2, 9.4) : Math.max(y0 + 0.9, 9.0 + D * 0.03, y1 + 0.8);
+      const tu = Math.sqrt(2 * (apex - y0) / G), td = Math.sqrt(2 * (apex - y1) / G);
+      P.T = tu + td; P.vy = G * tu; P.apex = apex;
+    } else if (type === 'bounce') {
+      P.T = Math.max(0.2, D / T0.speed);
+      P.t1 = P.T * T0.at;
+      P.vy = (Court3D.BALL_R - y0 + G * P.t1 * P.t1 / 2) / P.t1;
+      P.vy2 = -(P.vy - G * P.t1) * T0.e;
+    } else {
+      P.T = Math.max(0.14, D / T0.speed);
+      P.vy = (y1 - y0 + G * P.T * P.T / 2) / P.T;
+    }
+    // a curled flick bends the pass: the middle of the path is pushed sideways
+    const mid = [(P.S[0] + P.E[0]) / 2, 0, (P.S[2] + P.E[2]) / 2];
+    const perp = unit([-(P.E[2] - P.S[2]), 0, P.E[0] - P.S[0]]);
+    P.C = V.add(mid, V.mul(perp, P.bend * 2));
+    return P;
+  }
+  function passPos(P, t) {
+    const u = clamp(t / P.T, 0, 1);
+    const a = (1 - u) * (1 - u), b = 2 * u * (1 - u), c = u * u;
+    const x = P.S[0] * a + P.C[0] * b + P.E[0] * c;
+    const z = P.S[2] * a + P.C[2] * b + P.E[2] * c;
+    let y;
+    const tt = Math.min(t, P.T);
+    if (P.type === 'bounce') {
+      if (tt <= P.t1) y = P.y0 + P.vy * tt - G * tt * tt / 2;
+      else { const t2 = tt - P.t1; y = Court3D.BALL_R + P.vy2 * t2 - G * t2 * t2 / 2; }
+    } else y = P.y0 + P.vy * tt - G * tt * tt / 2;
+    return [x, Math.max(Court3D.BALL_R, y), z];
+  }
+
+  // ---------- spots ----------
+  function spotPos(court, key, mirror) {
+    let p;
+    const s = mirror ? -1 : 1;
+    if (key === 'top') p = Court3D.polar(0, Court3D.threeDist(court, 0) + 3.6);
+    else if (key === 'ldunk' || key === 'rdunk') p = Court3D.polar((key === 'ldunk' ? -68 : 68), 5.4);
+    else if (key === 'lw' || key === 'rw') { const a = key === 'lw' ? -52 : 52; p = Court3D.polar(a, Court3D.threeDist(court, a) + 2.2); }
+    else p = Court3D.spotInfo(court, key).pos;
+    return [p[0] * s, 0, p[2]];
+  }
+  const PERIM = ['top', 'lw', 'rw', 'lc', 'rc'];
+  function clampCourt(p) { return [clamp(p[0], -24.2, 24.2), 0, clamp(p[2], 0.9, 40)]; }
+
+  // ---------- world ----------
+  /* o: { court, scheme, rand, mirror, board, clock, window } */
+  function create(o) {
+    const court = o.court || Court3D.COURTS.park;
+    const r = o.rand || Math.random;
+    const board = o.board || null;
+    const scheme = PMPlays.SCHEMES[o.scheme || (board && board.scheme)] || PMPlays.SCHEMES.packline;
+    const W = {
+      t: 0, court, scheme, rand: r, board, window: o.window || 1.6, clock: o.clock || (board ? board.clock : 13),
+      off: [], def: [], handler: board ? board.holder : 0, phase: 'live', events: [], story: [], tags: {},
+      ball: { state: 'held', p: [0, 4, 0], pass: null, hoop: null, dribT: 0 }, drive: null, help: null,
+      timers: [], over: false, result: null, lastPass: null, passes: 0, mirror: !!o.mirror, shot: null, lastCatch: null
+    };
+    const mir = W.mirror ? -1 : 1;
+    if (board) {
+      board.off.forEach((b, i) => W.off.push(makeOff(W, i, b[2] || 'shooter', [b[0], 0, b[1]], PMPlays.LINEUP[i].number, PMPlays.LINEUP[i].skin)));
+    } else {
+      PMPlays.LINEUP.forEach((L, i) => W.off.push(makeOff(W, i, L.role, spotPos(court, L.spot, W.mirror), L.number, L.skin, L.spot)));
+    }
+    W.off.forEach((O, i) => {
+      if (board && !board.def[i]) return;
+      const D = makeDef(W, i);
+      if (board && board.def[i]) {
+        const b = board.def[i];
+        D.pos = [b[0], 0, b[1]]; D.behavior = b[2] || null;
+        if (b[3] === 'small') { D.height = 0.88; D.reachK = 0.85; }
+        if (D.behavior === 'jump') { D.jumper = true; D.antic = 1; }
+        if (D.behavior === 'watch') D.watch = true;
+      }
+      W.def.push(D);
+    });
+    // lane jumpers sit on the wing on your side of the floor
+    if (!board && scheme.jumpers) {
+      // on the wing away from the big, so his man's back cut has a clear lane
+      const bigX = (W.off.find(O => O.role.id === 'big') || { pos: [0] }).pos[0];
+      const wings = W.off.map((O, i) => i).filter(i => i !== W.handler && (W.off[i].spot === 'lw' || W.off[i].spot === 'rw') && Math.sign(W.off[i].pos[0]) !== Math.sign(bigX));
+      const pick = wings[Math.floor(r() * wings.length)];
+      if (pick != null) { W.def[pick].jumper = true; W.def[pick].antic = 1; }
+    }
+    if (!board) W.def.forEach(D => { D.pos = guardTarget(W, D); });
+    if (!board && defOf(W, W.handler)) { const H = W.off[W.handler], D = defOf(W, W.handler); D.pos = V.add(flat(H.pos), V.mul(Court3D.dirToRim(H.pos), scheme.onBall.gap)); }
+    setOnBall(W, W.handler, true);
+    W.ball.holder = W.handler;
+    return W;
+  }
+  function makeOff(W, i, roleId, pos, number, skin, spot) {
+    const role = PMPlays.ROLES[roleId] || PMPlays.ROLES.shooter;
+    return {
+      i, side: 'off', role, number, skin, hair: HAIR[i % HAIR.length], pos: pos.slice(), vel: [0, 0, 0], home: pos.slice(), spot: spot || nearestSpot(W, pos),
+      state: 'spot', route: null, ri: 0, pose: tweak(P0.stand, {}), poseName: 'stand', phase: W.rand() * 6, lift: 0, face: [0, 0, -1],
+      catchT: 9, deniedT: 0, cutCool: 0, q: null, autoShot: null, drove: false, jumpT: 9, passT: 9
+    };
+  }
+  function nearestSpot(W, pos) {
+    let best = null;
+    PERIM.concat(['ldunk', 'rdunk']).forEach(k => { const p = spotPos(W.court, k, false); const d = gap(p, pos); if (!best || d < best.d) best = { k, d }; });
+    return best.k;
+  }
+  function makeDef(W, i) {
+    const sc = W.scheme;
+    return {
+      i, side: 'def', man: i, pos: [0, 0, 0], vel: [0, 0, 0], mode: 'guard', d: null, h: null,
+      react: sc.react, antic: sc.antic, quick: 1, height: i === 4 ? 1.1 : 1, reachK: i === 4 ? 1.15 : 1, jumper: false, behavior: null, watch: false,
+      gamble: 0, gambleTo: null, trailT: 0, pose: tweak(P0.sag, {}), poseName: 'sag', phase: W.rand() * 6, lift: 0, face: [0, 0, 1],
+      skin: SKIN[(i * 3 + 1) % SKIN.length], hair: HAIR[(i + 2) % HAIR.length], number: [5, 12, 21, 30, 50][i]
+    };
+  }
+  const defOf = (W, j) => W.def.find(D => D.man === j);
+  const handlerOf = W => W.off[W.handler];
+  function ballFloor(W) {
+    if (W.ball.state === 'pass' && W.ball.pass) return flat(W.ball.pass.E);
+    return flat(handlerOf(W).pos);
+  }
+  function emit(W, ev) { W.events.push(ev); }
+  function pop(W, text, color, at, size) { emit(W, { type: 'pop', text, color: color || '#ffffff', at: at.slice(), size: size || 1 }); }
+  function after(W, sec, fn) { W.timers.push({ at: W.t + sec, fn }); }
+  function nameOf(W, j) {
+    const O = W.off[j];
+    if (O.role.id === 'big') return 'your big';
+    const p = O.pos, a = Math.abs(Court3D.polarOf(p).angle);
+    if (a > 70 && p[2] < 11) return 'the corner';
+    if (rimDist(p) < 10) return O.role.id === 'slasher' ? 'the cutter' : 'the cutter';
+    if (a < 25) return 'the top';
+    return 'the wing';
+  }
+
+  // ---------- the on-ball defender ----------
+  function setOnBall(W, j, fresh) {
+    W.def.forEach(D => { if (D.d && D.man !== j) { D.d = null; D.mode = 'guard'; } });
+    const D = defOf(W, j);
+    if (!D) return;
+    const sc = W.scheme, O = W.off[j];
+    const arch = Object.assign({}, Defense.ARCHETYPES.closer, {
+      speed: D.flyClose ? 18.5 : sc.close.speed, gap: D.flyClose ? 1.4 : sc.onBall.gap, lateral: sc.onBall.lateral, length: sc.close.length * (D.height || 1),
+      bite: D.flyClose ? 0.95 : 0.4, shade: 0, setPose: 'guard', height: D.height || 1, reach: D.reachK || 1
+    });
+    const d = Defense.create('closer', O.pos, W.rand);
+    d.arch = arch; d.gapWanted = arch.gap; d.shadeSide = 0;
+    d.pos = D.pos.slice(); d.vel = D.vel.slice();
+    d.state = fresh || gap(D.pos, O.pos) < arch.gap + 1.0 ? 'set' : 'closing';
+    D.d = d; D.h = null; D.mode = 'onball'; D.gamble = 0; D.flyClose = false;
+  }
+
+  // ---------- off-ball defense ----------
+  function guardTarget(W, D) {
+    const sc = W.scheme, m = W.off[D.man];
+    const mp = flat(m.pos), b = ballFloor(W);
+    const toBall = V.sub(b, mp), dB = Math.hypot(toBall[0], toBall[2]);
+    const toRim = V.sub(RIMF, mp);
+    const one = dB < 24;
+    const beh = D.behavior;
+    if (beh === 'front') return V.add(mp, V.mul(unit(toBall), 2.4));
+    if (beh === 'behind') return V.add(mp, V.mul(unit(toRim), 1.8));
+    if (m.role.id === 'big' && sc.rimBig) return V.add(RIMF, V.mul(unit([mp[0] * 0.5, 0, Math.max(2, mp[2] - RIM.z)]), 2.8));
+    if (beh === 'sunk' || (D.scramble && D.scramble > W.t)) return V.add(mp, V.mul(toRim, 0.72));
+    if (D.gamble > 0 && D.gambleTo) return D.gambleTo;
+    const deny = beh === 'deny' || (sc.deny > 0 && one && m.role.id !== 'big' && dB > 9);
+    D.denying = deny;
+    if (deny) return V.add(V.add(mp, V.mul(unit(toBall), 3.2)), V.mul(unit(toRim), 0.5));
+    // a gambler sits a third of the way up the lane, a step off it on the rim side
+    if (D.jumper) return V.add(V.add(mp, V.mul(toBall, 0.32)), V.mul(unit(toRim), 2.2));
+    let fB = one ? 0.14 + sc.gap1 * 0.25 : 0.3, fR = one ? sc.gap1 : 0.2 + sc.sink * 0.42;
+    if (m.role.id === 'big') { fB = 0.12; fR = 0.22; }
+    if (D.watch) { fB += 0.12; fR += 0.12; }
+    if (W.drive && W.drive.deep) fR += 0.1;
+    return V.add(mp, V.add(V.mul(toBall, fB), V.mul(toRim, fR)));
+  }
+
+  // thru: running through a waypoint on a route, not stopping at it
+  function steer(e, target, maxSpeed, acc, dt, thru) {
+    const to = V.sub(target, e.pos); to[1] = 0;
+    const dist = Math.hypot(to[0], to[2]);
+    const want = dist > 1e-4 && maxSpeed > 0 ? V.mul(to, (thru ? maxSpeed : Math.min(maxSpeed, dist * 4.5)) / dist) : [0, 0, 0];
+    const dv = V.sub(want, e.vel), dvl = Math.hypot(dv[0], dv[2]), lim = acc * dt;
+    e.vel = dvl > lim ? V.add(e.vel, V.mul(dv, lim / dvl)) : want;
+    e.pos = V.add(e.pos, V.mul(e.vel, dt)); e.pos[1] = 0;
+    return dist;
+  }
+  function setPose(e, name, dt, rate) {
+    e.poseName = name;
+    e.pose = Court3D.blendPose(e.pose, POSES[name] || POSES.stand, Math.min(1, dt * (rate || (name.startsWith('run') ? 16 : 10))));
+  }
+  function runPose(e) { return Math.sin(e.phase * 11) > 0 ? 'run1' : 'run2'; }
+
+  function defenseAI(W, dt) {
+    const hdl = handlerOf(W);
+    const onBall = W.ball.state === 'held' ? defOf(W, W.handler) : null;
+    W.def.forEach(D => {
+      D.phase += dt;
+      if (D.gamble > 0) D.gamble -= dt;
+      const m = W.off[D.man];
+      if (D.mode === 'pick' && D.pickAt) {
+        const left = Math.max(0.02, D.pickT - W.t);
+        const to = V.sub(flat(D.pickAt), D.pos);
+        D.vel = V.mul(to, 1 / left); D.pos = V.add(D.pos, V.mul(D.vel, Math.min(dt, left))); D.pos[1] = 0;
+        setPose(D, 'lunge', dt, 14);
+        D.face = unit(V.sub(flat(D.pickAt), D.pos));
+        return;
+      }
+      if (D.d) {
+        Defense.update(D.d, dt, { pos: m.pos }, W.rand);
+        D.pos = D.d.pos.slice(); D.vel = D.d.vel.slice(); D.pose = D.d.pose; D.poseName = D.d.poseName; D.lift = D.d.lift;
+        D.face = D.d.faced === 'rim' ? unit(V.sub(RIMF, D.pos)) : unit(V.sub(m.pos, D.pos));
+        return;
+      }
+      if (D.h) {
+        const to = W.drive && W.drive.dir ? V.add(hdl.pos, V.mul(W.drive.dir, 6)) : null;
+        Help.update(D.h, dt, { pos: hdl.pos, to }, onBall && onBall.d ? onBall.d : { state: 'beaten' });
+        D.pos = D.h.pos.slice(); D.vel = D.h.vel.slice(); D.pose = D.h.pose; D.poseName = D.h.poseName; D.lift = D.h.lift;
+        D.face = unit(V.sub(hdl.pos, D.pos));
+        return;
+      }
+      D.lift = 0;
+      let target, speed = 12.5 * D.quick, pose = 'sag';
+      if (D.mode === 'close' && W.ball.state === 'pass') {
+        // running at the catch before the ball gets there
+        if (W.t >= D.closeAt) {
+          const E = W.ball.pass.E;
+          target = V.add(E, V.mul(Court3D.dirToRim(E), D.flyClose ? 1.2 : W.scheme.close.gap + 0.6));
+          speed = D.flyClose ? 20 : W.scheme.close.speed;
+          pose = 'run1';
+        } else target = D.pos;
+      } else {
+        if (D.mode === 'close') D.mode = 'guard';
+        target = guardTarget(W, D);
+        // a cutter: he follows once he sees it, a step behind
+        if (m.state === 'cut' || m.state === 'meet') {
+          D.trailT += dt;
+          const delay = D.behavior === 'watch' || D.watch ? 0.85 : (D.gamble > 0 ? 0.9 : (D.behavior === 'deny' || W.scheme.deny ? 0.45 : 0.22));
+          if (D.trailT > delay) { target = V.add(flat(m.pos), V.mul(unit(V.sub(ballFloor(W), m.pos)), 1.4)); speed = 15.5; }
+          else target = D.pos;
+        } else D.trailT = 0;
+        const toBall = V.sub(ballFloor(W), D.pos);
+        if (D.denying) {
+          const fwd = unit(V.sub(m.pos, D.pos)), sd = [fwd[2], 0, -fwd[0]];
+          pose = dot2(sd, toBall) > 0 ? 'denyR' : 'denyL';
+        }
+        if (D.jumper) pose = 'guard';
+        if (D.gamble > 0) { pose = 'lunge'; speed = 17; }
+      }
+      const dist = steer(D, target, speed, 55, dt);
+      if (Math.hypot(D.vel[0], D.vel[2]) > 6 && pose !== 'lunge') pose = runPose(D);
+      setPose(D, pose, dt);
+      D.face = D.watch || D.mode === 'close' || D.gamble > 0 ? unit(V.sub(ballFloor(W), D.pos)) : unit(V.sub(V.mul(V.add(flat(m.pos), ballFloor(W)), 0.5), D.pos));
+      if (D.face[0] === 0 && D.face[2] === 0) D.face = [0, 0, 1];
+      void dist;
+    });
+  }
+
+  // ---------- offense ----------
+  function offenseAI(W, dt) {
+    W.off.forEach((O, j) => {
+      O.phase += dt; O.catchT += dt; O.jumpT += dt; O.passT += dt;
+      if (O.cutCool > 0) O.cutCool -= dt;
+      if (j === W.handler && (W.ball.state === 'held' || W.ball.state === 'shot')) return handlerMove(W, O, dt);
+      let target = O.home, speed = 7, pose = 'stand', thru = false;
+      const D = defOf(W, j);
+      if (O.state === 'cut' && O.route) {
+        target = O.route[O.ri]; speed = O.role.speed; thru = O.ri < O.route.length - 1;
+        if (gap(O.pos, target) < 1.4) {
+          O.ri++;
+          if (O.ri >= O.route.length) { O.route = null; O.state = 'post'; O.postT = 0; }
+        }
+        pose = 'run1';
+      } else if (O.state === 'meet' && O.meet) {
+        target = O.meet; speed = O.role.speed + 1;
+        pose = 'ready';
+      } else if (O.state === 'post') {
+        target = O.pos; O.postT += dt;
+        pose = 'ready';
+        if (O.postT > 0.9 && W.ball.state === 'held') { O.state = 'relocate'; O.home = openSpot(W, O); }
+      } else if (O.state === 'dive') {
+        target = O.diveTo; speed = O.role.speed;
+        if (gap(O.pos, target) < 0.8) { O.state = 'post'; O.postT = -0.6; }
+        pose = 'ready';
+      } else if (O.state === 'relocate') {
+        speed = 12;
+        if (gap(O.pos, O.home) < 0.8) O.state = 'spot';
+      } else {
+        // spotted up: watch for the reads that make a cutter go
+        if (W.ball.state === 'held' && !W.board && O.cutCool <= 0 && D && !D.d && !D.h) {
+          // denied: his man is close, up the line toward the ball, not sagging to the rim
+          const toBall = unit(V.sub(ballFloor(W), O.pos)), rel = V.sub(D.pos, O.pos);
+          const overplay = gap(D.pos, O.pos) < 5.5 && dot2(rel, toBall) > 1.8 && dot2(rel, Court3D.dirToRim(O.pos)) < 2.6;
+          const wing = O.role.id !== 'big' && rimDist(O.pos) > 15;
+          if (wing && (D.gamble > 0.2 || (overplay && gap(ballFloor(W), O.pos) < 26))) O.deniedT += dt; else O.deniedT = Math.max(0, O.deniedT - dt * 2);
+          const need = D.gamble > 0.2 ? 0.12 : (O.role.backdoor ? 0.75 : 1.5);
+          if (O.deniedT > need) startCut(W, j, 'backdoor');
+          else if (wing && D.watch && gap(D.pos, O.pos) > 6 && W.drive) startCut(W, j, 'basket');
+        }
+        const open = D && gap(D.pos, O.pos) > 8.5 && W.ball.state === 'held';
+        pose = open ? 'ready' : 'stand';
+      }
+      const dist = steer(O, target, speed, 60, dt, thru);
+      if (Math.hypot(O.vel[0], O.vel[2]) > 5) pose = runPose(O);
+      setPose(O, pose, dt);
+      const bf = ballFloor(W);
+      O.face = unit(V.sub(bf, O.pos));
+      void dist;
+    });
+  }
+  function openSpot(W, O) {
+    let best = null;
+    PERIM.forEach(k => {
+      const p = spotPos(W.court, k, false);
+      const taken = W.off.some(T => T !== O && gap(T.home, p) < 7);
+      if (taken) return;
+      const d = gap(p, O.pos);
+      if (!best || d < best.d) best = { p, d };
+    });
+    return best ? best.p : O.home;
+  }
+  function startCut(W, j, kind) {
+    const O = W.off[j];
+    const a = Court3D.polarOf(O.pos).angle;
+    const s = Math.sign(a) || 1;
+    // backdoor: hard to the rim along the baseline side; basket cut: behind the ball-watcher
+    const mid = kind === 'backdoor' ? Court3D.polar(a * 0.8, Math.max(9, rimDist(O.pos) * 0.5)) : Court3D.polar(a * 0.85, 9);
+    const end = Court3D.polar(s * 28, 3.4);
+    O.state = 'cut'; O.route = [mid, end]; O.ri = 0; O.cutKind = kind; O.cutCool = 4; O.deniedT = 0;
+    clearForCutter(W, j, end);
+    W.story.push({ k: 'cut', j, kind });
+    emit(W, { type: 'cut', j, kind });
+  }
+
+  // A big standing where the cutter is going gets out of his way, to the other block.
+  function clearForCutter(W, j, end) {
+    W.off.forEach((B, k) => {
+      if (k === j || k === W.handler || B.role.id !== 'big' || B.state === 'cut') return;
+      const cutSide = Math.sign(W.off[j].pos[0]) || 1;
+      if (Math.sign(B.pos[0]) !== cutSide && Math.abs(B.pos[0]) > 2) return;
+      B.home = Court3D.polar(-cutSide * 66, 5.4);
+      B.state = 'relocate';
+    });
+  }
+
+  // ---------- the ball handler ----------
+  function handlerMove(W, O, dt) {
+    const D = defOf(W, W.handler);
+    let pose = 'dribble';
+    if (W.ball.state === 'shot') {
+      O.vel = [0, 0, 0];
+      setPose(O, O.jumpT < 0.9 ? 'shoot' : 'stand', dt, 14);
+      O.lift = O.jumpT < 0.55 ? Math.sin(Math.PI * O.jumpT / 0.55) * 1.6 : 0;
+      return;
+    }
+    O.lift = 0;
+    const dv = W.drive;
+    if (dv && dv.dir) {
+      const beat = dv.beat, back = dv.retreat;
+      const sp = back ? 9 : beat ? O.role.speed * 0.95 : 6.5;
+      let target = V.add(O.pos, V.mul(dv.dir, sp * 0.5));
+      target = clampCourt(target);
+      steer(O, target, sp, 70, dt);
+      // you can't run through him: a man in front stays in front
+      W.def.forEach(X => {
+        const g = gap(X.pos, O.pos);
+        const ahead = dot2(V.sub(X.pos, O.pos), Court3D.dirToRim(O.pos)) > -0.4;
+        if (g < 1.7 && ahead && !(X.d && X.d.state === 'beaten')) {
+          const push = unit(V.sub(O.pos, X.pos));
+          O.pos = V.add(X.pos, V.mul(push, 1.7)); O.pos[1] = 0;
+        }
+      });
+      if (rimDist(O.pos) < 2.8) O.pos = V.add(RIMF, V.mul(unit(V.sub(O.pos, RIMF)), 2.8));
+      O.pos = clampCourt(O.pos);
+      if (rimDist(O.pos) < 13) dv.deep = true;
+      if (dv.deep && !W.help && !back) triggerHelp(W);
+      if (W.help && W.help.h) {
+        const H = W.def[W.help.di];
+        if (H.h && Help.charge(H.h, O.pos)) return turnover(W, 'Charge', `ran into ${H.h.type.name}`, H.pos);
+        if (H.h && Help.steal(H.h, O.pos, W.rand)) return turnover(W, 'Stripped', `${H.h.type.name} reached in and stripped it`, H.pos);
+      }
+      // at the rim, you finish
+      if (rimDist(O.pos) < 4.3 && !back) return takeShot(W, W.handler, 'layup');
+      O.drove = true;
+    } else {
+      steer(O, O.pos, 0, 40, dt);
+    }
+    O.face = W.passFace && W.t < W.passFace.until ? W.passFace.dir : Court3D.dirToRim(O.pos);
+    if (O.fakeT != null && O.fakeT < 0.3) { O.fakeT += dt; pose = 'pass'; }
+    if (Math.hypot(O.vel[0], O.vel[2]) > 6) pose = W.ball.state === 'held' ? 'dribble' : runPose(O);
+    setPose(O, pose, dt);
+    void D;
+  }
+
+  /* dir: the drag direction on the floor (unit), or null when the finger stops. */
+  function driveInput(W, dir) {
+    if (W.over || W.ball.state !== 'held') return;
+    const O = handlerOf(W);
+    if (!dir) {
+      if (W.drive) {
+        const near = rimDist(O.pos);
+        const going = W.drive.beat || W.drive.deep;
+        W.drive = null;
+        if (going && near < 8.5) takeShot(W, W.handler, near < 5.5 ? 'layup' : 'floater');
+      }
+      return;
+    }
+    O.autoShot = null;
+    if (!W.drive) {
+      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false };
+      resolveDrive(W, dir);
+      return;
+    }
+    const sv = sideVec(O.pos);
+    const lat = dot2(dir, sv), latOld = dot2(W.drive.dir, sv);
+    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
+    if (W.drive.retreat && fwd > 0.2) { W.drive.retreat = false; resolveDrive(W, dir); }
+    // a hard change of direction the other way is a crossover: read him again
+    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) resolveDrive(W, dir);
+    W.drive.dir = dir;
+  }
+  const HANDLE = { guard: 74, slasher: 70, shooter: 58, big: 44 };
+  function resolveDrive(W, dir) {
+    const j = W.handler, O = W.off[j], D = defOf(W, j);
+    const dv = W.drive;
+    dv.lastRes = W.t;
+    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
+    if (fwd < -0.4) { dv.retreat = true; return; }
+    const d = D && D.d;
+    if (!d || d.state === 'beaten' || d.state === 'air' || d.state === 'recover') { dv.beat = true; triggerHelp(W); return; }
+    const lat = dot2(dir, sideVec(O.pos));
+    const side = Math.abs(lat) < 0.15 ? ((d.momSide || 0) > 0 ? -1 : 1) : Math.sign(lat);
+    const res = Defense.drive(d, side, HANDLE[O.role.id] || 60, W.rand);
+    dv.side = side;
+    const at = V.add(O.pos, [0, 7.2, 0]);
+    if (res.steal) return turnover(W, 'Stolen', 'drove into him and got stripped', D.pos);
+    if (res.win) {
+      dv.beat = true;
+      const crossed = res.why === 'Caught him leaning';
+      pop(W, crossed ? 'Crossed him' : 'Blow-by', '#7ee2a8', at, 0.85);
+      W.story.push({ k: 'drive', side, win: true, why: res.why, crossed });
+      triggerHelp(W);
+      relocateOnDrive(W, dir);
+    } else {
+      pop(W, 'Cut off', '#ff9a66', at, 0.8);
+      W.story.push({ k: 'drive', side, win: false, why: res.why });
+      emit(W, { type: 'sfx', name: 'cutoff' });
+    }
+  }
+  // Teammates move when you drive: lift behind a middle drive, drift on a baseline one.
+  function relocateOnDrive(W, dir) {
+    const O = handlerOf(W);
+    const toward = Math.sign(O.pos[0] + dir[0] * 6) || 1;
+    const baseline = dir[2] < -0.5 && Math.abs(O.pos[0]) > 8;
+    W.off.forEach((T, j) => {
+      if (j === W.handler || T.state !== 'spot' || T.role.id === 'big') return;
+      const same = Math.sign(T.pos[0]) === toward;
+      if (baseline && same && T.pos[2] < 11) { T.home = V.add(T.home, [0, 0, 7]); T.state = 'relocate'; }
+      else if (!baseline && same && T.pos[2] > 11) { T.home = clampCourt(V.add(T.home, [toward * 1.5, 0, 3])); T.state = 'relocate'; }
+    });
+  }
+  // The man the scheme sends when you get by your man, as a Help type.
+  function triggerHelp(W) {
+    if (W.help) return;
+    const sc = W.scheme, O = handlerOf(W);
+    let di = -1;
+    const candidates = W.def.filter(D => !D.d && D.man !== W.handler);
+    if (!candidates.length) return;
+    if (sc.helper === 'big') di = (W.def.find(D => W.off[D.man].role.id === 'big' && !D.d) || {}).i;
+    else if (sc.helper === 'corner') {
+      const c = candidates.filter(D => { const p = W.off[D.man].pos; return Math.abs(Court3D.polarOf(p).angle) > 70 && p[2] < 11; });
+      di = c.length ? c.sort((a, b) => gap(a.pos, O.pos) - gap(b.pos, O.pos))[0].i : -1;
+    }
+    if (di == null || di < 0) {
+      const ahead = V.add(O.pos, V.mul(W.drive && W.drive.dir ? W.drive.dir : Court3D.dirToRim(O.pos), 6));
+      di = candidates.sort((a, b) => gap(a.pos, ahead) - gap(b.pos, ahead))[0].i;
+    }
+    const H = W.def[di];
+    const h = Help.create(sc.helpType, O.pos, W.rand);
+    h.pos = H.pos.slice(); h.home = H.pos.slice(); h.vel = H.vel.slice();
+    Help.engage(h);
+    H.h = h; H.mode = 'help';
+    W.help = { di, man: H.man, t: W.t };
+    W.tags.helpFrom = nameOf(W, H.man);
+    W.story.push({ k: 'help', di, man: H.man, type: h.type.name, from: nameOf(W, H.man) });
+    // weak-side heads turn to watch the drive
+    W.def.forEach(D => { if (D !== H && !D.d && W.rand() < sc.watch && gap(W.off[D.man].pos, O.pos) > 16) D.watch = true; });
+    // his man is open; a big whose man left dives to the rim
+    const M = W.off[H.man];
+    if (M.role.id === 'big' && M.state !== 'cut') { M.state = 'dive'; M.diveTo = Court3D.polar((Math.sign(M.pos[0]) || 1) * 66, 4.6); }
+  }
+
+  // ---------- passing ----------
+  /* g: { dir (unit, on the floor), dist (ft), type, bend } */
+  function pass(W, g) {
+    if (W.over || W.ball.state !== 'held') return null;
+    const j0 = W.handler, O = W.off[j0];
+    let type = g.type || 'chest';
+    const S = V.add(flat(O.pos), V.mul(g.dir, 0.9));
+    let E = clampCourt(V.add(flat(O.pos), V.mul(g.dir, g.dist)));
+    if ((type === 'bullet' || type === 'chest') && gap(S, E) > 27) type = 'skip';
+    const est = makePass(S, E, type, { bend: g.bend });
+    // who it's for: where each teammate will be when it gets there
+    let best = null;
+    W.off.forEach((T, j) => { if (j === j0) return; const pr = predict(W, j, est.T); const e = gap(pr, E); if (!best || e < best.e) best = { j, e, pr }; });
+    const win = W.window + est.D * 0.035;
+    let q = 'none';
+    if (best) q = best.e <= win ? 'money' : best.e <= 4.4 ? 'reach' : best.e <= 7.5 ? 'chase' : 'none';
+    // inside the window the pass finds his hands, leading him if he's moving
+    if (q === 'money') E = V.add(best.pr, V.mul(unit(V.sub(S, best.pr)), 0.6));
+    let toY = null, alley = false;
+    const R = best ? W.off[best.j] : null;
+    if (type === 'lob' && R && rimDist(E) < 7 && (R.role.id === 'big' || R.state === 'cut' || R.state === 'dive' || R.state === 'post')) { toY = 10.2; alley = true; }
+    const P = makePass(S, E, type, { bend: g.bend, toY });
+    Object.assign(P, { t0: W.t, from: j0, to: best ? best.j : null, q, err: best ? best.e : 99, alley });
+    P.risk = assess(W, P);
+    W.ball.state = 'pass'; W.ball.pass = P; W.drive = null;
+    W.passFace = { dir: g.dir, until: W.t + 0.35 };
+    O.passT = 0; O.autoShot = null;
+    W.passes++;
+    // the receiver goes to get it
+    if (R && q !== 'none') {
+      if (!(R.state === 'cut' && q === 'money')) { R.state = 'meet'; R.meet = E; }
+      R.route = R.state === 'cut' ? R.route : null;
+    }
+    // defense reads it: the receiver's man runs at the catch
+    W.def.forEach(D => {
+      if (D.h) { D.h = null; D.mode = 'guard'; }
+      if (D.d && D.man === j0) { D.d = null; D.mode = 'guard'; }
+    });
+    if (R) closeoutsFor(W, P, R);
+    // the passer spaces out again after a drive
+    if (O.drove || rimDist(O.pos) < 14) { O.home = openSpot(W, O); O.state = 'relocate'; } else O.state = 'spot';
+    O.drove = false;
+    W.lastPass = P;
+    const outcome = P.risk.outcome;
+    if (outcome === 'pick' || outcome === 'tip') {
+      const D = W.def[P.risk.di];
+      D.mode = 'pick'; D.pickAt = passPos(P, P.risk.t); D.pickT = W.t + P.risk.t; D.d = null; D.h = null;
+    }
+    emit(W, { type: 'pass', pass: P });
+    return P;
+  }
+  function closeoutsFor(W, P, R) {
+    const sc = W.scheme;
+    let D = defOf(W, R.i);
+    // scramble: the first kick gets a man flying at it, and the next man over is
+    // left while his defender is still down in the paint
+    if (sc.xout === 'fly' && W.help && !W.flown && rimDist(P.E) > 15) {
+      W.flown = true;
+      if (D) D.flyClose = true;
+      const mates = W.off.filter(T => T.i !== R.i && T.i !== P.from && T.role.id !== 'big' && rimDist(T.pos) > 15);
+      if (mates.length) {
+        const N = mates.sort((a, b) => gap(a.pos, P.E) - gap(b.pos, P.E))[0];
+        const X = defOf(W, N.i);
+        if (X && !X.d) { X.scramble = W.t + 1.9; }
+        W.story.push({ k: 'fly', man: N.i });
+      }
+    }
+    if (!D) return;
+    D.mode = 'close';
+    const r = passReact(W, D, P);
+    D.closeAt = W.t + r + (W.help && W.help.di === D.i ? 0.2 : 0);
+  }
+  function passReact(W, D, P) {
+    let r = D.react - D.antic * 0.12;
+    if (D.watch) r -= 0.04;
+    const m = W.off[D.man];
+    if (m.state === 'cut' && !D.d) r += 0.3;
+    if (D.gamble > 0) r += 0.4;
+    if (D.h) r += 0.12;
+    if (D.d) r = 0.12;
+    if (D.behavior === 'front' && P.type === 'lob') r += 0.5;
+    // thrown behind his back: he has to turn to find it
+    const f = D.face || [0, 0, 1];
+    if (!D.d && dot2(f, unit(V.sub(P.E, D.pos))) < -0.3) r += 0.22;
+    return Math.max(0.03, r);
+  }
+  function predict(W, j, T) {
+    const O = W.off[j];
+    if (O.state === 'cut' && O.route) {
+      const v0 = Math.hypot(O.vel[0], O.vel[2]), vm = O.role.speed;
+      const lag = v0 < vm ? (vm - v0) * (vm - v0) / (2 * 60) : 0;
+      let p = flat(O.pos), left = Math.max(0, vm * T - lag), i = O.ri;
+      while (left > 0 && i < O.route.length) {
+        const q = O.route[i], d = gap(p, q);
+        if (d >= left) { p = V.add(p, V.mul(unit(V.sub(q, p)), left)); left = 0; } else { p = q; left -= d; i++; }
+      }
+      return p;
+    }
+    if (O.state === 'dive' && O.diveTo) {
+      const d = gap(O.pos, O.diveTo), s = O.role.speed * T;
+      return d <= s ? O.diveTo : V.add(flat(O.pos), V.mul(unit(V.sub(O.diveTo, O.pos)), s));
+    }
+    if (O.state === 'relocate') {
+      const d = gap(O.pos, O.home), s = 12 * T;
+      return d <= s ? O.home : V.add(flat(O.pos), V.mul(unit(V.sub(O.home, O.pos)), s));
+    }
+    return flat(O.pos);
+  }
+
+  /* Can anybody get a hand on it? For each defender: how far he can lunge by
+     each moment of the flight, against where the ball is and how high. Clear
+     calls go the same way every time; only close ones are a coin flip. */
+  function assess(W, P) {
+    const rcv = P.to != null ? W.off[P.to] : null;
+    let worst = { di: -1, m: -99, t: 0 };
+    const pdir = unit(V.sub(P.E, P.S));
+    W.def.forEach((D, di) => {
+      const r = passReact(W, D, P);
+      // a man right on the passer (his own man, or the help that stopped the
+      // drive) only gets a hand on it if you throw it at him
+      const close = gap(D.pos, P.S) < 4.5;
+      const atHim = close ? dot2(pdir, unit(V.sub(D.pos, P.S))) : 1;
+      const lunge = (D.jumper || D.gamble > 0 ? 6.8 : 4.4) * D.quick;
+      const vmax = (D.jumper ? 15 : 13) * D.quick;
+      const H = D.height || 1;
+      const top0 = 8.4 * H, jump = 2.1 * H;
+      const arm = 2.5 * (D.reachK || 1);
+      let best = -99, at = 0;
+      const steps = Math.ceil(P.T * 60);
+      for (let k = 3; k <= steps; k++) {
+        const t = Math.min(P.T, k / 60);
+        const B = passPos(P, t);
+        const top = top0 + (t > r + 0.22 ? jump : 0);
+        if (B[1] > top) continue;
+        let hand = B[1] < 1.6 ? 0.75 : B[1] < 3.0 ? 1.45 : B[1] <= top0 ? arm : 1.35;
+        // a man jumping the lane is reaching for a chest pass: a bounce goes under him
+        const greedy = D.jumper || D.gamble > 0 || D.denying;
+        if (greedy && B[1] < 2.4) hand = 0.3;
+        const dd = gap(D.pos, B);
+        // a man right on the passer only tips what you throw straight at him
+        if (close && t < 0.32 && !(atHim > 0.88 && (P.type === 'chest' || P.type === 'bullet'))) continue;
+        // late in the flight, the receiver is there first if he's between them
+        if (rcv && t > P.T * 0.55) {
+          const rp = predict(W, P.to, t);
+          if (gap(rp, B) + 1.0 < dd) continue;
+        }
+        const move = Math.min(greedy && B[1] < 2.4 ? 1.6 : lunge, Math.max(0, t - r) * vmax);
+        const m = move + hand - dd + (greedy && B[1] < 2.4 ? 0 : D.antic * 0.6);
+        if (m > best) { best = m; at = t; }
+      }
+      if (close && best > 0.6) best = 0.6;
+      if (best > worst.m) worst = { di, m: best, t: at, close };
+    });
+    const m = worst.m;
+    let outcome = 'clean';
+    const pickLine = P.type === 'bullet' ? 1.7 : 1.25;
+    if (m > pickLine) outcome = 'pick';
+    else if (m > 0.35) outcome = W.rand() < (m - 0.35) / (pickLine - 0.35) * 0.6 ? 'pick' : 'tip';
+    else if (m > -0.35) outcome = W.rand() < (m + 0.35) / 0.7 * 0.55 ? 'tip' : 'clean';
+    // the man on the passer can get a finger on it, not catch it
+    if (worst.close && outcome === 'pick') outcome = 'tip';
+    return { outcome, di: worst.di, t: worst.t, margin: m };
+  }
+
+  // ---------- catching ----------
+  function resolvePass(W) {
+    const P = W.ball.pass;
+    const el = W.t - P.t0;
+    const risk = P.risk;
+    if ((risk.outcome === 'pick' || risk.outcome === 'tip') && el >= risk.t && !P.resolved) {
+      P.resolved = true;
+      const D = W.def[risk.di];
+      D.mode = 'guard'; D.pickAt = null;
+      const at = passPos(P, risk.t);
+      if (risk.outcome === 'pick') {
+        pop(W, 'Picked', '#ff5d4a', V.add(at, [0, 2.5, 0]), 1.2);
+        W.story.push({ k: 'pass', P, result: 'pick', by: D.i });
+        return turnover(W, 'Picked', null, at, true);
+      }
+      pop(W, 'Tipped', '#ff9a66', V.add(at, [0, 2.5, 0]), 1.0);
+      // a tip either dies or squirts loose to him late
+      const R = P.to != null ? W.off[P.to] : null;
+      if (R && P.q !== 'none' && W.rand() < 0.42) {
+        P.tipped = true;
+        P.q = 'chase';
+        W.ball.state = 'loose';
+        W.ball.loose = { from: at, to: V.add(flat(R.pos), [0, 3, 0]), t0: W.t, T: 0.45, j: R.i };
+        W.story.push({ k: 'tip', save: true });
+        return;
+      }
+      W.story.push({ k: 'pass', P, result: 'tip' });
+      return turnover(W, 'Tipped', null, at, true);
+    }
+    if (el < P.T) return;
+    if (P.resolved) return;
+    P.resolved = true;
+    const R = P.to != null ? W.off[P.to] : null;
+    const reachD = R ? gap(R.pos, P.E) : 99;
+    if (!R || P.q === 'none' || reachD > 6) {
+      W.story.push({ k: 'pass', P, result: 'away' });
+      pop(W, 'Thrown away', '#ff5d4a', V.add(P.E, [0, 3, 0]), 1.0);
+      return turnover(W, 'Thrown away', null, P.E, true);
+    }
+    let q = P.q;
+    if (reachD > 2.2 && q === 'money') q = 'reach';
+    if (reachD > 3.8) q = 'chase';
+    // a bounce pass to a shooter comes in low: he has to bring it up
+    if (P.type === 'bounce' && q === 'money' && rimDist(R.pos) > 15) q = 'reach';
+    if (q === 'chase' && W.rand() < 0.22) {
+      pop(W, 'Fumbled', '#ff5d4a', V.add(R.pos, [0, 6, 0]), 1.0);
+      W.story.push({ k: 'pass', P, result: 'fumble', q });
+      return turnover(W, 'Fumbled', null, R.pos, true);
+    }
+    catchBall(W, R.i, q, P);
+  }
+  function catchBall(W, j, q, P) {
+    const R = W.off[j];
+    const prev = W.lastCatch;
+    W.ball.state = 'held'; W.ball.pass = null; W.ball.holder = j;
+    const from = W.handler;
+    W.handler = j;
+    R.q = q; R.catchT = 0; R.drove = false;
+    R.state = 'hold'; R.route = null; R.meet = null;
+    W.drive = null; W.help = null;
+    W.def.forEach(D => { D.watch = false; if (D.h) { D.h = null; D.mode = 'guard'; } });
+    setOnBall(W, j);
+    const tags = readTags(W, P, R, from, prev);
+    W.lastCatch = { j, t: W.t, P, tags, from };
+    const pt = V.add(R.pos, [0, 7.2, 0]);
+    const qText = { money: 'On the money', reach: 'Late', chase: P && P.tipped ? 'Saved it' : 'Behind him' }[q];
+    if (qText) pop(W, qText, q === 'money' ? '#7ee2a8' : '#ffd166', pt, 0.8);
+    if (tags.includes('extra')) pop(W, 'Extra pass', '#7ee2a8', V.add(pt, [0, 1.3, 0]), 0.75);
+    W.story.push({ k: 'pass', P, result: 'catch', q, to: j, tags, name: nameOf(W, j) });
+    tags.forEach(t => { W.tags[t] = true; });
+    emit(W, { type: 'catch', j, q });
+    if (W.noShots) return;
+    const near = rimDist(R.pos);
+    if (P && P.alley && near < 6.5) { after(W, 0.12, () => takeShot(W, j, 'dunk')); return; }
+    if (near < 7.5) { after(W, q === 'money' ? 0.16 : 0.32, () => { if (W.handler === j && W.ball.state === 'held' && !W.drive) takeShot(W, j, near < 5.5 ? 'layup' : 'floater'); }); return; }
+    if (near <= R.role.range) {
+      const open = predictedContest(W, j, q) < 0.42;
+      if (open || W.board) R.autoShot = W.t + (q === 'money' ? 0.42 : q === 'reach' ? 0.7 : 0.95) + (open ? 0 : 0.6);
+    }
+  }
+  function predictedContest(W, j, q) {
+    const R = W.off[j], D = defOf(W, j);
+    if (!D) return 0;
+    const rel = (q === 'money' ? 0.62 : q === 'reach' ? 0.9 : 1.15);
+    const sp = D.flyClose || (D.d && D.d.arch.speed > 17) ? 17 : W.scheme.close.speed;
+    const g0 = gap(D.pos, R.pos);
+    const g = Math.max(D.d ? D.d.arch.gap : 2, g0 - sp * Math.max(0, rel - 0.1) * 0.85);
+    return clamp((7.2 - g) / 5, 0, 1) * (W.scheme.close.length || 1);
+  }
+  function readTags(W, P, R, from, prev) {
+    const tags = [];
+    if (!P) return tags;
+    const near = rimDist(R.pos);
+    const drove = !!(W.story.find(s => s.k === 'drive' && s.win) || W.story.find(s => s.k === 'help'));
+    if (near > 15 && (W.tags.helpFrom || drove) && from === P.from) tags.push('kick');
+    if (P.D > 27) tags.push('skip');
+    if (Math.abs(Court3D.polarOf(R.pos).angle) > 70 && R.pos[2] < 11) tags.push('corner');
+    if ((R.cutKind || P.to != null && W.story.some(s => s.k === 'cut' && s.j === R.i)) && near < 10) tags.push('backdoor');
+    if (R.role.id === 'big' && near < 8) tags.push('dump');
+    if (P.alley) tags.push('lob');
+    if (P.type === 'bounce') tags.push('bounce');
+    if (prev && prev.j === P.from && W.t - prev.t < P.T + 1.5 && !W.off[P.from].drove) tags.push('extra');
+    if (W.tags.fakebit) tags.push('fake');
+    return tags;
+  }
+
+  // ---------- pass fake ----------
+  function fake(W) {
+    if (W.over || W.ball.state !== 'held') return false;
+    const O = handlerOf(W);
+    O.autoShot = null; O.fakeT = 0;
+    let bit = false;
+    W.def.forEach(D => {
+      if (D.d || D.h || D.gamble > 0) return;
+      const m = W.off[D.man];
+      const greedy = D.jumper || D.behavior === 'jump' || W.scheme.deny > 0 || D.behavior === 'deny';
+      if (!greedy || gap(m.pos, O.pos) > 30) return;
+      D.gamble = 0.9;
+      D.gambleTo = V.add(flat(m.pos), V.mul(V.sub(flat(O.pos), flat(m.pos)), 0.42));
+      bit = true;
+      pop(W, 'He bit', '#7ee2a8', V.add(D.pos, [0, 7.2, 0]), 0.8);
+    });
+    if (bit) W.tags.fakebit = true;
+    W.story.push({ k: 'fake', bit });
+    return bit;
+  }
+
+  // ---------- shooting ----------
+  function contestFor(W, j, kind) {
+    const O = W.off[j], p = flat(O.pos);
+    const dist = rimDist(p);
+    const hk = kind === 'dunk' || kind === 'layup' ? 'layup' : kind === 'floater' ? 'floater' : 'jumper';
+    let c = 0, by = null;
+    W.def.forEach(D => {
+      let k;
+      if (D.d) k = Defense.contest(D.d, p);
+      else if (D.h) k = Help.contest(D.h, p, hk);
+      else {
+        const g = gap(D.pos, p);
+        k = clamp((6.8 - g) / 4.8, 0, 1) * (D.height || 1) * (D.reachK || 1);
+        const toRim = Court3D.dirToRim(p);
+        if (dot2(V.sub(D.pos, p), toRim) < -0.8) k *= 0.35;
+        if (dist > 11) k *= 0.85;
+      }
+      if (k > c) { c = k; by = D; }
+    });
+    return { c: clamp(c, 0, 1), by };
+  }
+  function takeShot(W, j, kind) {
+    if (W.over || W.ball.state !== 'held') return;
+    const O = W.off[j];
+    const pos = flat(O.pos);
+    const dist = rimDist(pos);
+    if (kind === 'jumper' && dist < 11) kind = dist < 5.5 ? 'layup' : 'floater';
+    const cf = contestFor(W, j, kind);
+    const by = cf.by, c = kind === 'dunk' ? cf.c * 0.6 : cf.c;
+    const three = Court3D.isThree(W.court, pos);
+    const q = O.q || 'self';
+    let b;
+    if (kind === 'dunk') {
+      const d = unit(V.sub(RIMF, pos));
+      b = HoopPhysics.newBall([RIM.x - d[0] * 0.55, 10.9, RIM.z - d[2] * 0.55], [d[0] * 2.2, -7, d[2] * 2.2], { spin: -9 });
+      if (c > 0.72 && W.rand() < (c - 0.72) * 1.4) b.blockAt = 0.04;
+    } else {
+      const R = kind === 'jumper' ? O.role.rating : O.role.finish;
+      const base = { money: 0.07, reach: 0.12, chase: 0.17, self: 0.08 }[q] || 0.09;
+      const sig = base * (1 + Math.max(0, 76 - R) / 45) * (kind === 'jumper' ? 1 : 0.6);
+      const e = gauss(W.rand) * sig - (q === 'chase' ? 0.03 : 0);
+      const aim = gauss(W.rand) * (q === 'money' || q === 'self' ? 2.2 : 4.2);
+      const ideal = HoopPhysics.idealFlick(dist);
+      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: ideal * (1 + e), angle: aim * Math.PI / 180, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: 1, court: W.court, window: 0.12, aimDead: 4.5, contest: c, rating: R, rand: W.rand });
+      b = HoopPhysics.newBall(shot.release, shot.vel, { touch: shot.touch || 0, spinOut: shot.spinOut || 0, spin: -9 });
+      let bc = 0;
+      if (by && by.d) bc = Defense.blockChance(by.d, c, shot.type.id);
+      else if (by && by.h) bc = Help.blockChance(by.h, c, kind === 'floater' ? 'floater' : 'layup');
+      else if (c > 0.75) bc = (c - 0.75) * (kind === 'jumper' ? 0.7 : 1.2);
+      if (W.rand() < bc) b.blockAt = 0.15;
+    }
+    W.ball.state = 'shot'; W.ball.hoop = b;
+    O.jumpT = 0; O.autoShot = null; O.state = 'shoot';
+    W.drive = null;
+    const assist = W.lastCatch && W.lastCatch.j === j && W.lastCatch.P && !O.drove && W.t - W.lastCatch.t < 3.2 ? W.lastCatch.from : null;
+    W.shot = { j, kind, contest: c, three, dist, q, t0: W.t, assist, by: by ? by.i : null };
+    W.def.forEach(D => { if (D.d) Defense.reactToShot(D.d, pos); if (D.h) Help.reactToShot(D.h, pos); });
+    W.story.push({ k: 'shot', j, kind, contest: c, three, q, name: nameOf(W, j), you: j === 0 && !W.lastCatch });
+    emit(W, { type: 'shot', j, kind });
+  }
+  function shotDone(W, b) {
+    const S = W.shot;
+    const made = b.result === 'made' && !b.blocked;
+    const pts = made ? (S.three ? 3 : 2) : 0;
+    const at = [RIM.x, RIM.y + 1.8, RIM.z];
+    if (b.blocked) { /* announced */ }
+    else if (made) {
+      pop(W, S.kind === 'dunk' ? 'Slam' : b.swish ? 'Swish' : 'Good', '#ffffff', at, 1.15);
+      pop(W, '+' + pts, S.three ? '#ffb547' : '#7ee2a8', [RIM.x, RIM.y + 3.6, RIM.z], 1.4);
+      if (S.assist != null) pop(W, 'Assist', '#7ee2a8', [RIM.x, RIM.y + 5.2, RIM.z], 1.0);
+    } else pop(W, b.rimHits || b.boardHits ? 'Rimmed out' : 'Miss', '#ff9a66', at, 1.0);
+    W.story.push({ k: 'result', made, blocked: !!b.blocked, pts });
+    endPossession(W, { made, points: pts, blocked: !!b.blocked });
+  }
+  function turnover(W, kind, text, at, quiet) {
+    if (W.over) return;
+    if (!quiet) pop(W, kind, '#ff5d4a', V.add(at || handlerOf(W).pos, [0, 7, 0]), 1.15);
+    W.ball.state = 'dead';
+    W.drive = null;
+    W.story.push({ k: 'to', kind, text });
+    emit(W, { type: 'sfx', name: kind === 'Charge' ? 'whistle' : 'bad' });
+    endPossession(W, { turnover: kind, points: 0 });
+  }
+  function endPossession(W, r) {
+    if (W.over) return;
+    W.over = true;
+    const S = W.shot;
+    W.result = Object.assign({
+      contest: S ? S.contest : null, q: S ? S.q : null, three: S ? S.three : false, kind: S ? S.kind : null,
+      shooter: S ? S.j : null, assist: S && r.made ? S.assist : null, tags: Object.keys(W.tags).filter(k => k !== 'helpFrom' && k !== 'fakebit')
+    }, r);
+    W.result.grade = grade(W);
+    emit(W, { type: 'end' });
+  }
+
+  // ---------- grading and the story ----------
+  function grade(W) {
+    const R = W.result;
+    if (R.turnover) return 'F';
+    const c = R.contest == null ? 1 : R.contest;
+    const k = R.kind === 'dunk' ? c * 0.7 : c;
+    let g = k < 0.24 ? 'A' : k < 0.44 ? 'B' : k < 0.68 ? 'C' : 'D';
+    const down = { A: 'B', B: 'C', C: 'D', D: 'D' };
+    if (R.q === 'reach' && g === 'A') g = 'B';
+    if (R.q === 'chase') g = down[g];
+    if (R.blocked && g === 'A') g = 'B';
+    return g;
+  }
+  function narrate(W) {
+    const parts = [];
+    const R = W.result || {};
+    let you = true;
+    W.story.forEach(s => {
+      if (s.k === 'drive') parts.push(s.win ? (s.crossed ? `${you ? 'You' : 'He'} crossed him up.` : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got by him.`) : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got cut off.`);
+      else if (s.k === 'help') parts.push(`Help came off ${s.from}.`);
+      else if (s.k === 'fake') parts.push(s.bit ? 'Pass fake, and he jumped the lane.' : 'Pass fake. Nobody bit.');
+      else if (s.k === 'cut') parts.push(s.kind === 'backdoor' ? `${cap(nameOf(W, s.j))} went backdoor.` : `${cap(nameOf(W, s.j))} cut behind his man.`);
+      else if (s.k === 'fly') parts.push('They flew out at the catch.');
+      else if (s.k === 'tip') parts.push('Tipped, but it squirted through.');
+      else if (s.k === 'pass') {
+        const lab = s.P.alley ? 'Lob' : s.P.label;
+        if (s.result === 'catch') {
+          const tg = s.tags || [];
+          const how = tg.includes('extra') ? 'Extra pass' : tg.includes('kick') ? 'Kicked it out' : lab;
+          parts.push(`${how} to ${s.name}${s.q === 'money' ? ', on the money' : s.q === 'reach' ? ', a little late' : ', behind him'}.`);
+          you = false;
+        } else if (s.result === 'pick') parts.push(`${lab}, picked off.`);
+        else if (s.result === 'tip') parts.push(`${lab}, tipped away.`);
+        else if (s.result === 'fumble') parts.push(`${lab}, behind him, and he fumbled it.`);
+        else parts.push(`${lab} to nobody. Thrown away.`);
+      } else if (s.k === 'shot') {
+        const lab = Defense.contestLabel(s.contest).text.toLowerCase();
+        const nm = s.kind === 'dunk' ? 'Alley-oop' : s.kind === 'layup' ? 'Layup' : s.kind === 'floater' ? 'Floater' : s.three ? 'Three' : 'Jumper';
+        parts.push(`${nm}, ${lab}:`);
+      } else if (s.k === 'result') {
+        parts[parts.length - 1] += s.blocked ? ' blocked.' : s.made ? ' made.' : ' missed.';
+        if (s.made && R.assist != null) parts.push('Assist.');
+      } else if (s.k === 'to') parts.push(s.kind === 'Shot clock' ? 'Shot clock violation.' : s.kind === 'Charge' ? 'Offensive foul.' : s.text ? cap(s.text) + '.' : '');
+    });
+    parts.push(R.points ? `+${R.points}` : 'No points.');
+    return parts.filter(Boolean).join(' ');
+  }
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  function lesson(W) {
+    const R = W.result || {}, sc = W.scheme;
+    const hit = (R.tags || []).some(t => sc.answers.includes(t));
+    if (R.turnover === 'Picked') return `${sc.name} lives in the passing lanes you can see. ${sc.read}`;
+    if (R.turnover === 'Shot clock') return `You held it too long. ${sc.read}`;
+    if (hit && (R.grade === 'A' || R.grade === 'B')) return `That's the read against ${sc.name}. ${sc.read}`;
+    return sc.read;
+  }
+
+  // ---------- update ----------
+  function update(W, dt) {
+    if (W.over && W.ball.state !== 'shot') { W.t += dt; ballUpdate(W, dt); offenseAI(W, dt); defenseAI(W, dt); return; }
+    W.t += dt;
+    const due = W.timers.filter(x => x.at <= W.t);
+    if (due.length) { W.timers = W.timers.filter(x => x.at > W.t); due.forEach(x => x.fn()); }
+    if (!W.over && W.ball.state !== 'shot') {
+      W.clock -= dt;
+      if (W.clock <= 0) { W.clock = 0; pop(W, 'Shot clock', '#ff5d4a', [RIM.x, RIM.y + 2, RIM.z], 1.2); turnover(W, 'Shot clock', 'ran out the clock', null, true); }
+    }
+    offenseAI(W, dt);
+    defenseAI(W, dt);
+    // the shooter rises if nobody tells him otherwise
+    const H = handlerOf(W);
+    if (H.autoShot != null && W.t >= H.autoShot && W.ball.state === 'held' && !W.drive) takeShot(W, W.handler, 'jumper');
+    ballUpdate(W, dt);
+  }
+  function ballUpdate(W, dt) {
+    const B = W.ball;
+    if (B.state === 'held') {
+      const O = handlerOf(W);
+      B.dribT += dt * (W.drive ? 3.0 : 2.0);
+      const f = O.face || [0, 0, -1], s = [f[2], 0, -f[0]];
+      const up = Math.abs(Math.cos(B.dribT * Math.PI));
+      const hold = O.catchT < 0.5 || O.autoShot != null;
+      const hand = V.add(V.add(flat(O.pos), V.mul(s, hold ? 0 : 0.9)), V.mul(f, hold ? 0.9 : 0.7));
+      B.p = [hand[0], hold ? 4.3 : Court3D.BALL_R + up * 2.6, hand[2]];
+    } else if (B.state === 'pass') {
+      B.p = passPos(B.pass, W.t - B.pass.t0);
+      resolvePass(W);
+    } else if (B.state === 'loose') {
+      const L = B.loose, k = clamp((W.t - L.t0) / L.T, 0, 1);
+      B.p = V.add(V.lerp3(L.from, L.to, k), [0, Math.sin(Math.PI * k) * 2, 0]);
+      if (k >= 1) catchBall(W, L.j, 'chase', W.lastPass);
+    } else if (B.state === 'shot' && B.hoop) {
+      const b = B.hoop;
+      if (b.blockAt && !b.blocked && b.t >= b.blockAt) {
+        b.blocked = true;
+        const dir = Court3D.dirToRim(W.shot ? W.off[W.shot.j].pos : b.p);
+        const sd = W.rand() < 0.5 ? -1 : 1;
+        b.v = [-dir[0] * 9 + dir[2] * sd * 7, 4, -dir[2] * 9 - dir[0] * sd * 7];
+        pop(W, 'Blocked', '#ff5d4a', V.add(b.p, [0, 1.5, 0]), 1.3);
+        emit(W, { type: 'sfx', name: 'block' });
+      }
+      HoopPhysics.advance(b, dt, W.court);
+      b.events.forEach(ev => emit(W, { type: 'sfx', name: ev.type === 'score' ? 'swish' : ev.type, s: ev.s }));
+      b.events.length = 0;
+      if (b.blocked && !b.result && b.t > 0.9) b.result = 'miss';
+      B.p = b.p;
+      if (b.result && !b.handled) { b.handled = true; shotDone(W, b); }
+    } else if (B.state === 'dead') {
+      // stays where it died
+    }
+  }
+
+  // ---------- Draw It Up ----------
+  /* plan: { cut: { j, pts: [[x,z]...] } | null, pass: { to: [x,z], type } } */
+  function runBoard(W, plan) {
+    W.plan = plan;
+    if (plan.cut && plan.cut.pts.length > 1) {
+      const O = W.off[plan.cut.j];
+      after(W, 0.12, () => {
+        O.state = 'cut'; O.route = plan.cut.pts.slice(1).map(p => [p[0], 0, p[1]]); O.ri = 0; O.cutKind = 'drawn';
+        W.story.push({ k: 'cut', j: O.i, kind: 'drawn' });
+      });
+    }
+    if (!plan.pass) return;
+    const H = handlerOf(W);
+    const to = [plan.pass.to[0], 0, plan.pass.to[1]];
+    let release = 0.45;
+    if (plan.cut && plan.cut.pts.length > 1) {
+      // time it so it gets there when he does
+      const pts = plan.cut.pts.map(p => [p[0], 0, p[1]]);
+      const O = W.off[plan.cut.j];
+      let s = 0, bestS = null, bestD = 99;
+      for (let i = 1; i < pts.length; i++) {
+        const a = pts[i - 1], b = pts[i], L = gap(a, b);
+        for (let k = 0; k <= 10; k++) { const p = V.lerp3(a, b, k / 10), d = gap(p, to); if (d < bestD) { bestD = d; bestS = s + L * k / 10; } }
+        s += L;
+      }
+      if (bestD < 6) {
+        const est = makePass(H.pos, to, plan.pass.type === 'chest' && gap(H.pos, to) > 27 ? 'skip' : plan.pass.type, {});
+        release = Math.max(0.3, 0.12 + bestS / O.role.speed - est.T);
+      }
+    }
+    after(W, release, () => {
+      if (W.over || W.ball.state !== 'held') return;
+      const v = V.sub(to, flat(H.pos));
+      pass(W, { dir: unit(v), dist: Math.hypot(v[0], v[2]), type: plan.pass.type, bend: 0 });
+    });
+  }
+
+  return { PASS, POSES, create, update, pass, makePass, passPos, assess, driveInput, fake, takeShot, runBoard, narrate, lesson, grade, spotPos, defOf, nameOf, rimDist, predict };
+})();
+/* PlaymakerEngine: the passing game. Same court, same figures and the same
+   shot model as the scoring game; a high camera so you can see all ten men,
+   and one finger: flick to pass to a spot, drag to drive, hold still to slow
+   the floor down and read it.
+
+   spec.kind:
+     pm         possessions vs a defense:  { count, schemes, shotClock }
+     board      a whiteboard puzzle:       { board }
+     calibrate  "throw it to the corner": sets how far a swipe throws */
+const PlaymakerEngine = (() => {
+  const { V, RIM } = Court3D;
+  const FEEL = { arcade: { window: 2.5 }, normal: { window: 1.7 }, pro: { window: 1.15 } };
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function mulberry(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+  let cssDone = false;
+  function injectCss() {
+    if (cssDone) return; cssDone = true;
+    const st = document.createElement('style');
+    st.textContent = `
+.pmx{position:absolute;inset:0;overflow:hidden;background:#0b0f18;color:#f3f1ea;font-family:"Barlow",system-ui,sans-serif;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.pmx canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.pmx-top{position:absolute;left:0;right:0;top:0;display:flex;align-items:flex-start;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) 22px max(14px,env(safe-area-inset-left,0px));pointer-events:none;background:linear-gradient(rgba(6,8,12,.7),rgba(6,8,12,0))}
+.pmx-quit{pointer-events:auto;flex:none;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(10,14,22,.55);color:#f3f1ea;font:600 18px/1 "Barlow",sans-serif;cursor:pointer}
+.pmx-quit:focus-visible,.pmx-btn:focus-visible,.pmx-chipbtn:focus-visible{outline:2px solid #ffb547;outline-offset:2px}
+.pmx-title{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.pmx-title b{font:800 20px/1 "Big Shoulders Display",Impact,"Arial Narrow",sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.pmx-title span{font:500 13px/1.25 "Barlow",sans-serif;opacity:.82}
+.pmx-score{text-align:right;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.pmx-score-n{display:block;font:800 40px/0.95 "Big Shoulders Display",Impact,sans-serif;font-variant-numeric:tabular-nums}
+.pmx-score small{font:600 11px/1.2 "Barlow",sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.pmx-clock{position:absolute;left:50%;top:calc(58px + env(safe-area-inset-top,0px));transform:translateX(-50%);min-width:64px;padding:2px 12px;border-radius:8px;background:rgba(8,10,14,.72);border:1px solid rgba(255,181,71,.35);font:800 30px/1.1 "Big Shoulders Display",Impact,sans-serif;color:#ffb547;text-align:center;font-variant-numeric:tabular-nums;pointer-events:none}
+.pmx-clock.low{color:#ff5d4a;border-color:rgba(255,93,74,.6)}
+.pmx-chips{position:absolute;left:0;right:0;top:calc(104px + env(safe-area-inset-top,0px));display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:0 14px;pointer-events:none}
+.pmx-chip{padding:5px 10px;border-radius:999px;font:600 12px/1.1 "Barlow",sans-serif;letter-spacing:.03em;background:rgba(8,10,14,.72);border:1px solid rgba(255,255,255,.18)}
+.pmx-chip b{font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.pmx-chip.def{color:#ffcfb8;border-color:rgba(255,154,102,.5)}
+.pmx-banner{position:absolute;left:0;right:0;top:34%;text-align:center;pointer-events:none;padding:0 18px}
+.pmx-banner .k{display:block;font:600 13px/1.2 "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ffb547;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.pmx-banner .h{display:block;font:800 clamp(30px,9vw,52px)/0.95 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;letter-spacing:.02em;text-shadow:0 2px 12px rgba(0,0,0,.75);text-wrap:balance}
+.pmx-banner .s{display:block;margin:6px auto 0;max-width:30ch;font:500 15px/1.3 "Barlow",sans-serif;text-shadow:0 1px 4px rgba(0,0,0,.9);opacity:.94}
+.pmx-banner.pop{animation:pmxpop .35s ease-out}
+@keyframes pmxpop{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+.pmx-hint{position:absolute;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:max-content;max-width:calc(100% - 28px);padding:7px 12px;border-radius:10px;background:rgba(8,10,14,.72);font:500 13px/1.35 "Barlow",sans-serif;text-align:center;pointer-events:none;color:#e8e4da}
+.pmx-vision{position:absolute;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(62px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:9px;background:rgba(8,10,14,.62);font:700 10px/1 "Barlow",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#cfe3ff;pointer-events:none}
+.pmx-vision i{display:block;width:56px;height:5px;border-radius:3px;background:rgba(255,255,255,.16);overflow:hidden}
+.pmx-vision i b{display:block;height:100%;background:#8fb4ff;border-radius:3px}
+.pmx-card{position:absolute;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;padding:14px 16px 12px;border-radius:14px;background:rgba(14,18,27,.95);border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.5);animation:pmxup .25s ease-out}
+@keyframes pmxup{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.pmx-card .k{font:600 11px/1.2 "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#ffb547}
+.pmx-card .w{margin-top:5px;font:600 16px/1.35 "Barlow",sans-serif}
+.pmx-card .r{display:flex;gap:10px;align-items:flex-start;margin-top:9px;font:400 14px/1.4 "Barlow",sans-serif;color:#cfd3dc}
+.pmx-grade{flex:none;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font:800 22px/1 "Big Shoulders Display",Impact,sans-serif;color:#0b0f18;background:#7ee2a8}
+.pmx-grade.B{background:#c5e27e}.pmx-grade.C{background:#ffd166}.pmx-grade.D{background:#ff9a66}.pmx-grade.F{background:#ff5d4a}
+.pmx-card .row{display:flex;justify-content:flex-end;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pmx-btn{pointer-events:auto;cursor:pointer;border:0;border-radius:10px;padding:10px 18px;background:#ffb547;color:#1a1206;font:800 15px/1 "Big Shoulders Display",Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.pmx-btn.ghost{background:transparent;color:#f3f1ea;border:1px solid rgba(255,255,255,.3)}
+.pmx-btn[disabled]{opacity:.4;cursor:default}
+.pmx-board{position:absolute;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 14px;pointer-events:none}
+.pmx-board .t{max-width:34ch;text-align:center;font:500 14px/1.35 "Barlow",sans-serif;color:#2a2f3a}
+.pmx-board .row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.pmx-chipbtn{pointer-events:auto;cursor:pointer;padding:8px 13px;border-radius:999px;border:1.5px solid #2f4b78;background:#fff;color:#2f4b78;font:700 14px/1 "Barlow",sans-serif}
+.pmx-chipbtn[aria-pressed="true"]{background:#2f4b78;color:#fff}
+.pmx-board .pmx-btn.ghost{color:#2f4b78;border-color:#2f4b78}
+`;
+    document.head.appendChild(st);
+  }
+
+  function create(container, opts) {
+    injectCss();
+    const settings = Object.assign({ feel: 'normal', passK: null, passSpd: null, hints: true, jersey: '#2c5a46', shorts: '#234a39', court: 'park' }, opts || {});
+    const root = document.createElement('div');
+    root.className = 'pmx';
+    root.innerHTML = `
+      <canvas></canvas>
+      <div class="pmx-top"><button class="pmx-quit" type="button" aria-label="Leave this game">&#x2715;</button><div class="pmx-title"><b></b><span></span></div><div class="pmx-score"><span class="pmx-score-n"></span><small></small></div></div>
+      <div class="pmx-clock" hidden></div>
+      <div class="pmx-chips"><div class="pmx-chip def" hidden></div></div>
+      <div class="pmx-banner" hidden></div>
+      <div class="pmx-vision" hidden>Court vision<i><b></b></i></div>
+      <div class="pmx-hint" hidden></div>
+      <div class="pmx-board" hidden></div>
+      <div class="pmx-card" hidden></div>`;
+    container.appendChild(root);
+    const $ = s => root.querySelector(s);
+    const canvas = $('canvas'), ctx = canvas.getContext('2d');
+    const ui = {
+      title: $('.pmx-title b'), sub: $('.pmx-title span'), score: $('.pmx-score-n'), scoreSub: $('.pmx-score small'),
+      clock: $('.pmx-clock'), def: $('.pmx-chip.def'), banner: $('.pmx-banner'), vision: $('.pmx-vision'), visionBar: $('.pmx-vision b'),
+      hint: $('.pmx-hint'), board: $('.pmx-board'), card: $('.pmx-card'), quit: $('.pmx-quit')
+    };
+    let CW = 360, CH = 640, DPR = 1;
+    function resize() {
+      const r = root.getBoundingClientRect();
+      CW = Math.max(200, r.width); CH = Math.max(300, r.height);
+      DPR = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.round(CW * DPR); canvas.height = Math.round(CH * DPR);
+    }
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(resize) : null;
+    if (ro) ro.observe(root); else window.addEventListener('resize', resize);
+    resize();
+
+    const S = {
+      spec: null, w: null, running: false, raf: 0, last: 0, t: 0, scale: 1, rand: Math.random, court: Court3D.COURTS.park,
+      phase: 'idle', i: 0, score: 0, assists: 0, tos: 0, log: [], popups: [], focus: null, vision: { left: 1.2, on: false, k: 0 },
+      board: null, plan: { cut: null, pass: null, type: 'chest' }, draw: null, calib: [], hints: {}, cardNext: null, onEnd: null, onQuit: null,
+      lastScheme: null, endTimer: null, trail: []
+    };
+
+    // ---------- helpers ----------
+    function banner(k, h, s, dur) {
+      ui.banner.innerHTML = (k ? `<span class="k">${esc(k)}</span>` : '') + `<span class="h">${esc(h)}</span>` + (s ? `<span class="s">${esc(s)}</span>` : '');
+      ui.banner.hidden = false;
+      ui.banner.classList.remove('pop'); void ui.banner.offsetWidth; ui.banner.classList.add('pop');
+      clearTimeout(banner._t);
+      if (dur) banner._t = setTimeout(() => { ui.banner.hidden = true; }, dur * 1000);
+    }
+    function hint(text) { ui.hint.textContent = text || ''; ui.hint.hidden = !text; }
+    function hintOnce(key, text) { if (!settings.hints || S.hints[key]) return; S.hints[key] = true; hint(text); }
+    function setTitle(a, b) { ui.title.textContent = a || ''; ui.sub.textContent = b || ''; }
+    function setScore(n, sub) { ui.score.textContent = n; ui.scoreSub.textContent = sub || ''; }
+    function popup(text, color, at, size) { S.popups.push({ text, color: color || '#fff', world: at, size: size || 1, t: 0, life: 1.3 }); }
+    function passK() { return settings.passK || 80; }
+    function passSpd() { return settings.passSpd || 1.9; }
+
+    // ---------- camera ----------
+    /* High and behind the ball, looking down toward the paint: wide enough
+       for the whole half court on a phone held upright. */
+    function camera() {
+      const f = S.focus || [0, 0, 24];
+      const T = Object.assign({ h: 42, ez: 46, lz: 4, hfov: 51, ex: 0.2, lx: 0.16, top: 0.255 }, settings.camTune || {});
+      const fx = clamp(f[0], -18, 18), fz = clamp(f[2], 4, 32);
+      const eye = [fx * T.ex, T.h, T.ez + (fz - 26) * 0.25];
+      const look = [fx * T.lx, 0, T.lz + (fz - 26) * 0.15];
+      const fwd = V.norm(V.sub(look, eye));
+      let fovY = 2 * Math.atan(Math.tan(T.hfov / 2 * Math.PI / 180) / (CW / CH));
+      fovY = Math.min(fovY, 150 * Math.PI / 180);
+      const cam = Court3D.camera(eye, fwd, CW, CH, fovY);
+      // frame it high: the baseline sits under the chips, the floor below the play is where your finger goes
+      const ref = Court3D.project(cam, [0, 0, 0]);
+      if (ref) cam.cy += (Math.max(150, CH * T.top) + 20) - ref.y;
+      return cam;
+    }
+    function floorPoint(cam, sx, sy, y0) {
+      const dx = (sx - cam.cx) / cam.focal, dy = (cam.cy - sy) / cam.focal;
+      const d = [cam.f[0] + cam.r[0] * dx + cam.u[0] * dy, cam.f[1] + cam.r[1] * dx + cam.u[1] * dy, cam.f[2] + cam.r[2] * dx + cam.u[2] * dy];
+      if (d[1] >= -1e-4) return null;
+      const t = ((y0 || 0) - cam.eye[1]) / d[1];
+      return [cam.eye[0] + d[0] * t, y0 || 0, cam.eye[2] + d[2] * t];
+    }
+    // a direction on screen, from the ball, as a direction on the floor
+    function courtDir(cam, from, dx, dy) {
+      const p0 = Court3D.project(cam, [from[0], 0, from[2]]);
+      const l = Math.hypot(dx, dy) || 1;
+      if (!p0) return null;
+      const p1 = floorPoint(cam, p0.x + dx / l * 40, p0.y + dy / l * 40, 0);
+      if (!p1) return null;
+      const v = [p1[0] - from[0], 0, p1[2] - from[2]], vl = Math.hypot(v[0], v[2]) || 1;
+      return [v[0] / vl, 0, v[2] / vl];
+    }
+
+    // ---------- input ----------
+    /* One finger. A quick stroke is a pass. Hold and drag is a drive, steered
+       like a joystick from where you touched. A burst at the end of a drag is
+       a pass on the move. Holding still slows the floor down. */
+    const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, stillAt: 0 };
+    const FLICK_SPEED = 1.35;      // screen heights per second
+    function speedOver(ms) {
+      const pts = IN.pts, last = pts[pts.length - 1];
+      let k = pts.length - 1;
+      while (k > 0 && last.t - pts[k - 1].t <= ms) k--;
+      const ref = k === pts.length - 1 ? (pts[k - 1] || last) : pts[k];
+      const dt = Math.max(8, last.t - ref.t) / 1000;
+      return { v: Math.hypot(last.x - ref.x, last.y - ref.y) / CH / dt, i: k };
+    }
+    canvas.addEventListener('pointerdown', e => {
+      if (IN.id !== null || !S.running) return;
+      Sfx.unlock();
+      IN.id = e.pointerId;
+      try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+      const p = { x: e.clientX, y: e.clientY, t: performance.now() };
+      Object.assign(IN, { start: p, pts: [p], mode: 'pending', moveStart: null, burst: null, stillAt: p.t });
+      if (S.phase === 'board') boardDown(p);
+      e.preventDefault();
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (e.pointerId !== IN.id) return;
+      const p = { x: e.clientX, y: e.clientY, t: performance.now() };
+      const prev = IN.pts[IN.pts.length - 1];
+      IN.pts.push(p);
+      if (IN.pts.length > 90) IN.pts.splice(1, 1);
+      if (Math.hypot(p.x - prev.x, p.y - prev.y) > 2.5) IN.stillAt = p.t;
+      if (S.phase === 'board') return boardMove(p);
+      const d = Math.hypot(p.x - IN.start.x, p.y - IN.start.y);
+      if (IN.mode === 'pending' || IN.mode === 'vision') {
+        if (d > 9 && !IN.moveStart) IN.moveStart = prev;
+        if (IN.moveStart && IN.mode === 'vision' && d > 12) { IN.mode = 'pending'; }
+        // a slow, sustained push is a drive, not a pass
+        if (IN.moveStart && p.t - IN.moveStart.t > 170 && speedOver(70).v < FLICK_SPEED && d > 16) IN.mode = 'drag';
+      } else if (IN.mode === 'drag') {
+        const sp = speedOver(60);
+        if (sp.v > FLICK_SPEED * 1.15) { if (!IN.burst) IN.burst = IN.pts[Math.max(0, sp.i - 1)]; }
+        else if (IN.burst && p.t - IN.burst.t > 320) IN.burst = null;
+      }
+    });
+    function endPointer(e, cancel) {
+      if (e.pointerId !== IN.id) return;
+      const p = { x: e.clientX, y: e.clientY, t: performance.now() };
+      IN.pts.push(p);
+      IN.id = null;
+      const mode = IN.mode;
+      IN.mode = null;
+      if (cancel) return;
+      if (S.phase === 'board') return boardUp(p);
+      if (!S.w || S.phase !== 'live') return;
+      const d = Math.hypot(p.x - IN.start.x, p.y - IN.start.y);
+      if (mode === 'drag') {
+        if (IN.burst && p.t - IN.burst.t < 280) return throwFrom(IN.pts.indexOf(IN.burst));
+        return;
+      }
+      if (d < 12 && p.t - IN.start.t < 320 && mode !== 'vision') return passFake();
+      if (d >= 22) {
+        // in vision mode, the throw starts where the finger started moving
+        const k = IN.moveStart ? Math.max(0, IN.pts.indexOf(IN.moveStart)) : 0;
+        return throwFrom(k);
+      }
+    }
+    canvas.addEventListener('pointerup', e => endPointer(e, false));
+    canvas.addEventListener('pointercancel', e => endPointer(e, true));
+    canvas.style.touchAction = 'none';
+
+    /* Read the stroke from sample k0 to the end: where it points, how long it
+       is, how fast it was let go, whether it dipped back first (bounce pass)
+       and whether it bowed (bend). */
+    function readStroke(k0) {
+      const pts = IN.pts.slice(Math.max(0, k0));
+      if (pts.length < 2) return null;
+      const a = pts[0], z = pts[pts.length - 1];
+      let ux = z.x - a.x, uy = z.y - a.y;
+      const ul = Math.hypot(ux, uy) || 1;
+      ux /= ul; uy /= ul;
+      // a dip: the finger pulled back the other way before it threw
+      let dipPt = a, dip = 0;
+      pts.forEach(q => { const pr = (q.x - a.x) * ux + (q.y - a.y) * uy; if (-pr > dip) { dip = -pr; dipPt = q; } });
+      const from = dip > Math.max(26, CH * 0.03) ? dipPt : a;
+      const vx = z.x - from.x, vy = z.y - from.y, len = Math.hypot(vx, vy);
+      // release speed over the last ~90ms
+      let k = pts.length - 1;
+      while (k > 0 && z.t - pts[k - 1].t <= 90) k--;
+      const ref = k === pts.length - 1 ? pts[Math.max(0, k - 1)] : pts[k];
+      const rel = Math.hypot(z.x - ref.x, z.y - ref.y) / CH / (Math.max(8, z.t - ref.t) / 1000);
+      const avg = len / CH / (Math.max(16, z.t - from.t) / 1000);
+      const speed = Math.max(rel, avg * 0.85);
+      let bow = 0;
+      const fromI = pts.indexOf(from);
+      pts.slice(Math.max(0, fromI)).forEach(q => { const dev = (vx * (q.y - from.y) - vy * (q.x - from.x)) / (len || 1); if (Math.abs(dev) > Math.abs(bow)) bow = dev; });
+      return { dx: vx, dy: vy, len: len / CH, speed, dip: dip > Math.max(26, CH * 0.03), curl: bow / (len || 1) };
+    }
+    function passType(st) {
+      if (st.dip) return 'bounce';
+      const s = st.speed / passSpd();
+      if (s >= 1.32) return 'bullet';
+      if (s <= 0.62) return 'lob';
+      return 'chest';
+    }
+    function throwFrom(k0) {
+      const w = S.w;
+      if (!w || w.ball.state !== 'held' || w.over) return;
+      const st = readStroke(k0);
+      if (!st || st.len * CH < 18) return;
+      const cam = camera();
+      const H = w.off[w.handler];
+      const dir = courtDir(cam, H.pos, st.dx, st.dy);
+      if (!dir) return;
+      const type = passType(st);
+      const dist = clamp(st.len * passK(), 4, 47);
+      const bend = Math.abs(st.curl) > 0.1 ? clamp(st.curl * dist * 0.45, -5, 5) : 0;
+      if (S.spec.kind === 'calibrate') S.calib.push({ len: st.len, speed: st.speed });
+      PMSim.driveInput(w, null);
+      const P = PMSim.pass(w, { dir, dist, type, bend: -bend });
+      if (P) {
+        S.lastStroke = { type, dist, speed: st.speed, len: st.len };
+        Sfx.play('release');
+        hint('');
+      }
+    }
+    function passFake() {
+      const w = S.w;
+      if (!w || w.ball.state !== 'held') return;
+      const bit = PMSim.fake(w);
+      Sfx.play(bit ? 'good' : 'dribble');
+    }
+    // the drag, as a drive direction on the floor (or null)
+    function dragDir(cam) {
+      if (IN.mode !== 'drag' || !S.w) return null;
+      const last = IN.pts[IN.pts.length - 1];
+      const dx = last.x - IN.start.x, dy = last.y - IN.start.y;
+      if (Math.hypot(dx, dy) < 18) return null;
+      return courtDir(cam, S.w.off[S.w.handler].pos, dx, dy);
+    }
+
+    ui.quit.addEventListener('click', () => { Sfx.play('ui'); const q = S.onQuit; stop(); q && q(summary(true)); });
+    ui.card.addEventListener('click', e => { const b = e.target.closest('button'); if (b && S.cardNext) { const f = S.cardNext; S.cardNext = null; f(b.dataset.act); } });
+
+    // ---------- sessions ----------
+    function run(spec, handlers) {
+      stop(true);
+      S.spec = Object.assign({}, spec);
+      S.court = Court3D.COURTS[spec.court] || Court3D.COURTS[settings.court] || Court3D.COURTS.park;
+      S.onEnd = handlers && handlers.onEnd; S.onQuit = handlers && handlers.onQuit;
+      S.rand = spec.seed != null ? mulberry(spec.seed) : Math.random;
+      Object.assign(S, { t: 0, i: 0, score: 0, assists: 0, tos: 0, log: [], popups: [], w: null, phase: 'idle', board: null, calib: [], cardNext: null, lastScheme: null, endTimer: null, ended: false, trail: [] });
+      S.vision = { left: 1.2, on: false, k: 0 };
+      ['clock', 'def', 'banner', 'vision', 'hint', 'board', 'card'].forEach(k => { ui[k].hidden = true; });
+      S.running = true;
+      S.last = performance.now();
+      S.raf = requestAnimationFrame(frame);
+      if (spec.kind === 'board') startBoard(PMPlays.BOARDS.find(b => b.id === spec.board) || PMPlays.BOARDS[0]);
+      else if (spec.kind === 'calibrate') startCalibration();
+      else startPossession(0);
+    }
+    function newWorld(o) {
+      return PMSim.create(Object.assign({ court: S.court, rand: S.rand, window: (FEEL[settings.feel] || FEEL.normal).window }, o));
+    }
+    function pickScheme() {
+      const list = S.spec.schemes && S.spec.schemes.length ? S.spec.schemes : PMPlays.SCHEME_IDS;
+      const plan = S.spec.plan && S.spec.plan[S.i];
+      if (plan && plan.scheme) return plan.scheme;
+      const pool = list.filter(x => x !== S.lastScheme);
+      const from = pool.length ? pool : list;
+      return from[Math.floor(S.rand() * from.length)];
+    }
+    function startPossession(i) {
+      const spec = S.spec;
+      const count = spec.count || 8;
+      if (i >= count) return endSession();
+      S.i = i;
+      const sid = pickScheme();
+      S.lastScheme = sid;
+      const plan = spec.plan && spec.plan[i];
+      const mirror = plan && plan.mirror != null ? plan.mirror : S.rand() < 0.5;
+      S.w = newWorld({ scheme: sid, mirror, clock: spec.shotClock || 13 });
+      S.focus = S.w.off[S.w.handler].pos.slice();
+      S.vision = { left: 1.2, on: false, k: 0 };
+      S.endTimer = null; S.trail = [];
+      const sc = S.w.scheme;
+      setTitle(spec.title || 'Playmaker', `Possession ${i + 1} of ${count}`);
+      updateScore();
+      ui.def.innerHTML = `Defense: <b>${esc(sc.name)}</b>`; ui.def.hidden = false;
+      ui.clock.hidden = true;
+      S.phase = 'intro';
+      banner(`Possession ${i + 1}`, sc.name, sc.tell, 1.7);
+      setTimeout(() => {
+        if (!S.running || S.w === null || S.phase !== 'intro') return;
+        S.phase = 'live';
+        ui.clock.hidden = false;
+        ui.vision.hidden = false;
+        if (i === 0) hintOnce('pm1', 'Flick toward a spot to pass · Drag to drive · Hold your finger still to slow it down and read the floor');
+        else if (i === 1) hintOnce('pm2', 'Quick flick: bullet · Soft flick: lob · Pull back, then flick: bounce pass · Tap: pass fake');
+      }, 1550);
+    }
+    function updateScore() {
+      if (S.spec.kind === 'pm') setScore(S.score, `pts · ${S.assists} ast`);
+      else setScore('', '');
+    }
+    function finishPossession() {
+      const w = S.w, R = w.result;
+      if (!R || S.phase === 'card') return;
+      S.phase = 'card';
+      S.score += R.points || 0;
+      if (R.assist != null) S.assists++;
+      if (R.turnover) S.tos++;
+      updateScore();
+      const narr = PMSim.narrate(w), les = PMSim.lesson(w);
+      S.log.push({ scheme: w.scheme.id, grade: R.grade, points: R.points || 0, assist: R.assist != null, turnover: R.turnover || null, tags: R.tags || [], made: !!R.made, contest: R.contest, text: narr });
+      ui.clock.hidden = true; ui.vision.hidden = true; hint('');
+      const last = S.i + 1 >= (S.spec.count || 8);
+      ui.card.innerHTML = `<div class="k">Possession ${S.i + 1} · ${esc(w.scheme.name)}</div><div class="w">${esc(narr)}</div>
+        <div class="r"><span class="pmx-grade ${R.grade}">${R.grade}</span><span>${esc(les)}</span></div>
+        <div class="row"><button class="pmx-btn" type="button">${last ? 'See results' : 'Next possession'}</button></div>`;
+      ui.card.hidden = false;
+      if (R.grade === 'A') Sfx.play('great'); else if (R.grade === 'B') Sfx.play('good');
+      S.cardNext = () => { ui.card.hidden = true; startPossession(S.i + 1); };
+    }
+
+    // ---------- calibration ----------
+    function startCalibration() {
+      const corner = side => { const p = Court3D.spotInfo(S.court, side < 0 ? 'lc' : 'rc').pos; return [p[0], p[2], 'shooter']; };
+      const top = Court3D.spotInfo(S.court, 'top').pos;
+      const board = { id: 'calib', off: [[0, top[2] + 2, 'guard'], corner(-1), corner(1)], def: [], holder: 0, scheme: 'packline', clock: 99 };
+      S.calibBoard = board;
+      S.calibStep = 0;
+      calibThrow();
+    }
+    function calibThrow() {
+      const step = S.calibStep;
+      S.w = newWorld({ board: S.calibBoard });
+      S.w.noShots = true;
+      S.focus = [0, 0, 22];
+      setTitle('Find your pass', `Throw ${step + 1} of 2`);
+      setScore('', '');
+      S.phase = 'live';
+      if (step === 0) banner('Find your pass', 'Throw it to the corner', 'Flick toward the left corner the way a crisp pass feels. This sets how far a swipe throws.', 2.6);
+      hint(step === 0 ? 'Flick toward the left corner' : 'Now the right corner');
+    }
+
+    // ---------- Draw It Up ----------
+    function startBoard(b) {
+      S.board = b;
+      S.plan = { cut: null, pass: null, type: S.plan && S.plan.type || 'chest' };
+      showBoard();
+    }
+    function showBoard() {
+      const b = S.board;
+      S.phase = 'board'; S.w = null;
+      ui.clock.hidden = true; ui.def.hidden = true; ui.vision.hidden = true; ui.card.hidden = true; hint('');
+      setTitle('Draw It Up', b.name);
+      setScore('', '');
+      renderBoardUi();
+      if (!S.hints.board && settings.hints) { S.hints.board = true; }
+    }
+    function renderBoardUi() {
+      const b = S.board, P = S.plan;
+      ui.board.innerHTML = `<div class="t"><b>${esc(b.situation)}.</b> ${esc(b.text)} ${P.pass ? '' : 'Drag from a teammate to draw his cut, then from the ball to draw the pass.'}</div>
+        <div class="row">${[['chest', 'Chest'], ['bounce', 'Bounce'], ['lob', 'Lob']].map(([v, l]) => `<button class="pmx-chipbtn" type="button" data-type="${v}" aria-pressed="${P.type === v}">${l}</button>`).join('')}</div>
+        <div class="row"><button class="pmx-btn ghost" type="button" data-act="clear">Clear</button><button class="pmx-btn" type="button" data-act="run" ${P.pass ? '' : 'disabled'}>Run it</button></div>`;
+      ui.board.hidden = false;
+    }
+    ui.board.addEventListener('click', e => {
+      const t = e.target.closest('[data-type]');
+      if (t) { S.plan.type = t.dataset.type; Sfx.play('ui'); return renderBoardUi(); }
+      const a = e.target.closest('[data-act]');
+      if (!a) return;
+      Sfx.play('ui');
+      if (a.dataset.act === 'clear') { S.plan.cut = null; S.plan.pass = null; return renderBoardUi(); }
+      if (a.dataset.act === 'run' && S.plan.pass) runBoard();
+    });
+    function boardGeom() {
+      const s = Math.min((CW - 28) / 50, (CH * 0.6) / 34);
+      const top = Math.max(112, CH * 0.15);
+      return { s, cx: CW / 2, top };
+    }
+    const bxy = (G, x, z) => ({ x: G.cx + x * G.s, y: G.top + z * G.s });
+    const bcourt = (G, p) => [(p.x - G.cx) / G.s, (p.y - G.top) / G.s];
+    function boardDown(p) {
+      const b = S.board, G = boardGeom();
+      let best = null;
+      b.off.forEach((o, i) => { const q = bxy(G, o[0], o[1]); const d = Math.hypot(q.x - p.x, q.y - p.y); if (d < 30 && (!best || d < best.d)) best = { i, d }; });
+      if (!best) { S.draw = null; return; }
+      S.draw = { i: best.i, pass: best.i === b.holder, pts: [bcourt(G, p)] };
+    }
+    function boardMove(p) {
+      if (!S.draw) return;
+      const G = boardGeom(), c = bcourt(G, p);
+      const last = S.draw.pts[S.draw.pts.length - 1];
+      if (Math.hypot(c[0] - last[0], c[1] - last[1]) * G.s > 7) S.draw.pts.push([clamp(c[0], -24.5, 24.5), clamp(c[1], 0.5, 33)]);
+    }
+    function boardUp() {
+      const D = S.draw; S.draw = null;
+      if (!D || D.pts.length < 2) return;
+      const b = S.board;
+      if (D.pass) S.plan.pass = { to: D.pts[D.pts.length - 1], type: S.plan.type };
+      else S.plan.cut = { j: D.i, pts: [[b.off[D.i][0], b.off[D.i][1]]].concat(simplify(D.pts.slice(1))) };
+      Sfx.play('pop');
+      renderBoardUi();
+    }
+    function simplify(pts) {
+      const out = [];
+      pts.forEach(p => { const l = out[out.length - 1]; if (!l || Math.hypot(p[0] - l[0], p[1] - l[1]) > 2.4) out.push(p); });
+      const last = pts[pts.length - 1];
+      if (out[out.length - 1] !== last) out.push(last);
+      return out;
+    }
+    function runBoard() {
+      const b = S.board;
+      ui.board.hidden = true;
+      S.w = newWorld({ board: b });
+      S.w.board = b;
+      S.focus = S.w.off[S.w.handler].pos.slice();
+      S.endTimer = null; S.trail = [];
+      S.phase = 'live';
+      ui.clock.hidden = false;
+      S.plan.pass.type = S.plan.type;
+      PMSim.runBoard(S.w, { cut: S.plan.cut, pass: S.plan.pass });
+      setTitle('Draw It Up', b.name);
+    }
+    function finishBoard() {
+      const w = S.w, R = w.result, b = S.board;
+      if (!R || S.phase === 'card') return;
+      S.phase = 'card';
+      const narr = PMSim.narrate(w);
+      S.log = [{ board: b.id, grade: R.grade, points: R.points || 0, text: narr }];
+      ui.clock.hidden = true;
+      const good = R.grade === 'A' || R.grade === 'B';
+      ui.card.innerHTML = `<div class="k">Draw It Up · ${esc(b.name)}</div><div class="w">${esc(narr)}</div>
+        <div class="r"><span class="pmx-grade ${R.grade}">${R.grade}</span><span>${esc(good ? 'That works. ' + b.answer : b.answer)}</span></div>
+        <div class="row"><button class="pmx-btn ghost" type="button" data-act="again">Draw it again</button><button class="pmx-btn" type="button" data-act="done">Done</button></div>`;
+      ui.card.hidden = false;
+      if (R.grade === 'A') Sfx.play('great'); else if (R.grade === 'B') Sfx.play('good');
+      S.cardNext = act => { ui.card.hidden = true; if (act === 'again') showBoard(); else endSession(); };
+    }
+
+    function summary(quit) {
+      const k = S.spec ? S.spec.kind : null;
+      const out = { kind: k, quit: !!quit, points: S.score, assists: S.assists, turnovers: S.tos, log: S.log };
+      if (k === 'pm' && S.log.length) {
+        const gp = { A: 4, B: 3, C: 2, D: 1, F: 0 };
+        out.readIQ = Math.round(S.log.reduce((s, l) => s + gp[l.grade], 0) / S.log.length * 25);
+      }
+      if (k === 'board' && S.board) { out.board = S.board.id; out.grade = S.log.length ? S.log[0].grade : null; }
+      if (k === 'calibrate' && S.calib.length >= 2) {
+        const corner = Math.hypot(S.calibBoard.off[1][0] - S.calibBoard.off[0][0], S.calibBoard.off[1][1] - S.calibBoard.off[0][1]);
+        const lens = S.calib.map(c => c.len).sort((a, b) => a - b), sps = S.calib.map(c => c.speed);
+        out.passK = clamp(corner / lens[Math.floor(lens.length / 2)], 35, 220);
+        out.passSpd = clamp(sps.reduce((a, b) => a + b, 0) / sps.length, 0.7, 6);
+      }
+      return out;
+    }
+    function endSession() {
+      if (S.ended) return;
+      S.ended = true;
+      const res = summary(false), f = S.onEnd;
+      stop();
+      f && f(res);
+    }
+    function stop() {
+      S.running = false;
+      cancelAnimationFrame(S.raf);
+      clearTimeout(banner._t);
+      ui.banner.hidden = true;
+      IN.id = null; IN.mode = null;
+    }
+    function destroy() { stop(); if (ro) ro.disconnect(); root.remove(); }
+
+    // ---------- update ----------
+    function frame(now) {
+      if (!S.running) return;
+      const rdt = Math.min(0.05, Math.max(0, (now - S.last) / 1000));
+      S.last = now;
+      visionTick(rdt);
+      update(rdt * S.scale, rdt);
+      if (S.running) render();
+      if (S.running) S.raf = requestAnimationFrame(frame);
+    }
+    function visionTick(rdt) {
+      const V0 = S.vision;
+      const held = IN.id !== null && (IN.mode === 'pending' || IN.mode === 'vision') && performance.now() - IN.stillAt > 200;
+      const can = S.phase === 'live' && S.w && S.w.ball.state === 'held' && !S.w.over && V0.left > 0 && S.spec.kind === 'pm';
+      V0.on = held && can;
+      if (V0.on) { IN.mode = 'vision'; V0.left = Math.max(0, V0.left - rdt); }
+      V0.k += ((V0.on ? 1 : 0) - V0.k) * Math.min(1, rdt * 8);
+      S.scale = 1 - 0.55 * V0.k;
+      ui.visionBar.style.width = (V0.left / 1.2 * 100).toFixed(0) + '%';
+      if (V0.on) hintOnce('vision', 'Court vision: the floor slows down while you hold. Watch for the gap, then flick.');
+    }
+    function update(dt, rdt) {
+      S.t += rdt;
+      S.popups.forEach(p => { p.t += rdt; });
+      S.popups = S.popups.filter(p => p.t < p.life);
+      const w = S.w;
+      if (!w || S.phase === 'board') return;
+      const cam = camera();
+      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam));
+      if (S.phase === 'live' || S.phase === 'card' || S.phase === 'ending') PMSim.update(w, dt);
+      // events
+      w.events.forEach(ev => {
+        if (ev.type === 'pop') popup(ev.text, ev.color, ev.at, ev.size);
+        else if (ev.type === 'sfx') {
+          const n = ev.name;
+          if (n === 'rim' || n === 'board' || n === 'swish' || n === 'block' || n === 'whistle' || n === 'bad') Sfx.play(n, ev.s);
+          else if (n === 'bounce') Sfx.play('bounce', ev.s);
+          else if (n === 'cutoff') Sfx.buzz(25);
+        } else if (ev.type === 'catch') {
+          Sfx.play('dribble');
+          if (S.spec.kind === 'calibrate') calibCaught();
+          else if (S.spec.kind === 'pm') hintOnce('catch', 'Control follows the ball. If he is open he shoots; act first to swing it or drive the closeout.');
+        } else if (ev.type === 'pass') { /* release sound already played */ }
+        else if (ev.type === 'shot') Sfx.play('release');
+        else if (ev.type === 'end' && !S.endTimer) {
+          S.phase = 'ending';
+          S.endTimer = setTimeout(() => { if (!S.running) return; if (S.spec.kind === 'board') finishBoard(); else finishPossession(); }, w.result && w.result.turnover ? 1100 : 1500);
+        }
+      });
+      w.events.length = 0;
+      // the camera drifts to stay behind the ball
+      const target = w.ball.state === 'pass' ? w.ball.pass.E : w.ball.state === 'shot' ? [RIM.x, 0, RIM.z + 10] : w.off[w.handler].pos;
+      const k = Math.min(1, rdt * 2.2);
+      S.focus = S.focus ? [S.focus[0] + (target[0] - S.focus[0]) * k, 0, S.focus[2] + (target[2] - S.focus[2]) * k] : target.slice();
+      // HUD
+      if (!ui.clock.hidden) {
+        const v = Math.max(0, w.clock);
+        ui.clock.textContent = v < 5 ? v.toFixed(1) : Math.ceil(v);
+        ui.clock.classList.toggle('low', v < 3);
+      }
+      if (w.ball.state === 'pass') { S.trail.push(w.ball.p.slice()); if (S.trail.length > 9) S.trail.shift(); } else S.trail.length = 0;
+    }
+    function calibCaught() {
+      S.calibStep++;
+      if (S.calibStep >= 2) { setTimeout(() => endSession(), 700); banner('', 'Got it', 'Every pass you throw scales from that.', 1.0); }
+      else setTimeout(() => { if (S.running) calibThrow(); }, 600);
+    }
+
+    // ---------- render ----------
+    function render() {
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      if (S.phase === 'board') return renderBoard();
+      const w = S.w;
+      const cam = camera();
+      const court = S.court;
+      ctx.fillStyle = '#0b0f18'; ctx.fillRect(0, 0, CW, CH);
+      if (court.env === 'park') Court3D.drawPark(ctx, cam, S.t); else Court3D.drawRoom(ctx, cam, court, S.t);
+      Court3D.drawFloor(ctx, cam, court);
+      if (court.env === 'park') Court3D.drawFence(ctx, cam);
+      if (!w) return;
+      // floor marks: your guys' rings, the ball handler's spotlight, what court vision shows you
+      const vk = S.vision.k;
+      if (vk > 0.02) drawVisionFloor(cam, w, vk);
+      w.off.forEach((O, j) => ring(cam, O.pos, j === w.handler && w.ball.state === 'held' ? 1.9 : 1.3, j === w.handler && w.ball.state === 'held' ? 'rgba(255,181,71,0.85)' : 'rgba(126,226,168,0.45)', j === w.handler ? 0.22 : 0.12));
+      // depth-sorted scene
+      const items = [];
+      const depth = p => Court3D.toCam(cam, p)[2];
+      items.push({ d: depth([0, 10.5, 3.2]), f: () => { Court3D.drawSupport(ctx, cam, court); Court3D.drawBoard(ctx, cam, court); } });
+      const rd = depth([RIM.x, RIM.y, RIM.z]);
+      items.push({ d: rd + 0.6, f: () => Court3D.drawNetAndRim(ctx, cam, 'back', null, court) });
+      items.push({ d: rd - 0.6, f: () => Court3D.drawNetAndRim(ctx, cam, 'front', null, court) });
+      w.off.forEach((O, j) => items.push({ d: depth(V.add(O.pos, [0, 3, 0])), f: () => drawMan(cam, O, true, j === w.handler) }));
+      w.def.forEach(D => items.push({ d: depth(V.add(D.pos, [0, 3, 0])), f: () => drawMan(cam, D, false) }));
+      const B = w.ball;
+      items.push({ d: depth(B.p) - 0.2, f: () => drawBallNow(cam, B) });
+      items.sort((a, b) => b.d - a.d).forEach(it => it.f());
+      drawPopups(cam);
+      if (vk > 0.02) {
+        const g = ctx.createRadialGradient(CW / 2, CH / 2, Math.min(CW, CH) * 0.35, CW / 2, CH / 2, Math.max(CW, CH) * 0.75);
+        g.addColorStop(0, 'rgba(10,18,40,0)'); g.addColorStop(1, `rgba(10,18,40,${0.55 * vk})`);
+        ctx.fillStyle = g; ctx.fillRect(0, 0, CW, CH);
+      }
+    }
+    function ring(cam, p, r, color, fill) {
+      const pts = [];
+      for (let i = 0; i <= 20; i++) { const a = i / 20 * Math.PI * 2; pts.push([p[0] + Math.sin(a) * r, 0.02, p[2] + Math.cos(a) * r]); }
+      ctx.save();
+      ctx.strokeStyle = color; ctx.lineWidth = 2;
+      const q = pts.map(x => Court3D.project(cam, x));
+      if (q.some(x => !x)) { ctx.restore(); return; }
+      ctx.beginPath(); q.forEach((x, i) => i ? ctx.lineTo(x.x, x.y) : ctx.moveTo(x.x, x.y)); ctx.closePath();
+      if (fill) { ctx.fillStyle = color.replace(/[\d.]+\)$/, fill + ')'); ctx.fill(); }
+      ctx.stroke();
+      ctx.restore();
+    }
+    function drawVisionFloor(cam, w, k) {
+      ctx.save();
+      ctx.globalAlpha = k;
+      // how far each defender can reach: the gaps are what's left
+      w.def.forEach(D => {
+        const pts = [];
+        const r = 2.6 * (D.reachK || 1) + (D.jumper ? 1.2 : 0);
+        for (let i = 0; i <= 20; i++) { const a = i / 20 * Math.PI * 2; pts.push([D.pos[0] + Math.sin(a) * r, 0.02, D.pos[2] + Math.cos(a) * r]); }
+        Court3D.fillPoly(ctx, cam, pts, D.jumper ? 'rgba(255,93,74,0.30)' : 'rgba(255,122,102,0.18)');
+      });
+      // where your guys are going
+      ctx.strokeStyle = 'rgba(200,225,255,0.85)'; ctx.setLineDash([6, 6]); ctx.lineWidth = 2;
+      w.off.forEach((O, j) => {
+        if (j === w.handler) return;
+        const to = PMSim.predict(w, j, 0.9);
+        if (Math.hypot(to[0] - O.pos[0], to[2] - O.pos[2]) < 2) return;
+        const a = Court3D.project(cam, [O.pos[0], 0.05, O.pos[2]]), b = Court3D.project(cam, [to[0], 0.05, to[2]]);
+        if (!a || !b) return;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        const ang = Math.atan2(b.y - a.y, b.x - a.x);
+        ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 9 * Math.cos(ang - 0.45), b.y - 9 * Math.sin(ang - 0.45)); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 9 * Math.cos(ang + 0.45), b.y - 9 * Math.sin(ang + 0.45)); ctx.stroke();
+        ctx.setLineDash([6, 6]);
+      });
+      ctx.restore();
+    }
+    function drawMan(cam, M, offense, handler) {
+      const sc = S.w.scheme;
+      const camF = [cam.f[0], 0, cam.f[2]];
+      const back = (M.face[0] * camF[0] + M.face[2] * camF[2]) > 0.2;
+      const colors = offense
+        ? { skin: M.skin, hair: M.hair, jersey: settings.jersey, shorts: settings.shorts, shoes: '#f4f4f4', trim: '#ffffff' }
+        : { skin: M.skin, hair: M.hair, jersey: sc.colors.jersey, shorts: sc.colors.shorts, shoes: '#1d1f24', trim: sc.colors.trim };
+      Court3D.drawFigure(ctx, cam, { pos: M.pos, face: M.face, pose: M.pose, lift: M.lift || 0, scale: (offense ? 1 : (M.height || 1)) * (settings.figScale || 1.3), reach: M.reachK || 1, colors, number: M.number, back });
+    }
+    function drawBallNow(cam, B) {
+      if (!S.w) return;
+      const p = B.p;
+      if (B.state === 'pass') {
+        S.trail.forEach((q, i) => {
+          const pp = Court3D.project(cam, q); if (!pp) return;
+          ctx.fillStyle = `rgba(255,255,255,${(i + 1) / S.trail.length * 0.22})`;
+          ctx.beginPath(); ctx.arc(pp.x, pp.y, Court3D.BALL_R * pp.s * (0.5 + i / S.trail.length * 0.5), 0, Math.PI * 2); ctx.fill();
+        });
+      }
+      Court3D.drawShadow(ctx, cam, p, p[1]);
+      Court3D.drawBall(ctx, cam, { p, rot: S.t * 8, scale: 1.25 });
+    }
+    function drawPopups(cam) {
+      S.popups.forEach(p => {
+        const q = Court3D.project(cam, p.world); if (!q) return;
+        const k = p.t / p.life;
+        const y = q.y - k * 30;
+        const a = k < 0.15 ? k / 0.15 : (k > 0.7 ? (1 - k) / 0.3 : 1);
+        const sz = Math.round(Math.min(CW, CH) * 0.062 * p.size);
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, a);
+        ctx.font = `800 ${sz}px "Big Shoulders Display", Impact, sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.lineWidth = Math.max(3, sz * 0.12); ctx.strokeStyle = 'rgba(0,0,0,0.7)';
+        const text = p.text.toUpperCase();
+        const x = clamp(q.x, sz * 2.2, CW - sz * 2.2);
+        ctx.strokeText(text, x, y); ctx.fillStyle = p.color; ctx.fillText(text, x, y);
+        ctx.restore();
+      });
+    }
+
+    // the whiteboard
+    function renderBoard() {
+      const b = S.board, G = boardGeom();
+      ctx.fillStyle = '#e9e6dc'; ctx.fillRect(0, 0, CW, CH);
+      const P = (x, z) => bxy(G, x, z);
+      const tl = P(-25, 0), br = P(25, 34);
+      ctx.fillStyle = '#fbfaf6';
+      ctx.fillRect(tl.x, tl.y, br.x - tl.x, br.y - tl.y);
+      ctx.strokeStyle = 'rgba(47,75,120,0.55)'; ctx.lineWidth = 2;
+      ctx.strokeRect(tl.x, tl.y, br.x - tl.x, br.y - tl.y);
+      const c = S.court, hw = c.lane / 2;
+      const k1 = P(-hw, 0), k2 = P(hw, 19);
+      ctx.strokeRect(k1.x, k1.y, k2.x - k1.x, k2.y - k1.y);
+      ctx.beginPath(); const ft = P(0, 19); ctx.arc(ft.x, ft.y, 6 * G.s, 0, Math.PI); ctx.stroke();
+      // the arc
+      const a0 = c.cornerZ > RIM.z ? Math.atan2(c.corner, c.cornerZ - RIM.z) : Math.asin(Math.min(1, c.corner / c.three));
+      ctx.beginPath();
+      let q = P(-c.corner, 0); ctx.moveTo(q.x, q.y); q = P(-c.corner, c.cornerZ); ctx.lineTo(q.x, q.y);
+      for (let i = 0; i <= 40; i++) { const a = -a0 + 2 * a0 * i / 40; q = P(RIM.x + c.three * Math.sin(a), RIM.z + c.three * Math.cos(a)); ctx.lineTo(q.x, q.y); }
+      q = P(c.corner, 0); ctx.lineTo(q.x, q.y); ctx.stroke();
+      // rim
+      const r = P(RIM.x, RIM.z);
+      ctx.strokeStyle = '#d4602a'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(r.x, r.y, 0.75 * G.s + 1, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = '#3a3f4b'; ctx.beginPath(); const b1 = P(-3, 4), b2 = P(3, 4); ctx.moveTo(b1.x, b1.y); ctx.lineTo(b2.x, b2.y); ctx.stroke();
+      // the lines you drew
+      const plan = S.plan;
+      if (plan.cut) drawRoute(G, plan.cut.pts, '#2f6fd1', true);
+      if (S.draw && !S.draw.pass) drawRoute(G, [[b.off[S.draw.i][0], b.off[S.draw.i][1]]].concat(S.draw.pts.slice(1)), '#2f6fd1', true);
+      const passLine = S.draw && S.draw.pass ? S.draw.pts[S.draw.pts.length - 1] : plan.pass ? plan.pass.to : null;
+      if (passLine) drawPassLine(G, b.off[b.holder], passLine, S.draw && S.draw.pass ? plan.type : plan.pass.type || plan.type);
+      // X's and O's
+      b.def.forEach(d => {
+        const p = P(d[0], d[1]), s = Math.max(7, G.s * 0.95);
+        ctx.strokeStyle = '#c0392b'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(p.x - s, p.y - s); ctx.lineTo(p.x + s, p.y + s); ctx.moveTo(p.x + s, p.y - s); ctx.lineTo(p.x - s, p.y + s); ctx.stroke();
+        if (d[2]) { ctx.fillStyle = '#c0392b'; ctx.font = '700 10px "Barlow", sans-serif'; ctx.textAlign = 'center'; ctx.fillText({ watch: 'eyes on ball', deny: 'denying', sunk: 'in the lane', front: 'fronting', behind: 'behind', jump: 'cheating' }[d[2]] || '', p.x, p.y + s + 12); }
+      });
+      b.off.forEach((o, i) => {
+        const p = P(o[0], o[1]), rr = Math.max(9, G.s * 1.05);
+        ctx.fillStyle = i === b.holder ? '#2f4b78' : '#fbfaf6';
+        ctx.strokeStyle = '#2f4b78'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(p.x, p.y, rr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = i === b.holder ? '#fff' : '#2f4b78'; ctx.font = `800 ${Math.round(rr * 1.05)}px "Big Shoulders Display", Impact, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(String(i + 1), p.x, p.y + 1);
+        ctx.textBaseline = 'alphabetic';
+        if (i === b.holder) { ctx.fillStyle = '#e0661f'; ctx.beginPath(); ctx.arc(p.x + rr * 0.9, p.y - rr * 0.9, rr * 0.45, 0, Math.PI * 2); ctx.fill(); }
+        const role = PMPlays.ROLES[o[2]];
+        if (role) { ctx.fillStyle = 'rgba(47,75,120,0.8)'; ctx.font = '600 10px "Barlow", sans-serif'; ctx.fillText(role.label, p.x, p.y - rr - 5); }
+      });
+    }
+    function drawRoute(G, pts, color, dashed) {
+      if (pts.length < 2) return;
+      ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      if (dashed) ctx.setLineDash([9, 7]);
+      ctx.beginPath();
+      pts.forEach((p, i) => { const q = bxy(G, p[0], p[1]); i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); });
+      ctx.stroke(); ctx.setLineDash([]);
+      const a = bxy(G, pts[pts.length - 2][0], pts[pts.length - 2][1]), b = bxy(G, pts[pts.length - 1][0], pts[pts.length - 1][1]);
+      arrowHead(a, b, color);
+      ctx.restore();
+    }
+    function drawPassLine(G, from, to, type) {
+      const a = bxy(G, from[0], from[1]), b = bxy(G, to[0], to[1]);
+      ctx.save(); ctx.strokeStyle = '#1d2433'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(a.x, a.y);
+      if (type === 'lob') { const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2; const nx = -(b.y - a.y), ny = b.x - a.x, nl = Math.hypot(nx, ny) || 1; ctx.quadraticCurveTo(mx + nx / nl * 26, my + ny / nl * 26, b.x, b.y); }
+      else if (type === 'bounce') { const m = { x: a.x + (b.x - a.x) * 0.6, y: a.y + (b.y - a.y) * 0.6 }; ctx.lineTo(m.x, m.y); ctx.lineTo(b.x, b.y); ctx.stroke(); ctx.beginPath(); ctx.arc(m.x, m.y, 4, 0, Math.PI * 2); ctx.fillStyle = '#1d2433'; ctx.fill(); ctx.beginPath(); ctx.moveTo(b.x, b.y); }
+      else ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+      arrowHead(type === 'lob' ? { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 } : a, b, '#1d2433');
+      ctx.restore();
+    }
+    function arrowHead(a, b, color) {
+      const ang = Math.atan2(b.y - a.y, b.x - a.x);
+      ctx.strokeStyle = color; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 12 * Math.cos(ang - 0.42), b.y - 12 * Math.sin(ang - 0.42)); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 12 * Math.cos(ang + 0.42), b.y - 12 * Math.sin(ang + 0.42)); ctx.stroke();
+    }
+
+    function setSettings(o) { Object.assign(settings, o || {}); }
+    return { run, stop, destroy, setSettings, summary, get settings() { return settings; }, _S: S, _camera: camera, _project: p => Court3D.project(camera(), p) };
+  }
+
+  return { create, FEEL };
+})();
 </script>
 <script>
 (() => {
@@ -3201,7 +5265,8 @@ const HoopsEngine = (() => {
     v: 1, touchK: null,
     settings: { feel: 'normal', court: 'park', tags: true, sound: true },
     records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
-    zone: {}, scout: {}, scoutHelp: {}, challenges: []
+    zone: {}, scout: {}, scoutHelp: {}, challenges: [],
+    pm: { k: null, spd: null, best: 0, iq: 0, plays: 0, ast: 0 }, scoutDef: {}, boards: {}, pmFeat: {}
   }));
   let D = store.load();
   store.onRemote(s => { D = s; applySettings(); renderHome(); });
@@ -3209,10 +5274,12 @@ const HoopsEngine = (() => {
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let engine = null, lastSpec = null, lastCtx = null, current = 'home';
+  let pmEngine = null, pmSpec = null, pmCtx = null;
 
   function applySettings() {
     Sfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
+    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passSpd: D.pm.spd });
   }
   function go(id) {
     document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
@@ -3223,6 +5290,7 @@ const HoopsEngine = (() => {
     if (id === 'scout') renderScout();
     if (id === 'chart') renderChart();
     if (id === 'settings') renderSettings();
+    if (id === 'pm') renderPm();
     window.scrollTo(0, 0);
   }
 
@@ -3238,6 +5306,7 @@ const HoopsEngine = (() => {
     $('#rec-horse').textContent = hw[0] + hw[1] ? `${hw[0]} wins · ${hw[1]} losses` : 'Not played yet';
     $('#rec-free').textContent = r.free.attempts ? `${Math.round(r.free.makes / r.free.attempts * 100)}% on ${r.free.attempts} shots` : 'Not played yet';
     $('#rec-builder').textContent = D.challenges.length ? `${D.challenges.length} saved` : 'Five featured to try';
+    $('#rec-pm').textContent = D.pm.plays ? `Best ${D.pm.best} pts · Read IQ ${D.pm.iq}` : 'New';
   }
   document.addEventListener('click', e => {
     const g = e.target.closest('[data-go]');
@@ -3483,6 +5552,11 @@ const HoopsEngine = (() => {
       const faced = s ? `Got to him ${s.faced} times · ${(s.points / s.faced).toFixed(1)} pts · ${Math.round(s.a / s.faced * 100)}% A finishes` : 'Not faced yet';
       return `<article class="scard"><header><b>${esc(h.name)}</b><span class="tag">${esc(h.tag)}</span></header><p>${esc(h.tell)}</p><p class="read"><b>The finish:</b> ${esc(h.read)}</p><div class="faced">${faced}</div></article>`;
     }).join('');
+    $('#def-list').innerHTML = PMPlays.SCHEME_IDS.map(id => {
+      const d = PMPlays.SCHEMES[id], s = D.scoutDef[id];
+      const faced = s ? `Faced ${s.faced} · ${(s.points / s.faced).toFixed(1)} pts per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not faced yet';
+      return `<article class="scard"><header><b>${esc(d.name)}</b><span class="tag">${esc(d.tag)}</span></header><p>${esc(d.tell)}</p><p class="read"><b>The read:</b> ${esc(d.read)}</p><div class="faced">${faced}</div></article>`;
+    }).join('');
   }
 
   // ---------- shot chart ----------
@@ -3514,6 +5588,103 @@ const HoopsEngine = (() => {
     <p class="note">${total[1] ? `${total[0]} of ${total[1]} overall, ${Math.round(total[0] / total[1] * 100)}%. Zones use the high school arc; threes from the Arena count in the three-point zones.` : 'No shots yet. Shootaround is the fastest way to fill this in.'}</p>`;
   }
 
+  // ---------- playmaker ----------
+  const PM_FEATURED = [
+    { id: 'pf-corner', name: 'Corner Help', note: 'Every defense helps off the corner. Get downhill and find him.', spec: { kind: 'pm', count: 6, schemes: ['cornerhelp'] } },
+    { id: 'pf-lanes', name: 'Lane Jumpers', note: 'They gamble on every pass. Bounce it, fake it, or cut behind them.', spec: { kind: 'pm', count: 6, schemes: ['lanejumper', 'denial'] } },
+    { id: 'pf-pack', name: 'Pack Line', note: 'Five men in the paint. Kick it, skip it, swing it.', spec: { kind: 'pm', count: 6, schemes: ['packline', 'scramble'] } },
+    { id: 'pf-bigs', name: 'Feed the Big', note: 'Rim protectors every time. Make him step up, then dump it off or lob it.', spec: { kind: 'pm', count: 6, schemes: ['rim'] } }
+  ];
+  function ensurePm() {
+    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passSpd: D.pm.spd, jersey: '#2c5a46', shorts: '#234a39' });
+    applySettings();
+    return pmEngine;
+  }
+  function closePm() { $('#pmgame').hidden = true; document.body.style.overflow = ''; }
+  function playPm(spec, ctx) {
+    if (!D.pm.k && !(ctx && ctx.calibrating)) return calibratePass(() => playPm(spec, ctx));
+    pmSpec = Object.assign({ court: D.settings.court }, spec); pmCtx = ctx || {};
+    $('#pmgame').hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensurePm().run(pmSpec, { onEnd: res => finishPm(res, false), onQuit: res => finishPm(res, true) });
+  }
+  function calibratePass(then) {
+    $('#pmgame').hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensurePm().run({ kind: 'calibrate', court: D.settings.court }, {
+      onEnd: res => {
+        closePm();
+        if (res.passK) { D.pm.k = res.passK; D.pm.spd = res.passSpd; store.save(); applySettings(); }
+        if (then) then(); else go('pm');
+      },
+      onQuit: () => { closePm(); go('pm'); }
+    });
+  }
+  function finishPm(res, quit) {
+    closePm();
+    const ctx = pmCtx || {};
+    if (res.kind === 'board') {
+      if (res.grade) { const prev = D.boards[res.board]; if (!prev || 'ABCDF'.indexOf(res.grade) < 'ABCDF'.indexOf(prev)) D.boards[res.board] = res.grade; }
+      store.save();
+      return go('pm');
+    }
+    (res.log || []).forEach(l => {
+      const s = D.scoutDef[l.scheme] = D.scoutDef[l.scheme] || { faced: 0, points: 0, a: 0 };
+      s.faced++; s.points += l.points; if (l.grade === 'A') s.a++;
+    });
+    if (quit && !(res.log && res.log.length)) { store.save(); return go('pm'); }
+    let newBest = false;
+    if (!quit) {
+      const r = D.pm;
+      if (ctx.featured) {
+        const f = D.pmFeat[ctx.featured] = D.pmFeat[ctx.featured] || { best: 0, plays: 0 };
+        f.plays++; if (res.points > f.best) { f.best = res.points; newBest = f.plays > 1 || res.points > 0; }
+      } else {
+        r.plays++; r.ast += res.assists || 0;
+        if (res.points > r.best) { r.best = res.points; newBest = true; }
+        r.iq = Math.max(r.iq, res.readIQ || 0);
+      }
+    }
+    store.save();
+    renderPmResults(res, newBest, ctx);
+    go('results');
+  }
+  function renderPmResults(res, newBest, ctx) {
+    const el = $('#results');
+    const rows = (res.log || []).map(l => {
+      const sc = PMPlays.SCHEMES[l.scheme];
+      return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${esc(sc ? sc.name : '')}</b><small>${esc(l.turnover ? l.turnover : (l.made ? (l.assist ? 'scored, assist' : 'scored') : 'no basket'))}</small></div><span class="pts">+${l.points}</span></div>`;
+    }).join('');
+    const miss = (res.log || []).find(l => l.grade === 'C' || l.grade === 'D' || l.grade === 'F');
+    const sc = miss ? PMPlays.SCHEMES[miss.scheme] : null;
+    el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="pm" aria-label="Back">&#x2190;</button><h2>${esc(ctx.title || 'Playmaker')}</h2></div>
+      <div class="result-head"><div class="big">${res.points}</div><div class="unit">points</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>
+      <div class="stats"><div class="stat"><b>${res.readIQ || 0}</b><span>Read IQ</span></div><div class="stat"><b>${res.assists}</b><span>Assists</span></div><div class="stat"><b>${res.turnovers}</b><span>Turnovers</span></div></div>
+      <div class="panel"><h3>Possession by possession</h3><div class="plist">${rows}</div></div>
+      ${sc ? `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(sc.name)}.</b> ${esc(sc.tell)} ${esc(sc.read)}</p></div>` : ''}
+      <div class="ctas"><button class="cta" type="button" id="pm-again">Run it back</button><button class="cta ghost" type="button" data-go="pm">Done</button></div>`;
+    $('#pm-again').addEventListener('click', () => { Sfx.play('ui'); playPm(pmSpec, pmCtx); });
+  }
+  function renderPm() {
+    $('#pm-boards').innerHTML = PMPlays.BOARDS.map(b => {
+      const g = D.boards[b.id];
+      return `<button class="brow" type="button" data-board="${b.id}"><span class="g ${g || ''}">${g || ''}</span><span><b>${esc(b.name)}</b><small>${esc(b.situation)}</small></span><span class="mini go">Draw</span></button>`;
+    }).join('');
+    $('#pm-featured').innerHTML = PM_FEATURED.map(f => { const r = D.pmFeat[f.id]; return `<div class="srow"><div><b>${esc(f.name)}</b><small>${esc(f.note)}${r && r.plays ? ` · best ${r.best}` : ''}</small></div><button class="mini go" type="button" data-pmfeat="${f.id}">Play</button><span></span></div>`; }).join('');
+  }
+  $('#pm').addEventListener('click', e => {
+    const b = e.target.closest('[data-pm]');
+    if (b) {
+      Sfx.unlock(); Sfx.play('ui');
+      if (b.dataset.pm === 'play') return playPm({ kind: 'pm', count: 8, shotClock: 13, title: 'Playmaker' }, { title: 'Playmaker' });
+      if (b.dataset.pm === 'recal') return calibratePass(() => go('pm'));
+    }
+    const bd = e.target.closest('[data-board]');
+    if (bd) { Sfx.unlock(); Sfx.play('ui'); return playPm({ kind: 'board', board: bd.dataset.board }, { board: bd.dataset.board }); }
+    const f = e.target.closest('[data-pmfeat]');
+    if (f) { Sfx.unlock(); Sfx.play('ui'); const ft = PM_FEATURED.find(x => x.id === f.dataset.pmfeat); return playPm(Object.assign({ title: ft.name, shotClock: 13 }, ft.spec), { featured: ft.id, title: ft.name }); }
+  });
+
   // ---------- settings ----------
   function renderSettings() {
     const seg = (key, opts) => `<div class="chips" data-set="${key}">${opts.map(([v, l]) => `<button class="chip" type="button" data-v="${v}" aria-pressed="${String(D.settings[key]) === String(v)}">${l}</button>`).join('')}</div>`;
@@ -3538,7 +5709,8 @@ const HoopsEngine = (() => {
       const b = e.target;
       if (b.dataset.confirm) {
         const keep = { touchK: D.touchK, settings: D.settings, challenges: D.challenges };
-        D = store.reset(); Object.assign(D, keep); store.save(); renderSettings();
+        const pass = { k: D.pm.k, spd: D.pm.spd };
+        D = store.reset(); Object.assign(D, keep); Object.assign(D.pm, pass); store.save(); renderSettings();
         $('#wipe-note').textContent = 'Records erased. Your touch, settings and saved challenges are kept.';
       } else { b.dataset.confirm = '1'; b.textContent = 'Tap again to erase'; b.classList.add('go'); }
     }

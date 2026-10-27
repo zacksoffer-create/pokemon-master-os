@@ -133,6 +133,18 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 .note { font-size: 13px; color: var(--muted); }
 
 #game { position: fixed; inset: 0; z-index: 50; background: var(--night); }
+#pmgame { position: fixed; inset: 0; z-index: 50; background: var(--night); }
+.mode.pm { background: #1d2a44; border-color: rgba(143,180,255,0.28); }
+.mode.pm:hover { background: #22325a; }
+.mode.pm p { color: #c9d6f2; }
+.mode.pm .rec { color: #8fb4ff; }
+.boards { display: grid; gap: 8px; }
+.brow { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--asphalt); border: 1px solid var(--line); text-align: left; cursor: pointer; }
+.brow:hover { background: var(--asphalt-2); }
+.brow b { font: 800 18px/1.1 var(--display); text-transform: uppercase; letter-spacing: 0.03em; }
+.brow small { display: block; color: var(--muted); font-size: 12px; }
+.brow .g { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; font: 900 18px/1 var(--display); color: #0b0f18; background: rgba(255,255,255,0.12); }
+.brow .g.A { background: var(--good); } .brow .g.B { background: #c5e27e; } .brow .g.C { background: #ffd166; } .brow .g.D { background: #ff9a66; } .brow .g.F { background: #ff5d4a; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 
@@ -153,6 +165,10 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       <button class="mode feature" type="button" data-go="rr">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="10" r="3" fill="none" stroke="#ff8a4c" stroke-width="2"/><circle cx="32" cy="34" r="5" fill="#ff7a66"/><circle cx="32" cy="54" r="5" fill="#ffb547"/><path d="M24 50 L14 38 M40 50 L50 38" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/><path d="M14 38 l1 6 M14 38 l6 1 M50 38 l-1 6 M50 38 l-6 1" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/></svg>
         <div><h2>Read &amp; React</h2><p>Ten possessions, a different defender each time. Read him to get by him; when help comes, read the help to pick your finish.</p><div class="rec" id="rec-rr"></div></div>
+      </button>
+      <button class="mode pm" type="button" data-go="pm">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="50" r="5" fill="#ffb547"/><circle cx="10" cy="30" r="4" fill="#7ee2a8"/><circle cx="54" cy="30" r="4" fill="#7ee2a8"/><circle cx="32" cy="22" r="4" fill="#7ee2a8"/><path d="M28 46 Q16 40 13 33" fill="none" stroke="#8fb4ff" stroke-width="2" stroke-dasharray="3 3"/><path d="M13 33 l1 -5 M13 33 l5 -1" stroke="#8fb4ff" stroke-width="2" stroke-linecap="round"/><path d="M42 28 l6 6 M48 28 l-6 6" stroke="#ff7a66" stroke-width="2" stroke-linecap="round"/></svg>
+        <div><h2>Playmaker</h2><p>Five on five, and you're passing. Flick it to a spot, drive to draw help, find the man they left. Every defense leaves somebody.</p><div class="rec" id="rec-pm"></div></div>
       </button>
       <button class="mode" type="button" data-go="rack">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 6 V20 A26 26 0 0 0 58 20 V6" fill="none" stroke="#f3f1ea" stroke-width="2"/><g fill="#e0661f"><circle cx="8" cy="30" r="4"/><circle cx="16" cy="46" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="48" cy="46" r="4"/></g><circle cx="56" cy="30" r="4" fill="#e6ecf8" stroke="#2a4fb0" stroke-width="1.5"/></svg>
@@ -196,6 +212,30 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     </div>
   </section>
 
+  <section class="screen" id="pm" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Playmaker</h2></div>
+    <p class="lede">Same court, same feel, but the ball is in your hands and the shot is somebody else's. Read the defense, make the pass, and the right read gets an open look.</p>
+    <div class="ctas"><button class="cta" type="button" data-pm="play">Play 8 possessions</button></div>
+    <div class="panel"><h3>Draw It Up</h3><p class="note" style="margin:0 0 10px">A whiteboard. Draw a cut, draw the pass, then watch it run.</p><div class="boards" id="pm-boards"></div></div>
+    <div class="panel"><h3>Featured</h3><div class="saved" id="pm-featured"></div></div>
+    <details class="moves" id="pm-moves">
+      <summary>Passing</summary>
+      <dl>
+        <dt>Flick</dt><dd>Pass to a spot, not a player. A longer flick throws it farther; your first two passes set how far.</dd>
+        <dt>Quick flick</dt><dd>Bullet. Flat and fast, beats a rotation.</dd>
+        <dt>Soft flick</dt><dd>Lob. Floats over hands but hangs. At the rim, it's an alley-oop.</dd>
+        <dt>Pull back, flick</dt><dd>Bounce pass. Under the hands of a man in the lane.</dd>
+        <dt>Curl it</dt><dd>Bends the pass around a defender.</dd>
+        <dt>Drag</dt><dd>Drive. Steer like a joystick from where you touched. Snap the other way to cross him.</dd>
+        <dt>Drag, then flick</dt><dd>Pass on the move: drive and kick in one motion.</dd>
+        <dt>Hold still</dt><dd>Court vision. The floor slows down and shows you the gaps, for a second or so each possession.</dd>
+        <dt>Tap</dt><dd>Pass fake. Lane jumpers jump.</dd>
+        <dt>On the money</dt><dd>Hit him in the shooting pocket, leading him if he's moving, and he gets a rhythm shot. Behind him or at his feet, it's late.</dd>
+      </dl>
+    </details>
+    <div class="row-links" style="grid-template-columns:1fr"><button class="link" type="button" data-pm="recal">Find my pass again</button></div>
+  </section>
+
   <section class="screen" id="horse" hidden>
     <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>HORSE</h2></div>
     <p class="lede">Make your shot and they have to match it from the same spot. Miss a match and you take a letter.</p>
@@ -219,6 +259,9 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <h3 class="subhead">Help defense</h3>
     <p class="lede">Beat your man and one of these comes. Where he starts tells you who he is; what he does tells you which finish is open.</p>
     <div class="scout" id="help-list"></div>
+    <h3 class="subhead">Defenses</h3>
+    <p class="lede">Playmaker. Every scheme takes something away and leaves somebody.</p>
+    <div class="scout" id="def-list"></div>
   </section>
 
   <section class="screen" id="chart" hidden>
@@ -233,6 +276,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   </section>
 </main>
 <div id="game" hidden></div>
+<div id="pmgame" hidden></div>
 
 <script>
 <!--@include shared/gesture.js-->
@@ -243,6 +287,9 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 <!--@include hoops/defense.js-->
 <!--@include hoops/help.js-->
 <!--@include hoops/engine.js-->
+<!--@include hoops/pm-plays.js-->
+<!--@include hoops/pm-sim.js-->
+<!--@include hoops/pm-engine.js-->
 </script>
 <script>
 (() => {
@@ -274,7 +321,8 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     v: 1, touchK: null,
     settings: { feel: 'normal', court: 'park', tags: true, sound: true },
     records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
-    zone: {}, scout: {}, scoutHelp: {}, challenges: []
+    zone: {}, scout: {}, scoutHelp: {}, challenges: [],
+    pm: { k: null, spd: null, best: 0, iq: 0, plays: 0, ast: 0 }, scoutDef: {}, boards: {}, pmFeat: {}
   }));
   let D = store.load();
   store.onRemote(s => { D = s; applySettings(); renderHome(); });
@@ -282,10 +330,12 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let engine = null, lastSpec = null, lastCtx = null, current = 'home';
+  let pmEngine = null, pmSpec = null, pmCtx = null;
 
   function applySettings() {
     Sfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
+    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passSpd: D.pm.spd });
   }
   function go(id) {
     document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
@@ -296,6 +346,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     if (id === 'scout') renderScout();
     if (id === 'chart') renderChart();
     if (id === 'settings') renderSettings();
+    if (id === 'pm') renderPm();
     window.scrollTo(0, 0);
   }
 
@@ -311,6 +362,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     $('#rec-horse').textContent = hw[0] + hw[1] ? `${hw[0]} wins · ${hw[1]} losses` : 'Not played yet';
     $('#rec-free').textContent = r.free.attempts ? `${Math.round(r.free.makes / r.free.attempts * 100)}% on ${r.free.attempts} shots` : 'Not played yet';
     $('#rec-builder').textContent = D.challenges.length ? `${D.challenges.length} saved` : 'Five featured to try';
+    $('#rec-pm').textContent = D.pm.plays ? `Best ${D.pm.best} pts · Read IQ ${D.pm.iq}` : 'New';
   }
   document.addEventListener('click', e => {
     const g = e.target.closest('[data-go]');
@@ -556,6 +608,11 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       const faced = s ? `Got to him ${s.faced} times · ${(s.points / s.faced).toFixed(1)} pts · ${Math.round(s.a / s.faced * 100)}% A finishes` : 'Not faced yet';
       return `<article class="scard"><header><b>${esc(h.name)}</b><span class="tag">${esc(h.tag)}</span></header><p>${esc(h.tell)}</p><p class="read"><b>The finish:</b> ${esc(h.read)}</p><div class="faced">${faced}</div></article>`;
     }).join('');
+    $('#def-list').innerHTML = PMPlays.SCHEME_IDS.map(id => {
+      const d = PMPlays.SCHEMES[id], s = D.scoutDef[id];
+      const faced = s ? `Faced ${s.faced} · ${(s.points / s.faced).toFixed(1)} pts per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not faced yet';
+      return `<article class="scard"><header><b>${esc(d.name)}</b><span class="tag">${esc(d.tag)}</span></header><p>${esc(d.tell)}</p><p class="read"><b>The read:</b> ${esc(d.read)}</p><div class="faced">${faced}</div></article>`;
+    }).join('');
   }
 
   // ---------- shot chart ----------
@@ -587,6 +644,103 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <p class="note">${total[1] ? `${total[0]} of ${total[1]} overall, ${Math.round(total[0] / total[1] * 100)}%. Zones use the high school arc; threes from the Arena count in the three-point zones.` : 'No shots yet. Shootaround is the fastest way to fill this in.'}</p>`;
   }
 
+  // ---------- playmaker ----------
+  const PM_FEATURED = [
+    { id: 'pf-corner', name: 'Corner Help', note: 'Every defense helps off the corner. Get downhill and find him.', spec: { kind: 'pm', count: 6, schemes: ['cornerhelp'] } },
+    { id: 'pf-lanes', name: 'Lane Jumpers', note: 'They gamble on every pass. Bounce it, fake it, or cut behind them.', spec: { kind: 'pm', count: 6, schemes: ['lanejumper', 'denial'] } },
+    { id: 'pf-pack', name: 'Pack Line', note: 'Five men in the paint. Kick it, skip it, swing it.', spec: { kind: 'pm', count: 6, schemes: ['packline', 'scramble'] } },
+    { id: 'pf-bigs', name: 'Feed the Big', note: 'Rim protectors every time. Make him step up, then dump it off or lob it.', spec: { kind: 'pm', count: 6, schemes: ['rim'] } }
+  ];
+  function ensurePm() {
+    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passSpd: D.pm.spd, jersey: '#2c5a46', shorts: '#234a39' });
+    applySettings();
+    return pmEngine;
+  }
+  function closePm() { $('#pmgame').hidden = true; document.body.style.overflow = ''; }
+  function playPm(spec, ctx) {
+    if (!D.pm.k && !(ctx && ctx.calibrating)) return calibratePass(() => playPm(spec, ctx));
+    pmSpec = Object.assign({ court: D.settings.court }, spec); pmCtx = ctx || {};
+    $('#pmgame').hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensurePm().run(pmSpec, { onEnd: res => finishPm(res, false), onQuit: res => finishPm(res, true) });
+  }
+  function calibratePass(then) {
+    $('#pmgame').hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensurePm().run({ kind: 'calibrate', court: D.settings.court }, {
+      onEnd: res => {
+        closePm();
+        if (res.passK) { D.pm.k = res.passK; D.pm.spd = res.passSpd; store.save(); applySettings(); }
+        if (then) then(); else go('pm');
+      },
+      onQuit: () => { closePm(); go('pm'); }
+    });
+  }
+  function finishPm(res, quit) {
+    closePm();
+    const ctx = pmCtx || {};
+    if (res.kind === 'board') {
+      if (res.grade) { const prev = D.boards[res.board]; if (!prev || 'ABCDF'.indexOf(res.grade) < 'ABCDF'.indexOf(prev)) D.boards[res.board] = res.grade; }
+      store.save();
+      return go('pm');
+    }
+    (res.log || []).forEach(l => {
+      const s = D.scoutDef[l.scheme] = D.scoutDef[l.scheme] || { faced: 0, points: 0, a: 0 };
+      s.faced++; s.points += l.points; if (l.grade === 'A') s.a++;
+    });
+    if (quit && !(res.log && res.log.length)) { store.save(); return go('pm'); }
+    let newBest = false;
+    if (!quit) {
+      const r = D.pm;
+      if (ctx.featured) {
+        const f = D.pmFeat[ctx.featured] = D.pmFeat[ctx.featured] || { best: 0, plays: 0 };
+        f.plays++; if (res.points > f.best) { f.best = res.points; newBest = f.plays > 1 || res.points > 0; }
+      } else {
+        r.plays++; r.ast += res.assists || 0;
+        if (res.points > r.best) { r.best = res.points; newBest = true; }
+        r.iq = Math.max(r.iq, res.readIQ || 0);
+      }
+    }
+    store.save();
+    renderPmResults(res, newBest, ctx);
+    go('results');
+  }
+  function renderPmResults(res, newBest, ctx) {
+    const el = $('#results');
+    const rows = (res.log || []).map(l => {
+      const sc = PMPlays.SCHEMES[l.scheme];
+      return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${esc(sc ? sc.name : '')}</b><small>${esc(l.turnover ? l.turnover : (l.made ? (l.assist ? 'scored, assist' : 'scored') : 'no basket'))}</small></div><span class="pts">+${l.points}</span></div>`;
+    }).join('');
+    const miss = (res.log || []).find(l => l.grade === 'C' || l.grade === 'D' || l.grade === 'F');
+    const sc = miss ? PMPlays.SCHEMES[miss.scheme] : null;
+    el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="pm" aria-label="Back">&#x2190;</button><h2>${esc(ctx.title || 'Playmaker')}</h2></div>
+      <div class="result-head"><div class="big">${res.points}</div><div class="unit">points</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>
+      <div class="stats"><div class="stat"><b>${res.readIQ || 0}</b><span>Read IQ</span></div><div class="stat"><b>${res.assists}</b><span>Assists</span></div><div class="stat"><b>${res.turnovers}</b><span>Turnovers</span></div></div>
+      <div class="panel"><h3>Possession by possession</h3><div class="plist">${rows}</div></div>
+      ${sc ? `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(sc.name)}.</b> ${esc(sc.tell)} ${esc(sc.read)}</p></div>` : ''}
+      <div class="ctas"><button class="cta" type="button" id="pm-again">Run it back</button><button class="cta ghost" type="button" data-go="pm">Done</button></div>`;
+    $('#pm-again').addEventListener('click', () => { Sfx.play('ui'); playPm(pmSpec, pmCtx); });
+  }
+  function renderPm() {
+    $('#pm-boards').innerHTML = PMPlays.BOARDS.map(b => {
+      const g = D.boards[b.id];
+      return `<button class="brow" type="button" data-board="${b.id}"><span class="g ${g || ''}">${g || ''}</span><span><b>${esc(b.name)}</b><small>${esc(b.situation)}</small></span><span class="mini go">Draw</span></button>`;
+    }).join('');
+    $('#pm-featured').innerHTML = PM_FEATURED.map(f => { const r = D.pmFeat[f.id]; return `<div class="srow"><div><b>${esc(f.name)}</b><small>${esc(f.note)}${r && r.plays ? ` · best ${r.best}` : ''}</small></div><button class="mini go" type="button" data-pmfeat="${f.id}">Play</button><span></span></div>`; }).join('');
+  }
+  $('#pm').addEventListener('click', e => {
+    const b = e.target.closest('[data-pm]');
+    if (b) {
+      Sfx.unlock(); Sfx.play('ui');
+      if (b.dataset.pm === 'play') return playPm({ kind: 'pm', count: 8, shotClock: 13, title: 'Playmaker' }, { title: 'Playmaker' });
+      if (b.dataset.pm === 'recal') return calibratePass(() => go('pm'));
+    }
+    const bd = e.target.closest('[data-board]');
+    if (bd) { Sfx.unlock(); Sfx.play('ui'); return playPm({ kind: 'board', board: bd.dataset.board }, { board: bd.dataset.board }); }
+    const f = e.target.closest('[data-pmfeat]');
+    if (f) { Sfx.unlock(); Sfx.play('ui'); const ft = PM_FEATURED.find(x => x.id === f.dataset.pmfeat); return playPm(Object.assign({ title: ft.name, shotClock: 13 }, ft.spec), { featured: ft.id, title: ft.name }); }
+  });
+
   // ---------- settings ----------
   function renderSettings() {
     const seg = (key, opts) => `<div class="chips" data-set="${key}">${opts.map(([v, l]) => `<button class="chip" type="button" data-v="${v}" aria-pressed="${String(D.settings[key]) === String(v)}">${l}</button>`).join('')}</div>`;
@@ -611,7 +765,8 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       const b = e.target;
       if (b.dataset.confirm) {
         const keep = { touchK: D.touchK, settings: D.settings, challenges: D.challenges };
-        D = store.reset(); Object.assign(D, keep); store.save(); renderSettings();
+        const pass = { k: D.pm.k, spd: D.pm.spd };
+        D = store.reset(); Object.assign(D, keep); Object.assign(D.pm, pass); store.save(); renderSettings();
         $('#wipe-note').textContent = 'Records erased. Your touch, settings and saved challenges are kept.';
       } else { b.dataset.confirm = '1'; b.textContent = 'Tap again to erase'; b.classList.add('go'); }
     }
