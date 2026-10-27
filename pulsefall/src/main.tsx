@@ -6,5 +6,6 @@ import { render } from 'preact';
 import { App } from './app/App';
 import { registerServiceWorker } from './app/pwa';
 
+if (/[?&]debug\b/.test(location.search)) sessionStorage.setItem('pf-debug', '1');
 render(<App />, document.getElementById('app')!);
 registerServiceWorker();

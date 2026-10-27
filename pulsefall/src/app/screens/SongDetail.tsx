@@ -200,6 +200,8 @@ export function SongDetail({ id }: { id: string }) {
               onClick={() => {
                 uiSound();
                 setStyle(st);
+                // Remember the choice so returning from the editor or a game keeps it.
+                updateSettings({ lastStyle: st });
               }}
             >
               <span class="style-name">{STYLES[st].label}</span>

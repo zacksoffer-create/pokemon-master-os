@@ -126,6 +126,9 @@ export function Game({ id }: { id: string }) {
       onFinish: (result) => void finish(result),
     });
     sessionRef.current = session;
+    // Test hook (enabled with ?debug in the URL once per tab): lets automated tests drive
+    // and inspect the running session. Harmless when off.
+    if (sessionStorage.getItem('pf-debug') === '1') (window as unknown as { __pfSession?: GameSession }).__pfSession = session;
     setPhase({ kind: 'playing' });
     session.start();
   }

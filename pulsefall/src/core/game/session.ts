@@ -185,6 +185,11 @@ export class GameSession {
 
   // --- internals -------------------------------------------------------------
 
+  /** Gameplay (judgment) time at a performance timestamp — used by tests and tooling. */
+  judgeTimeAt(perf: number): number {
+    return this.judgeTime(perf);
+  }
+
   private heardTime(perf: number): number {
     return heardTime(this.player.position(perf), this.offsets);
   }
