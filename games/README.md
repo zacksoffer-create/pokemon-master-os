@@ -26,6 +26,22 @@ Two phone games built on shared engines, as a first test of the "mechanics libra
 
 Moves made while another is finishing are queued, so you can chain jab, cross, euro, finish.
 
+## Help defense (1 on 2)
+
+Read & React mixes in possessions where a second defender is waiting behind your man. He doesn't double you. He only comes once you beat the first guy, so your dribble and decisions still win the first matchup. After that, the kind of help tells you which shot to take. A pure release still beats a good contest, so shot making stays the last word.
+
+| Help | Where he waits | What beats him | What he punishes |
+|---|---|---|---|
+| The Wall | Planted at the rim | Floater over him, or a pull-up before you get there | Layups at him (contest and blocks) |
+| The Charge Taker | Weak-side lane | Floater before his spot, or a euro around him | Riding the drive into him: charge |
+| The Leaper | Ball-side block, steps up | Pump fake to get him in the air, then finish | A straight layup |
+| Late Help | Weak-side wing | Any quick finish | Hesitating or faking: he arrives |
+| The Digger | Ball-side elbow | Driving away from him, or rising early | Driving past his side: stripped |
+
+Help defenders are data in `src/hoops/help.js`, same as the on-ball defenders. A challenge picks them with `help: 'none' | 'mix' | 'always' | ['wall', ...]`, and the Challenge Builder has the same switch.
+
+Living School keeps a frozen copy of the basketball engine in `src/school/hoops/`, so changes to Basketball Playground don't move its tryouts and Friday games.
+
 ## How it maps to the five engines
 
 | Engine | Code | Used by |
@@ -47,6 +63,7 @@ node games/test/physics_layup.js         # layups by angle, touch error and spin
 node games/test/controls_hoops.js OUTDIR # jab, crossover, euro step, queued moves, spun layup
 node games/test/jumpers_hoops.js OUTDIR  # pull-up, step-back, side-step, fadeaway; gesture edges
 node games/test/physics_fade.js          # fadeaway make rates vs set shots
+node games/test/help_hoops.js OUTDIR     # each help type: the shot it gives you and the one it takes away
 node games/test/makes_hoops.js           # in-browser: a well-sized flick scores from 6 to 21 ft
 node games/test/smoke_hoops.js OUTDIR    # plays every basketball mode, screenshots
 node games/test/bot_school.js SEED [PNG] # plays a full semester with random choices

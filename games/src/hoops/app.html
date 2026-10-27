@@ -106,6 +106,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 
 /* scouting + builder */
 .scout { display: grid; gap: 8px; }
+.subhead { font: 900 26px/1 var(--display); text-transform: uppercase; letter-spacing: 0.02em; margin-top: 10px; }
 .scard { padding: 12px 14px; border-radius: 12px; background: var(--asphalt); border: 1px solid var(--line); }
 .scard header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
 .scard b { font: 800 20px/1 var(--display); letter-spacing: 0.03em; text-transform: uppercase; }
@@ -151,7 +152,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <div class="modes">
       <button class="mode feature" type="button" data-go="rr">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="10" r="3" fill="none" stroke="#ff8a4c" stroke-width="2"/><circle cx="32" cy="34" r="5" fill="#ff7a66"/><circle cx="32" cy="54" r="5" fill="#ffb547"/><path d="M24 50 L14 38 M40 50 L50 38" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/><path d="M14 38 l1 6 M14 38 l6 1 M50 38 l-1 6 M50 38 l-6 1" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/></svg>
-        <div><h2>Read &amp; React</h2><p>Ten possessions, a different defender each time. Shoot, drive, fake or step back, depending on what he gives you.</p><div class="rec" id="rec-rr"></div></div>
+        <div><h2>Read &amp; React</h2><p>Ten possessions, a different defender each time. Read him to get by him; when help comes, read the help to pick your finish.</p><div class="rec" id="rec-rr"></div></div>
       </button>
       <button class="mode" type="button" data-go="rack">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 6 V20 A26 26 0 0 0 58 20 V6" fill="none" stroke="#f3f1ea" stroke-width="2"/><g fill="#e0661f"><circle cx="8" cy="30" r="4"/><circle cx="16" cy="46" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="48" cy="46" r="4"/></g><circle cx="56" cy="30" r="4" fill="#e6ecf8" stroke="#2a4fb0" stroke-width="1.5"/></svg>
@@ -185,6 +186,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
         <dt>Euro step</dt><dd>After a blow-by, swipe sideways on the way to the rim.</dd>
         <dt>Spin</dt><dd>Curl your layup flick. A little spin sits soft on the rim; too much spins it out.</dd>
         <dt>Chain it</dt><dd>Moves you make while another is finishing go next.</dd>
+        <dt>Help defense</dt><dd>Beat your man and you're attacking the rim. Flick early for a pull-up, midway for a floater, at the rim for a layup. The help defender decides which one is open.</dd>
       </dl>
     </details>
     <div class="row-links">
@@ -214,6 +216,9 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Scouting book</h2></div>
     <p class="lede">Every defender gives something away. Learn the tell and the answer.</p>
     <div class="scout" id="scout-list"></div>
+    <h3 class="subhead">Help defense</h3>
+    <p class="lede">Beat your man and one of these comes. Where he starts tells you who he is; what he does tells you which finish is open.</p>
+    <div class="scout" id="help-list"></div>
   </section>
 
   <section class="screen" id="chart" hidden>
@@ -236,6 +241,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 <!--@include hoops/court.js-->
 <!--@include hoops/physics.js-->
 <!--@include hoops/defense.js-->
+<!--@include hoops/help.js-->
 <!--@include hoops/engine.js-->
 </script>
 <script>
@@ -258,14 +264,17 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     { id: 'f-corners', name: 'Corner Office', note: 'Corner threes against defenders who shade you.', spec: { kind: 'possessions', count: 8, spots: ['lc', 'rc'], defenders: ['baseline', 'middle', 'sagger'], shotClock: 6 } },
     { id: 'f-lateclock', name: 'Late Clock', note: 'Two and a half seconds. Decide now.', spec: { kind: 'possessions', count: 10, spots: ['lw', 'rw', 'top', 'le', 're'], defenders: [], shotClock: 2.5, situation: 'Shot clock winding down' } },
     { id: 'f-prorange', name: 'Pro Range', note: 'The Arena, threes only, forty-five seconds.', spec: { kind: 'rack', court: 'arena', racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, money: true, time: 45 } },
-    { id: 'f-bigs', name: 'Little vs. Big', note: 'Only long defenders. Drive or step back.', spec: { kind: 'possessions', count: 8, spots: ['le', 're', 'top', 'lw', 'rw'], defenders: ['long'], shotClock: 6 } }
+    { id: 'f-bigs', name: 'Little vs. Big', note: 'Only long defenders. Drive or step back.', spec: { kind: 'possessions', count: 8, spots: ['le', 're', 'top', 'lw', 'rw'], defenders: ['long'], shotClock: 6 } },
+    { id: 'f-helpside', name: 'Help Side', note: 'Help behind every defender. Beat your man, then read the help.', spec: { kind: 'possessions', count: 10, spots: ['lw', 'rw', 'top', 'le', 're'], defenders: ['closer', 'gambler', 'baseline', 'middle', 'sagger'], shotClock: 0, help: 'always' } },
+    { id: 'f-wall', name: 'Over the Wall', note: 'A rim protector behind every closeout. Float it or pull up.', spec: { kind: 'possessions', count: 8, spots: ['lw', 'rw', 'top'], defenders: ['closer', 'gambler'], shotClock: 0, help: 'always', helpTypes: ['wall'] } },
+    { id: 'f-charge', name: 'Feet Set', note: 'A charge taker in the lane every time. Stop short or go around.', spec: { kind: 'possessions', count: 8, spots: ['lw', 'rw', 'top'], defenders: ['closer', 'gambler'], shotClock: 0, help: 'always', helpTypes: ['charge'] } }
   ];
 
   const store = SaveStore.create('basketball-playground-v1', () => ({
     v: 1, touchK: null,
     settings: { feel: 'normal', court: 'park', tags: true, sound: true },
     records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
-    zone: {}, scout: {}, challenges: []
+    zone: {}, scout: {}, scoutHelp: {}, challenges: []
   }));
   let D = store.load();
   store.onRemote(s => { D = s; applySettings(); renderHome(); });
@@ -308,7 +317,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     if (g) {
       Sfx.unlock(); Sfx.play('ui');
       const id = g.dataset.go;
-      if (id === 'rr') return play({ kind: 'possessions', count: 10, shotClock: 6, title: 'Read & React' }, { rec: 'rr' });
+      if (id === 'rr') return play({ kind: 'possessions', count: 10, shotClock: 6, help: 'mix', title: 'Read & React' }, { rec: 'rr' });
       if (id === 'rack') return play({ kind: 'rack', racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, money: true, time: 60, title: '3-Point Contest' }, { rec: 'rack' });
       if (id === 'free') return play({ kind: 'free', spot: 'top', title: 'Shootaround' }, { rec: 'free' });
       return go(id);
@@ -373,6 +382,11 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     if (res.kind === 'possessions') {
       (res.log || []).forEach(l => {
         if (!l.arch) return;
+        if (l.help && l.helpSeen) {
+          const h = D.scoutHelp[l.help] = D.scoutHelp[l.help] || { faced: 0, points: 0, a: 0 };
+          h.faced++; h.points += l.points; if (l.grade === 'A') h.a++;
+          return;
+        }
         const s = D.scout[l.arch] = D.scout[l.arch] || { faced: 0, points: 0, a: 0 };
         s.faced++; s.points += l.points; if (l.grade === 'A') s.a++;
       });
@@ -403,12 +417,14 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       body = `<div class="stats"><div class="stat"><b>${res.readIQ || 0}</b><span>Read IQ</span></div><div class="stat"><b>${res.makes}/${res.attempts}</b><span>Shots</span></div><div class="stat"><b>${res.bestStreak}</b><span>Best streak</span></div></div>
         <div class="panel"><h3>Possession by possession</h3><div class="plist">${(res.log || []).map((l, i) => {
           const a = l.arch ? Defense.ARCHETYPES[l.arch] : null;
-          return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${a ? esc(a.name) : 'Open look'}</b><small>${esc(Court3D.SPOTS[l.spot] ? Court3D.SPOTS[l.spot].label : '')} · ${esc(l.turnover || (l.made ? 'scored' : 'no basket'))}</small></div><span class="pts">+${l.points}</span></div>`;
+          const h = l.help ? Help.TYPES[l.help] : null;
+          return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${a ? esc(a.name) : 'Open look'}${h ? ` + ${esc(h.name)}` : ''}</b><small>${esc(Court3D.SPOTS[l.spot] ? Court3D.SPOTS[l.spot].label : '')} · ${esc(l.turnover || (l.made ? 'scored' : 'no basket'))}</small></div><span class="pts">+${l.points}</span></div>`;
         }).join('')}</div></div>`;
       const misreads = (res.log || []).filter(l => l.arch && (l.grade === 'C' || l.grade === 'D' || l.grade === 'F'));
       if (misreads.length) {
-        const a = Defense.ARCHETYPES[misreads[0].arch];
-        body += `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(a.name)}.</b> ${esc(a.tell)} ${esc(a.read)}</p></div>`;
+        const m = misreads[0];
+        const a = m.help && m.helpSeen ? Help.TYPES[m.help] : Defense.ARCHETYPES[m.arch];
+        body += `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(a.name)}${m.help && m.helpSeen ? ' (help)' : ''}.</b> ${esc(a.tell)} ${esc(a.read)}</p></div>`;
       }
     } else if (res.kind === 'rack') {
       head = `<div class="result-head"><div class="big">${res.points}</div><div class="unit">of 30</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>`;
@@ -445,16 +461,17 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   });
 
   // ---------- builder ----------
-  const draft = { name: '', court: null, type: 'possessions', spots: ['lw', 'rw', 'top'], defenders: ['closer', 'sagger', 'pest'], count: 8, clock: 6, racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, time: 60, money: true };
+  const draft = { name: '', court: null, type: 'possessions', spots: ['lw', 'rw', 'top'], defenders: ['closer', 'sagger', 'pest'], count: 8, clock: 6, help: 'mix', helpTypes: Help.IDS.slice(), racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, time: 60, money: true };
   function specFromDraft() {
     if (draft.type === 'rack') return { kind: 'rack', court: draft.court || D.settings.court, racks: draft.racks.length ? draft.racks : ['top'], perRack: draft.perRack, money: draft.money, time: draft.time };
-    return { kind: 'possessions', court: draft.court || D.settings.court, count: draft.count, spots: draft.spots.length ? draft.spots : ['top'], defenders: draft.defenders.includes('none') ? 'none' : draft.defenders, shotClock: draft.clock || 0 };
+    return { kind: 'possessions', court: draft.court || D.settings.court, count: draft.count, spots: draft.spots.length ? draft.spots : ['top'], defenders: draft.defenders.includes('none') ? 'none' : draft.defenders, shotClock: draft.clock || 0, help: draft.defenders.includes('none') ? 'none' : draft.help, helpTypes: draft.helpTypes.length ? draft.helpTypes : Help.IDS.slice() };
   }
   function describeSpec(s) {
     const court = Court3D.COURTS[s.court || D.settings.court].name;
     if (s.kind === 'rack') return `${court} · ${s.racks.length} rack${s.racks.length > 1 ? 's' : ''} of ${s.perRack} · ${s.time}s`;
     const d = s.defenders === 'none' ? 'no defender' : (s.defenders && s.defenders.length ? s.defenders.map(x => Defense.ARCHETYPES[x].name.replace('The ', '')).join(', ') : 'any defender');
-    return `${court} · ${s.count} possessions · ${d} · ${s.shotClock ? s.shotClock + 's clock' : 'no clock'}`;
+    const help = !s.help || s.help === 'none' ? '' : ` · help ${s.help === 'always' ? 'every time' : 'sometimes'}${s.helpTypes && s.helpTypes.length < Help.IDS.length ? ' (' + s.helpTypes.map(x => Help.TYPES[x].name.replace('The ', '')).join(', ') + ')' : ''}`;
+    return `${court} · ${s.count} possessions · ${d}${help} · ${s.shotClock ? s.shotClock + 's clock' : 'no clock'}`;
   }
   function chipGroup(key, options, multi) {
     return `<div class="chips" data-key="${key}">${options.map(([v, l]) => {
@@ -474,6 +491,8 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       ${draft.type === 'possessions' ? `
         <div class="field"><span>Spots</span>${chipGroup('spots', SPOT_CHOICES, true)}</div>
         <div class="field"><span>Defenders</span>${chipGroup('defenders', defOpts, true)}</div>
+        <div class="field"><span>Help defense</span>${chipGroup('help', [['none', 'Off'], ['mix', 'Sometimes'], ['always', 'Every possession']])}</div>
+        ${draft.help !== 'none' ? `<div class="field"><span>Help types</span>${chipGroup('helpTypes', Help.IDS.map(id => [id, Help.TYPES[id].name.replace('The ', '')]), true)}</div>` : ''}
         <div class="field"><span>Possessions</span>${chipGroup('count', [[5, '5'], [8, '8'], [10, '10'], [15, '15']])}</div>
         <div class="field"><span>Shot clock</span>${chipGroup('clock', [[0, 'Off'], [2.5, '2.5s'], [4, '4s'], [6, '6s'], [8, '8s']])}</div>` : `
         <div class="field"><span>Racks, in order</span>${chipGroup('racks', SPOT_CHOICES, true)}</div>
@@ -531,6 +550,11 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       const a = Defense.ARCHETYPES[id], s = D.scout[id];
       const faced = s ? `Faced ${s.faced} · ${(s.points / s.faced).toFixed(1)} pts per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not faced yet';
       return `<article class="scard"><header><b>${esc(a.name)}</b><span class="tag">${esc(a.tag)}</span></header><p>${esc(a.tell)}</p><p class="read"><b>The answer:</b> ${esc(a.read)}</p><div class="faced">${faced}</div></article>`;
+    }).join('');
+    $('#help-list').innerHTML = Help.IDS.map(id => {
+      const h = Help.TYPES[id], s = D.scoutHelp[id];
+      const faced = s ? `Got to him ${s.faced} times · ${(s.points / s.faced).toFixed(1)} pts · ${Math.round(s.a / s.faced * 100)}% A finishes` : 'Not faced yet';
+      return `<article class="scard"><header><b>${esc(h.name)}</b><span class="tag">${esc(h.tag)}</span></header><p>${esc(h.tell)}</p><p class="read"><b>The finish:</b> ${esc(h.read)}</p><div class="faced">${faced}</div></article>`;
     }).join('');
   }
 

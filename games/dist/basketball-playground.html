@@ -106,6 +106,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 
 /* scouting + builder */
 .scout { display: grid; gap: 8px; }
+.subhead { font: 900 26px/1 var(--display); text-transform: uppercase; letter-spacing: 0.02em; margin-top: 10px; }
 .scard { padding: 12px 14px; border-radius: 12px; background: var(--asphalt); border: 1px solid var(--line); }
 .scard header { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
 .scard b { font: 800 20px/1 var(--display); letter-spacing: 0.03em; text-transform: uppercase; }
@@ -151,7 +152,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <div class="modes">
       <button class="mode feature" type="button" data-go="rr">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="10" r="3" fill="none" stroke="#ff8a4c" stroke-width="2"/><circle cx="32" cy="34" r="5" fill="#ff7a66"/><circle cx="32" cy="54" r="5" fill="#ffb547"/><path d="M24 50 L14 38 M40 50 L50 38" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/><path d="M14 38 l1 6 M14 38 l6 1 M50 38 l-1 6 M50 38 l-6 1" stroke="#f3f1ea" stroke-width="2" stroke-linecap="round"/></svg>
-        <div><h2>Read &amp; React</h2><p>Ten possessions, a different defender each time. Shoot, drive, fake or step back, depending on what he gives you.</p><div class="rec" id="rec-rr"></div></div>
+        <div><h2>Read &amp; React</h2><p>Ten possessions, a different defender each time. Read him to get by him; when help comes, read the help to pick your finish.</p><div class="rec" id="rec-rr"></div></div>
       </button>
       <button class="mode" type="button" data-go="rack">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 6 V20 A26 26 0 0 0 58 20 V6" fill="none" stroke="#f3f1ea" stroke-width="2"/><g fill="#e0661f"><circle cx="8" cy="30" r="4"/><circle cx="16" cy="46" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="48" cy="46" r="4"/></g><circle cx="56" cy="30" r="4" fill="#e6ecf8" stroke="#2a4fb0" stroke-width="1.5"/></svg>
@@ -185,6 +186,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
         <dt>Euro step</dt><dd>After a blow-by, swipe sideways on the way to the rim.</dd>
         <dt>Spin</dt><dd>Curl your layup flick. A little spin sits soft on the rim; too much spins it out.</dd>
         <dt>Chain it</dt><dd>Moves you make while another is finishing go next.</dd>
+        <dt>Help defense</dt><dd>Beat your man and you're attacking the rim. Flick early for a pull-up, midway for a floater, at the rim for a layup. The help defender decides which one is open.</dd>
       </dl>
     </details>
     <div class="row-links">
@@ -214,6 +216,9 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Scouting book</h2></div>
     <p class="lede">Every defender gives something away. Learn the tell and the answer.</p>
     <div class="scout" id="scout-list"></div>
+    <h3 class="subhead">Help defense</h3>
+    <p class="lede">Beat your man and one of these comes. Where he starts tells you who he is; what he does tells you which finish is open.</p>
+    <div class="scout" id="help-list"></div>
   </section>
 
   <section class="screen" id="chart" hidden>
@@ -1746,6 +1751,233 @@ const Defense = (() => {
 
   return { ARCHETYPES, IDS, create, update, contest, contestLabel, foulable, pumpFake, drive, driveOdds, driveRead, jab, reactToShot, blockChance, grade, gapTo, drawDefender, targetFor };
 })();
+/* Help defense: the second defender. He waits until you beat your man, then
+   does his one job. Where he starts and what that job is decides which
+   finish is open; your touch still decides whether it goes in.
+
+   Each help type is data. `vs` scales his contest by the kind of shot you
+   take, so the same spot can be wide open for a floater and a wall for a
+   layup. */
+const Help = (() => {
+  const { V, RIM } = Court3D;
+
+  const TYPES = {
+    wall: {
+      id: 'wall', name: 'The Wall', tag: 'Rim protector',
+      tell: 'A big man parked under the rim.',
+      read: 'Don\'t take it at him. Float it over him or pull up before you get there.',
+      home: 'rim', role: 'drop', react: 0.1, speed: 8, holdAt: 3.2, length: 1.5, height: 1.16, reach: 1.35, bite: 0.1, block: 0.6,
+      vs: { layup: 1.25, euro: 1.1, floater: 0.55, pullup: 0.35, jumper: 0.35, fade: 0.3 },
+      colors: { jersey: '#3a3f4b', shorts: '#2c3039', trim: '#ffb547' }, number: 50, homePose: 'wall'
+    },
+    charge: {
+      id: 'charge', name: 'The Charge Taker', tag: 'Plants in the lane',
+      tell: 'Smaller guy on the weak side of the lane, ready to slide over.',
+      read: 'Don\'t run him over. Pull up, float it before you reach him, or euro step around him.',
+      home: 'weaklane', role: 'charge', react: 0.04, speed: 19, holdAt: 5.2, length: 0.5, height: 0.94, reach: 0.9, bite: 0.25, block: 0.05,
+      vs: { layup: 0.9, euro: 0.3, floater: 0.45, pullup: 0.3, jumper: 0.3, fade: 0.3 },
+      colors: { jersey: '#5b6b2f', shorts: '#4a5826', trim: '#ffffff' }, number: 33, homePose: 'stand'
+    },
+    leaper: {
+      id: 'leaper', name: 'The Leaper', tag: 'Jumps at everything',
+      tell: 'Bouncing on his toes at the block.',
+      read: 'Pump fake when he steps up. Once he flies by, finish.',
+      home: 'ballblock', role: 'step', react: 0.08, speed: 14, holdAt: 4.8, length: 1.25, height: 1.04, reach: 1.15, bite: 0.95, block: 0.5,
+      vs: { layup: 1.15, euro: 0.95, floater: 1.0, pullup: 0.8, jumper: 0.7, fade: 0.5 },
+      colors: { jersey: '#b23a5e', shorts: '#8f2e4b', trim: '#ffffff' }, number: 23, homePose: 'guard'
+    },
+    late: {
+      id: 'late', name: 'Late Help', tag: 'Coming from the far side',
+      tell: 'Starts way out on the far wing.',
+      read: 'Don\'t wait. Any quick finish beats him there; a hesitation or a fake lets him arrive.',
+      home: 'weakwing', role: 'late', react: 0.18, speed: 19, holdAt: 3.4, length: 1.15, height: 1.02, reach: 1.1, bite: 0.5, block: 0.4,
+      vs: { layup: 1, euro: 0.85, floater: 1, pullup: 1, jumper: 1, fade: 0.8 },
+      colors: { jersey: '#2a6f8a', shorts: '#215a70', trim: '#ffffff' }, number: 11, homePose: 'stand'
+    },
+    digger: {
+      id: 'digger', name: 'The Digger', tag: 'Reaches for the ball',
+      tell: 'Crouched at the elbow on one side, hands low.',
+      read: 'Drive away from his side, or rise early. Carry the ball past him and he takes it.',
+      home: 'ballelbow', role: 'dig', react: 0.12, speed: 12, holdAt: 0, length: 0.8, height: 0.95, reach: 1.0, bite: 0.4, block: 0.1, steal: 0.8,
+      vs: { layup: 0.8, euro: 0.45, floater: 0.6, pullup: 0.4, jumper: 0.4, fade: 0.4 },
+      colors: { jersey: '#c27a1d', shorts: '#9c6216', trim: '#1d1f24' }, number: 5, homePose: 'guard'
+    }
+  };
+  const IDS = Object.keys(TYPES);
+  const SKIN = ['#8d5524', '#c68642', '#e0ac69', '#f1c27d', '#5c3a1e', '#a86b3c'];
+  const HAIR = ['#1b1410', '#2b1d14', '#3b2716', '#0f0f10'];
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const flat = p => [p[0], 0, p[2]];
+  const gap2 = (a, b) => Math.hypot(a[0] - b[0], a[2] - b[2]);
+
+  // Where he waits, in court terms. The ball side is the side of the floor you start on.
+  function homePos(type, spotPos, ballSide) {
+    const ang = Court3D.polarOf(spotPos).angle;
+    switch (type.home) {
+      case 'rim': return Court3D.polar(ang * 0.4, 3.0);
+      case 'weaklane': return Court3D.polar(-ballSide * 42, 5.6);
+      case 'ballblock': return Court3D.polar(ballSide * 62, 7);
+      case 'weakwing': return Court3D.polar(-ballSide * 50, 16);
+      case 'ballelbow': return Court3D.polar(ballSide * 30, 13.5);
+    }
+    return Court3D.polar(0, 4);
+  }
+
+  function create(id, spotPos, rand) {
+    const type = TYPES[id] || TYPES.wall;
+    const r = rand || Math.random;
+    const ang = Court3D.polarOf(spotPos).angle;
+    const ballSide = Math.abs(ang) < 10 ? (r() < 0.5 ? -1 : 1) : Math.sign(ang);
+    const home = homePos(type, spotPos, ballSide);
+    return {
+      type, pos: home.slice(), home, vel: [0, 0, 0], state: 'home', stateT: 0, t: 0, lift: 0,
+      pose: Object.assign({}, Court3D.POSES[type.homePose] || Court3D.POSES.stand), poseName: 'stand', phase: r() * 6,
+      ballSide, skin: SKIN[Math.floor(r() * SKIN.length)], hair: HAIR[Math.floor(r() * HAIR.length)],
+      engaged: false, planted: false, reached: false
+    };
+  }
+
+  function setState(h, s) { h.state = s; h.stateT = 0; }
+  function engage(h) { if (!h.engaged) { h.engaged = true; setState(h, 'react'); } }
+
+  /* shooter: { pos, to } ; onBall: the first defender */
+  function update(h, dt, shooter, onBall) {
+    const T = h.type;
+    h.t += dt; h.stateT += dt; h.phase += dt;
+    if (!h.engaged && onBall && onBall.state === 'beaten') engage(h);
+    const S = flat(shooter.pos);
+    const toRim = Court3D.dirToRim(S);
+    const fromRim = [-toRim[0], 0, -toRim[2]];
+    const dS = Math.hypot(S[0] - RIM.x, S[2] - RIM.z);
+    const rimF = [RIM.x, 0, RIM.z];
+    let target = h.home, maxSpeed = 4, poseName = T.homePose || 'stand';
+
+    if (h.state === 'home') {
+      if (T.role === 'leaper' || T.id === 'leaper') poseName = Math.sin(h.phase * 6) > 0.3 ? 'guard' : 'stand';
+    } else if (h.state === 'react') {
+      maxSpeed = 1;
+      if (h.stateT >= T.react) setState(h, 'rotate');
+    } else if (h.state === 'rotate') {
+      maxSpeed = T.speed;
+      switch (T.role) {
+        case 'drop': {
+          const at = Math.max(1.2, Math.min(T.holdAt, dS - 1.6));
+          target = V.add(rimF, V.mul(fromRim, at));
+          poseName = dS < 10 ? 'wall' : 'contest';
+          break;
+        }
+        case 'charge': {
+          if (!h.planted) {
+            // slide into the path you're on, a few feet in front of the rim
+            const aim = shooter.to ? flat(shooter.to) : S;
+            const dir = V.norm(V.sub(aim, rimF));
+            const way = Math.hypot(aim[0] - RIM.x, aim[2] - RIM.z) < 1 ? fromRim : dir;
+            h.spot = V.add(rimF, V.mul(way, T.holdAt));
+            target = h.spot;
+            if (gap2(h.pos, h.spot) < 0.45) { h.planted = true; h.vel = [0, 0, 0]; }
+            poseName = 'run1';
+          } else { target = h.pos; maxSpeed = 0; poseName = 'stand'; }
+          break;
+        }
+        case 'step': {
+          // steps up to meet you once you're inside fifteen feet
+          if (dS < 15) target = V.add(S, V.mul(toRim, 2.6)); else target = V.add(rimF, V.mul(fromRim, T.holdAt));
+          poseName = dS < 11 ? 'wall' : 'guard';
+          break;
+        }
+        case 'late': {
+          target = V.add(S, V.mul(toRim, 2.2));
+          poseName = gap2(h.pos, S) < 5 ? 'wall' : (Math.sin(h.phase * 11) > 0 ? 'run1' : 'run2');
+          break;
+        }
+        case 'dig': {
+          // lunges at the ball, but only around his own area
+          const fromHome = gap2(S, h.home);
+          target = fromHome < 8 ? V.add(S, V.mul(toRim, 0.8)) : h.home;
+          poseName = 'guard';
+          break;
+        }
+      }
+    } else if (h.state === 'air') {
+      const k = Math.min(1, h.stateT / 0.7);
+      h.lift = Math.sin(Math.PI * k) * 2.6;
+      maxSpeed = 3; poseName = 'air';
+      if (k >= 1) { h.lift = 0; setState(h, 'recover'); }
+    } else if (h.state === 'recover') {
+      maxSpeed = 0.5; poseName = 'stand';
+      if (h.stateT > 0.5) setState(h, 'rotate');
+    } else if (h.state === 'contest') {
+      maxSpeed = 2;
+      const k = Math.min(1, h.stateT / 0.6);
+      h.lift = Math.sin(Math.PI * k) * (0.6 + T.length * 1.0);
+      poseName = 'wall';
+      if (k >= 1) { h.lift = 0; setState(h, 'done'); }
+    } else if (h.state === 'done') { maxSpeed = 1; poseName = h.stateT < 0.7 ? 'wall' : 'stand'; }
+
+    // arrive steering, same as the on-ball defender
+    const to = V.sub(target, h.pos); to[1] = 0;
+    const dist = Math.hypot(to[0], to[2]);
+    const want = dist > 1e-4 && maxSpeed > 0 ? V.mul(to, Math.min(maxSpeed, dist * 5) / dist) : [0, 0, 0];
+    const dv = V.sub(want, h.vel), dvl = Math.hypot(dv[0], dv[2]), lim = 60 * dt;
+    h.vel = dvl > lim ? V.add(h.vel, V.mul(dv, lim / dvl)) : want;
+    h.pos = V.add(h.pos, V.mul(h.vel, dt)); h.pos[1] = 0;
+    if (Math.hypot(h.vel[0], h.vel[2]) > 5 && h.state === 'rotate' && !h.planted && T.role !== 'drop') poseName = Math.sin(h.phase * 11) > 0 ? 'run1' : 'run2';
+    h.poseName = poseName;
+    h.pose = Court3D.blendPose(h.pose, Court3D.POSES[poseName], Math.min(1, dt * (poseName.startsWith('run') ? 16 : 10)));
+  }
+
+  /* kind: layup | euro | floater | pullup | jumper | fade */
+  function contest(h, shooterPos, kind) {
+    if (!h || !h.engaged) return 0;
+    if (h.state === 'air' || h.state === 'recover' || h.state === 'react') return 0.03;
+    const T = h.type;
+    const S = flat(shooterPos), g = gap2(h.pos, S);
+    const toRim = Court3D.dirToRim(S);
+    const ahead = (h.pos[0] - S[0]) * toRim[0] + (h.pos[2] - S[2]) * toRim[2];
+    let base = clamp((6.8 - g) / 4.8, 0, 1) * T.length;
+    if (ahead < -0.8) base *= 0.35;
+    return clamp(base * (T.vs[kind] == null ? 1 : T.vs[kind]), 0, 1);
+  }
+  function blockChance(h, c, kind) {
+    if (!h || !h.engaged || c < 0.6) return 0;
+    return (c - 0.6) * h.type.block * (kind === 'layup' || kind === 'euro' ? 1.5 : 0.8);
+  }
+  function pumpFake(h, shooterPos, rand) {
+    if (!h || !h.engaged || h.state === 'air' || h.state === 'recover' || h.state === 'react') return false;
+    if (gap2(h.pos, shooterPos) > 9) return false;
+    if ((rand || Math.random)() < h.type.bite) { setState(h, 'air'); return true; }
+    return false;
+  }
+  function reactToShot(h, shooterPos) {
+    if (!h || !h.engaged) return;
+    if ((h.state === 'rotate' || h.state === 'done') && gap2(h.pos, shooterPos) < 7 && !h.planted) setState(h, 'contest');
+  }
+  // Ran into a planted charge taker?
+  function charge(h, shooterPos, reach) {
+    return !!h && h.type.role === 'charge' && h.planted && gap2(h.pos, shooterPos) < (reach || 2.1);
+  }
+  // The digger gets one swipe at the ball as you go by.
+  function steal(h, shooterPos, rand) {
+    if (!h || h.type.role !== 'dig' || h.state !== 'rotate' || h.reached) return false;
+    if (gap2(h.pos, shooterPos) > 2.7) return false;
+    h.reached = true;
+    return (rand || Math.random)() < h.type.steal;
+  }
+
+  function draw(ctx, cam, h) {
+    const E = cam.eye;
+    const z = Court3D.toCam(cam, V.add(h.pos, [0, 3, 0]))[2];
+    const alpha = Math.max(0, Math.min(0.96, (z - 2.5) / 2.5));
+    if (alpha < 0.05) return null;
+    return Court3D.drawFigure(ctx, cam, {
+      pos: h.pos, face: [E[0] - h.pos[0], 0, E[2] - h.pos[2]], pose: h.pose, lift: h.lift, scale: h.type.height, reach: h.type.reach,
+      colors: { skin: h.skin, hair: h.hair, jersey: h.type.colors.jersey, shorts: h.type.colors.shorts, shoes: '#f4f4f4', trim: h.type.colors.trim },
+      number: h.type.number, alpha
+    });
+  }
+
+  return { TYPES, IDS, create, update, engage, contest, blockChance, pumpFake, reactToShot, charge, steal, draw };
+})();
 /* HoopsEngine: runs any basketball "spec" (a challenge described as data)
    inside a container. The Playground app and the School game both drive it.
 
@@ -1785,7 +2017,7 @@ const HoopsEngine = (() => {
 .hx-chips{position:absolute;left:0;right:0;top:calc(104px + env(safe-area-inset-top,0px));display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:0 14px;pointer-events:none}
 .hx-chip{padding:5px 10px;border-radius:999px;font:600 12px/1.1 "Barlow",sans-serif;letter-spacing:.03em;background:rgba(8,10,14,.7);border:1px solid rgba(255,255,255,.18)}
 .hx-chip b{font-weight:800;text-transform:uppercase;letter-spacing:.06em}
-.hx-chip.open{color:#7ee2a8;border-color:rgba(126,226,168,.5)} .hx-chip.mid{color:#ffd166;border-color:rgba(255,209,102,.5)} .hx-chip.hot{color:#ff7a66;border-color:rgba(255,122,102,.6)}
+.hx-chip.open{color:#7ee2a8;border-color:rgba(126,226,168,.5)} .hx-helpchip{color:#b9c8ff;border-color:rgba(185,200,255,.45)} .hx-chip.mid{color:#ffd166;border-color:rgba(255,209,102,.5)} .hx-chip.hot{color:#ff7a66;border-color:rgba(255,122,102,.6)}
 .hx-horse{position:absolute;left:50%;top:calc(58px + env(safe-area-inset-top,0px));transform:translateX(-50%);display:flex;gap:14px;padding:6px 12px;border-radius:10px;background:rgba(8,10,14,.72);font:800 18px/1 "Big Shoulders Display",Impact,sans-serif;letter-spacing:.12em;pointer-events:none;white-space:nowrap}
 .hx-horse i{font-style:normal;opacity:.28} .hx-horse i.on{opacity:1;color:#ff7a66} .hx-horse span{font:600 11px/1 "Barlow",sans-serif;letter-spacing:.06em;opacity:.8;margin-right:6px;text-transform:uppercase}
 .hx-banner{position:absolute;left:0;right:0;top:36%;text-align:center;pointer-events:none;padding:0 18px}
@@ -1828,7 +2060,7 @@ const HoopsEngine = (() => {
       <div class="hx-top"><button class="hx-quit" type="button" aria-label="Leave this game">&#x2715;</button><div class="hx-title"><b></b><span></span></div><div class="hx-score"><span class="hx-score-n">0</span><small></small></div></div>
       <div class="hx-clock" hidden></div>
       <div class="hx-horse" hidden></div>
-      <div class="hx-chips"><div class="hx-chip hx-scout" hidden></div><div class="hx-chip hx-contest" hidden></div></div>
+      <div class="hx-chips"><div class="hx-chip hx-scout" hidden></div><div class="hx-chip hx-helpchip" hidden></div><div class="hx-chip hx-contest" hidden></div></div>
       <div class="hx-banner" hidden></div>
       <div class="hx-hint" hidden></div>
       <div class="hx-card" hidden></div>
@@ -1838,7 +2070,7 @@ const HoopsEngine = (() => {
     const canvas = $('canvas'), ctx = canvas.getContext('2d');
     const ui = {
       title: $('.hx-title b'), sub: $('.hx-title span'), score: $('.hx-score-n'), scoreSub: $('.hx-score small'),
-      clock: $('.hx-clock'), horse: $('.hx-horse'), scout: $('.hx-scout'), contest: $('.hx-contest'),
+      clock: $('.hx-clock'), horse: $('.hx-horse'), scout: $('.hx-scout'), helpChip: $('.hx-helpchip'), contest: $('.hx-contest'),
       banner: $('.hx-banner'), hint: $('.hx-hint'), card: $('.hx-card'), map: $('.hx-map'), quit: $('.hx-quit')
     };
     let W = 360, H = 640, DPR = 1;
@@ -1882,9 +2114,10 @@ const HoopsEngine = (() => {
     function newShooter(pos) {
       return { pos: pos.slice(), from: null, to: null, moveT: 0, moveDur: 0, hasBall: true, reload: 0, jumpT: 9, fakeT: 9, catchT: 9, follow: 9 };
     }
-    function moveShooter(dest, dur) {
+    // ctrl bends the path (a drive goes around him, then to the rim)
+    function moveShooter(dest, dur, ctrl) {
       const sh = S.shooter;
-      sh.from = sh.pos.slice(); sh.to = dest.slice(); sh.moveT = 0; sh.moveDur = dur;
+      sh.from = sh.pos.slice(); sh.to = dest.slice(); sh.ctrl = ctrl ? ctrl.slice() : null; sh.moveT = 0; sh.moveDur = dur;
     }
     function inBounds(p) { return Math.abs(p[0]) < 24.5 && p[2] > 0.6 && p[2] < 36 && Math.hypot(p[0] - RIM.x, p[2] - RIM.z) > 2.8; }
 
@@ -1946,6 +2179,8 @@ const HoopsEngine = (() => {
       // snapping back the other way mid-move cancels it: that's the crossover
       const lateral = dir === 'left' || dir === 'right';
       if (S.phase === 'moving' && S.move && lateral && S.move.side && (dir === 'left' ? -1 : 1) !== S.move.side && moveProgress() > 0.3) return dribbleMove(dir, g);
+      // on the way to the rim past your man, a sideways swipe euro-steps right away
+      if (S.phase === 'moving' && S.move && lateral && S.move.kind === 'drive' && S.def.state === 'beaten' && moveProgress() > 0.15 && Math.hypot(S.shooter.pos[0] - RIM.x, S.shooter.pos[2] - RIM.z) < 10.5) return dribbleMove(dir, g);
       if (S.phase === 'moving' || S.phase === 'faking' || S.phase === 'catch') queue({ dir, g });
     }
     function onTap() {
@@ -1997,20 +2232,13 @@ const HoopsEngine = (() => {
       const res = Defense.drive(d, side, ratingFor('handle'), S.rand);
       const pol = Court3D.polarOf(sh.pos);
       Sfx.play('dribble');
-      if (res.steal) {
-        S.poss.actions.push('drove into him and got stripped');
-        S.poss.turnover = 'Stolen';
-        sh.hasBall = false;
-        popup('Stolen', '#ff7a66', 1.2, { world: V.add(d.pos, [0, 6, 0]) });
-        Sfx.play('bad'); Sfx.buzz(60);
-        S.phase = 'resolving';
-        after(0.9, finishPossession);
-        return;
-      }
+      if (res.steal) return turnover('Stolen', 'drove into him and got stripped', V.add(d.pos, [0, 6, 0]));
       let dest;
       if (res.win) {
-        const nd = Math.max(3.3, Math.min(pol.dist * 0.34, 7));
-        let na = pol.angle + side * 24;
+        // with help behind him you're attacking the rim: when you flick on the
+        // way decides the shot (pull-up early, floater midway, layup at the rim)
+        const nd = S.help ? 3.4 : Math.max(3.3, Math.min(pol.dist * 0.34, 7));
+        let na = pol.angle + side * (S.help ? 14 : 24);
         na = Math.max(-100, Math.min(100, na));
         dest = Court3D.polar(na, nd);
         S.poss.beatHim = true;
@@ -2029,9 +2257,16 @@ const HoopsEngine = (() => {
         Sfx.buzz(25);
       }
       if (!inBounds(dest)) dest = sh.pos.slice();
-      moveShooter(dest, res.win ? 0.5 : 0.32);
-      startMove('drive', side, res.win ? 0.5 : 0.32);
+      const dur = res.win ? (S.help ? 0.72 : 0.5) : 0.32;
+      let ctrl = null;
+      if (res.win && S.help) {
+        const dr = Court3D.dirToRim(sh.pos);
+        ctrl = V.add(V.add(sh.pos, V.mul([-dr[2], 0, dr[0]], side * 4.2)), V.mul(dr, pol.dist * 0.32));
+      }
+      moveShooter(dest, dur, ctrl);
+      startMove('drive', side, dur);
       S.move.win = res.win;
+      if (res.win && S.help) Help.engage(S.help);
     }
     function stepBack() {
       const sh = S.shooter;
@@ -2062,9 +2297,11 @@ const HoopsEngine = (() => {
     function pumpFake() {
       const sh = S.shooter;
       sh.fakeT = 0;
-      const bit = Defense.pumpFake(S.def, sh.pos, S.rand);
-      S.poss.actions.push(bit ? 'pump-faked and he bit' : 'pump-faked and he stayed down');
-      if (bit) popup('He bit', '#7ee2a8', 0.9, { world: V.add(S.def.pos, [0, 7.5, 0]) });
+      const helpBit = Help.pumpFake(S.help, sh.pos, S.rand);
+      const bit = !helpBit && S.def.state !== 'beaten' && Defense.pumpFake(S.def, sh.pos, S.rand);
+      S.poss.actions.push(helpBit ? `pump-faked and ${S.help.type.name} flew by` : bit ? 'pump-faked and he bit' : 'pump-faked and nobody bit');
+      if (helpBit) popup('He bit', '#7ee2a8', 0.9, { world: V.add(S.help.pos, [0, 8, 0]) });
+      else if (bit) popup('He bit', '#7ee2a8', 0.9, { world: V.add(S.def.pos, [0, 7.5, 0]) });
       startMove('fake', 0, 0.34, 'faking');
     }
     function freeMove(dir) {
@@ -2111,10 +2348,15 @@ const HoopsEngine = (() => {
       const kind = jumperKind(g, dist);
       const J = kind ? JUMPERS[kind] : null;
       const moving = S.phase === 'moving';
-      let contest = S.def ? Defense.contest(S.def, pos) : 0;
+      const hkind = helpKind(kind, dist);
+      if (S.help && hkind === 'layup' && Help.charge(S.help, pos, 2.6)) return turnover('Charge', `went right into ${S.help.type.name}`, V.add(S.help.pos, [0, 7, 0]));
+      let onBall = S.def ? Defense.contest(S.def, pos) : 0;
       const fouled = !!(S.def && Defense.foulable(S.def, pos));
-      if (fouled) contest = 0;
-      if (J && J.contest) contest *= J.contest;
+      if (fouled) onBall = 0;
+      if (J && J.contest) onBall *= J.contest;
+      let helpC = S.help ? Help.contest(S.help, pos, hkind) : 0;
+      if (J && J.contest) helpC *= J.contest;
+      let contest = Math.max(onBall, helpC);
       const feel = FEEL[settings.feel] || FEEL.normal;
       const rating = S.cpuTurn ? 60 : ratingFor('shooting');
       const fatigue = S.spec.fatigue || 0;
@@ -2132,8 +2374,18 @@ const HoopsEngine = (() => {
         popup(J.label, '#f3f1ea', 0.62, { world: V.add(shot.release, [0, 1.3, 0]), life: 0.9 });
         if (kind === 'fade') sh.fadeT = 0;
       }
-      launch(shot, { contest, fouled, dist, by: 'you', variant: J ? J.label : null });
+      const block = Math.max(S.def && !fouled ? Defense.blockChance(S.def, onBall, shot.type.id) : 0, S.help ? Help.blockChance(S.help, helpC, hkind) : 0);
+      if (S.help) Help.reactToShot(S.help, pos);
+      launch(shot, { contest, fouled, dist, by: 'you', variant: J ? J.label : null, block, helpC, helpKind: hkind });
       S.meter = { shot, t: 0, calibrating };
+    }
+    // the kind of finish, as help defense sees it
+    function helpKind(kind, dist) {
+      if (kind === 'fade') return 'fade';
+      if (kind) return 'pullup';
+      if (dist < 5.5) return S.lastMove && S.lastMove.kind === 'euro' && S.t - S.lastMove.end < 0.6 ? 'euro' : 'layup';
+      if (dist < 11) return 'floater';
+      return 'jumper';
     }
     function launch(shot, info) {
       const sh = S.shooter;
@@ -2148,13 +2400,13 @@ const HoopsEngine = (() => {
         info: Object.assign({ three, ft, zone: Court3D.zoneOf(S.court, sh.pos), type: shot.type.id, green: shot.green, pos: sh.pos.slice(), poss: S.poss ? S.poss.i : null }, info)
       });
       if (S.def && !info.fouled && info.by === 'you') {
-        const bc = Defense.blockChance(S.def, info.contest, shot.type.id);
+        const bc = info.block != null ? info.block : Defense.blockChance(S.def, info.contest, shot.type.id);
         if (S.rand() < bc) ball.blockAt = 0.15;
       }
       S.balls.push(ball);
       sh.hasBall = false; sh.jumpT = 0; sh.follow = 0; S.queued = null;
       if (S.def) Defense.reactToShot(S.def, sh.pos);
-      if (S.poss && !ft) { S.poss.contest = info.contest; S.poss.fouled = info.fouled; S.poss.shotType = shot.type.label; S.poss.variant = info.variant || null; S.poss.three = three; S.poss.dist = shot.dist; }
+      if (S.poss && !ft) { S.poss.contest = info.contest; S.poss.fouled = info.fouled; S.poss.shotType = shot.type.label; S.poss.variant = info.variant || null; S.poss.three = three; S.poss.dist = shot.dist; S.poss.helpC = info.helpC || 0; S.poss.helpKind = info.helpKind || null; }
       if (info.by === 'you') { S.attempts++; S.zone[ball.info.zone] = S.zone[ball.info.zone] || [0, 0]; S.zone[ball.info.zone][1]++; }
       Sfx.play('release');
       if (kind === 'possessions' || kind === 'shots' || kind === 'horse') S.phase = 'flight';
@@ -2228,10 +2480,12 @@ const HoopsEngine = (() => {
       const spotId = plan && plan.spot ? plan.spot : pickFrom(spots, S.poss && S.poss.spotId);
       const archId = plan && plan.defender !== undefined ? plan.defender : pickFrom(defs, S.poss && S.poss.archId);
       const sp = Court3D.spotInfo(S.court, spotId);
-      S.poss = { i, spotId, spotLabel: sp.label, archId, actions: [], contest: null, beatHim: false, fouled: false, points: 0, ftLeft: 0, ftMade: 0 };
+      const helpId = archId ? pickHelp(spec, plan, i) : null;
+      S.poss = { i, spotId, spotLabel: sp.label, archId, helpId, actions: [], contest: null, beatHim: false, fouled: false, points: 0, ftLeft: 0, ftMade: 0 };
       S.shooter = newShooter(sp.pos);
       S.shooter.hasBall = false;
       S.def = archId ? Defense.create(archId, sp.pos, S.rand) : null;
+      S.help = helpId ? Help.create(helpId, sp.pos, S.rand) : null;
       S.balls = [];
       S.phase = 'intro';
       S.clock = null; ui.clock.hidden = true;
@@ -2239,9 +2493,12 @@ const HoopsEngine = (() => {
       const a = S.def ? S.def.arch : null;
       const showTag = a && (spec.showTags != null ? spec.showTags : settings.showTags);
       if (showTag) { ui.scout.innerHTML = `<b>${esc(a.name)}</b> · ${esc(a.tag)}`; ui.scout.hidden = false; } else ui.scout.hidden = true;
+      const ht = S.help ? S.help.type : null;
+      if (ht && showTag) { ui.helpChip.innerHTML = `Help: <b>${esc(ht.name)}</b>`; ui.helpChip.hidden = false; } else ui.helpChip.hidden = true;
       const situation = plan && plan.situation ? plan.situation : spec.situation;
-      banner(situation || `Possession ${i + 1}`, a ? (showTag ? a.name : 'Read him') : 'Open look', a ? (showTag ? a.tell : 'Watch what he gives you.') : sp.label, 1.25);
-      after(1.15, () => {
+      const sub = a ? (showTag ? a.tell : 'Watch what he gives you.') : sp.label;
+      banner(situation || `Possession ${i + 1}`, a ? (showTag ? a.name : 'Read him') : 'Open look', ht ? (showTag ? `${sub} Help behind him: ${ht.name}.` : `${sub} There's help behind him.`) : sub, ht ? 1.6 : 1.25);
+      after(S.help ? 1.5 : 1.15, () => {
         S.phase = 'catch';
         S.shooter.catchT = 0;
         Sfx.play('dribble');
@@ -2251,13 +2508,36 @@ const HoopsEngine = (() => {
           S.move = null;
           S.clock = spec.shotClock || null;
           if (S.clock) ui.clock.hidden = false;
-          if (settings.hints && S.hintShown < 2) {
+          if (settings.hints && S.help && !S.helpHint) {
+            S.helpHint = true;
+            hint('Beat your man and the help comes. Flick early for a pull-up, midway for a floater, at the rim for a layup.');
+          } else if (settings.hints && S.hintShown < 2) {
             S.hintShown++;
             hint(S.def ? 'Flick up to shoot · Swipe to drive, a short swipe jabs · Swipe down to step back · Tap to pump fake' : 'Flick up to shoot');
           }
           flushQueue();
         });
       });
+    }
+    // Help comes in some possessions: spec.help is 'none', 'mix', 'always', or a list of help types.
+    function pickHelp(spec, plan, i) {
+      if (plan && plan.help !== undefined) return plan.help;
+      const mode = spec.help || 'none';
+      if (mode === 'none') return null;
+      const pool = Array.isArray(mode) ? mode : (spec.helpTypes && spec.helpTypes.length ? spec.helpTypes : Help.IDS);
+      if (mode === 'mix' && (i === 0 || S.rand() > (spec.helpRate || 0.5))) return null;
+      return pickFrom(pool, S.lastHelpId) || null;
+    }
+    // Turnovers that end the possession on the spot: steals, charges.
+    function turnover(kind, text, at) {
+      const sh = S.shooter;
+      S.poss.turnover = kind;
+      S.poss.actions.push(text);
+      sh.hasBall = false; sh.to = null; S.move = null; S.moveId = (S.moveId || 0) + 1; S.queued = null;
+      popup(kind, '#ff7a66', 1.2, { world: at });
+      Sfx.play(kind === 'Charge' ? 'whistle' : 'bad'); Sfx.buzz(60);
+      S.phase = 'resolving';
+      after(0.9, finishPossession);
     }
     function possessionBallDone(b, made, pts) {
       const P = S.poss;
@@ -2288,7 +2568,7 @@ const HoopsEngine = (() => {
       const acts = P.actions.slice();
       const shotAct = acts.length && /made|missed|blocked/.test(acts[acts.length - 1]) ? acts.pop() : null;
       if (acts.length) parts.push('You ' + acts.join(', then ') + '.');
-      if (P.turnover) parts.push(P.turnover === 'Stolen' ? 'Turnover.' : 'Shot clock violation.');
+      if (P.turnover) parts.push(P.turnover === 'Shot clock' ? 'Shot clock violation.' : P.turnover === 'Charge' ? 'Offensive foul. He had his feet set.' : 'Turnover.');
       else if (shotAct) {
         const lab = Defense.contestLabel(P.contest || 0).text.toLowerCase();
         const name = P.variant ? (P.three ? `${P.variant} three` : P.variant === 'Fadeaway' ? 'Fadeaway' : `${P.variant} jumper`) : (P.three ? 'Three' : P.shotType || 'Shot');
@@ -2307,14 +2587,17 @@ const HoopsEngine = (() => {
       const grade = Defense.grade({ turnover: P.turnover, fouled: P.fouled, blocked: P.blocked, contest: P.contest, beatHim: P.beatHim });
       P.grade = grade;
       const a = P.archId ? Defense.ARCHETYPES[P.archId] : null;
-      S.log.push({ spot: P.spotId, arch: P.archId, points: P.points, grade, made: !!P.made, contest: P.contest, actions: P.actions, turnover: P.turnover || null });
+      const ht = P.helpId ? Help.TYPES[P.helpId] : null;
+      const helpRead = ht && (P.helpSeen || P.beatHim);
+      S.log.push({ spot: P.spotId, arch: P.archId, help: P.helpId || null, helpSeen: !!helpRead, points: P.points, grade, made: !!P.made, contest: P.contest, actions: P.actions, turnover: P.turnover || null });
+      if (P.helpId) S.lastHelpId = P.helpId;
       S.phase = 'card';
-      const lesson = a ? a.read : 'Nobody on you. Take your time and find your touch.';
-      ui.card.innerHTML = `<div class="k">Possession ${P.i + 1} · ${a ? esc(a.name) : 'Open'}</div><div class="w">${esc(narrate(P))}</div>
+      const lesson = helpRead ? `Help: ${ht.name}. ${ht.read}` : a ? a.read + (ht ? ` Then read the help: ${ht.name}.` : '') : 'Nobody on you. Take your time and find your touch.';
+      ui.card.innerHTML = `<div class="k">Possession ${P.i + 1} · ${a ? esc(a.name) : 'Open'}${ht ? ` + ${esc(ht.name)}` : ''}</div><div class="w">${esc(narrate(P))}</div>
         <div class="r"><span class="hx-grade ${grade}">${grade}</span><span>${esc(lesson)}</span></div>
         <div class="row"><button class="hx-btn" type="button">${P.i + 1 >= S.spec.count ? 'See results' : 'Next possession'}</button></div>`;
       ui.card.hidden = false;
-      ui.scout.hidden = true;
+      ui.scout.hidden = true; ui.helpChip.hidden = true;
       if (grade === 'A') Sfx.play('great'); else if (grade === 'B') Sfx.play('good');
       const next = () => { ui.card.hidden = true; startPossession(P.i + 1); };
       S.cardNext = next;
@@ -2520,8 +2803,8 @@ const HoopsEngine = (() => {
       S.court = Court3D.COURTS[spec.court] || Court3D.COURTS.park;
       S.onEnd = handlers && handlers.onEnd; S.onQuit = handlers && handlers.onQuit;
       S.rand = spec.seed != null ? mulberry(spec.seed) : Math.random;
-      Object.assign(S, { t: 0, balls: [], popups: [], timers: [], meter: null, clock: null, gameClock: null, score: 0, makes: 0, attempts: 0, streak: 0, best: 0, log: [], zone: {}, poss: null, rack: null, horse: null, list: null, cpuTurn: null, calib: [], hintShown: 0, cardNext: null, ftMode: false, rackDone: false, ended: false, move: null, queued: null, lastMove: null, layupHint: false, dribbleT: 0 });
-      ['clock', 'horse', 'scout', 'contest', 'banner', 'hint', 'card', 'map'].forEach(k => { ui[k].hidden = true; });
+      Object.assign(S, { t: 0, balls: [], popups: [], timers: [], meter: null, clock: null, gameClock: null, score: 0, makes: 0, attempts: 0, streak: 0, best: 0, log: [], zone: {}, poss: null, rack: null, horse: null, list: null, cpuTurn: null, calib: [], hintShown: 0, cardNext: null, ftMode: false, rackDone: false, ended: false, move: null, queued: null, lastMove: null, layupHint: false, dribbleT: 0, help: null });
+      ['clock', 'horse', 'scout', 'helpChip', 'contest', 'banner', 'hint', 'card', 'map'].forEach(k => { ui[k].hidden = true; });
       setScore('', '');
       updateScoreUi();
       S.running = true;
@@ -2584,7 +2867,8 @@ const HoopsEngine = (() => {
         if (sh.to) {
           sh.moveT += dt;
           const k = Math.min(1, sh.moveT / sh.moveDur);
-          sh.pos = V.lerp3(sh.from, sh.to, easeInOut(k));
+          const e = easeInOut(k);
+          sh.pos = sh.ctrl ? V.add(V.add(V.mul(sh.from, (1 - e) * (1 - e)), V.mul(sh.ctrl, 2 * (1 - e) * e)), V.mul(sh.to, e * e)) : V.lerp3(sh.from, sh.to, e);
           if (k >= 1) sh.to = null;
         }
         sh.jumpT += dt; sh.fakeT += dt; sh.catchT += dt; sh.follow += dt;
@@ -2594,6 +2878,14 @@ const HoopsEngine = (() => {
         if (sh.reload > 0) sh.reload -= dt;
       }
       if (S.def && S.phase !== 'intro' && S.phase !== 'card') Defense.update(S.def, dt, sh, S.rand);
+      if (S.help && S.phase !== 'intro' && S.phase !== 'card') {
+        Help.update(S.help, dt, sh, S.def);
+        if (S.help.engaged && S.poss && !S.poss.helpSeen) S.poss.helpSeen = true;
+        if (sh && sh.hasBall && S.phase === 'moving' && S.move && (S.move.kind === 'drive' || S.move.kind === 'euro')) {
+          if (Help.charge(S.help, sh.pos)) turnover('Charge', `ran into ${S.help.type.name}`, V.add(S.help.pos, [0, 7, 0]));
+          else if (Help.steal(S.help, sh.pos, S.rand)) turnover('Stripped', `carried it past ${S.help.type.name} and got stripped`, V.add(S.help.pos, [0, 6, 0]));
+        }
+      }
       // clocks
       if (S.clock != null && (S.phase === 'live' || S.phase === 'moving' || S.phase === 'faking')) {
         S.clock -= dt;
@@ -2664,7 +2956,9 @@ const HoopsEngine = (() => {
         ui.clock.classList.toggle('low', v < 10);
       }
       if (S.def && sh && (S.phase === 'live' || S.phase === 'moving' || S.phase === 'faking' || S.phase === 'catch')) {
-        const lab = Defense.foulable(S.def, sh.pos) ? { text: 'Draw the foul', tone: 'open' } : Defense.contestLabel(Defense.contest(S.def, sh.pos));
+        const d0 = Math.hypot(sh.pos[0] - RIM.x, sh.pos[2] - RIM.z);
+        const c0 = Math.max(Defense.contest(S.def, sh.pos), S.help ? Help.contest(S.help, sh.pos, helpKind(S.phase === 'moving' && S.move && S.move.kind === 'drive' && d0 >= 11 ? 'pullup' : null, d0)) : 0);
+        const lab = Defense.foulable(S.def, sh.pos) ? { text: 'Draw the foul', tone: 'open' } : Defense.contestLabel(c0);
         const txt = lab.text + lab.tone;
         if (txt !== S.lastContestText) {
           S.lastContestText = txt;
@@ -2750,6 +3044,7 @@ const HoopsEngine = (() => {
       items.push({ d: rd + 0.6, f: () => Court3D.drawNetAndRim(ctx, cam, 'back', S.net, court) });
       items.push({ d: rd - 0.6, f: () => Court3D.drawNetAndRim(ctx, cam, 'front', S.net, court) });
       if (S.def) items.push({ d: depth(V.add(S.def.pos, [0, 4, 0])), f: () => Defense.drawDefender(ctx, cam, S.def) });
+      if (S.help) items.push({ d: depth(V.add(S.help.pos, [0, 4, 0])), f: () => Help.draw(ctx, cam, S.help) });
       S.balls.forEach(b => items.push({ d: depth(b.p), f: () => drawFlightBall(cam, b) }));
       items.sort((a, b) => b.d - a.d).forEach(it => it.f());
       // the defender can hide the rim; draw a faint ring so you never lose it
@@ -2896,14 +3191,17 @@ const HoopsEngine = (() => {
     { id: 'f-corners', name: 'Corner Office', note: 'Corner threes against defenders who shade you.', spec: { kind: 'possessions', count: 8, spots: ['lc', 'rc'], defenders: ['baseline', 'middle', 'sagger'], shotClock: 6 } },
     { id: 'f-lateclock', name: 'Late Clock', note: 'Two and a half seconds. Decide now.', spec: { kind: 'possessions', count: 10, spots: ['lw', 'rw', 'top', 'le', 're'], defenders: [], shotClock: 2.5, situation: 'Shot clock winding down' } },
     { id: 'f-prorange', name: 'Pro Range', note: 'The Arena, threes only, forty-five seconds.', spec: { kind: 'rack', court: 'arena', racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, money: true, time: 45 } },
-    { id: 'f-bigs', name: 'Little vs. Big', note: 'Only long defenders. Drive or step back.', spec: { kind: 'possessions', count: 8, spots: ['le', 're', 'top', 'lw', 'rw'], defenders: ['long'], shotClock: 6 } }
+    { id: 'f-bigs', name: 'Little vs. Big', note: 'Only long defenders. Drive or step back.', spec: { kind: 'possessions', count: 8, spots: ['le', 're', 'top', 'lw', 'rw'], defenders: ['long'], shotClock: 6 } },
+    { id: 'f-helpside', name: 'Help Side', note: 'Help behind every defender. Beat your man, then read the help.', spec: { kind: 'possessions', count: 10, spots: ['lw', 'rw', 'top', 'le', 're'], defenders: ['closer', 'gambler', 'baseline', 'middle', 'sagger'], shotClock: 0, help: 'always' } },
+    { id: 'f-wall', name: 'Over the Wall', note: 'A rim protector behind every closeout. Float it or pull up.', spec: { kind: 'possessions', count: 8, spots: ['lw', 'rw', 'top'], defenders: ['closer', 'gambler'], shotClock: 0, help: 'always', helpTypes: ['wall'] } },
+    { id: 'f-charge', name: 'Feet Set', note: 'A charge taker in the lane every time. Stop short or go around.', spec: { kind: 'possessions', count: 8, spots: ['lw', 'rw', 'top'], defenders: ['closer', 'gambler'], shotClock: 0, help: 'always', helpTypes: ['charge'] } }
   ];
 
   const store = SaveStore.create('basketball-playground-v1', () => ({
     v: 1, touchK: null,
     settings: { feel: 'normal', court: 'park', tags: true, sound: true },
     records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
-    zone: {}, scout: {}, challenges: []
+    zone: {}, scout: {}, scoutHelp: {}, challenges: []
   }));
   let D = store.load();
   store.onRemote(s => { D = s; applySettings(); renderHome(); });
@@ -2946,7 +3244,7 @@ const HoopsEngine = (() => {
     if (g) {
       Sfx.unlock(); Sfx.play('ui');
       const id = g.dataset.go;
-      if (id === 'rr') return play({ kind: 'possessions', count: 10, shotClock: 6, title: 'Read & React' }, { rec: 'rr' });
+      if (id === 'rr') return play({ kind: 'possessions', count: 10, shotClock: 6, help: 'mix', title: 'Read & React' }, { rec: 'rr' });
       if (id === 'rack') return play({ kind: 'rack', racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, money: true, time: 60, title: '3-Point Contest' }, { rec: 'rack' });
       if (id === 'free') return play({ kind: 'free', spot: 'top', title: 'Shootaround' }, { rec: 'free' });
       return go(id);
@@ -3011,6 +3309,11 @@ const HoopsEngine = (() => {
     if (res.kind === 'possessions') {
       (res.log || []).forEach(l => {
         if (!l.arch) return;
+        if (l.help && l.helpSeen) {
+          const h = D.scoutHelp[l.help] = D.scoutHelp[l.help] || { faced: 0, points: 0, a: 0 };
+          h.faced++; h.points += l.points; if (l.grade === 'A') h.a++;
+          return;
+        }
         const s = D.scout[l.arch] = D.scout[l.arch] || { faced: 0, points: 0, a: 0 };
         s.faced++; s.points += l.points; if (l.grade === 'A') s.a++;
       });
@@ -3041,12 +3344,14 @@ const HoopsEngine = (() => {
       body = `<div class="stats"><div class="stat"><b>${res.readIQ || 0}</b><span>Read IQ</span></div><div class="stat"><b>${res.makes}/${res.attempts}</b><span>Shots</span></div><div class="stat"><b>${res.bestStreak}</b><span>Best streak</span></div></div>
         <div class="panel"><h3>Possession by possession</h3><div class="plist">${(res.log || []).map((l, i) => {
           const a = l.arch ? Defense.ARCHETYPES[l.arch] : null;
-          return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${a ? esc(a.name) : 'Open look'}</b><small>${esc(Court3D.SPOTS[l.spot] ? Court3D.SPOTS[l.spot].label : '')} · ${esc(l.turnover || (l.made ? 'scored' : 'no basket'))}</small></div><span class="pts">+${l.points}</span></div>`;
+          const h = l.help ? Help.TYPES[l.help] : null;
+          return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${a ? esc(a.name) : 'Open look'}${h ? ` + ${esc(h.name)}` : ''}</b><small>${esc(Court3D.SPOTS[l.spot] ? Court3D.SPOTS[l.spot].label : '')} · ${esc(l.turnover || (l.made ? 'scored' : 'no basket'))}</small></div><span class="pts">+${l.points}</span></div>`;
         }).join('')}</div></div>`;
       const misreads = (res.log || []).filter(l => l.arch && (l.grade === 'C' || l.grade === 'D' || l.grade === 'F'));
       if (misreads.length) {
-        const a = Defense.ARCHETYPES[misreads[0].arch];
-        body += `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(a.name)}.</b> ${esc(a.tell)} ${esc(a.read)}</p></div>`;
+        const m = misreads[0];
+        const a = m.help && m.helpSeen ? Help.TYPES[m.help] : Defense.ARCHETYPES[m.arch];
+        body += `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(a.name)}${m.help && m.helpSeen ? ' (help)' : ''}.</b> ${esc(a.tell)} ${esc(a.read)}</p></div>`;
       }
     } else if (res.kind === 'rack') {
       head = `<div class="result-head"><div class="big">${res.points}</div><div class="unit">of 30</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>`;
@@ -3083,16 +3388,17 @@ const HoopsEngine = (() => {
   });
 
   // ---------- builder ----------
-  const draft = { name: '', court: null, type: 'possessions', spots: ['lw', 'rw', 'top'], defenders: ['closer', 'sagger', 'pest'], count: 8, clock: 6, racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, time: 60, money: true };
+  const draft = { name: '', court: null, type: 'possessions', spots: ['lw', 'rw', 'top'], defenders: ['closer', 'sagger', 'pest'], count: 8, clock: 6, help: 'mix', helpTypes: Help.IDS.slice(), racks: ['lc', 'lw', 'top', 'rw', 'rc'], perRack: 5, time: 60, money: true };
   function specFromDraft() {
     if (draft.type === 'rack') return { kind: 'rack', court: draft.court || D.settings.court, racks: draft.racks.length ? draft.racks : ['top'], perRack: draft.perRack, money: draft.money, time: draft.time };
-    return { kind: 'possessions', court: draft.court || D.settings.court, count: draft.count, spots: draft.spots.length ? draft.spots : ['top'], defenders: draft.defenders.includes('none') ? 'none' : draft.defenders, shotClock: draft.clock || 0 };
+    return { kind: 'possessions', court: draft.court || D.settings.court, count: draft.count, spots: draft.spots.length ? draft.spots : ['top'], defenders: draft.defenders.includes('none') ? 'none' : draft.defenders, shotClock: draft.clock || 0, help: draft.defenders.includes('none') ? 'none' : draft.help, helpTypes: draft.helpTypes.length ? draft.helpTypes : Help.IDS.slice() };
   }
   function describeSpec(s) {
     const court = Court3D.COURTS[s.court || D.settings.court].name;
     if (s.kind === 'rack') return `${court} · ${s.racks.length} rack${s.racks.length > 1 ? 's' : ''} of ${s.perRack} · ${s.time}s`;
     const d = s.defenders === 'none' ? 'no defender' : (s.defenders && s.defenders.length ? s.defenders.map(x => Defense.ARCHETYPES[x].name.replace('The ', '')).join(', ') : 'any defender');
-    return `${court} · ${s.count} possessions · ${d} · ${s.shotClock ? s.shotClock + 's clock' : 'no clock'}`;
+    const help = !s.help || s.help === 'none' ? '' : ` · help ${s.help === 'always' ? 'every time' : 'sometimes'}${s.helpTypes && s.helpTypes.length < Help.IDS.length ? ' (' + s.helpTypes.map(x => Help.TYPES[x].name.replace('The ', '')).join(', ') + ')' : ''}`;
+    return `${court} · ${s.count} possessions · ${d}${help} · ${s.shotClock ? s.shotClock + 's clock' : 'no clock'}`;
   }
   function chipGroup(key, options, multi) {
     return `<div class="chips" data-key="${key}">${options.map(([v, l]) => {
@@ -3112,6 +3418,8 @@ const HoopsEngine = (() => {
       ${draft.type === 'possessions' ? `
         <div class="field"><span>Spots</span>${chipGroup('spots', SPOT_CHOICES, true)}</div>
         <div class="field"><span>Defenders</span>${chipGroup('defenders', defOpts, true)}</div>
+        <div class="field"><span>Help defense</span>${chipGroup('help', [['none', 'Off'], ['mix', 'Sometimes'], ['always', 'Every possession']])}</div>
+        ${draft.help !== 'none' ? `<div class="field"><span>Help types</span>${chipGroup('helpTypes', Help.IDS.map(id => [id, Help.TYPES[id].name.replace('The ', '')]), true)}</div>` : ''}
         <div class="field"><span>Possessions</span>${chipGroup('count', [[5, '5'], [8, '8'], [10, '10'], [15, '15']])}</div>
         <div class="field"><span>Shot clock</span>${chipGroup('clock', [[0, 'Off'], [2.5, '2.5s'], [4, '4s'], [6, '6s'], [8, '8s']])}</div>` : `
         <div class="field"><span>Racks, in order</span>${chipGroup('racks', SPOT_CHOICES, true)}</div>
@@ -3169,6 +3477,11 @@ const HoopsEngine = (() => {
       const a = Defense.ARCHETYPES[id], s = D.scout[id];
       const faced = s ? `Faced ${s.faced} · ${(s.points / s.faced).toFixed(1)} pts per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not faced yet';
       return `<article class="scard"><header><b>${esc(a.name)}</b><span class="tag">${esc(a.tag)}</span></header><p>${esc(a.tell)}</p><p class="read"><b>The answer:</b> ${esc(a.read)}</p><div class="faced">${faced}</div></article>`;
+    }).join('');
+    $('#help-list').innerHTML = Help.IDS.map(id => {
+      const h = Help.TYPES[id], s = D.scoutHelp[id];
+      const faced = s ? `Got to him ${s.faced} times · ${(s.points / s.faced).toFixed(1)} pts · ${Math.round(s.a / s.faced * 100)}% A finishes` : 'Not faced yet';
+      return `<article class="scard"><header><b>${esc(h.name)}</b><span class="tag">${esc(h.tag)}</span></header><p>${esc(h.tell)}</p><p class="read"><b>The finish:</b> ${esc(h.read)}</p><div class="faced">${faced}</div></article>`;
     }).join('');
   }
 
