@@ -30,19 +30,19 @@
   color-scheme: dark;
 }
 
-:root[data-theme='sunset'] {
+:root[data-pf-theme='sunset'] {
   --c1: #ffb347;
   --c2: #ff5e7e;
   --c3: #c85cff;
   --bg-2: #2a0a20;
 }
-:root[data-theme='aurora'] {
+:root[data-pf-theme='aurora'] {
   --c1: #3dffb0;
   --c2: #3dc9ff;
   --c3: #8a7dff;
   --bg-2: #08202e;
 }
-:root[data-theme='contrast'] {
+:root[data-pf-theme='contrast'] {
   --c1: #ffe600;
   --c2: #ffffff;
   --c3: #00e5ff;

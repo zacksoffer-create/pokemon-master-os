@@ -24,7 +24,8 @@ export function Home() {
     .filter((s) => s.lastPlayedAt)
     .sort((a, b) => (b.lastPlayedAt ?? 0) - (a.lastPlayedAt ?? 0))
     .slice(0, 8);
-  const showInstall = isIOS() && !isStandalone();
+  const preview = import.meta.env.MODE === 'artifact';
+  const showInstall = !preview && isIOS() && !isStandalone();
 
   return (
     <div class="screen home">
@@ -55,6 +56,15 @@ export function Home() {
           </Button>
         </div>
       </div>
+
+      {preview && (
+        <div class="notice notice-soft">
+          <Icon name="info" />
+          <span>
+            <b>Preview copy.</b> Everything works here, but it can't be installed or used offline. For the Home Screen app, open the hosted version in Safari.
+          </span>
+        </div>
+      )}
 
       {showInstall && (
         <button class="notice" onClick={() => navigate({ name: 'help' })}>

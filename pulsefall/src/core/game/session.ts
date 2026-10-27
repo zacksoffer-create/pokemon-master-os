@@ -45,6 +45,8 @@ type Phase = 'idle' | 'playing' | 'paused' | 'finished';
 
 const RESUME_REWIND_MS = 1500;
 const STALL_FORGIVE_MS = 280;
+/** How long after the song (or the last note) the run may continue so late hits still count. */
+const END_GRACE_MS = 600;
 
 /**
  * One play-through. Owns the frame loop and wires clock -> engine -> renderer, with input
@@ -97,7 +99,7 @@ export class GameSession {
     this.renderer.setInsets(o.insets);
     this.renderer.resize();
     this.player = new SongPlayer(o.audio, o.buffer);
-    this.player.onEnded = () => this.finish(true);
+    // The buffer ends a little before its end is heard; the loop decides when the run is over.
     this.pressed = new Array(laneCount).fill(false);
     this.held = new Array(laneCount).fill(false);
     this.input = new InputController(o.inputEl, (x) => this.renderer.laneAt(x), laneCount, {
@@ -107,7 +109,7 @@ export class GameSession {
     });
     // Lead-in: the first note must be able to travel the whole highway, plus a breath.
     const approach = approachForSpeed(s.noteSpeed);
-    const firstNote = this.engine.notes.find((n) => n.t >= (o.startAtMs ?? -Infinity))?.t ?? 0;
+    const firstNote = this.engine.notes.find((n) => n.t >= (o.startAtMs ?? -Infinity))?.t ?? Infinity;
     const from = o.startAtMs !== undefined ? Math.max(0, o.startAtMs - 2500) : 0;
     this.startPos = Math.min(from, firstNote - approach - 1200);
   }
@@ -233,7 +235,10 @@ export class GameSession {
       if (remaining > 4000) this.o.onOutro?.();
       else if (remaining <= 0) this.finish(true);
     }
-    if (this.heardTime(perf) > this.player.durationMs + 400) {
+    // Over once every note is resolved and the music has been heard to the end, or once even
+    // the latest possible hit on the last note is out of reach.
+    const allResolved = this.engine.isFinished(judgeT) && this.heardTime(perf) >= this.player.durationMs;
+    if (allResolved || judgeT > Math.max(this.player.durationMs, this.engine.lastTime) + END_GRACE_MS) {
       this.finish(true);
       return;
     }
@@ -338,7 +343,11 @@ export class GameSession {
   private async requestWakeLock(): Promise<void> {
     try {
       const nav = navigator as Navigator & { wakeLock?: { request(type: 'screen'): Promise<{ release(): Promise<void> }> } };
-      if (nav.wakeLock && !this.wakeLock) this.wakeLock = await nav.wakeLock.request('screen');
+      if (!nav.wakeLock || this.wakeLock) return;
+      const lock = await nav.wakeLock.request('screen');
+      // Paused, finished or torn down while the request was pending: don't keep the screen on.
+      if (this.phase !== 'playing' || this.wakeLock) void lock.release().catch(() => undefined);
+      else this.wakeLock = lock;
     } catch {
       /* not available or denied: harmless */
     }

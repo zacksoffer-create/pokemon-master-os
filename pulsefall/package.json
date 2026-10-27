@@ -14,6 +14,7 @@
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
     "deploy:pages": "bash scripts/deploy-pages.sh",
+    "build:artifact": "node scripts/build-artifact.mjs",
     "eval": "vitest run --config vitest.eval.config.ts"
   },
   "dependencies": {

@@ -1,7 +1,9 @@
 import { defineConfig } from 'vitest/config';
 import { VitePWA } from 'vite-plugin-pwa';
 
-export default defineConfig({
+// `--mode artifact` builds a copy that runs inside a sandboxed page (no service worker,
+// fonts inlined) — see scripts/build-artifact.mjs.
+export default defineConfig(({ mode }) => ({
   // Relative base so the build works from any folder or sub-path (GitHub Pages, Netlify, etc.).
   base: './',
   esbuild: { jsx: 'automatic', jsxImportSource: 'preact' },
@@ -10,9 +12,14 @@ export default defineConfig({
     target: ['es2020', 'safari14'],
     sourcemap: false,
     chunkSizeWarningLimit: 900,
+    ...(mode === 'artifact' && {
+      outDir: 'dist-artifact',
+      assetsInlineLimit: (file: string) => (/\.woff2?$/.test(file) ? true : undefined),
+    }),
   },
   plugins: [
     VitePWA({
+      disable: mode === 'artifact',
       registerType: 'prompt',
       injectRegister: null,
       includeAssets: ['favicon.svg', 'icons/*.png'],
@@ -45,4 +52,4 @@ export default defineConfig({
     environment: 'node',
     testTimeout: 60000,
   },
-});
+}));

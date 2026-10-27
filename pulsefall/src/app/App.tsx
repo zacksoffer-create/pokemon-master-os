@@ -65,7 +65,7 @@ export function App() {
   const route = useRoute();
   const settings = useSettings();
   useEffect(() => {
-    document.documentElement.dataset.theme = settings.theme;
+    document.documentElement.dataset.pfTheme = settings.theme;
   }, [settings.theme]);
   useEffect(() => {
     if (route.name !== 'play') window.scrollTo(0, 0);

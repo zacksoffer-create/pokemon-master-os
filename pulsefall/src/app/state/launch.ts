@@ -30,26 +30,32 @@ export function clearLaunch(): void {
   pending = null;
 }
 
-let cache: { songId: string; buffer: AudioBuffer } | null = null;
+let cache: { songId: string; buffer: Promise<AudioBuffer> } | null = null;
 
 export class AudioMissingError extends Error {}
 
 /**
  * Decoded playback audio for a song, at full quality. Only the most recent song is kept
- * in memory (decoded audio is ~10 MB per minute).
+ * in memory (decoded audio is ~10 MB per minute). Concurrent calls for the same song share
+ * one decode.
  */
-export async function loadSongBuffer(song: SongRecord, onProgress?: (f: number) => void): Promise<AudioBuffer> {
+export function loadSongBuffer(song: SongRecord, onProgress?: (f: number) => void): Promise<AudioBuffer> {
   if (cache?.songId === song.id) return cache.buffer;
-  cache = null;
-  let buffer: AudioBuffer;
-  if (song.isDemo) buffer = await demoAudioBuffer(audio, onProgress);
-  else {
-    const stored = await library.getAudio(song.id);
-    if (!stored) throw new AudioMissingError('The audio for this song is not on this device. Re-import the file to play it.');
-    buffer = await audio.decode(stored.bytes);
-  }
-  cache = { songId: song.id, buffer };
+  const buffer = decodeSong(song, onProgress);
+  const entry = { songId: song.id, buffer };
+  cache = entry;
+  // A failed decode isn't cached, so the next attempt tries again.
+  buffer.catch(() => {
+    if (cache === entry) cache = null;
+  });
   return buffer;
+}
+
+async function decodeSong(song: SongRecord, onProgress?: (f: number) => void): Promise<AudioBuffer> {
+  if (song.isDemo) return demoAudioBuffer(audio, onProgress);
+  const stored = await library.getAudio(song.id);
+  if (!stored) throw new AudioMissingError('The audio for this song is not on this device. Re-import the file to play it.');
+  return audio.decode(stored.bytes);
 }
 
 export function forgetBuffer(songId?: string): void {

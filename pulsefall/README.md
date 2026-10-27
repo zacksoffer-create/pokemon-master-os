@@ -125,6 +125,7 @@ npm test             # unit tests (Vitest)
 npm run build        # type-check + production build into dist/
 npm run test:e2e     # Playwright end-to-end tests against the built app
 npm run deploy:pages # build and push dist/ to the gh-pages branch
+npm run build:artifact # sandbox-friendly copy (no service worker) in dist-artifact/
 ```
 
 Optional evaluation on real recordings (not committed): put mono 22.05 kHz float32 PCM files
@@ -164,11 +165,18 @@ tests/unit          Vitest suites       tests/e2e  Playwright suites
 - **End-to-end (Playwright, Chromium, iPhone 13 viewport + touch):** import MP3 and M4A
   through the file picker, automatic analysis, autoplay to results, persistence across
   reload, search, duplicate detection, a non-audio file, keyboard play with pause/resume/exit,
-  reload safety, chart editing and saving, settings persistence, deleting a song, and an
-  in-page bot that taps on time through the real input path (50/50 Perfect, mean error ≈ +9 ms).
+  reload safety, chart editing and saving, settings persistence, deleting a song, an
+  in-page bot that taps on time through the real input path (50/50 Perfect, mean error ≈ +7 ms),
+  and a bot run through the sync check (measured offsets within a few ms of zero; stopping
+  the live check really stops it).
 - **Real recordings:** evaluated on CC-licensed tracks (pop/folk, ragtime, waltz, hip-hop,
   swing jazz, orchestral). Beat agreement with librosa's tracker is ~0.98 F-measure on
   steady-tempo music; free-tempo orchestral music is approximate (and flagged as such).
+
+### Requirements
+
+iOS 16.2 or newer is recommended. It runs on iOS 14.5+, but iOS 15.0–16.1 skip some colour
+tints and glows (`color-mix`), and iOS 14 analyses songs on the main thread (no module workers).
 
 ### Not verified here
 

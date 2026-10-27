@@ -94,9 +94,13 @@ async function pump(): Promise<void> {
 export function retryImport(id: number): void {
   const file = filesById.get(id);
   if (!file) return;
-  importStore.update((s) => ({ ...s, items: s.items.filter((i) => i.id !== id) }));
   filesById.delete(id);
-  enqueue([file]);
+  // Requeue in place, keeping the other rows (and their Retry buttons) on the sheet.
+  const item = { id: nextId++, fileName: file.name, status: 'queued' as const };
+  filesById.set(item.id, file);
+  queue.push({ item, file });
+  importStore.update((s) => ({ open: true, items: s.items.map((i) => (i.id === id ? item : i)) }));
+  void pump();
 }
 
 export function cancelImport(id: number): void {

@@ -307,6 +307,7 @@ function Results({
   const hits = e.errors.length;
   const lean = Math.round(e.meanErrorMs);
   const showHint = !r.autoplay && hits >= 30 && Math.abs(lean) >= 22;
+  const [adjusted, setAdjusted] = useState(false);
   const bars: [string, number, string][] = [
     ['Perfect', r.counts.perfect, 'perfect'],
     ['Great', r.counts.great, 'great'],
@@ -372,12 +373,16 @@ function Results({
           </p>
           <Button
             size="sm"
+            icon={adjusted ? 'check' : undefined}
+            disabled={adjusted}
             onClick={() => {
-              updateSettings({ inputOffsetMs: settings.inputOffsetMs + lean });
+              // Relative to the offset this run was played with, so it can't be applied twice.
+              updateSettings({ inputOffsetMs: r.offsets.input + lean });
+              setAdjusted(true);
               toast(`Input timing adjusted by ${lean > 0 ? '+' : ''}${lean} ms`, 'success');
             }}
           >
-            Adjust input timing
+            {adjusted ? 'Input timing adjusted' : 'Adjust input timing'}
           </Button>
         </div>
       )}

@@ -27,7 +27,10 @@ export function Calibrate() {
   const [audioDeltas, setAudioDeltas] = useState<number[]>([]);
   const [visualDeltas, setVisualDeltas] = useState<number[]>([]);
   const [preview, setPreview] = useState(false);
+  const [running, setRunning] = useState(false);
   const clockRef = useRef<SongClock | null>(null);
+  const groupRef = useRef<GainNode | null>(null);
+  const genRef = useRef(0);
   const rafRef = useRef(0);
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
@@ -35,37 +38,73 @@ export function Calibrate() {
   const stepRef = useRef<Step>('intro');
   stepRef.current = step;
 
-  useEffect(() => () => stopAll(), []);
+  useEffect(() => {
+    // Lets the e2e bot read the metronome clock (only with ?debug).
+    if (sessionStorage.getItem('pf-debug') === '1') (window as unknown as { __pfCal?: () => SongClock | null }).__pfCal = () => clockRef.current;
+    return () => stopAll();
+  }, []);
 
+  /** Stops the frame loop and silences every click already scheduled. */
   function stopAll() {
+    genRef.current++;
     cancelAnimationFrame(rafRef.current);
     clockRef.current = null;
+    groupRef.current?.disconnect();
+    groupRef.current = null;
     setPreview(false);
+    setRunning(false);
   }
 
-  /** Start a click track (or a silent one) whose beat k is at song time k * BEAT_MS. */
-  function startTrack(withSound: boolean, beats: number) {
-    void audio.unlock();
+  /**
+   * Start a click track (or a silent one) whose beat k is at song time k * BEAT_MS.
+   * Clicks are scheduled a little ahead from `schedule()`, called every frame, so stopping
+   * never leaves a long train of queued clicks. Resolves to null if it was superseded or the
+   * audio clock couldn't start.
+   */
+  async function startTrack(withSound: boolean, beats: number): Promise<{ clock: SongClock; schedule: () => void } | null> {
+    stopAll();
+    const gen = genRef.current;
+    await audio.unlock(); // resume() is still requested synchronously inside the tap
+    if (gen !== genRef.current) return null;
     const ctx = audio.ctx!;
+    if (ctx.state !== 'running') {
+      toast("Sound didn't start. Check the volume, then try again.", 'error');
+      return null;
+    }
     const clock = audio.createClock();
     const t0 = ctx.currentTime + 0.5;
     clock.start(t0, 0);
     clockRef.current = clock;
-    if (withSound) {
-      for (let k = 0; k < beats; k++) audio.play(k < COUNT_IN ? 'count' : 'tick', { when: t0 + (k * BEAT_MS) / 1000, gain: k < COUNT_IN ? 0.7 : 1.4 });
-    }
-    return clock;
+    setRunning(true);
+    const group = audio.createGroup();
+    groupRef.current = group;
+    let next = 0;
+    const schedule = () => {
+      if (!withSound) return;
+      const horizon = ctx.currentTime + 0.3;
+      for (; next < beats && t0 + (next * BEAT_MS) / 1000 < horizon; next++) {
+        audio.play(next < COUNT_IN ? 'count' : 'tick', { when: t0 + (next * BEAT_MS) / 1000, gain: next < COUNT_IN ? 0.7 : 1.4, dest: group });
+      }
+    };
+    schedule();
+    return { clock, schedule };
   }
 
-  function begin(which: 'audio' | 'visual') {
+  async function begin(which: 'audio' | 'visual') {
     tapsRef.current = [];
     setTaps([]);
     setStep(which);
     const total = (which === 'audio' ? AUDIO_TAPS : VISUAL_TAPS) + COUNT_IN + 4;
-    const clock = startTrack(which === 'audio', total);
+    const track = await startTrack(which === 'audio', total);
+    if (!track) {
+      if (which === 'audio' && stepRef.current === 'audio') setStep('intro');
+      return;
+    }
+    const { clock, schedule } = track;
     const loop = () => {
       const now = performance.now();
       const t = clock.update(now);
+      schedule();
       if (which === 'visual' && ringRef.current) {
         const k = Math.floor(t / BEAT_MS);
         const since = t - k * BEAT_MS;
@@ -83,12 +122,13 @@ export function Calibrate() {
   }
 
   function finishStep(which: 'audio' | 'visual') {
-    cancelAnimationFrame(rafRef.current);
     const deltas = tapsRef.current.slice();
+    stopAll();
     if (deltas.length < 6) {
       toast('Not enough taps — try again, tapping along with every beat.', 'error');
       setStep(which === 'audio' ? 'intro' : 'visual');
-      clockRef.current = null;
+      tapsRef.current = [];
+      setTaps([]);
       return;
     }
     if (which === 'audio') {
@@ -100,7 +140,6 @@ export function Calibrate() {
       setVisualDeltas(deltas);
       setStep('result');
     }
-    clockRef.current = null;
   }
 
   function onTap(e: Event) {
@@ -134,14 +173,16 @@ export function Calibrate() {
   const result = step === 'result' ? calibrate(audioDeltas, visualDeltas, current) : null;
 
   // Live check: a dot falls onto the line on every click, using the saved offsets.
-  function startPreview() {
-    stopAll();
+  async function startPreview() {
     setPreview(true);
-    const total = 400;
-    const clock = startTrack(true, total);
+    const track = await startTrack(true, 400);
+    if (!track) return;
+    setPreview(true); // startTrack's stopAll() cleared it
+    const { clock, schedule } = track;
     const loop = () => {
       const s = settingsStore.get();
       const raw = clock.update(performance.now());
+      schedule();
       const t = renderTime(raw, { audio: s.audioOffsetMs, input: s.inputOffsetMs, visual: s.visualOffsetMs });
       const k = Math.ceil(t / BEAT_MS);
       const until = k * BEAT_MS - t; // ms until the next beat reaches the line
@@ -168,7 +209,7 @@ export function Calibrate() {
             </li>
           </ol>
           <p class="row-hint">Use the headphones or speaker you normally play with. Current offsets: audio {current.audio} ms, input {current.input} ms.</p>
-          <Button variant="primary" size="lg" icon="play" onClick={() => begin('audio')}>
+          <Button variant="primary" size="lg" icon="play" onClick={() => void begin('audio')}>
             Start
           </Button>
         </div>
@@ -183,8 +224,8 @@ export function Calibrate() {
               <i class={i < taps.length ? 'on' : ''} />
             ))}
           </div>
-          {step === 'visual' && taps.length === 0 && !clockRef.current && (
-            <Button variant="primary" onClick={() => begin('visual')}>
+          {step === 'visual' && taps.length === 0 && !running && (
+            <Button variant="primary" onClick={() => void begin('visual')}>
               Start part 2
             </Button>
           )}
@@ -217,12 +258,12 @@ export function Calibrate() {
               onClick={() => {
                 updateSettings({ audioOffsetMs: result.offsets.audio, inputOffsetMs: result.offsets.input, calibrated: true });
                 toast('Sync saved', 'success');
-                startPreview();
+                void startPreview();
               }}
             >
               Save
             </Button>
-            <Button icon="refresh" onClick={() => begin('audio')}>
+            <Button icon="refresh" onClick={() => void begin('audio')}>
               Run again
             </Button>
           </div>
@@ -239,7 +280,7 @@ export function Calibrate() {
                 Stop
               </Button>
             ) : (
-              <Button size="sm" icon="play" onClick={startPreview}>
+              <Button size="sm" icon="play" onClick={() => void startPreview()}>
                 Play check
               </Button>
             )}

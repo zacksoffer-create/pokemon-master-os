@@ -59,3 +59,51 @@ test('a bot tapping on time is judged Perfect through the real input path', asyn
   await expect(page.locator('.results')).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('.results-label')).toHaveText(/Full Combo|Flawless/);
 });
+
+// The sync check with a bot that taps exactly on each click and flash (by the metronome's
+// own clock): both offsets should come out near zero, and stopping the live check must
+// actually stop it.
+test('the sync check measures, saves and previews offsets', async ({ page }) => {
+  await page.goto('/?debug#/calibrate');
+  type Cal = () => { at(p: number): number } | null;
+  const tapAlong = (count: number) =>
+    page.evaluate(
+      (count) =>
+        new Promise<number>((resolve, reject) => {
+          const cal = (window as unknown as { __pfCal: Cal }).__pfCal;
+          let k = 4; // skip the count-in
+          let sent = 0;
+          const started = performance.now();
+          const loop = () => {
+            const clock = cal();
+            if (clock && clock.at(performance.now()) >= k * 600) {
+              window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', bubbles: true }));
+              k++;
+              sent++;
+            }
+            if (sent >= count) resolve(sent);
+            else if (performance.now() - started > 30_000) reject(new Error('metronome never started'));
+            else requestAnimationFrame(loop);
+          };
+          requestAnimationFrame(loop);
+        }),
+      count,
+    );
+
+  await page.getByRole('button', { name: 'Start' }).click();
+  await tapAlong(16);
+  await page.getByRole('button', { name: 'Start part 2' }).click();
+  await tapAlong(12);
+  await expect(page.getByRole('heading', { name: 'Your device' })).toBeVisible();
+  const offsets = await page.locator('.cal-results b').allInnerTexts();
+  const [audioMs, inputMs] = offsets.map((t) => parseInt(t, 10));
+  console.log('calibration offsets', offsets);
+  expect(Math.abs(audioMs)).toBeLessThanOrEqual(25);
+  expect(Math.abs(inputMs)).toBeLessThanOrEqual(25);
+
+  await page.getByRole('button', { name: 'Save' }).click();
+  await expect(page.getByRole('button', { name: 'Stop' })).toBeVisible();
+  await page.getByRole('button', { name: 'Stop' }).click();
+  await expect(page.getByRole('button', { name: 'Play check' })).toBeVisible();
+  expect(await page.evaluate(() => (window as unknown as { __pfCal: Cal }).__pfCal())).toBeNull();
+});

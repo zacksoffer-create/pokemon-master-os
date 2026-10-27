@@ -87,7 +87,15 @@ export class AudioEngine {
     return new SongClock(new WebAudioTimeSource(this.ctx!));
   }
 
-  play(name: SfxName, opts: { gain?: number; rate?: number; bus?: 'sfx' | 'ui'; when?: number } = {}): void {
+  /** A sub-bus of the SFX bus for scheduled sounds that must be silenced together (a click track). */
+  createGroup(): GainNode {
+    if (!this.ctx) this.create();
+    const g = this.ctx!.createGain();
+    g.connect(this.sfxBus);
+    return g;
+  }
+
+  play(name: SfxName, opts: { gain?: number; rate?: number; bus?: 'sfx' | 'ui'; when?: number; dest?: AudioNode } = {}): void {
     const ctx = this.ctx;
     if (!ctx || ctx.state !== 'running' || !this.sfx) return;
     const buf = this.sfx[name];
@@ -102,7 +110,7 @@ export class AudioEngine {
       src.connect(g);
       node = g;
     }
-    node.connect(opts.bus === 'ui' ? this.uiBus : this.sfxBus);
+    node.connect(opts.dest ?? (opts.bus === 'ui' ? this.uiBus : this.sfxBus));
     src.start(opts.when ?? 0);
   }
 

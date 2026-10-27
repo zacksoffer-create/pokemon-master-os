@@ -31,8 +31,10 @@ export function pickJson(): Promise<unknown> {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'application/json,.json';
+    input.style.display = 'none';
     input.onchange = async () => {
       const f = input.files?.[0];
+      input.remove();
       if (!f) return;
       try {
         resolve(JSON.parse(await f.text()));
@@ -40,6 +42,9 @@ export function pickJson(): Promise<unknown> {
         reject(new BackupError('That file is not valid JSON.'));
       }
     };
+    input.addEventListener('cancel', () => input.remove());
+    // iOS Safari only reliably fires `change` for inputs that are in the document.
+    document.body.appendChild(input);
     input.click();
   });
 }

@@ -38,7 +38,8 @@ export function SongDetail({ id }: { id: string }) {
   const [infoOpen, setInfoOpen] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [previewing, setPreviewing] = useState(false);
-  const preview = useRef<{ player: SongPlayer; timer: number } | null>(null);
+  // 'loading' while the audio decodes, so a second tap (or leaving) cancels instead of stacking.
+  const preview = useRef<{ player: SongPlayer; timer: number } | 'loading' | null>(null);
 
   // The demo is generated on first visit (and after app updates change the generator).
   useEffect(() => {
@@ -60,25 +61,30 @@ export function SongDetail({ id }: { id: string }) {
 
   function stopPreview() {
     const p = preview.current;
-    if (!p) return;
-    clearTimeout(p.timer);
-    p.player.fadeOut(350);
     preview.current = null;
     setPreviewing(false);
+    if (!p || p === 'loading') return;
+    clearTimeout(p.timer);
+    p.player.fadeOut(350);
   }
 
   async function togglePreview(s: SongRecord) {
     if (preview.current) return stopPreview();
     void audio.unlock();
+    preview.current = 'loading';
     setPreviewing(true);
     try {
       const buffer = await loadSongBuffer(s);
+      if (preview.current !== 'loading') return; // stopped, replaced or left while decoding
       const player = new SongPlayer(audio, buffer);
       const start = Math.min(s.previewStartMs, Math.max(0, buffer.duration * 1000 - 15000));
       player.play(start, 0, 600);
-      const timer = window.setTimeout(() => stopPreview(), 15000);
-      preview.current = { player, timer };
+      const entry = { player, timer: 0 };
+      entry.timer = window.setTimeout(() => preview.current === entry && stopPreview(), 15000);
+      preview.current = entry;
     } catch (e) {
+      if (preview.current !== 'loading') return;
+      preview.current = null;
       setPreviewing(false);
       toast(e instanceof AudioMissingError ? e.message : `Couldn't play this file: ${(e as Error).message}`, 'error');
     }

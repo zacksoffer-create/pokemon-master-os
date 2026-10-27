@@ -150,12 +150,15 @@ export function Editor({ id, style: styleParam }: { id: string; style: string })
   }
 
   // --- playback ---------------------------------------------------------------
+  const playReq = useRef(0);
   async function togglePlay() {
     if (playerRef.current) return stopPlayback();
     if (!loaded) return;
     void audio.unlock();
+    const req = ++playReq.current;
     try {
       const buffer = await loadSongBuffer(loaded.song);
+      if (req !== playReq.current) return; // stopped, restarted or left while decoding
       const p = new SongPlayer(audio, buffer);
       playerRef.current = p;
       const start = Math.max(0, tRef.current);
@@ -183,6 +186,7 @@ export function Editor({ id, style: styleParam }: { id: string; style: string })
   }
 
   function stopPlayback() {
+    playReq.current++;
     cancelAnimationFrame(rafRef.current);
     playerRef.current?.stop();
     playerRef.current = null;
@@ -289,8 +293,11 @@ export function Editor({ id, style: styleParam }: { id: string; style: string })
         commit(next);
         setSelected(new Set([nid]));
         audio.play('tick', { gain: 0.6 });
-      } else if (!d.moved) setSelected(new Set());
-      drafts.set(key, { notes, offsetMs, t: tRef.current });
+      } else {
+        if (!d.moved) setSelected(new Set());
+        // Keep the scroll position with an unsaved edit (commit() already saved the notes).
+        if (dirty) drafts.set(key, { notes, offsetMs, t: tRef.current });
+      }
     } else if (d.mode === 'move' || d.mode === 'tail') {
       if (stateRef.current.notes !== d.base) commit(stateRef.current.notes);
     } else if (d.mode === 'hold') {

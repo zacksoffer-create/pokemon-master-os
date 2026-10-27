@@ -6,7 +6,7 @@ import { toast } from './state/toast';
 export const updateStore = new Store<(() => void) | null>(null);
 
 export function registerServiceWorker(): void {
-  if (!('serviceWorker' in navigator) || import.meta.env.DEV) return;
+  if (!('serviceWorker' in navigator) || import.meta.env.DEV || import.meta.env.MODE === 'artifact') return;
   const update = registerSW({
     immediate: true,
     onNeedRefresh() {
