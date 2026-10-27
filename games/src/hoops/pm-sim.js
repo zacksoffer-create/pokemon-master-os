@@ -357,6 +357,24 @@ const PMSim = (() => {
       void dist;
     });
   }
+  // Nobody stands still for long: every few seconds a shooter shakes a few
+  // feet along the arc, and comes back. Lanes open and close.
+  function shake(W, dt) {
+    if (W.board || W.noShots || W.ball.state !== 'held' || W.drive) return;
+    W.shakeT = (W.shakeT == null ? 2.4 + W.rand() * 1.2 : W.shakeT) - dt;
+    if (W.shakeT > 0) return;
+    W.shakeT = 2.2 + W.rand() * 1.6;
+    const pool = W.off.filter((T, j) => j !== W.handler && T.state === 'spot' && T.role.id !== 'big' && rimDist(T.pos) > 15);
+    if (!pool.length) return;
+    const T = pool[Math.floor(W.rand() * pool.length)];
+    const pol = Court3D.polarOf(T.home);
+    if (!T.base) T.base = T.home.slice();
+    const back = gap(T.home, T.base) > 1;
+    let to = back ? T.base : Court3D.polar(pol.angle + (W.rand() < 0.5 ? -1 : 1) * (pol.angle > 60 || pol.angle < -60 ? -14 : 12), pol.dist);
+    to = clampCourt(to);
+    if (W.off.some(X => X !== T && gap(X.pos, to) < 6)) return;
+    T.home = to; T.state = 'relocate';
+  }
   function openSpot(W, O) {
     let best = null;
     PERIM.forEach(k => {
@@ -564,9 +582,9 @@ const PMSim = (() => {
     // who it's for: where each teammate will be when it gets there
     let best = null;
     W.off.forEach((T, j) => { if (j === j0) return; const pr = predict(W, j, est.T); const e = gap(pr, E); if (!best || e < best.e) best = { j, e, pr }; });
-    const win = W.window + est.D * 0.035;
+    const win = W.window + est.D * 0.05;
     let q = 'none';
-    if (best) q = best.e <= win ? 'money' : best.e <= 4.4 ? 'reach' : best.e <= 7.5 ? 'chase' : 'none';
+    if (best) q = best.e <= win ? 'money' : best.e <= Math.max(4.4, win + 2.2) ? 'reach' : best.e <= Math.max(7.5, win + 5) ? 'chase' : 'none';
     // inside the window the pass finds his hands, leading him if he's moving
     if (q === 'money') E = V.add(best.pr, V.mul(unit(V.sub(S, best.pr)), 0.6));
     let toY = null, alley = false;
@@ -1006,6 +1024,7 @@ const PMSim = (() => {
       W.clock -= dt;
       if (W.clock <= 0) { W.clock = 0; pop(W, 'Shot clock', '#ff5d4a', [RIM.x, RIM.y + 2, RIM.z], 1.2); turnover(W, 'Shot clock', 'ran out the clock', null, true); }
     }
+    shake(W, dt);
     offenseAI(W, dt);
     defenseAI(W, dt);
     // the shooter rises if nobody tells him otherwise

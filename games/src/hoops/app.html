@@ -322,7 +322,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     settings: { feel: 'normal', court: 'park', tags: true, sound: true },
     records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
     zone: {}, scout: {}, scoutHelp: {}, challenges: [],
-    pm: { k: null, spd: null, best: 0, iq: 0, plays: 0, ast: 0 }, scoutDef: {}, boards: {}, pmFeat: {}
+    pm: { k: null, l0: null, dur: null, best: 0, iq: 0, plays: 0, ast: 0 }, scoutDef: {}, boards: {}, pmFeat: {}
   }));
   let D = store.load();
   store.onRemote(s => { D = s; applySettings(); renderHome(); });
@@ -335,7 +335,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   function applySettings() {
     Sfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
-    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passSpd: D.pm.spd });
+    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur });
   }
   function go(id) {
     document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
@@ -652,7 +652,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     { id: 'pf-bigs', name: 'Feed the Big', note: 'Rim protectors every time. Make him step up, then dump it off or lob it.', spec: { kind: 'pm', count: 6, schemes: ['rim'] } }
   ];
   function ensurePm() {
-    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passSpd: D.pm.spd, jersey: '#2c5a46', shorts: '#234a39' });
+    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur, jersey: '#2c5a46', shorts: '#234a39' });
     applySettings();
     return pmEngine;
   }
@@ -670,7 +670,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     ensurePm().run({ kind: 'calibrate', court: D.settings.court }, {
       onEnd: res => {
         closePm();
-        if (res.passK) { D.pm.k = res.passK; D.pm.spd = res.passSpd; store.save(); applySettings(); }
+        if (res.passK) { D.pm.k = res.passK; D.pm.l0 = res.passL0; D.pm.dur = res.passDur; store.save(); applySettings(); }
         if (then) then(); else go('pm');
       },
       onQuit: () => { closePm(); go('pm'); }
@@ -765,7 +765,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       const b = e.target;
       if (b.dataset.confirm) {
         const keep = { touchK: D.touchK, settings: D.settings, challenges: D.challenges };
-        const pass = { k: D.pm.k, spd: D.pm.spd };
+        const pass = { k: D.pm.k, l0: D.pm.l0, dur: D.pm.dur };
         D = store.reset(); Object.assign(D, keep); Object.assign(D.pm, pass); store.save(); renderSettings();
         $('#wipe-note').textContent = 'Records erased. Your touch, settings and saved challenges are kept.';
       } else { b.dataset.confirm = '1'; b.textContent = 'Tap again to erase'; b.classList.add('go'); }

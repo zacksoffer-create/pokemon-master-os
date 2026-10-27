@@ -69,7 +69,7 @@ const PlaymakerEngine = (() => {
 
   function create(container, opts) {
     injectCss();
-    const settings = Object.assign({ feel: 'normal', passK: null, passSpd: null, hints: true, jersey: '#2c5a46', shorts: '#234a39', court: 'park' }, opts || {});
+    const settings = Object.assign({ feel: 'normal', passK: null, passL0: null, passDur: null, hints: true, jersey: '#2c5a46', shorts: '#234a39', court: 'park' }, opts || {});
     const root = document.createElement('div');
     root.className = 'pmx';
     root.innerHTML = `
@@ -122,7 +122,7 @@ const PlaymakerEngine = (() => {
     function setScore(n, sub) { ui.score.textContent = n; ui.scoreSub.textContent = sub || ''; }
     function popup(text, color, at, size) { S.popups.push({ text, color: color || '#fff', world: at, size: size || 1, t: 0, life: 1.3 }); }
     function passK() { return settings.passK || 80; }
-    function passSpd() { return settings.passSpd || 1.9; }
+    function passDur() { return settings.passDur || (settings.passL0 || 0.35) / (settings.passSpd || 1.9); }
 
     // ---------- camera ----------
     /* High and behind the ball, looking down toward the paint: wide enough
@@ -196,8 +196,8 @@ const PlaymakerEngine = (() => {
       if (IN.mode === 'pending' || IN.mode === 'vision') {
         if (d > 9 && !IN.moveStart) IN.moveStart = prev;
         if (IN.moveStart && IN.mode === 'vision' && d > 12) { IN.mode = 'pending'; }
-        // a slow, sustained push is a drive, not a pass
-        if (IN.moveStart && p.t - IN.moveStart.t > 170 && speedOver(70).v < FLICK_SPEED && d > 16) IN.mode = 'drag';
+        // a push that keeps going is a drive (a quick stroke let go is still a pass)
+        if (IN.moveStart && p.t - IN.moveStart.t > 150 && speedOver(70).v < FLICK_SPEED && d > 16) IN.mode = 'drag';
       } else if (IN.mode === 'drag') {
         const sp = speedOver(60);
         if (sp.v > FLICK_SPEED * 1.15) { if (!IN.burst) IN.burst = IN.pts[Math.max(0, sp.i - 1)]; }
@@ -215,11 +215,16 @@ const PlaymakerEngine = (() => {
       if (S.phase === 'board') return boardUp(p);
       if (!S.w || S.phase !== 'live') return;
       const d = Math.hypot(p.x - IN.start.x, p.y - IN.start.y);
+      if (mode === 'blocked') return;
       if (mode === 'drag') {
+        // short and straight and let go: that was a soft pass, not a drive
+        const k0 = IN.moveStart ? Math.max(0, IN.pts.indexOf(IN.moveStart)) : 0;
+        if (IN.moveStart && p.t - IN.moveStart.t < 340 && d >= 22 && straight(k0)) return throwFrom(k0);
         if (IN.burst && p.t - IN.burst.t < 280) return throwFrom(IN.pts.indexOf(IN.burst));
         return;
       }
       if (d < 12 && p.t - IN.start.t < 320 && mode !== 'vision') return passFake();
+      if (mode === 'blocked') return;
       if (d >= 22) {
         // in vision mode, the throw starts where the finger started moving
         const k = IN.moveStart ? Math.max(0, IN.pts.indexOf(IN.moveStart)) : 0;
@@ -230,6 +235,14 @@ const PlaymakerEngine = (() => {
     canvas.addEventListener('pointercancel', e => endPointer(e, true));
     canvas.style.touchAction = 'none';
 
+    // a stroke that mostly went one way (a joystick hold wanders)
+    function straight(k0) {
+      const pts = IN.pts.slice(k0), a = pts[0], z = pts[pts.length - 1];
+      const L = Math.hypot(z.x - a.x, z.y - a.y);
+      let path = 0;
+      for (let i = 1; i < pts.length; i++) path += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+      return path < L * 1.35 + 12;
+    }
     /* Read the stroke from sample k0 to the end: where it points, how long it
        is, how fast it was let go, whether it dipped back first (bounce pass)
        and whether it bowed (bend). */
@@ -255,13 +268,18 @@ const PlaymakerEngine = (() => {
       let bow = 0;
       const fromI = pts.indexOf(from);
       pts.slice(Math.max(0, fromI)).forEach(q => { const dev = (vx * (q.y - from.y) - vy * (q.x - from.x)) / (len || 1); if (Math.abs(dev) > Math.abs(bow)) bow = dev; });
-      return { dx: vx, dy: vy, len: len / CH, speed, dip: dip > Math.max(26, CH * 0.03), curl: bow / (len || 1) };
+      return { dx: vx, dy: vy, len: len / CH, speed, dur: Math.max(16, z.t - from.t), dip: dip > Math.max(26, CH * 0.03), curl: bow / (len || 1) };
     }
+    /* How long the flick took against how long your natural pass of that
+       length takes (from calibration): a snap is a bullet, a slow toss is a
+       lob, a dip first is a bounce pass. */
     function passType(st) {
       if (st.dip) return 'bounce';
-      const s = st.speed / passSpd();
-      if (s >= 1.32) return 'bullet';
-      if (s <= 0.62) return 'lob';
+      const L0 = settings.passL0 || 0.35;
+      const expect = passDur() * 1000 * Math.pow(Math.max(0.05, st.len) / L0, 0.4);
+      const r = st.dur / expect;
+      if (r <= 0.66) return 'bullet';
+      if (r >= 1.65) return 'lob';
       return 'chest';
     }
     function throwFrom(k0) {
@@ -276,7 +294,7 @@ const PlaymakerEngine = (() => {
       const type = passType(st);
       const dist = clamp(st.len * passK(), 4, 47);
       const bend = Math.abs(st.curl) > 0.1 ? clamp(st.curl * dist * 0.45, -5, 5) : 0;
-      if (S.spec.kind === 'calibrate') S.calib.push({ len: st.len, speed: st.speed });
+      if (S.spec.kind === 'calibrate') S.calib.push({ len: st.len, speed: st.speed, dur: st.dur / 1000 });
       PMSim.driveInput(w, null);
       const P = PMSim.pass(w, { dir, dist, type, bend: -bend });
       if (P) {
@@ -511,9 +529,11 @@ const PlaymakerEngine = (() => {
       if (k === 'board' && S.board) { out.board = S.board.id; out.grade = S.log.length ? S.log[0].grade : null; }
       if (k === 'calibrate' && S.calib.length >= 2) {
         const corner = Math.hypot(S.calibBoard.off[1][0] - S.calibBoard.off[0][0], S.calibBoard.off[1][1] - S.calibBoard.off[0][1]);
-        const lens = S.calib.map(c => c.len).sort((a, b) => a - b), sps = S.calib.map(c => c.speed);
-        out.passK = clamp(corner / lens[Math.floor(lens.length / 2)], 35, 220);
-        out.passSpd = clamp(sps.reduce((a, b) => a + b, 0) / sps.length, 0.7, 6);
+        const lens = S.calib.map(c => c.len).sort((a, b) => a - b), durs = S.calib.map(c => c.dur);
+        const L0 = lens[Math.floor(lens.length / 2)];
+        out.passK = clamp(corner / L0, 35, 220);
+        out.passL0 = clamp(L0, 0.08, 0.9);
+        out.passDur = clamp(durs.reduce((a, b) => a + b, 0) / durs.length, 0.06, 0.6);
       }
       return out;
     }
@@ -573,6 +593,8 @@ const PlaymakerEngine = (() => {
           else if (n === 'cutoff') Sfx.buzz(25);
         } else if (ev.type === 'catch') {
           Sfx.play('dribble');
+          // a finger still down from the pass doesn't steer the new man
+          if (IN.id !== null) IN.mode = 'blocked';
           if (S.spec.kind === 'calibrate') calibCaught();
           else if (S.spec.kind === 'pm') hintOnce('catch', 'Control follows the ball. If he is open he shoots; act first to swing it or drive the closeout.');
         } else if (ev.type === 'pass') { /* release sound already played */ }
