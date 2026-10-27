@@ -45,6 +45,25 @@ Help defenders are data in `src/hoops/help.js`, same as the on-ball defenders. A
 
 Living School keeps a frozen copy of the basketball engine in `src/school/hoops/`, so changes to Basketball Playground don't move its tryouts and Friday games.
 
+## Playmaker (passing)
+
+A separate mode inside Basketball Playground: five on five, and you're passing. You throw to a spot, not a player; if a teammate can get there, he catches it.
+
+| Gesture | Pass |
+|---|---|
+| Flick | Pass to a spot. Longer flick, farther; your first passes set the scale. |
+| Snap it | Bullet. Flat and fast, beats a rotation. |
+| Easy toss | Lob. Floats over hands but hangs; near the rim it's an alley-oop. |
+| Pull back, then flick | Bounce pass, under the hands. |
+| Curl it | Bends the pass around a defender. |
+| Drag | Drive. Drag, then flick is drive and kick in one motion. |
+| Hold still | Court vision: the floor slows down for about a second each possession. |
+| Tap | Pass fake. Lane jumpers jump. |
+
+Hit him in the shooting pocket and he gets a rhythm shot; behind him or at his feet, he's late. Control follows the ball: an open man shoots on the catch unless you make the extra pass first.
+
+Defenses are data in `src/hoops/pm-plays.js`, each leaving somebody: Pack Line (kick and skip), Corner Help (the corner three), Rim Protector (dump-off or lob), Denial (backdoor), Lane Jumper (fake him, bounce under him), Scramble (the extra pass). Draw It Up is a whiteboard: draw a cut and a pass, then watch it run on the same simulation. Code: `pm-sim.js` (players, passes, defense), `pm-engine.js` (camera, input, drawing).
+
 ## Benchmark
 
 Commit `15912dc` (published as version 4 of the Basketball Playground artifact) is the benchmark for how the game should feel: the offensive read game, jumper variety and 1-on-2 help. New work goes alongside it, not into it. Before anything ships, the tests below should still match what they gave at that commit.
@@ -113,6 +132,10 @@ node games/test/physics_fade.js          # fadeaway make rates vs set shots
 node games/test/help_hoops.js OUTDIR     # each help type: the shot it gives you and the one it takes away
 node games/test/makes_hoops.js           # in-browser: a well-sized flick scores from 6 to 21 ft
 node games/test/smoke_hoops.js OUTDIR    # plays every basketball mode, screenshots
+node games/test/pm_passes.js             # Playmaker: picks and tips by lane and pass type, catch quality
+node games/test/pm_reads.js              # Playmaker: each defense's right read against the wrong one
+node games/test/pm_controls.js OUTDIR    # Playmaker gestures: pass types, drive and kick, vision, extra pass
+node games/test/pm_smoke.js OUTDIR       # Playmaker and Draw It Up through the app
 node games/test/physics_golf.js          # carries by club, wind, shot shape, putts by pace
 node games/test/controls_golf.js OUTDIR  # every swing shape and every read through the page
 node games/test/views_golf.js OUTDIR     # every tee, approach, chip, bunker and putt view
