@@ -29,12 +29,9 @@ export function Home() {
   return (
     <div class="screen home">
       <div class="home-hero">
-        <div class="hero-lanes" aria-hidden="true">
-          <i />
-          <i />
-          <i />
+        <div class="hero-emblem">
+          <Emblem size={104} />
         </div>
-        <Emblem size={76} />
         <Wordmark size={44} />
         <p class="tagline">Your music. Your beat. Tap along.</p>
       </div>

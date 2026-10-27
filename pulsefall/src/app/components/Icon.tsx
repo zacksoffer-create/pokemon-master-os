@@ -45,7 +45,13 @@ const PATHS: Record<IconName, JSX.Element> = {
   ),
   stop: <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none" />,
   plus: <path d="M12 5v14M5 12h14" />,
-  library: <path d="M4 5v14M8.5 5v14M13 5.5l4.5 13.5M19.5 18.5" />,
+  library: (
+    <g>
+      <rect x="3.5" y="3.5" width="13" height="13" rx="2.5" />
+      <path d="M20.5 7.5v10a3 3 0 0 1-3 3h-10" />
+      <path d="M12.5 7v6.2M12.5 13.2a1.8 1.8 0 1 1-1.8-1.8M12.5 7l-2.5.8" />
+    </g>
+  ),
   settings: (
     <g>
       <circle cx="12" cy="12" r="3.2" />

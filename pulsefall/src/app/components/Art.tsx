@@ -7,22 +7,30 @@ export function Emblem({ size = 48 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" class="emblem">
       <defs>
-        <linearGradient id="em-l" x1="0" y1="0" x2="1" y2="0">
+        {/* userSpaceOnUse: a horizontal line has a zero-height bounding box. */}
+        <linearGradient id="em-l" gradientUnits="userSpaceOnUse" x1="7" y1="0" x2="57" y2="0">
           <stop offset="0" stop-color="#22e6ff" />
           <stop offset="0.5" stop-color="#a96bff" />
           <stop offset="1" stop-color="#ff3fb4" />
         </linearGradient>
+        <linearGradient id="em-hw" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#a96bff" stop-opacity="0" />
+          <stop offset="1" stop-color="#a96bff" stop-opacity="0.3" />
+        </linearGradient>
         <radialGradient id="em-g" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.95" />
+          <stop offset="0" stop-color="#fff" stop-opacity="0.9" />
           <stop offset="1" stop-color="#fff" stop-opacity="0" />
         </radialGradient>
       </defs>
-      <path d="M26 6L10 50M32 6v44M38 6l16 44" stroke="url(#em-l)" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.55" />
-      <path d="M6 50h52" stroke="url(#em-l)" stroke-width="4" stroke-linecap="round" />
-      <circle cx="17" cy="31" r="6" fill="#22e6ff" />
-      <circle cx="32" cy="18" r="4.5" fill="#a96bff" />
-      <circle cx="47" cy="40" r="7" fill="#ff3fb4" />
-      <circle cx="47" cy="50" r="9" fill="url(#em-g)" />
+      <path d="M27 7L12 49H52L37 7Z" fill="url(#em-hw)" />
+      <path d="M27 7L12 49M32 7v42M37 7l15 42" stroke="url(#em-l)" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.6" />
+      <path d="M7 49h50" stroke="url(#em-l)" stroke-width="3.2" stroke-linecap="round" />
+      <circle cx="19" cy="31" r="5.2" fill="#22e6ff" />
+      <circle cx="32" cy="18" r="3.8" fill="#a96bff" />
+      <circle cx="46" cy="44" r="6.2" fill="#ff3fb4" />
+      <circle cx="46" cy="49" r="9" fill="url(#em-g)" opacity="0.8" />
+      <circle cx="17.6" cy="29.5" r="1.5" fill="#fff" opacity="0.8" />
+      <circle cx="44.3" cy="42.2" r="1.8" fill="#fff" opacity="0.8" />
     </svg>
   );
 }

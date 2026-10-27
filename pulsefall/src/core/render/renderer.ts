@@ -101,6 +101,9 @@ export class Renderer {
   private topScale = 0.38;
   private noteSize = 40;
   private laneGradients: CanvasGradient[] = [];
+  private highwayFill: CanvasGradient | string = '';
+  private dividerStroke: CanvasGradient | string = '';
+  private edgeStrokes: (CanvasGradient | string)[] = [];
 
   // Effects.
   private popups: Popup[] = [];
@@ -184,6 +187,20 @@ export class Renderer {
       gr.addColorStop(1, rgba(c, 0));
       return gr;
     });
+    // The far end of the highway dissolves into the horizon instead of ending on a hard edge.
+    const fadeTo = this.topY + (this.hitY - this.topY) * 0.16;
+    const hf = this.g.createLinearGradient(0, this.topY, 0, fadeTo);
+    hf.addColorStop(0, 'rgba(0,0,0,0)');
+    hf.addColorStop(1, this.theme.highway);
+    this.highwayFill = hf;
+    const vertical = (color: string, alpha: number) => {
+      const gr = this.g.createLinearGradient(0, this.topY, 0, fadeTo);
+      gr.addColorStop(0, rgba(color, 0));
+      gr.addColorStop(1, rgba(color, alpha));
+      return gr;
+    };
+    this.dividerStroke = vertical('#ffffff', 0.18);
+    this.edgeStrokes = this.colors.map((c) => vertical(c, 0.55));
   }
 
   private buildBackground(): Sprite {
@@ -343,7 +360,7 @@ export class Renderer {
     g.lineTo(this.cx + halfTop, top.y);
     g.lineTo(this.cx + halfBot, this.hitY + this.noteSize * 0.9);
     g.closePath();
-    g.fillStyle = this.theme.highway;
+    g.fillStyle = this.highwayFill;
     g.fill();
 
     // Lane beams for pressed lanes.
@@ -366,19 +383,21 @@ export class Renderer {
     }
     g.globalAlpha = 1;
 
-    // Lane dividers and edges.
-    const edgeAlpha = 0.16 + (reactive ? 0.22 * st.beatPulse : 0);
+    // Lane dividers and edges (they brighten on the beat when lighting is reactive).
+    const pulseBoost = reactive ? 0.6 + 0.8 * st.beatPulse : 1;
     for (let l = 0; l <= L; l++) {
       const xb = this.cx - halfBot + l * this.laneW;
       const xt = this.cx - halfTop + l * this.laneW * top.s;
       const outer = l === 0 || l === L;
-      g.strokeStyle = outer ? rgba(this.colors[Math.min(l, L - 1)], 0.35 + edgeAlpha) : `rgba(255,255,255,${edgeAlpha})`;
+      g.strokeStyle = outer ? this.edgeStrokes[Math.min(l, L - 1)] : this.dividerStroke;
+      g.globalAlpha = Math.min(1, pulseBoost * (outer ? 1 : 0.9));
       g.lineWidth = outer ? 2 : 1;
       g.beginPath();
       g.moveTo(xb, this.hitY + this.noteSize * 0.9);
       g.lineTo(xt, top.y);
       g.stroke();
     }
+    g.globalAlpha = 1;
 
     // Hit line.
     const lineGrad = g.createLinearGradient(this.cx - halfBot, 0, this.cx + halfBot, 0);
@@ -401,9 +420,11 @@ export class Renderer {
       g.drawImage(spr, this.laneX(l, 1) - (rs * bump) / 2, this.hitY - (rs * bump) / 2, rs * bump, rs * bump);
     }
 
+    // Text feedback sits under the notes so it can never hide what is coming.
+    this.drawFeedback(st, perf, dt);
     this.drawNotes(st);
     this.drawEffects(perf, dt);
-    this.drawHud(st, perf, dt);
+    this.drawHud(st, dt);
   }
 
   private visibleRange(st: FrameState): [number, number] {
@@ -558,10 +579,9 @@ export class Renderer {
     g.globalCompositeOperation = 'source-over';
   }
 
-  private drawHud(st: FrameState, perf: number, dt: number): void {
+  private drawFeedback(st: FrameState, perf: number, dt: number): void {
     const g = this.g;
     const { W, theme } = this;
-    const top = this.insets.top;
 
     // Judgment popup.
     const pop = this.popups[0];
@@ -602,7 +622,7 @@ export class Renderer {
       g.textAlign = 'center';
       g.textBaseline = 'middle';
       g.font = `700 ${size}px ${DISPLAY_FONT}`;
-      g.globalAlpha = 0.9;
+      g.globalAlpha = 0.75;
       g.fillStyle = st.multiplier >= 4 ? theme.gold : theme.text;
       g.fillText(String(st.combo), this.cx, y);
       g.font = `600 ${Math.round(size * 0.22)}px ${DISPLAY_FONT}`;
@@ -629,6 +649,12 @@ export class Renderer {
       }
     }
 
+  }
+
+  private drawHud(st: FrameState, dt: number): void {
+    const g = this.g;
+    const { W, theme } = this;
+    const top = this.insets.top;
     // Top bar: score, multiplier, accuracy, title, progress.
     this.scoreShown += (st.score - this.scoreShown) * Math.min(1, dt * 14);
     if (Math.abs(st.score - this.scoreShown) < 1) this.scoreShown = st.score;
