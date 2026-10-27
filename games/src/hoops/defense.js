@@ -91,7 +91,8 @@ const Defense = (() => {
       arch, pos, vel: [0, 0, 0], state: 'closing', t: 0, stateT: 0, lift: 0, shadeSide,
       pose: Object.assign({}, Court3D.POSES.stand), poseName: 'stand', phase: r() * 6,
       skin: SKIN[Math.floor(r() * SKIN.length)], hair: HAIR[Math.floor(r() * HAIR.length)],
-      gapWanted: arch.gap, contestJump: 0, reacting: 0, faced: 'shooter'
+      gapWanted: arch.gap, contestJump: 0, reacting: 0, faced: 'shooter',
+      shift: 0, shiftHold: 0, momSide: 0, lean: 0, fwd: 0
     };
   }
 
@@ -100,10 +101,31 @@ const Defense = (() => {
     const side = sideVec(shooterPos);
     const toRim = Math.hypot(RIM.x - shooterPos[0], RIM.z - shooterPos[2]);
     const gap = Math.min(d.gapWanted, Math.max(1.6, toRim - 0.5));
-    const t = V.add(V.add(shooterPos, V.mul(dir, gap)), V.mul(side, d.shadeSide * 1.35));
+    const t = V.add(V.add(shooterPos, V.mul(dir, gap)), V.mul(side, d.shadeSide * 1.35 + (d.shift || 0) * 0.9));
     t[1] = 0;
     return t;
   }
+
+  /* Where his weight is. momSide (−1..1, screen left/right) comes from how
+     he is moving and from anything he bit on; it decides counters. lean adds
+     the side he shades and is what you see; fwd is rushing at you (+) or
+     sitting back (−). */
+  function updateWeight(d, dt, shooterPos) {
+    const side = sideVec(shooterPos), dir = Court3D.dirToRim(shooterPos);
+    const latV = d.vel[0] * side[0] + d.vel[2] * side[2];
+    const fwdV = -(d.vel[0] * dir[0] + d.vel[2] * dir[2]);
+    if (d.shiftHold > 0) d.shiftHold -= dt;
+    else if (d.shift) { d.shift *= Math.exp(-dt * (1.4 + d.arch.lateral * 2.6)); if (Math.abs(d.shift) < 0.02) d.shift = 0; }
+    const mom = clampN(latV / 10 + d.shift, -1, 1);
+    let fwd = clampN(fwdV / 12, -0.5, 1);
+    if (d.state === 'air') fwd = 1;
+    else if (d.state === 'set' && d.gapWanted > 5.5) fwd = -0.45;
+    const k = Math.min(1, dt * 10);
+    d.momSide += (mom - d.momSide) * k;
+    d.lean += (clampN(mom + (d.state === 'set' || d.state === 'cutoff' ? d.shadeSide * 0.35 : 0), -1, 1) - d.lean) * k;
+    d.fwd += (fwd - d.fwd) * k;
+  }
+  function clampN(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
   function setState(d, s) { d.state = s; d.stateT = 0; }
 
@@ -176,6 +198,7 @@ const Defense = (() => {
     d.poseName = poseName;
     const k = Math.min(1, dt * (poseName.startsWith('run') ? 16 : 10));
     d.pose = Court3D.blendPose(d.pose, Court3D.POSES[poseName], k);
+    updateWeight(d, dt, S);
   }
 
   function gapTo(d, shooterPos) { return Math.hypot(d.pos[0] - shooterPos[0], d.pos[2] - shooterPos[2]); }
@@ -210,30 +233,63 @@ const Defense = (() => {
 
   /* Drive resolution. side: -1 left, +1 right (screen terms).
      Momentum (attacking a closeout or a defender in the air) and the side he
-     gives you matter most; quick feet take drives away. */
-  function driveOdds(d, side, handle) {
+     gives you matter most; quick feet take drives away. Going against the way
+     his weight is carried (after a jab, or right after he cut you off) is a
+     counter: that's the crossover. Returns the odds and what drove them. */
+  const REASONS = {
+    air: 'He\'s in the air', closeout: 'Caught him closing out', beaten: 'Still behind you', openside: 'He gave you that side',
+    slowfeet: 'Heavy feet', counter: 'Caught him leaning',
+    shade: 'He\'s sitting on that side', quickfeet: 'Quick feet', sag: 'He was waiting for it', already: 'He\'s already there'
+  };
+  function driveRead(d, side, handle) {
     const arch = d.arch;
     const speed = Math.hypot(d.vel[0], d.vel[2]);
+    const parts = [];
     let momentum = 0;
-    if (d.state === 'air' || d.state === 'recover') momentum = 1.4;
-    else if (d.state === 'closing' && speed > 6) momentum = 1;
-    else if (d.state === 'beaten') momentum = 1.2;
-    let p = 0.4 + momentum * 0.45;
-    if (d.shadeSide) p += d.shadeSide === side ? -0.55 : 0.55;
-    p -= (arch.lateral - 0.5) * 0.9;
-    if (d.gapWanted > 5.5 && momentum === 0) p -= 0.3;
-    p += ((handle == null ? 60 : handle) - 60) / 250;
-    return Math.max(0.04, Math.min(0.97, p));
+    if (d.state === 'air' || d.state === 'recover') { momentum = 1.4; parts.push(['air', 0.63]); }
+    else if (d.state === 'closing' && speed > 6) { momentum = 1; parts.push(['closeout', 0.45]); }
+    else if (d.state === 'beaten') { momentum = 1.2; parts.push(['beaten', 0.54]); }
+    if (d.shadeSide) parts.push(d.shadeSide === side ? ['shade', -0.55] : ['openside', 0.55]);
+    const feet = -(arch.lateral - 0.5) * 0.9;
+    parts.push([feet >= 0 ? 'slowfeet' : 'quickfeet', feet]);
+    if (d.gapWanted > 5.5 && momentum === 0) parts.push(['sag', -0.3]);
+    const lean = -side * (d.momSide || 0) * 0.65;
+    if (Math.abs(lean) > 0.05) parts.push([lean > 0 ? 'counter' : 'already', lean]);
+    let p = 0.4 + parts.reduce((s, x) => s + x[1], 0) + ((handle == null ? 60 : handle) - 60) / 250;
+    p = Math.max(0.04, Math.min(0.97, p));
+    const best = parts.filter(x => x[1] > 0).sort((a, b) => b[1] - a[1])[0];
+    const worst = parts.filter(x => x[1] < 0).sort((a, b) => a[1] - b[1])[0];
+    return { p, why: best ? REASONS[best[0]] : null, whyNot: worst ? REASONS[worst[0]] : 'Cut off' };
   }
+  function driveOdds(d, side, handle) { return driveRead(d, side, handle).p; }
+  // Clear reads resolve the same way every time; only the close calls are a coin flip.
   function drive(d, side, handle, rand) {
     const r = rand || Math.random;
-    const p = driveOdds(d, side, handle);
-    const win = r() < p;
+    const read = driveRead(d, side, handle);
+    const p = read.p;
+    const win = p >= 0.62 ? true : p <= 0.38 ? false : r() < p;
     let steal = false;
     if (!win && d.arch.steal && r() < d.arch.steal * 0.6) steal = true;
-    if (win) { d.beatSide = side; setState(d, 'beaten'); }
-    else { setState(d, 'cutoff'); d.gapWanted = 1.8; }
-    return { win, steal, odds: p };
+    if (win) { d.beatSide = side; setState(d, 'beaten'); d.shift = 0; }
+    else {
+      setState(d, 'cutoff'); d.gapWanted = 1.8;
+      // sliding with you puts his weight on that side for a moment
+      d.shift = clampN(side * (0.85 - d.arch.lateral * 0.45), -1, 1);
+      d.shiftHold = 0.32 - d.arch.lateral * 0.2;
+    }
+    return { win, steal, odds: p, why: win ? (read.why || 'Blow-by') : read.whyNot, close: p > 0.38 && p < 0.62 };
+  }
+
+  /* A jab: a short step that doesn't commit. Disciplined defenders barely
+     move; jumpy ones shift their weight and give you the other side. */
+  function jab(d, side, rand) {
+    const r = rand || Math.random;
+    if (!d || d.state === 'air' || d.state === 'recover' || d.state === 'beaten') return { bit: false, amt: 0 };
+    const discipline = d.arch.lateral * 0.5 + (1 - d.arch.bite) * 0.5;
+    const amt = (0.3 + (1 - discipline) * 0.8) * (0.85 + r() * 0.3);
+    d.shift = clampN((d.shift || 0) * 0.3 + side * amt, -1, 1);
+    d.shiftHold = 0.42 - d.arch.lateral * 0.22;
+    return { bit: amt > 0.6, amt };
   }
 
   function reactToShot(d, shooterPos) {
@@ -265,13 +321,16 @@ const Defense = (() => {
     const S = cam.eye;
     let face = [S[0] - d.pos[0], 0, S[2] - d.pos[2]];
     if (d.faced === 'rim') face = [RIM.x - d.pos[0], 0, RIM.z - d.pos[2]];
-    const lean = d.shadeSide && (d.state === 'set' || d.state === 'cutoff') ? d.shadeSide * 0.35 : 0;
+    // a beaten defender trailing right at your shoulder fades out instead of filling the screen
+    const z = Court3D.toCam(cam, V.add(d.pos, [0, 3, 0]))[2];
+    const alpha = Math.max(0, Math.min(0.96, (z - 2.5) / 2.5));
+    if (alpha < 0.05) return null;
     return Court3D.drawFigure(ctx, cam, {
-      pos: d.pos, face, pose: d.pose, lift: d.lift, scale: d.arch.height, reach: d.arch.reach, lean,
+      pos: d.pos, face, pose: d.pose, lift: d.lift, scale: d.arch.height, reach: d.arch.reach, lean: (d.lean || 0) * 0.75, fwdLean: d.faced === 'rim' ? 0 : (d.fwd || 0) * 0.7,
       colors: { skin: d.skin, hair: d.hair, jersey: d.arch.colors.jersey, shorts: d.arch.colors.shorts, shoes: '#f4f4f4', trim: d.arch.colors.trim },
-      number: d.arch.number, alpha: 0.96, back: d.faced === 'rim'
+      number: d.arch.number, alpha, back: d.faced === 'rim'
     });
   }
 
-  return { ARCHETYPES, IDS, create, update, contest, contestLabel, foulable, pumpFake, drive, driveOdds, reactToShot, blockChance, grade, gapTo, drawDefender, targetFor };
+  return { ARCHETYPES, IDS, create, update, contest, contestLabel, foulable, pumpFake, drive, driveOdds, driveRead, jab, reactToShot, blockChance, grade, gapTo, drawDefender, targetFor };
 })();

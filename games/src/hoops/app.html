@@ -54,6 +54,14 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .row-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .link { padding: 12px 8px; border-radius: 12px; border: 1px solid var(--line); background: transparent; cursor: pointer; font: 800 15px/1.1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; }
 .link:hover { background: var(--asphalt); }
+.moves { border: 1px solid var(--line); border-radius: 14px; background: var(--asphalt); }
+.moves summary { cursor: pointer; padding: 13px 14px; font: 800 18px/1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; list-style: none; display: flex; justify-content: space-between; }
+.moves summary::-webkit-details-marker { display: none; }
+.moves summary::after { content: "+"; color: var(--sodium); }
+.moves[open] summary::after { content: "\2212"; }
+.moves dl { display: grid; grid-template-columns: minmax(96px, auto) 1fr; gap: 8px 12px; margin: 0; padding: 0 14px 14px; font-size: 14px; }
+.moves dt { font-weight: 700; color: var(--sodium); }
+.moves dd { margin: 0; color: #cfd3dc; min-width: 0; }
 
 /* sub screens */
 .bar { display: flex; align-items: center; gap: 10px; }
@@ -162,6 +170,20 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
         <div><h2>Challenge Builder</h2><p>Pick the court, the spots, the defenders and the rules. Save it, then play it whenever you want.</p><div class="rec" id="rec-builder"></div></div>
       </button>
     </div>
+    <details class="moves" id="moves">
+      <summary>Moves</summary>
+      <dl>
+        <dt>Flick up</dt><dd>Shoot. Flick harder for more distance.</dd>
+        <dt>Long swipe</dt><dd>Drive left or right.</dd>
+        <dt>Short swipe</dt><dd>Jab. Jumpy defenders shift their weight; go the other way.</dd>
+        <dt>Snap back</dt><dd>Swipe the other way mid-drive to cross him over.</dd>
+        <dt>Swipe down</dt><dd>Step back.</dd>
+        <dt>Tap</dt><dd>Pump fake.</dd>
+        <dt>Euro step</dt><dd>After a blow-by, swipe sideways on the way to the rim.</dd>
+        <dt>Spin</dt><dd>Curl your layup flick. A little spin sits soft on the rim; too much spins it out.</dd>
+        <dt>Chain it</dt><dd>Moves you make while another is finishing go next.</dd>
+      </dl>
+    </details>
     <div class="row-links">
       <button class="link" type="button" data-go="scout">Scouting book</button>
       <button class="link" type="button" data-go="chart">Shot chart</button>

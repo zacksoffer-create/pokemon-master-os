@@ -160,13 +160,16 @@ const Court3D = (() => {
     return true;
   }
   function fillPoly(ctx, cam, pts, fill) { if (pathPoly(ctx, cam, pts)) { ctx.fillStyle = fill; ctx.fill(); } }
+  // Lines clip a little further out than polygons, and never get fatter than a
+  // stripe of paint would look, so a line passing under the camera stays a line.
+  const NEAR_LINE = 2;
   function seg(ctx, cam, a, b, widthFt, minW) {
     let ca = toCam(cam, a), cb = toCam(cam, b);
-    if (ca[2] <= NEAR && cb[2] <= NEAR) return;
-    if (ca[2] <= NEAR) { const t = (NEAR - ca[2]) / (cb[2] - ca[2]); ca = [ca[0] + (cb[0] - ca[0]) * t, ca[1] + (cb[1] - ca[1]) * t, NEAR]; }
-    if (cb[2] <= NEAR) { const t = (NEAR - cb[2]) / (ca[2] - cb[2]); cb = [cb[0] + (ca[0] - cb[0]) * t, cb[1] + (ca[1] - cb[1]) * t, NEAR]; }
+    if (ca[2] <= NEAR_LINE && cb[2] <= NEAR_LINE) return;
+    if (ca[2] <= NEAR_LINE) { const t = (NEAR_LINE - ca[2]) / (cb[2] - ca[2]); ca = [ca[0] + (cb[0] - ca[0]) * t, ca[1] + (cb[1] - ca[1]) * t, NEAR_LINE]; }
+    if (cb[2] <= NEAR_LINE) { const t = (NEAR_LINE - cb[2]) / (ca[2] - cb[2]); cb = [cb[0] + (ca[0] - cb[0]) * t, cb[1] + (ca[1] - cb[1]) * t, NEAR_LINE]; }
     const pa = projC(cam, ca), pb = projC(cam, cb);
-    ctx.lineWidth = Math.max(minW || 1, widthFt * (pa.s + pb.s) / 2);
+    ctx.lineWidth = Math.min(16, Math.max(minW || 1, widthFt * (pa.s + pb.s) / 2));
     ctx.beginPath(); ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y); ctx.stroke();
   }
   function strokePath(ctx, cam, pts, widthFt, minW) {
@@ -557,6 +560,7 @@ const Court3D = (() => {
         lx = (sh[0] + (l[0] - sh[0]) * reach) * sc; ly = (sh[1] + (l[1] - sh[1]) * reach) * sc; lz = (sh[2] + (l[2] - sh[2]) * reach) * sc;
       }
       if (fig.lean) lx += fig.lean * (ly / 6);
+      if (fig.fwdLean) lz += fig.fwdLean * (ly / 6);
       W[j] = [fig.pos[0] + s[0] * lx + f[0] * lz, ly + (fig.lift || 0), fig.pos[2] + s[2] * lx + f[2] * lz];
     });
     const P = {};

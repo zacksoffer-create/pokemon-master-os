@@ -7,6 +7,21 @@ Two phone games built on shared engines, as a first test of the "mechanics libra
 | **Basketball Playground** (`dist/basketball-playground.html`) | Flick-to-shoot basketball with defenders you have to read. Modes: Read & React, 3-Point Contest, HORSE vs four computer shooters, Shootaround with a shot chart, and a Challenge Builder. | Flick + trajectory, read and react, autonomous defenders, challenge creator |
 | **Living School** (`dist/living-school.html`) | An eight-week semester at Hollow Creek High. Nine students with their own schedules, moods, friendships and memories. Conversations are a read-and-react card game, classes are microgames, and basketball tryouts, HORSE and Friday games run on the basketball engine. Ends with a yearbook the characters sign from what they remember. | Relationships + memory, simulation calendar, branching events, persistent records, rapid-fire microgames, and the whole basketball engine |
 
+## Basketball controls
+
+| Gesture | Move |
+|---|---|
+| Flick up | Shoot. Harder flick, more distance; your free-throw flick sets the scale. |
+| Long swipe left/right | Drive. Clear reads resolve the same way every time; only close calls are a coin flip. |
+| Short swipe | Jab. Jumpy defenders shift their weight toward it. |
+| Swipe the other way mid-drive | Crossover. Going against the way his weight is carried beats him. |
+| Swipe down | Step back. |
+| Tap | Pump fake. |
+| Sideways swipe after a blow-by, near the rim | Euro step. Buys a beat before he recovers. |
+| Curl the layup flick | Spin. A little curl sits soft on the rim and rolls in; a big hook spins it out. Layups from the side go off the glass. |
+
+Moves made while another is finishing are queued, so you can chain jab, cross, euro, finish.
+
 ## How it maps to the five engines
 
 | Engine | Code | Used by |
@@ -24,6 +39,8 @@ Everything a designer would want to change is data: defenders in `defense.js`, c
 ```
 python3 games/build.py                   # inlines src/ into one page per game in dist/
 node games/test/physics_mc.js            # make rates by distance, touch error, contest
+node games/test/physics_layup.js         # layups by angle, touch error and spin
+node games/test/controls_hoops.js OUTDIR # jab, crossover, euro step, queued moves, spun layup
 node games/test/makes_hoops.js           # in-browser: a well-sized flick scores from 6 to 21 ft
 node games/test/smoke_hoops.js OUTDIR    # plays every basketball mode, screenshots
 node games/test/bot_school.js SEED [PNG] # plays a full semester with random choices

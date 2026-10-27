@@ -27,8 +27,17 @@ const Gesture = (() => {
     // repeat; speed is what "flick harder" feels like. Together they jitter less
     // than either alone.
     const power = Math.sqrt(speed * 4 * (dist / h));
+    // Curl: how far the finger's path bows away from a straight line, as a
+    // share of its length. Positive bows to the right. A layup flick with a
+    // little curl puts spin on the ball.
+    let bow = 0;
+    for (const s of samples) {
+      const dev = (dx * (s.y - start.y) - dy * (s.x - start.x)) / dist;
+      if (Math.abs(dev) > Math.abs(bow)) bow = dev;
+    }
+    const curl = bow / dist;
 
-    const base = { dx, dy, dist, dur, speed, power, startX: start.x, startY: start.y };
+    const base = { dx, dy, dist, dur, speed, power, curl, startX: start.x, startY: start.y };
     if (-dy > Math.abs(dx) * 0.7 && dist >= FLICK_MIN_PX) {
       return Object.assign(base, { type: 'flick', angle: Math.atan2(dx, -dy) });
     }

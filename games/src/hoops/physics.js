@@ -9,13 +9,14 @@ const HoopPhysics = (() => {
 
   function newBall(p, v, opts) {
     return Object.assign({
-      p: p.slice(), v: v.slice(), rot: 0, spin: -9, prevY: p[1], t: 0,
+      p: p.slice(), v: v.slice(), rot: 0, spin: -9, prevY: p[1], t: 0, touch: 0, spinOut: 0,
       rimHits: 0, boardHits: 0, bounces: 0, scored: false, done: false, result: null, events: []
     }, opts || {});
   }
 
   function step(b, dt, court) {
-    const e = court.rimE, fr = court.rimFr;
+    // a spun layup sits softer on the rim
+    const e = court.rimE * (1 - 0.25 * b.touch), fr = court.rimFr;
     b.prevY = b.p[1];
     b.v[1] -= G * dt;
     b.p[0] += b.v[0] * dt; b.p[1] += b.v[1] * dt; b.p[2] += b.v[2] * dt;
@@ -36,6 +37,16 @@ const HoopPhysics = (() => {
         if (vn < 0) {
           const vt = V.sub(b.v, V.mul(n, vn));
           b.v = V.add(V.mul(vt, 1 - fr), V.mul(n, -vn * e));
+          if (b.touch) {
+            // shooter's roll: spin carries a ball sitting on the rim toward the middle
+            b.v = V.add(b.v, [-rx / hd * 1.1 * b.touch, 0, -rz / hd * 1.1 * b.touch]);
+          }
+          if (b.spinOut) {
+            // too much spin grabs the rim and throws the ball off it
+            const out = [rx / hd, 0, rz / hd], tan = [-rz / hd, 0, rx / hd];
+            b.v = V.add(b.v, V.add(V.mul(out, Math.abs(b.spinOut) * 1.6), V.mul(tan, b.spinOut * 1.2)));
+            b.spinOut *= 0.5;
+          }
           b.rimHits++;
           b.spin *= -0.6;
           if (-vn > 2) b.events.push({ type: 'rim', s: Math.min(1, -vn / 14) });
@@ -102,6 +113,51 @@ const HoopPhysics = (() => {
     return [vec[0] * c + vec[2] * s, vec[1], -vec[0] * s + vec[2] * c];
   }
 
+  /* Spin from a layup flick's curl. A little curl (about a tenth of the
+     flick's length) puts touch on it: it sits soft on the rim. A big hook
+     spins it out. Straight flicks are plain layups. */
+  function spinFromCurl(curl) {
+    const c = Math.abs(curl || 0), sgn = Math.sign(curl || 0) || 1;
+    if (c < 0.035) return { touch: 0, out: 0, label: null };
+    if (c < 0.1) return { touch: (c - 0.035) / 0.065, out: 0, label: 'spin', sgn };
+    if (c < 0.26) return { touch: 1, out: 0, label: 'spin', sgn };
+    const over = Math.min(1, (c - 0.26) / 0.14);
+    return { touch: Math.max(0, 1 - over * 1.5), out: over * sgn, label: 'overspin', sgn };
+  }
+
+  /* From the side, layups go off the glass. Search the board for the spot that
+     drops it in, then check the best few with the real physics. */
+  const bankCache = new Map();
+  function solveBank(release, court) {
+    const key = release.map(v => v.toFixed(2)).join(',') + court.id;
+    if (bankCache.has(key)) return bankCache.get(key);
+    const bz = BOARD.z + BALL_R;
+    const cands = [];
+    for (const by of [10.7, 11.0, 11.3]) for (const th of [50, 56, 62, 68]) for (let i = 0; i <= 64; i++) {
+      const bx = -1.6 + i * 0.05;
+      const sol = solve(release, [bx, by, bz], th * Math.PI / 180);
+      if (!sol) continue;
+      const t1 = sol.D / Math.hypot(sol.vec[0], sol.vec[2]);
+      const vin = [sol.vec[0], sol.vec[1] - G * t1, sol.vec[2]];
+      if (vin[2] >= -0.5) continue;
+      const v2 = [vin[0] * 0.88, vin[1] * 0.88, -vin[2] * 0.6];
+      const disc = v2[1] * v2[1] + 2 * G * (by - RIM.y);
+      if (disc < 0) continue;
+      const t2 = (v2[1] + Math.sqrt(disc)) / G;
+      cands.push({ err: Math.hypot(bx + v2[0] * t2 - RIM.x, bz + v2[2] * t2 - (RIM.z + 0.02)), vec: sol.vec });
+    }
+    cands.sort((a, b) => a.err - b.err);
+    let best = null;
+    for (const c of cands.slice(0, 10)) {
+      const b = simulate(release, c.vec, court);
+      if (b.result === 'made' && b.boardHits > 0 && b.rimHits === 0) { best = c; break; }
+      if (!best && b.result === 'made' && b.boardHits > 0) best = c;
+    }
+    if (bankCache.size > 300) bankCache.clear();
+    bankCache.set(key, best);
+    return best;
+  }
+
   // Where the ball leaves the hand: up at the top of the jump, a step toward the rim.
   function releasePoint(shooter, type) {
     const dir = Court3D.dirToRim(shooter);
@@ -110,7 +166,8 @@ const HoopPhysics = (() => {
 
   // Shot types by distance from the rim.
   function shotType(dist) {
-    if (dist < 5.5) return { id: 'layup', label: 'Layup', theta: 58, from: 8.4, aimBack: 0.08 };
+    // in close, a layup is lofted higher so it comes down over the front rim
+    if (dist < 5.5) return { id: 'layup', label: 'Layup', theta: Math.min(78, 58 + Math.max(0, 5.5 - dist) * 7), from: 8.4 + Math.max(0, 4.5 - dist) * 0.3, aimBack: 0.08 };
     if (dist < 11) return { id: 'floater', label: 'Floater', theta: 56, from: 7.8, aimBack: 0.12 };
     return { id: 'jumper', label: 'Jumper', theta: 50, from: 7.5, aimBack: 0.14 };
   }
@@ -123,7 +180,7 @@ const HoopPhysics = (() => {
   function gauss(rand) { const r = rand || Math.random; let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
 
   /* Turn a flick into a launched ball.
-     q: { shooter, flickSpeed, angle (rad), touchK,
+     q: { shooter, flickSpeed, angle (rad), curl, touchK, court,
           window, aimDead, contest, rating (0..100), fatigue (0..1), rand } */
   function shoot(q) {
     const { RIM } = Court3D;
@@ -132,14 +189,23 @@ const HoopPhysics = (() => {
     const dir = Court3D.dirToRim(q.shooter);
     const release = releasePoint(q.shooter, type);
     const target = [RIM.x + dir[0] * type.aimBack, RIM.y, RIM.z + dir[2] * type.aimBack];
-    const sol = solve(release, target, type.theta * Math.PI / 180);
+    let sol = solve(release, target, type.theta * Math.PI / 180);
+    let bank = false;
+    const side = Math.abs(Court3D.polarOf(q.shooter).angle);
+    if (type.id === 'layup' && side >= 25 && side <= 85 && q.court) {
+      const b = solveBank(release, q.court);
+      if (b) { sol = { vec: b.vec }; bank = true; }
+    }
+    const spin = type.id === 'jumper' ? { touch: 0, out: 0, label: null } : spinFromCurl(q.curl);
     const ideal = q.touchK * idealFlick(dist);
     const ratio = q.flickSpeed / ideal;
     const e = ratio - 1;
     const w = q.window;
     // inside the window the flick snaps toward perfect; outside it, error grows quickly
     // close shots have more room for error in the arc, so the slope is steeper there
-    const slope = 0.11 * Math.max(1, FT_DIST / Math.max(4, dist)) * (e > 0 ? 1.25 : 1);
+    // layups are tighter still, so touch (and spin) matters at the rim
+    const closeK = type.id === 'layup' ? Math.pow(FT_DIST / Math.max(3, dist), 1.6) : Math.max(1, FT_DIST / Math.max(4, dist));
+    const slope = 0.11 * closeK * (e > 0 ? 1.25 : 1);
     let ve;
     if (Math.abs(e) <= w) ve = e * 0.0045 / w;
     else ve = Math.sign(e) * (0.0045 + (Math.abs(e) - w) * slope);
@@ -158,18 +224,22 @@ const HoopPhysics = (() => {
     vec = rotateY(vec, -yawDeg * Math.PI / 180);
     const green = Math.abs(e) <= w && Math.abs(angDeg) <= dead;
     return {
-      vel: vec, release, type, dist, ratio, error: e, green,
+      vel: vec, release, type, dist, ratio, error: e, green, bank,
+      touch: spin.touch, spinOut: spin.out, spinDir: spin.sgn || 0,
       aimDeg: angDeg, yawDeg, window: w, idealSpeed: ideal,
-      feedback: describe(e, w, angDeg, dead)
+      feedback: describe(e, w, angDeg, dead, spin, bank)
     };
   }
 
-  function describe(e, w, ang, dead) {
+  function describe(e, w, ang, dead, spin, bank) {
     const parts = [];
     if (Math.abs(e) <= w) parts.push(Math.abs(e) < w * 0.35 ? 'Pure touch' : 'Good touch');
     else if (e > 0) parts.push(e > w + 0.2 ? 'Way too hard' : 'A bit strong');
     else parts.push(e < -w - 0.2 ? 'Way too soft' : 'A bit short');
     if (Math.abs(ang) > dead) parts.push(ang > 0 ? 'pulled right' : 'pulled left');
+    if (spin && spin.label === 'overspin') parts.push('too much spin');
+    else if (spin && spin.touch > 0.5) parts.push(bank ? 'spun off the glass' : 'spun it soft');
+    else if (bank) parts.push('off the glass');
     return parts.join(', ');
   }
 
@@ -198,5 +268,5 @@ const HoopPhysics = (() => {
     return b;
   }
 
-  return { G, newBall, advance, solve, shoot, cpuShot, simulate, shotType, releasePoint, idealFlick, FT_DIST, gauss };
+  return { G, newBall, advance, solve, shoot, cpuShot, simulate, shotType, releasePoint, idealFlick, spinFromCurl, solveBank, FT_DIST, gauss };
 })();

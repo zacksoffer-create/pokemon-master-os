@@ -146,38 +146,102 @@ const HoopsEngine = (() => {
       gesture(g) {
         if (!S.running) return;
         if (g.type === 'flick') return onFlick(g);
-        if (g.type === 'swipe') return onSwipe(g.dir);
+        if (g.type === 'swipe') return onSwipe(g.dir, g);
         if (g.type === 'tap') return onTap(g);
       }
     });
     ui.quit.addEventListener('click', () => { Sfx.play('ui'); const q = S.onQuit; stop(); q && q(summary(true)); });
     ui.card.addEventListener('click', e => { if (e.target.closest('button') && S.cardNext) { const f = S.cardNext; S.cardNext = null; f(); } });
 
+    function moveProgress() { return S.move ? Math.min(1, (S.t - S.move.t0) / S.move.dur) : 1; }
     function canShoot() {
       const sh = S.shooter;
       if (!sh || !sh.hasBall || sh.reload > 0) return false;
       if (S.phase === 'live' || S.phase === 'faking') return true;
-      if (S.phase === 'moving' && sh.moveT / sh.moveDur > 0.55) return true;
+      // you can rise up in stride: layups on the drive, pull-ups off a jab
+      if (S.phase === 'moving') return moveProgress() > 0.2;
       return false;
     }
-    function onFlick(g) {
-      if (!canShoot()) return;
-      shoot(g);
+    // A move you make while another is still happening isn't dropped: it goes
+    // next, as soon as your feet are set.
+    function queue(q) { q.at = S.t; S.queued = q; }
+    function flushQueue() {
+      const q = S.queued; S.queued = null;
+      if (!q || S.t - q.at > 0.5 || S.phase !== 'live' || !S.shooter || !S.shooter.hasBall) return;
+      if (q.flick) return shoot(q.flick);
+      if (q.dir) return dribbleMove(q.dir, q.g);
+      if (q.tap) return pumpFake();
     }
-    function onSwipe(dir) {
+    function startMove(kind, side, dur, phase) {
+      const id = (S.moveId || 0) + 1;
+      S.moveId = id;
+      S.move = { kind, side, t0: S.t, dur };
+      S.phase = phase || 'moving';
+      after(dur, () => {
+        if (S.moveId !== id || (S.phase !== 'moving' && S.phase !== 'faking')) return;
+        S.phase = 'live'; S.move = null;
+        flushQueue();
+      });
+    }
+    function onFlick(g) {
+      if (canShoot()) return shoot(g);
+      const sh = S.shooter;
+      if (sh && ((sh.hasBall && (S.phase === 'moving' || S.phase === 'faking')) || S.phase === 'catch')) queue({ flick: g });
+    }
+    function onSwipe(dir, g) {
       const k = S.spec && S.spec.kind;
       if (k === 'free' && S.phase === 'live') return freeMove(dir);
-      if (!S.def || S.phase !== 'live' || !S.shooter.hasBall) return;
-      if (dir === 'left' || dir === 'right') return driveMove(dir === 'left' ? -1 : 1);
-      if (dir === 'down') return stepBack();
+      if (S.def && S.phase === 'catch') return queue({ dir, g });
+      if (!S.def || !S.shooter || !S.shooter.hasBall) return;
+      if (S.phase === 'live') return dribbleMove(dir, g);
+      // snapping back the other way mid-move cancels it: that's the crossover
+      const lateral = dir === 'left' || dir === 'right';
+      if (S.phase === 'moving' && S.move && lateral && S.move.side && (dir === 'left' ? -1 : 1) !== S.move.side && moveProgress() > 0.3) return dribbleMove(dir, g);
+      if (S.phase === 'moving' || S.phase === 'faking' || S.phase === 'catch') queue({ dir, g });
     }
     function onTap() {
       const k = S.spec && S.spec.kind;
       if (k === 'free' && S.phase === 'live' && S.shooter.hasBall) return openMap('Move to a new spot', 'Tap anywhere on the half court.', p => { placeShooter(p); S.phase = 'live'; });
-      if (S.def && S.phase === 'live' && S.shooter.hasBall) pumpFake();
+      if (S.def && S.phase === 'catch') return queue({ tap: true });
+      if (!S.def || !S.shooter || !S.shooter.hasBall) return;
+      if (S.phase === 'live') return pumpFake();
+      if (S.phase === 'moving') queue({ tap: true });
     }
 
     // ---------- moves ----------
+    // A long swipe drives, a short one jabs, and on the way to the rim after a
+    // blow-by a sideways swipe is a euro step.
+    function dribbleMove(dir, g) {
+      if (dir === 'down') return stepBack();
+      if (dir !== 'left' && dir !== 'right') return;
+      const side = dir === 'left' ? -1 : 1;
+      const sh = S.shooter;
+      const dist = Math.hypot(sh.pos[0] - RIM.x, sh.pos[2] - RIM.z);
+      if (dist < 10.5 && S.def.state === 'beaten') return euroStep(side);
+      if (g && Math.abs(g.dx) < Math.max(46, W * 0.14)) return jabStep(side);
+      return driveMove(side);
+    }
+    function jabStep(side) {
+      const sh = S.shooter;
+      const r = Defense.jab(S.def, side, S.rand);
+      sh.jabT = 0; sh.jabSide = side;
+      Sfx.play('dribble');
+      S.poss.actions.push(`jabbed ${side < 0 ? 'left' : 'right'}${r.bit ? ' and he shifted' : ''}`);
+      popup(r.bit ? 'He shifted' : 'Jab', r.bit ? '#7ee2a8' : '#f3f1ea', 0.7, { world: V.add(S.def.pos, [0, 7.4, 0]), life: 0.9 });
+      startMove('jab', side, 0.24);
+    }
+    function euroStep(side) {
+      const sh = S.shooter, pol = Court3D.polarOf(sh.pos);
+      let dest = Court3D.polar(Math.max(-100, Math.min(100, pol.angle + side * 17)), Math.max(2.8, pol.dist - 1.4));
+      if (!inBounds(dest)) dest = sh.pos.slice();
+      // the long sideways step buys a beat before he can recover
+      S.def.stateT = Math.max(0, S.def.stateT - 0.35);
+      S.poss.actions.push('euro-stepped');
+      Sfx.play('dribble');
+      popup('Euro', '#7ee2a8', 0.8, { world: V.add(dest, [0, 7.5, 0]), life: 0.9 });
+      moveShooter(dest, 0.26);
+      startMove('euro', side, 0.26);
+    }
     function driveMove(side) {
       const sh = S.shooter, d = S.def;
       const res = Defense.drive(d, side, ratingFor('handle'), S.rand);
@@ -200,18 +264,24 @@ const HoopsEngine = (() => {
         na = Math.max(-100, Math.min(100, na));
         dest = Court3D.polar(na, nd);
         S.poss.beatHim = true;
-        S.poss.actions.push(`drove ${side < 0 ? 'left' : 'right'} and beat him`);
-        popup('Blow-by', '#7ee2a8', 0.9, { world: V.add(sh.pos, V.add(V.mul(Court3D.dirToRim(sh.pos), 5), [0, 6.5, 0])) });
+        const crossed = res.why === 'Caught him leaning';
+        S.poss.actions.push(crossed ? `crossed him going ${side < 0 ? 'left' : 'right'}` : `drove ${side < 0 ? 'left' : 'right'} and beat him`);
+        const at = V.add(sh.pos, V.add(V.mul(Court3D.dirToRim(sh.pos), 5), [0, 6.5, 0]));
+        popup(crossed ? 'Crossed him' : 'Blow-by', '#7ee2a8', 0.9, { world: at });
+        if (res.why && !crossed) popup(res.why, '#cfe9da', 0.5, { world: V.add(at, [0, -1.1, 0]), life: 1.4 });
+        if (!S.layupHint && settings.hints) { S.layupHint = true; hint('Flick to finish. Near the rim, swipe sideways to euro step, or curl your flick to put spin on it.'); }
       } else {
         dest = Court3D.polar(Math.max(-100, Math.min(100, pol.angle + side * 7)), Math.max(3.5, pol.dist - 2));
         S.poss.actions.push(`drove ${side < 0 ? 'left' : 'right'} and got cut off`);
-        popup('Cut off', '#ff9a66', 0.9, { world: V.add(d.pos, [0, 6.8, 0]) });
+        const at = V.add(d.pos, [0, 6.8, 0]);
+        popup('Cut off', '#ff9a66', 0.9, { world: at });
+        if (res.why) popup(res.why, '#f3d2c4', 0.5, { world: V.add(at, [0, -1.1, 0]), life: 1.4 });
         Sfx.buzz(25);
       }
       if (!inBounds(dest)) dest = sh.pos.slice();
       moveShooter(dest, res.win ? 0.5 : 0.32);
-      S.phase = 'moving';
-      after(res.win ? 0.5 : 0.32, () => { if (S.phase === 'moving') S.phase = 'live'; });
+      startMove('drive', side, res.win ? 0.5 : 0.32);
+      S.move.win = res.win;
     }
     function stepBack() {
       const sh = S.shooter;
@@ -221,8 +291,7 @@ const HoopsEngine = (() => {
       S.poss.actions.push('stepped back');
       Sfx.play('dribble');
       moveShooter(dest, 0.28);
-      S.phase = 'moving';
-      after(0.28, () => { if (S.phase === 'moving') S.phase = 'live'; });
+      startMove('step', 0, 0.28);
     }
     function pumpFake() {
       const sh = S.shooter;
@@ -230,8 +299,7 @@ const HoopsEngine = (() => {
       const bit = Defense.pumpFake(S.def, sh.pos, S.rand);
       S.poss.actions.push(bit ? 'pump-faked and he bit' : 'pump-faked and he stayed down');
       if (bit) popup('He bit', '#7ee2a8', 0.9, { world: V.add(S.def.pos, [0, 7.5, 0]) });
-      S.phase = 'faking';
-      after(0.34, () => { if (S.phase === 'faking') S.phase = 'live'; });
+      startMove('fake', 0, 0.34, 'faking');
     }
     function freeMove(dir) {
       const cur = S.freeRing || 'three';
@@ -260,11 +328,13 @@ const HoopsEngine = (() => {
       const feel = FEEL[settings.feel] || FEEL.normal;
       const rating = S.cpuTurn ? 60 : ratingFor('shooting');
       const fatigue = S.spec.fatigue || 0;
-      let w = feel.window * (1 + (rating - 60) / 160) * (dist < 6 ? 1.35 : dist > 22 ? 0.86 : 1) * (1 - 0.5 * contest) * (S.phase === 'moving' ? 0.82 : 1) * (1 - fatigue * 0.35);
+      const onTheMove = S.phase === 'moving' && dist >= 11;
+      const spin = dist < 11 ? HoopPhysics.spinFromCurl(g.curl) : { touch: 0 };
+      let w = feel.window * (1 + (rating - 60) / 160) * (dist < 6 ? 1.35 : dist > 22 ? 0.86 : 1) * (1 - 0.5 * contest) * (onTheMove ? 0.82 : 1) * (1 - fatigue * 0.35) * (1 + 0.3 * spin.touch);
       const calibrating = S.list && S.spec.calibrate;
       const touchK = calibrating ? g.power / HoopPhysics.idealFlick(dist) : settings.touchK;
       if (calibrating) S.calib.push(g.power / HoopPhysics.idealFlick(dist));
-      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: g.power, angle: g.angle, touchK, window: w, aimDead: feel.aim, contest, rating, fatigue, rand: S.rand });
+      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: g.power, angle: g.angle, curl: g.curl, touchK, court: S.court, window: w, aimDead: feel.aim, contest, rating, fatigue, rand: S.rand });
       launch(shot, { contest, fouled, dist, by: 'you' });
       S.meter = { shot, t: 0, calibrating };
     }
@@ -277,6 +347,7 @@ const HoopsEngine = (() => {
       const ft = kind === 'possessions' && S.ftMode;
       const ball = HoopPhysics.newBall(shot.release, shot.vel, {
         appear: 0.13, sx: held.x, sy: held.y, sr: held.r, trail: [], money,
+        touch: shot.touch || 0, spinOut: shot.spinOut || 0, spin: shot.touch || shot.spinOut ? -(shot.spinDir || 1) * (16 + 14 * (shot.touch || 0)) : -9,
         info: Object.assign({ three, ft, zone: Court3D.zoneOf(S.court, sh.pos), type: shot.type.id, green: shot.green, pos: sh.pos.slice(), poss: S.poss ? S.poss.i : null }, info)
       });
       if (S.def && !info.fouled && info.by === 'you') {
@@ -284,7 +355,7 @@ const HoopsEngine = (() => {
         if (S.rand() < bc) ball.blockAt = 0.15;
       }
       S.balls.push(ball);
-      sh.hasBall = false; sh.jumpT = 0; sh.follow = 0;
+      sh.hasBall = false; sh.jumpT = 0; sh.follow = 0; S.queued = null;
       if (S.def) Defense.reactToShot(S.def, sh.pos);
       if (S.poss && !ft) { S.poss.contest = info.contest; S.poss.fouled = info.fouled; S.poss.shotType = shot.type.label; S.poss.three = three; S.poss.dist = shot.dist; }
       if (info.by === 'you') { S.attempts++; S.zone[ball.info.zone] = S.zone[ball.info.zone] || [0, 0]; S.zone[ball.info.zone][1]++; }
@@ -380,12 +451,14 @@ const HoopsEngine = (() => {
         after(0.32, () => {
           S.shooter.hasBall = true;
           S.phase = 'live';
+          S.move = null;
           S.clock = spec.shotClock || null;
           if (S.clock) ui.clock.hidden = false;
           if (settings.hints && S.hintShown < 2) {
             S.hintShown++;
-            hint(S.def ? 'Flick up to shoot · Swipe left or right to drive · Swipe down to step back · Tap to pump fake' : 'Flick up to shoot');
+            hint(S.def ? 'Flick up to shoot · Swipe to drive, a short swipe jabs · Swipe down to step back · Tap to pump fake' : 'Flick up to shoot');
           }
+          flushQueue();
         });
       });
     }
@@ -649,7 +722,7 @@ const HoopsEngine = (() => {
       S.court = Court3D.COURTS[spec.court] || Court3D.COURTS.park;
       S.onEnd = handlers && handlers.onEnd; S.onQuit = handlers && handlers.onQuit;
       S.rand = spec.seed != null ? mulberry(spec.seed) : Math.random;
-      Object.assign(S, { t: 0, balls: [], popups: [], timers: [], meter: null, clock: null, gameClock: null, score: 0, makes: 0, attempts: 0, streak: 0, best: 0, log: [], zone: {}, poss: null, rack: null, horse: null, list: null, cpuTurn: null, calib: [], hintShown: 0, cardNext: null, ftMode: false, rackDone: false, ended: false });
+      Object.assign(S, { t: 0, balls: [], popups: [], timers: [], meter: null, clock: null, gameClock: null, score: 0, makes: 0, attempts: 0, streak: 0, best: 0, log: [], zone: {}, poss: null, rack: null, horse: null, list: null, cpuTurn: null, calib: [], hintShown: 0, cardNext: null, ftMode: false, rackDone: false, ended: false, move: null, queued: null, layupHint: false, dribbleT: 0 });
       ['clock', 'horse', 'scout', 'contest', 'banner', 'hint', 'card', 'map'].forEach(k => { ui[k].hidden = true; });
       setScore('', '');
       updateScoreUi();
@@ -717,6 +790,8 @@ const HoopsEngine = (() => {
           if (k >= 1) sh.to = null;
         }
         sh.jumpT += dt; sh.fakeT += dt; sh.catchT += dt; sh.follow += dt;
+        if (sh.jabT != null) sh.jabT += dt;
+        if (sh.to && sh.hasBall) { S.dribbleT -= dt; if (S.dribbleT <= 0) { Sfx.play('dribble'); S.dribbleT = 0.17; } }
         if (sh.reload > 0) sh.reload -= dt;
       }
       if (S.def && S.phase !== 'intro' && S.phase !== 'card') Defense.update(S.def, dt, sh, S.rand);
@@ -810,6 +885,7 @@ const HoopsEngine = (() => {
       if (sh.fakeT < 0.34) y -= H * 0.09 * Math.sin(Math.PI * sh.fakeT / 0.34);
       if (sh.catchT < 0.32) { const k = sh.catchT / 0.32; x += (1 - k) * W * 0.7; y -= (1 - k) * H * 0.15; }
       if (sh.reload > 0) y += sh.reload / 0.24 * r * 2.5;
+      if (sh.jabT != null && sh.jabT < 0.24) { const k = Math.sin(Math.PI * sh.jabT / 0.24); x += sh.jabSide * r * 0.9 * k; y += r * 0.25 * k; }
       if (sh.to) {
         const k = sh.moveT / sh.moveDur;
         y += Math.abs(Math.sin(k * Math.PI * 2)) * r * 0.5; // dribble bob
@@ -847,9 +923,13 @@ const HoopsEngine = (() => {
     function render() {
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       const sh = S.shooter;
-      const pos = sh ? sh.pos : Court3D.spotInfo(S.court, 'top').pos;
+      let pos = sh ? sh.pos : Court3D.spotInfo(S.court, 'top').pos;
+      if (sh && sh.jabT != null && sh.jabT < 0.24) {
+        const dr = Court3D.dirToRim(pos);
+        pos = V.add(pos, V.mul([-dr[2], 0, dr[0]], sh.jabSide * Math.sin(Math.PI * sh.jabT / 0.24) * 0.8));
+      }
       const lift = sh && sh.jumpT < 0.6 ? Math.sin(Math.PI * sh.jumpT / 0.6) * 0.9 : 0;
-      const roll = sh && sh.to ? Math.sin(Math.PI * sh.moveT / sh.moveDur) * 0.05 * Math.sign((sh.to[0] - sh.from[0]) || 0) : 0;
+      const roll = sh && sh.to ? Math.sin(Math.PI * sh.moveT / sh.moveDur) * 0.05 * (S.move && S.move.side ? S.move.side : Math.sign((sh.to[0] - sh.from[0]) || 0)) : 0;
       const cam = Court3D.shooterCamera(pos, W, H, { lift, roll });
       const court = S.court;
       ctx.fillStyle = '#0b0f18'; ctx.fillRect(0, 0, W, H);
