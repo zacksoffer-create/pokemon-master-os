@@ -7,7 +7,13 @@ import pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent
 SRC = ROOT / "src"
-APPS = {"hoops/app.html": "basketball-playground.html", "school/app.html": "living-school.html"}
+APPS = {
+    "hoops/app.html": "basketball-playground.html",
+    "school/app.html": "living-school.html",
+    "golf/app.html": "fairway.html",
+    "pong/app.html": "pong-night.html",
+    "bat/app.html": "at-bat.html",
+}
 
 
 def build(src, out):
