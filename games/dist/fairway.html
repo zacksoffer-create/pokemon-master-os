@@ -813,7 +813,7 @@ const GolfCourse = (() => {
       green: { c: [2, 422], rx: 14, rz: 15, rot: 0, slope: [-0.01, 0.006], stimp: 10.5 },
       pin: [-4, 424],
       bunkers: [[17, 414, 4, 8, 0]],
-      water: [[-40, 270, 13, 130, 0]], trees: [], ob: 55,
+      water: [[-31, 250, 10, 120, 0], [-24, 398, 8, 32, 0]], trees: [], ob: 55,
       wind: { dir: [255, 285], mph: [9, 14] }
     },
     // closest-to-the-pin extras
@@ -979,8 +979,28 @@ const GolfCourse = (() => {
           trees.push({ x, z, r: 5 + r() * 3, h: 9 + r() * 4, tone: r(), ph: r() * 6, edge: true });
         });
       }
+      // and a stand of trees behind the green, so the flag has something behind it
+      const end = alongLine(h.line, total + 40);
+      for (let w = -h.ob; w <= h.ob; w += 8 + r() * 5) {
+        const back = r() * 12;
+        trees.push({ x: end.x + end.nx * w + end.dx * back, z: end.z + end.nz * w + end.dz * back, r: 5 + r() * 3, h: 9 + r() * 5, tone: r(), ph: r() * 6, edge: true });
+      }
     }
     B.trees = trees;
+    // the playable corridor (rough out to the stakes) and the white stakes on its edges
+    B.corridor = []; B.stakes = [];
+    if (!h.putting && !h.range) {
+      const tot = lineInfo(h.line, 0, 0).total, L = [], Rr = [];
+      for (let d = -15; d <= tot + 32; d += 6) {
+        const p = alongLine(h.line, d);
+        L.push([p.x - p.nx * h.ob, p.z - p.nz * h.ob]); Rr.push([p.x + p.nx * h.ob, p.z + p.nz * h.ob]);
+      }
+      B.corridor = L.concat(Rr.reverse());
+      for (let d = 0; d <= tot + 30; d += 22) {
+        const p = alongLine(h.line, d);
+        [-1, 1].forEach(side => B.stakes.push([p.x + p.nx * h.ob * side, p.z + p.nz * h.ob * side]));
+      }
+    }
     let minX = 1e9, maxX = -1e9, minZ = 1e9, maxZ = -1e9;
     h.line.forEach(p => { minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]); minZ = Math.min(minZ, p[1]); maxZ = Math.max(maxZ, p[1]); });
     B.bounds = { minX: minX - h.ob, maxX: maxX + h.ob, minZ: minZ - 20, maxZ: maxZ + 35 };
@@ -1035,22 +1055,22 @@ const GolfCourse = (() => {
   // a camera described by where it sits, what it looks at, and its field of view; easy to blend
   function lookCam(rig, W, H) { return camera(rig.eye, sub(rig.look, rig.eye), W, H, rig.fov); }
   function blendRig(a, b, t) { return { eye: lerp3(a.eye, b.eye, t), look: lerp3(a.look, b.look, t), fov: lerp(a.fov, b.fov, t) }; }
-  // The aiming view: up behind the ball looking down the line, framed so the
-  // target sits in the upper half and the ground near you runs under the golfer.
+  // The aiming view: behind the ball looking down the line, the way TV shows a
+  // shot. The horizon sits 30% down with sky above it, the target just under
+  // it, and the view is wide enough to show what's on either side of the line.
   function aimRig(ball, target, W, H) {
     const dx = target[0] - ball[0], dz = target[2] - ball[2];
     const D = Math.max(28, Math.hypot(dx, dz));
     const d = norm([dx, 0, dz]);
-    const back = 6 + 0.2 * D, high = 4 + 0.2 * D;
+    let fovDeg = D >= 90 ? 50 : 50 - (90 - D) * 0.1;
+    if (W / H > 0.75) fovDeg *= 0.8;
+    const fov = fovDeg * Math.PI / 180, t = Math.tan(fov / 2);
+    // screen offsets in focal units: horizon 0.2H above center, target 0.08H above
+    const pitch = Math.atan(0.4 * t), dep = pitch - Math.atan(0.16 * t);
+    const back = 8 + 0.14 * D;
+    const high = Math.max(2.5, (D + back) * Math.tan(dep));
     const eye = [ball[0] - d[0] * back, high, ball[2] - d[2] * back];
-    const aspect = W / H;
-    let fov = clamp(40 - D * 0.09, 16, 36) * Math.PI / 180;
-    if (aspect > 0.75) fov *= 0.85;
-    // aim a little below the target so it sits above the middle of the screen
-    const tgt = [ball[0] + d[0] * D, 0, ball[2] + d[2] * D];
-    const toT = sub(tgt, eye), dist = Math.hypot(toT[0], toT[2]);
-    const dep = Math.atan2(high, dist) + Math.atan(0.1 * Math.tan(fov / 2) / 0.5);
-    const look = [eye[0] + d[0] * 100 * Math.cos(dep), eye[1] - 100 * Math.sin(dep), eye[2] + d[2] * 100 * Math.cos(dep)];
+    const look = [eye[0] + d[0] * 100 * Math.cos(pitch), eye[1] - 100 * Math.sin(pitch), eye[2] + d[2] * 100 * Math.cos(pitch)];
     return { eye, look, fov, dir: d, D };
   }
   // The putting view: low behind the ball, the cup in the upper middle.
@@ -1158,10 +1178,10 @@ const GolfCourse = (() => {
       drawRidge(hills.far, '#9db8b0', 1);
       drawRidge(hills.near, '#5f8f63', 1);
     }
-    // ground: the rough runs to the horizon and fades into haze
+    // ground: woods and long grass out past the stakes, fading into haze
     const top = Math.max(0, hy);
     const g2 = ctx.createLinearGradient(0, top, 0, cam.H);
-    g2.addColorStop(0, '#7e9f6c'); g2.addColorStop(0.15, '#4f8a3f'); g2.addColorStop(1, '#3f7a33');
+    g2.addColorStop(0, '#6f8f60'); g2.addColorStop(0.12, '#3f6f37'); g2.addColorStop(1, '#35642f');
     ctx.fillStyle = g2; ctx.fillRect(0, top, cam.W, cam.H - top);
   }
 
@@ -1172,6 +1192,9 @@ const GolfCourse = (() => {
   };
   function drawHole(ctx, cam, id, opts) {
     const B = build(id), h = B.h, o = opts || {};
+    // the rough inside the stakes
+    if (B.corridor.length) fillGround(ctx, cam, B.corridor, COL.rough);
+    else if (h.range || h.putting) fillGround(ctx, cam, [[-200, -60], [200, -60], [200, 400], [-200, 400]], COL.rough);
     // fairways with mowing stripes
     B.fair.forEach(f => {
       if (!pathGround(ctx, cam, f)) return;
@@ -1247,6 +1270,11 @@ const GolfCourse = (() => {
       if (base[2] < 1) return;
       items.push({ z: base[2], draw: () => drawTree(ctx, cam, tr, t, ws, o.windDir || 0) });
     });
+    B.stakes.forEach(st => {
+      const c = toCam(cam, [st[0], 0, st[1]]);
+      if (c[2] < 1.5) return;
+      items.push({ z: c[2], draw: () => drawStake(ctx, cam, st) });
+    });
     const flags = [];
     if (o.pin) flags.push(o.pin);
     if (B.targets) B.targets.forEach(tg => flags.push(tg.pin));
@@ -1258,6 +1286,13 @@ const GolfCourse = (() => {
     });
     return items;
   }
+  // white out-of-bounds stakes
+  function drawStake(ctx, cam, st) {
+    const a = project(cam, [st[0], 0, st[1]]), b = project(cam, [st[0], 1.1, st[1]]);
+    if (!a || !b || a.y - b.y < 2) return;
+    ctx.strokeStyle = '#f6f4ee'; ctx.lineWidth = Math.max(1.2, 0.08 * a.s);
+    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+  }
   function drawTree(ctx, cam, tr, t, ws, wdir) {
     const base = project(cam, [tr.x, 0, tr.z]);
     const top = project(cam, [tr.x, tr.h, tr.z]);
@@ -1265,8 +1300,9 @@ const GolfCourse = (() => {
     const r = tr.r * top.s;
     if (r < 0.6) return;
     // treetops lean and sway with the wind
-    const lean = Math.sin(wdir * Math.PI / 180) * Math.min(1, ws / 20);
-    const sway = (Math.sin(t * (1.2 + ws * 0.08) + tr.ph) * 0.35 + 0.65) * lean * r * 0.22;
+    const k = Math.min(1, ws / 20);
+    const lean = Math.sin(wdir * Math.PI / 180) * k;
+    const sway = r * (lean * 0.16 + Math.sin(t * (1.2 + ws * 0.1) + tr.ph) * k * 0.08);
     ctx.fillStyle = 'rgba(20,40,20,0.25)';
     ctx.beginPath(); ctx.ellipse(base.x, base.y, r * 0.9, Math.max(1, r * 0.22), 0, 0, Math.PI * 2); ctx.fill();
     ctx.strokeStyle = '#5b4632'; ctx.lineWidth = Math.max(1, r * 0.18);
@@ -1284,10 +1320,17 @@ const GolfCourse = (() => {
     if (!q) return;
     const r = Math.max(2, 0.059 * q.s);
     const ry = Math.max(1, r * Math.min(0.5, Math.abs(cam.f[1]) * 1.4 + 0.12));
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.beginPath(); ctx.ellipse(q.x, q.y, r * 1.12, ry * 1.12 + 0.6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.beginPath(); ctx.ellipse(q.x, q.y, r * 1.3 + 1.5, ry * 1.3 + 1.2, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#16210f';
     ctx.beginPath(); ctx.ellipse(q.x, q.y, r, ry, 0, 0, Math.PI * 2); ctx.fill();
+    // a short stick and pennant so the hole reads from anywhere on the green
+    const top = project(cam, [p[0], 2.6, p[1]]);
+    const hgt = Math.min(top ? q.y - top.y : 60, cam.H * 0.14);
+    ctx.strokeStyle = '#f6f4ee'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(q.x, q.y - ry * 0.3); ctx.lineTo(q.x, q.y - hgt); ctx.stroke();
+    ctx.fillStyle = '#e8453c';
+    ctx.beginPath(); ctx.moveTo(q.x, q.y - hgt); ctx.lineTo(q.x + hgt * 0.32, q.y - hgt * 0.88); ctx.lineTo(q.x, q.y - hgt * 0.76); ctx.closePath(); ctx.fill();
   }
   // The flag is the wind gauge: it hangs in still air and stands out stiff in a gale.
   function drawFlag(ctx, cam, p, t, wind, color, putting) {
@@ -1298,8 +1341,8 @@ const GolfCourse = (() => {
     if (!topP) return;
     let k = 1;
     const px = base.y - topP.y;
-    const minPx = putting ? 0 : 30;
-    if (px < minPx) k = Math.min(8, minPx / Math.max(1, px));
+    const minPx = putting ? 0 : 46;
+    if (px < minPx) k = Math.min(10, minPx / Math.max(1, px));
     const H = H0 * k;
     const top = project(cam, [p[0], H, p[1]]);
     if (!top) return;
@@ -1312,9 +1355,9 @@ const GolfCourse = (() => {
     ctx.beginPath(); ctx.moveTo(base.x, base.y); ctx.lineTo(top.x, top.y); ctx.stroke();
     const w = wind || [0, 0, 0];
     const sp = Math.hypot(w[0], w[2]);
-    const str = clamp(sp / 9, 0, 1);
+    const str = clamp(sp / 8, 0, 1);
     const dir = sp > 0.01 ? [w[0] / sp, 0, w[2] / sp] : [0.7, 0, 0.7];
-    const L = 0.9 * k, Hf = 0.6 * k;
+    const L = 1.15 * k, Hf = 0.7 * k;
     const pts = [];
     const n = 6;
     for (let i = 0; i <= n; i++) {
@@ -1326,6 +1369,14 @@ const GolfCourse = (() => {
     const poly = pts.concat(pts.slice().reverse().map(q => [q[0], q[1] - Hf, q[2]]));
     const pp = poly.map(q => project(cam, q));
     if (pp.some(q => !q)) return;
+    // a flag blowing straight at you or away is foreshortened to a sliver; keep
+    // it readable by letting it stand out sideways at least a little
+    const full = L * (0.25 + 0.75 * str) * top.s, vx = pp[n].x - pp[0].x, vy = pp[n].y - pp[0].y;
+    const have = Math.hypot(vx, vy), want = full * 0.5 * str;
+    if (have < want) {
+      const sgn = Math.sign(vx) || 1, add = (want - have) * sgn;
+      pp.forEach((q, i) => { const f = i <= n ? i / n : (2 * n + 1 - i) / n; q.x += add * f; });
+    }
     ctx.fillStyle = color;
     ctx.beginPath(); pp.forEach((q, i) => i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y)); ctx.closePath(); ctx.fill();
   }
@@ -2592,14 +2643,14 @@ const GolfEngine = (() => {
       S.flow = [];
       if (!(S.hole && S.hole.green)) return;
       const r = mulberry(7);
-      for (let i = 0; i < 110; i++) { const f = {}; spawnFlow(f, r); S.flow.push(f); }
+      for (let i = 0; i < 42; i++) { const f = {}; spawnFlow(f, r); S.flow.push(f); }
     }
     function updateFlow(dt) {
       if (!(S.hole && S.hole.green)) return;
       const sl = S.slope, m = Math.hypot(sl[0], sl[1]);
       S.flow.forEach(f => {
-        f.a += dt * 0.4;
-        if (m > 0.002) { const sp = 0.15 + m * 30; f.x -= sl[0] / m * sp * dt; f.z -= sl[1] / m * sp * dt; }
+        f.a += dt * 0.22;
+        if (m > 0.002) { const sp = 0.06 + m * 10; f.x -= sl[0] / m * sp * dt; f.z -= sl[1] / m * sp * dt; }
         if (f.a > 1) { spawnFlow(f, S.rand); f.a = 0; }
       });
     }
@@ -2656,14 +2707,17 @@ const GolfEngine = (() => {
     // little streaks that drift downhill: the slope you have to read
     function drawFlow(cam) {
       const sl = S.slope, m = Math.hypot(sl[0], sl[1]);
-      if (m < 0.002) return;
-      const d = [-sl[0] / m, -sl[1] / m], L = 0.12 + m * 9;
+      // a near-flat green shows nothing: a straight putt should look straight
+      if (S.read && S.read.putt && S.read.primary === 'flat') return;
+      const vis = clamp((m - 0.008) / 0.016, 0, 1);
+      if (vis <= 0) return;
+      const d = [-sl[0] / m, -sl[1] / m], L = 0.1 + m * 7;
       ctx.save(); ctx.lineCap = 'round';
       S.flow.forEach(f => {
         if (C.surfaceAt(S.holeId, f.x, f.z) !== 'green') return;
         const q = C.project(cam, [f.x, 0.01, f.z]), q2 = C.project(cam, [f.x + d[0] * L, 0.01, f.z + d[1] * L]);
         if (!q || !q2 || q.y < 0 || q.y > H) return;
-        const al = Math.sin(Math.PI * f.a) * 0.7;
+        const al = Math.sin(Math.PI * f.a) * 0.55 * vis;
         ctx.strokeStyle = `rgba(255,255,255,${al.toFixed(3)})`;
         ctx.lineWidth = Math.max(1, Math.min(2.6, 0.05 * q.s));
         ctx.beginPath(); ctx.moveTo(q.x, q.y); ctx.lineTo(q2.x, q2.y); ctx.stroke();

@@ -852,14 +852,14 @@ const GolfEngine = (() => {
       S.flow = [];
       if (!(S.hole && S.hole.green)) return;
       const r = mulberry(7);
-      for (let i = 0; i < 110; i++) { const f = {}; spawnFlow(f, r); S.flow.push(f); }
+      for (let i = 0; i < 42; i++) { const f = {}; spawnFlow(f, r); S.flow.push(f); }
     }
     function updateFlow(dt) {
       if (!(S.hole && S.hole.green)) return;
       const sl = S.slope, m = Math.hypot(sl[0], sl[1]);
       S.flow.forEach(f => {
-        f.a += dt * 0.4;
-        if (m > 0.002) { const sp = 0.15 + m * 30; f.x -= sl[0] / m * sp * dt; f.z -= sl[1] / m * sp * dt; }
+        f.a += dt * 0.22;
+        if (m > 0.002) { const sp = 0.06 + m * 10; f.x -= sl[0] / m * sp * dt; f.z -= sl[1] / m * sp * dt; }
         if (f.a > 1) { spawnFlow(f, S.rand); f.a = 0; }
       });
     }
@@ -916,14 +916,17 @@ const GolfEngine = (() => {
     // little streaks that drift downhill: the slope you have to read
     function drawFlow(cam) {
       const sl = S.slope, m = Math.hypot(sl[0], sl[1]);
-      if (m < 0.002) return;
-      const d = [-sl[0] / m, -sl[1] / m], L = 0.12 + m * 9;
+      // a near-flat green shows nothing: a straight putt should look straight
+      if (S.read && S.read.putt && S.read.primary === 'flat') return;
+      const vis = clamp((m - 0.008) / 0.016, 0, 1);
+      if (vis <= 0) return;
+      const d = [-sl[0] / m, -sl[1] / m], L = 0.1 + m * 7;
       ctx.save(); ctx.lineCap = 'round';
       S.flow.forEach(f => {
         if (C.surfaceAt(S.holeId, f.x, f.z) !== 'green') return;
         const q = C.project(cam, [f.x, 0.01, f.z]), q2 = C.project(cam, [f.x + d[0] * L, 0.01, f.z + d[1] * L]);
         if (!q || !q2 || q.y < 0 || q.y > H) return;
-        const al = Math.sin(Math.PI * f.a) * 0.7;
+        const al = Math.sin(Math.PI * f.a) * 0.55 * vis;
         ctx.strokeStyle = `rgba(255,255,255,${al.toFixed(3)})`;
         ctx.lineWidth = Math.max(1, Math.min(2.6, 0.05 * q.s));
         ctx.beginPath(); ctx.moveTo(q.x, q.y); ctx.lineTo(q2.x, q2.y); ctx.stroke();
