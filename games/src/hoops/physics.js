@@ -179,15 +179,23 @@ const HoopPhysics = (() => {
   // gauss
   function gauss(rand) { const r = rand || Math.random; let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
 
+  // A fadeaway leaves the hand from behind your spot, a little higher and with
+  // more arc, so it plays about a foot and a half longer than a set shot.
+  const FADE_BACK = 0.9, FADE_EXTRA = 1.5;
+  function fadeType(dist) {
+    const t = dist < 11 ? { id: 'jumper', label: 'Jumper', theta: 50, from: 7.5, aimBack: 0.14 } : shotType(dist);
+    return Object.assign({}, t, { theta: t.theta + 3, from: t.from + 0.3 });
+  }
+
   /* Turn a flick into a launched ball.
-     q: { shooter, flickSpeed, angle (rad), curl, touchK, court,
+     q: { shooter, flickSpeed, angle (rad), curl, fade, touchK, court,
           window, aimDead, contest, rating (0..100), fatigue (0..1), rand } */
   function shoot(q) {
     const { RIM } = Court3D;
     const dist = Math.hypot(q.shooter[0] - RIM.x, q.shooter[2] - RIM.z);
-    const type = shotType(dist);
+    const type = q.fade ? fadeType(dist) : shotType(dist);
     const dir = Court3D.dirToRim(q.shooter);
-    const release = releasePoint(q.shooter, type);
+    const release = q.fade ? [q.shooter[0] - dir[0] * FADE_BACK, type.from, q.shooter[2] - dir[2] * FADE_BACK] : releasePoint(q.shooter, type);
     const target = [RIM.x + dir[0] * type.aimBack, RIM.y, RIM.z + dir[2] * type.aimBack];
     let sol = solve(release, target, type.theta * Math.PI / 180);
     let bank = false;
@@ -196,8 +204,8 @@ const HoopPhysics = (() => {
       const b = solveBank(release, q.court);
       if (b) { sol = { vec: b.vec }; bank = true; }
     }
-    const spin = type.id === 'jumper' ? { touch: 0, out: 0, label: null } : spinFromCurl(q.curl);
-    const ideal = q.touchK * idealFlick(dist);
+    const spin = type.id === 'jumper' || q.fade ? { touch: 0, out: 0, label: null } : spinFromCurl(q.curl);
+    const ideal = q.touchK * idealFlick(q.fade ? dist + FADE_EXTRA : dist);
     const ratio = q.flickSpeed / ideal;
     const e = ratio - 1;
     const w = q.window;

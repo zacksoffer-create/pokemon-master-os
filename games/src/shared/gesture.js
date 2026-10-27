@@ -39,10 +39,25 @@ const Gesture = (() => {
 
     const base = { dx, dy, dist, dur, speed, power, curl, startX: start.x, startY: start.y };
     if (-dy > Math.abs(dx) * 0.7 && dist >= FLICK_MIN_PX) {
+      // Pulling the finger down first, then flicking up, is a fadeaway. The
+      // flick is measured from the bottom of the dip, where the shot starts.
+      let low = start;
+      for (const s of samples) if (s.y > low.y) low = s;
+      const dip = low.y - start.y;
+      if (dip > Math.max(36, h * 0.045)) {
+        const fx = last.x - low.x, fy = last.y - low.y, flen = Math.hypot(fx, fy);
+        return Object.assign(base, { type: 'flick', fade: true, dip: dip / h, angle: Math.atan2(fx, -fy), power: Math.sqrt(speed * 4 * (flen / h)) });
+      }
       return Object.assign(base, { type: 'flick', angle: Math.atan2(dx, -dy) });
     }
+    if (dy > 0) {
+      // straight down steps back; down and to the side is a side-step; flatter is a drive
+      const fromDown = Math.atan2(Math.abs(dx), dy) * 180 / Math.PI;
+      if (fromDown < 28) return Object.assign(base, { type: 'swipe', dir: 'down' });
+      if (fromDown <= 60) return Object.assign(base, { type: 'swipe', dir: dx < 0 ? 'downleft' : 'downright' });
+      return Object.assign(base, { type: 'swipe', dir: dx < 0 ? 'left' : 'right' });
+    }
     if (Math.abs(dx) >= Math.abs(dy)) return Object.assign(base, { type: 'swipe', dir: dx < 0 ? 'left' : 'right' });
-    if (dy > 0) return Object.assign(base, { type: 'swipe', dir: 'down' });
     return Object.assign(base, { type: 'flick', angle: Math.atan2(dx, -dy) });
   }
 

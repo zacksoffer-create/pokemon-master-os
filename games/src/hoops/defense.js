@@ -177,6 +177,9 @@ const Defense = (() => {
       maxSpeed = 2; poseName = d.stateT < 0.7 ? 'wall' : 'stand';
     }
 
+    // planted for a beat (a side-step went away from his weight)
+    if (d.stuck > 0) { d.stuck -= dt; maxSpeed = Math.min(maxSpeed, 1.5); }
+
     // arrive steering on the floor
     const to = V.sub(target, d.pos); to[1] = 0;
     const dist = Math.hypot(to[0], to[2]);

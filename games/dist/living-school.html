@@ -273,10 +273,25 @@ const Gesture = (() => {
 
     const base = { dx, dy, dist, dur, speed, power, curl, startX: start.x, startY: start.y };
     if (-dy > Math.abs(dx) * 0.7 && dist >= FLICK_MIN_PX) {
+      // Pulling the finger down first, then flicking up, is a fadeaway. The
+      // flick is measured from the bottom of the dip, where the shot starts.
+      let low = start;
+      for (const s of samples) if (s.y > low.y) low = s;
+      const dip = low.y - start.y;
+      if (dip > Math.max(36, h * 0.045)) {
+        const fx = last.x - low.x, fy = last.y - low.y, flen = Math.hypot(fx, fy);
+        return Object.assign(base, { type: 'flick', fade: true, dip: dip / h, angle: Math.atan2(fx, -fy), power: Math.sqrt(speed * 4 * (flen / h)) });
+      }
       return Object.assign(base, { type: 'flick', angle: Math.atan2(dx, -dy) });
     }
+    if (dy > 0) {
+      // straight down steps back; down and to the side is a side-step; flatter is a drive
+      const fromDown = Math.atan2(Math.abs(dx), dy) * 180 / Math.PI;
+      if (fromDown < 28) return Object.assign(base, { type: 'swipe', dir: 'down' });
+      if (fromDown <= 60) return Object.assign(base, { type: 'swipe', dir: dx < 0 ? 'downleft' : 'downright' });
+      return Object.assign(base, { type: 'swipe', dir: dx < 0 ? 'left' : 'right' });
+    }
     if (Math.abs(dx) >= Math.abs(dy)) return Object.assign(base, { type: 'swipe', dir: dx < 0 ? 'left' : 'right' });
-    if (dy > 0) return Object.assign(base, { type: 'swipe', dir: 'down' });
     return Object.assign(base, { type: 'flick', angle: Math.atan2(dx, -dy) });
   }
 
@@ -1295,15 +1310,23 @@ const HoopPhysics = (() => {
   // gauss
   function gauss(rand) { const r = rand || Math.random; let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
 
+  // A fadeaway leaves the hand from behind your spot, a little higher and with
+  // more arc, so it plays about a foot and a half longer than a set shot.
+  const FADE_BACK = 0.9, FADE_EXTRA = 1.5;
+  function fadeType(dist) {
+    const t = dist < 11 ? { id: 'jumper', label: 'Jumper', theta: 50, from: 7.5, aimBack: 0.14 } : shotType(dist);
+    return Object.assign({}, t, { theta: t.theta + 3, from: t.from + 0.3 });
+  }
+
   /* Turn a flick into a launched ball.
-     q: { shooter, flickSpeed, angle (rad), curl, touchK, court,
+     q: { shooter, flickSpeed, angle (rad), curl, fade, touchK, court,
           window, aimDead, contest, rating (0..100), fatigue (0..1), rand } */
   function shoot(q) {
     const { RIM } = Court3D;
     const dist = Math.hypot(q.shooter[0] - RIM.x, q.shooter[2] - RIM.z);
-    const type = shotType(dist);
+    const type = q.fade ? fadeType(dist) : shotType(dist);
     const dir = Court3D.dirToRim(q.shooter);
-    const release = releasePoint(q.shooter, type);
+    const release = q.fade ? [q.shooter[0] - dir[0] * FADE_BACK, type.from, q.shooter[2] - dir[2] * FADE_BACK] : releasePoint(q.shooter, type);
     const target = [RIM.x + dir[0] * type.aimBack, RIM.y, RIM.z + dir[2] * type.aimBack];
     let sol = solve(release, target, type.theta * Math.PI / 180);
     let bank = false;
@@ -1312,8 +1335,8 @@ const HoopPhysics = (() => {
       const b = solveBank(release, q.court);
       if (b) { sol = { vec: b.vec }; bank = true; }
     }
-    const spin = type.id === 'jumper' ? { touch: 0, out: 0, label: null } : spinFromCurl(q.curl);
-    const ideal = q.touchK * idealFlick(dist);
+    const spin = type.id === 'jumper' || q.fade ? { touch: 0, out: 0, label: null } : spinFromCurl(q.curl);
+    const ideal = q.touchK * idealFlick(q.fade ? dist + FADE_EXTRA : dist);
     const ratio = q.flickSpeed / ideal;
     const e = ratio - 1;
     const w = q.window;
@@ -1564,6 +1587,9 @@ const Defense = (() => {
     } else if (d.state === 'done') {
       maxSpeed = 2; poseName = d.stateT < 0.7 ? 'wall' : 'stand';
     }
+
+    // planted for a beat (a side-step went away from his weight)
+    if (d.stuck > 0) { d.stuck -= dt; maxSpeed = Math.min(maxSpeed, 1.5); }
 
     // arrive steering on the floor
     const to = V.sub(target, d.pos); to[1] = 0;
@@ -1882,8 +1908,8 @@ const HoopsEngine = (() => {
       const sh = S.shooter;
       if (!sh || !sh.hasBall || sh.reload > 0) return false;
       if (S.phase === 'live' || S.phase === 'faking') return true;
-      // you can rise up in stride: layups on the drive, pull-ups off a jab
-      if (S.phase === 'moving') return moveProgress() > 0.2;
+      // you can rise up in stride: a pull-up a step into the drive, a layup at the end of it
+      if (S.phase === 'moving') return moveProgress() > (S.move && S.move.kind === 'drive' ? 0.1 : 0.2);
       return false;
     }
     // A move you make while another is still happening isn't dropped: it goes
@@ -1903,6 +1929,7 @@ const HoopsEngine = (() => {
       S.phase = phase || 'moving';
       after(dur, () => {
         if (S.moveId !== id || (S.phase !== 'moving' && S.phase !== 'faking')) return;
+        S.lastMove = { kind, side, end: S.t };
         S.phase = 'live'; S.move = null;
         flushQueue();
       });
@@ -1914,7 +1941,7 @@ const HoopsEngine = (() => {
     }
     function onSwipe(dir, g) {
       const k = S.spec && S.spec.kind;
-      if (k === 'free' && S.phase === 'live') return freeMove(dir);
+      if (k === 'free' && S.phase === 'live') return freeMove(dir === 'downleft' ? 'left' : dir === 'downright' ? 'right' : dir);
       if (S.def && S.phase === 'catch') return queue({ dir, g });
       if (!S.def || !S.shooter || !S.shooter.hasBall) return;
       if (S.phase === 'live') return dribbleMove(dir, g);
@@ -1937,6 +1964,7 @@ const HoopsEngine = (() => {
     // blow-by a sideways swipe is a euro step.
     function dribbleMove(dir, g) {
       if (dir === 'down') return stepBack();
+      if (dir === 'downleft' || dir === 'downright') return sideStep(dir === 'downleft' ? -1 : 1);
       if (dir !== 'left' && dir !== 'right') return;
       const side = dir === 'left' ? -1 : 1;
       const sh = S.shooter;
@@ -2014,8 +2042,24 @@ const HoopsEngine = (() => {
       if (!inBounds(dest)) return;
       S.poss.actions.push('stepped back');
       Sfx.play('dribble');
+      // he has to see it before he can chase it; heavy feet see it late
+      if (S.def) S.def.stuck = Math.max(S.def.stuck || 0, 0.1 + (1 - S.def.arch.lateral) * 0.28);
       moveShooter(dest, 0.28);
       startMove('step', 0, 0.28);
+    }
+    // A hop sideways and a little back. Going away from where his weight is
+    // leaves him planted for a beat.
+    function sideStep(side) {
+      const sh = S.shooter, d = S.def;
+      const dir = Court3D.dirToRim(sh.pos), lat = [-dir[2], 0, dir[0]];
+      const dest = V.sub(V.add(sh.pos, V.mul(lat, side * 3.4)), V.mul(dir, 0.7));
+      if (!inBounds(dest)) return;
+      const against = (d.momSide || 0) * side < -0.12;
+      if (against) d.stuck = 0.32;
+      S.poss.actions.push(`side-stepped ${side < 0 ? 'left' : 'right'}${against ? ' away from his lean' : ''}`);
+      Sfx.play('dribble');
+      moveShooter(dest, 0.3);
+      startMove('side', side, 0.3);
     }
     function pumpFake() {
       const sh = S.shooter;
@@ -2042,24 +2086,55 @@ const HoopsEngine = (() => {
     }
 
     // ---------- shooting ----------
+    /* What kind of jumper this is comes from what your feet were doing when
+       you flicked: driving (pull-up), stepping back, side-stepping, or a flick
+       with a dip in it (fadeaway). Each trades a little touch for space. */
+    const JUMPERS = {
+      pullup: { label: 'Pull-up', w: 0.9 },
+      stepback: { label: 'Step-back', w: 1, moving: 0.9 },
+      sidestep: { label: 'Side-step', w: 1, moving: 0.9 },
+      fade: { label: 'Fadeaway', w: 0.8, contest: 0.55 }
+    };
+    function jumperKind(g, dist) {
+      if (S.cpuTurn || S.ftMode || (S.list && S.spec.calibrate)) return null;
+      if (g.fade && dist >= 6) return 'fade';
+      if (dist < 11) return null;
+      const m = S.phase === 'moving' ? S.move : null;
+      const recent = S.lastMove && S.t - S.lastMove.end < 0.45 ? S.lastMove.kind : null;
+      if (m && m.kind === 'drive') return 'pullup';
+      if ((m && m.kind === 'step') || (!m && recent === 'step')) return 'stepback';
+      if ((m && m.kind === 'side') || (!m && recent === 'side')) return 'sidestep';
+      return null;
+    }
     function shoot(g) {
       const sh = S.shooter;
       const pos = sh.pos.slice();
       const dist = Math.hypot(pos[0] - RIM.x, pos[2] - RIM.z);
+      const kind = jumperKind(g, dist);
+      const J = kind ? JUMPERS[kind] : null;
+      const moving = S.phase === 'moving';
       let contest = S.def ? Defense.contest(S.def, pos) : 0;
       const fouled = !!(S.def && Defense.foulable(S.def, pos));
       if (fouled) contest = 0;
+      if (J && J.contest) contest *= J.contest;
       const feel = FEEL[settings.feel] || FEEL.normal;
       const rating = S.cpuTurn ? 60 : ratingFor('shooting');
       const fatigue = S.spec.fatigue || 0;
-      const onTheMove = S.phase === 'moving' && dist >= 11;
-      const spin = dist < 11 ? HoopPhysics.spinFromCurl(g.curl) : { touch: 0 };
-      let w = feel.window * (1 + (rating - 60) / 160) * (dist < 6 ? 1.35 : dist > 22 ? 0.86 : 1) * (1 - 0.5 * contest) * (onTheMove ? 0.82 : 1) * (1 - fatigue * 0.35) * (1 + 0.3 * spin.touch);
+      const moveK = J ? (moving && J.moving ? J.moving : J.w) : (moving && dist >= 11 ? 0.82 : 1);
+      const spin = dist < 11 && kind !== 'fade' ? HoopPhysics.spinFromCurl(g.curl) : { touch: 0 };
+      let w = feel.window * (1 + (rating - 60) / 160) * (dist < 6 ? 1.35 : dist > 22 ? 0.86 : 1) * (1 - 0.5 * contest) * moveK * (1 - fatigue * 0.35) * (1 + 0.3 * spin.touch);
       const calibrating = S.list && S.spec.calibrate;
       const touchK = calibrating ? g.power / HoopPhysics.idealFlick(dist) : settings.touchK;
       if (calibrating) S.calib.push(g.power / HoopPhysics.idealFlick(dist));
-      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: g.power, angle: g.angle, curl: g.curl, touchK, court: S.court, window: w, aimDead: feel.aim, contest, rating, fatigue, rand: S.rand });
-      launch(shot, { contest, fouled, dist, by: 'you' });
+      // you rise from where your feet are; the move stops here
+      if (moving) { sh.to = null; S.move = null; S.moveId = (S.moveId || 0) + 1; }
+      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: g.power, angle: g.angle, curl: g.curl, fade: kind === 'fade', touchK, court: S.court, window: w, aimDead: feel.aim, contest, rating, fatigue, rand: S.rand });
+      if (J) {
+        shot.feedback = J.label + ' · ' + shot.feedback;
+        popup(J.label, '#f3f1ea', 0.62, { world: V.add(shot.release, [0, 1.3, 0]), life: 0.9 });
+        if (kind === 'fade') sh.fadeT = 0;
+      }
+      launch(shot, { contest, fouled, dist, by: 'you', variant: J ? J.label : null });
       S.meter = { shot, t: 0, calibrating };
     }
     function launch(shot, info) {
@@ -2081,7 +2156,7 @@ const HoopsEngine = (() => {
       S.balls.push(ball);
       sh.hasBall = false; sh.jumpT = 0; sh.follow = 0; S.queued = null;
       if (S.def) Defense.reactToShot(S.def, sh.pos);
-      if (S.poss && !ft) { S.poss.contest = info.contest; S.poss.fouled = info.fouled; S.poss.shotType = shot.type.label; S.poss.three = three; S.poss.dist = shot.dist; }
+      if (S.poss && !ft) { S.poss.contest = info.contest; S.poss.fouled = info.fouled; S.poss.shotType = shot.type.label; S.poss.variant = info.variant || null; S.poss.three = three; S.poss.dist = shot.dist; }
       if (info.by === 'you') { S.attempts++; S.zone[ball.info.zone] = S.zone[ball.info.zone] || [0, 0]; S.zone[ball.info.zone][1]++; }
       Sfx.play('release');
       if (kind === 'possessions' || kind === 'shots' || kind === 'horse') S.phase = 'flight';
@@ -2197,7 +2272,7 @@ const HoopsEngine = (() => {
         return;
       }
       P.made = made; P.blocked = !!b.blocked; P.swish = !!b.swish;
-      P.actions.push(`${P.three ? 'three' : (P.shotType || 'shot').toLowerCase()}${made ? ' made' : (b.blocked ? ' blocked' : ' missed')}`);
+      P.actions.push(`${P.variant ? P.variant.toLowerCase() + ' ' : ''}${P.three ? 'three' : (P.shotType || 'shot').toLowerCase()}${made ? ' made' : (b.blocked ? ' blocked' : ' missed')}`);
       if (P.fouled) { P.ftLeft = made ? 1 : 2; after(1.0, setupFreeThrow); return; }
       after(0.9, finishPossession);
     }
@@ -2218,7 +2293,8 @@ const HoopsEngine = (() => {
       if (P.turnover) parts.push(P.turnover === 'Stolen' ? 'Turnover.' : 'Shot clock violation.');
       else if (shotAct) {
         const lab = Defense.contestLabel(P.contest || 0).text.toLowerCase();
-        parts.push(`${P.three ? 'Three' : P.shotType || 'Shot'}, ${lab}: ${P.blocked ? 'blocked' : (P.made ? 'made' : 'missed')}.`);
+        const name = P.variant ? (P.three ? `${P.variant} three` : P.variant === 'Fadeaway' ? 'Fadeaway' : `${P.variant} jumper`) : (P.three ? 'Three' : P.shotType || 'Shot');
+        parts.push(`${name}, ${lab}: ${P.blocked ? 'blocked' : (P.made ? 'made' : 'missed')}.`);
       }
       if (P.fouled) parts.push(`Fouled. Free throws ${P.ftMade} of ${P.made ? 1 : 2}.`);
       parts.push(P.points ? `+${P.points}` : 'No points.');
@@ -2446,7 +2522,7 @@ const HoopsEngine = (() => {
       S.court = Court3D.COURTS[spec.court] || Court3D.COURTS.park;
       S.onEnd = handlers && handlers.onEnd; S.onQuit = handlers && handlers.onQuit;
       S.rand = spec.seed != null ? mulberry(spec.seed) : Math.random;
-      Object.assign(S, { t: 0, balls: [], popups: [], timers: [], meter: null, clock: null, gameClock: null, score: 0, makes: 0, attempts: 0, streak: 0, best: 0, log: [], zone: {}, poss: null, rack: null, horse: null, list: null, cpuTurn: null, calib: [], hintShown: 0, cardNext: null, ftMode: false, rackDone: false, ended: false, move: null, queued: null, layupHint: false, dribbleT: 0 });
+      Object.assign(S, { t: 0, balls: [], popups: [], timers: [], meter: null, clock: null, gameClock: null, score: 0, makes: 0, attempts: 0, streak: 0, best: 0, log: [], zone: {}, poss: null, rack: null, horse: null, list: null, cpuTurn: null, calib: [], hintShown: 0, cardNext: null, ftMode: false, rackDone: false, ended: false, move: null, queued: null, lastMove: null, layupHint: false, dribbleT: 0 });
       ['clock', 'horse', 'scout', 'contest', 'banner', 'hint', 'card', 'map'].forEach(k => { ui[k].hidden = true; });
       setScore('', '');
       updateScoreUi();
@@ -2515,6 +2591,7 @@ const HoopsEngine = (() => {
         }
         sh.jumpT += dt; sh.fakeT += dt; sh.catchT += dt; sh.follow += dt;
         if (sh.jabT != null) sh.jabT += dt;
+        if (sh.fadeT != null) sh.fadeT += dt;
         if (sh.to && sh.hasBall) { S.dribbleT -= dt; if (S.dribbleT <= 0) { Sfx.play('dribble'); S.dribbleT = 0.17; } }
         if (sh.reload > 0) sh.reload -= dt;
       }
@@ -2648,6 +2725,12 @@ const HoopsEngine = (() => {
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       const sh = S.shooter;
       let pos = sh ? sh.pos : Court3D.spotInfo(S.court, 'top').pos;
+      if (sh && sh.fadeT != null && sh.fadeT < 1.6) {
+        // fading away: the camera drifts back as you shoot, then settles
+        const dr = Court3D.dirToRim(pos);
+        const k = Math.min(1, sh.fadeT / 0.45) * (sh.fadeT > 1.1 ? (1.6 - sh.fadeT) / 0.5 : 1);
+        pos = V.sub(pos, V.mul(dr, 1.3 * k));
+      }
       if (sh && sh.jabT != null && sh.jabT < 0.24) {
         const dr = Court3D.dirToRim(pos);
         pos = V.add(pos, V.mul([-dr[2], 0, dr[0]], sh.jabSide * Math.sin(Math.PI * sh.jabT / 0.24) * 0.8));

@@ -15,7 +15,11 @@ Two phone games built on shared engines, as a first test of the "mechanics libra
 | Long swipe left/right | Drive. Clear reads resolve the same way every time; only close calls are a coin flip. |
 | Short swipe | Jab. Jumpy defenders shift their weight toward it. |
 | Swipe the other way mid-drive | Crossover. Going against the way his weight is carried beats him. |
-| Swipe down | Step back. |
+| Swipe down | Step back. Defenders react a beat late, longer for heavy feet. |
+| Diagonal swipe down-left/down-right | Side-step. A hop sideways; going away from his lean plants him. |
+| Flick during a drive | Pull-up jumper from where you are. |
+| Flick right after a step-back or side-step | Step-back or side-step jumper. |
+| Pull down, then flick up | Fadeaway. Released from behind your spot with more arc; contest counts about half; smaller window. |
 | Tap | Pump fake. |
 | Sideways swipe after a blow-by, near the rim | Euro step. Buys a beat before he recovers. |
 | Curl the layup flick | Spin. A little curl sits soft on the rim and rolls in; a big hook spins it out. Layups from the side go off the glass. |
@@ -41,6 +45,8 @@ python3 games/build.py                   # inlines src/ into one page per game i
 node games/test/physics_mc.js            # make rates by distance, touch error, contest
 node games/test/physics_layup.js         # layups by angle, touch error and spin
 node games/test/controls_hoops.js OUTDIR # jab, crossover, euro step, queued moves, spun layup
+node games/test/jumpers_hoops.js OUTDIR  # pull-up, step-back, side-step, fadeaway; gesture edges
+node games/test/physics_fade.js          # fadeaway make rates vs set shots
 node games/test/makes_hoops.js           # in-browser: a well-sized flick scores from 6 to 21 ft
 node games/test/smoke_hoops.js OUTDIR    # plays every basketball mode, screenshots
 node games/test/bot_school.js SEED [PNG] # plays a full semester with random choices
