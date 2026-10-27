@@ -8,8 +8,8 @@
    before and after; what moved is highlighted. Nothing here writes to canon. */
 var LABS = {reads: {}};
 function labsReady() {
-  if (!S.labsP) S.labsP = Promise.all([scoutReady(), battleReady(), API.data('roles4'), recordsReady(), withBuilds(), API.data('recognition'), Explain.ready()]).then(function (r) {
-    S.r4 = r[2]; TeamRoles.init(r[2], Scout, Battle); Recognize.init(r[5], Scout, Battle); labsSeed(); return true;
+  if (!S.labsP) S.labsP = Promise.all([scoutReady(), battleReady(), API.data('roles4'), recordsReady(), withBuilds(), API.data('recognition'), Explain.ready(), API.data('identity')]).then(function (r) {
+    S.r4 = r[2]; TeamRoles.init(r[2], Scout, Battle); Recognize.init(r[5], Scout, Battle); Identity.init(r[7], r[2].config, Battle); labsSeed(); return true;
   }).catch(function (e) { S.labsP = null; throw e; });
   return S.labsP;
 }

@@ -175,7 +175,7 @@ function pbShell() {
       '<div class="small" id="pbname"></div><div id="pbearned" style="margin-top:6px"></div></div>' +
       '<div class="pbactions">' + actions + '</div></div><div id="pbdraft">' + pbDraftLine() + '</div>' +
     '<div class="labgrid pbgrid" style="margin-top:14px"><div id="pbin">' + pbInputs() + '</div><div id="pbout">' +
-      '<div id="pbspecies">' + pbSpecies() + '</div><div id="pbroles" style="margin-top:16px"><div class="empty">Reading it against every Elite Four and Champion Pokémon…</div></div>' +
+      '<div id="pbspecies">' + pbSpecies() + '</div><div id="pbident" style="margin-top:16px"></div><div id="pbroles" style="margin-top:16px"><div class="empty">Reading it against every Elite Four and Champion Pokémon…</div></div>' +
       '<div id="pbbadges" style="margin-top:16px"></div><div id="pbscout" style="margin-top:16px"></div><div id="pbwild" style="margin-top:16px"></div><div id="pbhome" style="margin-top:16px"></div></div></div>';
 }
 
@@ -471,9 +471,9 @@ function pbRun() {
       var read = liveRead(b, PB.game); PB.read = read;
       if (read.error) throw new Error(read.error);
       var rg = Recognize.read(b, read); PB.recog = rg;
-      var pn = proposedName(read.name);
-      document.getElementById('pbname').innerHTML = nameHtml(read.name) + ' <span class="tiny muted">· plays like a ' + esc(read.second_layer.primary.name || '—') + '</span>' +
-        (pn && pn !== read.name.text ? '<div class="tiny" style="margin-top:3px;color:var(--gold-2)" title="From the generated naming list (docs/naming/ALL_COMBINATIONS.md): a proposal until you approve the words">Generated name: <i>' + esc(pn) + '</i></div>' : '');
+      var idd = pbIdentity(b, read, rg); PB.ident = idd;   // the battle identity (37_identity): the name now comes from what the set does
+      document.getElementById('pbname').innerHTML = identityHeadline(idd);
+      document.getElementById('pbident').innerHTML = identityCard(idd);
       document.getElementById('pbearned').innerHTML = earnedChips(read);
       document.getElementById('pbroles').innerHTML = pbRoles(read);
       document.getElementById('pbbadges').innerHTML = badgesCard(rg, read);
@@ -482,6 +482,10 @@ function pbRun() {
     } catch (e) { document.getElementById('pbroles').innerHTML = '<div class="notice">The engines couldn\'t read this build: ' + esc(e && e.message || e) + '</div>'; console.error(e); }
     try { document.getElementById('pbwild').innerHTML = pbWild(b); document.getElementById('pbhome').innerHTML = pbHome(b); } catch (e) { console.error(e); }
   }, 30);
+}
+function pbIdentity(b, read, rg) {
+  var lv = TeamRoles.config().level, filled = Object.assign({}, b, {moves: read.moves.slice(), level: lv});
+  return Identity.evaluate(PB.id || 'lab', PB.species, PB.game, read, Scout.roleContext(filled, PB.game, lv, null), rg && rg.speed);
 }
 function pbSpecies() {
   var gen = PB.gen, sp = Battle.species(gen, PB.species), d = dexOf(PB.species) || {}, bio = (S.bioBy || {})[PB.species], bst = STATS.reduce(function (a, s) { return a + sp.bs[s]; }, 0);
@@ -510,7 +514,7 @@ function pbRoles(read) {
       '<details class="tiny"><summary class="muted">The rule</summary><div class="muted">' + esc(c.rule) + '</div></details></div>';
   }).join('');
   return card('Team roles', rows + '<div class="tiny muted" style="margin-top:8px">Every number is from its one-on-ones against all ' + ((read.facts || {}).foes || '') + ' Elite Four and Champion Pokémon of Gen ' + read.gen + ', both sides at level 100 (the battle engine: its best plan against their game AI). ' +
-    'Build name: match ' + read.name.match.toFixed(2) + ' (the role engine\'s primary score: ' + esc(read.second_layer.primary.name || '—') + ')' + (read.filled_moves && read.filled_moves.length ? '. Empty move slots read as ' + esc(read.filled_moves.join(', ')) : '') + '.</div>',
+    'The old name ladder (v2, now under the battle identity) read it as ' + esc(read.name.text) + ', match ' + read.name.match.toFixed(2) + ' (the role engine\'s primary score: ' + esc(read.second_layer.primary.name || '—') + ')' + (read.filled_moves && read.filled_moves.length ? '. Empty move slots read as ' + esc(read.filled_moves.join(', ')) : '') + '.</div>',
     {eyebrow: 'Ace · Sweeper · Support · Wall · Tank, with the work shown', tools: false});
 }
 function pbTypeRead(b) {   // what hits it hard and what bounces off, with its ability

@@ -1,0 +1,620 @@
+<script>
+// Battle identity v0 in the browser: trainers/identity.py line for line (app/test_identity_parity.mjs holds the two together).
+// What a build does and what to call it, from the League fights its team-role read already has (TeamRoles.read → lens).
+// Every rule and word is in the pack's identity config (trainers/identity.json); this only evaluates them.
+var Identity = (function () {
+  var C = null, RC = null, B = null, Bt = null, HEADS = {}, HEAD_ORDER = [], MODS = {}, MOD_ORDER = [], SWITCH = [];
+  function lookup(roles, path) { var p = path.split('.'); return roles[p[0]][p[1]]; }
+  function init(cfg, rolesCfg, battle) {
+    C = cfg; RC = rolesCfg; Bt = battle; B = {};
+    Object.keys(C.bars).forEach(function (k) { if (k.charAt(0) !== '_') B[k] = lookup(RC.roles, C.bars[k]); });
+    SWITCH = lookup(RC.roles, C.switch_abilities);
+    HEADS = {}; HEAD_ORDER = []; C.heads.forEach(function (h) { HEADS[h.id] = h; HEAD_ORDER.push(h.id); });
+    MODS = {}; MOD_ORDER = []; C.modifiers.forEach(function (m) { MODS[m.id] = m; MOD_ORDER.push(m.id); });
+    return api;
+  }
+  function r4(x) { return Bt.pyRound(x, 4); }
+  function pct(n, of) { return of ? Bt.pyRound(100 * n / of) : 0; }
+  function share(n, of) { return of ? n / of : 0.0; }
+  function has(list, x) { return list.indexOf(x) >= 0; }
+  function inter(a, b) { return a.some(function (x) { return b.indexOf(x) >= 0; }); }
+  function cat(gen, mv) { return Bt.move(gen, mv).cat; }
+  function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : s; }
+  function cmpArr(a, b) { for (var i = 0; i < Math.min(a.length, b.length); i++) { if (a[i] < b[i]) return -1; if (a[i] > b[i]) return 1; } return a.length - b.length; }
+  function cmpKey(a, b) {   // tuples as Python compares them
+    for (var i = 0; i < a.length; i++) {
+      var x = a[i], y = b[i];
+      if (Array.isArray(x)) { var c = cmpArr(x, y); if (c) return c; continue; }
+      if (x < y) return -1; if (x > y) return 1;
+    }
+    return 0;
+  }
+
+  // --- the set's commitments: its four moves, its item and its spread ---
+  function tagsOfMove(m, gen) {
+    var K = C.categories, cats = m.categories, hasK = function (k) { return inter(cats, K[k]); }, out = [];
+    var damaging = m['class'] === 'physical' || m['class'] === 'special';
+    if (damaging && !hasK('dedicated')) out.push('attack');
+    if (damaging && (m.priority || 0) > 0 && !has(cats, 'fake_out')) out.push('priority');
+    ['setup', 'recovery', 'support', 'status', 'pivot', 'hazard', 'screens', 'weather', 'room', 'cleric', 'self_ko', 'trap'].forEach(function (k) { if (hasK(k)) out.push(k); });
+    if (has(C.self_side_removal[String(gen)] || [], m.name)) out.push('removal');
+    if (has(cats, 'substitute')) out.push('substitute');
+    return out;
+  }
+  function spreadOf(ctx, gen) {
+    if (gen < 3 || !ctx.evs_recorded) return null;
+    var S = C.spread, f = ctx.filled, evs = f.evs, ivs = f.ivs, nd = C.natures[f.nature || ''] || [null, null], up = nd[0], down = nd[1], out = [];
+    ['offense', 'defense', 'speed'].forEach(function (lean) {
+      var rule = S[lean], tot = 0;
+      rule.evs.forEach(function (s) { tot += evs[s] || 0; });
+      if (tot >= S.full || has(rule.nature_up, up)) out.push(lean);
+    });
+    var spe = ivs.spe == null ? 31 : ivs.spe;
+    if (has(S.slow.nature_down, down) || (spe <= S.slow.spe_iv_at_most && !evs.spe)) out.push('slow');
+    return out;
+  }
+  function resources(ctx, gen) {
+    var I = C.items, out = [];
+    ctx.moves.forEach(function (m) { out.push({id: 'move:' + m.name, kind: 'move', label: m.name, tags: tagsOfMove(m, gen)}); });
+    var item = ctx.item;
+    if (item) out.push({id: 'item', kind: 'item', label: item,
+      tags: ['offense', 'choice', 'speed', 'sustain', 'setup', 'field', 'weather', 'slow'].filter(function (k) { return has(I[k], item); })});
+    var lean = spreadOf(ctx, gen);
+    if (lean !== null) out.push({id: 'spread', kind: 'spread', label: 'its spread', tags: lean});
+    return out;
+  }
+  function selects(sel, res) { var p = sel.split(':'), want = {moves: 'move', items: 'item', spread: 'spread'}[p[0]]; return res.kind === want && has(res.tags, p[1]); }
+
+  // --- measures, from the League lens rows ---
+  function stageMult(stage) { var st = Math.max(0, Math.min(Math.trunc(stage || 0), 2)); return (2 + st) / 2; }
+  function reach(lens, gen, mult) {
+    var ko2 = 0, ko1 = 0;
+    lens.forEach(function (foe) {
+      var best = 0.0;
+      Object.keys(foe.d).sort().forEach(function (mv) {
+        var lo = foe.d[mv][0], k = mult(mv), c = cat(gen, mv);
+        if (k === null || (c !== 'Physical' && c !== 'Special')) return;
+        best = Math.max(best, lo * k);
+      });
+      if (best >= 50) ko2++;
+      if (best >= 100) ko1++;
+    });
+    return {ko2: ko2, ko1: ko1};
+  }
+  function first(lens, mult) { return lens.filter(function (foe) { return Math.trunc(foe.s[0] * mult) > foe.s[1]; }).length; }
+  function measures(read, ctx, gen, res) {
+    var lens = read.lens, N = lens.length, byName = {}, tags = {}, boosts = read.facts.boosts, roles = {};
+    ctx.moves.forEach(function (m) { byName[m.name] = m; });
+    res.forEach(function (r) { if (r.kind === 'move') tags[r.label] = r.tags; });
+    var tg = function (mv) { return tags[mv] || []; };
+    var side = function (mv) { return {Physical: 'atk', Special: 'spa'}[cat(gen, mv)]; };
+    var bst = function (mv) { return boosts[side(mv) || ''] || 0; };
+    var reusable = function (mv) { return has(tg(mv), 'self_ko') ? null : 1.0; };
+    var boosted = function (mv) { return has(tg(mv), 'self_ko') ? null : stageMult(bst(mv)); };
+    var prio = function (mv) { return has(tg(mv), 'priority') ? 1.0 : null; };
+    var prioB = function (mv) { return has(tg(mv), 'priority') ? stageMult(bst(mv)) : null; };
+    var selfko = function (mv) { return has(tg(mv), 'self_ko') ? 1.0 : null; };
+    read.roles.forEach(function (r) { roles[r.role] = r; });
+    var M = {N: N, first: first(lens, 1.0), first_boosted: first(lens, stageMult(boosts.spe || 0)),
+      room_first: lens.filter(function (foe) { return foe.s[0] < foe.s[1]; }).length,
+      plain: reach(lens, gen, reusable), boosted: reach(lens, gen, boosted),
+      priority: reach(lens, gen, prio), priority_boosted: reach(lens, gen, prioB),
+      self_ko: reach(lens, gen, selfko),
+      take3: roles.tank.numbers.take_share, take2: roles.support.numbers.survive,
+      wall: {physical: roles.wall.numbers.physical, special: roles.wall.numbers.special},
+      sustain: roles.wall.numbers.sustain,
+      sub_safe: lens.filter(function (foe) { return Object.keys(foe.i).every(function (k) { return foe.i[k][1] < 100 * C.pinch.substitute_cost; }); }).length,
+      setup_moves: ctx.moves.filter(function (m) { return has(tg(m.name), 'setup'); }).map(function (m) { return m.name; }),
+      priority_moves: ctx.moves.filter(function (m) { return has(tg(m.name), 'priority'); }).map(function (m) { return m.name; })};
+    var ev = read.evidence;
+    var phys = ev.physical ? (ev.physical['2hko'] == null ? -1 : ev.physical['2hko']) : -1;
+    var spec = ev.special ? (ev.special['2hko'] == null ? -1 : ev.special['2hko']) : -1;
+    M.side = phys > spec ? 'physical' : (spec > phys ? 'special' : null);
+    // own weather and what it does for the set
+    var W = C.weather, own = null;
+    for (var i = 0; i < ctx.moves.length; i++) { if (W.moves[ctx.moves[i].name]) { own = W.moves[ctx.moves[i].name]; break; } }
+    if (own === null && W.abilities[ctx.ability]) own = W.abilities[ctx.ability];
+    M.weather = null;
+    if (own) {
+      var fast = W.speed_abilities[ctx.ability] === own, btype = W.boost_type[own] || null;
+      var boostedTypes = ctx.moves.filter(function (m) { return btype && m.type === btype && (m['class'] === 'physical' || m['class'] === 'special'); }).map(function (m) { return m.name; });
+      var typeOf = function (mv) { return (byName[mv] || {}).type; };
+      var wmult = function (mv) { return has(tg(mv), 'self_ko') ? null : (btype && typeOf(mv) === btype ? 1.5 :
+        (own === 'rain' && typeOf(mv) === 'Fire' ? 0.5 : (own === 'sun' && typeOf(mv) === 'Water' ? 0.5 : 1.0))); };
+      var wmultB = function (mv) { return wmult(mv) === null ? null : wmult(mv) * stageMult(bst(mv)); };
+      var byMove = ctx.moves.some(function (m) { return !!W.moves[m.name]; }), rock = W.rocks[own];
+      M.weather = {kind: own, name: W.names[own], speed_ability: fast, boosted_moves: boostedTypes,
+        by: byMove ? 'move' : 'ability',
+        turns: byMove ? (ctx.item === rock ? W.rock_turns : W.turns) : null,
+        rock: ctx.item === rock ? rock : null,
+        benefits: !!(fast || boostedTypes.length),
+        first: first(lens, fast ? 2.0 : 1.0),
+        first_boosted: first(lens, (fast ? 2.0 : 1.0) * stageMult(boosts.spe || 0)),
+        plain: reach(lens, gen, wmult), boosted: reach(lens, gen, wmultB)};
+    }
+    // a low-HP window: a pinch ability with moves of its type, reached by Substitute and a pinch berry
+    var P = C.pinch;
+    M.window = null;
+    var ptype = P.abilities[ctx.ability] || null, berry = C.items.pinch_berries[ctx.item || ''] || null;
+    var subs = ctx.moves.some(function (m) { return has(tg(m.name), 'substitute'); });
+    if (ptype && ctx.moves.some(function (m) { return m.type === ptype && (m['class'] === 'physical' || m['class'] === 'special'); }) && (berry || subs)) {
+      var st = Object.assign({}, boosts);
+      if (berry) st[berry] = (st[berry] || 0) + 1;
+      var wm = function (mv) { return has(tg(mv), 'self_ko') ? null : ((byName[mv] || {}).type === ptype ? 1.5 : 1.0) * stageMult(st[side(mv) || ''] || 0); };
+      M.window = {ability: ctx.ability, type: ptype, berry: berry ? ctx.item : null, berry_stat: berry,
+        substitute: subs, first: first(lens, stageMult(st.spe || 0)), reach: reach(lens, gen, wm), sub_safe: M.sub_safe};
+    }
+    // Eruption and Water Spout: power falls with HP; Stealth Rock takes its share on entry
+    var sr = C.stealth_rock;
+    var srShare = ctx.ability === 'Magic Guard' ? 0.0 : sr.share * Bt.effectiveness(gen, sr.type, ctx.types.slice());
+    M.stealth_rock = r4(srShare);
+    var hpMoves = ctx.moves.filter(function (m) { return has(C.hp_power.moves, m.name); }).map(function (m) { return m.name; });
+    M.hp_power = null;
+    if (hpMoves.length) {
+      var left = 1 - srShare, power = Math.max(1, Math.floor(150 * left)) / 150;
+      var hm = function (mv) { return has(tg(mv), 'self_ko') ? null : (has(hpMoves, mv) ? power : 1.0); };
+      M.hp_power = {moves: hpMoves, after_rocks: r4(left), reach: reach(lens, gen, hm)};
+    }
+    // Taunt, Encore and the like matter against League Pokémon with non-damaging moves
+    M.status_users = lens.filter(function (foe) { return foe.m.some(function (mv) { return cat(gen, mv) === 'Status'; }); }).length;
+    return M;
+  }
+
+  // --- the fourteen functions ---
+  function functions(read, ctx, gen, res, M) {
+    var N = M.N, mtags = [], lean = [], roles = {}, F = {};
+    res.forEach(function (r) { if (r.kind === 'move') mtags = mtags.concat(r.tags); });
+    for (var i = 0; i < res.length; i++) { if (res[i].kind === 'spread') { lean = res[i].tags || []; break; } }
+    var hasT = function (t) { return has(mtags, t); };
+    read.roles.forEach(function (r) { roles[r.role] = r; });
+    var sh = function (n) { return share(n, N); };
+    var put = function (fid, plausible, supported, why, numbers, extra) {
+      var rec = {id: fid, name: C.functions.names[fid], plausible: !!plausible, supported: supported, observed: null, why: why, numbers: numbers || {}};
+      if (supported === null && plausible) rec.pending = C.functions.pending[fid] == null ? null : C.functions.pending[fid];
+      if (extra) Object.assign(rec, extra);
+      F[fid] = rec;
+    };
+    var b = M.boosted, pb = M.priority_boosted, paths = [];
+    if (sh(M.first_boosted) >= B.sweep_first && sh(b.ko2) >= B.sweep_ko2 && sh(b.ko1) >= B.sweep_ko1) paths.push('speed');
+    if (M.take3 >= B.bulk_take3 && sh(b.ko2) >= B.sweep_ko2 && sh(b.ko1) >= B.sweep_ko1) paths.push('bulk');
+    if (sh(pb.ko2) >= B.sweep_ko2 && sh(b.ko2) >= B.sweep_ko2) paths.push('priority');
+    var setupOk = hasT('setup') && hasT('attack');
+    put('setup_sweeper', setupOk, setupOk ? paths.length > 0 : false,
+      ['after one use of ' + (M.setup_moves.join(', ') || 'a setup move') + ': moves first against ' + M.first_boosted + ' of ' + N + ' League Pokémon ' +
+       '(bar ' + pct(B.sweep_first, 1) + '%), 2HKOs ' + b.ko2 + ' and OHKOs ' + b.ko1 + ' with attacks it can repeat ' +
+       '(bars ' + pct(B.sweep_ko2, 1) + '% and ' + pct(B.sweep_ko1, 1) + '%)',
+       'or it lasts instead: takes three hits from ' + pct(M.take3, 1) + '% of the 100 hardest League attacks (bar ' + pct(B.bulk_take3, 1) + '%)',
+       'or its priority does it: ' + (M.priority_moves.join(', ') || 'no priority attack') + ' 2HKOs ' + pb.ko2 + ' of ' + N + ' after the setup'],
+      {first_boosted: M.first_boosted, ko2_boosted: b.ko2, ko1_boosted: b.ko1, take3: M.take3, priority_ko2_boosted: pb.ko2, of: N, paths: paths});
+    var p = M.plain;
+    var sw = sh(M.first) >= B.sweep_first && sh(p.ko2) >= B.sweep_ko2 && sh(p.ko1) >= B.sweep_ko1;
+    put('sweeper', hasT('attack'), hasT('attack') ? sw : false,
+      ['moves first against ' + M.first + ' of ' + N + ' (bar ' + pct(B.sweep_first, 1) + '%), 2HKOs ' + p.ko2 + ' and OHKOs ' + p.ko1 + ' ' +
+       'with attacks it can repeat, no setup (bars ' + pct(B.sweep_ko2, 1) + '% and ' + pct(B.sweep_ko1, 1) + '%)'],
+      {first: M.first, ko2: p.ko2, ko1: p.ko1, of: N});
+    put('wallbreaker', hasT('attack') && has(lean, 'offense'), null,
+      ['its attacks 2HKO ' + p.ko2 + ' of ' + N + ' League Pokémon, but the League isn\'t a pool of walls'], {ko2: p.ko2, of: N});
+    put('cleaner', hasT('attack') && (hasT('priority') || sh(M.first) >= B.sweep_first), null,
+      ['moves first against ' + M.first + ' of ' + N + '; priority: ' + (M.priority_moves.join(', ') || 'none')], {first: M.first, of: N});
+    put('revenge_killer', hasT('attack') && (hasT('priority') || has(C.items.speed, ctx.item) || sh(M.first) >= B.sweep_first), null,
+      ['moves first against ' + M.first + ' of ' + N + '; priority: ' + (M.priority_moves.join(', ') || 'none')], {first: M.first, of: N});
+    var t = roles.tank;
+    put('tank', hasT('attack'), hasT('attack') ? !!t.earned : false, t.why.slice(), {take3: M.take3, ko2: t.numbers.ko2});
+    var w = roles.wall;
+    var sides = M.sustain.length ? ['physical', 'special'].filter(function (s) { return M.wall[s] >= B.wall_take4; }) : [];
+    put('wall', !!M.sustain.length || has(lean, 'defense'), !!w.earned, w.why.slice(),
+      {physical: M.wall.physical, special: M.wall.special, sustain: M.sustain}, {sides: w.earned ? sides : []});
+    var pv = roles.pivot;
+    var byMove = hasT('pivot') && (M.take2 >= B.lasts_take2 || sh(M.first) >= B.pivot_first);
+    put('pivot', hasT('pivot') || has(SWITCH, ctx.ability), !!pv.earned, pv.why.slice(),
+      {take2: M.take2, first: M.first, of: N}, {path: byMove ? 'move' : (pv.earned ? 'ability' : null)});
+    var s = roles.support;
+    put('support', hasT('support'), !!s.earned, s.why.slice(), {moves: s.numbers.support_moves});
+    put('disruptor', ctx.moves.some(function (m) { return inter(m.categories, C.categories.disrupt); }), null,
+      [M.status_users + ' of ' + N + ' League Pokémon carry a non-damaging move (what Taunt stops)'], {status_users: M.status_users, of: N});
+    var lasts = M.take2 >= B.lasts_take2 || sh(M.first) >= B.lasts_first, methods = [];
+    if (hasT('hazard')) methods.push('hazard');
+    if (hasT('removal')) methods.push('removal');
+    if (hasT('screens')) methods.push('screens');
+    if (M.weather && (M.weather.by === 'move' || M.weather.rock)) methods.push('weather');   // invested: its move or its rock
+    if (hasT('room')) methods.push('room');
+    var defog = gen === 4 && ctx.moves.some(function (m) { return m.name === 'Defog'; });
+    var why = ['field moves: ' + (methods.join(', ') || 'none'),
+      'it lasts to use them: takes two hits from ' + pct(M.take2, 1) + '% of the 100 hardest League attacks (bar ' + pct(B.lasts_take2, 1) + '%) ' +
+      'or moves first against ' + M.first + ' of ' + N + ' (bar ' + pct(B.lasts_first, 1) + '%)'];
+    if (defog) why.push('Defog in Gen IV clears the target\'s side only, so it isn\'t hazard removal for this team');
+    if (M.weather && M.weather.by === 'ability' && !has(methods, 'weather'))
+      why.push(ctx.ability + ' sets ' + M.weather.name.toLowerCase() + ' as it comes in (until another weather replaces it): a fact about it, not a move it spends');
+    put('field_controller', methods.length > 0, methods.length > 0 && lasts, why, {take2: M.take2, first: M.first, of: N},
+      {methods: lasts ? methods : [], candidate_methods: methods});
+    put('trapper', hasT('trap') || has(C.trap_abilities, ctx.ability), null,
+      ['Pursuit, binding and trapping moves need an opponent that switches; the League lens has none']);
+    put('stallbreaker', ctx.moves.some(function (m) { return has(m.categories, 'taunt') || has(m.categories, 'trick'); }), null, []);
+    put('setup_enabler', hasT('screens') || hasT('status') || hasT('pivot') || hasT('hazard'), null, []);
+    put('attacker', hasT('attack'), hasT('attack') ? sh(p.ko2) >= B.attack_ko2 : false,
+      ['its attacks 2HKO ' + p.ko2 + ' of ' + N + ' League Pokémon from full, no boosts (bar ' + pct(B.attack_ko2, 1) + '%, the Tank\'s)'],
+      {ko2: p.ko2, ko1: p.ko1, of: N});
+    return F;
+  }
+
+  // --- the name ---
+  function headTest(hid, F, M) {
+    var h = HEADS[hid], f = F[h['function']];
+    if (!f.plausible) return ['absent', null];
+    if (hid === 'pivot') {
+      if (f.supported && f.path === 'move') return [true, null];
+      return [f.supported !== null ? false : null, 'a pivoting move that it lasts to use (two hits from most hard attacks, or moving first)'];
+    }
+    if (h.method || hid === 'field_controller') {
+      var cand = F.field_controller.candidate_methods, got = F.field_controller.methods;
+      if (hid === 'field_controller') {
+        if (cand.length < h.needs_methods) return ['absent', null];
+        return [got.length >= h.needs_methods, 'it has to last to use its field moves'];
+      }
+      if (!has(cand, h.method)) return ['absent', null];
+      return [has(got, h.method), 'it has to last to use its field move'];
+    }
+    if (hid === 'cleric' && !has(M._tags, 'cleric')) return ['absent', null];
+    return [f.supported, f.pending || f.why.join('; ')];
+  }
+  function nearness(kind, eid, hid, F, M, sustain) {
+    var N = M.N;
+    var q = function (v, bar) { return bar ? Math.min(1.0, share(v, N) / bar) : 1.0; };
+    var r = function (v, bar) { return bar ? Math.min(1.0, v / bar) : 1.0; };
+    var lasts = Math.max(r(M.take2, B.lasts_take2), q(M.first, B.lasts_first));
+    if (kind === 'head') {
+      var f = F[HEADS[eid]['function']];
+      if (f.supported === null) return null;
+      if (eid === 'setup_sweeper') {
+        var b = M.boosted, pb = M.priority_boosted;
+        return Math.max(Math.min(q(M.first_boosted, B.sweep_first), q(b.ko2, B.sweep_ko2), q(b.ko1, B.sweep_ko1)),
+          Math.min(r(M.take3, B.bulk_take3), q(b.ko2, B.sweep_ko2), q(b.ko1, B.sweep_ko1)),
+          Math.min(q(pb.ko2, B.sweep_ko2), q(b.ko2, B.sweep_ko2)));
+      }
+      if (eid === 'sweeper') return Math.min(q(M.first, B.sweep_first), q(M.plain.ko2, B.sweep_ko2), q(M.plain.ko1, B.sweep_ko1));
+      if (eid === 'attacker') return q(M.plain.ko2, B.attack_ko2);
+      if (eid === 'tank') return Math.min(r(M.take3, B.bulk_take3), q(M.plain.ko2, B.attack_ko2));
+      if (eid === 'wall') { var best = Math.max(r(M.wall.physical, B.wall_take4), r(M.wall.special, B.wall_take4)); return sustain.length ? best : 0.0; }
+      if (eid === 'support' || eid === 'cleric') return Math.min(1.0, (F.support.numbers.moves || []).length / RC.roles.support.moves_at_least) * lasts;
+      if (eid === 'pivot') return has(M._tags, 'pivot') ? Math.max(r(M.take2, B.lasts_take2), q(M.first, B.pivot_first)) : 0.0;
+      return lasts;
+    }
+    if (eid === 'window' || eid === 'trapping') return null;
+    if (eid === 'rain' || eid === 'sun') {
+      var w = M.weather;
+      if (hid === 'setup_sweeper') return Math.min(q(w.first_boosted, B.sweep_first), q(w.boosted.ko2, B.sweep_ko2), q(w.boosted.ko1, B.sweep_ko1));
+      if (hid === 'sweeper') return Math.min(q(w.first, B.sweep_first), q(w.plain.ko2, B.sweep_ko2), q(w.plain.ko1, B.sweep_ko1));
+      return q(w.plain.ko2, B.attack_ko2);
+    }
+    if (eid === 'room') return Math.min(lasts, q(M.room_first, B.sweep_first));
+    if (eid === 'fast') return q(M.first, B.sweep_first);
+    if (eid === 'offensive') return q(M.plain.ko2, B.attack_ko2);
+    if (eid === 'bulky') return r(M.take3, B.bulk_take3);
+    if (eid === 'specially_defensive' || eid === 'physically_defensive') { var v = r(M.wall[MODS[eid].side], B.wall_take4); return sustain.length ? v : 0.99 * v; }
+    if (eid === 'priority') return hid === 'setup_sweeper' ? q(M.priority_boosted.ko2, B.sweep_ko2) : q(M.priority.ko2, B.attack_ko2);
+    if (eid === 'hazard_setting') return lasts;
+    if (eid === 'sacrificial') return q(M.self_ko.ko1, B.attack_ko2);
+    return 0.0;
+  }
+  function modTest(mid, hid, F, M, ctx, lean, sustain) {   // [status, why, plausible]
+    var N = M.N, sh = function (n) { return share(n, N); }, ok;
+    if (mid === 'rain' || mid === 'sun') {
+      var w = M.weather;
+      if (!w || w.kind !== mid || !w.benefits) return [false, null, false];
+      if (hid === 'setup_sweeper') ok = sh(w.first_boosted) >= B.sweep_first && sh(w.boosted.ko2) >= B.sweep_ko2 && sh(w.boosted.ko1) >= B.sweep_ko1;
+      else if (hid === 'sweeper') ok = sh(w.first) >= B.sweep_first && sh(w.plain.ko2) >= B.sweep_ko2 && sh(w.plain.ko1) >= B.sweep_ko1;
+      else ok = sh(w.plain.ko2) >= B.attack_ko2;
+      return [ok, 'in its ' + w.name.toLowerCase() + ': first against ' + w.first + ' of ' + N + ', 2HKOs ' + w.plain.ko2, true];
+    }
+    if (mid === 'room') {
+      if (!has(F.field_controller.candidate_methods, 'room')) return [false, null, false];
+      ok = has(F.field_controller.methods, 'room') && sh(M.room_first) >= B.sweep_first;
+      return [ok, 'under Trick Room it moves first against ' + M.room_first + ' of ' + N + ' (bar ' + pct(B.sweep_first, 1) + '%)', true];
+    }
+    if (mid === 'fast') {
+      var plaus = has(lean, 'speed') || has(C.items.speed, ctx.item);
+      return [sh(M.first) >= B.sweep_first, 'moves first against ' + M.first + ' of ' + N + ' (bar ' + pct(B.sweep_first, 1) + '%)', plaus];
+    }
+    if (mid === 'offensive') return [sh(M.plain.ko2) >= B.attack_ko2, '2HKOs ' + M.plain.ko2 + ' of ' + N + ' (bar ' + pct(B.attack_ko2, 1) + '%)', has(lean, 'offense')];
+    if (mid === 'defensive') {
+      ok = sh(M.plain.ko2) < B.attack_ko2 && has(lean, 'defense') && sustain.length > 0;
+      return [ok, 'built to take hits (defensive spread, a way to heal) rather than to KO', has(lean, 'defense')];
+    }
+    if (mid === 'bulky') return [M.take3 >= B.bulk_take3, 'takes three hits from ' + pct(M.take3, 1) + '% of the 100 hardest League attacks (bar ' + pct(B.bulk_take3, 1) + '%)',
+      has(lean, 'defense') || sustain.length > 0];
+    if (mid === 'specially_defensive' || mid === 'physically_defensive') {
+      var sd = MODS[mid].side, v = M.wall[sd];
+      var why = v < B.wall_take4 ? 'takes four hits from ' + pct(v, 1) + '% of the 50 hardest ' + sd + ' attacks (bar ' + pct(B.wall_take4, 1) + '%)' :
+        'takes four hits from ' + pct(v, 1) + '% of the 50 hardest ' + sd + ' attacks, but has no way to heal (recovery, Rest, Wish or Leftovers)';
+      return [v >= B.wall_take4 && sustain.length > 0, why, has(lean, 'defense') || sustain.length > 0];
+    }
+    if (mid === 'priority') {
+      if (!M.priority_moves.length) return [false, null, false];
+      var n;
+      if (hid === 'setup_sweeper') { n = M.priority_boosted.ko2; return [sh(n) >= B.sweep_ko2, M.priority_moves.join(', ') + ' 2HKOs ' + n + ' of ' + N + ' after its setup (bar ' + pct(B.sweep_ko2, 1) + '%)', true]; }
+      n = M.priority.ko2;
+      return [sh(n) >= B.attack_ko2, M.priority_moves.join(', ') + ' 2HKOs ' + n + ' of ' + N + ' from full (bar ' + pct(B.attack_ko2, 1) + '%)', true];
+    }
+    if (mid === 'trapping') { var f = F.trapper; return [f.supported, f.pending == null ? null : f.pending, f.plausible]; }
+    if (mid === 'hazard_setting') {
+      if (!has(F.field_controller.candidate_methods, 'hazard')) return [false, null, false];
+      return [has(F.field_controller.methods, 'hazard'), 'it has to last to set its hazard', true];
+    }
+    if (mid === 'sacrificial') {
+      if (!M._selfko.length) return [false, null, false];
+      var k = M.self_ko.ko1;
+      return [sh(k) >= B.attack_ko2, M._selfko.join(', ') + ' OHKOs ' + k + ' of ' + N + ' from full, once (bar ' + pct(B.attack_ko2, 1) + '%)', true];
+    }
+    if (mid === 'choice_band' || mid === 'choice_specs' || mid === 'choice_scarf') { var it = MODS[mid].item; return [ctx.item === it, null, ctx.item === it]; }
+    if (mid === 'window') {
+      var wi = M.window;
+      if (!wi) return [false, null, false];
+      return [null, 'the ' + wi.ability + ' window (a third of its HP or less) isn\'t a measured scenario yet: in it, it would move first against ' +
+        wi.first + ' and 2HKO ' + wi.reach.ko2 + ' of ' + N + '; its Substitute holds against ' + wi.sub_safe + ' of ' + N, true];
+    }
+    if (mid === 'physical' || mid === 'special') return [M.side === mid, null, M.side === mid];
+    return [false, null, false];
+  }
+  function phrase(hid, mids, M, ctx, F) {
+    var h = HEADS[hid], head = h.phrase;
+    if (head.indexOf('{side}') >= 0) { var sides = F.wall.sides || []; head = head.replace('{side}', sides.length === 2 ? 'Mixed' : (sides.length ? cap(sides[0]) : '')); }
+    if (head.indexOf('{weather}') >= 0) head = head.replace('{weather}', M.weather ? M.weather.name : 'Weather');
+    var order = C.word_order;
+    var ms = mids.slice().sort(function (a, b) { return cmpKey([order.indexOf(MODS[a].group), MOD_ORDER.indexOf(a)], [order.indexOf(MODS[b].group), MOD_ORDER.indexOf(b)]); });
+    var words = ms.map(function (m) { var ph = MODS[m].phrase; if (ph.indexOf('{ability}') >= 0) ph = ph.replace('{ability}', (M.window || {}).ability || ''); return ph; });
+    var meth = []; ms.forEach(function (m, i) { if (MODS[m].group === 'method') meth.push(i); });
+    if (meth.length === 2 && meth.every(function (i) { return words[i].indexOf(' ') < 0 && words[i].indexOf('-') < 0; }) && meth[1] === meth[0] + 1) {
+      words[meth[0]] = words[meth[0]] + '-' + words[meth[1]];
+      words.splice(meth[1], 1);
+    }
+    return words.concat([head]).join(' ').trim();
+  }
+  function accounted(hid, mids, res) {
+    var sels = HEADS[hid].accounts.slice(); mids.forEach(function (m) { sels = sels.concat(MODS[m].accounts); });
+    return res.filter(function (r) { return sels.some(function (s) { return selects(s, r); }); }).map(function (r) { return r.id; });
+  }
+  function combos(hid) {
+    var allowed = MOD_ORDER.filter(function (m) { return has(MODS[m].heads, hid); }), out = [[]], capN = C.max_modifiers, per = C.max_per_group;
+    allowed.forEach(function (a, i) {
+      out.push([a]);
+      if (capN >= 2) allowed.slice(i + 1).forEach(function (b) {
+        var ga = MODS[a].group, gb = MODS[b].group;
+        if (ga === gb && (per[ga] || 1) < 2) return;
+        if ((a === 'fast' && b === 'room') || (a === 'room' && b === 'fast')) return;
+        out.push([a, b]);
+      });
+    });
+    return out;
+  }
+  function gate(hid, mids, res, name) {
+    var G = C.gates;
+    if (G.head_accounts && !accounted(hid, [], res).length) return 'the head accounts for none of its commitments';
+    if (G.modifier_adds) {
+      for (var i = 0; i < mids.length; i++) {
+        var m = mids[i];
+        if (has(G.exempt_groups, MODS[m].group)) continue;
+        var rest = accounted(hid, mids.filter(function (x) { return x !== m; }), res);
+        if (!accounted(hid, mids, res).filter(function (r) { return !has(rest, r); }).length) return MODS[m].phrase + ' adds nothing the rest of the name doesn\'t say';
+      }
+    }
+    if (name.split(/\s+/).length > C.max_words) return 'too long';
+    return null;
+  }
+  function conditionsPresent(M) {
+    var out = [];
+    if (M.weather && M.weather.benefits) out.push(M.weather.kind);
+    if (M._room) out.push('room');
+    if (M.window) out.push('window');
+    return out;
+  }
+  function candidates(F, M, ctx, res, lean, sustain) {
+    var conds = conditionsPresent(M), out = [];
+    HEAD_ORDER.forEach(function (hid) {
+      var ht = headTest(hid, F, M), hs = ht[0], hwhy = ht[1];
+      if (hs === 'absent') return;
+      combos(hid).forEach(function (mids) {
+        var tests = mids.map(function (m) { return [m].concat(modTest(m, hid, F, M, ctx, lean, sustain)); });
+        if (tests.some(function (t) { return !t[3]; })) return;   // a modifier whose mechanics aren't on the set: not a candidate at all
+        var elems = [['head', hid, hs, hwhy]].concat(tests.map(function (t) { return ['mod', t[0], t[1], t[2]]; }));
+        var name = phrase(hid, mids, M, ctx, F), acc = accounted(hid, mids, res);
+        if (gate(hid, mids, res, name)) return;                    // a hard gate: not a name at all
+        var spec = mids.map(function (m) { return MODS[m].specificity; });
+        var rank = {coverage: acc.length, head_specificity: HEADS[hid].specificity,
+          modifier_specificity: spec.length ? Math.max.apply(null, spec) : -1, specific_modifiers: spec.filter(function (x) { return x >= 1; }).length,
+          adequacy: conds.filter(function (c) { return has(mids, c); }).length, words: name.split(/\s+/).length,
+          order: [HEAD_ORDER.indexOf(hid)].concat(mids.map(function (m) { return MOD_ORDER.indexOf(m); }))};
+        out.push({name: name, head: hid, modifiers: mids.slice(), elements: elems, accounts: acc, rank: rank});
+      });
+    });
+    return out;
+  }
+  function rankKey(c) { var r = c.rank; return [-r.coverage, -r.head_specificity, -r.modifier_specificity, -r.specific_modifiers, -r.adequacy, r.words, r.order, c.name]; }
+
+  // --- what to say ---
+  function finding(claim, mechanism, evidence, conditions, status, caveat) {
+    return {lens: C.lens.id, claim: claim, mechanism: mechanism, conditions: conditions || [], evidence: evidence || {},
+      status: status === undefined ? 'pass' : status, caveat: caveat === undefined ? null : caveat};
+  }
+  function takeaways(best, F, M, ctx, res) {
+    var N = M.N, out = [], hid = best.head, f = F[HEADS[hid]['function']], n = f.numbers;
+    if (hid === 'setup_sweeper') {
+      var path = (n.paths && n.paths.length ? n.paths : ['speed'])[0];
+      var lead = {speed: 'it moves first against ' + n.first_boosted + ' of ' + N,
+        bulk: 'it takes three hits from ' + pct(M.take3, 1) + '% of the hardest League attacks while it sets up',
+        priority: 'its priority 2HKOs ' + n.priority_ko2_boosted + ' of ' + N}[path];
+      out.push(finding('After one ' + M.setup_moves.join(', ') + ', ' + lead + ' and its attacks 2HKO ' + n.ko2_boosted + ' of ' + N + ' League Pokémon.',
+        'one use of its setup, applied as the stat stage\'s multiplier on the dry roll (the Sweeper\'s estimate)',
+        {measure: 'ko2_boosted', n: n.ko2_boosted, of: N}, ['after one setup turn']));
+    } else if (hid === 'sweeper' || hid === 'attacker') {
+      out.push(finding('Its attacks 2HKO ' + M.plain.ko2 + ' and OHKO ' + M.plain.ko1 + ' of ' + N + ' League Pokémon from full, no boosts' +
+        (hid === 'sweeper' ? ', and it moves first against ' + M.first + '.' : '.'),
+        'the calculator\'s lowest roll, every attack it can use more than once', {measure: 'ko2', n: M.plain.ko2, of: N}));
+    } else if (hid === 'tank') {
+      out.push(finding('Takes three hits from ' + pct(M.take3, 1) + '% of the 100 hardest League attacks and 2HKOs ' + M.plain.ko2 + ' of ' + N + ' back.',
+        'the top roll of each attack against it, its lowest roll against them', {measure: 'take3', share: M.take3}));
+    } else if (hid === 'wall') {
+      var sides = F.wall.sides || [], ws = {};
+      sides.forEach(function (s) { ws[s] = M.wall[s]; });
+      out.push(finding('Takes four hits from ' + sides.map(function (s) { return String(pct(M.wall[s], 1)) + '% of the 50 hardest ' + s; }).join(', ') + ' attacks, ' +
+        'and heals with ' + M.sustain.join(', ') + '.', 'the top roll of each attack against it', {measure: 'take4', sides: ws}, undefined, undefined,
+        sides.length === 2 ? null : 'only the ' + (sides.length ? sides[0] : '') + ' side: the other side\'s hardest attacks break through'));
+    } else if (hid === 'pivot') {
+      var piv = res.filter(function (r) { return r.kind === 'move' && has(r.tags, 'pivot'); }).map(function (r) { return r.label; });
+      out.push(finding(piv.join(', ') + ' hands off to a teammate, and it lasts to use it: two hits from ' + pct(M.take2, 1) + '% of the 100 hardest League attacks.',
+        'a pivoting move, and the survival the Pivot role reads', {measure: 'take2', share: M.take2}));
+    } else {
+      var got = HEADS[hid]['function'] === 'field_controller' ? F.field_controller.methods : [];
+      var moves = res.filter(function (r) { return r.kind === 'move' && has(r.tags, 'support'); }).map(function (r) { return r.label; });
+      out.push(finding(moves.join(', ') + ': and it lasts to use them (two hits from ' + pct(M.take2, 1) + '% of the 100 hardest League attacks, ' +
+        'first against ' + M.first + ' of ' + N + ').', 'its support moves, and the survival the Support role reads', {measure: 'take2', share: M.take2, methods: got}));
+    }
+    for (var i = 0; i < best.modifiers.length; i++) {
+      var m = best.modifiers[i];
+      if (out.length >= C.show.takeaways) break;
+      if (m === 'priority') {
+        var boosted = hid === 'setup_sweeper', k = boosted ? M.priority_boosted.ko2 : M.priority.ko2;
+        out.push(finding(M.priority_moves.join(', ') + ' 2HKOs ' + k + ' of ' + N + ' League Pokémon ' + (boosted ? 'after its setup' : 'from full') + ', ' +
+          'and goes first whatever the Speed.', '+1 priority: it acts before any normal move', {measure: 'priority_ko2', n: k, of: N}, ['against foes without priority of their own']));
+      } else if (m === 'room') {
+        out.push(finding('Under its own Trick Room it moves first against ' + M.room_first + ' of ' + N + ' League Pokémon.', C.room._note,
+          {measure: 'room_first', n: M.room_first, of: N}, ['after Trick Room goes up: ' + C.room.turns + ' turns counting that one'], 'conditional'));
+      } else if (m === 'rain' || m === 'sun') {
+        var w = M.weather;
+        out.push(finding('In its own ' + w.name.toLowerCase() + ' it moves first against ' + w.first + ' and 2HKOs ' + w.plain.ko2 + ' of ' + N + ' ' +
+          '(dry: first against ' + M.first + ', 2HKOs ' + M.plain.ko2 + ').',
+          (w.speed_ability ? 'Swift Swim doubles its Speed; ' : '') + (w.boosted_moves.length ? w.boosted_moves.join(', ') + ' hit 1.5x (an estimate on the dry roll)' : ''),
+          {measure: 'weather_reach', n: w.plain.ko2, of: N},
+          ['after ' + (w.by === 'move' ? (w.kind === 'rain' ? 'Rain Dance' : 'Sunny Day') : 'it comes in') + (w.turns ? ': ' + w.turns + ' turns counting that one' : '')], 'conditional'));
+      } else if (m === 'fast') {
+        out.push(finding('Moves first against ' + M.first + ' of ' + N + ' League Pokémon, no boosts.', 'its Speed with items against theirs; a tie isn\'t first',
+          {measure: 'first', n: M.first, of: N}));
+      } else if (m === 'sacrificial') {
+        out.push(finding(M._selfko.join(', ') + ' OHKOs ' + M.self_ko.ko1 + ' of ' + N + ' League Pokémon from full: one use, and it faints.',
+          'a self-KO move at its lowest roll', {measure: 'self_ko_ohko', n: M.self_ko.ko1, of: N}));
+      } else if (m === 'bulky') {
+        out.push(finding('Takes three hits from ' + pct(M.take3, 1) + '% of the 100 hardest League attacks.', 'the top roll of each attack against it',
+          {measure: 'take3', share: M.take3}));
+      } else if (m === 'specially_defensive' || m === 'physically_defensive') {
+        var sd = MODS[m].side, other = sd === 'special' ? 'physical' : 'special';
+        out.push(finding('Takes four hits from ' + pct(M.wall[sd], 1) + '% of the 50 hardest ' + sd + ' League attacks, and heals with ' + M.sustain.join(', ') + '.',
+          'the top roll of each attack against it', {measure: 'take4', side: sd, share: M.wall[sd]}, undefined, undefined,
+          'the other side (' + other + '): ' + pct(M.wall[other], 1) + '%'));
+      }
+    }
+    return out;
+  }
+  function limitation(F, M, ctx) {
+    var N = M.N, item = ctx.item || '';
+    if (M.hp_power) {
+      var h = M.hp_power;
+      return finding(h.moves.join(', ') + ' loses power with its HP: from full its attacks 2HKO ' + M.plain.ko2 + ' of ' + N + '; after Stealth Rock ' +
+        '(' + pct(M.stealth_rock, 1) + '% of its HP) about ' + h.reach.ko2 + '.', C.hp_power._note,
+        {measure: 'hp_power_reach', n: h.reach.ko2, of: N}, ['after Stealth Rock on entry'], 'conditional', 'an estimate: the power ratio on the full-HP roll');
+    }
+    if (has(C.items.choice, item)) return finding(item + ' locks it into the first move it picks until it switches out.', 'Choice items (Gen IV)', undefined, undefined, 'conditional',
+      'a Pokémon that resists that move walls it until it switches');
+    if (M.weather && M.weather.benefits && M.weather.by === 'move') {
+      var w = M.weather;
+      return finding('Its ' + w.name.toLowerCase() + ' lasts ' + w.turns + ' turns counting the one it goes up on, and costs that turn.', C.weather._note, undefined, undefined,
+        'conditional', 'out of it: first against ' + M.first + ', 2HKOs ' + M.plain.ko2 + ' of ' + N);
+    }
+    if (has(F.field_controller.candidate_methods, 'room'))
+      return finding('Trick Room lasts five turns counting the one it goes up on: four turns of reversed order, then its own low Speed again.', C.room._note, undefined, undefined,
+        'conditional', 'outside Trick Room it moves first against ' + M.first + ' of ' + N);
+    if (M.window) {
+      var wi = M.window;
+      return finding('The ' + wi.ability + ' window needs it at a third of its HP or less; its Substitute holds against ' + wi.sub_safe + ' of ' + N + ' League Pokémon.',
+        C.pinch._note, undefined, undefined, 'unknown', 'the window isn\'t a measured scenario yet');
+    }
+    if (item === 'Life Orb') return finding('Life Orb costs a tenth of its HP every attack.', 'Life Orb (Gen IV)', undefined, undefined, 'pass');
+    if (item === 'Focus Sash') return finding('Focus Sash only saves it from full HP: Stealth Rock, weather or a multi-hit move breaks it.', 'Focus Sash (Gen IV)', undefined, undefined, 'pass');
+    if (F.trapper.plausible) return finding('Its trapping isn\'t measured: the League lens fights one-on-one, with nothing that switches out.', F.trapper.pending, undefined, undefined, 'unknown');
+    return finding('Measured one-on-one against the League from full HP; team play (6v6) isn\'t measured yet.', C.functions.observed, undefined, undefined, 'unknown');
+  }
+
+  // --- evaluate ---
+  function unknown(buildId, species, game, why) {
+    return {version: C.version, grammar: C.grammar, lens: {id: C.lens.id}, build: buildId, species: species, game: game, evaluated: false, why: why,
+      headline: null, alternates: [], near_misses: [], functions: [], takeaways: [], limitation: null};
+  }
+  function evaluate(buildId, species, game, read, ctx, speed) {
+    if (!read || read.error || !read.lens) return unknown(buildId, species, game, (read || {}).error || 'no League fights in this read yet');
+    var gen = Bt.GAME_GEN[game], res = resources(ctx, gen), M = measures(read, ctx, gen, res);
+    M._selfko = res.filter(function (r) { return r.kind === 'move' && has(r.tags, 'self_ko'); }).map(function (r) { return r.label; });
+    M._tags = []; res.forEach(function (r) { if (r.kind === 'move') M._tags = M._tags.concat(r.tags); });
+    M._room = has(M._tags, 'room');
+    var F = functions(read, ctx, gen, res, M), lean = [];
+    for (var i = 0; i < res.length; i++) { if (res[i].kind === 'spread') { lean = res[i].tags || []; break; } }
+    var sustain = M.sustain, cands = candidates(F, M, ctx, res, lean, sustain);
+    var eligible = cands.filter(function (c) { return c.elements.every(function (e) { return e[2] === true; }); })
+      .map(function (c, i) { return [c, i]; }).sort(function (a, b) { return cmpKey(rankKey(a[0]), rankKey(b[0])) || (a[1] - b[1]); }).map(function (x) { return x[0]; });
+    var near = cands.filter(function (c) { return c.elements.filter(function (e) { return e[2] !== true; }).length === 1; });
+    var best = eligible.length ? eligible[0] : null, names = {}, lab = {};
+    eligible.forEach(function (c) { names[c.name] = 1; });
+    res.forEach(function (r) { lab[r.id] = r.label; });
+    var short = function (c) {
+      var miss = res.filter(function (r) { return !has(c.accounts, r.id); }).map(function (r) { return lab[r.id]; });
+      return {name: c.name, head: c.head, modifiers: c.modifiers, accounts: {named: c.accounts.length, of: res.length, unaccounted: miss}, rank: c.rank};
+    };
+    var failing = function (c) { return c.elements.filter(function (e) { return e[2] !== true; })[0]; };
+    var missOf = function (c) {
+      var e = failing(c), kind = e[2] === null ? 'pending' : 'short', what = e[0] === 'head' ? HEADS[e[1]].phrase : MODS[e[1]].phrase;
+      return Object.assign({}, short(c), {missing: {element: e[1], kind: kind, what: what.replace('{side} ', '').replace('{weather} ', '').replace('{ability}-', ''), why: e[3],
+        near: c.near === null ? null : r4(c.near)}});
+    };
+    near = near.filter(function (c) { return !names[c.name]; });
+    near.forEach(function (c) { var e = failing(c); c.near = nearness(e[0], e[1], c.head, F, M, sustain); });
+    near = near.map(function (c, i) { return [c, i]; }).sort(function (a, b) {
+      var ka = [a[0].near === null ? 0 : 1, -(a[0].near || 0), -a[0].rank.coverage].concat(rankKey(a[0]).slice(1));
+      var kb = [b[0].near === null ? 0 : 1, -(b[0].near || 0), -b[0].rank.coverage].concat(rankKey(b[0]).slice(1));
+      return cmpKey(ka, kb) || (a[1] - b[1]);
+    }).map(function (x) { return x[0]; });
+    var seen = {}, nearOut = [], pendingOut = [];
+    near.forEach(function (c) {
+      var e = failing(c);
+      if (seen[e[1]] || (best && e[0] === 'mod' && has(['physical', 'special', 'offensive', 'defensive'], e[1]))) return;
+      seen[e[1]] = 1;
+      if (c.near === null) { if (pendingOut.length < C.show.pending) pendingOut.push(missOf(c)); }   // can't be measured yet: its own list
+      else if (nearOut.length < C.show.near_misses) nearOut.push(missOf(c));
+    });
+    var headline;
+    if (best) {
+      headline = short(best);
+      headline.functional = phrase(best.head, [], M, ctx, F);
+      var label = function (e) { return e[0] === 'head' ? headline.functional : MODS[e[1]].phrase.replace('{ability}', (M.window || {}).ability || ''); };
+      headline.why = best.elements.filter(function (e) { return e[3]; }).map(function (e) { return label(e) + ': ' + e[3]; });
+    } else {
+      var lw = C.fallback.lean[has(lean, 'offense') ? 'offense' : (has(lean, 'defense') ? 'defense' : (has(lean, 'speed') ? 'speed' : 'none'))];
+      headline = {name: C.fallback.phrase.replace('{lean}', lw), head: null, modifiers: [], fallback: true, functional: null, why: [C.fallback.says],
+        accounts: {named: 0, of: res.length, unaccounted: res.map(function (r) { return lab[r.id]; })}};
+    }
+    var conditions = [];
+    if (M.weather && M.weather.benefits) {
+      var w = M.weather;
+      conditions.push(w.name + ': ' + (w.by === 'move' ? 'after ' + (w.kind === 'rain' ? 'Rain Dance' : 'Sunny Day') + ', ' + w.turns + ' turns counting that one' :
+        'from its ability, until another weather replaces it'));
+    }
+    if (M._room) conditions.push('Trick Room: ' + C.room.turns + ' turns counting the one it goes up on; priority still goes first');
+    if (M.hp_power) conditions.push(M.hp_power.moves.join(', ') + ': power falls with its HP');
+    if (M.window) conditions.push(M.window.ability + ': its ' + M.window.type + ' moves hit 1.5x at a third of its HP or less');
+    return {version: C.version, grammar: C.grammar, lens: {id: C.lens.id, name: C.lens.name, foes: M.N, gen: gen},
+      build: buildId, species: species, game: game, evaluated: true,
+      headline: headline, alternates: eligible.slice(1, 1 + C.show.alternates).map(short),
+      near_misses: nearOut, pending: pendingOut, eligible: eligible.length,
+      functions: C.functions.order.map(function (k) { return F[k]; }),
+      takeaways: best ? takeaways(best, F, M, ctx, res) : [],
+      limitation: limitation(F, M, ctx),
+      conditions: conditions, filled_moves: (read.filled_moves || []).slice(),
+      resources: res.map(function (r) { return {id: r.id, label: r.label, tags: r.tags}; }),
+      facts: {first: M.first, first_boosted: M.first_boosted, room_first: M.room_first, of: M.N,
+        plain: M.plain, boosted: M.boosted, priority: M.priority, priority_boosted: M.priority_boosted,
+        self_ko: M.self_ko, take2: M.take2, take3: M.take3, wall: M.wall, sustain: M.sustain,
+        side: M.side, weather: M.weather, window: M.window, hp_power: M.hp_power,
+        stealth_rock: M.stealth_rock, status_users: M.status_users, sub_safe: M.sub_safe,
+        speed: speed === undefined ? null : speed},
+      missing: C.functions.order.filter(function (k) { return F[k].pending; }).map(function (k) { return F[k].name + ': ' + F[k].pending; })};
+  }
+  var api = {init: init, evaluate: evaluate, unknown: unknown, config: function () { return C; }, ready: function () { return !!C; }};
+  return api;
+})();
+</script>

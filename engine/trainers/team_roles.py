@@ -178,6 +178,21 @@ class TeamRoles:
         out["taken"] = {**taken, "foes": attacking, "walled": walled}
         return out
 
+    def lens(self, f):
+        """The fights themselves, one row per Elite Four and Champion Pokémon (each set once, the order facts() reads):
+        name, species, its moves, (our Speed, theirs) with items, our moves' damage and their attacks' damage on us (roll
+        ranges in %, no boosts, from full). trainers/identity.py works out its scenarios (rain, Trick Room, low HP, a
+        boosted priority hit) from these. Kept in the read, left out of the pack (write_pack): no new fights."""
+        foes, order = {}, []
+        for pool in ("elite_four", "champion"):
+            for c, _, m in f[pool]:
+                if c.key not in foes:
+                    foes[c.key] = (c, m)
+                    order.append(c.key)
+        return [{"n": c.name, "sp": c.species, "m": list(c.moves), "s": list(m.speeds),
+                 "d": {mv: list(v) for mv, v in m.damage.items()}, "i": {mv: list(v) for mv, v in m.incoming.items()}}
+                for c, m in (foes[k] for k in order)]
+
     def override(self, r, build_id):
         """A team role set by hand (team_roles.json → overrides, once approved): earned follows it, the score stays computed."""
         o = (self.cfg.get("overrides") or {}).get(build_id, {})
@@ -446,7 +461,7 @@ class TeamRoles:
                                  "top": [{"role": x["role"], "name": x["name"], "score": x["score"]} for x in cl["roles"][:5]]},
                 "name": self.name(cl, team, ctx["moves"], gen, b.species),
                 "facts": {k: v for k, v in fx.items() if not k.startswith("_")},
-                "evidence": self.evidence(fights[b.id], gen)}
+                "evidence": self.evidence(fights[b.id], gen), "lens": self.lens(fights[b.id])}
 
     def read(self, build, game=None):
         return self.read_many([(build, game)])[build.id]
@@ -574,7 +589,7 @@ def write_pack(tr, reads):
                 bst[str(g)][sp["name"]] = sum(tr.book.era.base_stats(sp["name"], g).values())
             except (KeyError, IndexError, TypeError, ValueError):
                 pass
-    pack = {"config": cfg, "reads": {k: r for k, r in reads.items() if "error" not in r},
+    pack = {"config": cfg, "reads": {k: {f: v for f, v in r.items() if f != "lens"} for k, r in reads.items() if "error" not in r},
             "errors": {k: r["error"] for k, r in reads.items() if "error" in r}, "bst": bst, "built": __import__("time").strftime("%Y-%m-%d"),
             "pools": {str(g): {p: [{"name": c.name, "species": c.species, "where": w} for c, w in m] for p, m in tr.pool(g).items()}
                       for g in (2, 3, 4)}}
@@ -657,8 +672,12 @@ def main(argv):
     store = Store()
     tr = TeamRoles(store)
     if argv and argv[0] == "--pack":
-        reads = tr.read_many(all_builds(store))
+        builds = all_builds(store)
+        reads = tr.read_many(builds)
         write_pack(tr, reads)
+        from trainers.identity import identity_pack        # every build's battle identity, from these same fights
+        ip = identity_pack(tr, [(b, g or GAME_OF_GEN[b.generation or 4]) for b, g in builds], reads, store)
+        print(f"identities: {len(ip['decisions'])} builds, {len(ip['census'])} distinct names -> app/data/identity4.json")
         earned = Counter(r for x in reads.values() for r in x["earned"])
         print(f"{len(reads)} builds read; earned: {dict(earned)}")
         return

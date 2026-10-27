@@ -1,0 +1,406 @@
+{
+  "_note": "The battle-intelligence pilot (docs/battle/BATTLE_INTELLIGENCE.md; the master handoff §11): exact legal Gen IV sets for the V3 contrast cases, each tied to its V3 case id and set family. V3's families are literature descriptions, not exact sets: the spreads, items and fourth moves here are Blackthorn's reconstruction of each family (labelled 'reconstructed'), except where the set is the Gen 4 OU Showdown usage set in the record store (labelled 'usage'). Every set is checked against its game's learnset by trainers/identity.py --pilot. The V3 'candidate archetype' is kept only to compare against afterwards; the engine never reads it.",
+  "builds": [
+    {
+      "case": "B001",
+      "family": "Choice Band U-turn Bullet Punch Pursuit",
+      "basis": "usage",
+      "v3_candidate": "Priority-Trapping Pivot",
+      "species": "Scizor",
+      "game": "platinum",
+      "nature": "Adamant",
+      "ability": "Technician",
+      "item": "Choice Band",
+      "evs": {
+        "hp": 248,
+        "atk": 252,
+        "spd": 8
+      },
+      "moves": [
+        "Bullet Punch",
+        "U-turn",
+        "Superpower",
+        "Pursuit"
+      ]
+    },
+    {
+      "case": "B002",
+      "family": "Bulky Swords Dance Roost Bullet Punch",
+      "basis": "reconstructed",
+      "v3_candidate": "Bulky Setup Sweeper",
+      "species": "Scizor",
+      "game": "platinum",
+      "nature": "Adamant",
+      "ability": "Technician",
+      "item": "Leftovers",
+      "evs": {
+        "hp": 248,
+        "atk": 40,
+        "spd": 220
+      },
+      "moves": [
+        "Swords Dance",
+        "Bullet Punch",
+        "Roost",
+        "Superpower"
+      ]
+    },
+    {
+      "case": "B003",
+      "family": "Offensive Swords Dance Life Orb Bullet Punch Bug Bite",
+      "basis": "reconstructed",
+      "v3_candidate": "Priority Setup Sweeper",
+      "species": "Scizor",
+      "game": "heartgold",
+      "nature": "Adamant",
+      "ability": "Technician",
+      "item": "Life Orb",
+      "evs": {
+        "hp": 4,
+        "atk": 252,
+        "spe": 252
+      },
+      "moves": [
+        "Swords Dance",
+        "Bullet Punch",
+        "Bug Bite",
+        "Superpower"
+      ],
+      "note": "Bug Bite is a HeartGold/SoulSilver tutor move, so this set is built in HeartGold."
+    },
+    {
+      "case": "B005",
+      "family": "Choice Band STAB physical attacks",
+      "basis": "reconstructed",
+      "v3_candidate": "Physical Wallbreaker",
+      "species": "Tyranitar",
+      "game": "platinum",
+      "nature": "Adamant",
+      "ability": "Sand Stream",
+      "item": "Choice Band",
+      "evs": {
+        "hp": 252,
+        "atk": 252,
+        "spd": 4
+      },
+      "moves": [
+        "Stone Edge",
+        "Crunch",
+        "Earthquake",
+        "Superpower"
+      ]
+    },
+    {
+      "case": "B006",
+      "family": "Dragon Dance offensive",
+      "basis": "reconstructed",
+      "v3_candidate": "Physical Setup Sweeper",
+      "species": "Tyranitar",
+      "game": "platinum",
+      "nature": "Jolly",
+      "ability": "Sand Stream",
+      "item": "Lum Berry",
+      "evs": {
+        "atk": 252,
+        "spd": 4,
+        "spe": 252
+      },
+      "moves": [
+        "Dragon Dance",
+        "Stone Edge",
+        "Crunch",
+        "Earthquake"
+      ]
+    },
+    {
+      "case": "B007",
+      "family": "Defensive sand-setting utility",
+      "basis": "reconstructed",
+      "v3_candidate": "Specially Defensive Tank",
+      "species": "Tyranitar",
+      "game": "platinum",
+      "nature": "Careful",
+      "ability": "Sand Stream",
+      "item": "Leftovers",
+      "evs": {
+        "hp": 252,
+        "atk": 4,
+        "spd": 252
+      },
+      "moves": [
+        "Stealth Rock",
+        "Crunch",
+        "Pursuit",
+        "Earthquake"
+      ]
+    },
+    {
+      "case": "B008",
+      "family": "Defensive Rapid Spin Recover",
+      "basis": "reconstructed",
+      "v3_candidate": "Defensive Spinner",
+      "species": "Starmie",
+      "game": "platinum",
+      "nature": "Bold",
+      "ability": "Natural Cure",
+      "item": "Leftovers",
+      "evs": {
+        "hp": 248,
+        "def": 252,
+        "spe": 8
+      },
+      "moves": [
+        "Rapid Spin",
+        "Recover",
+        "Surf",
+        "Thunder Wave"
+      ]
+    },
+    {
+      "case": "B009",
+      "family": "Offensive Rapid Spin coverage",
+      "basis": "reconstructed",
+      "v3_candidate": "Offensive Utility Spinner",
+      "species": "Starmie",
+      "game": "platinum",
+      "nature": "Timid",
+      "ability": "Natural Cure",
+      "item": "Life Orb",
+      "evs": {
+        "hp": 4,
+        "spa": 252,
+        "spe": 252
+      },
+      "moves": [
+        "Hydro Pump",
+        "Thunderbolt",
+        "Ice Beam",
+        "Rapid Spin"
+      ]
+    },
+    {
+      "case": "B011",
+      "family": "Offensive Trick Room Macho Brace Gyro Ball Explosion",
+      "basis": "reconstructed",
+      "v3_candidate": "Self-Setting Room Cleaner",
+      "species": "Bronzong",
+      "game": "platinum",
+      "nature": "Brave",
+      "ability": "Levitate",
+      "item": "Macho Brace",
+      "evs": {
+        "hp": 252,
+        "atk": 252,
+        "spd": 4
+      },
+      "ivs": {
+        "spe": 0
+      },
+      "moves": [
+        "Trick Room",
+        "Gyro Ball",
+        "Earthquake",
+        "Explosion"
+      ]
+    },
+    {
+      "case": "B012",
+      "family": "Stealth Rock dual screen defensive support",
+      "basis": "reconstructed",
+      "v3_candidate": "Defensive Field Controller",
+      "species": "Bronzong",
+      "game": "platinum",
+      "nature": "Sassy",
+      "ability": "Levitate",
+      "item": "Light Clay",
+      "evs": {
+        "hp": 252,
+        "def": 4,
+        "spd": 252
+      },
+      "moves": [
+        "Stealth Rock",
+        "Reflect",
+        "Light Screen",
+        "Gyro Ball"
+      ]
+    },
+    {
+      "case": "B026",
+      "family": "Dragon Dance Waterfall Outrage",
+      "basis": "reconstructed",
+      "v3_candidate": "Physical Setup Sweeper",
+      "species": "Kingdra",
+      "game": "platinum",
+      "nature": "Adamant",
+      "ability": "Swift Swim",
+      "item": "Lum Berry",
+      "evs": {
+        "atk": 252,
+        "def": 4,
+        "spe": 252
+      },
+      "moves": [
+        "Dragon Dance",
+        "Waterfall",
+        "Outrage",
+        "Substitute"
+      ]
+    },
+    {
+      "case": "B027",
+      "family": "Rain Dance Swift Swim Hydro Pump Draco Meteor",
+      "basis": "reconstructed",
+      "v3_candidate": "Rain-Enabled Special Sweeper",
+      "species": "Kingdra",
+      "game": "platinum",
+      "nature": "Modest",
+      "ability": "Swift Swim",
+      "item": "Damp Rock",
+      "evs": {
+        "hp": 4,
+        "spa": 252,
+        "spe": 252
+      },
+      "moves": [
+        "Rain Dance",
+        "Hydro Pump",
+        "Draco Meteor",
+        "Ice Beam"
+      ]
+    },
+    {
+      "case": "B035",
+      "family": "Agility Hydro Pump Ice Beam Grass Knot",
+      "basis": "reconstructed",
+      "v3_candidate": "Special Setup Sweeper",
+      "species": "Empoleon",
+      "game": "platinum",
+      "nature": "Modest",
+      "ability": "Torrent",
+      "item": "Life Orb",
+      "evs": {
+        "hp": 4,
+        "spa": 252,
+        "spe": 252
+      },
+      "moves": [
+        "Agility",
+        "Hydro Pump",
+        "Ice Beam",
+        "Grass Knot"
+      ]
+    },
+    {
+      "case": "B036",
+      "family": "Agility Substitute Petaya Torrent",
+      "basis": "reconstructed",
+      "v3_candidate": "Torrent Window Sweeper",
+      "species": "Empoleon",
+      "game": "platinum",
+      "nature": "Modest",
+      "ability": "Torrent",
+      "item": "Petaya Berry",
+      "evs": {
+        "hp": 4,
+        "spa": 252,
+        "spe": 252
+      },
+      "moves": [
+        "Substitute",
+        "Agility",
+        "Hydro Pump",
+        "Ice Beam"
+      ]
+    },
+    {
+      "case": "B038",
+      "family": "Focus Sash Stealth Rock Taunt Explosion",
+      "basis": "usage",
+      "v3_candidate": "Sacrificial Momentum Lead",
+      "species": "Azelf",
+      "game": "platinum",
+      "nature": "Naive",
+      "ability": "Levitate",
+      "item": "Focus Sash",
+      "evs": {
+        "hp": 4,
+        "spa": 252,
+        "spe": 252
+      },
+      "moves": [
+        "Stealth Rock",
+        "Taunt",
+        "Explosion",
+        "Psychic"
+      ]
+    },
+    {
+      "case": "B039",
+      "family": "Dual Screens lead",
+      "basis": "reconstructed",
+      "v3_candidate": "Screen-Setting Lead",
+      "species": "Azelf",
+      "game": "platinum",
+      "nature": "Jolly",
+      "ability": "Levitate",
+      "item": "Light Clay",
+      "evs": {
+        "hp": 252,
+        "def": 4,
+        "spe": 252
+      },
+      "moves": [
+        "Reflect",
+        "Light Screen",
+        "Stealth Rock",
+        "Taunt"
+      ]
+    },
+    {
+      "case": "B044",
+      "family": "Cleric special defense (in-game legal)",
+      "basis": "reconstructed",
+      "v3_candidate": "Special Defensive Cleric",
+      "species": "Blissey",
+      "game": "platinum",
+      "nature": "Bold",
+      "ability": "Natural Cure",
+      "item": "Leftovers",
+      "evs": {
+        "hp": 252,
+        "def": 252,
+        "spd": 4
+      },
+      "moves": [
+        "Soft-Boiled",
+        "Aromatherapy",
+        "Toxic",
+        "Ice Beam"
+      ],
+      "note": "The usage-era Wish and Seismic Toss reach Blissey only by transfer from Gen III, so neither is in-game learnable in a Gen IV game; Toxic and Ice Beam take their slots."
+    },
+    {
+      "case": "J08",
+      "family": "Choice Scarf Eruption (journey 8)",
+      "basis": "reconstructed",
+      "v3_candidate": "Fast Special Attacker",
+      "species": "Typhlosion",
+      "game": "heartgold",
+      "nature": "Timid",
+      "ability": "Blaze",
+      "item": "Choice Scarf",
+      "evs": {
+        "hp": 4,
+        "spa": 252,
+        "spe": 252
+      },
+      "moves": [
+        "Eruption",
+        "Fire Blast",
+        "Focus Blast",
+        "Extrasensory"
+      ]
+    }
+  ]
+}

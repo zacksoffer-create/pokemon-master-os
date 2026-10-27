@@ -358,6 +358,7 @@ def main(breeder=False):
     if os.path.exists(cal):
         rec["calibration"] = load(cal)
     dump("recognition.json", rec)
+    dump("identity.json", load(os.path.join(ENGINE, "trainers", "identity.json")))   # the battle-identity rules (37_identity)
     words = os.path.join(ROOT, "docs", "naming", "proposed_words.json")   # v2: the generated name proposals (trainers/naming_list.py)
     if os.path.exists(words):
         dump("naming.json", load(words))

@@ -29,6 +29,11 @@ PARITY_BUILDS = ["stock/garchomp-sweeper", "competitive:gen41v1/azelf-c4f2f4b2",
                  "competitive:gen3ou/skarmory-70825fcd", "competitive:gen2ou/snorlax-72a6cc5a", "competitive:gen2ou/forretress-bb845c3c",
                  "ash-kanto/charizard"]
 
+def _json_load(path):
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 class Rules(unittest.TestCase):
     def test_gen2_to_5_chart_keeps_steel_resisting_ghost_and_dark(self):
         for gen in (2, 3, 4):
@@ -2961,6 +2966,28 @@ class WebApp(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
         self.assertIn("checks match Python over %d builds" % len(ids), out.stdout)
 
+    def test_battle_identity_in_the_browser_matches_python(self):
+        """The browser's battle identity (web/37_identity.html) against trainers/identity.py: the pilot sets and the
+        same spread of library builds, fought again in the page and named the same, number for number."""
+        have = set(_json_load(os.path.join(self.app, "data", "identity4.json"))["decisions"])
+        ids = [k for k in PARITY_BUILDS if k in have]
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "ident.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "trainers", "identity.py"), "--parity", dump, ",".join(ids)],
+                              capture_output=True, text=True, cwd=ENGINE)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_identity_parity.mjs"), dump], capture_output=True, text=True, timeout=1500)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn("checks match Python over %d builds" % (len(ids) + 18), out.stdout)
+
+    def test_battle_identity_pages(self):
+        """The Archetype Atlas and the builder's battle identity in the preview (app/test_identity.mjs, in Chromium):
+        names listed, filtered and explained; Choice Band Scizor named live; journeys 2 and 4 in the page."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_identity.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_the_launcher_serves_the_zip_and_writes_only_the_app_tabs(self):
         out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])
@@ -3296,6 +3323,156 @@ class Estate(unittest.TestCase):
             self.skipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
+
+
+class BattleIdentity(unittest.TestCase):
+    """Battle intelligence slice 1 (docs/battle/BATTLE_INTELLIGENCE.md): trainers/identity.py names a build from its own
+    League fights. The acceptance journeys of the master handoff that this slice covers, on the pilot sets
+    (trainers/identity_pilot.json) and controlled edits of them. One batch of fights for the whole class."""
+    @classmethod
+    def setUpClass(cls):
+        from dataclasses import replace
+        from trainers.identity import Identity, evaluate_many, pilot_builds
+        from trainers.model import Store
+        cls.store = Store()
+        P = {b.id.split(":")[1]: (b, g) for b, g, _ in pilot_builds()}
+        cls.P = P
+        b1 = P["B001"][0]
+        edits = {
+            "B001-nopursuit": replace(b1, id="edit:nopursuit", moves=["Bullet Punch", "U-turn", "Superpower", "Brick Break"]),
+            "B001-lefties": replace(b1, id="edit:lefties", item="Leftovers"),
+            "B001-def": replace(b1, id="edit:def", evs={"hp": 248, "atk": 252, "def": 8}),
+            "starmie-248": replace(P["B009"][0], id="edit:starmie248", evs={"hp": 4, "spa": 252, "spe": 248}),
+        }
+        cls.E = {k: (v, "platinum") for k, v in edits.items()}
+        batch = [P[k] for k in sorted(P)] + [cls.E[k] for k in sorted(cls.E)]
+        cls.R = evaluate_many(batch, cls.store)
+        cls.D = {k: cls.R[b.id][1] for k, (b, _) in list(P.items()) + list(cls.E.items())}
+        cls.Identity = Identity
+
+    def name(self, k):
+        return self.D[k]["headline"]["name"]
+
+    def all_names(self, k):
+        d = self.D[k]
+        return [d["headline"]["name"]] + [x["name"] for x in d["alternates"] + d["near_misses"] + d.get("pending", [])]
+
+    def test_journey_1_three_scizors_three_identities(self):
+        names = [self.name(k) for k in ("B001", "B002", "B003")]
+        self.assertEqual(len(set(names)), 3, names)                                  # truthful, different
+        self.assertEqual(names, ["Offensive Priority Pivot", "Bulky Setup Sweeper", "Priority Setup Sweeper"])
+        for n in names:                                                              # never the species or its typing
+            self.assertFalse({"Scizor", "Steel", "Bug"} & set(n.split()), n)
+
+    def test_journey_2_removing_pursuit_removes_the_trapping_claims_only(self):
+        self.assertTrue(any("Trapping" in n for n in self.all_names("B001")))       # with Pursuit: a near miss, never earned
+        self.assertNotIn("Trapping", self.name("B001"))
+        d = self.D["B001-nopursuit"]
+        self.assertFalse(any("Trapping" in n for n in self.all_names("B001-nopursuit")))
+        trap = next(f for f in d["functions"] if f["id"] == "trapper")
+        self.assertFalse(trap["plausible"])
+        self.assertEqual(d["facts"]["speed"]["value"], self.D["B001"]["facts"]["speed"]["value"])    # the Speed read is untouched
+        self.assertEqual(d["facts"]["speed"]["tier"], self.D["B001"]["facts"]["speed"]["tier"])
+
+    def test_journey_3_a_speed_tie_is_not_an_outspeed(self):
+        s = self.D["B009"]["facts"]["speed"]                                         # Timid 252 Starmie: 361, a base-115 tie
+        self.assertEqual(s["value"], 361)
+        m = {x["base"]: x for x in s["milestones"]}
+        self.assertTrue(m[115]["ties"])
+        self.assertFalse(m[115]["clears"])
+        self.assertTrue(m[110]["clears"])
+        s2 = self.D["starmie-248"]["facts"]["speed"]                                 # four EVs fewer: 360, no tie any more
+        self.assertEqual(s2["value"], 360)
+        self.assertFalse({x["base"]: x for x in s2["milestones"]}[115]["ties"])
+        ident = self.Identity()
+        lens = [{"s": [300, 300]}, {"s": [300, 299]}]                                # the League measure is strict too
+        self.assertEqual(ident.first(lens, 1.0), 1)
+
+    def test_journey_4_the_choice_lock_follows_the_item(self):
+        self.assertIn("locks it into", self.D["B001"]["limitation"]["claim"])
+        self.assertNotIn("locks", self.D["B001-lefties"]["limitation"]["claim"])
+        self.assertNotIn("Choice", " ".join(self.all_names("B001-lefties")))
+
+    def test_journey_5_blissey_is_a_special_wall_not_a_universal_one(self):
+        d = self.D["B044"]
+        self.assertEqual(self.name("B044"), "Specially Defensive Cleric")
+        wall = next(f for f in d["functions"] if f["id"] == "wall")
+        self.assertEqual(wall["sides"], ["special"])
+        for n in [d["headline"]["name"]] + [a["name"] for a in d["alternates"]]:
+            self.assertNotIn("Physically", n)
+            self.assertNotIn("Mixed", n)
+
+    def test_journey_6_trick_room_bronzong_is_not_fast(self):
+        d = self.D["B011"]
+        self.assertEqual(self.name("B011"), "Room-Setting Tank")
+        self.assertGreaterEqual(d["facts"]["room_first"] / d["facts"]["of"], 0.8)
+        self.assertLess(d["facts"]["first"] / d["facts"]["of"], 0.8)
+        self.assertIsNone(d["facts"]["speed"]["tier"])                              # no raw-Speed badge for being slow
+        self.assertTrue(any("Trick Room: 5 turns" in c for c in d["conditions"]))   # the turn budget is visible
+        self.assertNotIn("Fast", " ".join(self.all_names("B011")))
+
+    def test_journey_7_the_two_starmies_dont_share_recover(self):
+        rec = lambda k: [r["label"] for r in self.D[k]["resources"] if "recovery" in r["tags"]]
+        self.assertEqual(rec("B008"), ["Recover"])
+        self.assertEqual(rec("B009"), [])
+        self.assertEqual((self.name("B008"), self.name("B009")), ("Defensive Spinner", "Offensive Spinner"))
+        self.assertNotIn("Recover", json.dumps(self.D["B009"]["takeaways"]))
+
+    def test_journey_8_eruption_falls_with_hp(self):
+        d = self.D["J08"]
+        self.assertEqual(d["facts"]["hp_power"]["after_rocks"], 0.75)               # Stealth Rock: 25% to a Fire type
+        self.assertLessEqual(d["facts"]["hp_power"]["reach"]["ko2"], d["facts"]["plain"]["ko2"])
+        self.assertIn("Eruption loses power", d["limitation"]["claim"])
+
+    def test_journey_9_rain_claims_stay_in_the_rain(self):
+        d = self.D["B027"]
+        self.assertEqual(self.name("B027"), "Rain Sweeper")
+        self.assertTrue(any(c.startswith("Rain:") for c in d["conditions"]))
+        rain = next(t for t in d["takeaways"] if t["evidence"].get("measure") == "weather_reach")
+        self.assertEqual(rain["status"], "conditional")
+        self.assertIn("dry:", rain["claim"])                                        # the dry numbers sit beside the rain ones
+        self.assertIsNone(self.D["B026"]["facts"]["weather"])                       # Swift Swim with no rain of its own: no rain claim
+        self.assertNotIn("Rain", self.name("B026"))
+
+    def test_journey_10_the_torrent_window_is_conditional_not_a_name(self):
+        d = self.D["B036"]
+        self.assertNotIn("Window", self.name("B036"))
+        pend = [p for p in d["pending"] if p["missing"]["element"] == "window"]
+        self.assertEqual(len(pend), 1)
+        self.assertIn("Substitute holds against", pend[0]["missing"]["why"])
+        self.assertIsNotNone(d["facts"]["window"])
+        self.assertIn("a third of its HP", " ".join(d["conditions"]))
+
+    def test_journey_11_azelf_sacrifice_counts(self):
+        d = self.D["B038"]
+        self.assertIn("Sacrificial", self.name("B038"))
+        self.assertTrue(any(t["evidence"].get("measure") == "self_ko_ohko" for t in d["takeaways"]))   # its Explosion is the point
+        self.assertNotIn("Lead", self.name("B038"))                                 # a lead is an assignment, not an identity
+        sw = next(f for f in d["functions"] if f["id"] == "sweeper")                # Explosion is one use: it doesn't make a Sweeper
+        self.assertFalse(sw["supported"])
+
+    def test_the_same_set_gets_the_same_name_and_an_irrelevant_edit_keeps_it(self):
+        self.assertEqual(self.name("B001-def"), self.name("B001"))                   # 8 EVs moved from SpD to Def
+        from trainers.identity import evaluate_many
+        again = evaluate_many([self.P["B001"]], self.store)[self.P["B001"][0].id][1]
+        self.assertEqual(json.dumps(again, sort_keys=True), json.dumps(self.D["B001"], sort_keys=True))
+
+    def test_journey_14_no_fights_no_name(self):
+        d = self.Identity().evaluate("x", "Scizor", "platinum", {"error": "its fights didn't settle"}, {}, None)
+        self.assertFalse(d["evaluated"])
+        self.assertIsNone(d["headline"])
+        self.assertEqual(d["functions"], [])
+
+    def test_every_bar_is_a_team_role_bar_and_names_stay_short(self):
+        from trainers.team_roles import load_config
+        cfg, rc = self.Identity().cfg, load_config()
+        for k, path in cfg["bars"].items():
+            if k.startswith("_"):
+                continue
+            role, key = path.split(".")
+            self.assertIn(key, rc["roles"][role], path)
+        for k in self.D:
+            self.assertLessEqual(len(self.name(k).split()), cfg["max_words"], self.name(k))
 
 if __name__ == "__main__":
     unittest.main()

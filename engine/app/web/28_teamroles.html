@@ -245,6 +245,13 @@ var TeamRoles = (function () {
     });
     return out;
   }
+  function lens(f) {   // team_roles.py lens(): the fights themselves, one row per League Pokémon, for trainers/identity's scenarios
+    var foes = {}, order = [];
+    ['elite_four', 'champion'].forEach(function (p) { f[p].forEach(function (x) { if (!foes[x[0].key]) { foes[x[0].key] = [x[0], x[2]]; order.push(x[0].key); } }); });
+    var two = function (d) { var o = {}; Object.keys(d).forEach(function (k) { o[k] = [d[k][0], d[k][1]]; }); return o; };
+    return order.map(function (k) { var c = foes[k][0], m = foes[k][1];
+      return {n: c.name, sp: c.species, m: c.moves.slice(), s: [m.speeds[0], m.speeds[1]], d: two(m.damage), i: two(m.incoming)}; });
+  }
   function override(r, id) {   // a team role set by hand (config.overrides, once approved): earned follows it, the score stays computed
     var o = (CFG.overrides || {})[id] || {};
     if (!(r.role in o)) return r;
@@ -264,7 +271,7 @@ var TeamRoles = (function () {
       filled_moves: filledMoves.filter(function (m) { return (b.moves || []).indexOf(m) < 0; }), roles: sorted,
       earned: sorted.filter(function (r) { return r.earned; }).map(function (r) { return r.role; }),
       second_layer: {primary: cl.primary, secondary: cl.secondary, top: cl.roles.slice(0, 5).map(function (x) { return {role: x.role, name: x.name, score: x.score}; })},
-      name: name(cl, team, ctx.moves, gen, b.species), facts: publicFacts(fx), evidence: evidence(F[b.id], gen)};
+      name: name(cl, team, ctx.moves, gen, b.species), facts: publicFacts(fx), evidence: evidence(F[b.id], gen), lens: lens(F[b.id])};
   }
   function publicFacts(fx) { var o = {}; Object.keys(fx).forEach(function (k) { if (k.charAt(0) !== '_') o[k] = fx[k]; }); return o; }
   function read(build, game) { var id = build.id || 'lab'; var b = Object.assign({}, build, {id: id}); return readMany([{build: b, game: game}])[id]; }

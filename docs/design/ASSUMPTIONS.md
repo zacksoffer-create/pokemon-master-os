@@ -1131,3 +1131,69 @@ Breeding stock is a showcase now. #/stock shows your designs as cards: the name 
 - **Why:** Your call: "I'd like to make it a lot easier to add a breeding stock version, you get a name for the build, you can see the lineage ... more navigable, more user friendly, and more focused on the breeding stock and being a showcase and lab." The name is a field you fill in, since you're building the naming system yourself.
 - **See it:** `#/stock` (Breeding stock)
 - **Could instead:** star a design without saving a version (kept in this browser only); restoring an old version brings back its name and labels too; the app proposes a name from the build-name ladder until your naming system is ready
+
+## Battle intelligence · slice 1
+
+### A-119 · How a build's name is chosen (D-082)
+
+A build's name now comes from what it does against the League, not from its type and a noun. Every candidate name is a job (Setup Sweeper, Pivot, Tank, Special Wall, Spinner, Field Controller, Cleric...) plus at most two words it has also earned (Priority, Bulky, Rain, Room-Setting, Choice Band...). The winner is the name that explains most of the set's six choices (four moves, item, spread); then the more specific one (a condition beats a method beats a measure beats a generic word); then the one that states its conditions; then the shorter; then a fixed order, so the same set always gets the same name. Up to two other earned names show as alternates, and the closest misses show with how close they came.
+
+- **Why:** The battle-intelligence handoff asks for a deterministic, evidence-backed name that a strong player would recognise, with the alternatives and near misses on view. This is my first reading of its ranking rules (centrality, discriminative information, adequacy, naturalness, a stable tie-break).
+- **See it:** `#/archetypes` (The Archetype Atlas)
+- **Could instead:** rank by how often a name appears in the library (rarer first); let you pin any earned name as the display name for a saved version; keep the old type-and-noun ladder as the headline
+
+### A-120 · The bars behind the words (D-082)
+
+No word has a new threshold. Each reuses a team-role bar you already have: Sweeper (moves first against 80%, 2HKOs 80%, OHKOs 30%) for Sweeper, Setup Sweeper, Fast, Rain and Room-Setting; Tank (three hits from 75% of the 100 hardest attacks; 2HKOs 60%) for Bulky, and its 60% for Attacker, Offensive, Priority and Sacrificial; Wall (four hits from 80% of one side's 50 hardest, with sustain) for Specially and Physically Defensive; Support's 'lasts to use it' for every field job.
+
+- **Why:** The handoff forbids invented thresholds: a bar has to come from calibration. These are the bars calibrated over 1,076 builds for the team roles.
+- **See it:** `#/archetypes` (The Archetype Atlas)
+- **Could instead:** calibrate separate bars for each word from the library's distribution; use the Sweeper's 80% for Priority on every head, not only after setup
+
+### A-121 · Three ways to be a Setup Sweeper (D-082)
+
+After one use of its setup move, a Setup Sweeper takes the League down one of three ways: it moves first (the Sweeper's bars), it lasts instead (the Tank's three-hit bar with the Sweeper's KO bars: Bulky Setup Sweeper), or its priority does the damage (its priority move 2HKOs 80% after the boost: Priority Setup Sweeper). Attacks it can only use once (Explosion) don't count toward the sweep.
+
+- **Why:** Bulky Swords Dance Scizor doesn't outspeed the League but takes its hits and wins; the old Sweeper read missed it.
+- **See it:** `#/archetypes` (The Archetype Atlas)
+- **Could instead:** only the Speed path (the team role's Sweeper); let a self-KO move count toward the sweep
+
+### A-122 · Weather from an ability (D-082)
+
+Sand Stream, Drizzle, Drought and Snow Warning set weather as the Pokémon comes in, and the card says so, but a species that can't swap the ability hasn't chosen it: it doesn't make a Weather Setter or count toward a Field Controller. A weather move or the weather's rock does.
+
+- **Why:** Otherwise every Tyranitar is a 'Sand Setter' first, whatever its set, which is true of the species but says nothing about the build.
+- **See it:** `#/archetypes` (The Archetype Atlas)
+- **Could instead:** count ability weather as a field job; count it only when the set also holds the weather's rock (that's how it is now)
+
+### A-123 · Low-HP windows (Torrent, Petaya, Substitute) (D-082)
+
+A set built to sweep at low HP (Substitute and Petaya Berry with Torrent, say) gets its window worked out: how much of the League it would outspeed and 2HKO there, and how many League Pokémon can't break its Substitute. It isn't a name yet: it shows under 'can't be measured yet' until you say how often the window has to be reachable to count.
+
+- **Why:** The handoff wants the window shown only under defined HP and turn conditions, with its costs. Whether a window that 36 of 88 League Pokémon allow is a real plan is a call for you, not a bar I should invent.
+- **See it:** `#/archetypes` (The Archetype Atlas)
+- **Could instead:** count the window when its Substitute holds against half the League; never name a window; keep it as a note
+
+### A-124 · How a spread leans (D-082)
+
+A spread leans offensive, defensive or fast when it puts a full stat's worth of EVs (252) into that side, or its nature raises it; slow when its nature lowers Speed or its Speed IV is 0 with no Speed EVs. 'Defensive' is a word only for a set that falls short of the attacker bar, has a defensive spread and a way to heal; a set that hits hard is 'Offensive' instead, whatever its HP EVs.
+
+- **Why:** Classic Choice Band Scizor runs 248 HP and 252 Attack: by EV count it 'leans defensive' by four points, which is nonsense.
+- **See it:** `#/archetypes` (The Archetype Atlas)
+- **Could instead:** lean by whichever side has more EVs; treat Speed EVs as offensive
+
+### A-125 · When nothing clears a bar (D-082)
+
+A set that clears no function's bar gets a plain description of how it's built: 'Offensive Set', 'Defensive Set', 'Fast Set', or 'Unproven Set' when it has no spread recorded. The card says it's a description, not a role. 145 library builds (mostly anime teams with no EVs) are Unproven Sets today.
+
+- **Why:** The handoff: always have a safe fallback, and never label the unknown as high status.
+- **See it:** `#/archetypes` (The Archetype Atlas)
+- **Could instead:** show no name at all; use the old type-and-noun ladder name as the fallback
+
+### A-126 · The old name ladder (D-082)
+
+The builder's name line now shows the battle identity. The v2 type-and-noun ladder is still read and kept (the team-roles card mentions it), and its words list and the naming pages are unchanged.
+
+- **Why:** The handoff names the type-and-noun pattern as the one to replace. You said you'd work on naming separately; this is that system arriving, so it takes the headline, and nothing of the old one is thrown away.
+- **See it:** `#/pokemon` (Your Pokémon (the builder))
+- **Could instead:** show both names side by side; keep the ladder name as the headline until you approve the identity names

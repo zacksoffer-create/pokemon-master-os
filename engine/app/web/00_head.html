@@ -478,6 +478,27 @@ ul.scout.pos li::marker { color: var(--forest-3); } ul.scout.neg li::marker { co
 .lnode.egg { border-color: var(--gold); background: rgba(201,169,106,.06); } .lnode.warn { border-color: var(--ember-2); }
 .larrow { align-self: center; color: var(--gold); font-size: 20px; }
 .vrow { padding: 8px 0; border-top: 1px solid var(--line, rgba(255,255,255,.06)); }
+.archname { color: var(--gold); font-weight: 700; text-decoration: none; border-bottom: 1px dotted var(--gold-line); }
+.archname.big { font-size: 22px; font-family: var(--serif, Georgia, serif); }
+.identhead { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.identtake { margin: 10px 0 0 18px; padding: 0; font-size: 14px; line-height: 1.45; }
+.identtake li { margin-bottom: 4px; }
+.identlim { margin-top: 10px; padding: 8px 10px; border-left: 3px solid var(--ember-2, #c9653a); background: rgba(201, 101, 58, .08); font-size: 13px; }
+.nearrow { display: grid; grid-template-columns: minmax(140px, 1fr) 90px; gap: 2px 10px; align-items: center; margin-top: 6px; }
+.nearrow .tiny { grid-column: 1 / -1; }
+.nearrow .bar { height: 6px; }
+.atlasfilters { display: grid; gap: 6px; margin: 12px 0; }
+.atlasfilters .chip { cursor: pointer; text-decoration: none; }
+.atlaslist { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.atlasrow { display: block; padding: 10px 12px; border: 1px solid var(--gold-line); border-radius: 10px; text-decoration: none; color: var(--text-1, inherit); background: rgba(255, 255, 255, .02); }
+.atlasrow:hover { border-color: var(--gold); }
+.atlasname { font-weight: 700; color: var(--gold); }
+.atlasspr { display: flex; gap: 2px; margin: 4px 0; min-height: 40px; }
+.atlasspr img { width: 40px; height: 40px; }
+.atlasbuilds { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px; }
+.atlasbuild { display: flex; gap: 8px; align-items: center; padding: 4px 6px; border-radius: 8px; text-decoration: none; color: inherit; }
+.atlasbuild:hover { background: rgba(255, 255, 255, .04); }
+.atlasbuild img { width: 48px; height: 48px; }
 .stkjump { position: sticky; top: 0; z-index: 4; display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 0; margin-bottom: 8px; background: var(--charcoal); border-bottom: 1px solid var(--gold-line); }
 .stkjump a { font-size: 12px; padding: 3px 10px; border: 1px solid var(--gold-line); border-radius: 999px; color: var(--text-2); cursor: pointer; }
 .stkjump a:hover { color: var(--ivory); border-color: var(--gold); }

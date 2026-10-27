@@ -1,0 +1,133 @@
+<script>
+/* ===== Battle identity: the card on a build, and the Archetype Atlas (docs/battle/BATTLE_INTELLIGENCE.md) ==========
+   The master handoff: one evidence-backed name per exact set, chosen by rules rather than taste, with the facts behind
+   it, the alternatives it beat, the names it nearly earned and the ones that can't be measured yet. The engine is
+   37_identity (held to trainers/identity.py by app/test_identity_parity.mjs); the library's identities come from
+   app/data/identity4.json (team_roles.py --pack). Nothing here changes a fight, a role or a badge. */
+function identityReady() {
+  if (!S.identP) S.identP = Promise.all([labsReady(), API.data('identity4')]).then(function (r) { S.ident4 = r[1]; return true; });
+  return S.identP;
+}
+function identBars() {   // the team-role bars the definitions quote, as percentages
+  var C = Identity.config(), R = TeamRoles.config().roles, o = {};
+  Object.keys(C.bars).forEach(function (k) { if (k.charAt(0) === '_') return; var p = C.bars[k].split('.'); o[k] = Battle.pyRound(100 * R[p[0]][p[1]]); });
+  return o;
+}
+function identSays(text) { var b = identBars(); return String(text || '').replace(/\{(\w+)\}/g, function (m, k) { return k in b ? b[k] : m; }); }
+function identHref(name) { return '#/archetypes/' + encodeURIComponent(name); }
+function identTier(f) {   // one function's three tiers, as a chip
+  if (f.supported === true) return chip('supported', 'forest');
+  if (f.supported === null && f.plausible) return '<span class="chip" title="' + esc(f.pending || '') + '">pending</span>';
+  if (f.plausible) return '<span class="chip ember" title="the set can do it; the League lens doesn\'t show it">plausible</span>';
+  return '<span class="tiny muted">—</span>';
+}
+function identityHeadline(d) {   // the name on top of a build (#pbname): the headline, the plain function under it
+  if (!d || !d.evaluated) return '<span class="tiny muted">Not named yet: ' + esc(d && d.why || 'no League fights') + '</span>';
+  var h = d.headline;
+  return '<a class="archname" href="' + identHref(h.name) + '" title="Its battle identity: open it in the Archetype Atlas">' + esc(h.name) + '</a>' +
+    (h.functional && h.functional !== h.name ? ' <span class="tiny muted">· ' + esc(h.functional) + '</span>' : '') +
+    (h.fallback ? '' : ' <span class="tiny muted">· explains ' + h.accounts.named + ' of ' + h.accounts.of + ' of its choices</span>');
+}
+function identityCard(d, opt) {
+  opt = opt || {};
+  if (!d || !d.evaluated) return card('Battle identity', '<div class="tiny muted">' + esc(d && d.why || 'Not read yet.') + '</div>', {tools: false});
+  var h = d.headline, C = Identity.config(), N = d.lens.foes;
+  var take = d.takeaways.map(function (t) { return '<li>' + esc(t.claim) + (t.conditions.length ? ' <span class="tiny muted">(' + esc(t.conditions.join('; ')) + ')</span>' : '') +
+    (t.caveat ? '<div class="tiny muted">' + esc(t.caveat) + '</div>' : '') + '</li>'; }).join('');
+  var lim = d.limitation ? '<div class="identlim"><b>The catch.</b> ' + esc(d.limitation.claim) + (d.limitation.caveat ? ' <span class="tiny muted">' + esc(d.limitation.caveat) + '.</span>' : '') + '</div>' : '';
+  var acc = h.fallback ? '' : '<div class="tiny muted" style="margin-top:6px">The name explains ' + h.accounts.named + ' of its ' + h.accounts.of + ' choices (four moves, its item, its spread)' +
+    (h.accounts.unaccounted.length ? '; not by the name: ' + esc(h.accounts.unaccounted.join(', ')) : '') + '.</div>';
+  var why = h.why && h.why.length ? '<details class="tiny" style="margin-top:8px"><summary class="muted">Why each word</summary>' + h.why.map(function (w) { return '<div>· ' + esc(w) + '</div>'; }).join('') + '</details>' : '';
+  var alts = d.alternates.length ? '<div class="small" style="margin-top:10px"><span class="eyebrow">Also earned</span> ' + d.alternates.map(function (a) {
+    return '<a class="chip" href="' + identHref(a.name) + '">' + esc(a.name) + '</a>'; }).join(' ') + ' <span class="tiny muted">(ranked below: they explain less of the set, or say less)</span></div>' : '';
+  var near = d.near_misses.length ? '<div style="margin-top:10px"><div class="eyebrow">Nearly</div>' + d.near_misses.map(function (n) {
+    var k = n.missing.near == null ? 0 : n.missing.near;
+    return '<div class="nearrow"><a href="' + identHref(n.name) + '">' + esc(n.name) + '</a><div class="bar"><i style="width:' + Math.round(100 * k) + '%"></i></div>' +
+      '<div class="tiny muted">' + esc(n.missing.what) + ': ' + esc(n.missing.why || '') + '</div></div>'; }).join('') + '</div>' : '';
+  var pend = d.pending && d.pending.length ? '<div class="tiny" style="margin-top:8px"><span class="eyebrow">Can\'t be measured yet</span> ' + d.pending.map(function (n) {
+    return '<span title="' + esc(n.missing.why || '') + '">' + esc(n.name) + '</span>'; }).join(' · ') + ' <span class="muted">(' + esc(d.pending[0].missing.why || '') + ')</span></div>' : '';
+  var cond = d.conditions.length ? '<div class="tiny" style="margin-top:8px"><span class="eyebrow">Conditions</span> ' + esc(d.conditions.join(' · ')) + '</div>' : '';
+  var fns = '<details class="tiny" style="margin-top:10px"' + (opt.open ? ' open' : '') + '><summary class="muted">All fourteen functions, in three tiers</summary><table class="t" style="margin-top:6px">' +
+    '<tr><th>Function</th><th>The set can</th><th>The League lens</th><th>6v6</th></tr>' + d.functions.map(function (f) {
+      return '<tr><td>' + esc(f.name) + '</td><td>' + (f.plausible ? '✓' : '<span class="muted">—</span>') + '</td><td>' + identTier(f) + '</td><td class="muted">not yet</td></tr>'; }).join('') +
+    '</table><div class="muted" style="margin-top:4px">Pending means the evaluator exists but its bar or reference pool doesn\'t yet: ' + esc(d.missing.slice(0, 3).join(' · ')) + (d.missing.length > 3 ? ' …' : '') + '</div></details>';
+  var filled = d.filled_moves.length ? '<div class="tiny muted">Read with ' + esc(d.filled_moves.join(', ')) + ' in its empty slots (the engine\'s pick, not yours).</div>' : '';
+  return card('Battle identity',
+    '<div class="identhead"><a class="archname big" href="' + identHref(h.name) + '">' + esc(h.name) + '</a>' + (h.functional && h.functional !== h.name ? '<span class="tiny muted"> · its function: ' + esc(h.functional) + '</span>' : '') + '</div>' +
+    acc + (take ? '<ul class="identtake">' + take + '</ul>' : '') + lim + alts + near + pend + cond + filled + why + fns +
+    '<div class="tiny muted" style="margin-top:8px">Named by rules, not taste: every word has to be earned in the ' + esc(d.lens.name) + ' (' + N + ' Elite Four and Champion Pokémon of Gen ' + d.lens.gen + ', one-on-one at level 100, from full HP). ' +
+    'The same set always gets the same name; a change that matters changes it, and the card says why. <a href="#/archetypes">The Archetype Atlas</a></div>',
+    {eyebrow: 'What it does, and what to call it · ' + esc(C.version), tools: false});
+}
+
+/* ---- the Atlas ---- */
+function atlasRows() {   // every name in the library, with the builds that hold it
+  var D = S.ident4.decisions, by = {};
+  Object.keys(D).forEach(function (id) { var d = D[id]; if (!d.h) return; var r = by[d.h] || (by[d.h] = {name: d.h, head: d.hd, mods: d.m, ids: [], gens: {}}); r.ids.push(id); r.gens[Battle.GAME_GEN[d.g]] = 1; });
+  return Object.keys(by).map(function (k) { return by[k]; }).sort(function (a, b) { return (!a.head - !b.head) || (b.ids.length - a.ids.length) || (a.name < b.name ? -1 : 1); });   // descriptions (no job yet) last
+}
+function atlasSprites(ids, n) {
+  var D = S.ident4.decisions, seen = {}, out = [];
+  ids.forEach(function (id) { var sp = D[id].sp; if (seen[sp] || out.length >= n) return; seen[sp] = 1; out.push('<img class="pix" src="' + spriteOf(numOf(sp), D[id].g) + '" alt="' + esc(sp) + '" title="' + esc(sp) + '" loading="lazy">'); });
+  return out.join('');
+}
+function archetypesPage(q) {
+  return identityReady().then(function () {
+    var C = Identity.config(), rows = atlasRows(), qs = new URLSearchParams((q || '').replace(/^\?/, '')), want = qs.get('head') || '', mod = qs.get('mod') || '', gen = qs.get('gen') || '';
+    var heads = C.heads.map(function (h) { return h.id; }), shown = rows.filter(function (r) {
+      return (!want || r.head === want || (want === 'fallback' && !r.head)) && (!mod || (r.mods || []).indexOf(mod) >= 0) && (!gen || r.gens[gen]); });
+    var hp = function (id) { var h = C.heads.filter(function (x) { return x.id === id; })[0]; return h ? h.phrase.replace('{side} ', '').replace('{weather}', 'Weather') : id; };
+    var mp = function (id) { var m = C.modifiers.filter(function (x) { return x.id === id; })[0]; return m ? m.phrase.replace('{ability}-', '') + (m.id === 'window' ? '-Window' : '') : id; };
+    var link = function (k, v, label, on) { var p = new URLSearchParams(qs.toString()); if (on) p.delete(k); else p.set(k, v); var s = p.toString(); return '<a class="chip' + (on ? ' gold' : '') + '" href="#/archetypes' + (s ? '?' + s : '') + '">' + esc(label) + '</a>'; };
+    var census = S.ident4.census, total = Object.keys(S.ident4.decisions).length;
+    var list = shown.map(function (r) {
+      return '<a class="atlasrow" href="' + identHref(r.name) + '"><div class="atlasname">' + esc(r.name) + '</div><div class="atlasspr">' + atlasSprites(r.ids, 6) + '</div>' +
+        '<div class="tiny muted">' + plural(r.ids.length, 'build') + ' · ' + esc(r.head ? hp(r.head) : 'no function cleared its bar') + ' · Gen ' + Object.keys(r.gens).sort().join(', ') + '</div></a>'; }).join('');
+    var pending = Object.keys(C.functions.pending).map(function (k) { return '<div class="tiny"><b>' + esc(C.functions.names[k]) + '</b>: ' + esc(C.functions.pending[k]) + '</div>'; }).join('');
+    return '<div class="eyebrow">Battle intelligence · ' + esc(C.version) + '</div><h1>The Archetype Atlas</h1>' +
+      '<p class="lede">Every name a build can earn, and who holds it. A name is the job the set does, measured against the League (every Elite Four and Champion Pokémon, one-on-one at level 100), plus at most two words it has also earned. ' +
+      'No word is given for a stat line or a species: Priority means its priority move does the damage, Bulky means it takes the hits, Rain means its own rain pays off.</p>' +
+      '<div class="small">' + plural(rows.length, 'name') + ' across ' + plural(total, 'library build') + ' · built ' + esc(S.ident4.built) + '</div>' +
+      '<div class="atlasfilters"><div><span class="eyebrow">Job</span> ' + heads.map(function (h) { return link('head', h, hp(h), want === h); }).join(' ') + ' ' + link('head', 'fallback', 'No job yet', want === 'fallback') + '</div>' +
+      '<div><span class="eyebrow">Earned word</span> ' + C.modifiers.map(function (m) { return m.id; }).filter(function (m) { return rows.some(function (r) { return (r.mods || []).indexOf(m) >= 0; }); })
+        .map(function (m) { return link('mod', m, mp(m), mod === m); }).join(' ') + '</div>' +
+      '<div><span class="eyebrow">Generation</span> ' + ['2', '3', '4'].map(function (g) { return link('gen', g, 'Gen ' + g, gen === g); }).join(' ') + '</div></div>' +
+      '<div class="atlaslist">' + (list || '<div class="empty">No name matches those filters.</div>') + '</div>' +
+      card('How a name is chosen', '<ol class="small"><li><b>The gates.</b> Every word has to be earned in the League lens; a word that isn\'t measurable yet makes it a near miss, never a name. The job has to account for something the set invests in; Fast, Offensive, Bulky and the like have to explain a choice nothing else in the name does; four words at most.</li>' +
+        '<li><b>Centrality.</b> The name that explains most of its six choices (four moves, its item, its spread) wins.</li><li><b>Information.</b> Then the more specific job and words: a condition (Rain, Room-Setting) over a method (Priority, Choice Band) over a measure (Fast, Bulky) over a generic word (Physical, Offensive).</li>' +
+        '<li><b>Adequacy, then plain English.</b> A name that states its conditions; then fewer words; then a fixed order, so a name never changes on a refresh.</li></ol>' +
+        '<div class="tiny muted">The bars are the team roles\' (Sweeper, Tank, Wall, Support, Pivot), calibrated over 1,076 builds; nothing here is a new threshold. <a href="#/standards">The standards</a></div>', {eyebrow: 'Rules, not taste', tools: false}) +
+      card('Can\'t be measured yet', pending + '<div class="tiny muted" style="margin-top:6px">These functions have an evaluator but no bar or reference pool yet, so they name nothing. Each is the next piece of battle intelligence to build.</div>', {eyebrow: 'Pending functions', tools: false});
+  });
+}
+function archetypePage(raw) {
+  return identityReady().then(function () {
+    var name = decodeURIComponent(raw), C = Identity.config(), D = S.ident4.decisions, holds = [], alts = [], nearly = [], head = null, mods = [];
+    Object.keys(D).forEach(function (id) { var d = D[id];
+      if (d.h === name) { holds.push(id); head = d.hd; mods = d.m; }
+      else if ((d.alt || []).indexOf(name) >= 0) alts.push(id);
+      (d.nm || []).forEach(function (n) { if (n[0] === name) nearly.push([id, n[1], n[2]]); });
+      (d.pd || []).forEach(function (n) { if (n[0] === name) nearly.push([id, n[1], null]); }); });
+    nearly.sort(function (a, b) { return ((b[2] == null ? -1 : b[2]) - (a[2] == null ? -1 : a[2])) || (a[0] < b[0] ? -1 : 1); });
+    var hd = C.heads.filter(function (h) { return h.id === head; })[0], md = C.modifiers.filter(function (m) { return mods.indexOf(m.id) >= 0; });
+    var def = hd ? '<div class="small"><b>' + esc(hd.phrase.replace('{side} ', '').replace('{weather} ', '')) + '</b>: ' + esc(identSays(hd.says)) + '</div>' + md.map(function (m) {
+      return '<div class="small" style="margin-top:4px"><b>' + esc(m.phrase.replace('{ability}-', '')) + '</b>: ' + esc(identSays(m.says)) + '</div>'; }).join('') :
+      '<div class="small muted">' + (holds.length ? esc(C.fallback.says) : 'No library build holds this name yet. It may still be earned: build one and the builder will say.') + '</div>';
+    var row = function (id, extra) { var d = D[id], open = !!storeBuild(id), tag = open ? 'a' : 'div';   // the ecotype sets aren't in the builds book: shown, not opened
+      return '<' + tag + ' class="atlasbuild"' + (open ? ' href="#/pokemon/' + encodeURIComponent(id) + '"' : ' title="Not in the builds book: open its ecotype instead"') + '><img class="pix" src="' + spriteOf(numOf(d.sp), d.g) + '" alt="" loading="lazy"><div><b>' + esc(d.sp) + '</b> <span class="tiny muted">' + esc(GAME_NAME[d.g] || d.g) + ' · ' + esc(id) + '</span>' +
+        (extra ? '<div class="tiny">' + extra + '</div>' : '') + '</div></' + tag + '>'; };
+    var elemName = function (e) { var m = C.modifiers.filter(function (x) { return x.id === e; })[0] || C.heads.filter(function (x) { return x.id === e; })[0]; return m ? m.phrase.replace('{side} ', '').replace('{weather} ', '').replace('{ability}-', '') : e; };
+    return '<div class="eyebrow"><a class="link" href="#/archetypes">← The Archetype Atlas</a></div><h1>' + esc(name) + '</h1>' +
+      card('What it means', def, {eyebrow: 'The rule behind each word', tools: false}) +
+      card('Who holds it', holds.length ? '<div class="atlasbuilds">' + holds.slice(0, 60).map(function (id) { var l = D[id].lim; return row(id, l && l.indexOf('Measured one-on-one') !== 0 ? 'the catch: ' + esc(l) : ''); }).join('') + '</div>' + (holds.length > 60 ? '<div class="tiny muted">and ' + (holds.length - 60) + ' more</div>' : '') :
+        '<div class="tiny muted">No library build has it as its name.</div>', {eyebrow: plural(holds.length, 'library build'), tools: false}) +
+      (nearly.length ? card('Nearly', '<div class="atlasbuilds">' + nearly.slice(0, 30).map(function (x) {
+        return row(x[0], 'short of <b>' + esc(elemName(x[1])) + '</b>' + (x[2] == null ? ' (can\'t be measured yet)' : ': ' + Battle.pyRound(100 * x[2]) + '% of the way'));
+      }).join('') + '</div>', {eyebrow: 'Builds one word away · what they lack', tools: false}) : '') +
+      (alts.length ? card('Also earned by', '<div class="atlasbuilds">' + alts.slice(0, 30).map(function (id) { return row(id, 'named ' + esc(D[id].h)); }).join('') + '</div>',
+        {eyebrow: 'It qualifies, but another name explains more of the set', tools: false}) : '');
+  });
+}
+route(/^\/archetypes\/?(\?.*)?$/, archetypesPage, 'The Archetype Atlas', '#/archetypes');
+route(/^\/archetypes\/([^?]+)$/, archetypePage, function (n) { return 'Archetype · ' + decodeURIComponent(n); }, '#/archetypes');
+</script>

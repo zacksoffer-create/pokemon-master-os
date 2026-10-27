@@ -1,0 +1,1090 @@
+{
+  "_note": "Battle identity v0 (docs/battle/BATTLE_INTELLIGENCE.md; the master battle-intelligence handoff §2-§4). Every rule and word lives here; trainers/identity.py and its browser copy (app/web/37_identity.html) only evaluate them, and app/test_identity_parity.mjs holds the two together. Nothing here is a new threshold: each bar names the calibrated team-role bar it reuses (trainers/team_roles.json → roles), or is a Gen IV mechanic. Where a function has no calibrated bar or reference pool yet, it is shown as pending and never names a build. Status: provisional (D-082, A-119 to A-124), for Zack to react to.",
+  "version": "identity-0.1",
+  "grammar": "grammar-0.1",
+  "lens": {
+    "id": "league-1v1-l100",
+    "name": "League lens",
+    "says": "one-on-one at level 100 against every Elite Four and Champion Pokémon of its generation (team_roles.json → pools), our best plan against their game AI, dry field, from full HP",
+    "_note": "The same fights the team roles read (TeamRoles.read → lens). Damage is the calculator's roll range in % of the target's HP at no boosts, from full; Speed is with items, before anything happens (battle/evaluate.py Matchup). Scenario numbers (rain, Trick Room, a boosted priority hit, a low-HP window) are worked out from these rows and are labelled estimates: a stage or weather multiplier on the dry roll, the same estimate the Sweeper's setup boost uses."
+  },
+  "bars": {
+    "_note": "Each bar reads its value from team_roles.json at run time; the names here only say which one.",
+    "sweep_first": "sweeper.first_at_least",
+    "sweep_ko2": "sweeper.ko_at_least",
+    "sweep_ko1": "sweeper.ohko_at_least",
+    "attack_ko2": "tank.ko_at_least",
+    "bulk_take3": "tank.share_at_least",
+    "wall_take4": "wall.share_at_least",
+    "lasts_take2": "support.survive_at_least",
+    "lasts_first": "support.first_at_least",
+    "pivot_first": "pivot.first_at_least"
+  },
+  "categories": {
+    "_note": "Move categories (trainers/roles.json → move_categories) and what identity treats them as. A move with a dedicated job is accounted for by that job, not as a plain attack: U-turn is the Pivot's, Rapid Spin the Spinner's, Pursuit the trap's. A self-KO move is an attack once: it counts as one, but the reach numbers leave it out (it can't be repeated).",
+    "setup": [
+      "setup_physical",
+      "setup_special",
+      "setup_speed"
+    ],
+    "recovery": [
+      "recovery",
+      "rest"
+    ],
+    "support": [
+      "status_infliction",
+      "confuse",
+      "sleep",
+      "residual",
+      "hazard",
+      "hazard_removal",
+      "cleric",
+      "screens",
+      "weather",
+      "phaze",
+      "anti_setup",
+      "trap",
+      "trick_room",
+      "tailwind",
+      "fake_out",
+      "baton_pass",
+      "taunt",
+      "encore",
+      "trick"
+    ],
+    "status": [
+      "status_infliction",
+      "sleep",
+      "confuse",
+      "phaze",
+      "residual"
+    ],
+    "dedicated": [
+      "pivot_move",
+      "hazard_removal",
+      "pursuit",
+      "fake_out",
+      "partial_trap"
+    ],
+    "pivot": [
+      "pivot_move",
+      "baton_pass"
+    ],
+    "hazard": [
+      "hazard"
+    ],
+    "screens": [
+      "screens"
+    ],
+    "weather": [
+      "weather"
+    ],
+    "room": [
+      "trick_room"
+    ],
+    "cleric": [
+      "cleric"
+    ],
+    "self_ko": [
+      "self_ko"
+    ],
+    "trap": [
+      "trap",
+      "partial_trap",
+      "pursuit"
+    ],
+    "disrupt": [
+      "taunt",
+      "encore",
+      "trick",
+      "phaze",
+      "anti_setup",
+      "status_infliction",
+      "sleep"
+    ]
+  },
+  "self_side_removal": {
+    "_note": "Moves that clear hazards from the user's own side. Gen IV Defog clears the target's side only (it is not removal for this team); the modern self-side Defog is Gen VI.",
+    "2": [
+      "Rapid Spin"
+    ],
+    "3": [
+      "Rapid Spin"
+    ],
+    "4": [
+      "Rapid Spin"
+    ]
+  },
+  "items": {
+    "offense": [
+      "Choice Band",
+      "Choice Specs",
+      "Life Orb",
+      "Expert Belt",
+      "Muscle Band",
+      "Wise Glasses",
+      "Black Belt",
+      "Black Glasses",
+      "Charcoal",
+      "Dragon Fang",
+      "Hard Stone",
+      "Magnet",
+      "Metal Coat",
+      "Miracle Seed",
+      "Mystic Water",
+      "Never-Melt Ice",
+      "Poison Barb",
+      "Sharp Beak",
+      "Silk Scarf",
+      "Silver Powder",
+      "Soft Sand",
+      "Spell Tag",
+      "Twisted Spoon",
+      "Draco Plate",
+      "Dread Plate",
+      "Earth Plate",
+      "Fist Plate",
+      "Flame Plate",
+      "Icicle Plate",
+      "Insect Plate",
+      "Iron Plate",
+      "Meadow Plate",
+      "Mind Plate",
+      "Sky Plate",
+      "Splash Plate",
+      "Spooky Plate",
+      "Stone Plate",
+      "Toxic Plate",
+      "Zap Plate",
+      "Shell Bell",
+      "Scope Lens",
+      "Razor Claw"
+    ],
+    "choice": [
+      "Choice Band",
+      "Choice Specs",
+      "Choice Scarf"
+    ],
+    "speed": [
+      "Choice Scarf"
+    ],
+    "sustain": [
+      "Leftovers",
+      "Black Sludge"
+    ],
+    "setup": [
+      "Lum Berry",
+      "White Herb",
+      "Salac Berry",
+      "Liechi Berry",
+      "Petaya Berry",
+      "Focus Sash"
+    ],
+    "field": [
+      "Light Clay",
+      "Damp Rock",
+      "Heat Rock",
+      "Smooth Rock",
+      "Icy Rock",
+      "Focus Sash",
+      "Mental Herb"
+    ],
+    "weather": [
+      "Damp Rock",
+      "Heat Rock",
+      "Smooth Rock",
+      "Icy Rock"
+    ],
+    "slow": [
+      "Macho Brace",
+      "Iron Ball",
+      "Lagging Tail",
+      "Full Incense",
+      "Power Weight",
+      "Power Bracer",
+      "Power Belt",
+      "Power Lens",
+      "Power Band",
+      "Power Anklet"
+    ],
+    "pinch_berries": {
+      "Salac Berry": "spe",
+      "Liechi Berry": "atk",
+      "Petaya Berry": "spa"
+    }
+  },
+  "spread": {
+    "_note": "How a set is built, read from its nature and EVs (a mechanic, not a measure). 252 is one full stat's worth of EVs. A set with no EVs recorded has no spread to account for (blank is no evidence, B19).",
+    "full": 252,
+    "offense": {
+      "evs": [
+        "atk",
+        "spa"
+      ],
+      "nature_up": [
+        "atk",
+        "spa"
+      ]
+    },
+    "defense": {
+      "evs": [
+        "hp",
+        "def",
+        "spd"
+      ],
+      "nature_up": [
+        "def",
+        "spd"
+      ]
+    },
+    "speed": {
+      "evs": [
+        "spe"
+      ],
+      "nature_up": [
+        "spe"
+      ]
+    },
+    "slow": {
+      "nature_down": [
+        "spe"
+      ],
+      "spe_iv_at_most": 0
+    }
+  },
+  "weather": {
+    "_note": "Gen IV: a weather move lasts five turns counting the one it goes up on (eight with its rock); a weather ability's weather lasts until another replaces it. Only weather the set makes for itself counts.",
+    "moves": {
+      "Rain Dance": "rain",
+      "Sunny Day": "sun",
+      "Sandstorm": "sand",
+      "Hail": "hail"
+    },
+    "abilities": {
+      "Drizzle": "rain",
+      "Drought": "sun",
+      "Sand Stream": "sand",
+      "Snow Warning": "hail"
+    },
+    "rocks": {
+      "rain": "Damp Rock",
+      "sun": "Heat Rock",
+      "sand": "Smooth Rock",
+      "hail": "Icy Rock"
+    },
+    "speed_abilities": {
+      "Swift Swim": "rain",
+      "Chlorophyll": "sun"
+    },
+    "boost_type": {
+      "rain": "Water",
+      "sun": "Fire"
+    },
+    "names": {
+      "rain": "Rain",
+      "sun": "Sun",
+      "sand": "Sand",
+      "hail": "Hail"
+    },
+    "turns": 5,
+    "rock_turns": 8
+  },
+  "room": {
+    "turns": 5,
+    "_note": "Gen IV Trick Room: -7 priority, five turns counting the one it goes up on, so four turns of reversed order after it. It reverses Speed within a priority bracket only: priority still goes first."
+  },
+  "pinch": {
+    "abilities": {
+      "Blaze": "Fire",
+      "Torrent": "Water",
+      "Overgrow": "Grass",
+      "Swarm": "Bug"
+    },
+    "at_most": 0.3333,
+    "berry_at_most": 0.25,
+    "substitute_cost": 0.25,
+    "_note": "Gen III-IV: a pinch ability raises its type's moves 1.5x at a third of its HP or less; a pinch berry gives +1 at a quarter or less. Substitute costs a quarter of max HP, so three from full leave it at 25%."
+  },
+  "hp_power": {
+    "moves": [
+      "Eruption",
+      "Water Spout"
+    ],
+    "_note": "Power is 150 x current HP / max HP (at least 1): damage falls with HP."
+  },
+  "stealth_rock": {
+    "share": 0.125,
+    "type": "Rock",
+    "_note": "Stealth Rock takes 1/8 of max HP times the Rock type's effectiveness on entry (Gen IV)."
+  },
+  "functions": {
+    "_note": "The fourteen functions of the handoff (§3), each tracked in three tiers: mechanically plausible (the set can do it), benchmark supported (the League lens shows it does), observed (6v6; nothing recorded yet). 'pending' means the evaluator exists but the bar or reference pool it needs doesn't yet: it never names a build. Attacker is the offensive fallback head, not one of the fourteen.",
+    "order": [
+      "setup_sweeper",
+      "sweeper",
+      "wallbreaker",
+      "cleaner",
+      "revenge_killer",
+      "tank",
+      "wall",
+      "pivot",
+      "support",
+      "disruptor",
+      "field_controller",
+      "trapper",
+      "stallbreaker",
+      "setup_enabler",
+      "attacker"
+    ],
+    "names": {
+      "setup_sweeper": "Setup Sweeper",
+      "sweeper": "Sweeper",
+      "wallbreaker": "Wallbreaker",
+      "cleaner": "Cleaner",
+      "revenge_killer": "Revenge Killer",
+      "tank": "Tank",
+      "wall": "Wall",
+      "pivot": "Pivot",
+      "support": "Support",
+      "disruptor": "Disruptor",
+      "field_controller": "Field Controller",
+      "trapper": "Trapper",
+      "stallbreaker": "Stallbreaker",
+      "setup_enabler": "Setup Enabler",
+      "attacker": "Attacker"
+    },
+    "pending": {
+      "wallbreaker": "needs a defensive reference pool (the walls it has to break, with their recovery): not built yet",
+      "cleaner": "needs a late-game scenario (the League's Pokémon already weakened): not built yet",
+      "revenge_killer": "needs a pool of the dangerous attackers it must answer on entry: not built yet",
+      "disruptor": "needs a bar for how many League Pokémon its disruption has to matter against (the count is shown)",
+      "trapper": "the League lens fights one-on-one with no switching, so trapping and Pursuit can't be measured there: needs 6v6 evidence",
+      "stallbreaker": "needs a stall reference pool: not built yet",
+      "setup_enabler": "a team relationship: read in a team, not on its own"
+    },
+    "observed": "no 6v6 runs recorded for this build yet"
+  },
+  "heads": [
+    {
+      "id": "setup_sweeper",
+      "phrase": "Setup Sweeper",
+      "function": "setup_sweeper",
+      "family": "offense",
+      "specificity": 2,
+      "accounts": [
+        "moves:setup",
+        "moves:attack",
+        "items:offense",
+        "items:setup",
+        "spread:offense",
+        "spread:speed"
+      ],
+      "says": "After one use of its setup move it takes the League down: it moves first against {sweep_first}% and its repeatable attacks 2HKO {sweep_ko2}% (OHKO {sweep_ko1}%), or it lasts instead (three hits from {bulk_take3}% of the 100 hardest attacks), or its priority does the job."
+    },
+    {
+      "id": "sweeper",
+      "phrase": "Sweeper",
+      "function": "sweeper",
+      "family": "offense",
+      "specificity": 2,
+      "accounts": [
+        "moves:attack",
+        "items:offense",
+        "items:speed",
+        "spread:offense",
+        "spread:speed"
+      ],
+      "says": "Moves first against {sweep_first}% of the League, and its repeatable attacks 2HKO {sweep_ko2}% and OHKO {sweep_ko1}% of it, no setup."
+    },
+    {
+      "id": "wallbreaker",
+      "phrase": "Wallbreaker",
+      "function": "wallbreaker",
+      "family": "offense",
+      "specificity": 2,
+      "accounts": [
+        "moves:attack",
+        "items:offense",
+        "spread:offense"
+      ],
+      "says": "Breaks the walls in front of it. Pending: there's no defensive reference pool to measure it against yet, so it names nothing."
+    },
+    {
+      "id": "tank",
+      "phrase": "Tank",
+      "function": "tank",
+      "family": "bulk",
+      "specificity": 2,
+      "accounts": [
+        "moves:attack",
+        "moves:recovery",
+        "items:offense",
+        "items:sustain",
+        "spread:offense",
+        "spread:defense"
+      ],
+      "says": "The Tank role: takes three hits from {bulk_take3}% of the 100 hardest League attacks and 2HKOs {attack_ko2}% of the League back."
+    },
+    {
+      "id": "wall",
+      "phrase": "{side} Wall",
+      "function": "wall",
+      "family": "defense",
+      "specificity": 2,
+      "accounts": [
+        "moves:recovery",
+        "moves:status",
+        "items:sustain",
+        "spread:defense"
+      ],
+      "says": "The Wall role: takes four hits from {wall_take4}% of one side's 50 hardest attacks, and heals. The side names it (Physical, Special; Mixed for both)."
+    },
+    {
+      "id": "pivot",
+      "phrase": "Pivot",
+      "function": "pivot",
+      "family": "utility",
+      "specificity": 2,
+      "accounts": [
+        "moves:pivot"
+      ],
+      "says": "Carries U-turn or Baton Pass and lasts to use it: two hits from {lasts_take2}% of the 100 hardest attacks, or first against {pivot_first}%."
+    },
+    {
+      "id": "field_controller",
+      "phrase": "Field Controller",
+      "function": "field_controller",
+      "needs_methods": 2,
+      "family": "support",
+      "specificity": 3,
+      "accounts": [
+        "moves:support",
+        "items:field"
+      ],
+      "says": "Two or more field jobs it invests in (hazards, its own side's removal, screens, weather by move or rock, Trick Room), and it lasts to do them."
+    },
+    {
+      "id": "spinner",
+      "phrase": "Spinner",
+      "function": "field_controller",
+      "method": "removal",
+      "family": "support",
+      "specificity": 2,
+      "accounts": [
+        "moves:support",
+        "items:field"
+      ],
+      "says": "Rapid Spin, and it lasts to use it (two hits from {lasts_take2}% of the hardest attacks, or first against {lasts_first}%). Gen IV Defog doesn't count: it clears the other side."
+    },
+    {
+      "id": "hazard_setter",
+      "phrase": "Hazard Setter",
+      "function": "field_controller",
+      "method": "hazard",
+      "family": "support",
+      "specificity": 2,
+      "accounts": [
+        "moves:support",
+        "items:field"
+      ],
+      "says": "Stealth Rock, Spikes or Toxic Spikes, and it lasts to set them."
+    },
+    {
+      "id": "screen_setter",
+      "phrase": "Screen Setter",
+      "function": "field_controller",
+      "method": "screens",
+      "family": "support",
+      "specificity": 2,
+      "accounts": [
+        "moves:support",
+        "items:field"
+      ],
+      "says": "Reflect or Light Screen, and it lasts to set them."
+    },
+    {
+      "id": "weather_setter",
+      "phrase": "{weather} Setter",
+      "function": "field_controller",
+      "method": "weather",
+      "family": "support",
+      "specificity": 2,
+      "accounts": [
+        "moves:support",
+        "items:field"
+      ],
+      "says": "Sets weather with a move or holds the weather's rock, and lasts to do it."
+    },
+    {
+      "id": "room_setter",
+      "phrase": "Trick Room Setter",
+      "function": "field_controller",
+      "method": "room",
+      "family": "support",
+      "specificity": 2,
+      "accounts": [
+        "moves:support",
+        "items:field",
+        "items:slow",
+        "spread:slow"
+      ],
+      "says": "Trick Room, and it lasts to set it."
+    },
+    {
+      "id": "cleric",
+      "phrase": "Cleric",
+      "function": "support",
+      "needs": "cleric",
+      "family": "support",
+      "specificity": 2,
+      "accounts": [
+        "moves:support",
+        "items:field"
+      ],
+      "says": "The Support role, with team healing (Heal Bell, Aromatherapy, Wish)."
+    },
+    {
+      "id": "support",
+      "phrase": "Support",
+      "function": "support",
+      "family": "support",
+      "specificity": 1,
+      "accounts": [
+        "moves:support",
+        "items:field"
+      ],
+      "says": "The Support role: two or more support moves, and it lasts to use them."
+    },
+    {
+      "id": "attacker",
+      "phrase": "Attacker",
+      "function": "attacker",
+      "family": "offense",
+      "specificity": 1,
+      "accounts": [
+        "moves:attack",
+        "items:offense",
+        "spread:offense"
+      ],
+      "says": "Its repeatable attacks 2HKO {attack_ko2}% of the League from full, no boosts (the Tank's bar)."
+    }
+  ],
+  "fallback": {
+    "phrase": "{lean} Set",
+    "lean": {
+      "offense": "Offensive",
+      "defense": "Defensive",
+      "speed": "Fast",
+      "none": "Unproven"
+    },
+    "says": "Nothing it does clears a function's bar in the League lens yet, so this names how it's built, not a role."
+  },
+  "modifiers": [
+    {
+      "id": "rain",
+      "phrase": "Rain",
+      "group": "condition",
+      "specificity": 3,
+      "weather": "rain",
+      "heads": [
+        "sweeper",
+        "setup_sweeper",
+        "attacker"
+      ],
+      "accounts": [
+        "moves:weather",
+        "items:weather"
+      ],
+      "says": "It sets its own rain and it pays (Swift Swim, or Water moves 1.5x), and the head's bars hold in the rain: an estimate on the dry roll."
+    },
+    {
+      "id": "sun",
+      "phrase": "Sun",
+      "group": "condition",
+      "specificity": 3,
+      "weather": "sun",
+      "heads": [
+        "sweeper",
+        "setup_sweeper",
+        "attacker"
+      ],
+      "accounts": [
+        "moves:weather",
+        "items:weather"
+      ],
+      "says": "It sets its own sun and it pays (Chlorophyll, or Fire moves 1.5x), and the head's bars hold in the sun: an estimate on the dry roll."
+    },
+    {
+      "id": "room",
+      "phrase": "Room-Setting",
+      "group": "condition",
+      "specificity": 3,
+      "heads": [
+        "tank",
+        "attacker",
+        "sweeper"
+      ],
+      "accounts": [
+        "moves:room",
+        "items:slow",
+        "spread:slow"
+      ],
+      "says": "Sets its own Trick Room and, under it, moves first against {sweep_first}% of the League."
+    },
+    {
+      "id": "fast",
+      "phrase": "Fast",
+      "group": "speed",
+      "specificity": 1,
+      "heads": [
+        "attacker",
+        "pivot",
+        "field_controller",
+        "spinner",
+        "hazard_setter",
+        "screen_setter",
+        "weather_setter",
+        "support",
+        "cleric",
+        "tank"
+      ],
+      "accounts": [
+        "spread:speed",
+        "items:speed"
+      ],
+      "says": "Moves first against {sweep_first}% of the League, no boosts (a tie isn't first)."
+    },
+    {
+      "id": "offensive",
+      "phrase": "Offensive",
+      "group": "posture",
+      "specificity": 0,
+      "heads": [
+        "pivot",
+        "field_controller",
+        "spinner",
+        "hazard_setter",
+        "screen_setter",
+        "weather_setter",
+        "room_setter",
+        "support",
+        "cleric"
+      ],
+      "accounts": [
+        "moves:attack",
+        "items:offense",
+        "spread:offense"
+      ],
+      "says": "Its attacks 2HKO {attack_ko2}% of the League."
+    },
+    {
+      "id": "defensive",
+      "phrase": "Defensive",
+      "group": "posture",
+      "specificity": 0,
+      "heads": [
+        "pivot",
+        "field_controller",
+        "spinner",
+        "hazard_setter",
+        "screen_setter",
+        "weather_setter",
+        "room_setter",
+        "support",
+        "cleric"
+      ],
+      "accounts": [
+        "moves:recovery",
+        "items:sustain",
+        "spread:defense"
+      ],
+      "says": "Built to take hits rather than to KO: a defensive spread and a way to heal, and short of the attacker bar."
+    },
+    {
+      "id": "bulky",
+      "phrase": "Bulky",
+      "group": "posture",
+      "specificity": 1,
+      "heads": [
+        "setup_sweeper",
+        "pivot",
+        "field_controller",
+        "spinner",
+        "hazard_setter",
+        "screen_setter",
+        "weather_setter",
+        "room_setter",
+        "support",
+        "cleric"
+      ],
+      "accounts": [
+        "moves:recovery",
+        "items:sustain",
+        "spread:defense"
+      ],
+      "says": "Takes three hits from {bulk_take3}% of the 100 hardest League attacks."
+    },
+    {
+      "id": "specially_defensive",
+      "phrase": "Specially Defensive",
+      "group": "posture",
+      "specificity": 2,
+      "side": "special",
+      "heads": [
+        "cleric",
+        "support",
+        "pivot",
+        "field_controller",
+        "spinner",
+        "hazard_setter",
+        "screen_setter",
+        "weather_setter",
+        "room_setter",
+        "tank"
+      ],
+      "accounts": [
+        "moves:recovery",
+        "items:sustain",
+        "spread:defense"
+      ],
+      "says": "Takes four hits from {wall_take4}% of the 50 hardest special League attacks, and heals."
+    },
+    {
+      "id": "physically_defensive",
+      "phrase": "Physically Defensive",
+      "group": "posture",
+      "specificity": 2,
+      "side": "physical",
+      "heads": [
+        "cleric",
+        "support",
+        "pivot",
+        "field_controller",
+        "spinner",
+        "hazard_setter",
+        "screen_setter",
+        "weather_setter",
+        "room_setter",
+        "tank"
+      ],
+      "accounts": [
+        "moves:recovery",
+        "items:sustain",
+        "spread:defense"
+      ],
+      "says": "Takes four hits from {wall_take4}% of the 50 hardest physical League attacks, and heals."
+    },
+    {
+      "id": "trapping",
+      "phrase": "Trapping",
+      "group": "method",
+      "specificity": 2,
+      "function": "trapper",
+      "heads": [
+        "pivot",
+        "attacker",
+        "tank",
+        "wall"
+      ],
+      "accounts": [
+        "moves:trap"
+      ],
+      "says": "Pursuit, or a trapping move or ability. Pending: the League lens has nothing that switches, so it needs 6v6 evidence."
+    },
+    {
+      "id": "hazard_setting",
+      "phrase": "Hazard-Setting",
+      "group": "method",
+      "specificity": 2,
+      "heads": [
+        "wall",
+        "tank",
+        "pivot",
+        "attacker"
+      ],
+      "accounts": [
+        "moves:hazard"
+      ],
+      "says": "Sets a hazard, and lasts to do it."
+    },
+    {
+      "id": "sacrificial",
+      "phrase": "Sacrificial",
+      "group": "method",
+      "specificity": 2,
+      "heads": [
+        "hazard_setter",
+        "screen_setter",
+        "field_controller",
+        "room_setter",
+        "weather_setter",
+        "support",
+        "spinner"
+      ],
+      "accounts": [
+        "moves:self_ko"
+      ],
+      "says": "Explosion or Selfdestruct OHKOs {attack_ko2}% of the League from full: once."
+    },
+    {
+      "id": "choice_band",
+      "phrase": "Choice Band",
+      "group": "method",
+      "specificity": 2,
+      "item": "Choice Band",
+      "heads": [
+        "attacker",
+        "wallbreaker",
+        "tank",
+        "sweeper"
+      ],
+      "accounts": [
+        "items:choice"
+      ],
+      "says": "Holds a Choice Band: the lock is part of what it is."
+    },
+    {
+      "id": "choice_specs",
+      "phrase": "Choice Specs",
+      "group": "method",
+      "specificity": 2,
+      "item": "Choice Specs",
+      "heads": [
+        "attacker",
+        "wallbreaker",
+        "tank",
+        "sweeper"
+      ],
+      "accounts": [
+        "items:choice"
+      ],
+      "says": "Holds Choice Specs: the lock is part of what it is."
+    },
+    {
+      "id": "choice_scarf",
+      "phrase": "Choice Scarf",
+      "group": "method",
+      "specificity": 2,
+      "item": "Choice Scarf",
+      "heads": [
+        "attacker",
+        "wallbreaker",
+        "sweeper",
+        "pivot"
+      ],
+      "accounts": [
+        "items:choice",
+        "items:speed"
+      ],
+      "says": "Holds a Choice Scarf: the lock is part of what it is."
+    },
+    {
+      "id": "priority",
+      "phrase": "Priority",
+      "group": "method",
+      "specificity": 2,
+      "heads": [
+        "setup_sweeper",
+        "attacker",
+        "pivot",
+        "tank"
+      ],
+      "accounts": [
+        "moves:priority"
+      ],
+      "says": "Its priority move alone clears the head's KO bar: {attack_ko2}% from full, or {sweep_ko2}% after its setup for a Setup Sweeper."
+    },
+    {
+      "id": "window",
+      "phrase": "{ability}-Window",
+      "group": "condition",
+      "specificity": 3,
+      "heads": [
+        "setup_sweeper",
+        "sweeper"
+      ],
+      "accounts": [
+        "items:setup",
+        "moves:substitute"
+      ],
+      "says": "A pinch ability with Substitute or a pinch berry. Pending: the low-HP window isn't a measured scenario yet."
+    },
+    {
+      "id": "physical",
+      "phrase": "Physical",
+      "group": "class",
+      "specificity": 0,
+      "side": "physical",
+      "heads": [
+        "setup_sweeper",
+        "sweeper",
+        "wallbreaker",
+        "attacker"
+      ],
+      "accounts": [],
+      "says": "Its physical attacks carry its 2HKOs."
+    },
+    {
+      "id": "special",
+      "phrase": "Special",
+      "group": "class",
+      "specificity": 0,
+      "side": "special",
+      "heads": [
+        "setup_sweeper",
+        "sweeper",
+        "wallbreaker",
+        "attacker"
+      ],
+      "accounts": [],
+      "says": "Its special attacks carry its 2HKOs."
+    }
+  ],
+  "word_order": [
+    "condition",
+    "speed",
+    "posture",
+    "method",
+    "class"
+  ],
+  "max_modifiers": 2,
+  "max_per_group": {
+    "method": 2
+  },
+  "ranking": {
+    "_note": "Lexicographic, never a weighted score (handoff §4.2). 1 centrality: how many of the set's commitments (its four moves, its item, its spread) the name accounts for. 2 discriminative: the head's specificity, then the most specific modifier's, then how many modifiers aren't generic (Physical/Special/Offensive/Defensive are generic). 3 adequacy: how many of the set's conditions (rain, Trick Room, a low-HP window) the name states. 4 naturalness: fewer words. 5 stable: the head's place in 'heads', then the modifiers', then the name's letters.",
+    "specificity": {
+      "0": "generic",
+      "1": "measured",
+      "2": "method",
+      "3": "condition"
+    }
+  },
+  "show": {
+    "alternates": 2,
+    "near_misses": 3,
+    "rejected": 6,
+    "takeaways": 3,
+    "pending": 2
+  },
+  "natures": {
+    "_note": "[raised, lowered] for each nature (Gen III+); neutral natures raise and lower nothing.",
+    "Hardy": [
+      null,
+      null
+    ],
+    "Docile": [
+      null,
+      null
+    ],
+    "Serious": [
+      null,
+      null
+    ],
+    "Bashful": [
+      null,
+      null
+    ],
+    "Quirky": [
+      null,
+      null
+    ],
+    "Lonely": [
+      "atk",
+      "def"
+    ],
+    "Brave": [
+      "atk",
+      "spe"
+    ],
+    "Adamant": [
+      "atk",
+      "spa"
+    ],
+    "Naughty": [
+      "atk",
+      "spd"
+    ],
+    "Bold": [
+      "def",
+      "atk"
+    ],
+    "Relaxed": [
+      "def",
+      "spe"
+    ],
+    "Impish": [
+      "def",
+      "spa"
+    ],
+    "Lax": [
+      "def",
+      "spd"
+    ],
+    "Timid": [
+      "spe",
+      "atk"
+    ],
+    "Hasty": [
+      "spe",
+      "def"
+    ],
+    "Jolly": [
+      "spe",
+      "spa"
+    ],
+    "Naive": [
+      "spe",
+      "spd"
+    ],
+    "Modest": [
+      "spa",
+      "atk"
+    ],
+    "Mild": [
+      "spa",
+      "def"
+    ],
+    "Quiet": [
+      "spa",
+      "spe"
+    ],
+    "Rash": [
+      "spa",
+      "spd"
+    ],
+    "Calm": [
+      "spd",
+      "atk"
+    ],
+    "Gentle": [
+      "spd",
+      "def"
+    ],
+    "Sassy": [
+      "spd",
+      "spe"
+    ],
+    "Careful": [
+      "spd",
+      "spa"
+    ]
+  },
+  "trap_abilities": [
+    "Shadow Tag",
+    "Arena Trap",
+    "Magnet Pull"
+  ],
+  "switch_abilities": "pivot.switch_in_abilities",
+  "max_words": 4,
+  "gates": {
+    "_note": "Hard gates on a name, before any ranking (handoff §4.2), in this order: every element earned in the League lens (a pending one makes it a near miss, never a headline); the head accounts for at least one of the set's commitments itself (a function it doesn't invest in isn't its job); every speed or posture word (Fast, Offensive, Defensive, Bulky, Specially Defensive...) adds a commitment the rest of the name doesn't (a generic word has to earn its place; a method or condition word names a mechanism the set carries, which is information in itself, and Physical/Special say which side); no more than max_words words. Weather from an ability the species can't swap is a fact about it, not an investment: it doesn't make a Weather Setter or count toward a Field Controller.",
+    "head_accounts": true,
+    "modifier_adds": true,
+    "exempt_groups": [
+      "class",
+      "method",
+      "condition"
+    ]
+  }
+}
