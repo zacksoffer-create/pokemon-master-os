@@ -656,7 +656,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     }).join('');
     $('#scorer-list').innerHTML = LockdownScorers.IDS.map(id => {
       const d = LockdownScorers.SCORERS[id], s = (D.scoutScorer || {})[id];
-      const faced = s ? `Guarded ${s.faced} times · ${(s.points / s.faced).toFixed(1)} pts allowed per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not guarded yet';
+      const faced = s ? `Guarded ${s.faced} ${s.faced === 1 ? 'time' : 'times'} · ${(s.points / s.faced).toFixed(1)} pts allowed per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not guarded yet';
       return `<article class="scard"><header><b>${esc(d.name)}</b><span class="tag">${esc(d.tag)}</span></header><p>${esc(d.tell)}</p><p class="read"><b>How to guard him:</b> ${esc(d.read)}</p><div class="faced">${faced}</div></article>`;
     }).join('');
   }
@@ -842,7 +842,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     const el = $('#results');
     const unit = { lockdown: 'stops', pickpocket: 'steals', swat: 'blocks', glass: 'boards' }[res.kind];
     const title = ctx.title || { lockdown: 'Lockdown', pickpocket: 'Pickpocket', swat: 'Swat', glass: 'Glass' }[res.kind];
-    const outcome = l => ({ steal: 'stripped him', block: 'swatted', board: 'your board', charge: 'charge', violation: 'shot clock', made: 'he scored', putback: 'putback', putbackMiss: 'his board, missed putback', offboard: 'his board', foul: 'foul', goaltend: 'goaltending', kept: 'he kept it' }[l.kind] || l.kind);
+    const outcome = l => ({ steal: 'stripped him', block: 'swatted', board: 'your board', charge: 'charge', violation: 'shot clock', made: 'he scored', putback: 'putback', putbackMiss: 'his board, missed putback', offboard: 'his board', foul: 'foul', goaltend: 'goaltending', kept: 'he kept it', miss: 'contested, missed' }[l.kind] || l.kind);
     const rows = (res.log || []).map(l => {
       const sc = LockdownScorers.SCORERS[l.scorer];
       return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${esc(sc ? sc.name : '')}</b><small>${esc(outcome(l))}</small></div><span class="pts">${l.points ? '+' + l.points : '0'}</span></div>`;
@@ -850,7 +850,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     const miss = (res.log || []).find(l => l.grade === 'C' || l.grade === 'D' || l.grade === 'F');
     const sc = miss ? LockdownScorers.SCORERS[miss.scorer] : null;
     const stats = res.kind === 'lockdown'
-      ? `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div><div class="stat"><b>${res.points}</b><span>Points allowed</span></div><div class="stat"><b>${res.steals + res.blocks + res.charges}</b><span>Steals, blocks, charges</span></div>`
+      ? `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div><div class="stat"><b>${res.points}</b><span>Points allowed</span></div><div class="stat"><b>${res.steals + res.blocks + res.charges}</b><span>Big plays</span></div>`
       : `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div>${res.kind === 'glass' ? `<div class="stat"><b>${res.offboards}</b><span>His boards</span></div>` : `<div class="stat"><b>${res.reaches}</b><span>Fouls</span></div>`}<div class="stat"><b>${res.points}</b><span>Points allowed</span></div>`;
     el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="dfx" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>
       <div class="result-head"><div class="big">${main}</div><div class="unit">${unit}</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>

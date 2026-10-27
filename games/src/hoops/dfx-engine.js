@@ -148,7 +148,9 @@ const LockdownEngine = (() => {
       // aim so his head clears the scoreboard and his feet sit above your hands
       const fovY = 76 * Math.PI / 180;
       const focal = (CH / 2) / Math.tan(fovY / 2);
-      const headY = 6.4 * (w.arch.height || 1);
+      // and when he rises with it, tilt up so the ball stays under the scoreboard
+      const B = w.ball;
+      const headY = Math.max(6.4 * (w.arch.height || 1), B.state === 'held' || B.state === 'dribble' ? B.p[1] + 0.7 : 0);
       const headTop = Math.max(250, CH * 0.31);
       const pitch = Math.atan2(headY - eyeH, horiz) - Math.atan((CH / 2 - headTop) / focal);
       return { eye, yaw, pitch, fovY };
@@ -216,7 +218,7 @@ const LockdownEngine = (() => {
       IN.id = e.pointerId;
       try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
       const p = { x: e.clientX, y: e.clientY, t: performance.now() };
-      Object.assign(IN, { start: p, pts: [p], mode: 'pending', stillAt: p.t, fastFrom: -1, slashDir: 0 });
+      Object.assign(IN, { start: p, pts: [p], mode: 'pending', stillAt: p.t, fastFrom: -1, slashDir: 0, anchor: p, youAt: S.w ? S.w.you.pos.slice() : null });
       e.preventDefault();
     });
     canvas.addEventListener('pointermove', e => {
@@ -236,8 +238,10 @@ const LockdownEngine = (() => {
         if (L > 24) {
           if (dy < 0 && -dy > Math.abs(dx) * 1.25) { doJump(a, p, L); IN.mode = 'used'; return; }
           if (trySlice(prev, p, dx)) { IN.mode = 'used'; return; }
-          IN.slashDir = Math.sign(dx) || IN.slashDir;
+          // swiping at the ball and missing is a reach; a quick move anywhere else is just a quick slide
+          if (nearBall(a, p)) IN.slashDir = Math.sign(dx) || IN.slashDir;
         }
+        if (IN.mode === 'pending' && Math.hypot(p.x - IN.start.x, p.y - IN.start.y) > 12) IN.mode = 'drag';
       } else {
         IN.fastFrom = -1;
         if (IN.mode === 'pending' && Math.hypot(p.x - IN.start.x, p.y - IN.start.y) > 12) IN.mode = 'drag';
@@ -270,6 +274,12 @@ const LockdownEngine = (() => {
       const t = clamp(((px - a.x) * vx + (py - a.y) * vy) / l2, 0, 1);
       return Math.hypot(px - (a.x + vx * t), py - (a.y + vy * t));
     }
+    function nearBall(a, b) {
+      const w = S.w;
+      if (!w || w.phase !== 'duel') return false;
+      const B = ballScreen(camera());
+      return !!B && segDist(B.x, B.y, a, b) < (B.r + Math.max(24, CW * 0.065)) * 2.2;
+    }
     function trySlice(a, b, dx) {
       const w = S.w;
       if (!w || S.phase !== 'live' || w.phase !== 'duel' || w.over) return false;
@@ -299,14 +309,22 @@ const LockdownEngine = (() => {
         Sfx.play('release');
       }
     }
-    function joystick() {
-      if (IN.id === null || IN.mode !== 'drag') return { jx: 0, jy: 0 };
+    /* Your feet follow your finger: move it and you slide that far, stop it and
+       you stop (and plant). The farther and faster you move it, the harder you
+       commit, which is your weight. */
+    function joystick(fb) {
+      const w = S.w;
+      if (!w || IN.id === null || IN.mode !== 'drag' || !IN.anchor) return { jx: 0, jy: 0 };
       const last = IN.pts[IN.pts.length - 1];
-      const dx = last.x - IN.start.x, dy = last.y - IN.start.y;
-      const dead = 6;
-      const ax = Math.abs(dx) < dead ? 0 : dx - Math.sign(dx) * dead, ay = Math.abs(dy) < dead ? 0 : dy - Math.sign(dy) * dead;
-      return { jx: clamp(ax / (CW * 0.17), -1, 1), jy: clamp(-ay / (CH * 0.1), -1, 1) };
+      const dx = last.x - IN.anchor.x, dy = last.y - IN.anchor.y;
+      const rim = w.cam === 'rim';
+      const kx = rim ? CW * 0.045 : CW * 0.07, ky = rim ? CH * 0.022 : CH * 0.03;   // pixels per foot
+      const tx = IN.youAt[0] + fb.r[0] * dx / kx - fb.f[0] * dy / ky, tz = IN.youAt[2] + fb.r[2] * dx / kx - fb.f[2] * dy / ky;
+      const vx = (tx - w.you.pos[0]) * 6, vz = (tz - w.you.pos[2]) * 6;
+      const vLat = LockdownSim.YOU.vLat, vDep = rim ? vLat : LockdownSim.YOU.vDep;
+      return { jx: clamp((vx * fb.r[0] + vz * fb.r[2]) / vLat, -1, 1), jy: clamp((vx * fb.f[0] + vz * fb.f[2]) / vDep, -1, 1) };
     }
+    function anchor() { if (S.w && IN.id !== null) { IN.anchor = IN.pts[IN.pts.length - 1]; IN.youAt = S.w.you.pos.slice(); } }
 
     ui.quit.addEventListener('click', () => { Sfx.play('ui'); const q = S.onQuit; stop(); q && q(summary(true)); });
     ui.card.addEventListener('click', e => { const b = e.target.closest('button'); if (b && S.cardNext) { const f = S.cardNext; S.cardNext = null; f(b.dataset.act); } });
@@ -349,7 +367,7 @@ const LockdownEngine = (() => {
       if (plan) Object.assign(o, plan);
       S.lastScorer = o.scorer;
       S.w = LockdownSim.create(o);
-      S.duelYaw = null; S.rimEye = null; S.camFrom = null; S.lastCamMode = S.w.cam;
+      S.duelYaw = null; S.rimEye = null; S.camFrom = null; S.lastCamMode = S.w.cam; IN.youAt = null;
       S.endTimer = null; S.slices = []; S.handAnim = null;
       const A = S.w.arch;
       const titles = { lockdown: spec.title || 'Lockdown', pickpocket: 'Pickpocket', swat: 'Swat', glass: 'Glass' };
@@ -452,16 +470,18 @@ const LockdownEngine = (() => {
       const w = S.w;
       if (!w) return;
       const cam = camera();
-      // remember where the camera was when it starts turning
+      // remember where the camera was when it starts turning; a finger already down starts over from here
       if (w.cam !== S.lastCamMode) {
         if (w.cam === 'rim') { const dv = duelView(w); S.camFrom = dv; }
         S.lastCamMode = w.cam;
+        anchor();
       }
+      if (!IN.youAt && IN.id !== null) anchor();
       if (S.phase === 'live' || S.phase === 'ending' || S.phase === 'card') {
-        const js = S.phase === 'live' ? joystick() : { jx: 0, jy: 0 };
         const fb = floorBasis(cam);
+        const js = S.phase === 'live' ? joystick(fb) : { jx: 0, jy: 0 };
         const held = S.phase === 'live' && IN.id !== null && IN.mode !== 'used';
-        const still = held && performance.now() - IN.stillAt > 110 && IN.mode !== 'drag';
+        const still = held && performance.now() - IN.stillAt > 110;
         LockdownSim.input(w, { jx: js.jx, jy: js.jy, held, still, r: fb.r, f: fb.f });
         if (S.phase === 'live' || w.over) LockdownSim.step(w, dt);
       }
@@ -678,8 +698,9 @@ const LockdownEngine = (() => {
       const skin = settings.skin, edge = 'rgba(40,20,10,0.5)';
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       const stroke = (pts, wd, col) => { [[wd + 2.5, edge], [wd, col]].forEach(([lw, c]) => { ctx.strokeStyle = c; ctx.lineWidth = lw; ctx.beginPath(); pts.forEach(([px, py], i) => i ? ctx.lineTo(x + px * r * side, y + py * r) : ctx.moveTo(x + px * r * side, y + py * r)); ctx.stroke(); }); };
-      // forearm and sleeve coming up from the bottom corner
+      // forearm and sleeve coming up from the bottom corner, a white cuff so it reads on any floor
       stroke([[1.6, 6.5], [0.5, 2.2]], r * 1.5, settings.jersey);
+      stroke([[0.62, 2.55], [0.48, 2.1]], r * 1.5, '#f3f1ea');
       stroke([[0.55, 2.4], [0.1, 0.9]], r * 1.05, skin);
       // palm and fingers, spread toward him
       ctx.fillStyle = skin; ctx.strokeStyle = edge; ctx.lineWidth = 2;
@@ -708,7 +729,15 @@ const LockdownEngine = (() => {
     }
 
     function setSettings(o) { Object.assign(settings, o || {}); }
-    return { run, stop, destroy, setSettings, summary, get settings() { return settings; }, _S: S, _camera: camera, _ballScreen: () => ballScreen(camera()), _project: p => Court3D.project(camera(), p) };
+    // for tests: where a finger already down should be to send you to a spot on the floor
+    function fingerFor(p) {
+      const w = S.w; if (!w || !IN.anchor || !IN.youAt) return null;
+      const fb = floorBasis(camera()), rim = w.cam === 'rim';
+      const kx = rim ? CW * 0.045 : CW * 0.07, ky = rim ? CH * 0.022 : CH * 0.03;
+      const d = [p[0] - IN.youAt[0], 0, p[2] - IN.youAt[2]];
+      return { x: IN.anchor.x + (d[0] * fb.r[0] + d[2] * fb.r[2]) * kx, y: IN.anchor.y - (d[0] * fb.f[0] + d[2] * fb.f[2]) * ky };
+    }
+    return { run, stop, destroy, setSettings, summary, get settings() { return settings; }, _S: S, _camera: camera, _ballScreen: () => ballScreen(camera()), _project: p => Court3D.project(camera(), p), _fingerFor: fingerFor };
   }
 
   return { create, SWAT_REPS, PICK_REPS };

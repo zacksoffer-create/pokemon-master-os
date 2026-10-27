@@ -107,15 +107,14 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
     const RB = w.rebound; if (!RB) return;
     if (!window.__held) { window.__held = 1; window.__dfDown(195, 700); }
     if (RB.boxing && !RB.sealed && !RB.lost && RB.sideAt != null && w.t > RB.sideAt + 0.06 && !window.__slid) { window.__slid = 1; let i = 0; (function mv() { i++; window.__dfMove(195 + RB.side * 9 * i, 700); if (i < 12) requestAnimationFrame(mv); })(); }
-    if (RB.sealed || RB.lost) { window.__dfMove(195, 700); return 'done'; }
+    if (RB.sealed || RB.lost) return 'done';
   }`));
   await wait(150);
   // then steer toward where it's coming down and go up for it
   await p.evaluate(() => window.__bot(`(S, w) => {
     const RB = w.rebound; if (!RB || w.over) return 'done';
-    const cam = window.__d._camera(), Y = w.you.pos;
-    if (RB.pred) { const a = Court3D.project(cam, [Y[0], 0, Y[2]]), b = Court3D.project(cam, [RB.pred.p[0], 0, RB.pred.p[2]]);
-      if (a && b) { const dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy); const k = Math.min(1, l / 40); window.__dfMove(195 + dx / (l || 1) * 70 * k, 700 + dy / (l || 1) * 70 * k); } }
+    const Y = w.you.pos;
+    if (RB.pred) { const f = window.__d._fingerFor(RB.pred.p); if (f) window.__dfMove(f.x, f.y); }
     const B = w.ball; if (B.ph && B.ph.v[1] < 0 && B.p[1] < 11.3 && B.p[1] > 9 && Math.hypot(B.p[0] - Y[0], B.p[2] - Y[2]) < 2.6 && !window.__jumped) { window.__jumped = 1; window.__dfUp(195, 700); window.__flick(); }
   }`));
   s = await settle(5000); show('box out, then go get it', s);

@@ -331,8 +331,9 @@ const LockdownSim = (() => {
       case 'attack': updateAttack(w, a, R, dt); return;
       case 'finish': updateFinish(w, a, dt); return;
       case 'retreat': {
-        vel = V.mul(R.u, -3.2);
-        if (a.t >= 0.45) setAct(w, { k: 'size', dur: 0.3 + w.rand() * 0.3 });
+        // cut off: he dribbles back out to where he started from
+        vel = V.mul(R.u, -6.5);
+        if (a.t >= 0.6 || rimDist(O.pos) > 23) setAct(w, { k: 'size', dur: 0.3 + w.rand() * 0.3 });
         break;
       }
       case 'rise': updateRise(w, a, R, dt); return;
@@ -433,7 +434,8 @@ const LockdownSim = (() => {
     const far = rimDist(O.pos);
     if (w.kind === 'pickpocket') { setAct(w, { k: 'retreat' }); return; }
     if (w.script.length) { setAct(w, choose(w)); return; }
-    if (far <= A.range && w.rand() < 0.45) setAct(w, { k: 'rise', quick: true, pullup: true });
+    // a good shooter pulls up over you; anyone else resets
+    if (far <= A.range && far >= 11 && w.rand() < 0.55 * A.skill / 0.85) setAct(w, { k: 'rise', quick: true, pullup: true });
     else setAct(w, { k: 'retreat' });
   }
   function beaten(w, a, R) {
@@ -627,6 +629,9 @@ const LockdownSim = (() => {
     w.ball.state = 'shot'; w.ball.ph = ph; w.ball.p = ph.p; w.ball.by = 'him';
     const three = Court3D.isThree(w.court, pos);
     w.shotInfo = { at: w.t, pos, dist: shot.dist, type: shot.type, contest, how, three, layup, apex: false, touched: false };
+    w.shotInfo.line = { k: 'shot', t: w.t, text: '' };
+    w.story.push(w.shotInfo.line);
+    w.shotInfo.line.text = `${shotWord(w.shotInfo)}, ${contestWord(contest)}.`;
     w.phase = 'shot';
     sfx(w, 'release');
     // what you did about it
@@ -804,13 +809,17 @@ const LockdownSim = (() => {
     }
     if (ph.result === 'made') {
       const pts = S.three ? 3 : 2;
-      say(w, 'shot', `${shotWord(S)}, ${contestWord(S.contest)}: made.`);
+      shotLine(w, 'made');
       end(w, 'made', pts);
       return;
     }
+    // it's not going in: off the rim and falling outside it, or on the floor
+    if (!S.missSaid && !ph.scored && (ph.result === 'miss' || (ph.rimHits + ph.boardHits > 0 && ph.v[1] < 0 && ph.p[1] < RIM.y - 0.3 && rimDist(ph.p) > RIM.r + 0.3))) {
+      S.missSaid = true; shotLine(w, 'missed');
+      if (w.kind === 'swat') { end(w, 'miss', 0); return; }
+    }
     // off the rim: the rebound is on
     if (w.phase === 'shot' && (ph.rimHits + ph.boardHits > 0 || ph.result === 'miss') && !ph.scored) {
-      if (!S.missSaid) { S.missSaid = true; say(w, 'shot', `${shotWord(S)}, ${contestWord(S.contest)}: missed.`); }
       if (ph.rimHits + ph.boardHits > before.rim + before.board || !w.rebound.pred) w.rebound.pred = predictLanding(w);
       w.phase = 'rebound';
     }
@@ -818,6 +827,12 @@ const LockdownSim = (() => {
       if (ph.rimHits + ph.boardHits > before.rim + before.board) w.rebound.pred = predictLanding(w);
       secure(w);
     }
+  }
+  function shotLine(w, how) {
+    const S = w.shotInfo;
+    // in the rebounding drill the shot isn't yours to contest
+    const text = S.glass ? `${shotWord(S)}: ${how}.` : `${shotWord(S)}, ${contestWord(S.contest)}: ${how}.`;
+    if (S.line) S.line.text = text; else say(w, 'shot', text);
   }
   function shotWord(S) {
     if (S.layup) return 'Layup';
@@ -851,7 +866,7 @@ const LockdownSim = (() => {
     const toRim = Court3D.dirToRim(Y.pos), side = [-toRim[2], 0, toRim[0]];
     // did you find him?
     if (RB.boxing == null && Y.held && !Y.air && w.t <= RB.findBy + 0.4) {
-      const near = dist2(Y.pos, O.pos) < 5 && rimDist(Y.pos) < rimDist(O.pos) + 0.5;
+      const near = dist2(Y.pos, O.pos) < 7 && rimDist(Y.pos) < rimDist(O.pos) + 0.5;
       RB.boxing = near ? w.t : false;
       if (near) { pop(w, 'Found him', GOOD, null, 0.8); }
     }
@@ -900,7 +915,7 @@ const LockdownSim = (() => {
       return;
     }
     // loose: he goes and gets it
-    if (RB.boxing === false && !RB.noBoxSaid && since > 0.6) {
+    if (RB.boxing === false && !RB.noBoxSaid && since > 0.6 && w.shotInfo.missSaid) {
       RB.noBoxSaid = true;
       say(w, 'box', 'You never found him.');
       decide(w, 'noBox', 'D');
@@ -930,6 +945,7 @@ const LockdownSim = (() => {
       if (dY < 6 || dM < 6 || long) { if (dY <= dM || !RB.crashing) you = true; else him = true; }
     }
     if (you && him) { if (dY <= dM - (inside ? 0.9 : 0)) him = false; else you = false; }
+    if ((you || him) && !w.shotInfo.missSaid) { w.shotInfo.missSaid = true; shotLine(w, 'missed'); }
     if (you) {
       B.state = 'yours';
       say(w, 'board', Y.air ? 'Went up and got it. Your board.' : 'Your board.');
@@ -1005,6 +1021,8 @@ const LockdownSim = (() => {
     const ph = HoopPhysics.newBall(shot.release, shot.vel);
     w.ball.state = 'shot'; w.ball.ph = ph; w.ball.p = ph.p;
     w.shotInfo = { at: w.t, pos: G.shooter, dist: shot.dist, type: shot.type, contest: 0, how: 'none', three: Court3D.isThree(w.court, G.shooter), layup: false, apex: false, glass: true };
+    w.shotInfo.line = { k: 'shot', t: w.t, text: `${shotWord(w.shotInfo)} goes up.` };
+    w.story.push(w.shotInfo.line);
     w.phase = 'shot';
     sfx(w, 'release');
     w.rebound = { boxing: null, sideAt: null, side: 0, sealed: false, lost: false, pred: null, findBy: w.t + 0.6, crashing: true };
@@ -1015,6 +1033,8 @@ const LockdownSim = (() => {
   function end(w, kind, points) {
     if (w.over) return;
     w.over = true;
+    // it went in: the box-out never mattered
+    if (kind === 'made') { w.dec = w.dec.filter(d => d.k !== 'boxed' && d.k !== 'lostBox' && d.k !== 'noBox'); w.story = w.story.filter(s => s.k !== 'box'); }
     w.result = { kind, points, stop: points === 0 && kind !== 'offboard' && kind !== 'kept' };
     const g = grade(w);
     w.result.grade = g.grade; w.result.worst = g.worst;
@@ -1027,7 +1047,7 @@ const LockdownSim = (() => {
     const ds = w.dec;
     if (!ds.length) {
       const R = w.result;
-      const g = R.kind === 'made' ? 'C' : R.kind === 'violation' ? 'A' : 'B';
+      const g = R.kind === 'made' ? (w.kind === 'glass' ? 'B' : 'C') : R.kind === 'violation' ? 'A' : 'B';
       return { grade: g, worst: null };
     }
     const avg = ds.reduce((s, d) => s + GP[d.g], 0) / ds.length;
@@ -1040,13 +1060,14 @@ const LockdownSim = (() => {
     const R = w.result;
     if (R) {
       if (R.points) parts.push(`+${R.points} for him.`);
-      else if (R.kind !== 'offboard' || w.kind !== 'glass') parts.push('Stop.');
+      else if (R.kind !== 'offboard' && R.kind !== 'kept') parts.push('Stop.');
     }
     return parts.join(' ').replace(/\s+/g, ' ');
   }
   function lesson(w) {
     const R = w.result, A = w.arch;
     if (!R) return '';
+    if (w.kind === 'glass' && R.kind === 'made') return 'It went in. Nothing to rebound; be ready for the next one.';
     if (R.grade === 'A' || R.grade === 'B') {
       if (R.kind === 'made') return `${A.good} He made a tough one; live with that.`;
       return `${A.good}`;

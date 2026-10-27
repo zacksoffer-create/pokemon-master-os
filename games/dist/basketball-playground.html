@@ -5851,8 +5851,9 @@ const LockdownSim = (() => {
       case 'attack': updateAttack(w, a, R, dt); return;
       case 'finish': updateFinish(w, a, dt); return;
       case 'retreat': {
-        vel = V.mul(R.u, -3.2);
-        if (a.t >= 0.45) setAct(w, { k: 'size', dur: 0.3 + w.rand() * 0.3 });
+        // cut off: he dribbles back out to where he started from
+        vel = V.mul(R.u, -6.5);
+        if (a.t >= 0.6 || rimDist(O.pos) > 23) setAct(w, { k: 'size', dur: 0.3 + w.rand() * 0.3 });
         break;
       }
       case 'rise': updateRise(w, a, R, dt); return;
@@ -5953,7 +5954,8 @@ const LockdownSim = (() => {
     const far = rimDist(O.pos);
     if (w.kind === 'pickpocket') { setAct(w, { k: 'retreat' }); return; }
     if (w.script.length) { setAct(w, choose(w)); return; }
-    if (far <= A.range && w.rand() < 0.45) setAct(w, { k: 'rise', quick: true, pullup: true });
+    // a good shooter pulls up over you; anyone else resets
+    if (far <= A.range && far >= 11 && w.rand() < 0.55 * A.skill / 0.85) setAct(w, { k: 'rise', quick: true, pullup: true });
     else setAct(w, { k: 'retreat' });
   }
   function beaten(w, a, R) {
@@ -6147,6 +6149,9 @@ const LockdownSim = (() => {
     w.ball.state = 'shot'; w.ball.ph = ph; w.ball.p = ph.p; w.ball.by = 'him';
     const three = Court3D.isThree(w.court, pos);
     w.shotInfo = { at: w.t, pos, dist: shot.dist, type: shot.type, contest, how, three, layup, apex: false, touched: false };
+    w.shotInfo.line = { k: 'shot', t: w.t, text: '' };
+    w.story.push(w.shotInfo.line);
+    w.shotInfo.line.text = `${shotWord(w.shotInfo)}, ${contestWord(contest)}.`;
     w.phase = 'shot';
     sfx(w, 'release');
     // what you did about it
@@ -6324,13 +6329,17 @@ const LockdownSim = (() => {
     }
     if (ph.result === 'made') {
       const pts = S.three ? 3 : 2;
-      say(w, 'shot', `${shotWord(S)}, ${contestWord(S.contest)}: made.`);
+      shotLine(w, 'made');
       end(w, 'made', pts);
       return;
     }
+    // it's not going in: off the rim and falling outside it, or on the floor
+    if (!S.missSaid && !ph.scored && (ph.result === 'miss' || (ph.rimHits + ph.boardHits > 0 && ph.v[1] < 0 && ph.p[1] < RIM.y - 0.3 && rimDist(ph.p) > RIM.r + 0.3))) {
+      S.missSaid = true; shotLine(w, 'missed');
+      if (w.kind === 'swat') { end(w, 'miss', 0); return; }
+    }
     // off the rim: the rebound is on
     if (w.phase === 'shot' && (ph.rimHits + ph.boardHits > 0 || ph.result === 'miss') && !ph.scored) {
-      if (!S.missSaid) { S.missSaid = true; say(w, 'shot', `${shotWord(S)}, ${contestWord(S.contest)}: missed.`); }
       if (ph.rimHits + ph.boardHits > before.rim + before.board || !w.rebound.pred) w.rebound.pred = predictLanding(w);
       w.phase = 'rebound';
     }
@@ -6338,6 +6347,12 @@ const LockdownSim = (() => {
       if (ph.rimHits + ph.boardHits > before.rim + before.board) w.rebound.pred = predictLanding(w);
       secure(w);
     }
+  }
+  function shotLine(w, how) {
+    const S = w.shotInfo;
+    // in the rebounding drill the shot isn't yours to contest
+    const text = S.glass ? `${shotWord(S)}: ${how}.` : `${shotWord(S)}, ${contestWord(S.contest)}: ${how}.`;
+    if (S.line) S.line.text = text; else say(w, 'shot', text);
   }
   function shotWord(S) {
     if (S.layup) return 'Layup';
@@ -6371,7 +6386,7 @@ const LockdownSim = (() => {
     const toRim = Court3D.dirToRim(Y.pos), side = [-toRim[2], 0, toRim[0]];
     // did you find him?
     if (RB.boxing == null && Y.held && !Y.air && w.t <= RB.findBy + 0.4) {
-      const near = dist2(Y.pos, O.pos) < 5 && rimDist(Y.pos) < rimDist(O.pos) + 0.5;
+      const near = dist2(Y.pos, O.pos) < 7 && rimDist(Y.pos) < rimDist(O.pos) + 0.5;
       RB.boxing = near ? w.t : false;
       if (near) { pop(w, 'Found him', GOOD, null, 0.8); }
     }
@@ -6420,7 +6435,7 @@ const LockdownSim = (() => {
       return;
     }
     // loose: he goes and gets it
-    if (RB.boxing === false && !RB.noBoxSaid && since > 0.6) {
+    if (RB.boxing === false && !RB.noBoxSaid && since > 0.6 && w.shotInfo.missSaid) {
       RB.noBoxSaid = true;
       say(w, 'box', 'You never found him.');
       decide(w, 'noBox', 'D');
@@ -6450,6 +6465,7 @@ const LockdownSim = (() => {
       if (dY < 6 || dM < 6 || long) { if (dY <= dM || !RB.crashing) you = true; else him = true; }
     }
     if (you && him) { if (dY <= dM - (inside ? 0.9 : 0)) him = false; else you = false; }
+    if ((you || him) && !w.shotInfo.missSaid) { w.shotInfo.missSaid = true; shotLine(w, 'missed'); }
     if (you) {
       B.state = 'yours';
       say(w, 'board', Y.air ? 'Went up and got it. Your board.' : 'Your board.');
@@ -6525,6 +6541,8 @@ const LockdownSim = (() => {
     const ph = HoopPhysics.newBall(shot.release, shot.vel);
     w.ball.state = 'shot'; w.ball.ph = ph; w.ball.p = ph.p;
     w.shotInfo = { at: w.t, pos: G.shooter, dist: shot.dist, type: shot.type, contest: 0, how: 'none', three: Court3D.isThree(w.court, G.shooter), layup: false, apex: false, glass: true };
+    w.shotInfo.line = { k: 'shot', t: w.t, text: `${shotWord(w.shotInfo)} goes up.` };
+    w.story.push(w.shotInfo.line);
     w.phase = 'shot';
     sfx(w, 'release');
     w.rebound = { boxing: null, sideAt: null, side: 0, sealed: false, lost: false, pred: null, findBy: w.t + 0.6, crashing: true };
@@ -6535,6 +6553,8 @@ const LockdownSim = (() => {
   function end(w, kind, points) {
     if (w.over) return;
     w.over = true;
+    // it went in: the box-out never mattered
+    if (kind === 'made') { w.dec = w.dec.filter(d => d.k !== 'boxed' && d.k !== 'lostBox' && d.k !== 'noBox'); w.story = w.story.filter(s => s.k !== 'box'); }
     w.result = { kind, points, stop: points === 0 && kind !== 'offboard' && kind !== 'kept' };
     const g = grade(w);
     w.result.grade = g.grade; w.result.worst = g.worst;
@@ -6547,7 +6567,7 @@ const LockdownSim = (() => {
     const ds = w.dec;
     if (!ds.length) {
       const R = w.result;
-      const g = R.kind === 'made' ? 'C' : R.kind === 'violation' ? 'A' : 'B';
+      const g = R.kind === 'made' ? (w.kind === 'glass' ? 'B' : 'C') : R.kind === 'violation' ? 'A' : 'B';
       return { grade: g, worst: null };
     }
     const avg = ds.reduce((s, d) => s + GP[d.g], 0) / ds.length;
@@ -6560,13 +6580,14 @@ const LockdownSim = (() => {
     const R = w.result;
     if (R) {
       if (R.points) parts.push(`+${R.points} for him.`);
-      else if (R.kind !== 'offboard' || w.kind !== 'glass') parts.push('Stop.');
+      else if (R.kind !== 'offboard' && R.kind !== 'kept') parts.push('Stop.');
     }
     return parts.join(' ').replace(/\s+/g, ' ');
   }
   function lesson(w) {
     const R = w.result, A = w.arch;
     if (!R) return '';
+    if (w.kind === 'glass' && R.kind === 'made') return 'It went in. Nothing to rebound; be ready for the next one.';
     if (R.grade === 'A' || R.grade === 'B') {
       if (R.kind === 'made') return `${A.good} He made a tough one; live with that.`;
       return `${A.good}`;
@@ -6732,7 +6753,9 @@ const LockdownEngine = (() => {
       // aim so his head clears the scoreboard and his feet sit above your hands
       const fovY = 76 * Math.PI / 180;
       const focal = (CH / 2) / Math.tan(fovY / 2);
-      const headY = 6.4 * (w.arch.height || 1);
+      // and when he rises with it, tilt up so the ball stays under the scoreboard
+      const B = w.ball;
+      const headY = Math.max(6.4 * (w.arch.height || 1), B.state === 'held' || B.state === 'dribble' ? B.p[1] + 0.7 : 0);
       const headTop = Math.max(250, CH * 0.31);
       const pitch = Math.atan2(headY - eyeH, horiz) - Math.atan((CH / 2 - headTop) / focal);
       return { eye, yaw, pitch, fovY };
@@ -6800,7 +6823,7 @@ const LockdownEngine = (() => {
       IN.id = e.pointerId;
       try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
       const p = { x: e.clientX, y: e.clientY, t: performance.now() };
-      Object.assign(IN, { start: p, pts: [p], mode: 'pending', stillAt: p.t, fastFrom: -1, slashDir: 0 });
+      Object.assign(IN, { start: p, pts: [p], mode: 'pending', stillAt: p.t, fastFrom: -1, slashDir: 0, anchor: p, youAt: S.w ? S.w.you.pos.slice() : null });
       e.preventDefault();
     });
     canvas.addEventListener('pointermove', e => {
@@ -6820,8 +6843,10 @@ const LockdownEngine = (() => {
         if (L > 24) {
           if (dy < 0 && -dy > Math.abs(dx) * 1.25) { doJump(a, p, L); IN.mode = 'used'; return; }
           if (trySlice(prev, p, dx)) { IN.mode = 'used'; return; }
-          IN.slashDir = Math.sign(dx) || IN.slashDir;
+          // swiping at the ball and missing is a reach; a quick move anywhere else is just a quick slide
+          if (nearBall(a, p)) IN.slashDir = Math.sign(dx) || IN.slashDir;
         }
+        if (IN.mode === 'pending' && Math.hypot(p.x - IN.start.x, p.y - IN.start.y) > 12) IN.mode = 'drag';
       } else {
         IN.fastFrom = -1;
         if (IN.mode === 'pending' && Math.hypot(p.x - IN.start.x, p.y - IN.start.y) > 12) IN.mode = 'drag';
@@ -6854,6 +6879,12 @@ const LockdownEngine = (() => {
       const t = clamp(((px - a.x) * vx + (py - a.y) * vy) / l2, 0, 1);
       return Math.hypot(px - (a.x + vx * t), py - (a.y + vy * t));
     }
+    function nearBall(a, b) {
+      const w = S.w;
+      if (!w || w.phase !== 'duel') return false;
+      const B = ballScreen(camera());
+      return !!B && segDist(B.x, B.y, a, b) < (B.r + Math.max(24, CW * 0.065)) * 2.2;
+    }
     function trySlice(a, b, dx) {
       const w = S.w;
       if (!w || S.phase !== 'live' || w.phase !== 'duel' || w.over) return false;
@@ -6883,14 +6914,22 @@ const LockdownEngine = (() => {
         Sfx.play('release');
       }
     }
-    function joystick() {
-      if (IN.id === null || IN.mode !== 'drag') return { jx: 0, jy: 0 };
+    /* Your feet follow your finger: move it and you slide that far, stop it and
+       you stop (and plant). The farther and faster you move it, the harder you
+       commit, which is your weight. */
+    function joystick(fb) {
+      const w = S.w;
+      if (!w || IN.id === null || IN.mode !== 'drag' || !IN.anchor) return { jx: 0, jy: 0 };
       const last = IN.pts[IN.pts.length - 1];
-      const dx = last.x - IN.start.x, dy = last.y - IN.start.y;
-      const dead = 6;
-      const ax = Math.abs(dx) < dead ? 0 : dx - Math.sign(dx) * dead, ay = Math.abs(dy) < dead ? 0 : dy - Math.sign(dy) * dead;
-      return { jx: clamp(ax / (CW * 0.17), -1, 1), jy: clamp(-ay / (CH * 0.1), -1, 1) };
+      const dx = last.x - IN.anchor.x, dy = last.y - IN.anchor.y;
+      const rim = w.cam === 'rim';
+      const kx = rim ? CW * 0.045 : CW * 0.07, ky = rim ? CH * 0.022 : CH * 0.03;   // pixels per foot
+      const tx = IN.youAt[0] + fb.r[0] * dx / kx - fb.f[0] * dy / ky, tz = IN.youAt[2] + fb.r[2] * dx / kx - fb.f[2] * dy / ky;
+      const vx = (tx - w.you.pos[0]) * 6, vz = (tz - w.you.pos[2]) * 6;
+      const vLat = LockdownSim.YOU.vLat, vDep = rim ? vLat : LockdownSim.YOU.vDep;
+      return { jx: clamp((vx * fb.r[0] + vz * fb.r[2]) / vLat, -1, 1), jy: clamp((vx * fb.f[0] + vz * fb.f[2]) / vDep, -1, 1) };
     }
+    function anchor() { if (S.w && IN.id !== null) { IN.anchor = IN.pts[IN.pts.length - 1]; IN.youAt = S.w.you.pos.slice(); } }
 
     ui.quit.addEventListener('click', () => { Sfx.play('ui'); const q = S.onQuit; stop(); q && q(summary(true)); });
     ui.card.addEventListener('click', e => { const b = e.target.closest('button'); if (b && S.cardNext) { const f = S.cardNext; S.cardNext = null; f(b.dataset.act); } });
@@ -6933,7 +6972,7 @@ const LockdownEngine = (() => {
       if (plan) Object.assign(o, plan);
       S.lastScorer = o.scorer;
       S.w = LockdownSim.create(o);
-      S.duelYaw = null; S.rimEye = null; S.camFrom = null; S.lastCamMode = S.w.cam;
+      S.duelYaw = null; S.rimEye = null; S.camFrom = null; S.lastCamMode = S.w.cam; IN.youAt = null;
       S.endTimer = null; S.slices = []; S.handAnim = null;
       const A = S.w.arch;
       const titles = { lockdown: spec.title || 'Lockdown', pickpocket: 'Pickpocket', swat: 'Swat', glass: 'Glass' };
@@ -7036,16 +7075,18 @@ const LockdownEngine = (() => {
       const w = S.w;
       if (!w) return;
       const cam = camera();
-      // remember where the camera was when it starts turning
+      // remember where the camera was when it starts turning; a finger already down starts over from here
       if (w.cam !== S.lastCamMode) {
         if (w.cam === 'rim') { const dv = duelView(w); S.camFrom = dv; }
         S.lastCamMode = w.cam;
+        anchor();
       }
+      if (!IN.youAt && IN.id !== null) anchor();
       if (S.phase === 'live' || S.phase === 'ending' || S.phase === 'card') {
-        const js = S.phase === 'live' ? joystick() : { jx: 0, jy: 0 };
         const fb = floorBasis(cam);
+        const js = S.phase === 'live' ? joystick(fb) : { jx: 0, jy: 0 };
         const held = S.phase === 'live' && IN.id !== null && IN.mode !== 'used';
-        const still = held && performance.now() - IN.stillAt > 110 && IN.mode !== 'drag';
+        const still = held && performance.now() - IN.stillAt > 110;
         LockdownSim.input(w, { jx: js.jx, jy: js.jy, held, still, r: fb.r, f: fb.f });
         if (S.phase === 'live' || w.over) LockdownSim.step(w, dt);
       }
@@ -7262,8 +7303,9 @@ const LockdownEngine = (() => {
       const skin = settings.skin, edge = 'rgba(40,20,10,0.5)';
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       const stroke = (pts, wd, col) => { [[wd + 2.5, edge], [wd, col]].forEach(([lw, c]) => { ctx.strokeStyle = c; ctx.lineWidth = lw; ctx.beginPath(); pts.forEach(([px, py], i) => i ? ctx.lineTo(x + px * r * side, y + py * r) : ctx.moveTo(x + px * r * side, y + py * r)); ctx.stroke(); }); };
-      // forearm and sleeve coming up from the bottom corner
+      // forearm and sleeve coming up from the bottom corner, a white cuff so it reads on any floor
       stroke([[1.6, 6.5], [0.5, 2.2]], r * 1.5, settings.jersey);
+      stroke([[0.62, 2.55], [0.48, 2.1]], r * 1.5, '#f3f1ea');
       stroke([[0.55, 2.4], [0.1, 0.9]], r * 1.05, skin);
       // palm and fingers, spread toward him
       ctx.fillStyle = skin; ctx.strokeStyle = edge; ctx.lineWidth = 2;
@@ -7292,7 +7334,15 @@ const LockdownEngine = (() => {
     }
 
     function setSettings(o) { Object.assign(settings, o || {}); }
-    return { run, stop, destroy, setSettings, summary, get settings() { return settings; }, _S: S, _camera: camera, _ballScreen: () => ballScreen(camera()), _project: p => Court3D.project(camera(), p) };
+    // for tests: where a finger already down should be to send you to a spot on the floor
+    function fingerFor(p) {
+      const w = S.w; if (!w || !IN.anchor || !IN.youAt) return null;
+      const fb = floorBasis(camera()), rim = w.cam === 'rim';
+      const kx = rim ? CW * 0.045 : CW * 0.07, ky = rim ? CH * 0.022 : CH * 0.03;
+      const d = [p[0] - IN.youAt[0], 0, p[2] - IN.youAt[2]];
+      return { x: IN.anchor.x + (d[0] * fb.r[0] + d[2] * fb.r[2]) * kx, y: IN.anchor.y - (d[0] * fb.f[0] + d[2] * fb.f[2]) * ky };
+    }
+    return { run, stop, destroy, setSettings, summary, get settings() { return settings; }, _S: S, _camera: camera, _ballScreen: () => ballScreen(camera()), _project: p => Court3D.project(camera(), p), _fingerFor: fingerFor };
   }
 
   return { create, SWAT_REPS, PICK_REPS };
@@ -7628,7 +7678,7 @@ const LockdownEngine = (() => {
     }).join('');
     $('#scorer-list').innerHTML = LockdownScorers.IDS.map(id => {
       const d = LockdownScorers.SCORERS[id], s = (D.scoutScorer || {})[id];
-      const faced = s ? `Guarded ${s.faced} times · ${(s.points / s.faced).toFixed(1)} pts allowed per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not guarded yet';
+      const faced = s ? `Guarded ${s.faced} ${s.faced === 1 ? 'time' : 'times'} · ${(s.points / s.faced).toFixed(1)} pts allowed per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not guarded yet';
       return `<article class="scard"><header><b>${esc(d.name)}</b><span class="tag">${esc(d.tag)}</span></header><p>${esc(d.tell)}</p><p class="read"><b>How to guard him:</b> ${esc(d.read)}</p><div class="faced">${faced}</div></article>`;
     }).join('');
   }
@@ -7814,7 +7864,7 @@ const LockdownEngine = (() => {
     const el = $('#results');
     const unit = { lockdown: 'stops', pickpocket: 'steals', swat: 'blocks', glass: 'boards' }[res.kind];
     const title = ctx.title || { lockdown: 'Lockdown', pickpocket: 'Pickpocket', swat: 'Swat', glass: 'Glass' }[res.kind];
-    const outcome = l => ({ steal: 'stripped him', block: 'swatted', board: 'your board', charge: 'charge', violation: 'shot clock', made: 'he scored', putback: 'putback', putbackMiss: 'his board, missed putback', offboard: 'his board', foul: 'foul', goaltend: 'goaltending', kept: 'he kept it' }[l.kind] || l.kind);
+    const outcome = l => ({ steal: 'stripped him', block: 'swatted', board: 'your board', charge: 'charge', violation: 'shot clock', made: 'he scored', putback: 'putback', putbackMiss: 'his board, missed putback', offboard: 'his board', foul: 'foul', goaltend: 'goaltending', kept: 'he kept it', miss: 'contested, missed' }[l.kind] || l.kind);
     const rows = (res.log || []).map(l => {
       const sc = LockdownScorers.SCORERS[l.scorer];
       return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${esc(sc ? sc.name : '')}</b><small>${esc(outcome(l))}</small></div><span class="pts">${l.points ? '+' + l.points : '0'}</span></div>`;
@@ -7822,7 +7872,7 @@ const LockdownEngine = (() => {
     const miss = (res.log || []).find(l => l.grade === 'C' || l.grade === 'D' || l.grade === 'F');
     const sc = miss ? LockdownScorers.SCORERS[miss.scorer] : null;
     const stats = res.kind === 'lockdown'
-      ? `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div><div class="stat"><b>${res.points}</b><span>Points allowed</span></div><div class="stat"><b>${res.steals + res.blocks + res.charges}</b><span>Steals, blocks, charges</span></div>`
+      ? `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div><div class="stat"><b>${res.points}</b><span>Points allowed</span></div><div class="stat"><b>${res.steals + res.blocks + res.charges}</b><span>Big plays</span></div>`
       : `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div>${res.kind === 'glass' ? `<div class="stat"><b>${res.offboards}</b><span>His boards</span></div>` : `<div class="stat"><b>${res.reaches}</b><span>Fouls</span></div>`}<div class="stat"><b>${res.points}</b><span>Points allowed</span></div>`;
     el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="dfx" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>
       <div class="result-head"><div class="big">${main}</div><div class="unit">${unit}</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>
