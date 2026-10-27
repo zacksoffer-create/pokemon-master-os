@@ -278,3 +278,36 @@ describe('validator repairs', () => {
     expect(new Set(r.notes.map((n) => n.id)).size).toBe(2);
   });
 });
+
+describe('edge cases', () => {
+  it('handles a very short song without crashing', () => {
+    const fx = drumLoop({ bpm: 120, bars: 3, tailMs: 500 });
+    const a = analyzeAudio(fx.signal, fx.sr);
+    for (const style of CHART_STYLES) {
+      try {
+        const c = generateChart(a, { style, seed: 1 });
+        assertPlayable(c.notes, 3, a.durationMs);
+      } catch (e) {
+        expect(e).toBeInstanceOf(ChartGenerationError);
+      }
+    }
+  });
+  it('handles 48 kHz input and every lane-count / pattern override', () => {
+    const fx = drumLoop({ bpm: 132, bars: 16, sr: 48000, pad: true });
+    const a = analyzeAudio(fx.signal, 48000);
+    for (const patternStyle of ['flow', 'alternate', 'melodic'] as const) {
+      for (const laneCount of [3, 4]) {
+        for (const style of CHART_STYLES) {
+          const c = generateChart(a, { style, seed: 3, laneCount, patternStyle, densityAdjust: 2 });
+          assertPlayable(c.notes, laneCount, a.durationMs);
+        }
+      }
+    }
+  });
+  it('keeps working with a manual tempo that is wrong (half time)', () => {
+    const { a } = analyzed({ bpm: 120, bars: 16 });
+    const c = generateChart(a, { style: 'full', seed: 1, bpmOverride: 60, firstBeatOverrideMs: 500 });
+    assertPlayable(c.notes, 3, a.durationMs);
+    expect(c.notes.length).toBeGreaterThan(10);
+  });
+});
