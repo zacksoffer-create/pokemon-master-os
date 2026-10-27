@@ -32,7 +32,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 
 /* title: a scoreboard at night */
 .mast { position: relative; padding: 18px 0 6px; overflow: hidden; }
-.mast svg.diamond { position: absolute; right: -36px; top: -24px; width: 250px; height: auto; opacity: 0.45; pointer-events: none; }
+.mast svg.diamond { position: absolute; right: -36px; top: -24px; width: 250px; height: auto; opacity: 0.16; pointer-events: none; }
 .eyebrow { font: 700 13px/1 var(--body); letter-spacing: 0.22em; text-transform: uppercase; color: var(--lights); }
 .mast h1 { font: 700 clamp(56px, 18vw, 104px)/0.9 var(--display); letter-spacing: 0.01em; text-transform: uppercase; margin-top: 8px; }
 .mast p { margin: 10px 0 0; color: var(--muted); max-width: 36ch; }
@@ -2393,7 +2393,7 @@ const BatEngine = (() => {
       // closed in the stance, so from behind the plate you see his back
       const face = [s * Math.cos(a), 0, Math.sin(a)];
       // backlit: the lights are out in front of him, so from here he's mostly shadow
-      const fig = { pos, face, pose, colors: { skin: '#5e4128', jersey: '#6f6c66', pants: '#615e58', cap: '#0c2034', trim: '#0c2034', socks: '#0b1b2b', shoes: '#0a0c10' }, helmet: true, back: true, alpha: 0.9, noShadow: true };
+      const fig = { pos, face, pose, colors: { skin: '#5e4128', jersey: '#6f6c66', pants: '#615e58', cap: '#0c2034', trim: '#0c2034', socks: '#0b1b2b', shoes: '#0a0c10' }, helmet: true, back: true, alpha: 0.78, noShadow: true };
       // hands on the bat: top hand at the hands, bottom hand toward the knob
       const pz = JSON.parse(JSON.stringify(pose));
       const top = Park3D.toLocal(fig, bat.hands), bot = Park3D.toLocal(fig, V.sub(bat.hands, V.mul(bat.dir, 0.28)));

@@ -760,7 +760,7 @@ const BatEngine = (() => {
       // closed in the stance, so from behind the plate you see his back
       const face = [s * Math.cos(a), 0, Math.sin(a)];
       // backlit: the lights are out in front of him, so from here he's mostly shadow
-      const fig = { pos, face, pose, colors: { skin: '#5e4128', jersey: '#6f6c66', pants: '#615e58', cap: '#0c2034', trim: '#0c2034', socks: '#0b1b2b', shoes: '#0a0c10' }, helmet: true, back: true, alpha: 0.9, noShadow: true };
+      const fig = { pos, face, pose, colors: { skin: '#5e4128', jersey: '#6f6c66', pants: '#615e58', cap: '#0c2034', trim: '#0c2034', socks: '#0b1b2b', shoes: '#0a0c10' }, helmet: true, back: true, alpha: 0.78, noShadow: true };
       // hands on the bat: top hand at the hands, bottom hand toward the knob
       const pz = JSON.parse(JSON.stringify(pose));
       const top = Park3D.toLocal(fig, bat.hands), bot = Park3D.toLocal(fig, V.sub(bat.hands, V.mul(bat.dir, 0.28)));
