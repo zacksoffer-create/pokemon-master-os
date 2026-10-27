@@ -34,7 +34,7 @@ const LockdownScorers = (() => {
       read: 'Pick his pocket on the crossover out in front. Stay patient while it\'s on his hip.',
       good: 'You waited for the lazy cross and took it.',
       skill: 0.7, ft: 0.75, quick: 12.5, fwd: 11.5, tellT: 0.22, range: 23, shootGap: 5.0, stepGap: 0, pump: 0.1,
-      handle: { base: 0.34, cross: 0.92, protect: 0.12, high: 0.55 }, crash: 0.35, height: 0.98,
+      handle: { base: 0.22, cross: 0.92, protect: 0.12, high: 0.55 }, crash: 0.35, height: 0.98,
       gap: [2.4, 4.2], weights: { jab: 0.5, drive: 1.0, cross: 2.8, rise: 0.5, attack: 0 },
       colors: { jersey: '#d9a21b', shorts: '#b4850f', trim: '#1d1f24' }, number: 2
     },

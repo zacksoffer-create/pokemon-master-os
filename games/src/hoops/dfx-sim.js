@@ -243,6 +243,8 @@ const LockdownSim = (() => {
       const vx = Y.jx * YOU.vLat, vy = Y.jy * (w.phase === 'duel' ? YOU.vDep : YOU.vLat);
       want = [Y.camR[0] * vx + Y.camF[0] * vy, 0, Y.camR[2] * vx + Y.camF[2] * vy];
     }
+    // locked up with him on a box-out: small steps until the ball comes off the rim
+    if (w.rebound && w.rebound.boxing && w.phase === 'shot') want = V.mul(want, 0.45);
     let acc = YOU.acc;
     if (Y.offBal > 0) acc *= 0.2;
     if (Y.stuck > 0) { acc *= 0.15; }
@@ -738,7 +740,14 @@ const LockdownSim = (() => {
     if (w.phase === 'duel' && !Y.chasing) { const R = rel(w); fwd = V.mul(R.u, -1); side = R.s; }
     else { const f = Court3D.dirToRim(Y.pos); fwd = f; side = [-f[2], 0, f[0]]; }
     const ahead = Y.chasing ? 1.7 : 0.75;
-    const p = V.add(V.add(Y.pos, V.mul(fwd, ahead)), V.mul(side, Y.reachX * (Y.chasing ? 0.4 : 1)));
+    let p = V.add(V.add(Y.pos, V.mul(fwd, ahead)), V.mul(side, Y.reachX * (Y.chasing ? 0.4 : 1)));
+    // a layup or a ball around the rim near you: you reach for it (a jumper goes up over you)
+    const B = w.ball;
+    if (B.state === 'shot' && B.ph && w.shotInfo && (w.shotInfo.layup || rimDist(B.p) < 6)) {
+      const d = [B.p[0] - Y.pos[0], 0, B.p[2] - Y.pos[2]], l = Math.hypot(d[0], d[2]);
+      const arm = Y.chasing ? 2.2 : 1.9;
+      if (l < arm + 1.2) p = l > 1e-3 ? V.add(Y.pos, V.mul(d, Math.min(l, arm) / l)) : Y.pos.slice();
+    }
     p[1] = YOU.reach + lift + (Y.walled && !Y.air ? 0.2 : 0);
     return p;
   }
@@ -759,13 +768,13 @@ const LockdownSim = (() => {
     if (!S.apex && before.vy > 0 && ph.v[1] <= 0) S.apex = true;
     // your hands on it
     const Y = w.you;
-    if (Y.air || Y.walled) {
+    if (Y.air) {
       const h = hands(w);
       // a jump shot leaves his hands up over his head (the ball flies from set-shot height, the
       // way it does in the scoring game, so count it that much higher here)
       const lift = S.layup ? 0 : S.dist < 11 ? 1.0 : 1.6;
       const d = Math.hypot(ph.p[0] - h[0], ph.p[1] + lift - h[1], ph.p[2] - h[2]);
-      const reach = S.layup ? (Y.air ? 0.95 : 0.75) : 0.62;
+      const reach = S.layup ? 0.95 : 0.62;
       const touch = d < reach && ph.rimHits + ph.boardHits === 0;
       if (touch) {
         const near = rimDist(ph.p) < 6.5 && ph.p[1] > RIM.y - 0.2;
