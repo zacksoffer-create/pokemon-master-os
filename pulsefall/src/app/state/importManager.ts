@@ -23,6 +23,8 @@ export const importStore = new Store<ImportState>({ open: false, items: [] });
 
 let nextId = 1;
 let queue: { item: ImportItem; file: File }[] = [];
+/** Files of finished items, kept so a failed import can be retried without re-picking. */
+const filesById = new Map<number, File>();
 let running = false;
 let controller: AbortController | null = null;
 
@@ -53,6 +55,7 @@ let doneCallbacks: ((songs: SongRecord[]) => void)[] = [];
 export function enqueue(files: File[], onDone?: (songs: SongRecord[]) => void): void {
   if (onDone) doneCallbacks.push(onDone);
   const items = files.map((f) => ({ item: { id: nextId++, fileName: f.name, status: 'queued' as const }, file: f }));
+  for (const x of items) filesById.set(x.item.id, x.file);
   queue.push(...items);
   importStore.update((s) => ({ open: true, items: [...s.items.filter((i) => i.status === 'working' || i.status === 'queued'), ...items.map((x) => x.item)] }));
   void pump();
@@ -87,6 +90,15 @@ async function pump(): Promise<void> {
   for (const cb of cbs) cb(finished);
 }
 
+/** Re-run a failed or cancelled import with the same file. */
+export function retryImport(id: number): void {
+  const file = filesById.get(id);
+  if (!file) return;
+  importStore.update((s) => ({ ...s, items: s.items.filter((i) => i.id !== id) }));
+  filesById.delete(id);
+  enqueue([file]);
+}
+
 export function cancelImport(id: number): void {
   const it = importStore.get().items.find((i) => i.id === id);
   if (!it) return;
@@ -99,6 +111,7 @@ export function cancelImport(id: number): void {
 
 export function closeImports(): void {
   const busy = importStore.get().items.some((i) => i.status === 'working' || i.status === 'queued');
+  if (!busy) filesById.clear();
   importStore.update((s) => ({ open: false, items: busy ? s.items : [] }));
 }
 

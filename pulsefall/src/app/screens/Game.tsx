@@ -331,10 +331,13 @@ function Results({
       <div class="results-score">
         <CountUp value={r.score} />
       </div>
-      {isNewBest && (
+      {isNewBest ? (
         <p class="new-best">
           <Icon name="sparkle" size={16} /> New personal best{previousBest !== null ? ` (+${formatScore(r.score - previousBest)})` : ''}
         </p>
+      ) : (
+        previousBest !== null &&
+        !r.autoplay && <p class="prev-best">Personal best {formatScore(previousBest)} · {formatScore(previousBest - r.score)} to go</p>
       )}
       <div class="results-stats">
         <div>

@@ -1857,6 +1857,10 @@ details.advanced summary {
   font-family: var(--display);
   font-weight: 700;
 }
+.prev-best {
+  font-family: var(--display);
+  font-size: 14px;
+}
 .results-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

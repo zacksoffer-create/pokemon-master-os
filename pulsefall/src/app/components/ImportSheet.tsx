@@ -1,6 +1,6 @@
 import type { ImportStage } from '../../core/import/importer';
 import { navigate } from '../router';
-import { cancelImport, closeImports, importStore, pickFiles, type ImportItem } from '../state/importManager';
+import { cancelImport, closeImports, importStore, pickFiles, retryImport, type ImportItem } from '../state/importManager';
 import { useStore } from '../state/store';
 import { Icon } from './Icon';
 import { Button, Sheet } from './ui';
@@ -98,6 +98,11 @@ export function ImportSheet() {
                     <b>{it.fileName}</b>
                     <small>{it.error ?? 'Cancelled'}</small>
                   </span>
+                  {(it.status === 'cancelled' || ['internal', 'storage', 'cancelled'].includes(it.errorCode ?? '')) && (
+                    <Button size="sm" icon="refresh" onClick={() => retryImport(it.id)}>
+                      Retry
+                    </Button>
+                  )}
                 </>
               )}
             </li>
