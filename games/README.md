@@ -42,6 +42,10 @@ Help defenders are data in `src/hoops/help.js`, same as the on-ball defenders. A
 
 Living School keeps a frozen copy of the basketball engine in `src/school/hoops/`, so changes to Basketball Playground don't move its tryouts and Friday games.
 
+## Benchmark
+
+Commit `15912dc` (published as version 4 of the Basketball Playground artifact) is the benchmark for how the game should feel: the offensive read game, jumper variety and 1-on-2 help. New work goes alongside it, not into it. Before anything ships, the tests below should still match what they gave at that commit.
+
 ## How it maps to the five engines
 
 | Engine | Code | Used by |
