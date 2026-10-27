@@ -17,15 +17,13 @@ Then you play.
 
 Pulsefall is a static web app; it just needs to be served over HTTPS once. Pick one:
 
-### Option A — GitHub Pages (free, already prepared)
+### Option A — GitHub Pages (free)
 
-A built copy is on the `gh-pages` branch of this repository.
-
-1. On GitHub open **Settings → Pages**.
-2. Under **Build and deployment → Source** choose **Deploy from a branch**, branch **`gh-pages`**, folder **`/ (root)`**, then **Save**.
+1. Publish the build to a `gh-pages` branch once: `cd pulsefall && npm install && npm run deploy:pages`
+   (builds the app and pushes `dist/` to that branch; run it again to publish updates).
+2. On GitHub open **Settings → Pages**. Under **Build and deployment → Source** choose
+   **Deploy from a branch**, branch **`gh-pages`**, folder **`/ (root)`**, then **Save**.
 3. After a minute the game is at **https://zacksoffer-create.github.io/pokemon-master-os/**.
-
-To publish a newer build later: `cd pulsefall && npm run deploy:pages` (builds and pushes the `gh-pages` branch).
 
 ### Option B — Netlify Drop (free, no Git needed)
 
