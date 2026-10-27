@@ -1,0 +1,10 @@
+import '@fontsource/chakra-petch/latin-500.css';
+import '@fontsource/chakra-petch/latin-600.css';
+import '@fontsource/chakra-petch/latin-700.css';
+import './app/styles.css';
+import { render } from 'preact';
+import { App } from './app/App';
+import { registerServiceWorker } from './app/pwa';
+
+render(<App />, document.getElementById('app')!);
+registerServiceWorker();
