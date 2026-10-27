@@ -299,7 +299,7 @@ const PMSim = (() => {
       const dist = steer(D, target, speed, 55, dt);
       if (Math.hypot(D.vel[0], D.vel[2]) > 6 && pose !== 'lunge') pose = runPose(D);
       setPose(D, pose, dt);
-      D.face = D.watch || D.mode === 'close' || D.gamble > 0 ? unit(V.sub(ballFloor(W), D.pos)) : unit(V.sub(V.mul(V.add(flat(m.pos), ballFloor(W)), 0.5), D.pos));
+      D.face = D.watch || D.jumper || D.mode === 'close' || D.gamble > 0 ? unit(V.sub(ballFloor(W), D.pos)) : unit(V.sub(V.mul(V.add(flat(m.pos), ballFloor(W)), 0.5), D.pos));
       if (D.face[0] === 0 && D.face[2] === 0) D.face = [0, 0, 1];
       void dist;
     });
@@ -372,6 +372,8 @@ const PMSim = (() => {
     const back = gap(T.home, T.base) > 1;
     let to = back ? T.base : Court3D.polar(pol.angle + (W.rand() < 0.5 ? -1 : 1) * (pol.angle > 60 || pol.angle < -60 ? -14 : 12), pol.dist);
     to = clampCourt(to);
+    // not out past the wing toward the sideline (and off the side of the screen)
+    if (!back && Math.abs(to[0]) > 20.5) return;
     if (W.off.some(X => X !== T && gap(X.pos, to) < 6)) return;
     T.home = to; T.state = 'relocate';
   }
@@ -395,7 +397,7 @@ const PMSim = (() => {
     const end = Court3D.polar(s * 28, 3.4);
     O.state = 'cut'; O.route = [mid, end]; O.ri = 0; O.cutKind = kind; O.cutCool = 4; O.deniedT = 0;
     clearForCutter(W, j, end);
-    W.story.push({ k: 'cut', j, kind });
+    W.story.push({ k: 'cut', j, kind, name: nameOf(W, j) });
     emit(W, { type: 'cut', j, kind });
   }
 
@@ -460,7 +462,8 @@ const PMSim = (() => {
   }
 
   /* dir: the drag direction on the floor (unit), or null when the finger stops. */
-  function driveInput(W, dir) {
+  // ago: how long the push had been going before it read as a drive
+  function driveInput(W, dir, ago) {
     if (W.over || W.ball.state !== 'held') return;
     const O = handlerOf(W);
     if (!dir) {
@@ -476,6 +479,7 @@ const PMSim = (() => {
     if (!W.drive) {
       W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false };
       resolveDrive(W, dir);
+      if (ago && W.drive) W.drive.lastRes -= ago;
       return;
     }
     const sv = sideVec(O.pos);
@@ -591,7 +595,7 @@ const PMSim = (() => {
     const R = best ? W.off[best.j] : null;
     if (type === 'lob' && R && rimDist(E) < 7 && (R.role.id === 'big' || R.state === 'cut' || R.state === 'dive' || R.state === 'post')) { toY = 10.2; alley = true; }
     const P = makePass(S, E, type, { bend: g.bend, toY, overhead });
-    Object.assign(P, { t0: W.t, from: j0, to: best ? best.j : null, q, err: best ? best.e : 99, alley });
+    Object.assign(P, { t0: W.t, from: j0, to: best ? best.j : null, q, err: best ? best.e : 99, alley, cutter: !!(R && R.state === 'cut') });
     P.risk = assess(W, P);
     W.ball.state = 'pass'; W.ball.pass = P; W.drive = null;
     W.passFace = { dir: g.dir, until: W.t + 0.35 };
@@ -639,16 +643,21 @@ const PMSim = (() => {
   }
   function passReact(W, D, P) {
     let r = D.react - D.antic * 0.12;
-    if (D.watch) r -= 0.04;
     const m = W.off[D.man];
-    if (m.state === 'cut' && !D.d) r += 0.3;
+    // a man watching the ball has lost his own: a pass to him on the cut
+    // catches him flat
+    const lost = D.watch || D.behavior === 'watch';
+    const cutting = m.state === 'cut' || (P && P.cutter && P.to === D.man);
+    if (cutting && !D.d) r += lost ? 0.6 : 0.3;
+    else if (lost) r -= 0.04;
     if (D.gamble > 0) r += 0.4;
     if (D.h) r += 0.12;
     if (D.d) r = 0.12;
     if (D.behavior === 'front' && P.type === 'lob') r += 0.5;
-    // thrown behind his back: he has to turn to find it
+    // thrown behind his back: he has to turn to find it. A man sitting in
+    // the lane is reading your eyes, not turning
     const f = D.face || [0, 0, 1];
-    if (!D.d && dot2(f, unit(V.sub(P.E, D.pos))) < -0.3) r += 0.22;
+    if (!D.d && !D.jumper && dot2(f, unit(V.sub(P.E, D.pos))) < -0.3) r += 0.22;
     return Math.max(0.03, r);
   }
   function predict(W, j, T) {
@@ -712,9 +721,12 @@ const PMSim = (() => {
           const rp = predict(W, P.to, t);
           if (gap(rp, B) + 1.0 < dd) continue;
         }
-        // going up for one means gathering first: he can't also cover ground
+        // going up for one means gathering first: he can't also cover ground.
+        // From a stance it takes a step to get going; a man already leaning
+        // into the lane gets there quicker
         const cap = under ? 1.6 : B[1] > top0 ? lunge * 0.5 : lunge;
-        const move = Math.min(cap, Math.max(0, t - r) * vmax);
+        const tau = Math.max(0, t - r), acc = (D.jumper || D.gamble > 0 ? 60 : greedy ? 44 : 34) * D.quick, tv = vmax / acc;
+        const move = Math.min(cap, tau < tv ? 0.5 * acc * tau * tau : vmax * tau - vmax * tv / 2);
         const m = move + hand - dd + (under ? 0 : D.antic * 0.6);
         if (m > best) { best = m; at = t; }
       }
@@ -808,7 +820,9 @@ const PMSim = (() => {
     if (P && P.alley && near < 6.5) { after(W, 0.12, () => takeShot(W, j, 'dunk')); return; }
     if (near < 7.5) { after(W, q === 'money' ? 0.16 : 0.32, () => { if (W.handler === j && W.ball.state === 'held' && !W.drive) takeShot(W, j, near < 5.5 ? 'layup' : 'floater'); }); return; }
     if (near <= R.role.range) {
-      const open = predictedContest(W, j, q) < 0.42;
+      // a man still ten feet away on a rhythm catch can't take it away
+      const D = defOf(W, j), far = q === 'money' && D && !(D.d && D.d.arch.speed > 17) && gap(D.pos, R.pos) > 8.5;
+      const open = far || predictedContest(W, j, q) < 0.42;
       if (open || W.board) R.autoShot = W.t + (q === 'money' ? 0.42 : q === 'reach' ? 0.7 : 0.95) + (open ? 0 : 0.6);
     }
   }
@@ -869,8 +883,11 @@ const PMSim = (() => {
     let c = 0, by = null;
     W.def.forEach(D => {
       let k;
-      if (D.d) k = Defense.contest(D.d, p);
-      else if (D.h) k = Help.contest(D.h, p, hk);
+      if (D.d) {
+        k = Defense.contest(D.d, p);
+        // a little man on a big at the rim: he scores over him
+        if (O.role.id === 'big' && hk !== 'jumper' && (D.height || 1) < 1) k *= 0.45;
+      } else if (D.h) k = Help.contest(D.h, p, hk);
       else {
         const g = gap(D.pos, p);
         k = clamp((6.8 - g) / 4.8, 0, 1) * (D.height || 1) * (D.reachK || 1);
@@ -978,7 +995,7 @@ const PMSim = (() => {
       if (s.k === 'drive') parts.push(s.win ? (s.crossed ? `${you ? 'You' : 'He'} crossed him up.` : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got by him.`) : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got cut off.`);
       else if (s.k === 'help') parts.push(`Help came off ${s.from}.`);
       else if (s.k === 'fake') parts.push(s.bit ? 'Pass fake, and he jumped the lane.' : 'Pass fake. Nobody bit.');
-      else if (s.k === 'cut') parts.push(s.kind === 'backdoor' ? `${cap(nameOf(W, s.j))} went backdoor.` : `${cap(nameOf(W, s.j))} cut behind his man.`);
+      else if (s.k === 'cut') { const who = cap(s.name || nameOf(W, s.j)); parts.push(s.kind === 'backdoor' ? `${who} went backdoor.` : `${who} cut behind his man.`); }
       else if (s.k === 'fly') parts.push('They flew out at the catch.');
       else if (s.k === 'tip') parts.push('Tipped, but it squirted through.');
       else if (s.k === 'pass') {
@@ -1008,7 +1025,10 @@ const PMSim = (() => {
   function lesson(W) {
     const R = W.result || {}, sc = W.scheme;
     const hit = (R.tags || []).some(t => sc.answers.includes(t));
-    if (R.turnover === 'Picked') return `${sc.name} lives in the passing lanes you can see. ${sc.read}`;
+    if (R.turnover === 'Picked') {
+      if (sc.deny > 0 || sc.jumpers) return `${sc.name} lives in the passing lanes you can see. ${sc.read}`;
+      return `That one went right through a defender. Move him first with a drive or a fake, then throw it where the lane is. ${sc.read}`;
+    }
     if (R.turnover === 'Shot clock') return `You held it too long. ${sc.read}`;
     if (hit && (R.grade === 'A' || R.grade === 'B')) return `That's the read against ${sc.name}. ${sc.read}`;
     return sc.read;
@@ -1078,7 +1098,7 @@ const PMSim = (() => {
       const O = W.off[plan.cut.j];
       after(W, 0.12, () => {
         O.state = 'cut'; O.route = plan.cut.pts.slice(1).map(p => [p[0], 0, p[1]]); O.ri = 0; O.cutKind = 'drawn';
-        W.story.push({ k: 'cut', j: O.i, kind: 'drawn' });
+        W.story.push({ k: 'cut', j: O.i, kind: 'drawn', name: nameOf(W, O.i) });
       });
     }
     if (!plan.pass) return;
@@ -1097,7 +1117,8 @@ const PMSim = (() => {
       }
       if (bestD < 6) {
         const est = makePass(H.pos, to, plan.pass.type === 'chest' && gap(H.pos, to) > 27 ? 'skip' : plan.pass.type, {});
-        release = Math.max(0.3, 0.12 + bestS / O.role.speed - est.T);
+        // he starts the cut 0.12 s in and needs a step to get to full speed
+        release = Math.max(0.3, 0.12 + O.role.speed / 120 + bestS / O.role.speed - est.T);
       }
     }
     after(W, release, () => {

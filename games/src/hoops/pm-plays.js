@@ -93,7 +93,7 @@ const PMPlays = (() => {
       answer: 'Cut the left wing behind him to the rim and lead him with a bounce or a lob.',
       clock: 6, holder: 0, scheme: 'cornerhelp',
       off: [[9, 25, 'guard'], [-18, 19, 'slasher'], [19, 18, 'shooter'], [21, 4, 'shooter'], [5, 6.5, 'big']],
-      def: [[7, 21.5], [-9.5, 14, 'watch'], [14, 15.5], [16, 6.5], [3.4, 8.2]]
+      def: [[7, 21.5], [-11, 15.5, 'watch'], [14, 15.5], [16, 6.5], [3.4, 8.2]]
     },
     {
       id: 'denied', name: 'Overplayed', situation: 'They won\'t let you swing it',
@@ -109,7 +109,7 @@ const PMPlays = (() => {
       answer: 'Skip it to the left corner. Nothing fancy: get it there on time and he has a rhythm three.',
       clock: 6, holder: 0, scheme: 'packline',
       off: [[16, 19, 'guard'], [-3, 25, 'shooter'], [21, 5, 'slasher'], [-21, 3.5, 'shooter'], [5, 6.5, 'big']],
-      def: [[12.5, 16], [-2, 20], [16.5, 7], [-6, 9, 'sunk'], [3.2, 8.4]]
+      def: [[12.5, 16], [-2, 20], [16.5, 7], [-4, 8, 'sunk'], [3.2, 8.4]]
     },
     {
       id: 'fourseconds', name: 'Four Seconds', situation: 'Down 2 · 4 seconds left',
@@ -124,8 +124,8 @@ const PMPlays = (() => {
       text: 'A small guard is behind your big on the right block.',
       answer: 'Throw it in to the big right away. He scores over the little man before help gets there.',
       clock: 6, holder: 0, scheme: 'cornerhelp',
-      off: [[17, 17, 'guard'], [-17, 19, 'shooter'], [0, 26, 'shooter'], [-21, 4, 'shooter'], [7.5, 7.5, 'big']],
-      def: [[13.5, 14.5], [-13, 16], [0, 22], [-15, 6.5], [7.2, 4.7, 'behind', 'small']]
+      off: [[17, 17, 'guard'], [-17, 19, 'shooter'], [0, 26, 'shooter'], [-21, 4, 'shooter'], [6.4, 7.2, 'big']],
+      def: [[13.5, 14.5], [-13, 16], [0, 22], [-15, 6.5], [6.0, 4.6, 'behind', 'small']]
     },
     {
       id: 'gambler', name: 'Lane Jumper', situation: 'He\'s guessing on the pass',

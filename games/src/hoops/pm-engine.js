@@ -126,13 +126,15 @@ const PlaymakerEngine = (() => {
 
     // ---------- camera ----------
     /* High and behind the ball, looking down toward the paint: wide enough
-       for the whole half court on a phone held upright. */
+       for the whole half court on a phone held upright. It eases in and out
+       with the ball but doesn't slide sideways, so both corners stay on
+       screen (ex/lx put the slide back, for tuning). */
     function camera() {
       const f = S.focus || [0, 0, 24];
-      const T = Object.assign({ h: 42, ez: 46, lz: 4, hfov: 51, ex: 0.2, lx: 0.16, top: 0.255 }, settings.camTune || {});
+      const T = Object.assign({ h: 42, ez: 46, lz: 4, hfov: 51, ex: 0, lx: 0, ezk: 0.1, lzk: 0.06, top: 0.255 }, settings.camTune || {});
       const fx = clamp(f[0], -18, 18), fz = clamp(f[2], 4, 32);
-      const eye = [fx * T.ex, T.h, T.ez + (fz - 26) * 0.25];
-      const look = [fx * T.lx, 0, T.lz + (fz - 26) * 0.15];
+      const eye = [fx * T.ex, T.h, T.ez + (fz - 26) * T.ezk];
+      const look = [fx * T.lx, 0, T.lz + (fz - 26) * T.lzk];
       const fwd = V.norm(V.sub(look, eye));
       let fovY = 2 * Math.atan(Math.tan(T.hfov / 2 * Math.PI / 180) / (CW / CH));
       fovY = Math.min(fovY, 150 * Math.PI / 180);
@@ -164,7 +166,7 @@ const PlaymakerEngine = (() => {
     /* One finger. A quick stroke is a pass. Hold and drag is a drive, steered
        like a joystick from where you touched. A burst at the end of a drag is
        a pass on the move. Holding still slows the floor down. */
-    const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, stillAt: 0 };
+    const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, jab: null, stillAt: 0 };
     const FLICK_SPEED = 1.35;      // screen heights per second
     function speedOver(ms) {
       const pts = IN.pts, last = pts[pts.length - 1];
@@ -180,7 +182,7 @@ const PlaymakerEngine = (() => {
       IN.id = e.pointerId;
       try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
       const p = { x: e.clientX, y: e.clientY, t: performance.now() };
-      Object.assign(IN, { start: p, pts: [p], mode: 'pending', moveStart: null, burst: null, stillAt: p.t });
+      Object.assign(IN, { start: p, pts: [p], mode: 'pending', moveStart: null, burst: null, jab: null, jabUntil: 0, stillAt: p.t });
       if (S.phase === 'board') boardDown(p);
       e.preventDefault();
     });
@@ -197,7 +199,7 @@ const PlaymakerEngine = (() => {
         if (d > 9 && !IN.moveStart) IN.moveStart = prev;
         if (IN.moveStart && IN.mode === 'vision' && d > 12) { IN.mode = 'pending'; }
         // a push that keeps going is a drive (a quick stroke let go is still a pass)
-        if (IN.moveStart && p.t - IN.moveStart.t > 150 && speedOver(70).v < FLICK_SPEED && d > 16) IN.mode = 'drag';
+        if (IN.moveStart && p.t - IN.moveStart.t > 150 && speedOver(70).v < FLICK_SPEED && d > 16) { IN.mode = 'drag'; IN.jab = jabOf(); }
       } else if (IN.mode === 'drag') {
         const sp = speedOver(60);
         if (sp.v > FLICK_SPEED * 1.15) { if (!IN.burst) IN.burst = IN.pts[Math.max(0, sp.i - 1)]; }
@@ -220,7 +222,11 @@ const PlaymakerEngine = (() => {
         // short and straight and let go: that was a soft pass, not a drive
         const k0 = IN.moveStart ? Math.max(0, IN.pts.indexOf(IN.moveStart)) : 0;
         if (IN.moveStart && p.t - IN.moveStart.t < 340 && d >= 22 && straight(k0)) return throwFrom(k0);
-        if (IN.burst && p.t - IN.burst.t < 280) return throwFrom(IN.pts.indexOf(IN.burst));
+        if (IN.burst && p.t - IN.burst.t < 280) {
+          // pulled back and let it go: that was a bounce pass, not a drive and a pass
+          const st = IN.moveStart && p.t - IN.moveStart.t < 480 ? readStroke(k0) : null;
+          return throwFrom(st && st.dip ? k0 : IN.pts.indexOf(IN.burst));
+        }
         return;
       }
       if (d < 12 && p.t - IN.start.t < 320 && mode !== 'vision') return passFake();
@@ -309,9 +315,24 @@ const PlaymakerEngine = (() => {
       const bit = PMSim.fake(w);
       Sfx.play(bit ? 'good' : 'dribble');
     }
+    // a jab one way and back before the push read as a drive: he still bit on it
+    function jabOf() {
+      const last = IN.pts[IN.pts.length - 1];
+      const first = IN.pts.find(q => Math.hypot(q.x - IN.start.x, q.y - IN.start.y) >= 18);
+      if (!first || first === last) return null;
+      const v1 = [first.x - IN.start.x, first.y - IN.start.y], v2 = [last.x - IN.start.x, last.y - IN.start.y];
+      const c = (v1[0] * v2[0] + v1[1] * v2[1]) / (Math.hypot(v1[0], v1[1]) * (Math.hypot(v2[0], v2[1]) || 1));
+      return c < 0.5 ? v1 : null;
+    }
     // the drag, as a drive direction on the floor (or null)
     function dragDir(cam) {
       if (IN.mode !== 'drag' || !S.w) return null;
+      // play the jab out for a beat so he has something to bite on
+      if (IN.jab) {
+        if (!IN.jabUntil) IN.jabUntil = performance.now() + 150;
+        if (performance.now() < IN.jabUntil) return courtDir(cam, S.w.off[S.w.handler].pos, IN.jab[0], IN.jab[1]);
+        IN.jab = null;
+      }
       const last = IN.pts[IN.pts.length - 1];
       const dx = last.x - IN.start.x, dy = last.y - IN.start.y;
       if (Math.hypot(dx, dy) < 18) return null;
@@ -456,7 +477,8 @@ const PlaymakerEngine = (() => {
     });
     function boardGeom() {
       const s = Math.min((CW - 28) / 50, (CH * 0.6) / 34);
-      const top = Math.max(112, CH * 0.15);
+      // centered between the title and the panel at the bottom
+      const top = Math.max(108, (108 + CH - 170 - 34 * s) / 2);
       return { s, cx: CW / 2, top };
     }
     const bxy = (G, x, z) => ({ x: G.cx + x * G.s, y: G.top + z * G.s });
@@ -581,7 +603,7 @@ const PlaymakerEngine = (() => {
       const w = S.w;
       if (!w || S.phase === 'board') return;
       const cam = camera();
-      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam));
+      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam), IN.moveStart ? Math.min(0.25, (performance.now() - IN.moveStart.t) / 1000) : 0);
       if (S.phase === 'live' || S.phase === 'card' || S.phase === 'ending') PMSim.update(w, dt);
       // events
       w.events.forEach(ev => {
@@ -605,7 +627,7 @@ const PlaymakerEngine = (() => {
         }
       });
       w.events.length = 0;
-      // the camera drifts to stay behind the ball
+      // the camera eases toward the ball
       const target = w.ball.state === 'pass' ? w.ball.pass.E : w.ball.state === 'shot' ? [RIM.x, 0, RIM.z + 10] : w.off[w.handler].pos;
       const k = Math.min(1, rdt * 2.2);
       S.focus = S.focus ? [S.focus[0] + (target[0] - S.focus[0]) * k, 0, S.focus[2] + (target[2] - S.focus[2]) * k] : target.slice();
@@ -783,8 +805,10 @@ const PlaymakerEngine = (() => {
         ctx.fillText(String(i + 1), p.x, p.y + 1);
         ctx.textBaseline = 'alphabetic';
         if (i === b.holder) { ctx.fillStyle = '#e0661f'; ctx.beginPath(); ctx.arc(p.x + rr * 0.9, p.y - rr * 0.9, rr * 0.45, 0, Math.PI * 2); ctx.fill(); }
+        // the role over his head, or under him when his man is standing there
         const role = PMPlays.ROLES[o[2]];
-        if (role) { ctx.fillStyle = 'rgba(47,75,120,0.8)'; ctx.font = '600 10px "Barlow", sans-serif'; ctx.fillText(role.label, p.x, p.y - rr - 5); }
+        const crowded = b.def.some(d => d[1] < o[1] && Math.hypot(d[0] - o[0], d[1] - o[1]) < 5.5);
+        if (role) { ctx.fillStyle = 'rgba(47,75,120,0.8)'; ctx.font = '600 11px "Barlow", sans-serif'; ctx.fillText(role.label, p.x, crowded ? p.y + rr + 13 : p.y - rr - 5); }
       });
     }
     function drawRoute(G, pts, color, dashed) {
@@ -816,7 +840,7 @@ const PlaymakerEngine = (() => {
     }
 
     function setSettings(o) { Object.assign(settings, o || {}); }
-    return { run, stop, destroy, setSettings, summary, get settings() { return settings; }, _S: S, _camera: camera, _project: p => Court3D.project(camera(), p) };
+    return { run, stop, destroy, setSettings, summary, get settings() { return settings; }, _S: S, _camera: camera, _boardGeom: () => boardGeom(), _project: p => Court3D.project(camera(), p) };
   }
 
   return { create, FEEL };

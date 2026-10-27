@@ -77,6 +77,47 @@ scenario('scramble: drive, kick, extra pass', 'scramble', W => {
   const T = W.off[fl.man];
   passTo(W, T.state === 'relocate' ? T.home : PMSim.predict(W, fl.man, 0.5), 'chest');
 });
+// a plain swing to a wing nobody is denying: caught, not picked
+const swing = {};
+['packline', 'cornerhelp', 'rim', 'scramble', 'denial'].forEach(sc => {
+  let picked = 0, n = 0;
+  SEEDS.forEach(seed => [1, 2].forEach(j => {
+    const W = PMSim.create({ court: Court3D.COURTS.gym, scheme: sc, rand: mul(seed * 3 + j) });
+    step(W, 0.9);
+    const P = toMan(W, j, 'chest', 0.4);
+    n++; if (P && P.risk.outcome === 'pick') picked++;
+  }));
+  swing[sc] = picked / n;
+});
+console.log('swing pass to a wing, picked: ' + Object.entries(swing).map(([k, v]) => `${k} ${Math.round(v * 100)}%`).join('  '));
+
+// Draw It Up: each board's answer against the obvious wrong pass
+const boards = {};
+const BOARD_PLANS = {
+  watcher: [{ cut: { j: 1, pts: [[-18, 19], [-9, 11], [-2.5, 6.6]] }, pass: { to: [-2.4, 7.0], type: 'bounce' } }, { pass: { to: [-18, 19], type: 'chest' } }],
+  denied: [{ cut: { j: 2, pts: [[18, 19], [9, 12], [3, 7]] }, pass: { to: [3.2, 7.6], type: 'bounce' } }, { pass: { to: [18, 19], type: 'chest' } }],
+  sunk: [{ pass: { to: [-21, 3.6], type: 'chest' } }, { pass: { to: [5, 6.5], type: 'chest' } }],
+  fourseconds: [{ pass: { to: [-3.4, 6.4], type: 'lob' } }, { pass: { to: [-4.5, 7], type: 'chest' } }],
+  switch: [{ pass: { to: [6.0, 7.6], type: 'bounce' } }, { pass: { to: [0, 26], type: 'chest' } }],
+  gambler: [{ cut: { j: 2, pts: [[18, 19], [10, 11.5], [3.5, 7]] }, pass: { to: [3.6, 7.5], type: 'bounce' } }, { pass: { to: [18, 19], type: 'chest' } }]
+};
+const GP = { A: 4, B: 3, C: 2, D: 1, F: 0 };
+Object.entries(BOARD_PLANS).forEach(([id, plans]) => {
+  const b = M.PMPlays.BOARDS.find(x => x.id === id);
+  const [right, wrong] = plans.map(plan => {
+    let sum = 0;
+    SEEDS.forEach(seed => {
+      const W = PMSim.create({ court: Court3D.COURTS.gym, rand: mul(seed), board: b, scheme: b.scheme, clock: b.clock, window: 1.7 });
+      W.board = b;
+      PMSim.runBoard(W, JSON.parse(JSON.stringify(plan)));
+      step(W, 9);
+      sum += W.result ? GP[W.result.grade] : 0;
+    });
+    return sum / SEEDS.length;
+  });
+  boards[id] = { right, wrong };
+  console.log(`board ${id.padEnd(12)} answer ${right.toFixed(2)}  wrong pass ${wrong.toFixed(2)}  (grade points, A=4)`);
+});
 
 let fails = 0;
 const check = (ok, label) => { if (!ok) fails++; console.log((ok ? 'PASS  ' : 'FAIL  ') + label); };
@@ -93,5 +134,8 @@ check(out['lane jumper: chest pass into his lane'].to >= 0.75, 'lane jumper: a c
 check(out['lane jumper: bounce it under him'].to < out['lane jumper: chest pass into his lane'].to, 'lane jumper: the bounce gets under him more often');
 check(out['lane jumper: fake, then hit the back cut'].good >= 0.5, 'lane jumper: fake him and hit the back cut');
 check(out['scramble: drive, kick, extra pass'].good > out['scramble: drive, kick, let him shoot'].good, 'scramble: the extra pass beats the first open look');
+check(['packline', 'cornerhelp', 'rim', 'scramble'].every(sc => swing[sc] <= 0.15), 'a swing to a wing nobody denies is not picked');
+check(swing.denial >= 0.4, 'denial takes the same swing away');
+check(Object.values(boards).every(x => x.right >= 3 && x.right - x.wrong >= 1), 'every whiteboard answer grades A/B and clearly beats the wrong pass');
 console.log(fails ? `\n${fails} check(s) failed` : '\nall checks pass');
 process.exit(fails ? 1 : 0);

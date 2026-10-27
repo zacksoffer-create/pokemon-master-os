@@ -96,9 +96,12 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   { const v = await aim(cpt), l = Math.hypot(v.dx, v.dy); const pts = []; for (let i = 1; i <= 5; i++) pts.push([at.x + v.dx / l * v.L * i / 5, at.y + v.dy / l * v.L * i / 5]); for (const q of pts) { await G.move(q[0], q[1]); await wait(16); } await release({ x: pts[4][0], y: pts[4][1] }); }
   await wait(80); st = await S();
   check(drove && st.passes === 1, 'drag to drive, flick at the end: pass on the move', JSON.stringify(st.story));
+  const kick = await p.evaluate(() => { const P = window.__pm._S.w.lastPass; return P && { to: P.to, q: P.q }; });
   await p.screenshot({ path: OUT + '/c3-kick.png' });
   st = await settle();
-  check(st.res && !st.res.to, 'the kick from the drive is caught', JSON.stringify(st.res));
+  // where it went is the control; a wing defender getting a finger on a
+  // close one is the defense (pm_reads covers how often)
+  check(kick && kick.to === corner && kick.q === 'money' && st.res && st.res.to !== 'Picked', 'the kick from the drive goes to the corner, on the money', JSON.stringify(kick) + ' ' + JSON.stringify(st.res));
 
   // ---- control follows the ball, and the extra pass ----
   await start('packline', 14);
