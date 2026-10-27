@@ -942,7 +942,7 @@ const Table3D = (() => {
   }
   // Where you stand to throw, and where you watch from when it's their turn.
   const VIEWS = {
-    you: { eye: [0, 4.4, -0.8], look: [0, 0.2, 7.4], rackY: 0.47, zoom: [2.85, 1.35] },
+    you: { eye: [0, 4.6, -0.4], look: [0, 0.2, 7.4], rackY: 0.66, zoom: [3.4, 1.6] },
     them: { eye: [0, 4.4, -2.2], look: [0, -0.1, 3.6], rackY: 0.5, zoom: [1.55, 0.86] }
   };
   function viewCam(a, b, k, W, H, shake) {
@@ -1194,18 +1194,18 @@ const Table3D = (() => {
   /* A person standing at an end of the table. pose: 'idle' | 'wave' | 'ready'
      (hands over the table) | 'swat' | 'blow' | 'throw' | 'cheer'. side: 'far' or 'near'. */
   function drawPerson(ctx, cam, who, side, pose, k, t) {
-    const zf = side === 'far' ? 9.2 : -0.75;
+    const zf = side === 'far' ? 9.6 : -0.75;
     const fwd = side === 'far' ? -1 : 1;
     const x0 = who.x || 0;
     // everyone leans over the table a little; blowing and swatting lean further
-    const lean = 0.7 + (pose === 'blow' ? 0.55 * k : pose === 'ready' || pose === 'swat' ? 0.25 : pose === 'throw' ? 0.2 * k : pose === 'fold' ? -0.35 : 0);
-    const drop = pose === 'blow' ? 0.45 * k : pose === 'fold' ? -0.2 : 0;
+    const lean = 1.1 + (pose === 'blow' ? 0.55 * k : pose === 'ready' || pose === 'swat' ? 0.25 : pose === 'throw' ? 0.2 * k : pose === 'fold' ? -0.2 : 0);
+    const drop = pose === 'blow' ? 0.45 * k : pose === 'fold' ? -0.1 : 0;
     const P = (x, y, dz) => [x0 + x, y, zf + fwd * dz];
     const J = {};
     J.hipL = P(-0.33, 0.55, 0); J.hipR = P(0.33, 0.55, 0);
-    const shY = 2.05 - drop, shZ = lean;
-    J.shL = P(-0.55, shY, shZ); J.shR = P(0.55, shY, shZ);
-    J.neck = P(0, shY + 0.12, shZ + 0.08); J.head = P(0, shY + 0.55, shZ + 0.22);
+    const shY = 1.7 - drop, shZ = lean;
+    J.shL = P(-0.5, shY, shZ); J.shR = P(0.5, shY, shZ);
+    J.neck = P(0, shY + 0.12, shZ + 0.08); J.head = P(0, shY + 0.5, shZ + 0.2);
     const arm = (sd, el, ha) => { J['el' + sd] = el; J['ha' + sd] = ha; };
     const s = Math.sin(t * 7.5);
     if (pose === 'wave') {
@@ -1228,9 +1228,9 @@ const Table3D = (() => {
       arm('L', P(-0.7, shY - 0.65, shZ + 0.2), P(0.3, shY - 0.55, shZ + 0.4));
       arm('R', P(0.7, shY - 0.65, shZ + 0.2), P(-0.3, shY - 0.45, shZ + 0.4));
     } else {
-      // hands resting on the edge of the table
-      arm('L', P(-0.75, shY - 0.6, shZ + 0.15), P(-0.65, 0.05, 0.85));
-      arm('R', P(0.75, shY - 0.6, shZ + 0.15), P(0.65, 0.05, 0.85));
+      // arms hanging easy at his sides
+      arm('L', P(-0.62, shY - 0.58, shZ + 0.1), P(-0.46, shY - 1.0, shZ + 0.38));
+      arm('R', P(0.62, shY - 0.58, shZ + 0.1), P(0.46, shY - 1.0, shZ + 0.38));
     }
     const Q = {};
     for (const key in J) { const q = project(cam, J[key]); if (!q) return; Q[key] = q; }
@@ -1253,7 +1253,7 @@ const Table3D = (() => {
     ['haL', 'haR'].forEach(j => { ctx.beginPath(); ctx.arc(Q[j].x, Q[j].y, Q[j].s * 0.15, 0, Math.PI * 2); ctx.fill(); });
     // neck, head, hair
     limb('neck', 'head', 0.26, who.skin);
-    const hr = Q.head.s * 0.42;
+    const hr = Q.head.s * 0.34;
     ctx.fillStyle = who.skin; ctx.beginPath(); ctx.ellipse(Q.head.x, Q.head.y, hr * 0.86, hr, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = who.hair; ctx.beginPath(); ctx.ellipse(Q.head.x, Q.head.y - hr * 0.42, hr * 0.9, hr * 0.62, 0, Math.PI, Math.PI * 2); ctx.fill();
     if (side === 'far') {
@@ -1301,6 +1301,11 @@ const PongEngine = (() => {
 .px-score{text-align:right;text-shadow:0 1px 3px rgba(0,0,0,.6);flex:none}
 .px-score-n{display:block;font:400 36px/0.95 "Bungee",Impact,sans-serif;font-variant-numeric:tabular-nums;color:#ffcf6b}
 .px-score small{font:600 11px/1.2 "Work Sans",sans-serif;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.px-cups{display:flex;gap:6px}
+.px-cups span{display:flex;flex-direction:column;align-items:center;min-width:44px;padding:5px 7px 4px;border-radius:9px;background:rgba(14,9,18,.72);border:1px solid rgba(255,255,255,.16)}
+.px-cups b{font:400 22px/1 "Bungee",Impact,sans-serif;font-variant-numeric:tabular-nums}
+.px-cups i{font:700 10px/1.2 "Work Sans",sans-serif;font-style:normal;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-top:2px}
+.px-cups .him b{color:#ff9a7a} .px-cups .you b{color:#ffcf6b}
 .px-chips{position:absolute;left:max(14px,env(safe-area-inset-left,0px));right:40%;top:calc(98px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;align-items:flex-start;gap:6px;pointer-events:none}
 .px.modal .px-chips{display:none}
 .px-chip{padding:5px 10px;border-radius:999px;font:600 12px/1.1 "Work Sans",sans-serif;letter-spacing:.02em;background:rgba(14,9,18,.72);border:1px solid rgba(255,255,255,.18)}
@@ -1358,7 +1363,7 @@ const PongEngine = (() => {
     root.className = 'px';
     root.innerHTML = `
       <canvas></canvas>
-      <div class="px-top"><button class="px-quit" type="button" aria-label="Leave this game">&#x2715;</button><div class="px-title"><b></b><span></span></div><div class="px-score"><span class="px-score-n"></span><small></small></div></div>
+      <div class="px-top"><button class="px-quit" type="button" aria-label="Leave this game">&#x2715;</button><div class="px-title"><b></b><span></span></div><div class="px-score"><span class="px-score-n"></span><small></small><div class="px-cups" hidden><span class="him"><b></b><i>Him</i></span><span class="you"><b></b><i>You</i></span></div></div></div>
       <div class="px-chips"><button class="px-chip px-tool" type="button" hidden></button><div class="px-chip px-state" hidden></div><div class="px-chip px-arms" hidden></div></div>
       <div class="px-banner" hidden></div>
       <div class="px-hint" hidden></div>
@@ -1368,7 +1373,7 @@ const PongEngine = (() => {
     const $ = s => root.querySelector(s);
     const canvas = $('canvas'), ctx = canvas.getContext('2d');
     const ui = {
-      title: $('.px-title b'), sub: $('.px-title span'), score: $('.px-score-n'), scoreSub: $('.px-score small'),
+      title: $('.px-title b'), sub: $('.px-title span'), score: $('.px-score-n'), scoreSub: $('.px-score small'), cups: $('.px-cups'), cupsHim: $('.px-cups .him b'), cupsYou: $('.px-cups .you b'),
       tool: $('.px-tool'), state: $('.px-state'), arms: $('.px-arms'),
       banner: $('.px-banner'), hint: $('.px-hint'), card: $('.px-card'), pick: $('.px-pick'), quit: $('.px-quit')
     };
@@ -1445,12 +1450,15 @@ const PongEngine = (() => {
       const h = Math.max(320, window.innerHeight || 800);
       // a short, sharp flick is a fastball; a full flick is an arc
       const len = g.dist / h;
-      return len < Math.max(0.07, settings.L0 * 0.6) && g.speed >= settings.S0 * 0.6 ? 'fast' : 'arc';
+      if (len >= Math.max(0.07, settings.L0 * 0.6)) return 'arc';
+      return g.speed >= settings.S0 * 0.6 ? 'fast' : 'softsnap';
     }
     function armsUp() { return S.opp && S.opp.wave ? Math.sin(S.t * Math.PI * 2 / 1.9 + 0.4) > 0.12 : false; }
     function onFlick(g) {
       if (S.phase !== 'aim') return;
-      const kind = shotKind(g);
+      // short but not quick: it goes as a weak arc, and the meter says why
+      const softSnap = shotKind(g) === 'softsnap';
+      const kind = softSnap ? 'arc' : shotKind(g);
       const feel = FEEL[settings.feel] || FEEL.normal;
       const calibrating = S.spec.kind === 'calibrate';
       const up = armsUp();
@@ -1473,6 +1481,7 @@ const PongEngine = (() => {
       const held = heldBallScreen();
       const b = PongPhysics.newBall(shot.release, shot.vel, { touch: shot.touch, spinOut: shot.spinOut, spinDir: shot.spinDir, by: 'you', info, appear: 0.12, sx: held.x, sy: held.y, sr: held.r, trail: [] });
       S.balls.push(b);
+      if (softSnap) shot.feedback = 'Arc · Too soft for a fastball';
       S.meter = { shot, t: 0, calibrating, kind };
       S.phase = 'flight';
       S.hasBall = false; S.follow = 0;
@@ -1705,6 +1714,7 @@ const PongEngine = (() => {
       newTurn('cpu', rebuttal);
       S.phase = 'cpu'; S.camTo = 1;
       ui.arms.hidden = true;
+      updateChips();
       hint('');
       const go = () => {
         banner(rebuttal ? 'Rebuttal' : 'Their turn', S.opp.name, rebuttal ? 'He shoots until he misses.' : (S.opp.lines[S.turnNo % S.opp.lines.length]), 1.3);
@@ -1823,7 +1833,7 @@ const PongEngine = (() => {
       S.won = won;
       S.phase = 'card';
       S.camTo = 0;
-      pose(won ? 'idle' : 'cheer', 3);
+      pose(won ? (S.opp.id === 'statue' ? 'fold' : 'idle') : 'cheer', 3);
       if (won) PongSfx.play('cheer'); else PongSfx.play('groan');
       const left = live(S.near).length;
       showCard(`<div class="k">${won ? 'You win' : 'You lose'} · vs ${esc(S.opp.name)}</div><div class="w">${won ? `He missed the rebuttal. You finished with ${left} cup${left === 1 ? '' : 's'} standing.` : 'Missed the rebuttal. He takes it.'}</div>
@@ -1872,15 +1882,19 @@ const PongEngine = (() => {
     function updateScore() {
       const k = S.spec && S.spec.kind;
       const far = live(S.far).length, near = live(S.near).length;
-      if (k === 'game') { ui.score.textContent = far; ui.scoreSub.textContent = `their cups · yours ${near}`; }
+      ui.cups.hidden = k !== 'game';
+      if (k === 'game') { ui.score.textContent = ''; ui.scoreSub.textContent = ''; ui.cupsHim.textContent = far; ui.cupsYou.textContent = near; }
       else if (k === 'attack') { ui.score.textContent = S.throwsUsed; ui.scoreSub.textContent = `throws · ${far} left`; }
       else if (k === 'shots') { ui.score.textContent = S.cupsMade; ui.scoreSub.textContent = 'cups'; }
       else if (k === 'practice') { ui.score.textContent = S.makes; ui.scoreSub.textContent = `made · ${S.throwsUsed} thrown`; }
       else { ui.score.textContent = ''; ui.scoreSub.textContent = ''; }
     }
     function updateChips() {
-      if (S.fire) { ui.state.className = 'px-chip px-state hot'; ui.state.innerHTML = '<b>On fire</b>' + (S.spec.kind === 'game' ? ' · shoot till you miss' : ' · bigger window'); ui.state.hidden = false; }
-      else if (S.streak === 2) { ui.state.className = 'px-chip px-state warm'; ui.state.innerHTML = '<b>Heating up</b>'; ui.state.hidden = false; }
+      const his = S.turn && S.turn.by === 'cpu';
+      const fire = his ? S.cpuFire : S.fire, warm = his ? S.cpuStreak === 2 : S.streak === 2;
+      const who = his ? 'He\'s' : 'You\'re';
+      if (fire) { ui.state.className = 'px-chip px-state hot'; ui.state.innerHTML = `<b>${who} on fire</b>` + (his ? '' : S.spec.kind === 'game' ? ' · shoot till you miss' : ' · bigger window'); ui.state.hidden = false; }
+      else if (warm) { ui.state.className = 'px-chip px-state warm'; ui.state.innerHTML = `<b>${who} heating up</b>`; ui.state.hidden = false; }
       else ui.state.hidden = true;
     }
     let lastArms = null;

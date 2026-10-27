@@ -31,6 +31,11 @@ const PongEngine = (() => {
 .px-score{text-align:right;text-shadow:0 1px 3px rgba(0,0,0,.6);flex:none}
 .px-score-n{display:block;font:400 36px/0.95 "Bungee",Impact,sans-serif;font-variant-numeric:tabular-nums;color:#ffcf6b}
 .px-score small{font:600 11px/1.2 "Work Sans",sans-serif;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.px-cups{display:flex;gap:6px}
+.px-cups span{display:flex;flex-direction:column;align-items:center;min-width:44px;padding:5px 7px 4px;border-radius:9px;background:rgba(14,9,18,.72);border:1px solid rgba(255,255,255,.16)}
+.px-cups b{font:400 22px/1 "Bungee",Impact,sans-serif;font-variant-numeric:tabular-nums}
+.px-cups i{font:700 10px/1.2 "Work Sans",sans-serif;font-style:normal;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-top:2px}
+.px-cups .him b{color:#ff9a7a} .px-cups .you b{color:#ffcf6b}
 .px-chips{position:absolute;left:max(14px,env(safe-area-inset-left,0px));right:40%;top:calc(98px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;align-items:flex-start;gap:6px;pointer-events:none}
 .px.modal .px-chips{display:none}
 .px-chip{padding:5px 10px;border-radius:999px;font:600 12px/1.1 "Work Sans",sans-serif;letter-spacing:.02em;background:rgba(14,9,18,.72);border:1px solid rgba(255,255,255,.18)}
@@ -88,7 +93,7 @@ const PongEngine = (() => {
     root.className = 'px';
     root.innerHTML = `
       <canvas></canvas>
-      <div class="px-top"><button class="px-quit" type="button" aria-label="Leave this game">&#x2715;</button><div class="px-title"><b></b><span></span></div><div class="px-score"><span class="px-score-n"></span><small></small></div></div>
+      <div class="px-top"><button class="px-quit" type="button" aria-label="Leave this game">&#x2715;</button><div class="px-title"><b></b><span></span></div><div class="px-score"><span class="px-score-n"></span><small></small><div class="px-cups" hidden><span class="him"><b></b><i>Him</i></span><span class="you"><b></b><i>You</i></span></div></div></div>
       <div class="px-chips"><button class="px-chip px-tool" type="button" hidden></button><div class="px-chip px-state" hidden></div><div class="px-chip px-arms" hidden></div></div>
       <div class="px-banner" hidden></div>
       <div class="px-hint" hidden></div>
@@ -98,7 +103,7 @@ const PongEngine = (() => {
     const $ = s => root.querySelector(s);
     const canvas = $('canvas'), ctx = canvas.getContext('2d');
     const ui = {
-      title: $('.px-title b'), sub: $('.px-title span'), score: $('.px-score-n'), scoreSub: $('.px-score small'),
+      title: $('.px-title b'), sub: $('.px-title span'), score: $('.px-score-n'), scoreSub: $('.px-score small'), cups: $('.px-cups'), cupsHim: $('.px-cups .him b'), cupsYou: $('.px-cups .you b'),
       tool: $('.px-tool'), state: $('.px-state'), arms: $('.px-arms'),
       banner: $('.px-banner'), hint: $('.px-hint'), card: $('.px-card'), pick: $('.px-pick'), quit: $('.px-quit')
     };
@@ -175,12 +180,15 @@ const PongEngine = (() => {
       const h = Math.max(320, window.innerHeight || 800);
       // a short, sharp flick is a fastball; a full flick is an arc
       const len = g.dist / h;
-      return len < Math.max(0.07, settings.L0 * 0.6) && g.speed >= settings.S0 * 0.6 ? 'fast' : 'arc';
+      if (len >= Math.max(0.07, settings.L0 * 0.6)) return 'arc';
+      return g.speed >= settings.S0 * 0.6 ? 'fast' : 'softsnap';
     }
     function armsUp() { return S.opp && S.opp.wave ? Math.sin(S.t * Math.PI * 2 / 1.9 + 0.4) > 0.12 : false; }
     function onFlick(g) {
       if (S.phase !== 'aim') return;
-      const kind = shotKind(g);
+      // short but not quick: it goes as a weak arc, and the meter says why
+      const softSnap = shotKind(g) === 'softsnap';
+      const kind = softSnap ? 'arc' : shotKind(g);
       const feel = FEEL[settings.feel] || FEEL.normal;
       const calibrating = S.spec.kind === 'calibrate';
       const up = armsUp();
@@ -203,6 +211,7 @@ const PongEngine = (() => {
       const held = heldBallScreen();
       const b = PongPhysics.newBall(shot.release, shot.vel, { touch: shot.touch, spinOut: shot.spinOut, spinDir: shot.spinDir, by: 'you', info, appear: 0.12, sx: held.x, sy: held.y, sr: held.r, trail: [] });
       S.balls.push(b);
+      if (softSnap) shot.feedback = 'Arc · Too soft for a fastball';
       S.meter = { shot, t: 0, calibrating, kind };
       S.phase = 'flight';
       S.hasBall = false; S.follow = 0;
@@ -435,6 +444,7 @@ const PongEngine = (() => {
       newTurn('cpu', rebuttal);
       S.phase = 'cpu'; S.camTo = 1;
       ui.arms.hidden = true;
+      updateChips();
       hint('');
       const go = () => {
         banner(rebuttal ? 'Rebuttal' : 'Their turn', S.opp.name, rebuttal ? 'He shoots until he misses.' : (S.opp.lines[S.turnNo % S.opp.lines.length]), 1.3);
@@ -553,7 +563,7 @@ const PongEngine = (() => {
       S.won = won;
       S.phase = 'card';
       S.camTo = 0;
-      pose(won ? 'idle' : 'cheer', 3);
+      pose(won ? (S.opp.id === 'statue' ? 'fold' : 'idle') : 'cheer', 3);
       if (won) PongSfx.play('cheer'); else PongSfx.play('groan');
       const left = live(S.near).length;
       showCard(`<div class="k">${won ? 'You win' : 'You lose'} · vs ${esc(S.opp.name)}</div><div class="w">${won ? `He missed the rebuttal. You finished with ${left} cup${left === 1 ? '' : 's'} standing.` : 'Missed the rebuttal. He takes it.'}</div>
@@ -602,15 +612,19 @@ const PongEngine = (() => {
     function updateScore() {
       const k = S.spec && S.spec.kind;
       const far = live(S.far).length, near = live(S.near).length;
-      if (k === 'game') { ui.score.textContent = far; ui.scoreSub.textContent = `their cups · yours ${near}`; }
+      ui.cups.hidden = k !== 'game';
+      if (k === 'game') { ui.score.textContent = ''; ui.scoreSub.textContent = ''; ui.cupsHim.textContent = far; ui.cupsYou.textContent = near; }
       else if (k === 'attack') { ui.score.textContent = S.throwsUsed; ui.scoreSub.textContent = `throws · ${far} left`; }
       else if (k === 'shots') { ui.score.textContent = S.cupsMade; ui.scoreSub.textContent = 'cups'; }
       else if (k === 'practice') { ui.score.textContent = S.makes; ui.scoreSub.textContent = `made · ${S.throwsUsed} thrown`; }
       else { ui.score.textContent = ''; ui.scoreSub.textContent = ''; }
     }
     function updateChips() {
-      if (S.fire) { ui.state.className = 'px-chip px-state hot'; ui.state.innerHTML = '<b>On fire</b>' + (S.spec.kind === 'game' ? ' · shoot till you miss' : ' · bigger window'); ui.state.hidden = false; }
-      else if (S.streak === 2) { ui.state.className = 'px-chip px-state warm'; ui.state.innerHTML = '<b>Heating up</b>'; ui.state.hidden = false; }
+      const his = S.turn && S.turn.by === 'cpu';
+      const fire = his ? S.cpuFire : S.fire, warm = his ? S.cpuStreak === 2 : S.streak === 2;
+      const who = his ? 'He\'s' : 'You\'re';
+      if (fire) { ui.state.className = 'px-chip px-state hot'; ui.state.innerHTML = `<b>${who} on fire</b>` + (his ? '' : S.spec.kind === 'game' ? ' · shoot till you miss' : ' · bigger window'); ui.state.hidden = false; }
+      else if (warm) { ui.state.className = 'px-chip px-state warm'; ui.state.innerHTML = `<b>${who} heating up</b>`; ui.state.hidden = false; }
       else ui.state.hidden = true;
     }
     let lastArms = null;

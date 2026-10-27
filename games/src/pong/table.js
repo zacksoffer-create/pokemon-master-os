@@ -16,7 +16,7 @@ const Table3D = (() => {
   }
   // Where you stand to throw, and where you watch from when it's their turn.
   const VIEWS = {
-    you: { eye: [0, 4.4, -0.8], look: [0, 0.2, 7.4], rackY: 0.47, zoom: [2.85, 1.35] },
+    you: { eye: [0, 4.6, -0.4], look: [0, 0.2, 7.4], rackY: 0.66, zoom: [3.4, 1.6] },
     them: { eye: [0, 4.4, -2.2], look: [0, -0.1, 3.6], rackY: 0.5, zoom: [1.55, 0.86] }
   };
   function viewCam(a, b, k, W, H, shake) {
@@ -268,18 +268,18 @@ const Table3D = (() => {
   /* A person standing at an end of the table. pose: 'idle' | 'wave' | 'ready'
      (hands over the table) | 'swat' | 'blow' | 'throw' | 'cheer'. side: 'far' or 'near'. */
   function drawPerson(ctx, cam, who, side, pose, k, t) {
-    const zf = side === 'far' ? 9.2 : -0.75;
+    const zf = side === 'far' ? 9.6 : -0.75;
     const fwd = side === 'far' ? -1 : 1;
     const x0 = who.x || 0;
     // everyone leans over the table a little; blowing and swatting lean further
-    const lean = 0.7 + (pose === 'blow' ? 0.55 * k : pose === 'ready' || pose === 'swat' ? 0.25 : pose === 'throw' ? 0.2 * k : pose === 'fold' ? -0.35 : 0);
-    const drop = pose === 'blow' ? 0.45 * k : pose === 'fold' ? -0.2 : 0;
+    const lean = 1.1 + (pose === 'blow' ? 0.55 * k : pose === 'ready' || pose === 'swat' ? 0.25 : pose === 'throw' ? 0.2 * k : pose === 'fold' ? -0.2 : 0);
+    const drop = pose === 'blow' ? 0.45 * k : pose === 'fold' ? -0.1 : 0;
     const P = (x, y, dz) => [x0 + x, y, zf + fwd * dz];
     const J = {};
     J.hipL = P(-0.33, 0.55, 0); J.hipR = P(0.33, 0.55, 0);
-    const shY = 2.05 - drop, shZ = lean;
-    J.shL = P(-0.55, shY, shZ); J.shR = P(0.55, shY, shZ);
-    J.neck = P(0, shY + 0.12, shZ + 0.08); J.head = P(0, shY + 0.55, shZ + 0.22);
+    const shY = 1.7 - drop, shZ = lean;
+    J.shL = P(-0.5, shY, shZ); J.shR = P(0.5, shY, shZ);
+    J.neck = P(0, shY + 0.12, shZ + 0.08); J.head = P(0, shY + 0.5, shZ + 0.2);
     const arm = (sd, el, ha) => { J['el' + sd] = el; J['ha' + sd] = ha; };
     const s = Math.sin(t * 7.5);
     if (pose === 'wave') {
@@ -302,9 +302,9 @@ const Table3D = (() => {
       arm('L', P(-0.7, shY - 0.65, shZ + 0.2), P(0.3, shY - 0.55, shZ + 0.4));
       arm('R', P(0.7, shY - 0.65, shZ + 0.2), P(-0.3, shY - 0.45, shZ + 0.4));
     } else {
-      // hands resting on the edge of the table
-      arm('L', P(-0.75, shY - 0.6, shZ + 0.15), P(-0.65, 0.05, 0.85));
-      arm('R', P(0.75, shY - 0.6, shZ + 0.15), P(0.65, 0.05, 0.85));
+      // arms hanging easy at his sides
+      arm('L', P(-0.62, shY - 0.58, shZ + 0.1), P(-0.46, shY - 1.0, shZ + 0.38));
+      arm('R', P(0.62, shY - 0.58, shZ + 0.1), P(0.46, shY - 1.0, shZ + 0.38));
     }
     const Q = {};
     for (const key in J) { const q = project(cam, J[key]); if (!q) return; Q[key] = q; }
@@ -327,7 +327,7 @@ const Table3D = (() => {
     ['haL', 'haR'].forEach(j => { ctx.beginPath(); ctx.arc(Q[j].x, Q[j].y, Q[j].s * 0.15, 0, Math.PI * 2); ctx.fill(); });
     // neck, head, hair
     limb('neck', 'head', 0.26, who.skin);
-    const hr = Q.head.s * 0.42;
+    const hr = Q.head.s * 0.34;
     ctx.fillStyle = who.skin; ctx.beginPath(); ctx.ellipse(Q.head.x, Q.head.y, hr * 0.86, hr, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = who.hair; ctx.beginPath(); ctx.ellipse(Q.head.x, Q.head.y - hr * 0.42, hr * 0.9, hr * 0.62, 0, Math.PI, Math.PI * 2); ctx.fill();
     if (side === 'far') {
