@@ -145,6 +145,11 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 .brow small { display: block; color: var(--muted); font-size: 12px; }
 .brow .g { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; font: 900 18px/1 var(--display); color: #0b0f18; background: rgba(255,255,255,0.12); }
 .brow .g.A { background: var(--good); } .brow .g.B { background: #c5e27e; } .brow .g.C { background: #ffd166; } .brow .g.D { background: #ff9a66; } .brow .g.F { background: #ff5d4a; }
+#dfxgame { position: fixed; inset: 0; z-index: 50; background: var(--night); }
+.mode.dfx { background: #3a1d22; border-color: rgba(255,122,102,0.28); }
+.mode.dfx:hover { background: #47232a; }
+.mode.dfx p { color: #f0d2cc; }
+.mode.dfx .rec { color: #ff9a85; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 
@@ -169,6 +174,10 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       <button class="mode pm" type="button" data-go="pm">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="50" r="5" fill="#ffb547"/><circle cx="10" cy="30" r="4" fill="#7ee2a8"/><circle cx="54" cy="30" r="4" fill="#7ee2a8"/><circle cx="32" cy="22" r="4" fill="#7ee2a8"/><path d="M28 46 Q16 40 13 33" fill="none" stroke="#8fb4ff" stroke-width="2" stroke-dasharray="3 3"/><path d="M13 33 l1 -5 M13 33 l5 -1" stroke="#8fb4ff" stroke-width="2" stroke-linecap="round"/><path d="M42 28 l6 6 M48 28 l-6 6" stroke="#ff7a66" stroke-width="2" stroke-linecap="round"/></svg>
         <div><h2>Playmaker</h2><p>Five on five, and you're passing. Flick it to a spot, drive to draw help, find the man they left. Every defense leaves somebody.</p><div class="rec" id="rec-pm"></div></div>
+      </button>
+      <button class="mode dfx" type="button" data-go="dfx">
+        <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="22" r="5" fill="#ff7a66"/><circle cx="38" cy="30" r="3" fill="#e0661f"/><path d="M14 56 Q16 44 24 40 M50 56 Q48 44 40 40" fill="none" stroke="#f3f1ea" stroke-width="3" stroke-linecap="round"/><path d="M20 30 L44 26" stroke="#ffb547" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3"/></svg>
+        <div><h2>Lockdown</h2><p>Now you're guarding him. Slide your feet, pick his pocket, go up with him, then box out. Do the right thing at the right time.</p><div class="rec" id="rec-dfx"></div></div>
       </button>
       <button class="mode" type="button" data-go="rack">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 6 V20 A26 26 0 0 0 58 20 V6" fill="none" stroke="#f3f1ea" stroke-width="2"/><g fill="#e0661f"><circle cx="8" cy="30" r="4"/><circle cx="16" cy="46" r="4"/><circle cx="32" cy="54" r="4"/><circle cx="48" cy="46" r="4"/></g><circle cx="56" cy="30" r="4" fill="#e6ecf8" stroke="#2a4fb0" stroke-width="1.5"/></svg>
@@ -236,6 +245,25 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <div class="row-links" style="grid-template-columns:1fr"><button class="link" type="button" data-pm="recal">Find my pass again</button></div>
   </section>
 
+  <section class="screen" id="dfx" hidden>
+    <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Lockdown</h2></div>
+    <p class="lede">First person, guarding the ball. Every scorer gives you something: a lazy crossover, a fake with his heels down, a big who crashes. Read him and do the right thing at the right time.</p>
+    <div class="ctas"><button class="cta" type="button" data-dfx="play">Play 8 possessions</button></div>
+    <div class="panel"><h3>Drills</h3><div class="saved" id="dfx-drills"></div></div>
+    <div class="panel"><h3>Featured</h3><div class="saved" id="dfx-featured"></div></div>
+    <details class="moves" id="dfx-moves">
+      <summary>Defense</summary>
+      <dl>
+        <dt>Drag</dt><dd>Slide your feet. Small, controlled slides keep you square; lunge at his jab and your weight goes with it.</dd>
+        <dt>Drag up / down</dt><dd>Crowd him, or give him a step.</dd>
+        <dt>Slice through the ball</dt><dd>Steal. Out in front on a crossover, it's yours. Protected, it's a reach and a foul.</dd>
+        <dt>Flick up</dt><dd>Contest or block. Go up with him; on the way up it's a block, on the way down it's goaltending. Jump on his pump fake and he goes right by.</dd>
+        <dt>Hold still</dt><dd>In his path, outside the circle, set before he gets there: charge. Inside the circle: wall up.</dd>
+        <dt>Shot goes up</dt><dd>Touch and hold to box out. Slide the way he leans, then drag to the ball and flick up to jump.</dd>
+      </dl>
+    </details>
+  </section>
+
   <section class="screen" id="horse" hidden>
     <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>HORSE</h2></div>
     <p class="lede">Make your shot and they have to match it from the same spot. Miss a match and you take a letter.</p>
@@ -262,6 +290,9 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     <h3 class="subhead">Defenses</h3>
     <p class="lede">Playmaker. Every scheme takes something away and leaves somebody.</p>
     <div class="scout" id="def-list"></div>
+    <h3 class="subhead">Scorers</h3>
+    <p class="lede">Lockdown. Every scorer has a tell, and a right way to guard him.</p>
+    <div class="scout" id="scorer-list"></div>
   </section>
 
   <section class="screen" id="chart" hidden>
@@ -277,6 +308,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 </main>
 <div id="game" hidden></div>
 <div id="pmgame" hidden></div>
+<div id="dfxgame" hidden></div>
 
 <script>
 <!--@include shared/gesture.js-->
@@ -290,6 +322,9 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 <!--@include hoops/pm-plays.js-->
 <!--@include hoops/pm-sim.js-->
 <!--@include hoops/pm-engine.js-->
+<!--@include hoops/dfx-scorers.js-->
+<!--@include hoops/dfx-sim.js-->
+<!--@include hoops/dfx-engine.js-->
 </script>
 <script>
 (() => {
@@ -322,7 +357,8 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     settings: { feel: 'normal', court: 'park', tags: true, sound: true },
     records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
     zone: {}, scout: {}, scoutHelp: {}, challenges: [],
-    pm: { k: null, l0: null, dur: null, best: 0, iq: 0, plays: 0, ast: 0 }, scoutDef: {}, boards: {}, pmFeat: {}
+    pm: { k: null, l0: null, dur: null, best: 0, iq: 0, plays: 0, ast: 0 }, scoutDef: {}, boards: {}, pmFeat: {},
+    dfx: { best: 0, iq: 0, plays: 0 }, scoutScorer: {}, drills: {}, dfxFeat: {}
   }));
   let D = store.load();
   store.onRemote(s => { D = s; applySettings(); renderHome(); });
@@ -331,11 +367,13 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let engine = null, lastSpec = null, lastCtx = null, current = 'home';
   let pmEngine = null, pmSpec = null, pmCtx = null;
+  let dfxEngine = null, dfxSpec = null, dfxCtx = null;
 
   function applySettings() {
     Sfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
     if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur });
+    if (dfxEngine) dfxEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, tags: D.settings.tags });
   }
   function go(id) {
     document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
@@ -347,6 +385,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     if (id === 'chart') renderChart();
     if (id === 'settings') renderSettings();
     if (id === 'pm') renderPm();
+    if (id === 'dfx') renderDfx();
     window.scrollTo(0, 0);
   }
 
@@ -363,6 +402,8 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     $('#rec-free').textContent = r.free.attempts ? `${Math.round(r.free.makes / r.free.attempts * 100)}% on ${r.free.attempts} shots` : 'Not played yet';
     $('#rec-builder').textContent = D.challenges.length ? `${D.challenges.length} saved` : 'Five featured to try';
     $('#rec-pm').textContent = D.pm.plays ? `Best ${D.pm.best} pts · Read IQ ${D.pm.iq}` : 'New';
+    const dx = D.dfx || { plays: 0 };
+    $('#rec-dfx').textContent = dx.plays ? `Best ${dx.best} stops · Defense IQ ${dx.iq}` : 'New';
   }
   document.addEventListener('click', e => {
     const g = e.target.closest('[data-go]');
@@ -613,6 +654,11 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       const faced = s ? `Faced ${s.faced} · ${(s.points / s.faced).toFixed(1)} pts per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not faced yet';
       return `<article class="scard"><header><b>${esc(d.name)}</b><span class="tag">${esc(d.tag)}</span></header><p>${esc(d.tell)}</p><p class="read"><b>The read:</b> ${esc(d.read)}</p><div class="faced">${faced}</div></article>`;
     }).join('');
+    $('#scorer-list').innerHTML = LockdownScorers.IDS.map(id => {
+      const d = LockdownScorers.SCORERS[id], s = (D.scoutScorer || {})[id];
+      const faced = s ? `Guarded ${s.faced} times · ${(s.points / s.faced).toFixed(1)} pts allowed per trip · ${Math.round(s.a / s.faced * 100)}% A reads` : 'Not guarded yet';
+      return `<article class="scard"><header><b>${esc(d.name)}</b><span class="tag">${esc(d.tag)}</span></header><p>${esc(d.tell)}</p><p class="read"><b>How to guard him:</b> ${esc(d.read)}</p><div class="faced">${faced}</div></article>`;
+    }).join('');
   }
 
   // ---------- shot chart ----------
@@ -739,6 +785,93 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     if (bd) { Sfx.unlock(); Sfx.play('ui'); return playPm({ kind: 'board', board: bd.dataset.board }, { board: bd.dataset.board }); }
     const f = e.target.closest('[data-pmfeat]');
     if (f) { Sfx.unlock(); Sfx.play('ui'); const ft = PM_FEATURED.find(x => x.id === f.dataset.pmfeat); return playPm(Object.assign({ title: ft.name, shotClock: 13 }, ft.spec), { featured: ft.id, title: ft.name }); }
+  });
+
+  // ---------- lockdown ----------
+  const DFX_DRILLS = [
+    { id: 'pickpocket', name: 'Pickpocket', note: 'Eight dribblers. Slice at the ball when it comes out in front; reach on a protected one and it\'s a foul.', unit: 'steals' },
+    { id: 'swat', name: 'Swat', note: 'Pull-ups, pump fakes, layups and chase-downs. Up on the way up; on the way down it\'s goaltending.', unit: 'blocks' },
+    { id: 'glass', name: 'Glass', note: 'A big on your back and a shot going up. Find him, hold him off, read the miss, time the jump.', unit: 'boards' }
+  ];
+  const DFX_FEATURED = [
+    { id: 'df-loose', name: 'Loose Handles', note: 'Careless dribblers all night. Wait for the lazy cross.', spec: { kind: 'lockdown', count: 6, scorers: ['loose', 'loose', 'shooter'] } },
+    { id: 'df-pump', name: 'Pump Fakers', note: 'Fakes and step-backs. Stay down, stay under control.', spec: { kind: 'lockdown', count: 6, scorers: ['pump', 'stepback'] } },
+    { id: 'df-glass', name: 'Crash the Glass', note: 'Bigs who follow every miss. Contest, then box out.', spec: { kind: 'lockdown', count: 6, scorers: ['crasher', 'rim'] } }
+  ];
+  function ensureDfx() {
+    if (!dfxEngine) dfxEngine = LockdownEngine.create($('#dfxgame'), { feel: D.settings.feel, court: D.settings.court, tags: D.settings.tags, jersey: '#2c5a46', shorts: '#234a39' });
+    applySettings();
+    return dfxEngine;
+  }
+  function closeDfx() { $('#dfxgame').hidden = true; document.body.style.overflow = ''; }
+  function playDfx(spec, ctx) {
+    dfxSpec = Object.assign({ court: D.settings.court }, spec); dfxCtx = ctx || {};
+    $('#dfxgame').hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensureDfx().run(dfxSpec, { onEnd: res => finishDfx(res, false), onQuit: res => finishDfx(res, true) });
+  }
+  function finishDfx(res, quit) {
+    closeDfx();
+    const ctx = dfxCtx || {};
+    D.dfx = D.dfx || { best: 0, iq: 0, plays: 0 }; D.scoutScorer = D.scoutScorer || {}; D.drills = D.drills || {}; D.dfxFeat = D.dfxFeat || {};
+    if (res.kind === 'lockdown') (res.log || []).forEach(l => {
+      const s = D.scoutScorer[l.scorer] = D.scoutScorer[l.scorer] || { faced: 0, points: 0, a: 0 };
+      s.faced++; s.points += l.points; if (l.grade === 'A') s.a++;
+    });
+    if (quit && !(res.log && res.log.length)) { store.save(); return go('dfx'); }
+    let newBest = false;
+    const main = res.kind === 'lockdown' ? res.stops : res.kind === 'pickpocket' ? res.steals : res.kind === 'swat' ? res.blocks : res.boards;
+    if (!quit) {
+      if (ctx.featured) {
+        const f = D.dfxFeat[ctx.featured] = D.dfxFeat[ctx.featured] || { best: 0, plays: 0 };
+        f.plays++; if (main > f.best) { f.best = main; newBest = f.plays > 1 || main > 0; }
+      } else if (res.kind === 'lockdown') {
+        const r = D.dfx; r.plays++;
+        if (main > r.best) { r.best = main; newBest = true; }
+        r.iq = Math.max(r.iq, res.iq || 0);
+      } else {
+        const d = D.drills[res.kind] = D.drills[res.kind] || { best: 0, plays: 0 };
+        d.plays++; if (main > d.best) { d.best = main; newBest = d.plays > 1 || main > 0; }
+      }
+    }
+    store.save();
+    renderDfxResults(res, main, newBest, ctx);
+    go('results');
+  }
+  function renderDfxResults(res, main, newBest, ctx) {
+    const el = $('#results');
+    const unit = { lockdown: 'stops', pickpocket: 'steals', swat: 'blocks', glass: 'boards' }[res.kind];
+    const title = ctx.title || { lockdown: 'Lockdown', pickpocket: 'Pickpocket', swat: 'Swat', glass: 'Glass' }[res.kind];
+    const outcome = l => ({ steal: 'stripped him', block: 'swatted', board: 'your board', charge: 'charge', violation: 'shot clock', made: 'he scored', putback: 'putback', putbackMiss: 'his board, missed putback', offboard: 'his board', foul: 'foul', goaltend: 'goaltending', kept: 'he kept it' }[l.kind] || l.kind);
+    const rows = (res.log || []).map(l => {
+      const sc = LockdownScorers.SCORERS[l.scorer];
+      return `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${esc(sc ? sc.name : '')}</b><small>${esc(outcome(l))}</small></div><span class="pts">${l.points ? '+' + l.points : '0'}</span></div>`;
+    }).join('');
+    const miss = (res.log || []).find(l => l.grade === 'C' || l.grade === 'D' || l.grade === 'F');
+    const sc = miss ? LockdownScorers.SCORERS[miss.scorer] : null;
+    const stats = res.kind === 'lockdown'
+      ? `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div><div class="stat"><b>${res.points}</b><span>Points allowed</span></div><div class="stat"><b>${res.steals + res.blocks + res.charges}</b><span>Steals, blocks, charges</span></div>`
+      : `<div class="stat"><b>${res.iq || 0}</b><span>Defense IQ</span></div>${res.kind === 'glass' ? `<div class="stat"><b>${res.offboards}</b><span>His boards</span></div>` : `<div class="stat"><b>${res.reaches}</b><span>Fouls</span></div>`}<div class="stat"><b>${res.points}</b><span>Points allowed</span></div>`;
+    el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="dfx" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>
+      <div class="result-head"><div class="big">${main}</div><div class="unit">${unit}</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>
+      <div class="stats">${stats}</div>
+      <div class="panel"><h3>${res.kind === 'lockdown' ? 'Possession by possession' : 'Rep by rep'}</h3><div class="plist">${rows}</div></div>
+      ${sc ? `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(sc.name)}.</b> ${esc(sc.tell)} ${esc(sc.read)}</p></div>` : ''}
+      <div class="ctas"><button class="cta" type="button" id="dfx-again">Run it back</button><button class="cta ghost" type="button" data-go="dfx">Done</button></div>`;
+    $('#dfx-again').addEventListener('click', () => { Sfx.play('ui'); playDfx(dfxSpec, dfxCtx); });
+  }
+  function renderDfx() {
+    const dr = D.drills || {}, ft = D.dfxFeat || {};
+    $('#dfx-drills').innerHTML = DFX_DRILLS.map(d => { const r = dr[d.id]; return `<div class="srow"><div><b>${esc(d.name)}</b><small>${esc(d.note)}${r && r.plays ? ` · best ${r.best} ${d.unit}` : ''}</small></div><button class="mini go" type="button" data-dfxdrill="${d.id}">Play</button><span></span></div>`; }).join('');
+    $('#dfx-featured').innerHTML = DFX_FEATURED.map(f => { const r = ft[f.id]; return `<div class="srow"><div><b>${esc(f.name)}</b><small>${esc(f.note)}${r && r.plays ? ` · best ${r.best} stops` : ''}</small></div><button class="mini go" type="button" data-dfxfeat="${f.id}">Play</button><span></span></div>`; }).join('');
+  }
+  $('#dfx').addEventListener('click', e => {
+    const b = e.target.closest('[data-dfx]');
+    if (b) { Sfx.unlock(); Sfx.play('ui'); if (b.dataset.dfx === 'play') return playDfx({ kind: 'lockdown', count: 8, shotClock: 11, title: 'Lockdown' }, { title: 'Lockdown' }); }
+    const d = e.target.closest('[data-dfxdrill]');
+    if (d) { Sfx.unlock(); Sfx.play('ui'); return playDfx({ kind: d.dataset.dfxdrill, count: 8 }, {}); }
+    const f = e.target.closest('[data-dfxfeat]');
+    if (f) { Sfx.unlock(); Sfx.play('ui'); const ft = DFX_FEATURED.find(x => x.id === f.dataset.dfxfeat); return playDfx(Object.assign({ title: ft.name, shotClock: 11 }, ft.spec), { featured: ft.id, title: ft.name }); }
   });
 
   // ---------- settings ----------
