@@ -68,23 +68,6 @@ Spacing: shooters stand a step behind the line where they'll shoot it and hold t
 
 Defenses are data in `src/hoops/pm-plays.js`, each leaving somebody: Pack Line (kick and skip), Corner Help (the corner three), Rim Protector (dump-off or lob), Denial (backdoor), Lane Jumper (fake him, bounce under him), Scramble (the extra pass). Draw It Up is a whiteboard: draw a cut and a pass, then watch it run on the same simulation. Code: `pm-sim.js` (players, passes, defense), `pm-engine.js` (camera, input, drawing).
 
-## Lockdown (defense)
-
-A separate mode inside Basketball Playground, first person: you're guarding the ball with the rim behind you. When a shot goes up the camera swings over to the rim for the rebound.
-
-| Gesture | What it does |
-|---|---|
-| Drag | Slide your feet; they follow your finger. Small, quick slides keep you square. Lunge at his jab and your weight goes with it. |
-| Drag up / down | Crowd him, or give him a step. |
-| Slice through the ball | Steal. On a lazy crossover out in front it's yours. Protected (between the legs, behind the back, two hands), it's a reach and a foul. |
-| Flick up | Contest or block. Go up with his gather and it's a hand in his face. A layup on the way up is a block; on the way down it's goaltending. Jump on his pump fake and he goes right by. |
-| Hold still | In his path, set before he gets there, outside the circle: charge. Inside the circle: wall up. Still moving when he hits you: blocking foul. |
-| Shot goes up | Touch and hold to box out. Slide the way he leans, then drag to where it's coming down and flick up at the top. Misses come off the real rim. |
-
-Scorers are data in `src/hoops/dfx-scorers.js`, each with a tell and a right way to guard him: the Shooter (crowd him, hand up on the release), the Slasher (give a step and slide), the Loose Handle (wait for the lazy cross), the Pump Faker (heels down means fake), the Step-Back Artist (close out under control, contest after), the Crasher (box him out every shot) and the Rim Attacker (beat him there and hold still). The simulation is `dfx-sim.js`; the camera, gestures and drawing are `dfx-engine.js`.
-
-Modes: Lockdown (8 possessions, scored on stops and Defense IQ), the Pickpocket, Swat and Glass drills, and three featured runs.
-
 ## Benchmark
 
 Commit `15912dc` (published as version 4 of the Basketball Playground artifact) is the benchmark for how the game should feel: the offensive read game, jumper variety and 1-on-2 help. New work goes alongside it, not into it. Before anything ships, the tests below should still match what they gave at that commit.
@@ -158,9 +141,6 @@ node games/test/pm_reads.js              # Playmaker: each defense's right read 
 node games/test/pm_spacing.js            # Playmaker: shooters on the arc, the big at the rim, dump-offs, Casual aim
 node games/test/pm_controls.js OUTDIR    # Playmaker gestures: pass types, drive and kick, vision, extra pass, queued pass, Casual aim
 node games/test/pm_smoke.js OUTDIR       # Playmaker and Draw It Up through the app
-node games/test/dfx_mc.js                # Lockdown: steals, contests, blocks vs goaltending, charges, caroms, each scorer's read
-node games/test/dfx_controls.js OUTDIR   # Lockdown gestures: slide, slice, flick, hold, box out and board
-node games/test/dfx_smoke.js OUTDIR      # Lockdown, the three drills and featured runs through the app
 node games/test/physics_golf.js          # carries by club, wind, shot shape, putts by pace
 node games/test/controls_golf.js OUTDIR  # every swing shape and every read through the page
 node games/test/views_golf.js OUTDIR     # every tee, approach, chip, bunker and putt view
@@ -178,5 +158,9 @@ node games/test/shots_school.js OUTDIR   # Living School screens, light and dark
 ```
 
 Run the browser tests one at a time; several Chromium instances at once can run the container out of memory.
+
+## Keep a copy
+
+`python3 games/standalone.py basketball-playground.html` turns the built game into `dist/basketball-playground-standalone.html`: a complete web page that runs on its own, outside Claude. Save it anywhere (Google Drive, a computer, a phone's files) and open it in a web browser. Progress saves to that browser.
 
 Saves go to the browser and, when the page runs as a claude.ai artifact, to the artifact's private per-player store, so progress follows you between devices.
