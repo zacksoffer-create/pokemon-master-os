@@ -15,7 +15,7 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
   await p.setContent(page('basketball-playground.html'), { waitUntil: 'networkidle' });
-  await p.evaluate(() => { const h = document.createElement('div'); h.style.cssText = 'position:fixed;inset:0;z-index:99'; document.body.appendChild(h); window.__pm = PlaymakerEngine.create(h, { passK: 80, passSpd: 1.9, court: 'gym', hints: false }); });
+  await p.evaluate(() => { const h = document.createElement('div'); h.style.cssText = 'position:fixed;inset:0;z-index:99'; document.body.appendChild(h); window.__pm = PlaymakerEngine.create(h, { passK: 80, passSpd: 1.9, court: 'gym', hints: false, pmFeel: 'pro' }); });
   const G = await require('./pmgest')(p);
   const wait = ms => p.waitForTimeout(ms);
   const S = () => p.evaluate(() => { const S = window.__pm._S, w = S.w; return { phase: S.phase, ball: w && w.ball.state, handler: w && w.handler, passes: w && w.passes, over: w && w.over, scale: S.scale, vis: S.vision.left, lastType: w && w.lastPass && w.lastPass.type, bend: w && w.lastPass && w.lastPass.bend, q: w && w.lastPass && w.lastPass.q, story: w && w.story.map(s => s.k + (s.result ? ':' + s.result : '') + (s.win != null ? ':' + s.win : '')), res: w && w.result && { g: w.result.grade, to: w.result.turnover, pts: w.result.points, tags: w.result.tags, kind: w.result.kind, c: w.result.contest != null ? +w.result.contest.toFixed(2) : null } }; });
@@ -69,7 +69,7 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   st = await S(); check(st.lastType === 'chest', 'an ordinary flick is a chest pass', st.lastType);
   await start('cornerhelp', 11);
   { const v = await aim(await wing()), l = Math.hypot(v.dx, v.dy); await G.stroke(195, 720, v.dx / l * v.L * 0.92, v.dy / l * v.L * 0.92, 330); }
-  await wait(60); st = await S(); check(st.lastType === 'lob', 'a soft, slow flick is a lob (not a drive)', st.lastType);
+  await wait(60); st = await S(); check(st.lastType === 'chest', 'a slow flick is still a pass, not a drive (no lob)', st.lastType);
   await start('cornerhelp', 11);
   await flick(await wing(), 150, { dip: 45 }); await wait(60);
   st = await S(); check(st.lastType === 'bounce', 'pull back, then flick: bounce pass', st.lastType);
@@ -86,7 +86,8 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   await G.up(195, 720); await wait(400);
   st = await S(); check(st.scale > 0.9, 'letting go brings the floor back to speed', `scale ${st.scale.toFixed(2)}`);
 
-  // ---- drive and kick in one motion ----
+  // ---- drive and kick in one motion (on Casual, the default) ----
+  await p.evaluate(() => window.__pm.setSettings({ pmFeel: 'casual' }));
   await start('cornerhelp', 13);
   const corner = await idx('shooter').then(() => p.evaluate(() => { const w = window.__pm._S.w; return w.off.findIndex(o => Math.abs(Court3D.polarOf(o.pos).angle) > 70 && o.pos[2] < 11); }));
   const at = await drive([6, 0, 10], 900, true);
@@ -101,7 +102,8 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   st = await settle();
   // where it went is the control; a wing defender getting a finger on a
   // close one is the defense (pm_reads covers how often)
-  check(kick && kick.to === corner && kick.q === 'money' && st.res && st.res.to !== 'Picked', 'the kick from the drive goes to the corner, on the money', JSON.stringify(kick) + ' ' + JSON.stringify(st.res));
+  check(kick && kick.to === corner && kick.q === 'money' && st.res && !st.res.to, 'the kick from the drive goes to the corner, on the money, and gets there', JSON.stringify(kick) + ' ' + JSON.stringify(st.res));
+  await p.evaluate(() => window.__pm.setSettings({ pmFeel: 'pro' }));
 
   // ---- control follows the ball, and the extra pass ----
   await start('packline', 14);
@@ -147,13 +149,15 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   { const hm = await p.evaluate(() => { const w = window.__pm._S.w; return w.help ? w.help.man : 3; }); await flick(await target(hm, 0.3), 100); }
   st = await settle(); rows.push(['corner help: drive and kick', st.res]);
   check(st.res && !st.res.to && (st.res.g === 'A' || st.res.g === 'B'), 'corner help: the corner is open on the kick', JSON.stringify(st.res));
-  // rim protector: drive, lob to the big
+  // rim protector: drive, he steps up, dump it off (Casual aims it)
+  await p.evaluate(() => window.__pm.setSettings({ pmFeel: 'casual' }));
   await start('rim', 24);
   { const a = await drive([-2, 0, 9], 1100, true); await release(a); }
-  { const bj = await idx('big'); await flick(await target(bj, 0.6), 330); }
-  st = await settle(); rows.push(['rim protector: drive, lob the big', st.res]);
-  check(st.res && !st.res.to && st.res.kind === 'dunk', 'rim protector: the lob over him is a dunk', JSON.stringify(st.res));
-  await p.screenshot({ path: OUT + '/c5-oop.png' });
+  { const bj = await idx('big'); await flick(await target(bj, 0.4), 200); }
+  st = await settle(); rows.push(['rim protector: drive, dump it off (casual)', st.res]);
+  check(st.res && !st.res.to && (st.res.g === 'A' || st.res.g === 'B'), 'rim protector: draw him, dump it off to your big', JSON.stringify(st.res));
+  await p.screenshot({ path: OUT + '/c5-dump.png' });
+  await p.evaluate(() => window.__pm.setSettings({ pmFeel: 'pro' }));
   // pack line: drive, kick to the man they left
   await start('packline', 25);
   { const a = await drive([5, 0, 11], 1100, true); await release(a); }
@@ -170,35 +174,21 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   await wait(60); st = await S(); check(st.passes === 1, 'and the flick out of it is a pass', 'passes ' + st.passes);
   await settle();
 
-  // ---- scoring it yourself ----
-  await p.evaluate(() => window.__pm.setSettings({ touchK: 1.75 }));
-  const me = () => p.evaluate(() => { const w = window.__pm._S.w, H = w.off[w.handler].pos; const a = window.__pm._project([H[0], 3.2, H[2]]); const r = window.__pm._project([0, 10, 5.25]); return { x: a.x, y: a.y, rx: r.x, ry: r.y }; });
-  const shotOf = () => p.evaluate(() => { const w = window.__pm._S.w, s = w.story.find(x => x.k === 'shot'); return s ? { user: !!s.user, kind: s.kind, fb: w.userShot && w.userShot.feedback } : null; });
-  await start('rim', 31);
-  { const m = await me(), l = Math.hypot(m.rx - m.x, m.ry - m.y); await G.stroke(m.x, m.y, (m.rx - m.x) / l * 250, (m.ry - m.y) / l * 250, 85); }
-  await wait(80);
-  let sh = await shotOf(); check(sh && sh.user, 'flick up from your own man: a pull-up', JSON.stringify(sh));
-  st = await settle(); check(st.res && st.res.tags && st.res.tags.includes('score') && !st.res.to, 'and it counts as your bucket to try', JSON.stringify(st.res));
-  await start('rim', 31);
-  { const v = await aim(await target(1, 0.4)), l = Math.hypot(v.dx, v.dy); const m = await me(); await G.stroke(m.x, m.y, v.dx / l * v.L, v.dy / l * v.L, 120); }
-  await wait(80); st = await S(); sh = await shotOf();
-  check(!sh && st.passes === 1, 'a flick from your man toward a teammate is still a pass', JSON.stringify(sh) + ' passes ' + st.passes);
+  // ---- Casual: it finds the man you meant, and a flick in the air is the next pass ----
+  await p.evaluate(() => window.__pm.setSettings({ pmFeel: 'casual' }));
+  await start('packline', 41);
+  { const t = await target(1, 0.5), v = await aim(t), l = Math.hypot(v.dx, v.dy), c = Math.cos(0.26), sn = Math.sin(0.26);
+    const dx = (v.dx * c - v.dy * sn) / l * v.L * 0.8, dy = (v.dx * sn + v.dy * c) / l * v.L * 0.8;
+    await G.stroke(195, 720, dx, dy, 160); }
+  await wait(60);
+  const lp = await p.evaluate(() => { const P = window.__pm._S.w.lastPass; return P && { to: P.to, q: P.q, type: P.type }; });
+  check(lp && lp.to === 1 && lp.q === 'money', 'Casual: a flick 15 degrees off and short still finds him, on the money', JSON.stringify(lp));
+  // while it's in the air, flick back toward the top: he swings it on the catch
+  { const v = await aim([0, 0, 27]), l = Math.hypot(v.dx, v.dy); await G.stroke(195, 720, -Math.abs(v.dx) / l * 120 + 240, v.dy / l * 120, 140); }
+  for (let i = 0; i < 40 && (await S()).passes < 2; i++) await wait(40);
+  st = await S(); check(st.passes === 2, 'a flick while the ball is in the air is the next pass, thrown on the catch', 'passes ' + st.passes);
   await settle();
-  // the big at the rim: show him the shot from the elbow and he has to come out
-  await start('rim', 32);
-  await p.evaluate(() => { const w = window.__pm._S.w, h = w.off[w.handler]; h.pos = [-7, 0, 18.5]; const d = PMSim.defOf(w, w.handler); if (d && d.d) d.d.pos = [-5.65, 0, 15.83]; });
-  await wait(300);
-  { const m = await me(); await G.tap(m.x, m.y); }
-  await wait(120);
-  const sf = await p.evaluate(() => { const s = window.__pm._S.w.story.find(x => x.k === 'shotfake'); return s || null; });
-  check(sf && sf.stepped, 'tap your man: shot fake, and the big steps up', JSON.stringify(sf));
-  await wait(800);
-  // double tap your big: the lob leads him
-  { const b = await p.evaluate(() => { const w = window.__pm._S.w, j = w.off.findIndex(o => o.role.id === 'big'), B = w.off[j].pos; return window.__pm._project([B[0], 3, B[2]]); }); await G.tap(b.x, b.y); await G.tap(b.x, b.y); }
-  await wait(60); st = await S();
-  check(st.lastType === 'lob', 'double tap a teammate: a lob to him', st.lastType);
-  await p.screenshot({ path: OUT + '/c6-lob.png' });
-  st = await settle(); rows.push(['rim protector: show it, lob behind him', st.res]);
+  await p.evaluate(() => window.__pm.setSettings({ pmFeel: 'pro' }));
 
   console.log('\nreads:');
   rows.forEach(([k, v]) => console.log('  ' + k.padEnd(38) + JSON.stringify(v)));

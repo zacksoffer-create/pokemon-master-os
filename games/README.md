@@ -47,22 +47,24 @@ Living School keeps a frozen copy of the basketball engine in `src/school/hoops/
 
 ## Playmaker (passing)
 
-A separate mode inside Basketball Playground: five on five, and you're running the offense. You throw to a spot, not a player; if a teammate can get there, he catches it. You can also score it yourself when they give it to you; points and assists both count.
+A separate mode inside Basketball Playground: five on five, and you're passing. Break your man down, draw the help, find the man they left. Get all the way to the rim and you finish it yourself.
 
 | Gesture | Pass |
 |---|---|
 | Flick | Pass to a spot. Longer flick, farther; your first passes set the scale. |
 | Snap it | Bullet. Flat and fast, beats a rotation. |
-| Double tap | Lob to that spot; tap near a teammate and it leads him. Near the rim it's an alley-oop. |
 | Pull back, then flick | Bounce pass, under the hands. |
 | Curl it | Bends the pass around a defender. |
-| Drag | Drive. Drag, then flick is drive and kick in one motion. |
+| Drag | Move him, like a joystick. A soft or sideways drag dribbles him around; a hard push at the rim, or a snap back the other way, attacks his man. Drag, then flick is drive and kick in one motion. |
 | Hold still | Court vision: the floor slows down for about a second each possession. |
 | Tap | Pass fake. Lane jumpers jump. |
-| Flick up from your own man | Shoot, with your free-throw touch from the scoring game. Off a drive, a flick straight at the rim is a pull-up. |
-| Tap your own man | Shot fake. Biters go up; a big parked at the rim has to come out to you, and his man dives behind him. |
+| Flick while the ball is in the air | The next pass: he catches it and swings it right away. |
 
-Hit him in the shooting pocket and he gets a rhythm shot; behind him or at his feet, he's late. A man nobody can get to is never late: wide open is a rhythm catch however the pass got there. Bounce passes are slower, so they get a little more room. Control follows the ball: an open man shoots on the catch unless you make the extra pass first.
+Passing has its own setting. Casual (the default): flick toward a man and it finds him, leads him, and picks the pass that gets through traffic (the bounce inside, over the top when hands are in the lane, the skip on a long one). Your reads still decide it: throw into a denial and it's still picked. Normal: a smaller cone, and your flick picks the pass. Pro: you throw it to a spot.
+
+Hit him in the shooting pocket and he gets a rhythm shot; behind him or at his feet, he's late. A man nobody can get to is never late. Control follows the ball: an open man shoots on the catch unless you make the extra pass first, and the man the ball is going to wears your ring while it's in the air.
+
+Spacing: shooters stand a step behind the line where they'll shoot it and hold their spots; on a baseline drive the corner lifts to the wing. The big lives at the dunker spot, and when his man steps up to stop your drive he's right there for the dump-off. Hold for court vision and each man shows what he wants (shooter, cutter, rim).
 
 Defenses are data in `src/hoops/pm-plays.js`, each leaving somebody: Pack Line (kick and skip), Corner Help (the corner three), Rim Protector (dump-off or lob), Denial (backdoor), Lane Jumper (fake him, bounce under him), Scramble (the extra pass). Draw It Up is a whiteboard: draw a cut and a pass, then watch it run on the same simulation. Code: `pm-sim.js` (players, passes, defense), `pm-engine.js` (camera, input, drawing).
 
@@ -153,8 +155,8 @@ node games/test/makes_hoops.js           # in-browser: a well-sized flick scores
 node games/test/smoke_hoops.js OUTDIR    # plays every basketball mode, screenshots
 node games/test/pm_passes.js             # Playmaker: picks and tips by lane and pass type, catch quality
 node games/test/pm_reads.js              # Playmaker: each defense's right read against the wrong one
-node games/test/pm_scoring.js            # Playmaker: the pull-up, the shot fake that brings the big out, wide-open catches
-node games/test/pm_controls.js OUTDIR    # Playmaker gestures: pass types, drive and kick, vision, extra pass, shots, lobs
+node games/test/pm_spacing.js            # Playmaker: shooters on the arc, the big at the rim, dump-offs, Casual aim, dribbling around
+node games/test/pm_controls.js OUTDIR    # Playmaker gestures: pass types, drive and kick, vision, extra pass, queued pass, Casual aim
 node games/test/pm_smoke.js OUTDIR       # Playmaker and Draw It Up through the app
 node games/test/dfx_mc.js                # Lockdown: steals, contests, blocks vs goaltending, charges, caroms, each scorer's read
 node games/test/dfx_controls.js OUTDIR   # Lockdown gestures: slide, slice, flick, hold, box out and board

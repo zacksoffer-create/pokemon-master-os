@@ -115,6 +115,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 .scard p.read { color: var(--chalk); }
 .scard .faced { margin-top: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-variant-numeric: tabular-nums; }
 .field { display: grid; gap: 6px; }
+.pm-feel { margin: 4px 0 14px; }
 .field > span { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: 14px; font-weight: 600; }
@@ -173,7 +174,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       </button>
       <button class="mode pm" type="button" data-go="pm">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="50" r="5" fill="#ffb547"/><circle cx="10" cy="30" r="4" fill="#7ee2a8"/><circle cx="54" cy="30" r="4" fill="#7ee2a8"/><circle cx="32" cy="22" r="4" fill="#7ee2a8"/><path d="M28 46 Q16 40 13 33" fill="none" stroke="#8fb4ff" stroke-width="2" stroke-dasharray="3 3"/><path d="M13 33 l1 -5 M13 33 l5 -1" stroke="#8fb4ff" stroke-width="2" stroke-linecap="round"/><path d="M42 28 l6 6 M48 28 l-6 6" stroke="#ff7a66" stroke-width="2" stroke-linecap="round"/></svg>
-        <div><h2>Playmaker</h2><p>Five on five, and you're running it. Flick it to a spot, drive to draw help, find the man they left, or take what they give you. Every defense leaves somebody.</p><div class="rec" id="rec-pm"></div></div>
+        <div><h2>Playmaker</h2><p>Five on five, and you're passing. Break your man down, draw the help, find the man they left. Every defense leaves somebody.</p><div class="rec" id="rec-pm"></div></div>
       </button>
       <button class="mode dfx" type="button" data-go="dfx">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="22" r="5" fill="#ff7a66"/><circle cx="38" cy="30" r="3" fill="#e0661f"/><path d="M14 56 Q16 44 24 40 M50 56 Q48 44 40 40" fill="none" stroke="#f3f1ea" stroke-width="3" stroke-linecap="round"/><path d="M20 30 L44 26" stroke="#ffb547" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3"/></svg>
@@ -223,24 +224,23 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 
   <section class="screen" id="pm" hidden>
     <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Playmaker</h2></div>
-    <p class="lede">Same court, same feel, but now you're running the offense. Read the defense: make the pass, or take the shot when they give it to you. Points and assists both count.</p>
+    <p class="lede">Same court, same feel, but the ball is in your hands and the shot is mostly somebody else's. Break your man down, read the defense, and find the open man. Get all the way to the rim and you can finish it yourself.</p>
     <div class="ctas"><button class="cta" type="button" data-pm="play">Play 8 possessions</button></div>
+    <div class="field pm-feel"><span>Passing</span><div class="chips" id="pm-feel"></div><p class="note" id="pm-feel-note"></p></div>
     <div class="panel"><h3>Draw It Up</h3><p class="note" style="margin:0 0 10px">A whiteboard. Draw a cut, draw the pass, then watch it run.</p><div class="boards" id="pm-boards"></div></div>
     <div class="panel"><h3>Featured</h3><div class="saved" id="pm-featured"></div></div>
     <details class="moves" id="pm-moves">
-      <summary>Passing</summary>
+      <summary>Controls</summary>
       <dl>
         <dt>Flick</dt><dd>Pass to a spot, not a player. A longer flick throws it farther; your first two passes set how far.</dd>
-        <dt>Quick flick</dt><dd>Bullet. Flat and fast, beats a rotation.</dd>
-        <dt>Double tap</dt><dd>Lob to that spot. Tap near a teammate and it leads him. Floats over hands but hangs; at the rim, it's an alley-oop.</dd>
-        <dt>Flick up from your man</dt><dd>Shoot. Your free-throw touch from the scoring game sets how hard. Off the dribble, a flick straight at the rim is a pull-up.</dd>
-        <dt>Tap your man</dt><dd>Shot fake. Biters go up; a big parked at the rim has to come out to you.</dd>
+        <dt>Quick flick</dt><dd>Bullet. Flat and fast, beats a rotation. On Casual the game picks the pass for you.</dd>
         <dt>Pull back, flick</dt><dd>Bounce pass. Under the hands of a man in the lane.</dd>
         <dt>Curl it</dt><dd>Bends the pass around a defender.</dd>
-        <dt>Drag</dt><dd>Drive. Steer like a joystick from where you touched. Snap the other way to cross him.</dd>
+        <dt>Drag</dt><dd>Move him, like a joystick from where you touched. A soft or sideways drag dribbles him around; a hard push at the rim attacks. Snap the other way to cross him.</dd>
         <dt>Drag, then flick</dt><dd>Pass on the move: drive and kick in one motion.</dd>
         <dt>Hold still</dt><dd>Court vision. The floor slows down and shows you the gaps, for a second or so each possession.</dd>
         <dt>Tap</dt><dd>Pass fake. Lane jumpers jump.</dd>
+        <dt>Flick while it's in the air</dt><dd>The next pass. He catches it and swings it right away.</dd>
         <dt>Wide open</dt><dd>Find a man nobody can get to and it's a rhythm catch, however the pass got there.</dd>
         <dt>On the money</dt><dd>Hit him in the shooting pocket, leading him if he's moving, and he gets a rhythm shot. Behind him or at his feet, it's late.</dd>
       </dl>
@@ -3288,7 +3288,7 @@ const PMPlays = (() => {
       read: 'Driving into that is driving into a crowd. Kick it or skip it: they are a long way from the shooters.',
       sink: 0.95, gap1: 0.36, deny: 0, antic: 0.15, react: 0.24, helper: 'nearest', helpType: 'charge', xout: 'slow', watch: 0.2,
       close: { speed: 11.5, gap: 2.4, length: 1.0 }, onBall: { gap: 3.4, lateral: 0.55 },
-      answers: ['kick', 'skip', 'corner', 'score'], scoreRead: 'They sag into the paint, so the pull-up is open too. Take it, or kick it.', colors: { jersey: '#7b2335', shorts: '#5f1a29', trim: '#f2d16b' }
+      answers: ['kick', 'skip', 'corner'], colors: { jersey: '#7b2335', shorts: '#5f1a29', trim: '#f2d16b' }
     },
     denial: {
       id: 'denial', name: 'Denial', tag: 'Overplays the wings',
@@ -3309,10 +3309,10 @@ const PMPlays = (() => {
     rim: {
       id: 'rim', name: 'Rim Protector', tag: 'Big man at the rim',
       tell: 'Their big is parked under the basket.',
-      read: 'Make him step up to you: show him the shot or hit the pull-up. When he comes out, dump it off or throw the lob to your big.',
+      read: 'Get downhill and make him step up to you. Your big is at the dunker spot behind him: dump it off.',
       sink: 0.45, gap1: 0.18, deny: 0, antic: 0.3, react: 0.22, helper: 'big', helpType: 'leaper', xout: 'none', watch: 0.25,
       close: { speed: 13, gap: 2.2, length: 1.0 }, onBall: { gap: 3.0, lateral: 0.4 }, rimBig: true,
-      answers: ['dump', 'lob', 'score', 'shotfake'], scoreRead: 'He stayed home, so the pull-up was yours. Make a couple and he has to come out, and then your big is open.', colors: { jersey: '#3a3f4b', shorts: '#2c3039', trim: '#ffb547' }
+      answers: ['dump', 'lob'], colors: { jersey: '#3a3f4b', shorts: '#2c3039', trim: '#ffb547' }
     },
     lanejumper: {
       id: 'lanejumper', name: 'Lane Jumper', tag: 'Gambles on passes',
@@ -3476,12 +3476,16 @@ const PMSim = (() => {
   }
 
   // ---------- spots ----------
+  // a shooter's spot: on the arc, a step behind the line, where he'll catch it and shoot it
+  function arcSpot(court, aDeg, extra) { return Court3D.polar(aDeg, Court3D.threeDist(court, aDeg) + (extra == null ? 1.0 : extra)); }
+  const DUNKER = 68, dunker = side => Court3D.polar(side * DUNKER, 5.4);
+  const ARC = { top: 0, lw: -52, rw: 52, lc: -88, rc: 88 };
   function spotPos(court, key, mirror) {
     let p;
     const s = mirror ? -1 : 1;
-    if (key === 'top') p = Court3D.polar(0, Court3D.threeDist(court, 0) + 3.6);
-    else if (key === 'ldunk' || key === 'rdunk') p = Court3D.polar((key === 'ldunk' ? -68 : 68), 5.4);
-    else if (key === 'lw' || key === 'rw') { const a = key === 'lw' ? -52 : 52; p = Court3D.polar(a, Court3D.threeDist(court, a) + 2.2); }
+    if (key === 'top') p = arcSpot(court, 0, 3.6);
+    else if (key === 'ldunk' || key === 'rdunk') p = dunker(key === 'ldunk' ? -1 : 1);
+    else if (ARC[key] != null) p = arcSpot(court, ARC[key], key === 'lw' || key === 'rw' ? 1.6 : 1.0);
     else p = Court3D.spotInfo(court, key).pos;
     return [p[0] * s, 0, p[2]];
   }
@@ -3601,8 +3605,6 @@ const PMSim = (() => {
     const beh = D.behavior;
     if (beh === 'front') return V.add(mp, V.mul(unit(toBall), 2.4));
     if (beh === 'behind') return V.add(mp, V.mul(unit(toRim), 1.8));
-    // shown a shot in the mid-range, the big has to come out and meet it
-    if (D.stepUp > W.t) { const hp = flat(handlerOf(W).pos); return V.add(hp, V.mul(unit(V.sub(RIMF, hp)), 3.4)); }
     if (m.role.id === 'big' && sc.rimBig) return V.add(RIMF, V.mul(unit([mp[0] * 0.5, 0, Math.max(2, mp[2] - RIM.z)]), 2.8));
     if (beh === 'sunk' || (D.scramble && D.scramble > W.t)) return V.add(mp, V.mul(toRim, 0.72));
     if (D.gamble > 0 && D.gambleTo) return D.gambleTo;
@@ -3689,7 +3691,6 @@ const PMSim = (() => {
         }
         if (D.jumper) pose = 'guard';
         if (D.gamble > 0) { pose = 'lunge'; speed = 17; }
-        if (D.stepUp > W.t) { pose = 'guard'; speed = 15; }
       }
       const dist = steer(D, target, speed, 55, dt);
       if (Math.hypot(D.vel[0], D.vel[2]) > 6 && pose !== 'lunge') pose = runPose(D);
@@ -3765,7 +3766,7 @@ const PMSim = (() => {
     const pol = Court3D.polarOf(T.home);
     if (!T.base) T.base = T.home.slice();
     const back = gap(T.home, T.base) > 1;
-    let to = back ? T.base : Court3D.polar(pol.angle + (W.rand() < 0.5 ? -1 : 1) * (pol.angle > 60 || pol.angle < -60 ? -14 : 12), pol.dist);
+    let to = back ? T.base : arcSpot(W.court, pol.angle + (W.rand() < 0.5 ? -1 : 1) * (pol.angle > 60 || pol.angle < -60 ? -14 : 12));
     to = clampCourt(to);
     // not out past the wing toward the sideline (and off the side of the screen)
     if (!back && Math.abs(to[0]) > 20.5) return;
@@ -3773,9 +3774,16 @@ const PMSim = (() => {
     T.home = to; T.state = 'relocate';
   }
   function openSpot(W, O) {
+    // the big lives at the dunker spot, on the side away from the ball
+    if (O.role.id === 'big') {
+      const bx = ballFloor(W)[0];
+      const side = Math.abs(bx) > 3 ? -Math.sign(bx) : (Math.sign(O.pos[0]) || 1);
+      return dunker(side);
+    }
     let best = null;
     PERIM.forEach(k => {
-      const p = spotPos(W.court, k, false);
+      // the top as a shooter's spot, not where the point guard brings it up
+      const p = k === 'top' ? arcSpot(W.court, 0, 2.6) : spotPos(W.court, k, false);
       const taken = W.off.some(T => T !== O && gap(T.home, p) < 7);
       if (taken) return;
       const d = gap(p, O.pos);
@@ -3821,7 +3829,8 @@ const PMSim = (() => {
     const dv = W.drive;
     if (dv && dv.dir) {
       const beat = dv.beat, back = dv.retreat;
-      const sp = back ? 9 : beat ? O.role.speed * 0.95 : 6.5;
+      // probing: a dribble around, as fast as the drag says; attacking: all he's got
+      const sp = back ? 9 : beat ? O.role.speed * 0.95 : dv.probe ? 4.5 + 5.5 * (dv.mag == null ? 1 : dv.mag) : 6.5;
       let target = V.add(O.pos, V.mul(dv.dir, sp * 0.5));
       target = clampCourt(target);
       steer(O, target, sp, 70, dt);
@@ -3850,15 +3859,19 @@ const PMSim = (() => {
       steer(O, O.pos, 0, 40, dt);
     }
     O.face = W.passFace && W.t < W.passFace.until ? W.passFace.dir : Court3D.dirToRim(O.pos);
-    if (O.fakeT != null && O.fakeT < 0.3) { O.fakeT += dt; pose = O.shotFake && POSES.shoot ? 'shoot' : 'pass'; }
+    if (O.fakeT != null && O.fakeT < 0.3) { O.fakeT += dt; pose = 'pass'; }
     if (Math.hypot(O.vel[0], O.vel[2]) > 6) pose = W.ball.state === 'held' ? 'dribble' : runPose(O);
     setPose(O, pose, dt);
     void D;
   }
 
-  /* dir: the drag direction on the floor (unit), or null when the finger stops. */
-  // ago: how long the push had been going before it read as a drive
-  function driveInput(W, dir, ago) {
+  /* dir: the drag direction on the floor (unit), or null when the finger stops.
+     ago: how long the push had been going before it read as a drive.
+     mag: how hard the drag is (0..1). Moving him around (sideways, back, or a
+     soft drag) is a probe: his man just stays in front. Going at the rim with
+     some push, or a hard change of direction, is an attack, and that's when
+     his man has to beat you to the spot. */
+  function driveInput(W, dir, ago, mag) {
     if (W.over || W.ball.state !== 'held') return;
     const O = handlerOf(W);
     if (!dir) {
@@ -3871,18 +3884,24 @@ const PMSim = (() => {
       return;
     }
     O.autoShot = null;
+    const m = mag == null ? 1 : mag;
+    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
+    const attack = m >= 0.45 && fwd > 0.3;
     if (!W.drive) {
-      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false };
-      resolveDrive(W, dir);
-      if (ago && W.drive) W.drive.lastRes -= ago;
+      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false, probe: !attack, mag: m };
+      if (attack) {
+        resolveDrive(W, dir);
+        if (ago && W.drive) W.drive.lastRes -= ago;
+      }
       return;
     }
+    W.drive.mag = m;
     const sv = sideVec(O.pos);
     const lat = dot2(dir, sv), latOld = dot2(W.drive.dir, sv);
-    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
+    if (W.drive.probe && attack) { W.drive.probe = false; W.drive.dir = dir; resolveDrive(W, dir); return; }
     if (W.drive.retreat && fwd > 0.2) { W.drive.retreat = false; resolveDrive(W, dir); }
     // a hard change of direction the other way is a crossover: read him again
-    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) resolveDrive(W, dir);
+    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) { W.drive.probe = false; resolveDrive(W, dir); }
     W.drive.dir = dir;
   }
   const HANDLE = { guard: 74, slasher: 70, shooter: 58, big: 44 };
@@ -3891,7 +3910,7 @@ const PMSim = (() => {
     const dv = W.drive;
     dv.lastRes = W.t;
     const fwd = dot2(dir, Court3D.dirToRim(O.pos));
-    if (fwd < -0.4) { dv.retreat = true; return; }
+    if (fwd < -0.4) { dv.retreat = true; dv.probe = false; return; }
     const d = D && D.d;
     if (!d || d.state === 'beaten' || d.state === 'air' || d.state === 'recover') { dv.beat = true; triggerHelp(W); return; }
     const lat = dot2(dir, sideVec(O.pos));
@@ -3914,15 +3933,24 @@ const PMSim = (() => {
     }
   }
   // Teammates move when you drive: lift behind a middle drive, drift on a baseline one.
+  /* Spacing on a drive. Baseline drive: the corner on that side lifts to the
+     wing, the big slides to the other block. Middle drive: the shooters hold
+     their spots on the arc, where they want it. Nobody drifts further out. */
   function relocateOnDrive(W, dir) {
     const O = handlerOf(W);
     const toward = Math.sign(O.pos[0] + dir[0] * 6) || 1;
     const baseline = dir[2] < -0.5 && Math.abs(O.pos[0]) > 8;
+    const taken = (T, p) => W.off.some(X => X !== T && X !== O && gap(X.home, p) < 6);
     W.off.forEach((T, j) => {
-      if (j === W.handler || T.state !== 'spot' || T.role.id === 'big') return;
-      const same = Math.sign(T.pos[0]) === toward;
-      if (baseline && same && T.pos[2] < 11) { T.home = V.add(T.home, [0, 0, 7]); T.state = 'relocate'; }
-      else if (!baseline && same && T.pos[2] > 11) { T.home = clampCourt(V.add(T.home, [toward * 1.5, 0, 3])); T.state = 'relocate'; }
+      if (j === W.handler || T.state !== 'spot') return;
+      if (T.role.id === 'big') {
+        const to = dunker(baseline ? -toward : (Math.sign(T.pos[0]) || -toward));
+        if (gap(to, T.pos) > 1.5) { T.home = to; T.state = 'relocate'; }
+        return;
+      }
+      const a = Court3D.polarOf(T.pos).angle, same = Math.sign(T.pos[0]) === toward;
+      const to = baseline && same && Math.abs(a) > 70 ? arcSpot(W.court, toward * 52) : null;
+      if (to && !taken(T, to)) { T.home = to; T.state = 'relocate'; }
     });
   }
   // The man the scheme sends when you get by your man, as a Help type.
@@ -3964,19 +3992,71 @@ const PMSim = (() => {
   }
 
   // ---------- passing ----------
-  /* g: { dir (unit, on the floor), dist (ft), type, bend } */
+  /* Who the flick was meant for: the teammate closest to its line, by angle,
+     where he'll be when the ball gets there. tol: how far off the flick can
+     point (degrees); distW: how much a flick that's short or long of him counts. */
+  function intended(W, S, g, type, assist) {
+    let best = null;
+    W.off.forEach((T, j) => {
+      if (j === W.handler) return;
+      let pr = predict(W, j, 0.6);
+      for (let k = 0; k < 2; k++) pr = predict(W, j, makePass(S, pr, type === 'bounce' ? 'bounce' : 'chest', {}).T);
+      const to = V.sub(pr, S), dd = Math.hypot(to[0], to[2]);
+      if (dd < 3) return;
+      const ang = Math.acos(clamp(dot2(unit(to), g.dir), -1, 1)) * 180 / Math.PI;
+      const score = ang + Math.abs(Math.log(Math.max(2, g.dist) / dd)) * (assist.distW || 10);
+      if (ang <= assist.tol && (!best || score < best.score)) best = { j, pr, score };
+    });
+    return best;
+  }
+  /* The pass a good passer would throw there: inside, through traffic, the
+     bounce or the chest pass, whichever gets by the hands; outside, a chest
+     pass, or a bullet on a long one. */
+  function smartType(W, S, E, j) {
+    const R = W.off[j], D = gap(S, E);
+    const inside = rimDist(E) < 14 || R.state === 'cut' || R.state === 'dive' || R.state === 'post';
+    if (!inside) {
+      // outside: a flat one; over the top when somebody's hands are in it; a
+      // skip pass over the whole thing on a long one
+      const flat = D > 15 ? 'bullet' : 'chest';
+      const r = (t, o) => { const P = makePass(S, E, t, o || {}); P.to = j; return laneMargin(W, P).m; };
+      const opts = [[flat, r(flat)], [flat + '+over', r(flat, { overhead: true }) + 0.15]];
+      if (D > 18) opts.push(['skip', r('skip') + 0.3]);
+      return opts.sort((a, b) => a[1] - b[1])[0][0];
+    }
+    // each pass led to where he'll be when that pass gets there
+    const risk = t => {
+      let to = E;
+      for (let k = 0; k < 2; k++) to = clampCourt(predict(W, j, makePass(S, to, t, {}).T));
+      const P = makePass(S, to, t, {}); P.to = j;
+      return laneMargin(W, P).m;
+    };
+    return risk('bounce') + 0.15 < risk('chest') ? 'bounce' : 'chest';
+  }
+
+  /* g: { dir (unit, on the floor), dist (ft), type, bend, assist, forced }
+     assist: { tol, distW, auto } aims it at the man you meant; auto picks the
+     pass type too, unless the type was forced (a pulled-back bounce pass). */
   function pass(W, g) {
     if (W.over || W.ball.state !== 'held') return null;
     const j0 = W.handler, O = W.off[j0];
     let type = g.type || 'chest';
     const S = V.add(flat(O.pos), V.mul(g.dir, 0.9));
     let E = clampCourt(V.add(flat(O.pos), V.mul(g.dir, g.dist)));
+    const lock = g.assist && g.assist.tol > 0 ? intended(W, S, g, type, g.assist) : null;
+    if (lock) {
+      E = clampCourt(lock.pr);
+      if (g.assist.auto && !g.forced) type = smartType(W, S, E, lock.j);
+      if (type.endsWith('+over')) { type = type.slice(0, -5); g.over = true; }
+      // lead him for the pass that's actually going: a bounce takes longer to get there
+      for (let k = 0; k < 2; k++) E = clampCourt(predict(W, lock.j, makePass(S, E, type, {}).T));
+    }
     if ((type === 'bullet' || type === 'chest') && gap(S, E) > 27) type = 'skip';
     // a man right in your face, in the lane: you take it over his head
-    let overhead = false;
-    if (type === 'bullet' || type === 'chest') {
+    let overhead = !!g.over;
+    if (!overhead && (type === 'bullet' || type === 'chest')) {
       const u = unit(V.sub(E, S));
-      overhead = W.def.some(D => gap(D.pos, O.pos) < 5.5 && dot2(u, unit(V.sub(D.pos, O.pos))) > 0.9);
+      overhead = W.def.some(D => gap(D.pos, O.pos) < 6.5 && dot2(u, unit(V.sub(D.pos, O.pos))) > 0.8);
     }
     const est = makePass(S, E, type, { bend: g.bend, overhead });
     // who it's for: where each teammate will be when it gets there
@@ -4083,14 +4163,27 @@ const PMSim = (() => {
      each moment of the flight, against where the ball is and how high. Clear
      calls go the same way every time; only close ones are a coin flip. */
   function assess(W, P) {
+    const worst = laneMargin(W, P);
+    const m = worst.m;
+    let outcome = 'clean';
+    const pickLine = P.type === 'bullet' ? 1.7 : 1.25;
+    if (m > pickLine) outcome = 'pick';
+    else if (m > 0.35) outcome = W.rand() < (m - 0.35) / (pickLine - 0.35) * 0.6 ? 'pick' : 'tip';
+    else if (m > -0.35) outcome = W.rand() < (m + 0.35) / 0.7 * 0.55 ? 'tip' : 'clean';
+    // the man on the passer can get a finger on it, not catch it
+    if (worst.close && outcome === 'pick') outcome = 'tip';
+    return { outcome, di: worst.di, t: worst.t, margin: m };
+  }
+  function laneMargin(W, P) {
     const rcv = P.to != null ? W.off[P.to] : null;
     let worst = { di: -1, m: -99, t: 0 };
     const pdir = unit(V.sub(P.E, P.S));
     W.def.forEach((D, di) => {
       const r = passReact(W, D, P);
       // a man right on the passer (his own man, or the help that stopped the
-      // drive) only gets a hand on it if you throw it at him
-      const close = gap(D.pos, P.S) < 4.5;
+      // drive) only gets a hand on it if you throw it at him. The help is
+      // busy with the driver from a little further off, too.
+      const close = gap(D.pos, P.S) < (D.h ? 6.5 : 4.5);
       const atHim = close ? dot2(pdir, unit(V.sub(D.pos, P.S))) : 1;
       const lunge = (D.jumper || D.gamble > 0 ? 6.8 : 4.4) * D.quick;
       const vmax = (D.jumper ? 15 : 13) * D.quick;
@@ -4129,15 +4222,7 @@ const PMSim = (() => {
       if (close && best > 0.6) best = 0.6;
       if (best > worst.m) worst = { di, m: best, t: at, close };
     });
-    const m = worst.m;
-    let outcome = 'clean';
-    const pickLine = P.type === 'bullet' ? 1.7 : 1.25;
-    if (m > pickLine) outcome = 'pick';
-    else if (m > 0.35) outcome = W.rand() < (m - 0.35) / (pickLine - 0.35) * 0.6 ? 'pick' : 'tip';
-    else if (m > -0.35) outcome = W.rand() < (m + 0.35) / 0.7 * 0.55 ? 'tip' : 'clean';
-    // the man on the passer can get a finger on it, not catch it
-    if (worst.close && outcome === 'pick') outcome = 'tip';
-    return { outcome, di: worst.di, t: worst.t, margin: m };
+    return worst;
   }
 
   // ---------- catching ----------
@@ -4261,7 +4346,7 @@ const PMSim = (() => {
   function fake(W) {
     if (W.over || W.ball.state !== 'held') return false;
     const O = handlerOf(W);
-    O.autoShot = null; O.fakeT = 0; O.shotFake = false;
+    O.autoShot = null; O.fakeT = 0;
     let bit = false;
     W.def.forEach(D => {
       if (D.d || D.h || D.gamble > 0) return;
@@ -4276,33 +4361,6 @@ const PMSim = (() => {
     if (bit) W.tags.fakebit = true;
     W.story.push({ k: 'fake', bit });
     return bit;
-  }
-
-  // ---------- shot fake ----------
-  /* Show him the shot. A defender who bites goes up; a big parked at the rim
-     has to come out to a shooter in the mid-range, and his man dives behind him. */
-  function shotFake(W) {
-    if (W.over || W.ball.state !== 'held') return false;
-    const O = handlerOf(W), pos = flat(O.pos), dist = rimDist(pos);
-    O.autoShot = null; O.fakeT = 0; O.shotFake = true;
-    let bit = false, stepped = false;
-    const D = defOf(W, W.handler);
-    if (D && D.d && dist < 26 && Defense.pumpFake(D.d, pos, W.rand)) { bit = true; pop(W, 'He bit', '#7ee2a8', V.add(D.pos, [0, 7.2, 0]), 0.8); }
-    W.def.forEach(X => { if (X.h && Help.pumpFake(X.h, pos, W.rand)) { bit = true; pop(W, 'He bit', '#7ee2a8', V.add(X.pos, [0, 7.2, 0]), 0.8); } });
-    if (W.scheme.rimBig && dist < 19.5) {
-      const B = W.def.find(X => !X.d && W.off[X.man].role.id === 'big');
-      if (B && !(B.stepUp > W.t)) {
-        // sitting at the rim as help, he still has to come out to a shooter
-        if (B.h) { B.h = null; B.mode = 'guard'; }
-        B.stepUp = W.t + 2.2; stepped = true;
-        const M = W.off[B.man];
-        if (M.state !== 'cut') { M.state = 'dive'; M.diveTo = Court3D.polar((Math.sign(M.pos[0]) || 1) * 66, 4.6); }
-        pop(W, 'He stepped up', '#7ee2a8', V.add(B.pos, [0, 7.2, 0]), 0.8);
-      }
-    }
-    if (bit || stepped) W.tags.shotfake = true;
-    W.story.push({ k: 'shotfake', bit, stepped });
-    return bit || stepped;
   }
 
   // ---------- shooting ----------
@@ -4329,9 +4387,7 @@ const PMSim = (() => {
     });
     return { c: clamp(c, 0, 1), by };
   }
-  /* user: your own flick (power, angle, touchK, window, aimDead) when you put
-     it up yourself; without it the shooter's touch comes from his rating. */
-  function takeShot(W, j, kind, user) {
+  function takeShot(W, j, kind) {
     if (W.over || W.ball.state !== 'held') return;
     const O = W.off[j];
     const pos = flat(O.pos);
@@ -4354,10 +4410,7 @@ const PMSim = (() => {
       const e = gauss(W.rand) * sig - (q === 'chase' ? 0.03 : 0);
       const aim = gauss(W.rand) * (q === 'money' || q === 'self' ? 3.0 : 5.0);
       const ideal = HoopPhysics.idealFlick(dist);
-      const shot = user && user.touchK
-        ? HoopPhysics.shoot({ shooter: pos, flickSpeed: user.power, angle: user.angle, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: user.touchK, court: W.court, window: user.window || 0.15, aimDead: user.aimDead || 6, contest: c, rating: R, rand: W.rand })
-        : HoopPhysics.shoot({ shooter: pos, flickSpeed: ideal * (1 + e), angle: aim * Math.PI / 180, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: 1, court: W.court, window: 0.12, aimDead: 4.5, contest: c, rating: R, rand: W.rand });
-      if (user) W.userShot = { green: shot.green, feedback: shot.feedback };
+      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: ideal * (1 + e), angle: aim * Math.PI / 180, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: 1, court: W.court, window: 0.12, aimDead: 4.5, contest: c, rating: R, rand: W.rand });
       b = HoopPhysics.newBall(shot.release, shot.vel, { touch: shot.touch || 0, spinOut: shot.spinOut || 0, spin: -9 });
       let bc = 0;
       if (by && by.d) bc = Defense.blockChance(by.d, c, shot.type.id);
@@ -4369,11 +4422,11 @@ const PMSim = (() => {
     O.jumpT = 0; O.autoShot = null; O.state = 'shoot';
     W.drive = null;
     const assist = W.lastCatch && W.lastCatch.j === j && W.lastCatch.P && !O.drove && W.t - W.lastCatch.t < 3.2 ? W.lastCatch.from : null;
-    W.shot = { j, kind, contest: c, three, dist, q, t0: W.t, assist, by: by ? by.i : null, user: !!user };
+    W.shot = { j, kind, contest: c, three, dist, q, t0: W.t, assist, by: by ? by.i : null };
     // a bucket of your own: nobody passed you into it
     if (assist == null && !W.board) W.tags.score = true;
     W.def.forEach(D => { if (D.d) Defense.reactToShot(D.d, pos); if (D.h) Help.reactToShot(D.h, pos); });
-    W.story.push({ k: 'shot', j, kind, contest: c, three, q, name: nameOf(W, j), you: j === 0 && !W.lastCatch, user: !!user });
+    W.story.push({ k: 'shot', j, kind, contest: c, three, q, name: nameOf(W, j), you: j === 0 && !W.lastCatch });
     emit(W, { type: 'shot', j, kind });
   }
   function shotDone(W, b) {
@@ -4432,7 +4485,6 @@ const PMSim = (() => {
       if (s.k === 'drive') parts.push(s.win ? (s.crossed ? `${you ? 'You' : 'He'} crossed him up.` : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got by him.`) : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got cut off.`);
       else if (s.k === 'help') parts.push(`Help came off ${s.from}.`);
       else if (s.k === 'fake') parts.push(s.bit ? 'Pass fake, and he jumped the lane.' : 'Pass fake. Nobody bit.');
-      else if (s.k === 'shotfake') parts.push(s.stepped ? 'Showed the shot, and the big stepped up.' : s.bit ? 'Shot fake, and he bit.' : 'Shot fake. Nobody bit.');
       else if (s.k === 'cut') { const who = cap(s.name || nameOf(W, s.j)); parts.push(s.kind === 'backdoor' ? `${who} went backdoor.` : `${who} cut behind his man.`); }
       else if (s.k === 'fly') parts.push('They flew out at the catch.');
       else if (s.k === 'tip') parts.push('Tipped, but it squirted through.');
@@ -4449,7 +4501,7 @@ const PMSim = (() => {
         else parts.push(`${lab} to nobody. Thrown away.`);
       } else if (s.k === 'shot') {
         const lab = Defense.contestLabel(s.contest).text.toLowerCase();
-        const nm = s.kind === 'dunk' ? 'Alley-oop' : s.kind === 'layup' ? 'Layup' : s.kind === 'floater' ? 'Floater' : s.user ? (s.three ? 'Pull-up three' : 'Pull-up') : s.three ? 'Three' : 'Jumper';
+        const nm = s.kind === 'dunk' ? 'Alley-oop' : s.kind === 'layup' ? 'Layup' : s.kind === 'floater' ? 'Floater' : s.three ? 'Three' : 'Jumper';
         parts.push(`${nm}, ${lab}:`);
       } else if (s.k === 'result') {
         parts[parts.length - 1] += s.blocked ? ' blocked.' : s.made ? ' made.' : ' missed.';
@@ -4567,7 +4619,7 @@ const PMSim = (() => {
     });
   }
 
-  return { PASS, POSES, create, update, pass, makePass, passPos, assess, driveInput, fake, shotFake, takeShot, runBoard, narrate, lesson, grade, spotPos, defOf, nameOf, rimDist, predict };
+  return { PASS, POSES, create, update, pass, makePass, passPos, assess, driveInput, fake, takeShot, runBoard, narrate, lesson, grade, spotPos, defOf, nameOf, rimDist, predict };
 })();
 /* PlaymakerEngine: the passing game. Same court, same figures and the same
    shot model as the scoring game; a high camera so you can see all ten men,
@@ -4580,9 +4632,16 @@ const PMSim = (() => {
      calibrate  "throw it to the corner": sets how far a swipe throws */
 const PlaymakerEngine = (() => {
   const { V, RIM } = Court3D;
-  const FEEL = { arcade: { window: 2.5 }, normal: { window: 1.7 }, pro: { window: 1.15 } };
-  // your own shot: the scoring game's touch, a little roomier from up here
-  const SHOT = { arcade: { window: 0.19, aim: 7.5 }, normal: { window: 0.15, aim: 6 }, pro: { window: 0.1, aim: 4.5 } };
+  /* How much the game helps your passes. Casual: flick toward a man and it
+     finds him, leading him, and picks the pass that gets through traffic.
+     Normal: a smaller cone, and your flick picks the pass. Pro: you throw it
+     to a spot, and the spot is on you. */
+  const FEEL = {
+    casual: { window: 2.4, assist: { tol: 30, distW: 22, auto: true } },
+    normal: { window: 1.9, assist: { tol: 16, distW: 16, auto: false } },
+    pro: { window: 1.2, assist: null }
+  };
+  const feelOf = k => FEEL[k] || FEEL.casual;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   function mulberry(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
@@ -4642,7 +4701,7 @@ const PlaymakerEngine = (() => {
 
   function create(container, opts) {
     injectCss();
-    const settings = Object.assign({ feel: 'normal', passK: null, passL0: null, passDur: null, touchK: null, hints: true, jersey: '#2c5a46', shorts: '#234a39', court: 'park' }, opts || {});
+    const settings = Object.assign({ feel: 'normal', pmFeel: 'casual', passK: null, passL0: null, passDur: null, hints: true, jersey: '#2c5a46', shorts: '#234a39', court: 'park' }, opts || {});
     const root = document.createElement('div');
     root.className = 'pmx';
     root.innerHTML = `
@@ -4736,11 +4795,12 @@ const PlaymakerEngine = (() => {
     }
 
     // ---------- input ----------
-    /* One finger. A quick stroke is a pass. Hold and drag is a drive, steered
-       like a joystick from where you touched. A burst at the end of a drag is
-       a pass on the move. Holding still slows the floor down. A flick up from
-       your own man is a shot; a tap on him shows it. Double tap a spot to lob it. */
-    const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, jab: null, stillAt: 0, onMe: false, tap: null };
+    /* One finger. A quick stroke is a pass. Hold and drag moves him, steered
+       like a joystick from where you touched: a soft or sideways drag is a
+       dribble around, a hard one at the rim is an attack. A burst at the end
+       of a drag is a pass on the move. Holding still slows the floor down. A
+       flick while the ball is in the air is the next pass, thrown on the catch. */
+    const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, jab: null, stillAt: 0 };
     const FLICK_SPEED = 1.35;      // screen heights per second
     function speedOver(ms) {
       const pts = IN.pts, last = pts[pts.length - 1];
@@ -4756,7 +4816,7 @@ const PlaymakerEngine = (() => {
       IN.id = e.pointerId;
       try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
       const p = { x: e.clientX, y: e.clientY, t: performance.now() };
-      Object.assign(IN, { start: p, pts: [p], mode: 'pending', moveStart: null, burst: null, jab: null, jabUntil: 0, stillAt: p.t, onMe: S.phase === 'live' && onHandler(p) });
+      Object.assign(IN, { start: p, pts: [p], mode: 'pending', moveStart: null, burst: null, jab: null, jabUntil: 0, stillAt: p.t });
       if (S.phase === 'board') boardDown(p);
       e.preventDefault();
     });
@@ -4799,24 +4859,20 @@ const PlaymakerEngine = (() => {
       if (mode === 'drag') {
         // short and straight and let go: that was a soft pass, not a drive
         const k0 = IN.moveStart ? Math.max(0, IN.pts.indexOf(IN.moveStart)) : 0;
-        if (IN.moveStart && p.t - IN.moveStart.t < 340 && d >= 22 && straight(k0)) return shotOrPass(k0, 40);
+        if (IN.moveStart && p.t - IN.moveStart.t < 340 && d >= 22 && straight(k0)) return throwFrom(k0);
         if (IN.burst && p.t - IN.burst.t < 280) {
           // pulled back and let it go: that was a bounce pass, not a drive and a pass
           const st = IN.moveStart && p.t - IN.moveStart.t < 480 ? readStroke(k0) : null;
-          if (st && st.dip) return throwFrom(k0);
-          // straight at the rim off the dribble: a pull-up
-          const kb = IN.pts.indexOf(IN.burst), sb = readStroke(kb);
-          if (sb && Math.abs(rimAngle(sb)) < 18) return shootFrom(kb);
-          return throwFrom(kb);
+          return throwFrom(st && st.dip ? k0 : IN.pts.indexOf(IN.burst));
         }
         return;
       }
-      if (d < 12 && p.t - IN.start.t < 320 && mode !== 'vision') return onTap(p);
+      if (d < 12 && p.t - IN.start.t < 320 && mode !== 'vision') return passFake();
       if (mode === 'blocked') return;
       if (d >= 22) {
         // in vision mode, the throw starts where the finger started moving
         const k = IN.moveStart ? Math.max(0, IN.pts.indexOf(IN.moveStart)) : 0;
-        return shotOrPass(k, 40);
+        return throwFrom(k);
       }
     }
     canvas.addEventListener('pointerup', e => endPointer(e, false));
@@ -4859,22 +4915,26 @@ const PlaymakerEngine = (() => {
       return { dx: vx, dy: vy, len: len / CH, speed, dur: Math.max(16, z.t - from.t), dip: dip > Math.max(26, CH * 0.03), curl: bow / (len || 1) };
     }
     /* How long the flick took against how long your natural pass of that
-       length takes (from calibration): a snap is a bullet, a slow toss is a
-       lob, a dip first is a bounce pass. */
+       length takes (from calibration): a snap is a bullet, a dip first is a
+       bounce pass, anything else is a chest pass. */
     function passType(st) {
       if (st.dip) return 'bounce';
       const L0 = settings.passL0 || 0.35;
       const expect = passDur() * 1000 * Math.pow(Math.max(0.05, st.len) / L0, 0.4);
-      const r = st.dur / expect;
-      if (r <= 0.66) return 'bullet';
-      if (r >= 1.65) return 'lob';
-      return 'chest';
+      return st.dur / expect <= 0.66 ? 'bullet' : 'chest';
     }
     function throwFrom(k0) {
       const w = S.w;
-      if (!w || w.ball.state !== 'held' || w.over) return;
+      if (!w || w.over) return;
       const st = readStroke(k0);
       if (!st || st.len * CH < 18) return;
+      // the ball's still in the air: that's the next pass, thrown on the catch
+      if (w.ball.state === 'pass' && S.spec.kind === 'pm') { S.queued = { st, t: performance.now() }; return; }
+      throwStroke(st);
+    }
+    function throwStroke(st) {
+      const w = S.w;
+      if (!w || w.ball.state !== 'held' || w.over) return;
       const cam = camera();
       const H = w.off[w.handler];
       const dir = courtDir(cam, H.pos, st.dx, st.dy);
@@ -4884,7 +4944,9 @@ const PlaymakerEngine = (() => {
       const bend = Math.abs(st.curl) > 0.1 ? clamp(st.curl * dist * 0.45, -5, 5) : 0;
       if (S.spec.kind === 'calibrate') S.calib.push({ len: st.len, speed: st.speed, dur: st.dur / 1000 });
       PMSim.driveInput(w, null);
-      const P = PMSim.pass(w, { dir, dist, type, bend: -bend });
+      const fl = feelOf(settings.pmFeel);
+      const assist = S.spec.kind === 'pm' ? fl.assist : null;
+      const P = PMSim.pass(w, { dir, dist, type, bend: -bend, assist, forced: st.dip });
       if (P) {
         S.lastStroke = { type, dist, speed: st.speed, len: st.len };
         Sfx.play('release');
@@ -4897,92 +4959,6 @@ const PlaymakerEngine = (() => {
       const bit = PMSim.fake(w);
       Sfx.play(bit ? 'good' : 'dribble');
     }
-    function shotFake() {
-      const w = S.w;
-      if (!w || w.ball.state !== 'held') return;
-      const bit = PMSim.shotFake(w);
-      Sfx.play(bit ? 'good' : 'dribble');
-    }
-    /* One tap fakes right away (a pass fake, or a shot fake on your own man);
-       a second tap on the same spot lobs it there: a ball fake, then the lob. */
-    function onTap(p) {
-      if (!S.w || S.phase !== 'live') return;
-      const prev = IN.tap;
-      if (prev && p.t - prev.t < 320 && Math.hypot(p.x - prev.x, p.y - prev.y) < 60) {
-        IN.tap = null;
-        return prev.onMe ? shotFake() : lobTo(p);
-      }
-      IN.tap = { x: p.x, y: p.y, t: p.t, onMe: IN.onMe };
-      (IN.onMe ? shotFake : passFake)();
-    }
-    // a lob to the spot you tapped; tap near a teammate and it leads him
-    function lobTo(p) {
-      const w = S.w;
-      if (!w || w.ball.state !== 'held' || w.over || S.spec.kind === 'calibrate') return;
-      const cam = camera();
-      let E = floorPoint(cam, p.x, p.y, 0);
-      if (!E) return;
-      const H = w.off[w.handler], from = [H.pos[0], 0, H.pos[2]];
-      let best = null;
-      w.off.forEach((T, j) => {
-        if (j === w.handler) return;
-        const sp = Court3D.project(cam, [T.pos[0], 3, T.pos[2]]);
-        const dd = sp ? Math.hypot(sp.x - p.x, sp.y - p.y) : 1e9;
-        if (dd < Math.max(56, CH * 0.07) && (!best || dd < best.dd)) best = { j, dd };
-      });
-      if (best) {
-        let T = 0.9;
-        for (let k = 0; k < 3; k++) { E = PMSim.predict(w, best.j, T); T = PMSim.makePass(from, E, 'lob', {}).T; }
-      }
-      const dx = E[0] - from[0], dz = E[2] - from[2], dist = Math.hypot(dx, dz);
-      if (dist < 3) return;
-      PMSim.driveInput(w, null);
-      const P = PMSim.pass(w, { dir: [dx / dist, 0, dz / dist], dist, type: 'lob', bend: 0 });
-      if (P) { S.lastStroke = { type: 'lob', dist }; Sfx.play('release'); hint(''); }
-    }
-    // where your man is on screen, and whether a touch started on him
-    function handlerScreen() {
-      const w = S.w;
-      if (!w) return null;
-      const H = w.off[w.handler];
-      return Court3D.project(camera(), [H.pos[0], 3.2, H.pos[2]]);
-    }
-    function onHandler(p) {
-      const w = S.w;
-      if (!w || w.ball.state !== 'held' || !S.spec || S.spec.kind === 'calibrate') return false;
-      const h = handlerScreen();
-      return !!h && Math.hypot(p.x - h.x, p.y - h.y) < Math.max(46, CH * 0.06);
-    }
-    // how far the stroke points off the line from your man to the rim, on screen (degrees)
-    function rimAngle(st) {
-      const h = handlerScreen(), r = Court3D.project(camera(), [RIM.x, RIM.y, RIM.z]);
-      if (!h || !r) return 180;
-      let d = (Math.atan2(st.dx, -st.dy) - Math.atan2(r.x - h.x, -(r.y - h.y))) * 180 / Math.PI;
-      while (d > 180) d -= 360;
-      while (d < -180) d += 360;
-      return d;
-    }
-    // started on your own man and headed at the rim: a shot. Anything else is a pass.
-    function shotOrPass(k0, tol) {
-      if (IN.onMe) {
-        const st = readStroke(k0);
-        if (st && Math.abs(rimAngle(st)) < tol) return shootFrom(k0);
-      }
-      return throwFrom(k0);
-    }
-    function shootFrom(k0) {
-      const w = S.w;
-      if (!w || w.ball.state !== 'held' || w.over || S.spec.kind !== 'pm' && S.spec.kind !== 'board') return;
-      const st = readStroke(k0);
-      if (!st) return;
-      const sf = SHOT[settings.feel] || SHOT.normal;
-      // your free-throw touch from the scoring game; without it, his own
-      const user = settings.touchK
-        ? { power: Math.sqrt(st.speed * 4 * st.len), angle: rimAngle(st) * Math.PI / 180, touchK: settings.touchK, window: sf.window, aimDead: sf.aim }
-        : { manual: true };
-      PMSim.takeShot(w, w.handler, 'jumper', user);
-      hint('');
-    }
     // a jab one way and back before the push read as a drive: he still bit on it
     function jabOf() {
       const last = IN.pts[IN.pts.length - 1];
@@ -4991,6 +4967,12 @@ const PlaymakerEngine = (() => {
       const v1 = [first.x - IN.start.x, first.y - IN.start.y], v2 = [last.x - IN.start.x, last.y - IN.start.y];
       const c = (v1[0] * v2[0] + v1[1] * v2[1]) / (Math.hypot(v1[0], v1[1]) * (Math.hypot(v2[0], v2[1]) || 1));
       return c < 0.5 ? v1 : null;
+    }
+    // how hard the drag is: a little push is a dribble, a long one is all he's got
+    function dragMag() {
+      if (IN.mode !== 'drag' || !IN.pts.length) return 0;
+      const last = IN.pts[IN.pts.length - 1];
+      return clamp((Math.hypot(last.x - IN.start.x, last.y - IN.start.y) - 18) / (CH * 0.085), 0.15, 1);
     }
     // the drag, as a drive direction on the floor (or null)
     function dragDir(cam) {
@@ -5028,7 +5010,7 @@ const PlaymakerEngine = (() => {
       else startPossession(0);
     }
     function newWorld(o) {
-      return PMSim.create(Object.assign({ court: S.court, rand: S.rand, window: (FEEL[settings.feel] || FEEL.normal).window }, o));
+      return PMSim.create(Object.assign({ court: S.court, rand: S.rand, window: feelOf(settings.pmFeel).window }, o));
     }
     function pickScheme() {
       const list = S.spec.schemes && S.spec.schemes.length ? S.spec.schemes : PMPlays.SCHEME_IDS;
@@ -5050,7 +5032,7 @@ const PlaymakerEngine = (() => {
       S.w = newWorld({ scheme: sid, mirror, clock: spec.shotClock || 13 });
       S.focus = S.w.off[S.w.handler].pos.slice();
       S.vision = { left: 1.2, on: false, k: 0 };
-      S.endTimer = null; S.trail = [];
+      S.endTimer = null; S.trail = []; S.queued = null;
       const sc = S.w.scheme;
       setTitle(spec.title || 'Playmaker', `Possession ${i + 1} of ${count}`);
       updateScore();
@@ -5064,8 +5046,8 @@ const PlaymakerEngine = (() => {
         ui.clock.hidden = false;
         ui.vision.hidden = false;
         if (i === 0) hintOnce('pm1', 'Flick toward a spot to pass · Drag to drive · Hold your finger still to slow it down and read the floor');
-        else if (i === 1) hintOnce('pm2', 'Flick up from your own man to shoot · Tap him to show the shot');
-        else if (i === 2) hintOnce('pm3', 'Quick flick: bullet · Pull back, then flick: bounce pass · Double tap a spot: lob · Tap: pass fake');
+        else if (i === 1) hintOnce('pm2', 'A soft or sideways drag dribbles him around · Push hard at the rim, or snap it back the other way, to attack');
+        else if (i === 2) hintOnce('pm3', 'Flick again while the ball is in the air and he swings it on the catch · Tap: pass fake');
       }, 1550);
     }
     function updateScore() {
@@ -5272,7 +5254,7 @@ const PlaymakerEngine = (() => {
       const w = S.w;
       if (!w || S.phase === 'board') return;
       const cam = camera();
-      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam), IN.moveStart ? Math.min(0.25, (performance.now() - IN.moveStart.t) / 1000) : 0);
+      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam), IN.moveStart ? Math.min(0.25, (performance.now() - IN.moveStart.t) / 1000) : 0, dragMag());
       if (S.phase === 'live' || S.phase === 'card' || S.phase === 'ending') PMSim.update(w, dt);
       // events
       w.events.forEach(ev => {
@@ -5286,6 +5268,9 @@ const PlaymakerEngine = (() => {
           Sfx.play('dribble');
           // a finger still down from the pass doesn't steer the new man
           if (IN.id !== null) IN.mode = 'blocked';
+          // the next pass, already called while the ball was in the air
+          const Q = S.queued; S.queued = null;
+          if (Q && performance.now() - Q.t < 1100 && S.spec.kind === 'pm') throwStroke(Q.st);
           if (S.spec.kind === 'calibrate') calibCaught();
           else if (S.spec.kind === 'pm') hintOnce('catch', 'Control follows the ball. If he is open he shoots; act first to swing it or drive the closeout.');
         } else if (ev.type === 'pass') { /* release sound already played */ }
@@ -5329,7 +5314,13 @@ const PlaymakerEngine = (() => {
       // floor marks: your guys' rings, the ball handler's spotlight, what court vision shows you
       const vk = S.vision.k;
       if (vk > 0.02) drawVisionFloor(cam, w, vk);
-      w.off.forEach((O, j) => ring(cam, O.pos, j === w.handler && w.ball.state === 'held' ? 1.9 : 1.3, j === w.handler && w.ball.state === 'held' ? 'rgba(255,181,71,0.85)' : 'rgba(126,226,168,0.45)', j === w.handler ? 0.22 : 0.12));
+      const next = w.ball.state === 'pass' && w.ball.pass ? w.ball.pass.to : null;
+      w.off.forEach((O, j) => {
+        const mine = j === w.handler && w.ball.state === 'held';
+        if (mine) return ring(cam, O.pos, 1.9, 'rgba(255,181,71,0.9)', 0.24);
+        if (j === next) { const k = 0.55 + 0.35 * Math.sin(S.t * 18); return ring(cam, O.pos, 1.8, `rgba(255,181,71,${k.toFixed(2)})`, 0.18); }
+        ring(cam, O.pos, 1.3, 'rgba(126,226,168,0.45)', 0.12);
+      });
       // depth-sorted scene
       const items = [];
       const depth = p => Court3D.toCam(cam, p)[2];
@@ -5385,8 +5376,21 @@ const PlaymakerEngine = (() => {
         ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 9 * Math.cos(ang - 0.45), b.y - 9 * Math.sin(ang - 0.45)); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 9 * Math.cos(ang + 0.45), b.y - 9 * Math.sin(ang + 0.45)); ctx.stroke();
         ctx.setLineDash([6, 6]);
       });
+      ctx.setLineDash([]);
+      ctx.font = '700 11px system-ui, sans-serif'; ctx.textAlign = 'center';
+      w.off.forEach((O, j) => {
+        if (j === w.handler) return;
+        const a = Court3D.project(cam, [O.pos[0], 0, O.pos[2]]);
+        if (!a) return;
+        const tag = ROLE_TAG[O.role.id] || '';
+        const tw = ctx.measureText(tag).width + 10;
+        ctx.fillStyle = 'rgba(12,16,24,0.78)'; ctx.fillRect(a.x - tw / 2, a.y + 10, tw, 16);
+        ctx.fillStyle = '#e8f0ff'; ctx.fillText(tag, a.x, a.y + 22);
+      });
       ctx.restore();
     }
+    // what each of your guys wants: where he'll score it
+    const ROLE_TAG = { shooter: 'SHOOTER', guard: 'GUARD', slasher: 'CUTTER', big: 'RIM' };
     function drawMan(cam, M, offense, handler) {
       const sc = S.w.scheme;
       const camF = [cam.f[0], 0, cam.f[2]];
@@ -7524,7 +7528,7 @@ const LockdownEngine = (() => {
 
   const store = SaveStore.create('basketball-playground-v1', () => ({
     v: 1, touchK: null,
-    settings: { feel: 'normal', court: 'park', tags: true, sound: true },
+    settings: { feel: 'normal', court: 'park', tags: true, sound: true, pmFeel: 'casual' },
     records: { rr: { best: 0, iq: 0, plays: 0 }, rack: { best: 0, plays: 0 }, horse: {}, free: { makes: 0, attempts: 0 }, feat: {} },
     zone: {}, scout: {}, scoutHelp: {}, challenges: [],
     pm: { k: null, l0: null, dur: null, best: 0, iq: 0, plays: 0, ast: 0 }, scoutDef: {}, boards: {}, pmFeat: {},
@@ -7542,7 +7546,7 @@ const LockdownEngine = (() => {
   function applySettings() {
     Sfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
-    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur, touchK: D.touchK || null });
+    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, pmFeel: D.settings.pmFeel || 'casual', court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur });
     if (dfxEngine) dfxEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, tags: D.settings.tags });
   }
   function go(id) {
@@ -7865,10 +7869,10 @@ const LockdownEngine = (() => {
     { id: 'pf-corner', name: 'Corner Help', note: 'Every defense helps off the corner. Get downhill and find him.', spec: { kind: 'pm', count: 6, schemes: ['cornerhelp'] } },
     { id: 'pf-lanes', name: 'Lane Jumpers', note: 'They gamble on every pass. Bounce it, fake it, or cut behind them.', spec: { kind: 'pm', count: 6, schemes: ['lanejumper', 'denial'] } },
     { id: 'pf-pack', name: 'Pack Line', note: 'Five men in the paint. Kick it, skip it, swing it.', spec: { kind: 'pm', count: 6, schemes: ['packline', 'scramble'] } },
-    { id: 'pf-bigs', name: 'Feed the Big', note: 'Rim protectors every time. Make him step up, then dump it off or lob it.', spec: { kind: 'pm', count: 6, schemes: ['rim'] } }
+    { id: 'pf-bigs', name: 'Feed the Big', note: 'Rim protectors every time. Make him step up, then dump it off to your big.', spec: { kind: 'pm', count: 6, schemes: ['rim'] } }
   ];
   function ensurePm() {
-    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur, touchK: D.touchK || null, jersey: '#2c5a46', shorts: '#234a39' });
+    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, pmFeel: D.settings.pmFeel || 'casual', court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur, jersey: '#2c5a46', shorts: '#234a39' });
     applySettings();
     return pmEngine;
   }
@@ -7937,7 +7941,14 @@ const LockdownEngine = (() => {
       <div class="ctas"><button class="cta" type="button" id="pm-again">Run it back</button><button class="cta ghost" type="button" data-go="pm">Done</button></div>`;
     $('#pm-again').addEventListener('click', () => { Sfx.play('ui'); playPm(pmSpec, pmCtx); });
   }
+  const PM_FEELS = [['casual', 'Casual', 'Flick toward a man and it finds him, leading him, with the pass that gets through traffic. Your reads still decide it.'], ['normal', 'Normal', 'A smaller cone, and your flick picks the pass: snap it for a bullet, pull back for a bounce.'], ['pro', 'Pro', 'You throw it to a spot. Where he is when it gets there is on you.']];
+  function renderPmFeel() {
+    const cur = D.settings.pmFeel || 'casual';
+    $('#pm-feel').innerHTML = PM_FEELS.map(([v, l]) => `<button class="chip" type="button" data-pmfeel="${v}" aria-pressed="${v === cur}">${l}</button>`).join('');
+    $('#pm-feel-note').textContent = (PM_FEELS.find(f => f[0] === cur) || PM_FEELS[0])[2];
+  }
   function renderPm() {
+    renderPmFeel();
     $('#pm-boards').innerHTML = PMPlays.BOARDS.map(b => {
       const g = D.boards[b.id];
       return `<button class="brow" type="button" data-board="${b.id}"><span class="g ${g || ''}">${g || ''}</span><span><b>${esc(b.name)}</b><small>${esc(b.situation)}</small></span><span class="mini go">Draw</span></button>`;
@@ -7951,6 +7962,8 @@ const LockdownEngine = (() => {
       if (b.dataset.pm === 'play') return playPm({ kind: 'pm', count: 8, shotClock: 13, title: 'Playmaker' }, { title: 'Playmaker' });
       if (b.dataset.pm === 'recal') return calibratePass(() => go('pm'));
     }
+    const pf = e.target.closest('[data-pmfeel]');
+    if (pf) { Sfx.play('ui'); D.settings.pmFeel = pf.dataset.pmfeel; store.save(); applySettings(); renderPmFeel(); return; }
     const bd = e.target.closest('[data-board]');
     if (bd) { Sfx.unlock(); Sfx.play('ui'); return playPm({ kind: 'board', board: bd.dataset.board }, { board: bd.dataset.board }); }
     const f = e.target.closest('[data-pmfeat]');
@@ -7983,6 +7996,7 @@ const LockdownEngine = (() => {
   function finishDfx(res, quit) {
     closeDfx();
     const ctx = dfxCtx || {};
+    D.settings.pmFeel = D.settings.pmFeel || 'casual';
     D.dfx = D.dfx || { best: 0, iq: 0, plays: 0 }; D.scoutScorer = D.scoutScorer || {}; D.drills = D.drills || {}; D.dfxFeat = D.dfxFeat || {};
     if (res.kind === 'lockdown') (res.log || []).forEach(l => {
       const s = D.scoutScorer[l.scorer] = D.scoutScorer[l.scorer] || { faced: 0, points: 0, a: 0 };
@@ -8049,6 +8063,7 @@ const LockdownEngine = (() => {
     const seg = (key, opts) => `<div class="chips" data-set="${key}">${opts.map(([v, l]) => `<button class="chip" type="button" data-v="${v}" aria-pressed="${String(D.settings[key]) === String(v)}">${l}</button>`).join('')}</div>`;
     $('#settings-body').innerHTML = `
       <div class="field"><span>Feel</span>${seg('feel', [['arcade', 'Arcade'], ['normal', 'Normal'], ['pro', 'Pro']])}<p class="note">How big the green window is. Arcade forgives a lot; Pro wants your exact touch.</p></div>
+      <div class="field"><span>Playmaker passing</span>${seg('pmFeel', [['casual', 'Casual'], ['normal', 'Normal'], ['pro', 'Pro']])}<p class="note">How much the game helps you find your man. Casual aims it for you; Pro is your spot, your timing.</p></div>
       <div class="field"><span>Default court</span>${seg('court', COURT_ORDER.map(k => [k, Court3D.COURTS[k].name]))}<p class="note">${esc(Court3D.COURTS[D.settings.court].blurb)}</p></div>
       <div class="field"><span>Scouting tags</span>${seg('tags', [['true', 'Show who you are facing'], ['false', 'Read him yourself']])}</div>
       <div class="field"><span>Sound</span>${seg('sound', [['true', 'On'], ['false', 'Off']])}</div>

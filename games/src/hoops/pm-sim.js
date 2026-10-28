@@ -84,12 +84,16 @@ const PMSim = (() => {
   }
 
   // ---------- spots ----------
+  // a shooter's spot: on the arc, a step behind the line, where he'll catch it and shoot it
+  function arcSpot(court, aDeg, extra) { return Court3D.polar(aDeg, Court3D.threeDist(court, aDeg) + (extra == null ? 1.0 : extra)); }
+  const DUNKER = 68, dunker = side => Court3D.polar(side * DUNKER, 5.4);
+  const ARC = { top: 0, lw: -52, rw: 52, lc: -88, rc: 88 };
   function spotPos(court, key, mirror) {
     let p;
     const s = mirror ? -1 : 1;
-    if (key === 'top') p = Court3D.polar(0, Court3D.threeDist(court, 0) + 3.6);
-    else if (key === 'ldunk' || key === 'rdunk') p = Court3D.polar((key === 'ldunk' ? -68 : 68), 5.4);
-    else if (key === 'lw' || key === 'rw') { const a = key === 'lw' ? -52 : 52; p = Court3D.polar(a, Court3D.threeDist(court, a) + 2.2); }
+    if (key === 'top') p = arcSpot(court, 0, 3.6);
+    else if (key === 'ldunk' || key === 'rdunk') p = dunker(key === 'ldunk' ? -1 : 1);
+    else if (ARC[key] != null) p = arcSpot(court, ARC[key], key === 'lw' || key === 'rw' ? 1.6 : 1.0);
     else p = Court3D.spotInfo(court, key).pos;
     return [p[0] * s, 0, p[2]];
   }
@@ -209,8 +213,6 @@ const PMSim = (() => {
     const beh = D.behavior;
     if (beh === 'front') return V.add(mp, V.mul(unit(toBall), 2.4));
     if (beh === 'behind') return V.add(mp, V.mul(unit(toRim), 1.8));
-    // shown a shot in the mid-range, the big has to come out and meet it
-    if (D.stepUp > W.t) { const hp = flat(handlerOf(W).pos); return V.add(hp, V.mul(unit(V.sub(RIMF, hp)), 3.4)); }
     if (m.role.id === 'big' && sc.rimBig) return V.add(RIMF, V.mul(unit([mp[0] * 0.5, 0, Math.max(2, mp[2] - RIM.z)]), 2.8));
     if (beh === 'sunk' || (D.scramble && D.scramble > W.t)) return V.add(mp, V.mul(toRim, 0.72));
     if (D.gamble > 0 && D.gambleTo) return D.gambleTo;
@@ -297,7 +299,6 @@ const PMSim = (() => {
         }
         if (D.jumper) pose = 'guard';
         if (D.gamble > 0) { pose = 'lunge'; speed = 17; }
-        if (D.stepUp > W.t) { pose = 'guard'; speed = 15; }
       }
       const dist = steer(D, target, speed, 55, dt);
       if (Math.hypot(D.vel[0], D.vel[2]) > 6 && pose !== 'lunge') pose = runPose(D);
@@ -373,7 +374,7 @@ const PMSim = (() => {
     const pol = Court3D.polarOf(T.home);
     if (!T.base) T.base = T.home.slice();
     const back = gap(T.home, T.base) > 1;
-    let to = back ? T.base : Court3D.polar(pol.angle + (W.rand() < 0.5 ? -1 : 1) * (pol.angle > 60 || pol.angle < -60 ? -14 : 12), pol.dist);
+    let to = back ? T.base : arcSpot(W.court, pol.angle + (W.rand() < 0.5 ? -1 : 1) * (pol.angle > 60 || pol.angle < -60 ? -14 : 12));
     to = clampCourt(to);
     // not out past the wing toward the sideline (and off the side of the screen)
     if (!back && Math.abs(to[0]) > 20.5) return;
@@ -381,9 +382,16 @@ const PMSim = (() => {
     T.home = to; T.state = 'relocate';
   }
   function openSpot(W, O) {
+    // the big lives at the dunker spot, on the side away from the ball
+    if (O.role.id === 'big') {
+      const bx = ballFloor(W)[0];
+      const side = Math.abs(bx) > 3 ? -Math.sign(bx) : (Math.sign(O.pos[0]) || 1);
+      return dunker(side);
+    }
     let best = null;
     PERIM.forEach(k => {
-      const p = spotPos(W.court, k, false);
+      // the top as a shooter's spot, not where the point guard brings it up
+      const p = k === 'top' ? arcSpot(W.court, 0, 2.6) : spotPos(W.court, k, false);
       const taken = W.off.some(T => T !== O && gap(T.home, p) < 7);
       if (taken) return;
       const d = gap(p, O.pos);
@@ -429,7 +437,8 @@ const PMSim = (() => {
     const dv = W.drive;
     if (dv && dv.dir) {
       const beat = dv.beat, back = dv.retreat;
-      const sp = back ? 9 : beat ? O.role.speed * 0.95 : 6.5;
+      // probing: a dribble around, as fast as the drag says; attacking: all he's got
+      const sp = back ? 9 : beat ? O.role.speed * 0.95 : dv.probe ? 4.5 + 5.5 * (dv.mag == null ? 1 : dv.mag) : 6.5;
       let target = V.add(O.pos, V.mul(dv.dir, sp * 0.5));
       target = clampCourt(target);
       steer(O, target, sp, 70, dt);
@@ -458,15 +467,19 @@ const PMSim = (() => {
       steer(O, O.pos, 0, 40, dt);
     }
     O.face = W.passFace && W.t < W.passFace.until ? W.passFace.dir : Court3D.dirToRim(O.pos);
-    if (O.fakeT != null && O.fakeT < 0.3) { O.fakeT += dt; pose = O.shotFake && POSES.shoot ? 'shoot' : 'pass'; }
+    if (O.fakeT != null && O.fakeT < 0.3) { O.fakeT += dt; pose = 'pass'; }
     if (Math.hypot(O.vel[0], O.vel[2]) > 6) pose = W.ball.state === 'held' ? 'dribble' : runPose(O);
     setPose(O, pose, dt);
     void D;
   }
 
-  /* dir: the drag direction on the floor (unit), or null when the finger stops. */
-  // ago: how long the push had been going before it read as a drive
-  function driveInput(W, dir, ago) {
+  /* dir: the drag direction on the floor (unit), or null when the finger stops.
+     ago: how long the push had been going before it read as a drive.
+     mag: how hard the drag is (0..1). Moving him around (sideways, back, or a
+     soft drag) is a probe: his man just stays in front. Going at the rim with
+     some push, or a hard change of direction, is an attack, and that's when
+     his man has to beat you to the spot. */
+  function driveInput(W, dir, ago, mag) {
     if (W.over || W.ball.state !== 'held') return;
     const O = handlerOf(W);
     if (!dir) {
@@ -479,18 +492,24 @@ const PMSim = (() => {
       return;
     }
     O.autoShot = null;
+    const m = mag == null ? 1 : mag;
+    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
+    const attack = m >= 0.45 && fwd > 0.3;
     if (!W.drive) {
-      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false };
-      resolveDrive(W, dir);
-      if (ago && W.drive) W.drive.lastRes -= ago;
+      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false, probe: !attack, mag: m };
+      if (attack) {
+        resolveDrive(W, dir);
+        if (ago && W.drive) W.drive.lastRes -= ago;
+      }
       return;
     }
+    W.drive.mag = m;
     const sv = sideVec(O.pos);
     const lat = dot2(dir, sv), latOld = dot2(W.drive.dir, sv);
-    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
+    if (W.drive.probe && attack) { W.drive.probe = false; W.drive.dir = dir; resolveDrive(W, dir); return; }
     if (W.drive.retreat && fwd > 0.2) { W.drive.retreat = false; resolveDrive(W, dir); }
     // a hard change of direction the other way is a crossover: read him again
-    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) resolveDrive(W, dir);
+    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) { W.drive.probe = false; resolveDrive(W, dir); }
     W.drive.dir = dir;
   }
   const HANDLE = { guard: 74, slasher: 70, shooter: 58, big: 44 };
@@ -499,7 +518,7 @@ const PMSim = (() => {
     const dv = W.drive;
     dv.lastRes = W.t;
     const fwd = dot2(dir, Court3D.dirToRim(O.pos));
-    if (fwd < -0.4) { dv.retreat = true; return; }
+    if (fwd < -0.4) { dv.retreat = true; dv.probe = false; return; }
     const d = D && D.d;
     if (!d || d.state === 'beaten' || d.state === 'air' || d.state === 'recover') { dv.beat = true; triggerHelp(W); return; }
     const lat = dot2(dir, sideVec(O.pos));
@@ -522,15 +541,24 @@ const PMSim = (() => {
     }
   }
   // Teammates move when you drive: lift behind a middle drive, drift on a baseline one.
+  /* Spacing on a drive. Baseline drive: the corner on that side lifts to the
+     wing, the big slides to the other block. Middle drive: the shooters hold
+     their spots on the arc, where they want it. Nobody drifts further out. */
   function relocateOnDrive(W, dir) {
     const O = handlerOf(W);
     const toward = Math.sign(O.pos[0] + dir[0] * 6) || 1;
     const baseline = dir[2] < -0.5 && Math.abs(O.pos[0]) > 8;
+    const taken = (T, p) => W.off.some(X => X !== T && X !== O && gap(X.home, p) < 6);
     W.off.forEach((T, j) => {
-      if (j === W.handler || T.state !== 'spot' || T.role.id === 'big') return;
-      const same = Math.sign(T.pos[0]) === toward;
-      if (baseline && same && T.pos[2] < 11) { T.home = V.add(T.home, [0, 0, 7]); T.state = 'relocate'; }
-      else if (!baseline && same && T.pos[2] > 11) { T.home = clampCourt(V.add(T.home, [toward * 1.5, 0, 3])); T.state = 'relocate'; }
+      if (j === W.handler || T.state !== 'spot') return;
+      if (T.role.id === 'big') {
+        const to = dunker(baseline ? -toward : (Math.sign(T.pos[0]) || -toward));
+        if (gap(to, T.pos) > 1.5) { T.home = to; T.state = 'relocate'; }
+        return;
+      }
+      const a = Court3D.polarOf(T.pos).angle, same = Math.sign(T.pos[0]) === toward;
+      const to = baseline && same && Math.abs(a) > 70 ? arcSpot(W.court, toward * 52) : null;
+      if (to && !taken(T, to)) { T.home = to; T.state = 'relocate'; }
     });
   }
   // The man the scheme sends when you get by your man, as a Help type.
@@ -572,19 +600,71 @@ const PMSim = (() => {
   }
 
   // ---------- passing ----------
-  /* g: { dir (unit, on the floor), dist (ft), type, bend } */
+  /* Who the flick was meant for: the teammate closest to its line, by angle,
+     where he'll be when the ball gets there. tol: how far off the flick can
+     point (degrees); distW: how much a flick that's short or long of him counts. */
+  function intended(W, S, g, type, assist) {
+    let best = null;
+    W.off.forEach((T, j) => {
+      if (j === W.handler) return;
+      let pr = predict(W, j, 0.6);
+      for (let k = 0; k < 2; k++) pr = predict(W, j, makePass(S, pr, type === 'bounce' ? 'bounce' : 'chest', {}).T);
+      const to = V.sub(pr, S), dd = Math.hypot(to[0], to[2]);
+      if (dd < 3) return;
+      const ang = Math.acos(clamp(dot2(unit(to), g.dir), -1, 1)) * 180 / Math.PI;
+      const score = ang + Math.abs(Math.log(Math.max(2, g.dist) / dd)) * (assist.distW || 10);
+      if (ang <= assist.tol && (!best || score < best.score)) best = { j, pr, score };
+    });
+    return best;
+  }
+  /* The pass a good passer would throw there: inside, through traffic, the
+     bounce or the chest pass, whichever gets by the hands; outside, a chest
+     pass, or a bullet on a long one. */
+  function smartType(W, S, E, j) {
+    const R = W.off[j], D = gap(S, E);
+    const inside = rimDist(E) < 14 || R.state === 'cut' || R.state === 'dive' || R.state === 'post';
+    if (!inside) {
+      // outside: a flat one; over the top when somebody's hands are in it; a
+      // skip pass over the whole thing on a long one
+      const flat = D > 15 ? 'bullet' : 'chest';
+      const r = (t, o) => { const P = makePass(S, E, t, o || {}); P.to = j; return laneMargin(W, P).m; };
+      const opts = [[flat, r(flat)], [flat + '+over', r(flat, { overhead: true }) + 0.15]];
+      if (D > 18) opts.push(['skip', r('skip') + 0.3]);
+      return opts.sort((a, b) => a[1] - b[1])[0][0];
+    }
+    // each pass led to where he'll be when that pass gets there
+    const risk = t => {
+      let to = E;
+      for (let k = 0; k < 2; k++) to = clampCourt(predict(W, j, makePass(S, to, t, {}).T));
+      const P = makePass(S, to, t, {}); P.to = j;
+      return laneMargin(W, P).m;
+    };
+    return risk('bounce') + 0.15 < risk('chest') ? 'bounce' : 'chest';
+  }
+
+  /* g: { dir (unit, on the floor), dist (ft), type, bend, assist, forced }
+     assist: { tol, distW, auto } aims it at the man you meant; auto picks the
+     pass type too, unless the type was forced (a pulled-back bounce pass). */
   function pass(W, g) {
     if (W.over || W.ball.state !== 'held') return null;
     const j0 = W.handler, O = W.off[j0];
     let type = g.type || 'chest';
     const S = V.add(flat(O.pos), V.mul(g.dir, 0.9));
     let E = clampCourt(V.add(flat(O.pos), V.mul(g.dir, g.dist)));
+    const lock = g.assist && g.assist.tol > 0 ? intended(W, S, g, type, g.assist) : null;
+    if (lock) {
+      E = clampCourt(lock.pr);
+      if (g.assist.auto && !g.forced) type = smartType(W, S, E, lock.j);
+      if (type.endsWith('+over')) { type = type.slice(0, -5); g.over = true; }
+      // lead him for the pass that's actually going: a bounce takes longer to get there
+      for (let k = 0; k < 2; k++) E = clampCourt(predict(W, lock.j, makePass(S, E, type, {}).T));
+    }
     if ((type === 'bullet' || type === 'chest') && gap(S, E) > 27) type = 'skip';
     // a man right in your face, in the lane: you take it over his head
-    let overhead = false;
-    if (type === 'bullet' || type === 'chest') {
+    let overhead = !!g.over;
+    if (!overhead && (type === 'bullet' || type === 'chest')) {
       const u = unit(V.sub(E, S));
-      overhead = W.def.some(D => gap(D.pos, O.pos) < 5.5 && dot2(u, unit(V.sub(D.pos, O.pos))) > 0.9);
+      overhead = W.def.some(D => gap(D.pos, O.pos) < 6.5 && dot2(u, unit(V.sub(D.pos, O.pos))) > 0.8);
     }
     const est = makePass(S, E, type, { bend: g.bend, overhead });
     // who it's for: where each teammate will be when it gets there
@@ -691,14 +771,27 @@ const PMSim = (() => {
      each moment of the flight, against where the ball is and how high. Clear
      calls go the same way every time; only close ones are a coin flip. */
   function assess(W, P) {
+    const worst = laneMargin(W, P);
+    const m = worst.m;
+    let outcome = 'clean';
+    const pickLine = P.type === 'bullet' ? 1.7 : 1.25;
+    if (m > pickLine) outcome = 'pick';
+    else if (m > 0.35) outcome = W.rand() < (m - 0.35) / (pickLine - 0.35) * 0.6 ? 'pick' : 'tip';
+    else if (m > -0.35) outcome = W.rand() < (m + 0.35) / 0.7 * 0.55 ? 'tip' : 'clean';
+    // the man on the passer can get a finger on it, not catch it
+    if (worst.close && outcome === 'pick') outcome = 'tip';
+    return { outcome, di: worst.di, t: worst.t, margin: m };
+  }
+  function laneMargin(W, P) {
     const rcv = P.to != null ? W.off[P.to] : null;
     let worst = { di: -1, m: -99, t: 0 };
     const pdir = unit(V.sub(P.E, P.S));
     W.def.forEach((D, di) => {
       const r = passReact(W, D, P);
       // a man right on the passer (his own man, or the help that stopped the
-      // drive) only gets a hand on it if you throw it at him
-      const close = gap(D.pos, P.S) < 4.5;
+      // drive) only gets a hand on it if you throw it at him. The help is
+      // busy with the driver from a little further off, too.
+      const close = gap(D.pos, P.S) < (D.h ? 6.5 : 4.5);
       const atHim = close ? dot2(pdir, unit(V.sub(D.pos, P.S))) : 1;
       const lunge = (D.jumper || D.gamble > 0 ? 6.8 : 4.4) * D.quick;
       const vmax = (D.jumper ? 15 : 13) * D.quick;
@@ -737,15 +830,7 @@ const PMSim = (() => {
       if (close && best > 0.6) best = 0.6;
       if (best > worst.m) worst = { di, m: best, t: at, close };
     });
-    const m = worst.m;
-    let outcome = 'clean';
-    const pickLine = P.type === 'bullet' ? 1.7 : 1.25;
-    if (m > pickLine) outcome = 'pick';
-    else if (m > 0.35) outcome = W.rand() < (m - 0.35) / (pickLine - 0.35) * 0.6 ? 'pick' : 'tip';
-    else if (m > -0.35) outcome = W.rand() < (m + 0.35) / 0.7 * 0.55 ? 'tip' : 'clean';
-    // the man on the passer can get a finger on it, not catch it
-    if (worst.close && outcome === 'pick') outcome = 'tip';
-    return { outcome, di: worst.di, t: worst.t, margin: m };
+    return worst;
   }
 
   // ---------- catching ----------
@@ -869,7 +954,7 @@ const PMSim = (() => {
   function fake(W) {
     if (W.over || W.ball.state !== 'held') return false;
     const O = handlerOf(W);
-    O.autoShot = null; O.fakeT = 0; O.shotFake = false;
+    O.autoShot = null; O.fakeT = 0;
     let bit = false;
     W.def.forEach(D => {
       if (D.d || D.h || D.gamble > 0) return;
@@ -884,33 +969,6 @@ const PMSim = (() => {
     if (bit) W.tags.fakebit = true;
     W.story.push({ k: 'fake', bit });
     return bit;
-  }
-
-  // ---------- shot fake ----------
-  /* Show him the shot. A defender who bites goes up; a big parked at the rim
-     has to come out to a shooter in the mid-range, and his man dives behind him. */
-  function shotFake(W) {
-    if (W.over || W.ball.state !== 'held') return false;
-    const O = handlerOf(W), pos = flat(O.pos), dist = rimDist(pos);
-    O.autoShot = null; O.fakeT = 0; O.shotFake = true;
-    let bit = false, stepped = false;
-    const D = defOf(W, W.handler);
-    if (D && D.d && dist < 26 && Defense.pumpFake(D.d, pos, W.rand)) { bit = true; pop(W, 'He bit', '#7ee2a8', V.add(D.pos, [0, 7.2, 0]), 0.8); }
-    W.def.forEach(X => { if (X.h && Help.pumpFake(X.h, pos, W.rand)) { bit = true; pop(W, 'He bit', '#7ee2a8', V.add(X.pos, [0, 7.2, 0]), 0.8); } });
-    if (W.scheme.rimBig && dist < 19.5) {
-      const B = W.def.find(X => !X.d && W.off[X.man].role.id === 'big');
-      if (B && !(B.stepUp > W.t)) {
-        // sitting at the rim as help, he still has to come out to a shooter
-        if (B.h) { B.h = null; B.mode = 'guard'; }
-        B.stepUp = W.t + 2.2; stepped = true;
-        const M = W.off[B.man];
-        if (M.state !== 'cut') { M.state = 'dive'; M.diveTo = Court3D.polar((Math.sign(M.pos[0]) || 1) * 66, 4.6); }
-        pop(W, 'He stepped up', '#7ee2a8', V.add(B.pos, [0, 7.2, 0]), 0.8);
-      }
-    }
-    if (bit || stepped) W.tags.shotfake = true;
-    W.story.push({ k: 'shotfake', bit, stepped });
-    return bit || stepped;
   }
 
   // ---------- shooting ----------
@@ -937,9 +995,7 @@ const PMSim = (() => {
     });
     return { c: clamp(c, 0, 1), by };
   }
-  /* user: your own flick (power, angle, touchK, window, aimDead) when you put
-     it up yourself; without it the shooter's touch comes from his rating. */
-  function takeShot(W, j, kind, user) {
+  function takeShot(W, j, kind) {
     if (W.over || W.ball.state !== 'held') return;
     const O = W.off[j];
     const pos = flat(O.pos);
@@ -962,10 +1018,7 @@ const PMSim = (() => {
       const e = gauss(W.rand) * sig - (q === 'chase' ? 0.03 : 0);
       const aim = gauss(W.rand) * (q === 'money' || q === 'self' ? 3.0 : 5.0);
       const ideal = HoopPhysics.idealFlick(dist);
-      const shot = user && user.touchK
-        ? HoopPhysics.shoot({ shooter: pos, flickSpeed: user.power, angle: user.angle, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: user.touchK, court: W.court, window: user.window || 0.15, aimDead: user.aimDead || 6, contest: c, rating: R, rand: W.rand })
-        : HoopPhysics.shoot({ shooter: pos, flickSpeed: ideal * (1 + e), angle: aim * Math.PI / 180, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: 1, court: W.court, window: 0.12, aimDead: 4.5, contest: c, rating: R, rand: W.rand });
-      if (user) W.userShot = { green: shot.green, feedback: shot.feedback };
+      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: ideal * (1 + e), angle: aim * Math.PI / 180, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: 1, court: W.court, window: 0.12, aimDead: 4.5, contest: c, rating: R, rand: W.rand });
       b = HoopPhysics.newBall(shot.release, shot.vel, { touch: shot.touch || 0, spinOut: shot.spinOut || 0, spin: -9 });
       let bc = 0;
       if (by && by.d) bc = Defense.blockChance(by.d, c, shot.type.id);
@@ -977,11 +1030,11 @@ const PMSim = (() => {
     O.jumpT = 0; O.autoShot = null; O.state = 'shoot';
     W.drive = null;
     const assist = W.lastCatch && W.lastCatch.j === j && W.lastCatch.P && !O.drove && W.t - W.lastCatch.t < 3.2 ? W.lastCatch.from : null;
-    W.shot = { j, kind, contest: c, three, dist, q, t0: W.t, assist, by: by ? by.i : null, user: !!user };
+    W.shot = { j, kind, contest: c, three, dist, q, t0: W.t, assist, by: by ? by.i : null };
     // a bucket of your own: nobody passed you into it
     if (assist == null && !W.board) W.tags.score = true;
     W.def.forEach(D => { if (D.d) Defense.reactToShot(D.d, pos); if (D.h) Help.reactToShot(D.h, pos); });
-    W.story.push({ k: 'shot', j, kind, contest: c, three, q, name: nameOf(W, j), you: j === 0 && !W.lastCatch, user: !!user });
+    W.story.push({ k: 'shot', j, kind, contest: c, three, q, name: nameOf(W, j), you: j === 0 && !W.lastCatch });
     emit(W, { type: 'shot', j, kind });
   }
   function shotDone(W, b) {
@@ -1040,7 +1093,6 @@ const PMSim = (() => {
       if (s.k === 'drive') parts.push(s.win ? (s.crossed ? `${you ? 'You' : 'He'} crossed him up.` : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got by him.`) : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got cut off.`);
       else if (s.k === 'help') parts.push(`Help came off ${s.from}.`);
       else if (s.k === 'fake') parts.push(s.bit ? 'Pass fake, and he jumped the lane.' : 'Pass fake. Nobody bit.');
-      else if (s.k === 'shotfake') parts.push(s.stepped ? 'Showed the shot, and the big stepped up.' : s.bit ? 'Shot fake, and he bit.' : 'Shot fake. Nobody bit.');
       else if (s.k === 'cut') { const who = cap(s.name || nameOf(W, s.j)); parts.push(s.kind === 'backdoor' ? `${who} went backdoor.` : `${who} cut behind his man.`); }
       else if (s.k === 'fly') parts.push('They flew out at the catch.');
       else if (s.k === 'tip') parts.push('Tipped, but it squirted through.');
@@ -1057,7 +1109,7 @@ const PMSim = (() => {
         else parts.push(`${lab} to nobody. Thrown away.`);
       } else if (s.k === 'shot') {
         const lab = Defense.contestLabel(s.contest).text.toLowerCase();
-        const nm = s.kind === 'dunk' ? 'Alley-oop' : s.kind === 'layup' ? 'Layup' : s.kind === 'floater' ? 'Floater' : s.user ? (s.three ? 'Pull-up three' : 'Pull-up') : s.three ? 'Three' : 'Jumper';
+        const nm = s.kind === 'dunk' ? 'Alley-oop' : s.kind === 'layup' ? 'Layup' : s.kind === 'floater' ? 'Floater' : s.three ? 'Three' : 'Jumper';
         parts.push(`${nm}, ${lab}:`);
       } else if (s.k === 'result') {
         parts[parts.length - 1] += s.blocked ? ' blocked.' : s.made ? ' made.' : ' missed.';
@@ -1175,5 +1227,5 @@ const PMSim = (() => {
     });
   }
 
-  return { PASS, POSES, create, update, pass, makePass, passPos, assess, driveInput, fake, shotFake, takeShot, runBoard, narrate, lesson, grade, spotPos, defOf, nameOf, rimDist, predict };
+  return { PASS, POSES, create, update, pass, makePass, passPos, assess, driveInput, fake, takeShot, runBoard, narrate, lesson, grade, spotPos, defOf, nameOf, rimDist, predict };
 })();
