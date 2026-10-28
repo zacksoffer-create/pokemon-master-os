@@ -173,7 +173,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       </button>
       <button class="mode pm" type="button" data-go="pm">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="50" r="5" fill="#ffb547"/><circle cx="10" cy="30" r="4" fill="#7ee2a8"/><circle cx="54" cy="30" r="4" fill="#7ee2a8"/><circle cx="32" cy="22" r="4" fill="#7ee2a8"/><path d="M28 46 Q16 40 13 33" fill="none" stroke="#8fb4ff" stroke-width="2" stroke-dasharray="3 3"/><path d="M13 33 l1 -5 M13 33 l5 -1" stroke="#8fb4ff" stroke-width="2" stroke-linecap="round"/><path d="M42 28 l6 6 M48 28 l-6 6" stroke="#ff7a66" stroke-width="2" stroke-linecap="round"/></svg>
-        <div><h2>Playmaker</h2><p>Five on five, and you're passing. Flick it to a spot, drive to draw help, find the man they left. Every defense leaves somebody.</p><div class="rec" id="rec-pm"></div></div>
+        <div><h2>Playmaker</h2><p>Five on five, and you're running it. Flick it to a spot, drive to draw help, find the man they left, or take what they give you. Every defense leaves somebody.</p><div class="rec" id="rec-pm"></div></div>
       </button>
       <button class="mode dfx" type="button" data-go="dfx">
         <svg class="ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 8 A28 28 0 0 0 56 8" fill="none" stroke="#f3f1ea" stroke-width="2"/><circle cx="32" cy="22" r="5" fill="#ff7a66"/><circle cx="38" cy="30" r="3" fill="#e0661f"/><path d="M14 56 Q16 44 24 40 M50 56 Q48 44 40 40" fill="none" stroke="#f3f1ea" stroke-width="3" stroke-linecap="round"/><path d="M20 30 L44 26" stroke="#ffb547" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3"/></svg>
@@ -223,7 +223,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 
   <section class="screen" id="pm" hidden>
     <div class="bar"><button class="back" type="button" data-go="home" aria-label="Back">&#x2190;</button><h2>Playmaker</h2></div>
-    <p class="lede">Same court, same feel, but the ball is in your hands and the shot is somebody else's. Read the defense, make the pass, and the right read gets an open look.</p>
+    <p class="lede">Same court, same feel, but now you're running the offense. Read the defense: make the pass, or take the shot when they give it to you. Points and assists both count.</p>
     <div class="ctas"><button class="cta" type="button" data-pm="play">Play 8 possessions</button></div>
     <div class="panel"><h3>Draw It Up</h3><p class="note" style="margin:0 0 10px">A whiteboard. Draw a cut, draw the pass, then watch it run.</p><div class="boards" id="pm-boards"></div></div>
     <div class="panel"><h3>Featured</h3><div class="saved" id="pm-featured"></div></div>
@@ -232,13 +232,16 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       <dl>
         <dt>Flick</dt><dd>Pass to a spot, not a player. A longer flick throws it farther; your first two passes set how far.</dd>
         <dt>Quick flick</dt><dd>Bullet. Flat and fast, beats a rotation.</dd>
-        <dt>Soft flick</dt><dd>Lob. Floats over hands but hangs. At the rim, it's an alley-oop.</dd>
+        <dt>Double tap</dt><dd>Lob to that spot. Tap near a teammate and it leads him. Floats over hands but hangs; at the rim, it's an alley-oop.</dd>
+        <dt>Flick up from your man</dt><dd>Shoot. Your free-throw touch from the scoring game sets how hard. Off the dribble, a flick straight at the rim is a pull-up.</dd>
+        <dt>Tap your man</dt><dd>Shot fake. Biters go up; a big parked at the rim has to come out to you.</dd>
         <dt>Pull back, flick</dt><dd>Bounce pass. Under the hands of a man in the lane.</dd>
         <dt>Curl it</dt><dd>Bends the pass around a defender.</dd>
         <dt>Drag</dt><dd>Drive. Steer like a joystick from where you touched. Snap the other way to cross him.</dd>
         <dt>Drag, then flick</dt><dd>Pass on the move: drive and kick in one motion.</dd>
         <dt>Hold still</dt><dd>Court vision. The floor slows down and shows you the gaps, for a second or so each possession.</dd>
         <dt>Tap</dt><dd>Pass fake. Lane jumpers jump.</dd>
+        <dt>Wide open</dt><dd>Find a man nobody can get to and it's a rhythm catch, however the pass got there.</dd>
         <dt>On the money</dt><dd>Hit him in the shooting pocket, leading him if he's moving, and he gets a rhythm shot. Behind him or at his feet, it's late.</dd>
       </dl>
     </details>
@@ -372,7 +375,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   function applySettings() {
     Sfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
-    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur });
+    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur, touchK: D.touchK || null });
     if (dfxEngine) dfxEngine.setSettings({ feel: D.settings.feel, court: D.settings.court, tags: D.settings.tags });
   }
   function go(id) {
@@ -698,7 +701,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     { id: 'pf-bigs', name: 'Feed the Big', note: 'Rim protectors every time. Make him step up, then dump it off or lob it.', spec: { kind: 'pm', count: 6, schemes: ['rim'] } }
   ];
   function ensurePm() {
-    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur, jersey: '#2c5a46', shorts: '#234a39' });
+    if (!pmEngine) pmEngine = PlaymakerEngine.create($('#pmgame'), { feel: D.settings.feel, court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur, touchK: D.touchK || null, jersey: '#2c5a46', shorts: '#234a39' });
     applySettings();
     return pmEngine;
   }

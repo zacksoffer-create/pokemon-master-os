@@ -209,6 +209,8 @@ const PMSim = (() => {
     const beh = D.behavior;
     if (beh === 'front') return V.add(mp, V.mul(unit(toBall), 2.4));
     if (beh === 'behind') return V.add(mp, V.mul(unit(toRim), 1.8));
+    // shown a shot in the mid-range, the big has to come out and meet it
+    if (D.stepUp > W.t) { const hp = flat(handlerOf(W).pos); return V.add(hp, V.mul(unit(V.sub(RIMF, hp)), 3.4)); }
     if (m.role.id === 'big' && sc.rimBig) return V.add(RIMF, V.mul(unit([mp[0] * 0.5, 0, Math.max(2, mp[2] - RIM.z)]), 2.8));
     if (beh === 'sunk' || (D.scramble && D.scramble > W.t)) return V.add(mp, V.mul(toRim, 0.72));
     if (D.gamble > 0 && D.gambleTo) return D.gambleTo;
@@ -295,6 +297,7 @@ const PMSim = (() => {
         }
         if (D.jumper) pose = 'guard';
         if (D.gamble > 0) { pose = 'lunge'; speed = 17; }
+        if (D.stepUp > W.t) { pose = 'guard'; speed = 15; }
       }
       const dist = steer(D, target, speed, 55, dt);
       if (Math.hypot(D.vel[0], D.vel[2]) > 6 && pose !== 'lunge') pose = runPose(D);
@@ -455,7 +458,7 @@ const PMSim = (() => {
       steer(O, O.pos, 0, 40, dt);
     }
     O.face = W.passFace && W.t < W.passFace.until ? W.passFace.dir : Court3D.dirToRim(O.pos);
-    if (O.fakeT != null && O.fakeT < 0.3) { O.fakeT += dt; pose = 'pass'; }
+    if (O.fakeT != null && O.fakeT < 0.3) { O.fakeT += dt; pose = O.shotFake && POSES.shoot ? 'shoot' : 'pass'; }
     if (Math.hypot(O.vel[0], O.vel[2]) > 6) pose = W.ball.state === 'held' ? 'dribble' : runPose(O);
     setPose(O, pose, dt);
     void D;
@@ -535,7 +538,8 @@ const PMSim = (() => {
     if (W.help) return;
     const sc = W.scheme, O = handlerOf(W);
     let di = -1;
-    const candidates = W.def.filter(D => !D.d && D.man !== W.handler);
+    // a man lunging into a passing lane is in no spot to help
+    const candidates = W.def.filter(D => !D.d && D.man !== W.handler && !(D.gamble > 0));
     if (!candidates.length) return;
     if (sc.helper === 'big') di = (W.def.find(D => W.off[D.man].role.id === 'big' && !D.d) || {}).i;
     else if (sc.helper === 'corner') {
@@ -586,7 +590,7 @@ const PMSim = (() => {
     // who it's for: where each teammate will be when it gets there
     let best = null;
     W.off.forEach((T, j) => { if (j === j0) return; const pr = predict(W, j, est.T); const e = gap(pr, E); if (!best || e < best.e) best = { j, e, pr }; });
-    const win = W.window + est.D * 0.05;
+    const win = W.window + est.D * 0.05 + (type === 'bounce' ? 0.9 : 0);
     let q = 'none';
     if (best) q = best.e <= win ? 'money' : best.e <= Math.max(4.4, win + 2.2) ? 'reach' : best.e <= Math.max(7.5, win + 5) ? 'chase' : 'none';
     // inside the window the pass finds his hands, leading him if he's moving
@@ -784,7 +788,7 @@ const PMSim = (() => {
       return turnover(W, 'Thrown away', null, P.E, true);
     }
     let q = P.q;
-    if (reachD > 2.2 && q === 'money') q = 'reach';
+    if (reachD > (P.type === 'bounce' ? 3.0 : 2.2) && q === 'money') q = 'reach';
     if (reachD > 3.8) q = 'chase';
     // a bounce pass to a shooter comes in low: he has to bring it up
     if (P.type === 'bounce' && q === 'money' && rimDist(R.pos) > 15) q = 'reach';
@@ -806,13 +810,20 @@ const PMSim = (() => {
     W.drive = null; W.help = null;
     W.def.forEach(D => { D.watch = false; if (D.h) { D.h = null; D.mode = 'guard'; } });
     setOnBall(W, j);
+    // nobody near him and nobody getting there: the catch is a rhythm catch,
+    // however you got it to him
+    const q0 = q;
+    const wide = !W.noShots && predictedContest(W, j, 'reach') < 0.2 && !W.def.some(D => gap(D.pos, R.pos) < 6);
+    if (wide && q === 'reach') q = 'money';
+    else if (wide && q === 'chase' && !(P && P.tipped)) q = 'reach';
+    R.q = q;
     const tags = readTags(W, P, R, from, prev);
     W.lastCatch = { j, t: W.t, P, tags, from };
     const pt = V.add(R.pos, [0, 7.2, 0]);
-    const qText = { money: 'On the money', reach: 'Late', chase: P && P.tipped ? 'Saved it' : 'Behind him' }[q];
-    if (qText) pop(W, qText, q === 'money' ? '#7ee2a8' : '#ffd166', pt, 0.8);
+    const qText = wide && q !== q0 ? 'Wide open' : { money: 'On the money', reach: 'Late', chase: P && P.tipped ? 'Saved it' : 'Behind him' }[q];
+    if (qText) pop(W, qText, q === 'money' || wide ? '#7ee2a8' : '#ffd166', pt, 0.8);
     if (tags.includes('extra')) pop(W, 'Extra pass', '#7ee2a8', V.add(pt, [0, 1.3, 0]), 0.75);
-    W.story.push({ k: 'pass', P, result: 'catch', q, to: j, tags, name: nameOf(W, j) });
+    W.story.push({ k: 'pass', P, result: 'catch', q, wide, to: j, tags, name: nameOf(W, j) });
     tags.forEach(t => { W.tags[t] = true; });
     emit(W, { type: 'catch', j, q });
     if (W.noShots) return;
@@ -858,7 +869,7 @@ const PMSim = (() => {
   function fake(W) {
     if (W.over || W.ball.state !== 'held') return false;
     const O = handlerOf(W);
-    O.autoShot = null; O.fakeT = 0;
+    O.autoShot = null; O.fakeT = 0; O.shotFake = false;
     let bit = false;
     W.def.forEach(D => {
       if (D.d || D.h || D.gamble > 0) return;
@@ -873,6 +884,33 @@ const PMSim = (() => {
     if (bit) W.tags.fakebit = true;
     W.story.push({ k: 'fake', bit });
     return bit;
+  }
+
+  // ---------- shot fake ----------
+  /* Show him the shot. A defender who bites goes up; a big parked at the rim
+     has to come out to a shooter in the mid-range, and his man dives behind him. */
+  function shotFake(W) {
+    if (W.over || W.ball.state !== 'held') return false;
+    const O = handlerOf(W), pos = flat(O.pos), dist = rimDist(pos);
+    O.autoShot = null; O.fakeT = 0; O.shotFake = true;
+    let bit = false, stepped = false;
+    const D = defOf(W, W.handler);
+    if (D && D.d && dist < 26 && Defense.pumpFake(D.d, pos, W.rand)) { bit = true; pop(W, 'He bit', '#7ee2a8', V.add(D.pos, [0, 7.2, 0]), 0.8); }
+    W.def.forEach(X => { if (X.h && Help.pumpFake(X.h, pos, W.rand)) { bit = true; pop(W, 'He bit', '#7ee2a8', V.add(X.pos, [0, 7.2, 0]), 0.8); } });
+    if (W.scheme.rimBig && dist < 19.5) {
+      const B = W.def.find(X => !X.d && W.off[X.man].role.id === 'big');
+      if (B && !(B.stepUp > W.t)) {
+        // sitting at the rim as help, he still has to come out to a shooter
+        if (B.h) { B.h = null; B.mode = 'guard'; }
+        B.stepUp = W.t + 2.2; stepped = true;
+        const M = W.off[B.man];
+        if (M.state !== 'cut') { M.state = 'dive'; M.diveTo = Court3D.polar((Math.sign(M.pos[0]) || 1) * 66, 4.6); }
+        pop(W, 'He stepped up', '#7ee2a8', V.add(B.pos, [0, 7.2, 0]), 0.8);
+      }
+    }
+    if (bit || stepped) W.tags.shotfake = true;
+    W.story.push({ k: 'shotfake', bit, stepped });
+    return bit || stepped;
   }
 
   // ---------- shooting ----------
@@ -899,7 +937,9 @@ const PMSim = (() => {
     });
     return { c: clamp(c, 0, 1), by };
   }
-  function takeShot(W, j, kind) {
+  /* user: your own flick (power, angle, touchK, window, aimDead) when you put
+     it up yourself; without it the shooter's touch comes from his rating. */
+  function takeShot(W, j, kind, user) {
     if (W.over || W.ball.state !== 'held') return;
     const O = W.off[j];
     const pos = flat(O.pos);
@@ -922,7 +962,10 @@ const PMSim = (() => {
       const e = gauss(W.rand) * sig - (q === 'chase' ? 0.03 : 0);
       const aim = gauss(W.rand) * (q === 'money' || q === 'self' ? 3.0 : 5.0);
       const ideal = HoopPhysics.idealFlick(dist);
-      const shot = HoopPhysics.shoot({ shooter: pos, flickSpeed: ideal * (1 + e), angle: aim * Math.PI / 180, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: 1, court: W.court, window: 0.12, aimDead: 4.5, contest: c, rating: R, rand: W.rand });
+      const shot = user && user.touchK
+        ? HoopPhysics.shoot({ shooter: pos, flickSpeed: user.power, angle: user.angle, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: user.touchK, court: W.court, window: user.window || 0.15, aimDead: user.aimDead || 6, contest: c, rating: R, rand: W.rand })
+        : HoopPhysics.shoot({ shooter: pos, flickSpeed: ideal * (1 + e), angle: aim * Math.PI / 180, curl: kind === 'layup' ? 0.06 : 0, fade: false, touchK: 1, court: W.court, window: 0.12, aimDead: 4.5, contest: c, rating: R, rand: W.rand });
+      if (user) W.userShot = { green: shot.green, feedback: shot.feedback };
       b = HoopPhysics.newBall(shot.release, shot.vel, { touch: shot.touch || 0, spinOut: shot.spinOut || 0, spin: -9 });
       let bc = 0;
       if (by && by.d) bc = Defense.blockChance(by.d, c, shot.type.id);
@@ -934,9 +977,11 @@ const PMSim = (() => {
     O.jumpT = 0; O.autoShot = null; O.state = 'shoot';
     W.drive = null;
     const assist = W.lastCatch && W.lastCatch.j === j && W.lastCatch.P && !O.drove && W.t - W.lastCatch.t < 3.2 ? W.lastCatch.from : null;
-    W.shot = { j, kind, contest: c, three, dist, q, t0: W.t, assist, by: by ? by.i : null };
+    W.shot = { j, kind, contest: c, three, dist, q, t0: W.t, assist, by: by ? by.i : null, user: !!user };
+    // a bucket of your own: nobody passed you into it
+    if (assist == null && !W.board) W.tags.score = true;
     W.def.forEach(D => { if (D.d) Defense.reactToShot(D.d, pos); if (D.h) Help.reactToShot(D.h, pos); });
-    W.story.push({ k: 'shot', j, kind, contest: c, three, q, name: nameOf(W, j), you: j === 0 && !W.lastCatch });
+    W.story.push({ k: 'shot', j, kind, contest: c, three, q, name: nameOf(W, j), you: j === 0 && !W.lastCatch, user: !!user });
     emit(W, { type: 'shot', j, kind });
   }
   function shotDone(W, b) {
@@ -995,6 +1040,7 @@ const PMSim = (() => {
       if (s.k === 'drive') parts.push(s.win ? (s.crossed ? `${you ? 'You' : 'He'} crossed him up.` : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got by him.`) : `${you ? 'You' : 'He'} drove ${s.side < 0 ? 'left' : 'right'} and got cut off.`);
       else if (s.k === 'help') parts.push(`Help came off ${s.from}.`);
       else if (s.k === 'fake') parts.push(s.bit ? 'Pass fake, and he jumped the lane.' : 'Pass fake. Nobody bit.');
+      else if (s.k === 'shotfake') parts.push(s.stepped ? 'Showed the shot, and the big stepped up.' : s.bit ? 'Shot fake, and he bit.' : 'Shot fake. Nobody bit.');
       else if (s.k === 'cut') { const who = cap(s.name || nameOf(W, s.j)); parts.push(s.kind === 'backdoor' ? `${who} went backdoor.` : `${who} cut behind his man.`); }
       else if (s.k === 'fly') parts.push('They flew out at the catch.');
       else if (s.k === 'tip') parts.push('Tipped, but it squirted through.');
@@ -1003,7 +1049,7 @@ const PMSim = (() => {
         if (s.result === 'catch') {
           const tg = s.tags || [];
           const how = tg.includes('extra') ? 'Extra pass' : tg.includes('kick') ? 'Kicked it out' : lab;
-          parts.push(`${how} to ${s.name}${s.q === 'money' ? ', on the money' : s.q === 'reach' ? ', a little late' : ', behind him'}.`);
+          parts.push(`${how} to ${s.name}${s.wide ? ', wide open' : s.q === 'money' ? ', on the money' : s.q === 'reach' ? ', a little late' : ', behind him'}.`);
           you = false;
         } else if (s.result === 'pick') parts.push(`${lab}, picked off.`);
         else if (s.result === 'tip') parts.push(`${lab}, tipped away.`);
@@ -1011,7 +1057,7 @@ const PMSim = (() => {
         else parts.push(`${lab} to nobody. Thrown away.`);
       } else if (s.k === 'shot') {
         const lab = Defense.contestLabel(s.contest).text.toLowerCase();
-        const nm = s.kind === 'dunk' ? 'Alley-oop' : s.kind === 'layup' ? 'Layup' : s.kind === 'floater' ? 'Floater' : s.three ? 'Three' : 'Jumper';
+        const nm = s.kind === 'dunk' ? 'Alley-oop' : s.kind === 'layup' ? 'Layup' : s.kind === 'floater' ? 'Floater' : s.user ? (s.three ? 'Pull-up three' : 'Pull-up') : s.three ? 'Three' : 'Jumper';
         parts.push(`${nm}, ${lab}:`);
       } else if (s.k === 'result') {
         parts[parts.length - 1] += s.blocked ? ' blocked.' : s.made ? ' made.' : ' missed.';
@@ -1030,6 +1076,7 @@ const PMSim = (() => {
       return `That one went right through a defender. Move him first with a drive or a fake, then throw it where the lane is. ${sc.read}`;
     }
     if (R.turnover === 'Shot clock') return `You held it too long. ${sc.read}`;
+    if (R.tags && R.tags.includes('score') && R.made && (R.grade === 'A' || R.grade === 'B')) return sc.scoreRead || 'They gave you that one, and you took it.';
     if (hit && (R.grade === 'A' || R.grade === 'B')) return `That's the read against ${sc.name}. ${sc.read}`;
     return sc.read;
   }
@@ -1128,5 +1175,5 @@ const PMSim = (() => {
     });
   }
 
-  return { PASS, POSES, create, update, pass, makePass, passPos, assess, driveInput, fake, takeShot, runBoard, narrate, lesson, grade, spotPos, defOf, nameOf, rimDist, predict };
+  return { PASS, POSES, create, update, pass, makePass, passPos, assess, driveInput, fake, shotFake, takeShot, runBoard, narrate, lesson, grade, spotPos, defOf, nameOf, rimDist, predict };
 })();

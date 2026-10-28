@@ -161,6 +161,45 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   st = await settle(); rows.push(['pack line: drive and kick', st.res]);
   check(st.res && !st.res.to && (st.res.g === 'A' || st.res.g === 'B'), 'pack line: the kick-out is open', JSON.stringify(st.res));
 
+  // ---- court vision carries through the flick ----
+  await start('cornerhelp', 15);
+  await G.down(195, 720); await wait(450);
+  { const v = await aim(await target(1, 0.4)), l = Math.hypot(v.dx, v.dy); await G.move(195 + v.dx / l * 30, 720 + v.dy / l * 30); await wait(30);
+    st = await S(); check(st.scale < 0.7, 'court vision stays on while you start the flick', `scale ${st.scale.toFixed(2)}`);
+    await G.move(195 + v.dx / l * v.L, 720 + v.dy / l * v.L); await G.up(195 + v.dx / l * v.L, 720 + v.dy / l * v.L); }
+  await wait(60); st = await S(); check(st.passes === 1, 'and the flick out of it is a pass', 'passes ' + st.passes);
+  await settle();
+
+  // ---- scoring it yourself ----
+  await p.evaluate(() => window.__pm.setSettings({ touchK: 1.75 }));
+  const me = () => p.evaluate(() => { const w = window.__pm._S.w, H = w.off[w.handler].pos; const a = window.__pm._project([H[0], 3.2, H[2]]); const r = window.__pm._project([0, 10, 5.25]); return { x: a.x, y: a.y, rx: r.x, ry: r.y }; });
+  const shotOf = () => p.evaluate(() => { const w = window.__pm._S.w, s = w.story.find(x => x.k === 'shot'); return s ? { user: !!s.user, kind: s.kind, fb: w.userShot && w.userShot.feedback } : null; });
+  await start('rim', 31);
+  { const m = await me(), l = Math.hypot(m.rx - m.x, m.ry - m.y); await G.stroke(m.x, m.y, (m.rx - m.x) / l * 250, (m.ry - m.y) / l * 250, 85); }
+  await wait(80);
+  let sh = await shotOf(); check(sh && sh.user, 'flick up from your own man: a pull-up', JSON.stringify(sh));
+  st = await settle(); check(st.res && st.res.tags && st.res.tags.includes('score') && !st.res.to, 'and it counts as your bucket to try', JSON.stringify(st.res));
+  await start('rim', 31);
+  { const v = await aim(await target(1, 0.4)), l = Math.hypot(v.dx, v.dy); const m = await me(); await G.stroke(m.x, m.y, v.dx / l * v.L, v.dy / l * v.L, 120); }
+  await wait(80); st = await S(); sh = await shotOf();
+  check(!sh && st.passes === 1, 'a flick from your man toward a teammate is still a pass', JSON.stringify(sh) + ' passes ' + st.passes);
+  await settle();
+  // the big at the rim: show him the shot from the elbow and he has to come out
+  await start('rim', 32);
+  await p.evaluate(() => { const w = window.__pm._S.w, h = w.off[w.handler]; h.pos = [-7, 0, 18.5]; const d = PMSim.defOf(w, w.handler); if (d && d.d) d.d.pos = [-5.65, 0, 15.83]; });
+  await wait(300);
+  { const m = await me(); await G.tap(m.x, m.y); }
+  await wait(120);
+  const sf = await p.evaluate(() => { const s = window.__pm._S.w.story.find(x => x.k === 'shotfake'); return s || null; });
+  check(sf && sf.stepped, 'tap your man: shot fake, and the big steps up', JSON.stringify(sf));
+  await wait(800);
+  // double tap your big: the lob leads him
+  { const b = await p.evaluate(() => { const w = window.__pm._S.w, j = w.off.findIndex(o => o.role.id === 'big'), B = w.off[j].pos; return window.__pm._project([B[0], 3, B[2]]); }); await G.tap(b.x, b.y); await G.tap(b.x, b.y); }
+  await wait(60); st = await S();
+  check(st.lastType === 'lob', 'double tap a teammate: a lob to him', st.lastType);
+  await p.screenshot({ path: OUT + '/c6-lob.png' });
+  st = await settle(); rows.push(['rim protector: show it, lob behind him', st.res]);
+
   console.log('\nreads:');
   rows.forEach(([k, v]) => console.log('  ' + k.padEnd(38) + JSON.stringify(v)));
   check(!errors.length, 'no page errors', errors.join(' | '));

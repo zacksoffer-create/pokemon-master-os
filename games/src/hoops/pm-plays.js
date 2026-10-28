@@ -37,7 +37,7 @@ const PMPlays = (() => {
       read: 'Driving into that is driving into a crowd. Kick it or skip it: they are a long way from the shooters.',
       sink: 0.95, gap1: 0.36, deny: 0, antic: 0.15, react: 0.24, helper: 'nearest', helpType: 'charge', xout: 'slow', watch: 0.2,
       close: { speed: 11.5, gap: 2.4, length: 1.0 }, onBall: { gap: 3.4, lateral: 0.55 },
-      answers: ['kick', 'skip', 'corner'], colors: { jersey: '#7b2335', shorts: '#5f1a29', trim: '#f2d16b' }
+      answers: ['kick', 'skip', 'corner', 'score'], scoreRead: 'They sag into the paint, so the pull-up is open too. Take it, or kick it.', colors: { jersey: '#7b2335', shorts: '#5f1a29', trim: '#f2d16b' }
     },
     denial: {
       id: 'denial', name: 'Denial', tag: 'Overplays the wings',
@@ -58,10 +58,10 @@ const PMPlays = (() => {
     rim: {
       id: 'rim', name: 'Rim Protector', tag: 'Big man at the rim',
       tell: 'Their big is parked under the basket.',
-      read: 'Make him step up to you, then dump it off or throw the lob to your big.',
+      read: 'Make him step up to you: show him the shot or hit the pull-up. When he comes out, dump it off or throw the lob to your big.',
       sink: 0.45, gap1: 0.18, deny: 0, antic: 0.3, react: 0.22, helper: 'big', helpType: 'leaper', xout: 'none', watch: 0.25,
       close: { speed: 13, gap: 2.2, length: 1.0 }, onBall: { gap: 3.0, lateral: 0.4 }, rimBig: true,
-      answers: ['dump', 'lob'], colors: { jersey: '#3a3f4b', shorts: '#2c3039', trim: '#ffb547' }
+      answers: ['dump', 'lob', 'score', 'shotfake'], scoreRead: 'He stayed home, so the pull-up was yours. Make a couple and he has to come out, and then your big is open.', colors: { jersey: '#3a3f4b', shorts: '#2c3039', trim: '#ffb547' }
     },
     lanejumper: {
       id: 'lanejumper', name: 'Lane Jumper', tag: 'Gambles on passes',
@@ -69,7 +69,7 @@ const PMPlays = (() => {
       read: 'Bounce it under him, fake him out of the lane, or hit his man on the back cut.',
       sink: 0.4, gap1: 0.16, deny: 0, antic: 0.35, react: 0.2, jumpers: ['wing'], helper: 'nearest', helpType: 'digger', xout: 'none', watch: 0.2,
       close: { speed: 14, gap: 2.0, length: 1.0 }, onBall: { gap: 3.0, lateral: 0.5 },
-      answers: ['bounce', 'backdoor', 'fake'], colors: { jersey: '#c4502a', shorts: '#9e3f20', trim: '#ffffff' }
+      answers: ['bounce', 'backdoor', 'fake', 'score'], scoreRead: 'He was guessing on the pass, so the lane to the rim was open. Score it yourself when he gives you that.', colors: { jersey: '#c4502a', shorts: '#9e3f20', trim: '#ffffff' }
     },
     scramble: {
       id: 'scramble', name: 'Scramble', tag: 'Flies at the first pass',
