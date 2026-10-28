@@ -1496,6 +1496,7 @@ const EXTENSION_CONTAINERS = new Map<string, AudioContainer>([
   ['m4r', 'mp4'],
   ['mp4', 'mp4'],
   ['mov', 'mp4'],
+  ['m4v', 'mp4'],
   ['3gp', 'mp4'],
   ['aac', 'aac'],
   ['adts', 'aac'],

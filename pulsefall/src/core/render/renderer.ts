@@ -70,6 +70,7 @@ const JUDGE_COLORS: Record<Judgment, string> = {
   miss: '#ff6b8a',
 };
 const JUDGE_TEXT: Record<Judgment, string> = { perfect: 'PERFECT', great: 'GREAT', good: 'GOOD', miss: 'MISS' };
+const MULTIPLIER_TEXT: Record<number, string> = { 2: '×2', 3: '×3', 4: '×4' };
 
 export function approachForSpeed(speed: number): number {
   return Math.round(2900 * Math.pow(0.86, clamp(speed, 1, 10) - 1));
@@ -104,11 +105,24 @@ export class Renderer {
   private highwayFill: CanvasGradient | string = '';
   private dividerStroke: CanvasGradient | string = '';
   private edgeStrokes: (CanvasGradient | string)[] = [];
+  private hitLineStroke: CanvasGradient | string = '';
+  private progressFill: CanvasGradient | string = '';
+  /** Per-lane hold colours: body, body while held, core line, tail cap. */
+  private holdStyles: { body: string; bodyHeld: string; core: string; cap: string }[] = [];
+  /** Result of the last proj() call (kept in fields so the hot loop allocates nothing). */
+  private pY = 0;
+  private pS = 1;
+  private textCache = new Map<string, string>();
+  private scoreText = '';
+  private scoreTextFor = -1;
+  private scoreWidth = 0;
 
   // Effects.
   private popups: Popup[] = [];
   private bursts: Burst[] = [];
   private pressFade: number[] = [];
+  /** Seconds since the last spark on each held lane. */
+  private holdSpark: number[] = [];
   private comboBump = 0;
   private lastCombo = 0;
   private banner: { text: string; born: number } | null = null;
@@ -142,6 +156,7 @@ export class Renderer {
     this.theme = THEMES[opts.theme];
     this.colors = laneColors(this.theme, opts.laneCount);
     this.pressFade = new Array(opts.laneCount).fill(0);
+    this.holdSpark = new Array(opts.laneCount).fill(0);
   }
 
   setOptions(opts: Partial<RenderOptions>): void {
@@ -201,6 +216,16 @@ export class Renderer {
     };
     this.dividerStroke = vertical('#ffffff', 0.18);
     this.edgeStrokes = this.colors.map((c) => vertical(c, 0.55));
+    const line = this.g.createLinearGradient(this.cx - this.hw / 2, 0, this.cx + this.hw / 2, 0);
+    this.colors.forEach((c, i) => line.addColorStop(L === 1 ? 0 : i / (L - 1), c));
+    this.hitLineStroke = line;
+    const prog = this.g.createLinearGradient(0, 0, W, 0);
+    prog.addColorStop(0, this.colors[0]);
+    prog.addColorStop(1, this.colors[this.colors.length - 1]);
+    this.progressFill = prog;
+    this.holdStyles = this.colors.map((c) => ({ body: rgba(c, 0.45), bodyHeld: rgba(c, 0.75), core: shade(c, 0.5), cap: shade(c, 0.4) }));
+    this.textCache.clear();
+    this.scoreTextFor = -1;
   }
 
   private buildBackground(): Sprite {
@@ -250,9 +275,16 @@ export class Renderer {
 
   /** Perspective: depth z in [0 (hit line), 1 (horizon)] -> screen y and scale. */
   private project(z: number): { y: number; s: number } {
+    this.proj(z);
+    return { y: this.pY, s: this.pS };
+  }
+
+  /** project() for the per-frame paths: the result lands in pY / pS. */
+  private proj(z: number): void {
     const k = this.k;
     const gz = k > 0 ? (z * (1 + k)) / (1 + k * z) : z;
-    return { y: this.hitY - (this.hitY - this.topY) * gz, s: 1 - (1 - this.topScale) * gz };
+    this.pY = this.hitY - (this.hitY - this.topY) * gz;
+    this.pS = 1 - (1 - this.topScale) * gz;
   }
 
   private laneX(lane: number, s: number): number {
@@ -306,14 +338,14 @@ export class Renderer {
     this.scoreShown = 0;
   }
 
-  private spawnParticles(lane: number, count: number, gold: boolean): void {
+  private spawnParticles(lane: number, count: number, gold: boolean, gentle = false): void {
     const x = this.laneX(lane, 1);
     const y = this.hitY;
     for (let i = 0; i < count; i++) {
       const p = this.pnext;
       this.pnext = (this.pnext + 1) % MAX_PARTICLES;
-      const a = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.1;
-      const sp = 140 + Math.random() * 320;
+      const a = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * (gentle ? 0.5 : 1.1);
+      const sp = gentle ? 90 + Math.random() * 120 : 140 + Math.random() * 320;
       this.px[p] = x + (Math.random() - 0.5) * this.noteSize * 0.4;
       this.py[p] = y;
       this.pvx[p] = Math.cos(a) * sp;
@@ -338,7 +370,8 @@ export class Renderer {
 
     const L = this.opts.laneCount;
     const reactive = this.opts.musicReactive && !this.opts.reducedEffects;
-    const top = this.project(1);
+    this.proj(1);
+    const top = { y: this.pY, s: this.pS };
     const halfTop = (this.hw / 2) * top.s;
     const halfBot = this.hw / 2;
 
@@ -400,9 +433,7 @@ export class Renderer {
     g.globalAlpha = 1;
 
     // Hit line.
-    const lineGrad = g.createLinearGradient(this.cx - halfBot, 0, this.cx + halfBot, 0);
-    this.colors.forEach((c, i) => lineGrad.addColorStop(L === 1 ? 0 : i / (L - 1), c));
-    g.strokeStyle = lineGrad;
+    g.strokeStyle = this.hitLineStroke;
     g.lineWidth = 3;
     g.globalAlpha = 0.8;
     g.beginPath();
@@ -411,12 +442,19 @@ export class Renderer {
     g.stroke();
     g.globalAlpha = 1;
 
-    // Receptors.
+    // Receptors; a held note keeps its receptor breathing and throwing off sparks.
     const rs = this.noteSize * 1.08 * this.sprites.pad;
     for (let l = 0; l < L; l++) {
       const lit = this.pressFade[l] > 0.3;
       const spr = lit ? this.sprites.receptorLit[l] : this.sprites.receptor[l];
-      const bump = 1 + 0.08 * this.pressFade[l];
+      let bump = 1 + 0.08 * this.pressFade[l];
+      if (st.held[l]) {
+        bump += 0.035 * Math.sin(perf / 55);
+        if (!this.opts.reducedEffects) {
+          this.holdSpark[l] += dt;
+          for (; this.holdSpark[l] > 0.05; this.holdSpark[l] -= 0.05) this.spawnParticles(l, 1, false, true);
+        }
+      } else this.holdSpark[l] = 0;
       g.drawImage(spr, this.laneX(l, 1) - (rs * bump) / 2, this.hitY - (rs * bump) / 2, rs * bump, rs * bump);
     }
 
@@ -461,34 +499,38 @@ export class Renderer {
       const z0 = holding ? 0 : (n.t - st.t) / A;
       const z1 = Math.min(1, (n.end - st.t) / A);
       if (z1 < -0.3 || z0 > 1) continue;
-      const a = this.project(Math.max(-0.3, z0));
-      const b = this.project(Math.max(-0.3, z1));
-      const wA = this.noteSize * 0.36 * a.s;
-      const wB = this.noteSize * 0.36 * b.s;
-      const xa = this.laneX(n.lane, a.s);
-      const xb = this.laneX(n.lane, b.s);
-      const color = this.colors[n.lane];
+      this.proj(Math.max(-0.3, z0));
+      const ay = this.pY;
+      const as = this.pS;
+      this.proj(Math.max(-0.3, z1));
+      const by = this.pY;
+      const bs = this.pS;
+      const wA = this.noteSize * 0.36 * as;
+      const wB = this.noteSize * 0.36 * bs;
+      const xa = this.laneX(n.lane, as);
+      const xb = this.laneX(n.lane, bs);
+      const hs = this.holdStyles[n.lane];
       g.globalAlpha = broken ? 0.22 : holding ? 0.9 : 0.6;
-      g.fillStyle = holding ? rgba(color, 0.75) : rgba(color, 0.45);
+      g.fillStyle = holding ? hs.bodyHeld : hs.body;
       g.beginPath();
-      g.moveTo(xa - wA, a.y);
-      g.lineTo(xb - wB, b.y);
-      g.lineTo(xb + wB, b.y);
-      g.lineTo(xa + wA, a.y);
+      g.moveTo(xa - wA, ay);
+      g.lineTo(xb - wB, by);
+      g.lineTo(xb + wB, by);
+      g.lineTo(xa + wA, ay);
       g.closePath();
       g.fill();
       // Bright core.
-      g.strokeStyle = holding ? '#ffffff' : shade(color, 0.5);
+      g.strokeStyle = holding ? '#ffffff' : hs.core;
       g.lineWidth = Math.max(1.5, wA * 0.25);
       g.beginPath();
-      g.moveTo(xa, a.y);
-      g.lineTo(xb, b.y);
+      g.moveTo(xa, ay);
+      g.lineTo(xb, by);
       g.stroke();
       // Tail cap.
       if (z1 < 1) {
-        g.fillStyle = shade(color, 0.4);
+        g.fillStyle = hs.cap;
         g.beginPath();
-        g.ellipse(xb, b.y, wB * 1.15, wB * 0.55, 0, 0, Math.PI * 2);
+        g.ellipse(xb, by, wB * 1.15, wB * 0.55, 0, 0, Math.PI * 2);
         g.fill();
       }
       g.globalAlpha = 1;
@@ -502,12 +544,12 @@ export class Renderer {
       if (!m || m.group !== n.group || m.state !== NoteState.Pending) continue;
       const z = (n.t - st.t) / A;
       if (z < -0.1 || z > 1) continue;
-      const p = this.project(z);
+      this.proj(z);
       g.strokeStyle = 'rgba(255,255,255,0.55)';
-      g.lineWidth = Math.max(2, this.noteSize * 0.08 * p.s);
+      g.lineWidth = Math.max(2, this.noteSize * 0.08 * this.pS);
       g.beginPath();
-      g.moveTo(this.laneX(n.lane, p.s), p.y);
-      g.lineTo(this.laneX(m.lane, p.s), p.y);
+      g.moveTo(this.laneX(n.lane, this.pS), this.pY);
+      g.lineTo(this.laneX(m.lane, this.pS), this.pY);
       g.stroke();
     }
 
@@ -540,12 +582,12 @@ export class Renderer {
       if (z > 1.06 || z < -0.32) continue;
       if (z > 0.92) alpha *= clamp((1.06 - z) / 0.14, 0, 1);
       if (z < 0) alpha *= clamp(1 + z / 0.32, 0, 1);
-      const p = this.project(z);
-      const size = this.noteSize * p.s * pad;
-      const x = this.laneX(n.lane, p.s);
+      this.proj(z);
+      const size = this.noteSize * this.pS * pad;
+      const x = this.laneX(n.lane, this.pS);
       const spr = n.type === 'swipe' ? sp.swipe[n.dir ?? 'up'] : lit ? sp.noteLit[n.lane] : sp.note[n.lane];
       g.globalAlpha = alpha;
-      g.drawImage(spr, x - size / 2, p.y - size / 2, size, size);
+      g.drawImage(spr, x - size / 2, this.pY - size / 2, size, size);
     }
     g.globalAlpha = 1;
   }
@@ -554,7 +596,9 @@ export class Renderer {
     const g = this.g;
     g.globalCompositeOperation = 'lighter';
     // Bursts.
-    this.bursts = this.bursts.filter((b) => perf - b.born < 300);
+    let live = 0;
+    for (const b of this.bursts) if (perf - b.born < 300) this.bursts[live++] = b;
+    this.bursts.length = live;
     for (const b of this.bursts) {
       const t = (perf - b.born) / 300;
       const size = this.noteSize * (1.1 + t * (b.big ? 2.2 : 1.5));
@@ -663,7 +707,13 @@ export class Renderer {
     g.textBaseline = 'alphabetic';
     g.font = `700 ${Math.round(Math.min(26, W * 0.062))}px ${DISPLAY_FONT}`;
     g.fillStyle = theme.text;
-    g.fillText(formatScore(this.scoreShown), right, top + 36);
+    const shown = Math.round(this.scoreShown);
+    if (shown !== this.scoreTextFor) {
+      this.scoreTextFor = shown;
+      this.scoreText = formatScore(shown);
+      this.scoreWidth = g.measureText(this.scoreText).width;
+    }
+    g.fillText(this.scoreText, right, top + 36);
     g.font = `600 ${Math.round(Math.min(13, W * 0.032))}px ${DISPLAY_FONT}`;
     g.fillStyle = 'rgba(255,255,255,0.6)';
     g.fillText(`${(st.accuracy * 100).toFixed(1)}%`, right, top + 54);
@@ -671,29 +721,22 @@ export class Renderer {
       g.font = `700 ${Math.round(Math.min(18, W * 0.045))}px ${DISPLAY_FONT}`;
       g.fillStyle = st.multiplier >= 4 ? theme.gold : theme.accent;
       g.textAlign = 'right';
-      const w = g.measureText(formatScore(this.scoreShown)).width;
-      g.font = `700 ${Math.round(Math.min(26, W * 0.062))}px ${DISPLAY_FONT}`;
-      const sw = g.measureText(formatScore(this.scoreShown)).width;
-      g.font = `700 ${Math.round(Math.min(18, W * 0.045))}px ${DISPLAY_FONT}`;
-      g.fillText(`×${st.multiplier}`, right - Math.max(w, sw) - 10, top + 35);
+      g.fillText(MULTIPLIER_TEXT[st.multiplier] ?? `×${st.multiplier}`, right - this.scoreWidth - 10, top + 35);
     }
     const left = this.insets.left + 64;
     g.textAlign = 'left';
     g.font = `600 ${Math.round(Math.min(15, W * 0.038))}px ${DISPLAY_FONT}`;
     g.fillStyle = theme.text;
     const maxTitle = Math.max(60, right - left - 150);
-    g.fillText(truncate(g, st.title, maxTitle), left, top + 30);
+    g.fillText(this.fit(st.title, maxTitle), left, top + 30);
     g.font = `500 ${Math.round(Math.min(12, W * 0.03))}px ${DISPLAY_FONT}`;
     g.fillStyle = 'rgba(255,255,255,0.55)';
-    g.fillText(truncate(g, st.autoplay ? `${st.subtitle} · AUTOPLAY` : st.subtitle, maxTitle), left, top + 48);
+    g.fillText(this.fit(st.autoplay ? `${st.subtitle} · AUTOPLAY` : st.subtitle, maxTitle), left, top + 48);
     // Progress.
     const barY = top + 64;
     g.fillStyle = 'rgba(255,255,255,0.12)';
     g.fillRect(this.insets.left + 12, barY, W - this.insets.left - this.insets.right - 24, 3);
-    const pg = g.createLinearGradient(0, 0, W, 0);
-    pg.addColorStop(0, this.colors[0]);
-    pg.addColorStop(1, this.colors[this.colors.length - 1]);
-    g.fillStyle = pg;
+    g.fillStyle = this.progressFill;
     g.fillRect(this.insets.left + 12, barY, (W - this.insets.left - this.insets.right - 24) * clamp(st.progress, 0, 1), 3);
 
     if (this.opts.showFps) {
@@ -702,6 +745,18 @@ export class Renderer {
       g.fillStyle = 'rgba(255,255,255,0.6)';
       g.fillText(this.fpsText, this.insets.left + 12, this.H - this.insets.bottom - 8);
     }
+  }
+
+  /** `text` shortened with an ellipsis to fit `max` px in the current font (cached). */
+  private fit(text: string, max: number): string {
+    const key = `${this.g.font}|${max}|${text}`;
+    let out = this.textCache.get(key);
+    if (out === undefined) {
+      out = truncate(this.g, text, max);
+      if (this.textCache.size > 32) this.textCache.clear();
+      this.textCache.set(key, out);
+    }
+    return out;
   }
 
   /** Lower the backing-store resolution if frames are consistently slow. */

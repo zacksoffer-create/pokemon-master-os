@@ -219,6 +219,8 @@ export interface SongRecord {
   isDemo?: boolean;
   /** Metadata was corrected by hand; never overwrite from tags again. */
   metadataEdited?: boolean;
+  /** Only this stretch of the song is played (song time, ms). */
+  trim?: { startMs: number; endMs: number };
 }
 
 export interface JudgmentCounts {

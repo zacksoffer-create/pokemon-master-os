@@ -11,7 +11,7 @@ export function Help() {
           <h2>How it works</h2>
           <ol>
             <li>
-              <b>Import a song</b> — an MP3 or M4A from your Files app (or any DRM-free audio file).
+              <b>Import a song</b> — an MP3 or M4A from your Files app, or a video (MP4/MOV) from Files or your Photo Library; Pulsefall keeps just its sound.
             </li>
             <li>
               <b>Pulsefall listens to it</b> on your device: it finds the beat, the hits, the quiet and loud sections, and the long notes.
@@ -20,7 +20,10 @@ export function Help() {
               <b>Four charts are built automatically</b> — Relaxed, Classic Groove, Full Rhythm and Advanced. Repeated sections get repeated patterns, choruses get busier than verses.
             </li>
             <li>
-              <b>Play.</b> Tap notes as they cross the glowing line, keep your finger down on holds, flick the gold arrow notes.
+              <b>Play.</b> Tap notes as they cross the glowing line, keep your finger down on holds, flick the gold arrow notes. Letting go of a hold early costs a few points but never your combo.
+            </li>
+            <li>
+              <b>Play just part of a song</b> with the <b>Part</b> button: tap a section (or drag the edges) to play only that stretch, or keep it as the song's start and end for every play. During a song, <b>Skip</b> jumps past long intros and quiet gaps.
             </li>
           </ol>
           <p>Nothing is uploaded. Your music never leaves your device.</p>
@@ -53,7 +56,7 @@ export function Help() {
           <h2>Audio files</h2>
           <ul>
             <li>
-              <b>Works best:</b> MP3, M4A/AAC (e.g. iTunes purchases, files you converted yourself), WAV.
+              <b>Works best:</b> MP3, M4A/AAC (e.g. iTunes purchases, files you converted yourself), WAV, and MP4/MOV videos (only the sound is kept, so they take little space).
             </li>
             <li>
               <b>Usually works:</b> FLAC; Ogg/Opus on iOS 17 and later; Apple Lossless depends on the browser.

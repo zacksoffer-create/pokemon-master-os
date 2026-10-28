@@ -86,7 +86,7 @@ export function Library() {
             <>
               <Icon name="music" size={40} />
               <h2>Your library is waiting</h2>
-              <p>Import an MP3 or M4A from your Files app. Pulsefall listens to it and builds a chart automatically — no setup needed.</p>
+              <p>Import an MP3, M4A or video from your Files app or Photo Library. Pulsefall listens to it and builds a chart automatically — no setup needed.</p>
               <Button variant="primary" icon="plus" onClick={() => pickFiles((s) => s.length === 1 && navigate({ name: 'song', id: s[0].id }))}>
                 Import a song
               </Button>

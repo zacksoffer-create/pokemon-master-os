@@ -33,7 +33,8 @@ export type IconName =
   | 'zoomIn'
   | 'zoomOut'
   | 'share'
-  | 'warning';
+  | 'warning'
+  | 'cut';
 
 const PATHS: Record<IconName, JSX.Element> = {
   play: <path d="M7 4.5v15l13-7.5z" fill="currentColor" stroke="none" />,
@@ -121,6 +122,13 @@ const PATHS: Record<IconName, JSX.Element> = {
   ),
   share: <path d="M12 3.5v11M8 7.5l4-4 4 4M6 11v8.5h12V11" />,
   warning: <path d="M12 4l9 15.5H3zM12 10v4.5M12 17v.1" />,
+  cut: (
+    <g>
+      <circle cx="6.5" cy="6.5" r="2.6" />
+      <circle cx="6.5" cy="17.5" r="2.6" />
+      <path d="M8.7 8.1L20 18M8.7 15.9L20 6" />
+    </g>
+  ),
 };
 
 export function Icon({ name, size = 22, class: cls }: { name: IconName; size?: number; class?: string }) {

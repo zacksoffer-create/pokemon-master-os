@@ -10,6 +10,8 @@ export interface Launch {
   chartId: string;
   autoplay?: boolean;
   startAtMs?: number;
+  /** Stop here (with startAtMs: play just this part). Parts are practice: not recorded. */
+  endAtMs?: number;
   /** An unsaved chart (editor preview). Results are not recorded. */
   chart?: Chart;
   returnTo?: Route;

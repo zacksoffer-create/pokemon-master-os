@@ -52,8 +52,10 @@ Create a Pages project from this repo with **Root directory** `pulsefall`, **Bui
 
 | | |
 |---|---|
-| **Import** | Home → *Import song* (or Library → *Import*). Pick one or several files from the Files app. Each one is decoded, analyzed and charted in a few seconds; you can keep browsing meanwhile. |
-| **Play** | Open a song, pick a style, tap **Play**. Tap notes as they cross the glowing line, keep a finger down on holds, flick the gold arrow notes (a tap also counts with *Swipe assist*, on by default). |
+| **Import** | Home → *Import song* (or Library → *Import*). Pick one or several files from the Files app (including Google Drive, once it's turned on in Files), or a video from the Photo Library. Each one is decoded, analyzed and charted in a few seconds; you can keep browsing meanwhile. |
+| **Videos** | MP4/MOV files work too: Pulsefall copies just the sound track out of the video (no re-encoding, so no quality loss) and keeps only that, so a video takes about as much space as the song. Videos up to 2 GB. |
+| **Play** | Open a song, pick a style, tap **Play**. Tap notes as they cross the glowing line, keep a finger down on holds, flick the gold arrow notes (a tap also counts with *Swipe assist*, on by default). Letting go of a hold early scores its end as a Great or Good but never breaks your combo. |
+| **Part of a song** | Song → **Part**: tap a section (tap another to join them) or drag the edges, *Listen* to check it, then *Play this part* (practice, not scored) or *Always play just this part* to trim the song for every play (with its own best scores). In a song, **Skip** appears during long intros, long gaps and outros. |
 | **Styles** | **Relaxed** (the groove, sparse), **Classic Groove** (default: main pulse + standout hits), **Full Rhythm** (syncopation and detail), **Advanced** (everything the track supports; optional 4 lanes). |
 | **Demo** | *Neon Overture* is an original track synthesized by the app, with a hand-authored *Showcase* chart plus the automatic charts — useful to try everything before importing. |
 | **Sync check** | Settings → *Run sync check*. 30 seconds of tapping to clicks and flashes measures audio and input latency separately. Re-run it when switching to Bluetooth headphones. |
@@ -64,10 +66,10 @@ Create a Pages project from this repo with **Root directory** `pulsefall`, **Bui
 
 ### Audio formats
 
-- **Works best:** MP3 (incl. VBR), M4A/AAC (DRM-free, e.g. iTunes purchases or files you converted), WAV.
+- **Works best:** MP3 (incl. VBR), M4A/AAC (DRM-free, e.g. iTunes purchases or files you converted), WAV, and MP4/MOV videos with AAC sound.
 - **Usually works:** FLAC; Ogg/Opus on iOS 17+; Apple Lossless depends on the browser.
 - **Can't work:** copy-protected (DRM) subscription downloads (Apple Music, Spotify…). Pulsefall detects protected M4P/`drms`/`enca` files and explains why instead of failing silently.
-- Songs from 3 seconds up to 20 minutes; files up to 150 MB.
+- Songs from 3 seconds up to 20 minutes; audio files up to 150 MB, videos up to 2 GB.
 
 ---
 
@@ -107,7 +109,9 @@ same chart; *Variation* in Chart options produces alternative lane patterns.
 
 Gameplay time comes from the audio hardware clock (`getOutputTimestamp` where available),
 smoothed into a linear model shared by the renderer and by input judging, so a dropped frame
-can never cause drift. Audio, input and visual latency offsets are applied in one place
+can never cause drift. The model is corrected toward the median of recent readings by a
+fraction of a millisecond per frame, so the coarse steps of the hardware clock never show as
+judder, and every frame is drawn for its own vsync timestamp. Audio, input and visual latency offsets are applied in one place
 (`src/core/game/offsets.ts`). Default timing windows are generous (±60/115/175 ms) with
 *Standard* and *Strict* profiles available.
 
@@ -158,15 +162,17 @@ tests/unit          Vitest suites       tests/e2e  Playwright suites
   silence/drone rejection, 44.1 kHz input, 5-minute performance), chart generation invariants
   across all styles, musical alignment, repetition, determinism, validator repairs, clock
   smoothing/drift/offsets/calibration, IndexedDB library and backups, metadata parsing for
-  MP3/M4A/WAV/FLAC/Ogg/Opus/AAC incl. DRM and corrupt input, the demo track and chart, editor
-  operations.
+  MP3/M4A/WAV/FLAC/Ogg/Opus/AAC incl. DRM and corrupt input, audio extraction from MP4/MOV
+  videos (the extracted sound decodes bit-identically to the video's own), parts of songs and
+  skip targets, the demo track and chart, editor operations.
 - **End-to-end (Playwright, Chromium, iPhone 13 viewport + touch):** import MP3 and M4A
   through the file picker, automatic analysis, autoplay to results, persistence across
   reload, search, duplicate detection, a non-audio file, keyboard play with pause/resume/exit,
   reload safety, chart editing and saving, settings persistence, deleting a song, an
   in-page bot that taps on time through the real input path (50/50 Perfect, mean error ≈ +7 ms),
-  and a bot run through the sync check (measured offsets within a few ms of zero; stopping
-  the live check really stops it).
+  a bot run through the sync check (measured offsets within a few ms of zero; stopping
+  the live check really stops it), importing an MP4 music video (stored as audio only) and
+  playing it, skipping a long intro, playing part of a song, and trimming a song.
 - **Real recordings:** evaluated on CC-licensed tracks (pop/folk, ragtime, waltz, hip-hop,
   swing jazz, orchestral). Beat agreement with librosa's tracker is ~0.98 F-measure on
   steady-tempo music; free-tempo orchestral music is approximate (and flagged as such).

@@ -5,8 +5,9 @@
  * currently *audible* (getOutputTimestamp when available, otherwise currentTime minus the
  * reported latency) and convert it to song time through the playback anchor. Raw readings
  * jitter by a few ms and update in coarse steps, so we keep a linear model
- * `song = base + (perf - basePerf)` and slew it toward the measurements, hard-resyncing on
- * large errors. Visuals and input judgments both read the same model, so they can never
+ * `song = base + (perf - basePerf)` and nudge it toward the median of the recent errors,
+ * a fraction of a millisecond per frame, so the steps of the hardware clock never show up as
+ * judder; larger errors are corrected faster and very large ones by a hard resync. Visuals and input judgments both read the same model, so they can never
  * disagree, and a dropped frame never causes drift (time comes from the model, not frames).
  */
 
@@ -22,7 +23,15 @@ export interface AudibleTimeSource {
 }
 
 export const HARD_RESYNC_MS = 45;
-const SLEW = 0.12;
+/** Errors up to this size are reading noise: corrected gently, at most FINE_STEP_MS a frame. */
+const FINE_BAND_MS = 8;
+const FINE_GAIN = 0.04;
+const FINE_STEP_MS = 0.6;
+/** Real shifts (an audio hiccup) between that and a hard resync are caught up quickly. */
+const FAST_GAIN = 0.2;
+const FAST_STEP_MS = 3;
+/** Recent errors the correction looks at (median), about 150 ms at 60 fps. */
+const ERR_WINDOW = 9;
 
 export class SongClock {
   private anchorCtx = 0;
@@ -33,6 +42,9 @@ export class SongClock {
   private synced = false;
   private running = false;
   private frozenAt = 0;
+  private errs = new Float64Array(ERR_WINDOW);
+  private sorted = new Float64Array(ERR_WINDOW);
+  private nErr = 0;
 
   constructor(private readonly source: AudibleTimeSource) {}
 
@@ -71,10 +83,31 @@ export class SongClock {
       this.base = m.song;
       this.basePerf = m.perf;
       this.synced = true;
+      this.nErr = 0;
     } else {
-      this.base += err * SLEW;
+      const e = this.medianError(err);
+      this.base +=
+        Math.abs(e) > FINE_BAND_MS ? clampAbs(e * FAST_GAIN, FAST_STEP_MS) : clampAbs(e * FINE_GAIN, FINE_STEP_MS);
     }
     return this.at(perfNow);
+  }
+
+  /** Adds `err` to the recent errors and returns their median (no allocation). */
+  private medianError(err: number): number {
+    this.errs[this.nErr % ERR_WINDOW] = err;
+    this.nErr++;
+    const n = Math.min(this.nErr, ERR_WINDOW);
+    const s = this.sorted;
+    for (let i = 0; i < n; i++) {
+      const v = this.errs[i];
+      let j = i - 1;
+      while (j >= 0 && s[j] > v) {
+        s[j + 1] = s[j];
+        j--;
+      }
+      s[j + 1] = v;
+    }
+    return s[n >> 1];
   }
 
   /** Song time at an arbitrary performance timestamp (e.g. a touch event's timeStamp). */
@@ -83,6 +116,10 @@ export class SongClock {
     if (!this.synced) return this.measure().song + (perf - this.source.sample().perf) * this.rate;
     return this.base + (perf - this.basePerf) * this.rate;
   }
+}
+
+function clampAbs(v: number, max: number): number {
+  return v > max ? max : v < -max ? -max : v;
 }
 
 /** Audible-time source backed by a Web Audio context. */

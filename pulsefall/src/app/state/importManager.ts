@@ -32,7 +32,8 @@ function patch(id: number, p: Partial<ImportItem>): void {
   importStore.update((s) => ({ ...s, items: s.items.map((it) => (it.id === id ? { ...it, ...p } : it)) }));
 }
 
-export const ACCEPT = 'audio/*,.mp3,.m4a,.aac,.mp4,.wav,.flac,.ogg,.opus,.oga';
+// Video types too: the sound of an MP4/MOV is extracted, and iOS then offers the Photo Library.
+export const ACCEPT = 'audio/*,video/mp4,video/quicktime,.mp3,.m4a,.aac,.mp4,.m4v,.mov,.wav,.flac,.ogg,.opus,.oga';
 
 /** Open the system file picker. Must be called from a click/tap handler. */
 export function pickFiles(onPicked?: (songs: SongRecord[]) => void): void {

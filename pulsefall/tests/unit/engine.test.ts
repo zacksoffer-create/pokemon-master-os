@@ -134,13 +134,30 @@ describe('hold notes', () => {
     expect(e.notes[0].state).toBe(NoteState.HoldDone);
   });
 
-  it('breaks when released early', () => {
-    const e = engine([hold(1, 1000, 2000, 1)]);
+  it('letting go early keeps the combo and scores the tail by how much was held', () => {
+    const e = engine([hold(1, 1000, 2000, 1), hold(2, 3000, 4000, 1)]);
     e.press(1, 1000, 'p');
     e.release('p', 1400);
     expect(e.notes[0].state).toBe(NoteState.HoldBroken);
-    expect(e.counts.miss).toBe(1);
-    expect(e.combo).toBe(0);
+    expect(e.notes[0].tail).toBe('good');
+    expect(e.counts.miss).toBe(0);
+    expect(e.combo).toBe(2);
+    e.press(1, 3000, 'p');
+    e.release('p', 3700);
+    expect(e.notes[1].tail).toBe('great');
+    expect(e.combo).toBe(4);
+    expect(e.getResult().fullCombo).toBe(true);
+  });
+
+  it('a hold dropped by a pause and not picked back up keeps the combo', () => {
+    const e = engine([hold(1, 1000, 3000, 1)]);
+    e.press(1, 1000, 'p');
+    e.update(1500);
+    e.suspendHolds();
+    e.update(3100);
+    expect(e.notes[0].tail).toBe('good');
+    expect(e.counts.miss).toBe(0);
+    expect(e.isFinished(3100)).toBe(true);
   });
 
   it('only the bound pointer can release a hold', () => {

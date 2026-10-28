@@ -7,6 +7,7 @@ import { Renderer, approachForSpeed, type FrameState, type Insets } from '../ren
 import type { Chart, Settings, SwipeDir } from '../types';
 import { lowerBound } from '../util';
 import { heardTime, judgeTime, renderTime, type Offsets } from './offsets';
+import { notesInRange, skipTarget } from './part';
 
 export interface SessionVisuals {
   energy: Float32Array;
@@ -32,14 +33,18 @@ export interface SessionOptions {
   songOffsetMs?: number;
   visuals?: SessionVisuals;
   autoplay?: boolean;
-  /** Practice: start here, earlier notes don't count. */
+  /** Play only part of the song (song time, ms): notes outside it are left out. */
   startAtMs?: number;
+  endAtMs?: number;
   insets: Insets;
   onFinish(result: SessionResult): void;
   onPauseChange(paused: boolean, reason: 'user' | 'hidden' | 'interrupted' | null): void;
-  /** Called once the chart is done and only outro music remains (allows skipping). */
-  onOutro?(): void;
+  /** A long stretch without notes lies ahead (or null when that's over): offer skip(). */
+  onSkipChange?(kind: SkipKind | null): void;
 }
+
+/** What skip() would skip: the run-up to the first note, a gap between notes, or the outro. */
+export type SkipKind = 'intro' | 'gap' | 'outro';
 
 type Phase = 'idle' | 'playing' | 'paused' | 'finished';
 
@@ -47,6 +52,10 @@ const RESUME_REWIND_MS = 1500;
 const STALL_FORGIVE_MS = 280;
 /** How long after the song (or the last note) the run may continue so late hits still count. */
 const END_GRACE_MS = 600;
+/** Offer a skip when the next note is at least this far away… */
+const SKIP_SHOW_MS = 7000;
+/** …and stop offering it once it's this close. */
+const SKIP_HIDE_MS = 4500;
 
 /**
  * One play-through. Owns the frame loop and wires clock -> engine -> renderer, with input
@@ -65,7 +74,12 @@ export class GameSession {
   private pressed: boolean[];
   private held: boolean[];
   private beatIdx = 0;
-  private outroAnnounced = false;
+  private skipKind: SkipKind | null = null;
+  private nextIdx = 0;
+  private endFaded = false;
+  private readonly startMs: number;
+  private readonly endMs: number;
+  private readonly approachMs: number;
   private wakeLock: { release(): Promise<void> } | null = null;
   private cleanup: (() => void)[] = [];
   private bannerUntil = 0;
@@ -76,14 +90,14 @@ export class GameSession {
     const s = o.settings;
     const laneCount = o.chart.laneCount;
     this.offsets = { audio: s.audioOffsetMs, input: s.inputOffsetMs, visual: s.visualOffsetMs };
-    this.engine = new GameEngine(o.chart.notes, {
+    const offsetMs = (o.chart.offsetMs || 0) + (o.songOffsetMs || 0);
+    this.engine = new GameEngine(notesInRange(o.chart.notes, offsetMs, o.startAtMs, o.endAtMs), {
       profile: TIMING_PROFILES[s.timingProfile],
       laneCount,
       swipeAssist: s.swipeAssist,
-      offsetMs: (o.chart.offsetMs || 0) + (o.songOffsetMs || 0),
+      offsetMs,
       autoplay: o.autoplay,
     });
-    if (o.startAtMs) this.engine.startAt(o.startAtMs);
     this.renderer = new Renderer(o.canvas, {
       laneCount,
       theme: s.theme,
@@ -99,6 +113,8 @@ export class GameSession {
     this.renderer.setInsets(o.insets);
     this.renderer.resize();
     this.player = new SongPlayer(o.audio, o.buffer);
+    this.startMs = Math.max(0, o.startAtMs ?? 0);
+    this.endMs = Math.min(this.player.durationMs, o.endAtMs ?? Infinity);
     // The buffer ends a little before its end is heard; the loop decides when the run is over.
     this.pressed = new Array(laneCount).fill(false);
     this.held = new Array(laneCount).fill(false);
@@ -109,6 +125,7 @@ export class GameSession {
     });
     // Lead-in: the first note must be able to travel the whole highway, plus a breath.
     const approach = approachForSpeed(s.noteSpeed);
+    this.approachMs = approach;
     const firstNote = this.engine.notes.find((n) => n.t >= (o.startAtMs ?? -Infinity))?.t ?? Infinity;
     const from = o.startAtMs !== undefined ? Math.max(0, o.startAtMs - 2500) : 0;
     this.startPos = Math.min(from, firstNote - approach - 1200);
@@ -161,11 +178,28 @@ export class GameSession {
     this.loop();
   }
 
-  skipOutro(): void {
-    if (this.phase === 'playing' || this.phase === 'paused') {
+  /** Skip what onSkipChange offered: jump ahead to just before the next note, or end the outro. */
+  skip(): void {
+    if (this.phase !== 'playing' || !this.skipKind) return;
+    if (this.skipKind === 'outro') {
       this.player.fadeOut(400);
       this.finish(true);
+      return;
     }
+    const perf = performance.now();
+    const judgeT = this.judgeTime(perf);
+    const next = this.engine.notes[this.nextIdx];
+    const target = next ? skipTarget(judgeT, next.t, this.approachMs, 0) : null;
+    if (target === null) return;
+    // Same jump on the raw song timeline (offsets are constant).
+    this.player.play(this.player.position(perf) + (target - judgeT), 0, 250);
+    this.lastJudgeT = -Infinity;
+    this.setSkip(null);
+  }
+
+  /** Back-compat name for skipping the outro. */
+  skipOutro(): void {
+    if (this.skipKind === 'outro') this.skip();
   }
 
   /** Stop everything and detach (leaving the game screen). */
@@ -217,11 +251,14 @@ export class GameSession {
     this.flushEvents(performance.now());
   }
 
-  private loop = (): void => {
+  private loop = (frameTime?: number): void => {
     if (this.phase !== 'playing') return;
-    const perf = performance.now();
+    const now = performance.now();
+    // Draw for the frame's own (vsync-aligned) timestamp rather than whenever this callback
+    // happened to run, so notes advance by the same distance every frame.
+    const perf = frameTime !== undefined && frameTime <= now + 1 && now - frameTime < 50 ? frameTime : now;
     this.player.tick(perf);
-    const judgeT = this.judgeTime(perf);
+    const judgeT = this.judgeTime(now);
     // A long gap between frames (stall, backgrounding) is not the player's fault.
     const forgive = perf - this.lastFramePerf > STALL_FORGIVE_MS && judgeT - this.lastJudgeT > STALL_FORGIVE_MS;
     this.engine.update(judgeT, forgive);
@@ -229,21 +266,46 @@ export class GameSession {
     this.lastJudgeT = judgeT;
     this.flushEvents(perf);
     this.drawFrame(perf);
-    if (!this.outroAnnounced && this.engine.isFinished(judgeT)) {
-      this.outroAnnounced = true;
-      const remaining = this.player.durationMs - judgeT;
-      if (remaining > 4000) this.o.onOutro?.();
-      else if (remaining <= 0) this.finish(true);
+    this.updateSkip(judgeT);
+    // A part ends with a short fade instead of a hard cut.
+    const heard = this.heardTime(perf);
+    if (!this.endFaded && this.endMs < this.player.durationMs && heard >= this.endMs - 250) {
+      this.endFaded = true;
+      this.player.fadeOut(600);
     }
     // Over once every note is resolved and the music has been heard to the end, or once even
     // the latest possible hit on the last note is out of reach.
-    const allResolved = this.engine.isFinished(judgeT) && this.heardTime(perf) >= this.player.durationMs;
-    if (allResolved || judgeT > Math.max(this.player.durationMs, this.engine.lastTime) + END_GRACE_MS) {
+    const allResolved = this.engine.isFinished(judgeT) && heard >= this.endMs;
+    if (allResolved || judgeT > Math.max(this.endMs, this.engine.lastTime) + END_GRACE_MS) {
       this.finish(true);
       return;
     }
     this.raf = requestAnimationFrame(this.loop);
   };
+
+  /** Tracks whether a long note-free stretch lies ahead (with hysteresis, so it doesn't flicker). */
+  private updateSkip(judgeT: number): void {
+    const notes = this.engine.notes;
+    if (this.nextIdx > 0 && notes[this.nextIdx - 1].t > judgeT) this.nextIdx = 0; // rewound
+    while (this.nextIdx < notes.length && notes[this.nextIdx].t <= judgeT) this.nextIdx++;
+    const next = notes[this.nextIdx];
+    let kind: SkipKind | null = null;
+    if (!next) {
+      if (this.engine.isFinished(judgeT) && this.endMs - judgeT > SKIP_HIDE_MS) kind = 'outro';
+    } else {
+      const gap = next.t - judgeT;
+      const keep = this.skipKind !== null && this.skipKind !== 'outro' && gap > SKIP_HIDE_MS;
+      if ((gap > SKIP_SHOW_MS || keep) && skipTarget(judgeT, next.t, this.approachMs) !== null) {
+        kind = this.nextIdx === 0 && this.startMs === 0 ? 'intro' : 'gap';
+      }
+    }
+    if (kind !== this.skipKind) this.setSkip(kind);
+  }
+
+  private setSkip(kind: SkipKind | null): void {
+    this.skipKind = kind;
+    this.o.onSkipChange?.(kind);
+  }
 
   private flushEvents(perf: number): void {
     for (const ev of this.engine.drainEvents()) {
@@ -291,7 +353,7 @@ export class GameSession {
       combo: this.engine.combo,
       multiplier: this.engine.multiplier,
       accuracy: this.engine.accuracy,
-      progress: this.player.durationMs > 0 ? Math.max(0, heard) / this.player.durationMs : 0,
+      progress: this.endMs > this.startMs ? Math.max(0, heard - this.startMs) / (this.endMs - this.startMs) : 0,
       title: this.o.title,
       subtitle: this.o.subtitle,
       energy,

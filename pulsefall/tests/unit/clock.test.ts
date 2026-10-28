@@ -37,7 +37,42 @@ describe('SongClock', () => {
       prev = t;
     }
     expect(maxErr).toBeLessThan(12);
-    expect(maxStep).toBeLessThan(4); // no visible stutter from coarse readings
+    expect(maxStep).toBeLessThan(0.5); // no visible judder from coarse readings
+  });
+
+  it('stays smooth on a very coarse clock (1024-frame audio buffers)', () => {
+    const src = new FakeSource();
+    src.quantumMs = 23.2;
+    const clock = new SongClock(src);
+    clock.start(0, 0);
+    let maxStep = 0;
+    let prev = -Infinity;
+    for (let f = 0; f < 60 * 120; f++) {
+      src.perf = 16.67 * f;
+      const t = clock.update(src.perf);
+      if (f > 60) maxStep = Math.max(maxStep, Math.abs(t - prev - 16.67));
+      prev = t;
+    }
+    expect(maxStep).toBeLessThan(0.6);
+  });
+
+  it('catches up quickly with a real shift that is too small for a hard resync', () => {
+    const src = new FakeSource();
+    src.jitterMs = 0;
+    const clock = new SongClock(src);
+    clock.start(0, 0);
+    for (let f = 0; f < 600; f++) {
+      src.perf = 16.67 * f;
+      clock.update(src.perf);
+    }
+    const before = clock.update(src.perf) - src.trueSong(0, 0);
+    src.latency += 0.03; // the output path suddenly adds 30 ms
+    let frames = 0;
+    for (; frames < 120; frames++) {
+      src.perf += 16.67;
+      if (Math.abs(clock.update(src.perf) - src.trueSong(0, 0) - before) < 5) break;
+    }
+    expect(frames).toBeLessThan(30);
   });
 
   it('follows an audio clock that runs slightly fast or slow (no accumulated drift)', () => {

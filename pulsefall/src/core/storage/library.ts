@@ -75,7 +75,13 @@ export function normalizeSong(raw: Partial<SongRecord> & { id: string }): SongRe
     previewStartMs: raw.previewStartMs ?? 0,
     isDemo: raw.isDemo,
     metadataEdited: raw.metadataEdited,
+    trim: validTrim(raw.trim),
   };
+}
+
+function validTrim(t: unknown): SongRecord['trim'] {
+  const r = t as SongRecord['trim'];
+  return r && Number.isFinite(r.startMs) && Number.isFinite(r.endMs) && r.endMs > r.startMs && r.startMs >= 0 ? { startMs: r.startMs, endMs: r.endMs } : undefined;
 }
 
 export function toStorageError(e: unknown): StorageError {

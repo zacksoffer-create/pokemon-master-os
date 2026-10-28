@@ -5,6 +5,7 @@ import { ANALYSIS_VERSION, type AnalysisResult, type Chart, type Settings, type 
 import { hashBytesHex, hashString } from '../util';
 import { analyzeInWorker, generateInWorker, JobError, type Job } from './analysisClient';
 import { compatibilityNote, guessFromFileName, parseAudioMetadata, type AudioMetadata } from './metadata';
+import { extractMp4Audio, looksLikeMp4 } from './mp4Audio';
 import type { WorkerStage } from './workerProtocol';
 
 export type ImportStage = 'reading' | 'decoding' | WorkerStage | 'saving' | 'done';
@@ -46,6 +47,8 @@ export interface ImportOutcome {
 }
 
 export const MAX_FILE_BYTES = 150 * 1024 * 1024;
+/** Videos can be bigger: only their sound is read and kept. */
+export const MAX_VIDEO_BYTES = 2 * 1024 * 1024 * 1024;
 export const MAX_DURATION_MS = 20 * 60 * 1000;
 const ANALYSIS_RATE = 22050;
 
@@ -153,9 +156,24 @@ export async function importFile(file: File, opts: ImportOptions): Promise<Impor
   };
   try {
     onProgress({ stage: 'reading' });
-    if (file.size > MAX_FILE_BYTES) throw new ImportError('too-large', 'This file is larger than 150 MB. Try a regular song file (most are 3–15 MB).');
     if (file.size === 0) throw new ImportError('decode', 'This file is empty.');
-    const bytes = await file.arrayBuffer();
+    // Videos (MP4/MOV): keep just the sound track, copied as is.
+    let bytes: ArrayBuffer | null = null;
+    let fromVideo = false;
+    if (looksLikeMp4(new Uint8Array(await file.slice(0, 16).arrayBuffer()))) {
+      if (file.size > MAX_VIDEO_BYTES) throw new ImportError('too-large', 'This video is larger than 2 GB. Try a shorter clip or the song file itself.');
+      const extracted = await extractMp4Audio(file, MAX_FILE_BYTES).catch(() => null);
+      check();
+      if (extracted?.kind === 'no-audio') throw new ImportError('silent', 'This video has no sound, so there is nothing to play along to.');
+      if (extracted?.kind === 'extracted') {
+        bytes = extracted.bytes.buffer as ArrayBuffer;
+        fromVideo = true;
+      }
+    }
+    if (!bytes) {
+      if (file.size > MAX_FILE_BYTES) throw new ImportError('too-large', 'This file is larger than 150 MB. Try a regular song file (most are 3–15 MB).');
+      bytes = await file.arrayBuffer();
+    }
     check();
     const u8 = new Uint8Array(bytes);
     const meta = parseAudioMetadata(u8, file.name);
@@ -167,7 +185,15 @@ export async function importFile(file: File, opts: ImportOptions): Promise<Impor
     onProgress({ stage: 'decoding' });
     let decoded: { pcm: Float32Array; sampleRate: number; durationMs: number };
     try {
-      decoded = await decodeForAnalysis(bytes);
+      try {
+        decoded = await decodeForAnalysis(bytes);
+      } catch (e) {
+        // If the extracted sound won't decode, the browser may still play the whole video.
+        if (!fromVideo || file.size > MAX_FILE_BYTES) throw e;
+        bytes = await file.arrayBuffer();
+        fromVideo = false;
+        decoded = await decodeForAnalysis(bytes);
+      }
     } catch {
       const note = compatibilityNote(meta);
       throw new ImportError(
@@ -238,7 +264,7 @@ export async function importFile(file: File, opts: ImportOptions): Promise<Impor
     // When relinking a restored song, keep its existing charts (they may be hand-edited).
     const existingCharts = existing ? await library.getCharts(songId) : [];
     const charts = output.charts.filter((c) => !existingCharts.some((x) => x.id === c.id && x.source !== 'auto'));
-    await library.saveImport({ song, audio: { bytes, mime: mimeFor(meta, file) }, artwork, analysis, charts });
+    await library.saveImport({ song, audio: { bytes, mime: fromVideo ? 'audio/mp4' : mimeFor(meta, file) }, artwork, analysis, charts });
     void requestPersistence();
     onProgress({ stage: 'done' });
     return { kind: existing ? 'relinked' : 'imported', song, chartErrors: output.errors };

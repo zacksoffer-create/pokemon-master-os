@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { audio } from '../../core/audio/audioEngine';
 import { STYLES } from '../../core/chart/styles';
 import { TIMING_PROFILES, starLabel } from '../../core/engine/timing';
-import { GameSession, type SessionResult } from '../../core/game/session';
+import { GameSession, type SessionResult, type SkipKind } from '../../core/game/session';
 import type { Insets } from '../../core/render/renderer';
 import { library } from '../../core/storage/library';
 import { APP_VERSION, type Chart, type PlayResult, type SongRecord } from '../../core/types';
-import { formatScore } from '../../core/util';
+import { formatDuration, formatScore } from '../../core/util';
 import { keyLabels } from '../../core/input/inputController';
 import { Icon } from '../components/Icon';
 import { Button, Slider, Stars } from '../components/ui';
@@ -54,7 +54,7 @@ export function Game({ id }: { id: string }) {
   const sessionRef = useRef<GameSession | null>(null);
   const loadedRef = useRef<Loaded | null>(null);
   const [phase, setPhase] = useState<Phase>({ kind: 'loading', text: 'Loading song…' });
-  const [outro, setOutro] = useState(false);
+  const [skip, setSkip] = useState<SkipKind | null>(null);
   const [quickSettings, setQuickSettings] = useState(false);
 
   // Load everything, then start (audio was unlocked by the Play tap that brought us here).
@@ -105,8 +105,9 @@ export function Game({ id }: { id: string }) {
     const L = loadedRef.current;
     if (!L || !canvasRef.current || !rootRef.current) return;
     sessionRef.current?.destroy();
-    setOutro(false);
+    setSkip(null);
     const s = settingsStore.get();
+    const range = playRange(L);
     const session = new GameSession({
       canvas: canvasRef.current,
       inputEl: rootRef.current,
@@ -119,10 +120,11 @@ export function Game({ id }: { id: string }) {
       songOffsetMs: L.song.overrides?.offsetMs ?? 0,
       visuals: L.visuals,
       autoplay: L.launch.autoplay,
-      startAtMs: L.launch.startAtMs,
+      startAtMs: range?.startMs,
+      endAtMs: range?.endMs,
       insets: readSafeInsets(),
       onPauseChange: (paused, reason) => setPhase(paused ? { kind: 'paused', reason } : { kind: 'playing' }),
-      onOutro: () => setOutro(true),
+      onSkipChange: setSkip,
       onFinish: (result) => void finish(result),
     });
     sessionRef.current = session;
@@ -160,8 +162,8 @@ export function Game({ id }: { id: string }) {
     };
     let isNewBest = false;
     let previousBest: number | null = null;
-    // Practice runs (editor previews, partial starts) are not recorded.
-    if (!L.launch.chart && !L.launch.startAtMs) {
+    // Practice runs (editor previews, parts) are not recorded; a saved trim is a normal run.
+    if (!isPractice(L.launch)) {
       try {
         const r = await library.recordPlay(record);
         isNewBest = r.isNewBest;
@@ -192,9 +194,9 @@ export function Game({ id }: { id: string }) {
           <Icon name="pause" size={20} />
         </button>
       )}
-      {phase.kind === 'playing' && outro && (
-        <button class="outro-btn" onPointerDown={(e) => e.stopPropagation()} onClick={() => sessionRef.current?.skipOutro()}>
-          Skip outro <Icon name="play" size={14} />
+      {phase.kind === 'playing' && skip && (
+        <button class="outro-btn" onPointerDown={(e) => e.stopPropagation()} onClick={() => sessionRef.current?.skip()}>
+          {SKIP_LABEL[skip]} <Icon name="play" size={14} />
         </button>
       )}
 
@@ -255,7 +257,8 @@ export function Game({ id }: { id: string }) {
           phase={phase}
           song={loadedRef.current!.song}
           chart={loadedRef.current!.chart}
-          practice={!!loadedRef.current!.launch.chart || !!loadedRef.current!.launch.startAtMs}
+          practice={isPractice(loadedRef.current!.launch)}
+          range={playRange(loadedRef.current!)}
           onRetry={() => {
             if (loadedRef.current) loadedRef.current.launch = { ...loadedRef.current.launch, autoplay: false };
             void audio.unlock();
@@ -266,6 +269,19 @@ export function Game({ id }: { id: string }) {
       )}
     </div>
   );
+}
+
+const SKIP_LABEL: Record<SkipKind, string> = { intro: 'Skip intro', gap: 'Skip ahead', outro: 'Skip outro' };
+
+function isPractice(l: Launch): boolean {
+  return !!l.chart || l.startAtMs !== undefined || l.endAtMs !== undefined;
+}
+
+/** The stretch this run plays: a part from the launch, else the song's saved trim. */
+function playRange(L: Loaded): { startMs?: number; endMs?: number } | undefined {
+  const { startAtMs, endAtMs } = L.launch;
+  if (startAtMs !== undefined || endAtMs !== undefined) return { startMs: startAtMs, endMs: endAtMs };
+  return L.song.trim;
 }
 
 function CountUp({ value, ms = 1100 }: { value: number; ms?: number }) {
@@ -289,6 +305,7 @@ function Results({
   song,
   chart,
   practice,
+  range,
   onRetry,
   onExit,
 }: {
@@ -296,6 +313,7 @@ function Results({
   song: SongRecord;
   chart: Chart;
   practice: boolean;
+  range?: { startMs?: number; endMs?: number };
   onRetry: () => void;
   onExit: () => void;
 }) {
@@ -388,6 +406,7 @@ function Results({
       )}
       <p class="results-foot">
         {TIMING_PROFILES[r.timingProfile].label} timing · {chart.source === 'auto' ? 'auto chart' : chart.source === 'authored' ? 'showcase chart' : 'your edit'}
+        {range && ` · ${practice ? 'part' : 'trimmed'} ${formatDuration(range.startMs ?? 0)}–${formatDuration(range.endMs ?? song.durationMs)}`}
       </p>
       <div class="results-actions">
         <Button variant="primary" size="lg" icon="refresh" onClick={onRetry}>

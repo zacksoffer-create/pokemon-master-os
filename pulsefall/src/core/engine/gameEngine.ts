@@ -86,6 +86,8 @@ export interface EngineResult {
 const SWIPE_GRACE_MS = 140;
 /** Holds released this close to their end still count as completed. */
 const HOLD_RELEASE_GRACE_MS = 130;
+/** Letting go of a hold early never breaks the combo; holding this much of it still earns a Great. */
+const HOLD_GREAT_FRACTION = 0.6;
 /** A missed hold head can still be "caught" until this long before its end. */
 const HOLD_CATCH_MARGIN_MS = 120;
 const SUSTAIN_TICK_MS = 100;
@@ -281,8 +283,8 @@ export class GameEngine {
       if (n.state === NoteState.Holding) {
         this.addSustain(n, Math.min(t, n.end));
         const grace = Math.min(HOLD_RELEASE_GRACE_MS, 0.3 * (n.end - n.t));
-        if (t >= n.end - grace) this.finishHold(n, true, t);
-        else this.finishHold(n, false, t);
+        if (t >= n.end - grace) this.finishHold(n, 'perfect', t);
+        else this.finishHold(n, (t - n.t) / (n.end - n.t) >= HOLD_GREAT_FRACTION ? 'great' : 'good', t);
       } else if (n.state === NoteState.Arming) {
         const err = n.pressT - n.t;
         if (this.swipeAssist) this.resolveSwipe(n, judge(err, this.profile), err, t);
@@ -324,7 +326,7 @@ export class GameEngine {
           break;
         case NoteState.Holding:
           this.addSustain(n, Math.min(t, n.end));
-          if (t >= n.end) this.finishHold(n, true, t);
+          if (t >= n.end) this.finishHold(n, 'perfect', t);
           break;
         case NoteState.Missed:
           if (n.type === 'hold' && n.tail === null && t > n.end) {
@@ -332,6 +334,9 @@ export class GameEngine {
               n.tail = 'miss';
               n.state = NoteState.HoldBroken;
               this.skipped += 1;
+            } else if (n.judgment !== 'miss') {
+              // Hit, then let go by a pause and not picked back up: an early release, not a miss.
+              this.finishHold(n, 'good', t);
             } else this.missTail(n, t);
           }
           break;
@@ -449,11 +454,13 @@ export class GameEngine {
     n.heldUntil = upTo;
   }
 
-  private finishHold(n: EngineNote, completed: boolean, t: number): void {
+  /** A held note ends: `tail` is 'perfect' when held to the end, a lesser hit when let go early. */
+  private finishHold(n: EngineNote, tail: Judgment, t: number): void {
+    const completed = tail === 'perfect';
     n.state = completed ? NoteState.HoldDone : NoteState.HoldBroken;
-    n.tail = completed ? 'perfect' : 'miss';
+    n.tail = tail;
     n.pointer = null;
-    this.apply(n.tail, 0, 'tail', n, t);
+    this.apply(tail, 0, 'tail', n, t);
     this.events.push({ kind: 'holdEnd', noteId: n.id, lane: n.lane, t, completed });
   }
 

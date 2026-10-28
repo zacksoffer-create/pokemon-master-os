@@ -7,7 +7,10 @@ import { regenerateCharts } from '../../core/import/importer';
 import { library } from '../../core/storage/library';
 import { CHART_STYLES, type Chart, type ChartOverrides, type ChartStyle, type PatternStyle, type SongRecord } from '../../core/types';
 import { formatDuration, formatScore } from '../../core/util';
+import type { PlayRange } from '../../core/game/part';
+import type { Segment } from '../../core/types';
 import { Cover } from '../components/Art';
+import { PartPicker } from '../components/PartPicker';
 import { Icon } from '../components/Icon';
 import { Button, IconButton, LevelMeter, MenuItem, Segmented, Sheet, Slider, Stars, TopBar, confirmDialog } from '../components/ui';
 import { navigate } from '../router';
@@ -38,6 +41,9 @@ export function SongDetail({ id }: { id: string }) {
   const [infoOpen, setInfoOpen] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [previewing, setPreviewing] = useState(false);
+  const [partOpen, setPartOpen] = useState(false);
+  const [segments, setSegments] = useState<Segment[] | null>(null);
+  useEffect(() => setSegments(null), [id]);
   // 'loading' while the audio decodes, so a second tap (or leaving) cancels instead of stacking.
   const preview = useRef<{ player: SongPlayer; timer: number } | 'loading' | null>(null);
 
@@ -68,7 +74,8 @@ export function SongDetail({ id }: { id: string }) {
     p.player.fadeOut(350);
   }
 
-  async function togglePreview(s: SongRecord) {
+  /** Plays 15 s from the preview point, or the given stretch. A second tap stops it. */
+  async function togglePreview(s: SongRecord, part?: PlayRange) {
     if (preview.current) return stopPreview();
     void audio.unlock();
     preview.current = 'loading';
@@ -77,10 +84,11 @@ export function SongDetail({ id }: { id: string }) {
       const buffer = await loadSongBuffer(s);
       if (preview.current !== 'loading') return; // stopped, replaced or left while decoding
       const player = new SongPlayer(audio, buffer);
-      const start = Math.min(s.previewStartMs, Math.max(0, buffer.duration * 1000 - 15000));
+      const start = part ? part.startMs : Math.min(s.previewStartMs, Math.max(0, buffer.duration * 1000 - 15000));
+      const length = part ? part.endMs - part.startMs : 15000;
       player.play(start, 0, 600);
       const entry = { player, timer: 0 };
-      entry.timer = window.setTimeout(() => preview.current === entry && stopPreview(), 15000);
+      entry.timer = window.setTimeout(() => preview.current === entry && stopPreview(), length);
       preview.current = entry;
     } catch (e) {
       if (preview.current !== 'loading') return;
@@ -90,13 +98,35 @@ export function SongDetail({ id }: { id: string }) {
     }
   }
 
-  function play(s: SongRecord, c: Chart, autoplay = false) {
+  function play(s: SongRecord, c: Chart, autoplay = false, part?: PlayRange) {
     stopPreview();
     // Unlock audio inside this tap: iOS only allows it during a user gesture.
     void audio.unlock();
     updateSettings({ lastStyle: c.style });
-    setLaunch({ songId: s.id, chartId: c.id, autoplay });
+    setLaunch({ songId: s.id, chartId: c.id, autoplay, startAtMs: part?.startMs, endAtMs: part?.endMs });
     navigate({ name: 'play', id: s.id });
+  }
+
+  function openPart(s: SongRecord) {
+    setMenu(false);
+    setPartOpen(true);
+    if (!segments) void library.getAnalysis(s.id).then((a) => setSegments(a?.segments ?? []));
+  }
+
+  async function saveTrim(s: SongRecord, trim: PlayRange | null) {
+    stopPreview();
+    const hasBests = Object.keys(s.best).length > 0;
+    if (hasBests) {
+      const ok = await confirmDialog({
+        title: trim ? 'Always play just this part?' : 'Play the whole song again?',
+        body: 'Best scores for this song start fresh, since the part you play changes.',
+        confirm: trim ? 'Trim song' : 'Use whole song',
+      });
+      if (!ok) return;
+    }
+    await library.updateSong(s.id, { trim: trim ?? undefined, ...(hasBests ? { best: {} } : {}) });
+    setPartOpen(false);
+    toast(trim ? `Trimmed to ${formatDuration(trim.startMs)}–${formatDuration(trim.endMs)}` : 'Playing the whole song', 'success');
   }
 
   async function regenerate(s: SongRecord) {
@@ -240,7 +270,19 @@ export function SongDetail({ id }: { id: string }) {
         <Button icon={previewing ? 'stop' : 'volume'} disabled={missingAudio} onClick={() => void togglePreview(song)} label="Preview">
           {previewing ? 'Stop' : 'Preview'}
         </Button>
+        <Button icon="cut" disabled={!chart || missingAudio || preparing} onClick={() => openPart(song)} label="Play part of the song">
+          Part
+        </Button>
       </div>
+      {song.trim && (
+        <button class="trim-note" onClick={() => openPart(song)}>
+          <Icon name="cut" size={16} />
+          <span>
+            Plays <b>{formatDuration(song.trim.startMs)}–{formatDuration(song.trim.endMs)}</b> only
+          </span>
+          <span class="trim-change">Change</span>
+        </button>
+      )}
 
       {chart && (
         <div class="chart-facts">
@@ -293,6 +335,34 @@ export function SongDetail({ id }: { id: string }) {
           <p>{busy}</p>
         </div>
       )}
+
+      <Sheet
+        open={partOpen}
+        onClose={() => {
+          stopPreview();
+          setPartOpen(false);
+        }}
+        title="Play part of the song"
+      >
+        {chart && segments ? (
+          <PartPicker
+            song={song}
+            chart={chart}
+            segments={segments}
+            listening={previewing}
+            onListen={(r) => void togglePreview(song, r)}
+            onPlay={(r) => {
+              setPartOpen(false);
+              play(song, chart, false, r);
+            }}
+            onSaveTrim={(r) => void saveTrim(song, r)}
+          />
+        ) : (
+          <div class="center">
+            <div class="spinner" />
+          </div>
+        )}
+      </Sheet>
 
       <Sheet open={menu} onClose={() => setMenu(false)} title={song.title}>
         {chart && (
