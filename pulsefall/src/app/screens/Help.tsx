@@ -1,6 +1,7 @@
 import { Icon } from '../components/Icon';
 import { TopBar } from '../components/ui';
 import { isStandalone } from './Home';
+import { DriveHelpSteps } from '../components/DriveHelp';
 
 export function Help() {
   return (
@@ -27,6 +28,11 @@ export function Help() {
             </li>
           </ol>
           <p>Nothing is uploaded. Your music never leaves your device.</p>
+        </section>
+
+        <section>
+          <h2>Songs on Google Drive</h2>
+          <DriveHelpSteps />
         </section>
 
         <section>

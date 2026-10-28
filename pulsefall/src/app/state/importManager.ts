@@ -1,3 +1,4 @@
+import { isIOS } from '../../core/audio/audioEngine';
 import { ImportError, importFile, type ImportOutcome, type ImportStage } from '../../core/import/importer';
 import type { SongRecord } from '../../core/types';
 import { settingsStore } from './settings';
@@ -39,7 +40,10 @@ export const ACCEPT = 'audio/*,video/mp4,video/quicktime,.mp3,.m4a,.aac,.mp4,.m4
 export function pickFiles(onPicked?: (songs: SongRecord[]) => void): void {
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = ACCEPT;
+  // iOS greys out any file whose type it can't match to the filter, which can hide songs in
+  // cloud folders such as Google Drive. There, allow everything; the importer explains
+  // anything that isn't a song.
+  if (!isIOS()) input.accept = ACCEPT;
   input.multiple = true;
   input.style.display = 'none';
   input.addEventListener('change', () => {

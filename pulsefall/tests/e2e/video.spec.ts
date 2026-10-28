@@ -6,7 +6,10 @@ test('import an MP4 video, keep its sound and play it to the results', async ({ 
   await page.goto('/#/library');
   const chooser = page.waitForEvent('filechooser');
   await page.getByRole('button', { name: /Import/ }).first().click();
-  await (await chooser).setFiles(fileURLToPath(new URL('../fixtures/e2e/neon-clip.mp4', import.meta.url)));
+  const fc = await chooser;
+  // On iPhone the picker has no type filter, so files in Google Drive & co. are never greyed out.
+  expect(await fc.element().getAttribute('accept')).toBeNull();
+  await fc.setFiles(fileURLToPath(new URL('../fixtures/e2e/neon-clip.mp4', import.meta.url)));
   await expect(page.getByText('ready to play')).toBeVisible({ timeout: 60_000 });
   await page.getByRole('button', { name: 'Open' }).click();
   await expect(page.getByRole('heading', { name: 'Neon Clip' })).toBeVisible();

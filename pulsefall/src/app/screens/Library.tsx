@@ -2,6 +2,7 @@ import { useMemo, useState } from 'preact/hooks';
 import { CHART_STYLES, type SongRecord } from '../../core/types';
 import { formatDuration } from '../../core/util';
 import { Cover } from '../components/Art';
+import { DriveHelpSheet } from '../components/DriveHelp';
 import { Icon } from '../components/Icon';
 import { Button, Segmented, Stars, TopBar } from '../components/ui';
 import { navigate } from '../router';
@@ -20,6 +21,7 @@ export function Library() {
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<Sort>('recent');
   const [favOnly, setFavOnly] = useState(false);
+  const [driveHelp, setDriveHelp] = useState(false);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -78,6 +80,11 @@ export function Library() {
           </button>
         </div>
       </div>
+
+      <button class="link-btn drive-link" onClick={() => setDriveHelp(true)}>
+        <Icon name="info" size={16} /> Songs on Google Drive? Here's how to import them
+      </button>
+      <DriveHelpSheet open={driveHelp} onClose={() => setDriveHelp(false)} />
 
       {error && <p class="empty">Couldn't open your library: {error}</p>}
       {!loading && !error && list.length === 0 && (

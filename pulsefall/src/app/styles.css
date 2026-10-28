@@ -2235,3 +2235,34 @@ details.advanced summary {
   justify-content: center;
   padding: 32px 0;
 }
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 2px;
+  background: none;
+  border: 0;
+  color: var(--c1);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+.drive-link {
+  margin: 2px 0 6px;
+}
+.drive-help ol {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+.drive-help b {
+  color: var(--text);
+}
+.drive-help .row-hint {
+  margin-top: 14px;
+}
