@@ -1,6 +1,6 @@
 // Playmaker spacing and help, no browser: shooters stand on the arc where
-// they'll shoot it, the big lives at the dunker spot, a soft drag around the
-// top is a dribble and not a drive, and Casual passing finds the man you meant.
+// they'll shoot it, the big lives at the dunker spot, and Casual passing
+// finds the man you meant (and still punishes the wrong read).
 const M = require('./pm_load')();
 const { PMSim, Court3D } = M;
 function mul(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
@@ -132,21 +132,6 @@ SEEDS.forEach(seed => {
   if (W.result && W.result.turnover) wrongPicked++;
 });
 check(wrongPicked >= SEEDS.length * 2 * 0.75, 'Casual still punishes the wrong read: throwing into the denial or the lane jumper', `${wrongPicked}/${SEEDS.length * 2} turned over`);
-
-// 5. a soft drag around the top is a dribble, not a drive into him
-let cutoffs = 0, moved = 0;
-SEEDS.forEach(seed => {
-  const W = PMSim.create({ court: Court3D.COURTS.gym, scheme: 'cornerhelp', rand: mul(seed) });
-  step(W, 0.4);
-  const p0 = H(W).pos.slice();
-  step(W, 0.8, () => PMSim.driveInput(W, unitTo(H(W).pos, [H(W).pos[0] + 10, 0, H(W).pos[2] + 1]), 0, 0.4));
-  step(W, 0.8, () => PMSim.driveInput(W, unitTo(H(W).pos, [H(W).pos[0] - 10, 0, H(W).pos[2] + 0.5]), 0, 0.35));
-  PMSim.driveInput(W, null);
-  if (W.story.some(s => s.k === 'drive' && !s.win)) cutoffs++;
-  if (Math.hypot(H(W).pos[0] - p0[0], H(W).pos[2] - p0[2]) > 2) moved++;
-});
-check(cutoffs === 0, 'a soft drag around the top never reads as a drive into him', `${cutoffs} cut-offs`);
-check(moved >= SEEDS.length * 0.8, 'and it moves him', `${moved}/${SEEDS.length}`);
 
 console.log(fails ? `\n${fails} check(s) failed` : '\nall checks pass');
 process.exit(fails ? 1 : 0);

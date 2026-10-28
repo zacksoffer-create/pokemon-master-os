@@ -55,7 +55,7 @@ A separate mode inside Basketball Playground: five on five, and you're passing. 
 | Snap it | Bullet. Flat and fast, beats a rotation. |
 | Pull back, then flick | Bounce pass, under the hands. |
 | Curl it | Bends the pass around a defender. |
-| Drag | Move him, like a joystick. A soft or sideways drag dribbles him around; a hard push at the rim, or a snap back the other way, attacks his man. Drag, then flick is drive and kick in one motion. |
+| Drag | Drive. Drag, then flick is drive and kick in one motion. |
 | Hold still | Court vision: the floor slows down for about a second each possession. |
 | Tap | Pass fake. Lane jumpers jump. |
 | Flick while the ball is in the air | The next pass: he catches it and swings it right away. |
@@ -155,7 +155,7 @@ node games/test/makes_hoops.js           # in-browser: a well-sized flick scores
 node games/test/smoke_hoops.js OUTDIR    # plays every basketball mode, screenshots
 node games/test/pm_passes.js             # Playmaker: picks and tips by lane and pass type, catch quality
 node games/test/pm_reads.js              # Playmaker: each defense's right read against the wrong one
-node games/test/pm_spacing.js            # Playmaker: shooters on the arc, the big at the rim, dump-offs, Casual aim, dribbling around
+node games/test/pm_spacing.js            # Playmaker: shooters on the arc, the big at the rim, dump-offs, Casual aim
 node games/test/pm_controls.js OUTDIR    # Playmaker gestures: pass types, drive and kick, vision, extra pass, queued pass, Casual aim
 node games/test/pm_smoke.js OUTDIR       # Playmaker and Draw It Up through the app
 node games/test/dfx_mc.js                # Lockdown: steals, contests, blocks vs goaltending, charges, caroms, each scorer's read

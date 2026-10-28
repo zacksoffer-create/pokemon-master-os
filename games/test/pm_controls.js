@@ -143,7 +143,8 @@ const check = (ok, label, extra) => { if (!ok) fails++; console.log((ok ? 'PASS 
   await flick(await target(jm, 0.75), 150, { dip: 45 });
   st = await settle(); rows.push(['lane jumper: fake, back cut, bounce', st.res]);
   check(st.res && !st.res.to, 'lane jumper: fake him, hit the back cut', JSON.stringify(st.res));
-  // corner help: drive, kick to the corner
+  // corner help: drive, kick to the corner (on Casual, the default)
+  await p.evaluate(() => window.__pm.setSettings({ pmFeel: 'casual' }));
   await start('cornerhelp', 23);
   { const a = await drive([7, 0, 10], 1100, true); await release(a); }
   { const hm = await p.evaluate(() => { const w = window.__pm._S.w; return w.help ? w.help.man : 3; }); await flick(await target(hm, 0.3), 100); }

@@ -437,8 +437,7 @@ const PMSim = (() => {
     const dv = W.drive;
     if (dv && dv.dir) {
       const beat = dv.beat, back = dv.retreat;
-      // probing: a dribble around, as fast as the drag says; attacking: all he's got
-      const sp = back ? 9 : beat ? O.role.speed * 0.95 : dv.probe ? 4.5 + 5.5 * (dv.mag == null ? 1 : dv.mag) : 6.5;
+      const sp = back ? 9 : beat ? O.role.speed * 0.95 : 6.5;
       let target = V.add(O.pos, V.mul(dv.dir, sp * 0.5));
       target = clampCourt(target);
       steer(O, target, sp, 70, dt);
@@ -473,13 +472,9 @@ const PMSim = (() => {
     void D;
   }
 
-  /* dir: the drag direction on the floor (unit), or null when the finger stops.
-     ago: how long the push had been going before it read as a drive.
-     mag: how hard the drag is (0..1). Moving him around (sideways, back, or a
-     soft drag) is a probe: his man just stays in front. Going at the rim with
-     some push, or a hard change of direction, is an attack, and that's when
-     his man has to beat you to the spot. */
-  function driveInput(W, dir, ago, mag) {
+  /* dir: the drag direction on the floor (unit), or null when the finger stops. */
+  // ago: how long the push had been going before it read as a drive
+  function driveInput(W, dir, ago) {
     if (W.over || W.ball.state !== 'held') return;
     const O = handlerOf(W);
     if (!dir) {
@@ -492,24 +487,18 @@ const PMSim = (() => {
       return;
     }
     O.autoShot = null;
-    const m = mag == null ? 1 : mag;
-    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
-    const attack = m >= 0.45 && fwd > 0.3;
     if (!W.drive) {
-      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false, probe: !attack, mag: m };
-      if (attack) {
-        resolveDrive(W, dir);
-        if (ago && W.drive) W.drive.lastRes -= ago;
-      }
+      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false };
+      resolveDrive(W, dir);
+      if (ago && W.drive) W.drive.lastRes -= ago;
       return;
     }
-    W.drive.mag = m;
     const sv = sideVec(O.pos);
     const lat = dot2(dir, sv), latOld = dot2(W.drive.dir, sv);
-    if (W.drive.probe && attack) { W.drive.probe = false; W.drive.dir = dir; resolveDrive(W, dir); return; }
+    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
     if (W.drive.retreat && fwd > 0.2) { W.drive.retreat = false; resolveDrive(W, dir); }
     // a hard change of direction the other way is a crossover: read him again
-    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) { W.drive.probe = false; resolveDrive(W, dir); }
+    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) resolveDrive(W, dir);
     W.drive.dir = dir;
   }
   const HANDLE = { guard: 74, slasher: 70, shooter: 58, big: 44 };
@@ -518,7 +507,7 @@ const PMSim = (() => {
     const dv = W.drive;
     dv.lastRes = W.t;
     const fwd = dot2(dir, Court3D.dirToRim(O.pos));
-    if (fwd < -0.4) { dv.retreat = true; dv.probe = false; return; }
+    if (fwd < -0.4) { dv.retreat = true; return; }
     const d = D && D.d;
     if (!d || d.state === 'beaten' || d.state === 'air' || d.state === 'recover') { dv.beat = true; triggerHelp(W); return; }
     const lat = dot2(dir, sideVec(O.pos));

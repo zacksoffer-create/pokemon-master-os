@@ -172,11 +172,10 @@ const PlaymakerEngine = (() => {
     }
 
     // ---------- input ----------
-    /* One finger. A quick stroke is a pass. Hold and drag moves him, steered
-       like a joystick from where you touched: a soft or sideways drag is a
-       dribble around, a hard one at the rim is an attack. A burst at the end
-       of a drag is a pass on the move. Holding still slows the floor down. A
-       flick while the ball is in the air is the next pass, thrown on the catch. */
+    /* One finger. A quick stroke is a pass. Hold and drag is a drive, steered
+       like a joystick from where you touched. A burst at the end of a drag is
+       a pass on the move. Holding still slows the floor down. A flick while
+       the ball is in the air is the next pass, thrown on the catch. */
     const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, jab: null, stillAt: 0 };
     const FLICK_SPEED = 1.35;      // screen heights per second
     function speedOver(ms) {
@@ -345,12 +344,6 @@ const PlaymakerEngine = (() => {
       const c = (v1[0] * v2[0] + v1[1] * v2[1]) / (Math.hypot(v1[0], v1[1]) * (Math.hypot(v2[0], v2[1]) || 1));
       return c < 0.5 ? v1 : null;
     }
-    // how hard the drag is: a little push is a dribble, a long one is all he's got
-    function dragMag() {
-      if (IN.mode !== 'drag' || !IN.pts.length) return 0;
-      const last = IN.pts[IN.pts.length - 1];
-      return clamp((Math.hypot(last.x - IN.start.x, last.y - IN.start.y) - 18) / (CH * 0.085), 0.15, 1);
-    }
     // the drag, as a drive direction on the floor (or null)
     function dragDir(cam) {
       if (IN.mode !== 'drag' || !S.w) return null;
@@ -423,8 +416,8 @@ const PlaymakerEngine = (() => {
         ui.clock.hidden = false;
         ui.vision.hidden = false;
         if (i === 0) hintOnce('pm1', 'Flick toward a spot to pass · Drag to drive · Hold your finger still to slow it down and read the floor');
-        else if (i === 1) hintOnce('pm2', 'A soft or sideways drag dribbles him around · Push hard at the rim, or snap it back the other way, to attack');
-        else if (i === 2) hintOnce('pm3', 'Flick again while the ball is in the air and he swings it on the catch · Tap: pass fake');
+        else if (i === 1) hintOnce('pm2', 'Quick flick: bullet · Pull back, then flick: bounce pass · Tap: pass fake');
+        else if (i === 2) hintOnce('pm3', 'Flick again while the ball is in the air and he swings it on the catch');
       }, 1550);
     }
     function updateScore() {
@@ -631,7 +624,7 @@ const PlaymakerEngine = (() => {
       const w = S.w;
       if (!w || S.phase === 'board') return;
       const cam = camera();
-      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam), IN.moveStart ? Math.min(0.25, (performance.now() - IN.moveStart.t) / 1000) : 0, dragMag());
+      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam), IN.moveStart ? Math.min(0.25, (performance.now() - IN.moveStart.t) / 1000) : 0);
       if (S.phase === 'live' || S.phase === 'card' || S.phase === 'ending') PMSim.update(w, dt);
       // events
       w.events.forEach(ev => {

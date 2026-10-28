@@ -236,7 +236,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
         <dt>Quick flick</dt><dd>Bullet. Flat and fast, beats a rotation. On Casual the game picks the pass for you.</dd>
         <dt>Pull back, flick</dt><dd>Bounce pass. Under the hands of a man in the lane.</dd>
         <dt>Curl it</dt><dd>Bends the pass around a defender.</dd>
-        <dt>Drag</dt><dd>Move him, like a joystick from where you touched. A soft or sideways drag dribbles him around; a hard push at the rim attacks. Snap the other way to cross him.</dd>
+        <dt>Drag</dt><dd>Drive. Steer like a joystick from where you touched. Snap the other way to cross him.</dd>
         <dt>Drag, then flick</dt><dd>Pass on the move: drive and kick in one motion.</dd>
         <dt>Hold still</dt><dd>Court vision. The floor slows down and shows you the gaps, for a second or so each possession.</dd>
         <dt>Tap</dt><dd>Pass fake. Lane jumpers jump.</dd>
@@ -3829,8 +3829,7 @@ const PMSim = (() => {
     const dv = W.drive;
     if (dv && dv.dir) {
       const beat = dv.beat, back = dv.retreat;
-      // probing: a dribble around, as fast as the drag says; attacking: all he's got
-      const sp = back ? 9 : beat ? O.role.speed * 0.95 : dv.probe ? 4.5 + 5.5 * (dv.mag == null ? 1 : dv.mag) : 6.5;
+      const sp = back ? 9 : beat ? O.role.speed * 0.95 : 6.5;
       let target = V.add(O.pos, V.mul(dv.dir, sp * 0.5));
       target = clampCourt(target);
       steer(O, target, sp, 70, dt);
@@ -3865,13 +3864,9 @@ const PMSim = (() => {
     void D;
   }
 
-  /* dir: the drag direction on the floor (unit), or null when the finger stops.
-     ago: how long the push had been going before it read as a drive.
-     mag: how hard the drag is (0..1). Moving him around (sideways, back, or a
-     soft drag) is a probe: his man just stays in front. Going at the rim with
-     some push, or a hard change of direction, is an attack, and that's when
-     his man has to beat you to the spot. */
-  function driveInput(W, dir, ago, mag) {
+  /* dir: the drag direction on the floor (unit), or null when the finger stops. */
+  // ago: how long the push had been going before it read as a drive
+  function driveInput(W, dir, ago) {
     if (W.over || W.ball.state !== 'held') return;
     const O = handlerOf(W);
     if (!dir) {
@@ -3884,24 +3879,18 @@ const PMSim = (() => {
       return;
     }
     O.autoShot = null;
-    const m = mag == null ? 1 : mag;
-    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
-    const attack = m >= 0.45 && fwd > 0.3;
     if (!W.drive) {
-      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false, probe: !attack, mag: m };
-      if (attack) {
-        resolveDrive(W, dir);
-        if (ago && W.drive) W.drive.lastRes -= ago;
-      }
+      W.drive = { t0: W.t, dir, side: 0, lastRes: -9, beat: false, deep: false, retreat: false };
+      resolveDrive(W, dir);
+      if (ago && W.drive) W.drive.lastRes -= ago;
       return;
     }
-    W.drive.mag = m;
     const sv = sideVec(O.pos);
     const lat = dot2(dir, sv), latOld = dot2(W.drive.dir, sv);
-    if (W.drive.probe && attack) { W.drive.probe = false; W.drive.dir = dir; resolveDrive(W, dir); return; }
+    const fwd = dot2(dir, Court3D.dirToRim(O.pos));
     if (W.drive.retreat && fwd > 0.2) { W.drive.retreat = false; resolveDrive(W, dir); }
     // a hard change of direction the other way is a crossover: read him again
-    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) { W.drive.probe = false; resolveDrive(W, dir); }
+    else if (!W.drive.beat && !W.drive.retreat && Math.sign(lat) !== Math.sign(latOld) && Math.abs(lat) > 0.12 && dot2(dir, W.drive.dir) < 0.8 && W.t - W.drive.lastRes > 0.18) resolveDrive(W, dir);
     W.drive.dir = dir;
   }
   const HANDLE = { guard: 74, slasher: 70, shooter: 58, big: 44 };
@@ -3910,7 +3899,7 @@ const PMSim = (() => {
     const dv = W.drive;
     dv.lastRes = W.t;
     const fwd = dot2(dir, Court3D.dirToRim(O.pos));
-    if (fwd < -0.4) { dv.retreat = true; dv.probe = false; return; }
+    if (fwd < -0.4) { dv.retreat = true; return; }
     const d = D && D.d;
     if (!d || d.state === 'beaten' || d.state === 'air' || d.state === 'recover') { dv.beat = true; triggerHelp(W); return; }
     const lat = dot2(dir, sideVec(O.pos));
@@ -4795,11 +4784,10 @@ const PlaymakerEngine = (() => {
     }
 
     // ---------- input ----------
-    /* One finger. A quick stroke is a pass. Hold and drag moves him, steered
-       like a joystick from where you touched: a soft or sideways drag is a
-       dribble around, a hard one at the rim is an attack. A burst at the end
-       of a drag is a pass on the move. Holding still slows the floor down. A
-       flick while the ball is in the air is the next pass, thrown on the catch. */
+    /* One finger. A quick stroke is a pass. Hold and drag is a drive, steered
+       like a joystick from where you touched. A burst at the end of a drag is
+       a pass on the move. Holding still slows the floor down. A flick while
+       the ball is in the air is the next pass, thrown on the catch. */
     const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, jab: null, stillAt: 0 };
     const FLICK_SPEED = 1.35;      // screen heights per second
     function speedOver(ms) {
@@ -4968,12 +4956,6 @@ const PlaymakerEngine = (() => {
       const c = (v1[0] * v2[0] + v1[1] * v2[1]) / (Math.hypot(v1[0], v1[1]) * (Math.hypot(v2[0], v2[1]) || 1));
       return c < 0.5 ? v1 : null;
     }
-    // how hard the drag is: a little push is a dribble, a long one is all he's got
-    function dragMag() {
-      if (IN.mode !== 'drag' || !IN.pts.length) return 0;
-      const last = IN.pts[IN.pts.length - 1];
-      return clamp((Math.hypot(last.x - IN.start.x, last.y - IN.start.y) - 18) / (CH * 0.085), 0.15, 1);
-    }
     // the drag, as a drive direction on the floor (or null)
     function dragDir(cam) {
       if (IN.mode !== 'drag' || !S.w) return null;
@@ -5046,8 +5028,8 @@ const PlaymakerEngine = (() => {
         ui.clock.hidden = false;
         ui.vision.hidden = false;
         if (i === 0) hintOnce('pm1', 'Flick toward a spot to pass · Drag to drive · Hold your finger still to slow it down and read the floor');
-        else if (i === 1) hintOnce('pm2', 'A soft or sideways drag dribbles him around · Push hard at the rim, or snap it back the other way, to attack');
-        else if (i === 2) hintOnce('pm3', 'Flick again while the ball is in the air and he swings it on the catch · Tap: pass fake');
+        else if (i === 1) hintOnce('pm2', 'Quick flick: bullet · Pull back, then flick: bounce pass · Tap: pass fake');
+        else if (i === 2) hintOnce('pm3', 'Flick again while the ball is in the air and he swings it on the catch');
       }, 1550);
     }
     function updateScore() {
@@ -5254,7 +5236,7 @@ const PlaymakerEngine = (() => {
       const w = S.w;
       if (!w || S.phase === 'board') return;
       const cam = camera();
-      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam), IN.moveStart ? Math.min(0.25, (performance.now() - IN.moveStart.t) / 1000) : 0, dragMag());
+      if (S.phase === 'live' && !w.over) PMSim.driveInput(w, dragDir(cam), IN.moveStart ? Math.min(0.25, (performance.now() - IN.moveStart.t) / 1000) : 0);
       if (S.phase === 'live' || S.phase === 'card' || S.phase === 'ending') PMSim.update(w, dt);
       // events
       w.events.forEach(ev => {
