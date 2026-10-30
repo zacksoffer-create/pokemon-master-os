@@ -185,14 +185,14 @@ def update_labels(sim, fx, cause_ev):
         kind = None
         if new in ("friend", "close friend", "best friend") and LABEL_ORDER.index(new) > LABEL_ORDER.index(old if old in LABEL_ORDER else "stranger"):
             kind = {"friend": "friends", "close friend": "close_friends", "best friend": "best_friends"}[new]
-            if any(m[1] == kind for m in r.milestones):
-                kind = None if new == "friend" else kind
         elif new == "rival":
             kind = "rivals"
         elif new == "dislikes" and old != "dislikes":
             kind = "dislike"
         elif old in ("friend", "close friend", "best friend") and new in ("acquaintance", "stranger"):
             kind = "drifted"
+        if kind and any(m[1] == kind and w.day - m[0] < 90 for m in r.milestones):
+            kind = None  # back-and-forth across a threshold is not news
         if kind:
             r.milestones.append([w.day, kind, cause_ev["id"] if cause_ev else None])
             if A.role in ("student", "alumni") and B.role in ("student", "alumni"):
@@ -286,7 +286,7 @@ def detect_cliques(sim, rng):
         groups.setdefault(l, []).append(s)
     found = [sorted(g) for g in groups.values() if len(g) >= R["social.clique_min_size"]]
     found.sort(key=lambda g: (-len(g), g[0]))
-    old = {cid: c for cid, c in w.cliques.items() if c.get("active")}
+    old = {cid: c for cid, c in w.cliques.items() if c.get("active") or w.day - c.get("dissolved", -999) <= 28}
     used = set()
     result = {}
     events = []
@@ -302,6 +302,9 @@ def detect_cliques(sim, rng):
         if best is not None and best_j >= 0.34:
             used.add(best)
             c = old[best]
+            if not c.get("active"):
+                c["active"] = True
+                c.pop("dissolved", None)
             joined = sorted(ms - set(c["members"]))
             left = sorted(set(c["members"]) - ms)
             c["members"] = members
@@ -319,7 +322,7 @@ def detect_cliques(sim, rng):
             result[cid] = c
             events.append(("formed", None, cid))
     for cid, c in old.items():
-        if cid not in used:
+        if cid not in used and c.get("active"):
             c["active"] = False
             c["dissolved"] = w.day
             events.append(("dissolved", None, cid))
@@ -350,7 +353,7 @@ def clique_profile(w, members):
         for k, v in c.interests.items():
             ints[k] = ints.get(k, 0) + v
     n = len(members)
-    top = sorted(ints.items(), key=lambda x: (-x[1], x[0]))[:3]
+    top = sorted(ints.items(), key=lambda x: (-x[1], x[0]))[:4]
     return {"popularity": round(pop / n, 1), "interests": [[k, round(v / n, 1)] for k, v in top]}
 
 
@@ -358,7 +361,8 @@ def clique_name(w, members, cid):
     prof = clique_profile(w, members)
     if prof["popularity"] >= 72:
         return "the In-Crowd" if not any(c.get("name") == "the In-Crowd" and c.get("active") for c in w.cliques.values()) else "the Senior Lot Crowd"
-    key = prof["interests"][0][0] if prof["interests"] else "shows"
+    ints = [k for k, v in prof["interests"] if k != "academics" or v >= 62]
+    key = ints[0] if ints else "shows"
     names = CLIQUE_NAMES.get(key, ["the Regulars"])
     taken = {c.get("name") for c in w.cliques.values() if c.get("active")}
     for nm in names:

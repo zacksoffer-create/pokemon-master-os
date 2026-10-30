@@ -360,7 +360,7 @@ class Institutions:
                 focus = (0.7 + (c.traits["discipline"] - 50) / 100 * R["dev.discipline_focus"]) * (0.5 + c.needs["energy"] / 200)
                 coach_q = 1.0 + ((w.chars[coach].traits["discipline"] - 50) / 250 if coach else 0)
                 fx.skill(cid, g["skill"], skill_gain(sim, c, g["skill"], 1.1 * max(0.2, focus) * coach_q), f"{g['name']} practice")
-                c.counters["practice_" + g["skill"]] = c.counters.get("practice_" + g["skill"], 0) + 1
+                c.counters["skillpractice:" + g["skill"]] = c.counters.get("skillpractice:" + g["skill"], 0) + 1
                 fx.interest(cid, g["skill"], R["dev.interest_drift"] * 0.3, "practice")
             fx.need(cid, "energy", -10 if g["kind"] == "team" else -5, "practice")
             fx.need(cid, "social", 8, "practice")
@@ -473,7 +473,7 @@ class Institutions:
             c = w.chars[cid]
             perf = (0.55 * c.skills.get(sk, 0) + 0.25 * c.aptitudes[apt_key] + 0.10 * c.traits["confidence"]
                     + 0.10 * c.needs["energy"] - max(0.0, c.needs["stress"] - 60) * 0.3 + rng.gauss(0, 8))
-            effort = 0.5 * c.traits["discipline"] + min(50.0, c.counters.get("practice_" + sk, 0) * 4)
+            effort = 0.5 * c.traits["discipline"] + min(50.0, c.counters.get("skillpractice:" + sk, 0) * 4)
             fav = wf * ((w.rels[(coach.id, cid)].affection + w.rels[(coach.id, cid)].respect * 0.5) / 100 * 20
                         if coach and (coach.id, cid) in w.rels else 0)
             sen = (c.grade - 9) * 2
@@ -878,11 +878,12 @@ class Institutions:
             if g["kind"] != "job" or wd not in g["shift_days"]:
                 continue
             worked = set(sim.slot.attend.get(("shift", g["id"]), []))
+            elsewhere = {c for (what, key), ids in sim.slot.attend.items() if what in ("practice", "event") for c in ids}
             for cid in worked:
                 mark(g, cid, True, 6)
-            for cid in sorted(set(g["members"]) - worked):
+            for cid in sorted(set(g["members"]) - worked - elsewhere):
                 mark(g, cid, False, 6)
-                if misses(g, cid) >= 3:
+                if misses(g, cid) >= 4:
                     ev = self.event("job", "fired", [cid], importance=30, group=g["id"], data={"group": g["name"]})
                     fx = Effects(w, ev)
                     fx.leave(cid, g["id"], "fired for missing shifts")

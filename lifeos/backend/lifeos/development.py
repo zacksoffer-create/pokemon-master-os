@@ -35,7 +35,7 @@ def add_goal(sim, c, gtype, target, target_label, priority, skill=None, deadline
     if len(c.goals) > 30:
         c.goals = [x for x in c.goals if x["status"] == "active"] + [x for x in c.goals if x["status"] != "active"][-20:]
     if c.role == "student" and priority >= 45:
-        ev = sim.new_event("goal", "created", [c.id], [target] if target in w.chars else [], 12 if priority < 70 else 18,
+        ev = sim.new_event("goal", "created", [c.id], [target] if target in w.chars else [], 10 if priority < 70 else 18,
                            {"label": label, "goal": g["id"], "priority": g["priority"]})
         if cause and cause.get("id"):
             ev["causes"] = [cause["id"]]
@@ -119,7 +119,8 @@ def review_goals(sim, c, rng):
             g["status"] = status
             g["closed"] = day
             if c.role == "student" and status in ("achieved", "abandoned") and g["priority"] >= 30:
-                ev = sim.new_event("goal", status, [c.id], [tgt] if tgt in w.chars else [], 28 if status == "achieved" else 12,
+                imp = {"befriend": 14, "belonging": 16, "earn_money": 14}.get(t, 28) if status == "achieved" else 10
+                ev = sim.new_event("goal", status, [c.id], [tgt] if tgt in w.chars else [], imp,
                                    {"label": g["label"], "goal": g["id"]})
                 fx = Effects(w, ev)
                 if status == "achieved":
@@ -218,11 +219,11 @@ def weekly(sim, rng):
     fx = Effects(w, None)
     for c in sorted(w.active(), key=lambda c: c.id):
         for sk, v in list(c.skills.items()):
-            used = c.counters.get("practice_" + sk, 0)
+            used = c.counters.get("skillpractice:" + sk, 0)
             if sk != "academics" and used < 0.5 and v > 5:
                 fx.skill(c.id, sk, -0.5 * R["dev.skill_decay"] * v / 100, "out of practice")
         for k in list(c.counters):
-            if k.startswith("practice_"):
+            if k.startswith("skillpractice:"):
                 c.counters[k] = round(c.counters[k] * 0.85, 3)
         for k in list(c.habits):
             c.habits[k] = round(c.habits[k] * 0.85, 4)

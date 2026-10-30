@@ -73,7 +73,7 @@ def r_solo(sim, c, cand, ev, fx, rng, ctx):
     else:
         enjoy = 0.5
     if aid == "practice_skill" and skill:
-        c.counters["practice_" + skill] = c.counters.get("practice_" + skill, 0) + 1
+        c.counters["skillpractice:" + skill] = c.counters.get("skillpractice:" + skill, 0) + 1
     if skill:
         gain = skill_gain(sim, c, skill, p.get("gain", 1.0) * max(0.2, focus), ev)
         fx.skill(c.id, skill, gain, f"{a['label'].lower()} ({outcome})")
@@ -208,7 +208,7 @@ def r_ask_out(sim, c, cand, ev, fx, rng, ctx):
     rba = w.ensure_rel(b, c.id, w.day)
     others = [r for oid, r in w.out.get(b, {}).items() if r.crush and oid != c.id]
     terms = [
-        (f"{B.short}'s attraction to {c.short}", (rba.attraction - 60) / 10 if orientation_ok(B, c) else -3.0),
+        (f"{B.short}'s attraction to {c.short}", (rba.attraction - 60) / 10 if orientation_ok(B, c) else -8.0),
         (f"{B.short}'s affection for {c.short}", (rba.affection - 30) / 40),
         ("timing and nerves", -0.5),
         ("status gap x their approval motive", (c.popularity - B.popularity) / 60 * B.motives["approval"] / 100),
@@ -377,7 +377,7 @@ def r_confront(sim, c, cand, ev, fx, rng, ctx):
     esc = sum(t[1] for t in terms)
     out = "cleared_air" if esc < 0.2 else ("argument" if esc < 0.85 else "falling_out")
     ev["outcome"] = out
-    ev["data"]["place"] = "the hallway" if ctx["slot"] == "lunch" else "the parking lot"
+    ev["data"]["place"] = "in the hallway" if ctx["slot"] == "lunch" else "in the parking lot"
     _calc(ev, "escalation", terms=_round_terms(terms), total=round(esc, 3), outcome=out,
           rule="cleared the air < 0.2 <= argument < 0.85 <= falling out")
     for x, y in ((c.id, b), (b, c.id)):

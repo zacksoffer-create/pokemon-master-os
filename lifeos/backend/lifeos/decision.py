@@ -614,15 +614,19 @@ def _context(sim, c, cand, ctx):
         if c.id not in p["invited"]:
             out.append(("not technically invited", -5.0 + (c.traits["confidence"] - 50) / 10, "crashing"))
     elif aid == "work_shift":
-        out.append(("the manager expects you", 24.0, "scheduled shift"))
+        out.append(("the manager expects you", 40.0, "scheduled shift"))
         out.append(("needs money", max(0.0, (60 - c.money) / 60) * 6, f"has ${c.money:.0f}"))
     elif aid == "family_time":
         h = w.households.get(c.household_id)
         if h:
             out.append(("home atmosphere", (h["warmth"] - 50) / 50 * 5, f"{h['style_label']}"))
-    elif aid == "hang_out" and cand.target in w.chars:
+    elif aid in ("hang_out", "date") and cand.target in w.chars:
         if calm.weekday(w.day) >= 5:
             out.append(("weekend", 3.0, "more time free"))
+        busy = [w.groups[g]["name"] for g in c.memberships if (g in ctx["practices"] and w.groups[g]["kind"] in ("team", "production"))
+                or (w.groups[g]["kind"] == "job" and calm.weekday(w.day) in w.groups[g]["shift_days"])]
+        if busy:
+            out.append(("already has plans", -8.0, f"{busy[0]} today"))
     elif aid == "rest" and ctx["slot"] == "evening":
         out.append(("it's late", 3.0, "evenings favor winding down"))
     return out
@@ -695,7 +699,7 @@ def decide(sim, c, slot, ctx, rng, trace: bool):
         rows = []
         for rank, i in enumerate(order):
             cd = cands[i]
-            row = {"action": cd.a["id"], "target": cd.target if not isinstance(cd.target, dict) else None,
+            row = {"action": cd.a["id"], "label": cd.a["label"], "target": cd.target if not isinstance(cd.target, dict) else None,
                    "why": cd.why, "utility": round(cd.u, 2), "prob": round(cd.prob, 4), "chosen": i == idx}
             if rank < TRACE_TOP or i == idx:
                 terms = []
@@ -704,7 +708,6 @@ def decide(sim, c, slot, ctx, rng, trace: bool):
                 if sh:
                     terms.append((f"shared among {n} possible targets", sh, "-temperature x ln(n): an action's options split one share of probability"))
                 row["terms"] = [[t[0], round(t[1], 2), t[2]] for t in terms]
-                row["label"] = cd.a["label"]
                 row["target_name"] = sim.target_name(cd)
             rows.append(row)
         tr = {"day": w.day, "slot": slot, "char": c.id, "temperature": round(T, 3), "roll": round(roll, 5),

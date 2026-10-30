@@ -329,7 +329,7 @@ def api_character(cid: str):
         d.update({
             "traits": {k: r2(v) for k, v in c.traits.items()}, "aptitudes": {k: r2(v) for k, v in c.aptitudes.items()},
             "skills": [{"id": k, "label": L.sim.cat.skills[k]["label"], "value": r2(v), "cap": skill_cap(L, c, k),
-                        "practice": round(c.counters.get("practice_" + k, 0), 1)} for k, v in sorted(c.skills.items(), key=lambda x: -x[1])],
+                        "practice": round(c.counters.get("skillpractice:" + k, 0), 1)} for k, v in sorted(c.skills.items(), key=lambda x: -x[1])],
             "motives": {k: r2(v) for k, v in c.motives.items()}, "needs": {k: r2(v) for k, v in c.needs.items()},
             "all_interests": sorted([[k, r2(v)] for k, v in c.interests.items()], key=lambda x: -x[1]),
             "goals": c.goals[::-1], "memories": c.memories[::-1], "expectations": {k: v for k, v in sorted(c.expectations.items(), key=lambda x: -abs(x[1]))},
@@ -337,7 +337,7 @@ def api_character(cid: str):
             "reputation_all": {k: r2(v) for k, v in c.reputation.items()}, "age": c.age(w.day), "flags": c.flags,
             "past_memberships": c.past_memberships, "achievements": c.achievements[::-1], "relationships": rels,
             "household_info": h and {k: h[k] for k in ("id", "name", "style", "style_label", "income", "guardians", "pet", "members", "warmth", "strictness", "expectations")},
-            "timeline": timeline[::-1][:200], "decisions": decisions, "counters": {k: v for k, v in c.counters.items() if not k.startswith("practice_")},
+            "timeline": timeline[::-1][:200], "decisions": decisions, "counters": {k: v for k, v in c.counters.items() if not k.startswith("skillpractice:")},
             "docs": ATTRIBUTE_DOCS,
         })
         return d
