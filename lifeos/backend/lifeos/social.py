@@ -42,14 +42,15 @@ def grudge_score(w, r, day) -> float:
     """How much src holds against dst: dislike, rivalry and recent bad memories."""
     if r is None:
         return 0.0
-    g = max(0.0, -r.affection) * 0.6 + r.rivalry * 0.4
+    g = max(0.0, -r.affection) * 0.6 + r.rivalry * 0.25
     src = w.chars[r.src]
     hl = w.rules["dev.memory_half_life"]
+    mem = 0.0
     for m in src.memories[-25:]:
         if r.dst in m["with"] and m["valence"] < 0:
             age = day - m["day"]
-            g += -m["valence"] * m["intensity"] * 0.5 ** (age / hl) * 0.5
-    return g
+            mem += -m["valence"] * m["intensity"] * 0.5 ** (age / hl) * 0.4
+    return min(100.0, g + min(25.0, mem))
 
 
 def memory_pull(w, cid: str, other: str, day: int) -> float:
@@ -61,7 +62,7 @@ def memory_pull(w, cid: str, other: str, day: int) -> float:
         if other in m["with"]:
             age = day - m["day"]
             tot += m["valence"] * (m["intensity"] / 100.0) * 0.5 ** (age / (hl * (1 + m["intensity"] / 80)))
-    return tot
+    return clamp(tot, -1.2, 1.2)
 
 
 def satisfaction(w, a: str, b: str) -> float:
@@ -129,7 +130,7 @@ def interact(sim, fx, ev, a: str, b: str, p: dict, rng, calc: list | None) -> di
         if R["romance.enabled"] and p.get("attraction", 0) and orientation_ok(X, Y) and X.role == Y.role == "student" \
                 and not w.has_role(x, y, "sibling"):
             chem = chemistry(w, x, y) * R["romance.chemistry_spread"]
-            d_att = p["attraction"] * R["romance.attraction_rate"] * (chem * 0.6 + 0.35 + qq * 0.4) * (1 - rxy.attraction / 110)
+            d_att = p["attraction"] * R["romance.attraction_rate"] * (chem * 0.8 + 0.1 + qq * 0.4) * (1 - rxy.attraction / 110)
             fx.rel(x, y, "attraction", d_att, why)
         fx.touch(x, y, kind, qq)
     # beliefs about the other side
@@ -397,9 +398,9 @@ def witnesses(sim, rng, exclude: set, n: int, prefer: list | None = None) -> lis
     return out[:n]
 
 
-def best_rumor_for(w, teller: str, listener: str, R) -> dict | None:
+def best_rumor_for(w, teller: str, listener: str, R, recent=None) -> dict | None:
     best, best_s = None, 0.0
-    for r in w.rumors.values():
+    for r in (recent if recent is not None else w.rumors.values()):
         kb = r["known_by"].get(teller)
         if kb is None or r["about"] in (teller, listener) or listener in r["known_by"] and False:
             continue

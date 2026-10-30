@@ -21,10 +21,16 @@ class History:
         self.next_trace = 1
         self.folded_total = 0
 
-    def add(self, ev: dict) -> int:
+    def reserve(self) -> int:
         eid = self.next_event
         self.next_event += 1
-        ev["id"] = eid
+        return eid
+
+    def add(self, ev: dict) -> int:
+        eid = ev.get("id")
+        if eid is None:
+            eid = self.reserve()
+            ev["id"] = eid
         self.events[eid] = ev
         seen = set()
         for cid in ev.get("actors", []) + ev.get("targets", []) + ev.get("involved", []):

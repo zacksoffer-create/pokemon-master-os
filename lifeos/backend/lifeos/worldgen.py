@@ -116,6 +116,10 @@ class Generator:
                     interests[sports[1]] = round(clamp(rng.gauss(v - 22, 12), 10, 90), 1)
             else:
                 interests[k] = round(clamp(rng.gauss(v, 12), 5, 98), 1)
+        if not any(k in interests for k in SPORTS) and rng.random() < 0.4:
+            interests[SPORTS[int(rng.random() * 3)]] = round(clamp(rng.gauss(58, 12), 25, 90), 1)
+        if "drama" not in interests and rng.random() < 0.15:
+            interests["drama"] = round(clamp(rng.gauss(55, 12), 25, 90), 1)
         extras = [s["id"] for s in self.cat.world["skills"]] + list(self.cat.hobbies)
         for _ in range(2):
             k = rng.choice(extras)
