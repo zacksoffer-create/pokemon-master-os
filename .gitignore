@@ -12,3 +12,7 @@ engine/app/shots.mjs
 
 # parallel agents' working copies
 .claude/worktrees/
+
+# LIFE OS local state
+lifeos/var/
+lifeos/frontend/node_modules/
