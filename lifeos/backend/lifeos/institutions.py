@@ -148,7 +148,7 @@ class Institutions:
                         fx.rel(x, y, "familiarity", 2.2 * (1 - r.familiarity / 110), "classmates")
                         fx.rel(x, y, "affection", 1.2 * q * R["rel.affection_gain"], "classmates")
                         r.last_day = w.day
-        sim.finish(ev, fx, record=False)
+        sim.finish(ev, fx)
         for it in sim.today("classes"):
             if it["kind"] == "exam":
                 self.exam(it, rng)
@@ -197,7 +197,7 @@ class Institutions:
             ev["data"]["average"] = round(sum(scores.values()) / max(1, len(scores)), 1)
         for c in studs:
             c.study_ema *= 0.6
-        sim.finish(ev, fx, record=major)
+        sim.finish(ev, fx)
 
     def report_cards(self, it, rng):
         from .households import report_card_reaction
@@ -247,13 +247,21 @@ class Institutions:
             return x
 
         joiners: dict[str, str] = {}
+        size: dict[str, int] = {}
         for a, b in joins:
             if b in absent or w.chars[b].role != "student":
                 continue
-            joiners[a] = b
             ra, rb = find(a), find(b)
-            if ra != rb:
-                parent[max(ra, rb)] = min(ra, rb)
+            if ra == rb:
+                joiners[a] = b
+                continue
+            sa, sb = size.get(ra, 1), size.get(rb, 1)
+            if sa + sb > 8:
+                continue  # the table is full
+            joiners[a] = b
+            root, other = min(ra, rb), max(ra, rb)
+            parent[other] = root
+            size[root] = sa + sb
         tables: dict[str, list] = {}
         for x in list(parent):
             tables.setdefault(find(x), []).append(x)
@@ -389,7 +397,7 @@ class Institutions:
             elif g["kind"] == "club" and misses(g, cid) >= 7:
                 dropped.append((cid, "drifted"))
         sim.attach_traces(ev, att)
-        sim.finish(ev, fx, record=bool(dropped) or g["kind"] in ("team", "production"))
+        sim.finish(ev, fx)
         for cid, how in dropped:
             self.drop(gid, cid, how, ev, rng)
 

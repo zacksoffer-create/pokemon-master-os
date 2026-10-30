@@ -105,10 +105,9 @@ class Rel:
     recent: list = field(default_factory=list)
 
     def to_list(self) -> list:
-        return [self.src, self.dst, round(self.familiarity, 3), round(self.affection, 3), round(self.respect, 3),
-                round(self.attraction, 3), round(self.trust, 3), round(self.rivalry, 3), round(self.perceived, 3),
-                self.met_day, self.last_day, self.pos, self.neg, self.label, self.crush, round(self.peak_affection, 3),
-                self.milestones, self.recent]
+        return [self.src, self.dst, self.familiarity, self.affection, self.respect, self.attraction, self.trust,
+                self.rivalry, self.perceived, self.met_day, self.last_day, self.pos, self.neg, self.label, self.crush,
+                self.peak_affection, self.milestones, self.recent]
 
     @classmethod
     def from_list(cls, x: list) -> "Rel":
