@@ -85,8 +85,9 @@ def test_time_advances_consistently():
     assert seen == calm.phases_for(d, cal)
 
 
-def test_school_year_rolls_over_and_seniors_graduate():
-    sim = small(students=16, tracing=False)
+@pytest.mark.parametrize("tracing", [False, True])
+def test_school_year_rolls_over_and_seniors_graduate(tracing):
+    sim = small(students=16, tracing=tracing)
     w = sim.w
     seniors = [c.id for c in w.students() if c.grade == 12]
     juniors = [c.id for c in w.students() if c.grade == 11]

@@ -62,8 +62,15 @@ class Lab:
         if self.busy():
             raise HTTPException(409, "The simulation is advancing. Wait for it to finish.")
 
-    def autosave(self):
+    def autosave(self, force: bool = True):
+        """Persist the world. Advances autosave at most every 20s (a big history takes ~1s to write)."""
+        now = time.time()
+        if not force and now - getattr(self, "_last_save", 0) < 20:
+            self._dirty = True
+            return
         self.store.save_world(self.w, "Autosave", kind="autosave")
+        self._last_save = now
+        self._dirty = False
 
     def replace_world(self, w):
         self.sim = Simulation(w)
@@ -85,7 +92,7 @@ class Lab:
                         self.sim.advance_days(1)
                     job["done"] += 1
                 with self.lock:
-                    self.autosave()
+                    self.autosave(force=days >= 7)
                 job["status"] = "done"
             except Exception as e:  # surface the failure instead of hanging
                 import traceback
@@ -115,6 +122,13 @@ def get_lab() -> Lab:
 
 app = FastAPI(title="LIFE OS - Living World Laboratory", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+
+
+@app.on_event("shutdown")
+def _save_on_exit():
+    if lab is not None and getattr(lab, "_dirty", False):
+        with lab.lock:
+            lab.autosave()
 
 
 @app.exception_handler(RulesError)

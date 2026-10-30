@@ -59,7 +59,7 @@ function TopBar() {
         <button onClick={() => go(1, "a day")} disabled={busy || auto} title="Advance one day"><Icon name="step" size={14} /> Day</button>
         <button onClick={() => go(7, "a week")} disabled={busy || auto}>Week</button>
         <button onClick={() => go(30, "a month")} disabled={busy || auto}>Month</button>
-        <button onClick={() => go(365, "a year")} disabled={busy || auto} title="A simulated year takes roughly 20-40 seconds">Year</button>
+        <button onClick={() => go(365, "a year")} disabled={busy || auto} title="A simulated year takes roughly 25-35 seconds">Year</button>
         <span className="sep" />
         <button className={cx(auto && "on")} onClick={() => setAuto(!auto)} title="Keep advancing until paused">
           <Icon name={auto ? "pause" : "play"} size={14} /> {auto ? "Pause" : "Auto"}

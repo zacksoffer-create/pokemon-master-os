@@ -33,3 +33,7 @@ cd engine && python3 -I -m unittest discover -s tests -v
 ```
 
 **Never modified:** any original Google Drive file (all legacy access was read-only).
+
+---
+
+**Also in this repo:** `lifeos/`, the LIFE OS Living World Laboratory (a separate project; start at `lifeos/README.md`).

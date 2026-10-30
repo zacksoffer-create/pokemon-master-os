@@ -123,8 +123,13 @@ class Effects:
         self.chars: set = set()
 
     def _log(self, entity, fld, before, after, why):
-        if self.rec and abs(after - before) >= 0.05:
-            self.ev["changes"].append([entity, fld, round(before, 2), round(after, 2), why])
+        if not self.rec:
+            return
+        if isinstance(before, (int, float)) and isinstance(after, (int, float)):
+            if abs(after - before) >= 0.05:
+                self.ev["changes"].append([entity, fld, round(before, 2), round(after, 2), why])
+        elif before != after:
+            self.ev["changes"].append([entity, fld, before, after, why])
 
     def attr(self, cid: str, layer: str, key: str, delta: float, why: str = ""):
         c = self.w.chars[cid]
