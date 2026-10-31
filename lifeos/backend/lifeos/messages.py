@@ -43,7 +43,7 @@ EMOJI_TEEN = ["😂", "💀", "😭", "🔥", "👀", "😅", "🙃", "🤝", "�
 EMOJI_WARM = ["❤️", "😊", "🥹", "💛"]
 EMOJI_BY_KIND = {"team_win": ["🔥", "💪", "🐻"], "team": ["🔥", "💪"], "after_good": ["😊", "🙌"], "after_good_date": ["😊", "🥹"],
                  "congrats_team": ["🔥", "🎉"], "congrats_award": ["🏆", "🔥"], "chatter_partner": ["❤️", "😊"], "flirt_in": ["👀", "😊"],
-                 "react_funny": ["💀", "😭"], "react_warm": ["😊"], "park_followup": ["🐶"], "sibling_home": ["🎉"], "chatter": ["😅", "😂"]}
+                 "react_funny": ["💀", "😭"], "react_warm": ["😊"], "park_followup": ["🐶"], "sibling_home": ["🎉"], "chatter_funny": ["😂", "💀"], "chatter_vent": ["😩"]}
 
 
 def T() -> dict:
@@ -195,10 +195,19 @@ def voice(sim, sid, text, salt, kind="text") -> str:
     return out
 
 
-def pick(key, salt, **kw) -> str:
+def pick(key, salt, avoid=None, **kw) -> str:
     pool = T().get(key) or [key]
-    s = pool[_h(salt, key) % len(pool)]
-    return _fill(s, kw)
+    i0 = _h(salt, key) % len(pool)
+    for k in range(len(pool)):
+        s = _fill(pool[(i0 + k) % len(pool)], kw)
+        if not avoid or s.lower().rstrip(".!") not in avoid:
+            return s
+    return _fill(pool[i0], kw)
+
+
+def _avoid(sim, tid) -> set:
+    t = phone(sim.w)["threads"].get(tid)
+    return {m["text"].lower().rstrip(".!") for m in t["msgs"][-12:]} if t else set()
 
 
 def _fill(s, kw):
@@ -236,7 +245,8 @@ def post(sim, tid, sid, text, kind="text", replies=None, ctx=None, phase=None, u
 def later(sim, cid, key, delay_phases=2, **kw):
     """Queue a text to arrive later today (after the moment has passed)."""
     w = sim.w
-    phone(w)["pending"].append({"due": w.day * 10 + min(9, w.phase + delay_phases), "from": cid, "key": key, "kw": kw})
+    last = len(sim.phases()) - 1
+    phone(w)["pending"].append({"due": w.day * 10 + min(last, w.phase + delay_phases), "from": cid, "key": key, "kw": kw})
 
 
 def family_text(sim, key, sender=None, **kw):
@@ -260,7 +270,8 @@ def family_text(sim, key, sender=None, **kw):
         replies = [{"label": "love you guys ❤️", "fx": "parent_ok"}, {"label": "thanks!", "fx": "parent_ok"}]
     elif key in ("parent_report_worried", "parent_grounded"):
         replies = [{"label": "ok. i know", "fx": "parent_ok"}, {"label": "this is so unfair", "fx": "parent_annoyed"}]
-    return post(sim, "family", sender, pick(key, f"{w.day}:{key}:{sender}", **kw), kind=key, replies=replies)
+    return post(sim, "family", sender, pick(key, f"{w.day}:{key}:{sender}:{phone(w)['next']}", avoid=_avoid(sim, "family"), **kw),
+                kind=key, replies=replies)
 
 
 # --- events become texts -----------------------------------------------------------------------
@@ -276,10 +287,7 @@ def on_event(sim, ev):
     out = ev.get("outcome")
     mine = p in actors or p in targets or p in (ev.get("involved") or [])
     if not mine:
-        if et == "game" and ev.get("group") in w.chars[p].memberships:
-            mine = True
-        else:
-            return
+        return
     me = w.chars[p]
     salt = f"{ev.get('id')}:{et}"
     other = next((x for x in actors + targets if x != p and x in w.chars), None)
@@ -317,7 +325,7 @@ def on_event(sim, ev):
     elif et == "game" and out in ("win", "loss"):
         d = ev.get("data") or {}
         g = w.groups.get(ev.get("group"))
-        if g and p in g["members"]:
+        if g and p in actors:
             mates = sorted([m for m in g["members"] if m != p and m in w.chars], key=lambda m: -w.chars[m].traits["sociability"])
             if mates:
                 s = mates[_h(salt, "mate") % min(3, len(mates))]
@@ -380,9 +388,9 @@ def tick(sim):
             continue
         kw = dict(x["kw"])
         rk = kw.pop("replies", None)
-        salt = f"{w.day}:{x['key']}:{cid}"
-        post(sim, f"dm:{cid}", cid, pick(x["key"], salt, me=w.chars[w.meta["protagonist"]].first, **kw), kind=x["key"],
-             replies=_replies(rk, salt) if rk else _replies("generic", salt))
+        salt = f"{w.day}:{x['key']}:{cid}:{ph['next']}"
+        text = pick(x["key"], salt, avoid=_avoid(sim, f"dm:{cid}"), me=w.chars[w.meta["protagonist"]].first, **kw)
+        post(sim, f"dm:{cid}", cid, text, kind=x["key"], replies=_replies(rk, salt) if rk else _replies("generic", salt))
 
 
 def daily(sim):
@@ -407,8 +415,10 @@ def daily(sim):
         p = 0.05 + (back.affection if back else 0) / 900 + w.chars[o].traits["sociability"] / 1500
         if (_h(w.day, o, "c") % 1000) / 1000 < p:
             crush = back is not None and back.attraction >= 45 and not me.flags.get("partner") and not w.chars[o].flags.get("partner")
-            later(sim, o, "flirt_in" if crush and _h(w.day, o) % 3 == 0 else "chatter", delay_phases=2 + _h(o, w.day) % 5,
-                  replies="flirt" if crush else "chatter")
+            cats = ["chatter_plans", "chatter_plans", "chatter_school", "chatter_vent", "chatter_funny", "chatter_game"]
+            cat = cats[_h(w.day, o, "cat") % len(cats)]
+            key = "flirt_in" if crush and _h(w.day, o) % 3 == 0 else cat
+            later(sim, o, key, delay_phases=2 + _h(o, w.day) % 5, replies="flirt" if key == "flirt_in" else cat)
             sent += 1
     sibs = [s for s in sim.siblings(me.id) if w.chars[s].status == "active"]
     if sibs and rng_base % 100 < 8:
@@ -482,7 +492,11 @@ REPLY_SETS = {
     "apology": [("it's ok. thanks for saying that", "forgive"), ("i need some time", "dry"), ("whatever", "cold")],
     "thanks": [("thank you!! 🙏", "warm"), ("lol thanks", "warm")],
     "rumor": [("ugh. what are they saying", "vent"), ("don't care honestly", "dry")],
-    "chatter": [("lmao yes", "funny"), ("haha i'm down", "warm"), ("can't talk rn", "dry")],
+    "chatter_plans": [("i'm down. what's the plan?", "warm"), ("maybe, depends what time", "warm"), ("can't this time", "dry")],
+    "chatter_school": [("yeah, i'll send it to you", "warm"), ("nope lol we're both cooked", "funny"), ("ask someone else", "dry")],
+    "chatter_vent": [("same honestly", "warm"), ("hang in there lol", "warm"), ("lol", "dry")],
+    "chatter_funny": [("LMAO tell me everything", "funny"), ("stop i'm crying", "funny"), ("lol what", "dry")],
+    "chatter_game": [("yeah!! what a game", "warm"), ("nah, what happened?", "warm"), ("not really my thing", "dry")],
     "partner": [("❤️", "warm"), ("miss you too", "warm"), ("lol goodnight", "dry")],
     "flirt": [("you're not so bad yourself 😏", "flirt"), ("haha thanks", "warm"), ("lol ok", "dry")],
     "sibling": [("lol", "sibling_warm"), ("miss you too", "sibling_warm"), ("go away", "sibling_tease")],

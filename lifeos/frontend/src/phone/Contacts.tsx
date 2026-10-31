@@ -93,7 +93,7 @@ export function ContactProfile({ cid }: { cid: string }) {
     pgo(`phone/thread/dm:${c.id}`);
   };
   return (
-    <div className={`pm-profile tone-${tone}`}>
+    <div className={`pm-profile pt-${tone}`}>
       <TopBar onBack={back} />
       <div className="pm-hero">
         <div className="pm-hero-glow" />

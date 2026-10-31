@@ -70,20 +70,6 @@
   "just so you know there's a rumor going around. don't worry about it",
   "people are talking about you in the group chat. it's dumb"
  ],
- "chatter": [
-  "did you do the chem hw",
-  "what are you doing this weekend",
-  "lmao did you see what happened in the hall today",
-  "i'm so tired. how is it only tuesday",
-  "watching the game?",
-  "random but i just remembered that thing from freshman year and i'm crying",
-  "do you have notes from today",
-  "food later?",
-  "this weekend we're doing something. no excuses",
-  "can't believe we have a test friday",
-  "my mom just asked about you lol",
-  "what's the move tonight"
- ],
  "chatter_partner": [
   "thinking about you",
   "goodnight 🌙",
@@ -152,9 +138,9 @@
   "Hang in there. Want me to save you some dinner?"
  ],
  "parent_made_team": [
-  "So proud of you!! ❤️",
-  "We're celebrating this weekend. Pick the restaurant.",
-  "Your hard work paid off. Proud of you."
+  "{team}!! So proud of you ❤️",
+  "Making {team}... we're celebrating this weekend. Pick the restaurant.",
+  "Your hard work paid off. Proud of you for making {team}."
  ],
  "parent_cut": [
   "We're proud of you for putting yourself out there.",
@@ -346,5 +332,33 @@
  "first_sorry": [
   "hey. i'm sorry about everything",
   "can we talk? i feel bad"
+ ],
+ "chatter_plans": [
+  "what are you doing this weekend",
+  "what's the move tonight",
+  "food later?",
+  "this weekend we're doing something. no excuses",
+  "bored. you around later?"
+ ],
+ "chatter_school": [
+  "did you do the chem hw",
+  "do you have notes from today",
+  "can't believe we have a test friday",
+  "what did you get on the quiz"
+ ],
+ "chatter_vent": [
+  "i'm so tired. how is it only tuesday",
+  "today was so long",
+  "my mom is on my case about everything lol"
+ ],
+ "chatter_funny": [
+  "lmao did you see what happened in the hall today",
+  "random but i just remembered that thing from freshman year and i'm crying",
+  "my mom just asked about you lol",
+  "ok i have a story for you later"
+ ],
+ "chatter_game": [
+  "watching the game?",
+  "did you see that score last night??"
  ]
 }

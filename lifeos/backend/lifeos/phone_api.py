@@ -150,7 +150,7 @@ def phone_state(since: int | None = None):
         feed = []
         for eid in evs[::-1]:
             e = w.history.events.get(eid)
-            if not e or e["importance"] < 6:
+            if not e or e["importance"] < 6 or private(e, me.id):
                 continue
             if since is not None and eid <= since:
                 break
@@ -244,10 +244,17 @@ def phone_choose(body: dict = Body(...)):
         return {"lines": _lines(L, evs, me), "chips": _chips(L, me, needs0, mood0, rels0)}
 
 
+def private(e, me_id) -> bool:
+    """Single player: you don't get to read other people's minds (how they now see you, what they secretly think)."""
+    return e["type"] == "milestone" and (e.get("actors") or [None])[0] != me_id
+
+
 def _lines(L, evs, me):
     w = L.w
     out = []
     for e in evs:
+        if private(e, me.id):
+            continue
         if e.get("importance", 0) < 3 and e["type"] in ("practice", "exam"):
             continue
         out.append({"id": e["id"], "type": e["type"], "outcome": e.get("outcome"), "text": pov.event_line(w, e, me.id),
@@ -432,7 +439,7 @@ def phone_contact(cid: str):
         shared = []
         for eid in w.history.by_char.get(me.id, [])[::-1]:
             e = w.history.events.get(eid)
-            if e and cid in e["actors"] + e["targets"] and e["importance"] >= 5:
+            if e and cid in e["actors"] + e["targets"] and e["importance"] >= 5 and not private(e, me.id) and e["type"] != "text":
                 shared.append({"id": eid, "date": calm.label(e["day"]), "text": pov.event_line(w, e, me.id)})
                 if len(shared) >= 10:
                     break

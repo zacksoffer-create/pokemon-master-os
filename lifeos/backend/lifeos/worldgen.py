@@ -187,8 +187,8 @@ class Generator:
         if t["ambition"] > 75:
             bits.append("has plans")
         lead = f"{arch['label']} type"
-        tail = (", ".join(bits[:2]) + ". ") if bits else ""
-        return f"{lead}; {tail}Into {' and '.join(names)}.".replace("; .", ".").replace(" ;", ";")
+        tail = ("; " + ", ".join(bits[:2])) if bits else ""
+        return f"{lead}{tail}. Into {' and '.join(names)}."
 
     def household(self, w: World, rng, last: str | None = None, style: str | None = None,
                   income: str | None = None, guardians: list | None = None, pet=False, key: str | None = None) -> dict:

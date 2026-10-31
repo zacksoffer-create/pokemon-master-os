@@ -234,12 +234,12 @@
 .pm-profile-top { position: sticky; top: 0; z-index: 4; padding: 8px 0 4px; background: linear-gradient(var(--pm-bg) 70%, transparent); }
 .pm-hero { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 18px 16px 18px; margin: 2px 0 12px; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 1px 2px rgba(40, 30, 90, .05); }
 .pm-hero-glow { position: absolute; inset: 0 0 45% 0; background: linear-gradient(160deg, #e9e6ff, #f7f0ff); z-index: 0; }
-.tone-love .pm-hero-glow { background: linear-gradient(160deg, #ffe0ec, #fff1f6); }
-.tone-crush .pm-hero-glow { background: linear-gradient(160deg, #ffe6f3, #fdf2ff); }
-.tone-rival .pm-hero-glow { background: linear-gradient(160deg, #ffe4dc, #fff3ee); }
-.tone-best .pm-hero-glow { background: linear-gradient(160deg, #fff0cf, #fff8e8); }
-.tone-friend .pm-hero-glow { background: linear-gradient(160deg, #d8f7ef, #effcf8); }
-.tone-family .pm-hero-glow { background: linear-gradient(160deg, #dde9ff, #f0f5ff); }
+.pt-love .pm-hero-glow { background: linear-gradient(160deg, #ffe0ec, #fff1f6); }
+.pt-crush .pm-hero-glow { background: linear-gradient(160deg, #ffe6f3, #fdf2ff); }
+.pt-rival .pm-hero-glow { background: linear-gradient(160deg, #ffe4dc, #fff3ee); }
+.pt-best .pm-hero-glow { background: linear-gradient(160deg, #fff0cf, #fff8e8); }
+.pt-friend .pm-hero-glow { background: linear-gradient(160deg, #d8f7ef, #effcf8); }
+.pt-family .pm-hero-glow { background: linear-gradient(160deg, #dde9ff, #f0f5ff); }
 .pm-hero > *:not(.pm-hero-glow) { position: relative; z-index: 1; }
 .pm-hero > div:nth-child(2) { border-radius: 50%; box-shadow: 0 0 0 5px #fff, 0 8px 24px rgba(50, 40, 110, .18); }
 .pm-hero h2 { font-size: 24px; font-weight: 800; margin-top: 14px; }
@@ -265,11 +265,11 @@
 .pm-meter-track { position: relative; height: 8px; border-radius: 99px; background: #efedf6; overflow: hidden; }
 .pm-meter-fill { position: absolute; top: 0; bottom: 0; border-radius: 99px; transition: width .4s ease, left .4s ease; }
 .pm-meter-zero { position: absolute; top: -2px; bottom: -2px; width: 2px; margin-left: -1px; background: #d4d0e2; z-index: 1; }
-.tone-friend .pm-meter-fill { background: linear-gradient(90deg, #36c9a7, #19a88f); }
-.tone-trust .pm-meter-fill { background: linear-gradient(90deg, #6aa8ff, #3a7cf0); }
-.tone-respect .pm-meter-fill { background: linear-gradient(90deg, #b39cff, #7b62f0); }
-.tone-love .pm-meter-fill { background: linear-gradient(90deg, #ff8db1, #ff4f86); }
-.tone-rival .pm-meter-fill { background: linear-gradient(90deg, #ff9a7a, #e8583a); }
+.pm-meter.tone-friend .pm-meter-fill { background: linear-gradient(90deg, #36c9a7, #19a88f); }
+.pm-meter.tone-trust .pm-meter-fill { background: linear-gradient(90deg, #6aa8ff, #3a7cf0); }
+.pm-meter.tone-respect .pm-meter-fill { background: linear-gradient(90deg, #b39cff, #7b62f0); }
+.pm-meter.tone-love .pm-meter-fill { background: linear-gradient(90deg, #ff8db1, #ff4f86); }
+.pm-meter.tone-rival .pm-meter-fill { background: linear-gradient(90deg, #ff9a7a, #e8583a); }
 .pm-meter.neg .pm-meter-fill { background: linear-gradient(90deg, #e8583a, #ff9a7a); }
 .pm-fineprint { margin-top: 12px; font-size: 12px; color: var(--pm-dim); }
 
