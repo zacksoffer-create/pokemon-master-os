@@ -1,5 +1,6 @@
 // Phone UI building blocks: sheets, meters, stat chips, toasts, and character lookups.
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useStore } from "../store";
 import type { Chip, Line, Look } from "./api";
 import { Portrait } from "./art";
@@ -39,7 +40,8 @@ export function Sheet({ open, onClose, children, title, full, className }: {
     }
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!show) return null;
-  return (
+  const host = typeof document !== "undefined" ? document.getElementById("ph-portal") : null;
+  const node = (
     <div className={cx("ph-sheet-wrap", leaving && "leaving")} onClick={(e) => { if (e.target === e.currentTarget && onClose) onClose(); }}>
       <div className={cx("ph-sheet", full && "full", className)} role="dialog">
         <div className="ph-sheet-grab" />
@@ -53,6 +55,7 @@ export function Sheet({ open, onClose, children, title, full, className }: {
       </div>
     </div>
   );
+  return host ? createPortal(node, host) : node;
 }
 
 export function Bar({ label, value, max = 100, tone, right, invert }: { label: React.ReactNode; value: number; max?: number; tone?: string; right?: React.ReactNode; invert?: boolean }) {

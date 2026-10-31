@@ -34,6 +34,7 @@ export default function PhoneApp({ route }: { route: string[] }) {
       <div className="ph-root">
         <div className="ph-frame">
           <Shell route={route} />
+          <div id="ph-portal" />
           <Toasts />
         </div>
       </div>

@@ -33,7 +33,10 @@ export default function StoryTab() {
   const [busy, setBusy] = useState(false);
   const [showToday, setShowToday] = useState(false);
   const alive = useRef(true);
-  useEffect(() => () => { alive.current = false; }, []);
+  useEffect(() => {
+    alive.current = true;
+    return () => { alive.current = false; };
+  }, []);
 
   const key = state ? `${state.day}:${state.scene.phase}:${state.last_event}` : "";
   const wantChoices = !!state && state.decision_ready && state.moments.length === 0;
