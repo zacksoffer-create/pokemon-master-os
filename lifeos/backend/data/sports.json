@@ -112,5 +112,91 @@
     "er": "ER"
    }
   }
+ },
+ "mlb": {
+  "notes": "The MLB draft: 20 rounds in mid-July. College players become eligible after their junior year (or at 21). Slot values are approximate recent figures for flavor, not official numbers. Draft order is a seeded shuffle each year.",
+  "draft_day": [
+   7,
+   13
+  ],
+  "rounds": 20,
+  "teams": [
+   "Arizona Diamondbacks",
+   "Athletics",
+   "Atlanta Braves",
+   "Baltimore Orioles",
+   "Boston Red Sox",
+   "Chicago Cubs",
+   "Chicago White Sox",
+   "Cincinnati Reds",
+   "Cleveland Guardians",
+   "Colorado Rockies",
+   "Detroit Tigers",
+   "Houston Astros",
+   "Kansas City Royals",
+   "Los Angeles Angels",
+   "Los Angeles Dodgers",
+   "Miami Marlins",
+   "Milwaukee Brewers",
+   "Minnesota Twins",
+   "New York Mets",
+   "New York Yankees",
+   "Philadelphia Phillies",
+   "Pittsburgh Pirates",
+   "San Diego Padres",
+   "San Francisco Giants",
+   "Seattle Mariners",
+   "St. Louis Cardinals",
+   "Tampa Bay Rays",
+   "Texas Rangers",
+   "Toronto Blue Jays",
+   "Washington Nationals"
+  ],
+  "slots": [
+   [
+    1,
+    10500000
+   ],
+   [
+    10,
+    5700000
+   ],
+   [
+    30,
+    2900000
+   ],
+   [
+    50,
+    1800000
+   ],
+   [
+    75,
+    1100000
+   ],
+   [
+    100,
+    750000
+   ],
+   [
+    150,
+    420000
+   ],
+   [
+    200,
+    280000
+   ],
+   [
+    315,
+    190000
+   ],
+   [
+    316,
+    150000
+   ],
+   [
+    615,
+    125000
+   ]
+  ]
  }
 }

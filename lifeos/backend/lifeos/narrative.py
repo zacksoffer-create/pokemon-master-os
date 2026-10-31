@@ -46,6 +46,8 @@ def render(sim, ev) -> str:
             vals[k] = d[k]
     if "skill" in d and d["skill"] in sim.cat.skills:
         vals["skill"] = sim.cat.skills[d["skill"]]["label"].lower()
+    vals["school"] = sim.cat.world["school"]["name"]
+    vals["town"] = sim.cat.world["town"]["name"]
     vals["where"] = "at the library" if ev.get("slot") in ("day",) else "at home"
     if not variants:
         who = vals["a"] or vals["members"]

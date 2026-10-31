@@ -100,7 +100,7 @@ export default function App() {
       </div>
     );
   } else if (!world) {
-    body = <div className="loading">Waking up Hollow Creek...</div>;
+    body = <div className="loading">Waking up the town...</div>;
   } else {
     body = {
       story: route[1] === "new" ? <StoryNew route={route} /> : <Story route={route} />,

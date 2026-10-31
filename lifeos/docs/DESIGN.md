@@ -264,12 +264,46 @@ anything is built, so the UI can show them all at once.
   their position's template, scaled by how they played and whether they started. Every game event carries the full box score.
 - **Season stats** are keyed `sport:YYYY-YY:level`. At season's end the best impact per game wins MVP,
   and strong seasons win All-Conference.
-- **Recruiting** score = rating + recent varsity production + awards + a grade bonus. Each college has
-  a recruiting bar. Interest grows with the gap, and an offer comes past a threshold (scholarships at
-  D1, D2 and JUCO). Admissions use GPA and academics.
+- **Skill growth** in sports follows a curve (`dev.sport_ceiling_curve`, default 2.2): the gain per
+  practice is multiplied by (room under your talent ceiling)^curve. Early progress is quick and the
+  last stretch toward your ceiling is slow, so a freshman at 45 is usually 60–75 by senior year and
+  only real talents reach college level.
+- **Recruiting**: every college in `data/colleges.json` has a program strength per sport (0–100).
+  - Bar to get an offer = 52 + 0.36 × program.
+  - Recruiting score = rating + recent varsity production + awards + a grade bonus.
+  - Interest grows with how close you are to the bar. Offers come junior and senior year once you're past it.
+  - Baseball and D2 offers are partial scholarships; football and basketball are full.
+- **Grades**: exams map to the 4.0 scale (80 = B = 3.0), and the average student settles around 3.0–3.3.
+  - Each program has an `athlete_min_gpa` (NCAA minimum 2.3; Stanford 3.4). At admissions in senior
+    spring, offers you're under get pulled, with an event that says why.
+  - Regular admission: P = admit_cap × sigmoid((GPA − min_gpa) / 0.12). The cap keeps the most
+    selective schools a long shot even with a 4.0.
 - **The path** is chosen in senior spring from offers, admissions and staying to work. The player picks
   from the college_decision moment. Everyone else scores the options from their own interests,
-  ambition, money and the offer's tier.
+  ambition, money, the program's strength and the school's academic rank.
+- **Path presets**: any person except the protagonist can be given `path: {college, sport}` (or
+  `{kind: "work"}`). They're built to play that sport, the offer arrives at admissions, and they take it.
+
+### The MLB Draft
+
+The draft happens every July 13. College juniors and seniors who play baseball are in the pool.
+- **Scout score** = baseball rating + 0.3 × (impact per game − their team's level) × share of starts
+  + 2.5 per college baseball honor (max 8) + program exposure.
+- **Pick** = 10 × e^(0.2 × (97 − score)), plus some draft-day luck. Past pick 615 (20 rounds) is undrafted.
+- **Teams** are the 30 MLB clubs in a seeded order. Slot values are interpolated from approximate recent figures.
+- **First assignment**: High-A for rounds 1–2, Low-A for rounds 3–10, rookie ball after that.
+- **The protagonist's choice**: sign (path becomes `pro` and they go offscreen) or go back to school.
+  If undrafted, they can go back, sign as a free agent if a team called, or walk away from baseball.
+- **Other draftees** sign if they went in the top 10 rounds or are seniors.
+- **The finale**: the day after the draft is settled in year seven, the story_end moment closes the
+  story with a review of all seven years.
+
+### Setting
+
+The town and school come from `data/world.json` and are used everywhere text names a place:
+Guilford, Connecticut; Guilford High School (the Grizzlies, green and white, Southern Connecticut
+Conference); real local spots and real SCC opponents. College opponents come from each college's
+conference list. Changing the setting is a data edit; no code names the town.
 
 ### After high school
 
@@ -277,7 +311,10 @@ On September 1 the paths take effect. Your college is created the first time som
 arrives: teams with college schedules, clubs, a campus job, coaches, a professor, a roommate and a
 cohort of classmates. Graduates going elsewhere go offscreen. They get weekly drift instead of daily
 decisions, keep their relationships, and come home for breaks, so the twins are at the Thanksgiving table.
-Graduates who stay in town take full-time jobs.
+Graduates who stay in town take full-time jobs. Townies who play a sport somewhere else get a season
+summary when that season ends: games, starts and a stat line from their rating against the program's
+level, with upperclassmen getting credit for experience. If the protagonist later picks the same
+college, anyone from town already there moves onto campus and onto the roster.
 
 ### Playing
 

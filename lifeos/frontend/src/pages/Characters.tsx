@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { api } from "../api";
-import { go, useApi, useStore } from "../store";
+import { go, useApi, useStore, PLACE } from "../store";
 import {
   Avatar, Changes, Empty, ErrorBox, EventRow, Icon, Loading, Meter, Modal, Name, Panel, Signed, Slider, Stat, Tabs, Tag, cx, fmt, moodColor, pretty, signed,
 } from "../ui";
@@ -117,7 +117,7 @@ function CreateModal({ onClose }: any) {
   const done = async (c: any) => {
     await refresh();
     bump();
-    toast(`${c.name} joined ${c.role === "staff" ? "the staff" : "Hollow Creek High"}.`, "good");
+    toast(`${c.name} joined ${c.role === "staff" ? "the staff" : PLACE.school}.`, "good");
     onClose();
     go(`characters/${c.id}`);
   };
@@ -397,7 +397,7 @@ function AthletePanel({ c }: any) {
   const rec = c.recruiting || {};
   const interest = Object.entries(rec.interest || {}).map(([k, v]: any) => {
     const [col, sport] = k.split(":");
-    return { col, sport, level: v, name: colleges[col]?.name || col, tier: colleges[col]?.tier };
+    return { col, sport, level: v, name: colleges[col]?.short || colleges[col]?.name || col, tier: colleges[col]?.conference || colleges[col]?.tier };
   }).sort((a, b) => b.level - a.level).slice(0, 8);
   const path = c.path?.kind ? c.path : null;
   const bySport = SPORT_ORDER.filter((s) => seasons.some((x) => x.sport === s) || c.positions?.[s]);
@@ -415,8 +415,9 @@ function AthletePanel({ c }: any) {
           {path && (
             <div className="ath-path">
               <span className="hint">After high school</span>
-              <b>{path.kind === "college" ? (path.sport ? `Playing ${path.sport} at ${path.name || colleges[path.college]?.name || path.college}` : `Studying at ${path.name || colleges[path.college]?.name || path.college}`) : "Working in Hollow Creek"}</b>
-              <span className="small muted">{[path.tier, path.scholarship ? "scholarship" : null].filter(Boolean).join(" · ")}</span>
+              <b>{path.kind === "pro" ? (path.team ? `Pro ball: ${path.team}, round ${path.round} (pick ${path.pick}), starting at ${path.level}` : "Pro ball: undrafted free agent")
+                : path.kind === "college" ? (path.sport ? `Playing ${path.sport} at ${path.name || colleges[path.college]?.name || path.college}` : `Studying at ${path.name || colleges[path.college]?.name || path.college}`) : `Working in ${PLACE.town}`}</b>
+              <span className="small muted">{[path.conference || path.tier, path.aid || (path.scholarship ? "scholarship" : null)].filter(Boolean).join(" · ")}</span>
             </div>
           )}
         </div>
@@ -476,7 +477,7 @@ function AthletePanel({ c }: any) {
           <div>
             <div className="hint" style={{ marginBottom: 4 }}>Recruiting{rec.score && Object.keys(rec.score).length ? ` · ${Object.entries(rec.score).map(([s, v]: any) => `${s} ${Math.round(v)}`).join(" · ")}` : ""}</div>
             {(rec.offers || []).map((o: any, i: number) => (
-              <div key={i} className="small"><Tag tone="good">offer</Tag> {o.name} <span className="hint">{o.tier} · {o.sport}{o.scholarship ? " · scholarship" : ""}</span></div>
+              <div key={i} className="small"><Tag tone="good">offer</Tag> {o.short || o.name} <span className="hint">{o.conference || o.tier} · {o.sport}{o.aid ? ` · ${o.aid}` : o.scholarship ? " · scholarship" : ""}</span></div>
             ))}
             {interest.filter((x) => !(rec.offers || []).some((o: any) => o.college === x.col && o.sport === x.sport)).map((x) => (
               <div key={x.col + x.sport} className="small"><Tag tone="dim">interest {x.level}</Tag> {x.name} <span className="hint">{x.tier} · {x.sport}</span></div>
@@ -485,7 +486,7 @@ function AthletePanel({ c }: any) {
           </div>
           <div>
             <div className="hint" style={{ marginBottom: 4 }}>Admissions</div>
-            {(rec.admits || []).length ? rec.admits.map((a: any, i: number) => <div key={i} className="small">✉️ {a.name} <span className="hint">{a.tier}</span></div>) : <div className="dim small">Letters arrive senior year.</div>}
+            {(rec.admits || []).length ? rec.admits.map((a: any, i: number) => <div key={i} className="small">✉️ {a.short || a.name} <span className="hint">{a.conference || a.tier}</span></div>) : <div className="dim small">Letters arrive senior year.</div>}
           </div>
         </div>
       </div>

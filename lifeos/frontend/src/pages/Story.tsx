@@ -2,7 +2,7 @@
 // and every result on this page comes straight from recorded simulation state.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../api";
-import { go, useApi, useStore } from "../store";
+import { go, useApi, useStore, PLACE } from "../store";
 import {
   Avatar, Calc, Changes, Empty, ErrorBox, EventRow, Icon, LineChart, Loading, Meter, Name, Panel, Signed, Stat, Tabs, Tag, TermBars,
   cx, fmt, moodColor, pretty, signed,
@@ -38,6 +38,7 @@ const MOMENT_META: Record<string, [string, string]> = {
   sibling_leaves: ["Family", "var(--info)"], rumor: ["Drama", "var(--warm)"], heartbreak: ["Heartbreak", "var(--romance)"],
   summer: ["Summer", "var(--warm)"], graduation: ["Graduation", "var(--good)"], year_review: ["Year in review", "var(--accent-2)"],
   asked_out: ["Romance", "var(--romance)"], asked_to_dance: ["Romance", "var(--romance)"],
+  mlb_draft: ["MLB Draft", "var(--good)"], draft_passed: ["MLB Draft", "var(--warm)"], story_end: ["The end of the beginning", "var(--accent-2)"],
 };
 
 const KIND_TAG: Record<string, [string, string]> = {
@@ -46,7 +47,10 @@ const KIND_TAG: Record<string, [string, string]> = {
   college_decision: ["decision", "good"], decision_day: ["decision day", "good"], election: ["election", "accent"], show: ["show", "info"],
 };
 
-const TIER_COLOR: Record<string, string> = { D1: "var(--warm)", D2: "var(--accent-2)", D3: "var(--info)", JUCO: "var(--muted)" };
+const TIER_COLOR: Record<string, string> = {
+  D1: "var(--warm)", D2: "var(--accent-2)", D3: "var(--info)", JUCO: "var(--muted)", CC: "var(--muted)",
+  SEC: "var(--warm)", ACC: "var(--info)", "Big Ten": "var(--accent-2)", "Big East": "var(--good)", NE10: "var(--muted)",
+};
 
 function useDayLabel() {
   const { world } = useStore();
@@ -77,13 +81,16 @@ function softmax(us: number[], T: number) {
 }
 
 const where = (loc: string, college?: any) =>
-  loc === "hollow_creek" ? "home in Hollow Creek" : loc === "college" ? `at ${college?.name || "college"}` : loc === "away" ? "away at school" : pretty(loc || "");
+  loc === "hollow_creek" ? `home in ${PLACE.town}` : loc === "college" ? `at ${college?.name || "college"}` : loc === "away" ? "away at school" : pretty(loc || "");
 
 function pathText(path: any) {
   if (!path || !path.kind) return null;
-  if (path.kind === "work") return "Staying in Hollow Creek to work";
-  return path.sport ? `Playing ${path.sport} at ${path.name}${path.scholarship ? " (scholarship)" : ""}` : `Going to ${path.name}`;
+  if (path.kind === "work") return `Staying in ${PLACE.town} to work`;
+  if (path.kind === "pro") return path.team ? `Pro ball: ${path.team} (round ${path.round}), starting at ${path.level}` : `Pro ball: signed as a free agent`;
+  return path.sport ? `Playing ${path.sport} at ${path.name}${path.aid ? ` (${path.aid})` : path.scholarship ? " (scholarship)" : ""}` : `Going to ${path.name}`;
 }
+
+const money = (n: number) => (n >= 1e6 ? `$${(n / 1e6).toFixed(1)} million` : `$${Math.round(n / 1000).toLocaleString()}K`);
 
 // ================================================================================================
 
@@ -150,7 +157,7 @@ function NoStory({ onStarted }: { onStarted: () => Promise<any> }) {
           <Icon name="play" size={16} /> Start your story
         </button>
       </div>
-      <Panel title="Or play as someone already in Hollow Creek" sub="Pick anyone in the current world and their life becomes your story, starting today."
+      <Panel title={`Or play as someone already in ${PLACE.town}`} sub="Pick anyone in the current world and their life becomes your story, starting today."
         actions={<input type="search" placeholder="Search names" value={q} onChange={(e) => setQ(e.target.value)} />}>
         {studs.length ? (
           <div className="pick-grid">
@@ -339,9 +346,11 @@ function Header({ s }: { s: any }) {
       else if (me.path?.kind === "work") out.push([`Year ${g - 12} out`, `Year ${g - 12} after high school`]);
       else out.push([`College ${g - 12}`, `College year ${g - 12}`]);
     }
+    if (out.length && me.path?.kind !== "work") out[out.length - 1] = [`${out[out.length - 1][0]} · Draft`, `${out[out.length - 1][1]}, then the MLB Draft in July`];
     return out;
   }, [me.grade, me.path?.kind, pr.year]);
-  const place = me.school === "college" && s.college ? s.college.name : me.school === "hchs" ? "Hollow Creek High" : me.location === "hollow_creek" ? "Hollow Creek" : pretty(me.location);
+  const place = me.path?.kind === "pro" ? (me.path.level ? `pro ball (${me.path.level})` : "pro ball")
+    : me.school === "college" && s.college ? s.college.name : me.school === "hchs" ? PLACE.school : me.location === "hollow_creek" ? PLACE.town : pretty(me.location);
   return (
     <div className="st-head">
       <Avatar id={me.id} size={64} />
@@ -355,6 +364,7 @@ function Header({ s }: { s: any }) {
           <span>{place}</span>
           {me.partner && <><span>·</span><Tag tone="romance">dating <Name id={me.partner} /></Tag></>}
           {me.injured && <Tag tone="bad">injured</Tag>}
+          {me.path?.kind === "pro" && <Tag tone="good">{me.path.team ? `${me.path.team} · round ${me.path.round}` : "pro ball"}</Tag>}
         </div>
       </div>
       <div className="st-head-r">
@@ -447,14 +457,14 @@ function PathCards({ m, first, busy, onPick }: { m: any; first: string; busy: bo
           <div key={i} className={cx("st-path", i === best && "best")}>
             <div className="row between">
               <h4>{p.kind === "work" ? "Stay home and work" : p.name}</h4>
-              <Tier t={p.tier} />
+              <Tier t={p.conference || p.tier} />
             </div>
             <div className="st-path-l">
-              {p.kind === "work" ? "Get a job in Hollow Creek, stay close to family and friends." : p.sport ? `Play ${p.sport} for them.` : "Go as a regular student. No team spot promised."}
+              {p.kind === "work" ? `Get a job in ${PLACE.town}, stay close to family and friends.` : p.sport ? `Play ${p.sport} for them.` : "Go as a regular student. No team spot promised."}
             </div>
             <div className="chips">
               {p.sport && <Tag tone="accent">{p.sport}</Tag>}
-              {p.scholarship && <Tag tone="good">scholarship</Tag>}
+              {p.scholarship && <Tag tone="good">{p.aid || "scholarship"}</Tag>}{p.program ? <Tag tone="dim">program {p.program}</Tag> : null}
               {p.kind === "college" && !p.sport && <Tag>student</Tag>}
               {p.kind === "work" && <Tag tone="info">work</Tag>}
             </div>
@@ -818,6 +828,7 @@ function SportsTab({ s }: { s: any }) {
         <Teams s={s} />
         <Recruiting s={s} />
       </div>
+      {(s.draft?.projection || s.draft?.result) && <DraftBoard s={s} />}
       <Seasons s={s} />
       <BoxScores s={s} />
       <Trophies s={s} />
@@ -1023,6 +1034,44 @@ function Trophies({ s }: { s: any }) {
   );
 }
 
+function DraftBoard({ s }: { s: any }) {
+  const d = s.draft;
+  const r = d.result;
+  const pj = d.projection;
+  const grade = s.me.grade;
+  return (
+    <Panel title="MLB Draft board" sub="20 rounds every July. College players are eligible after junior year.">
+      {r && (
+        <div className="st-commit" style={{ marginBottom: 12 }}>
+          <div className="st-kick">{r.year} draft</div>
+          {r.status === "undrafted" ? <b>Went undrafted</b> : (
+            <b>Round {r.round}, pick {r.pick}: {r.team}</b>
+          )}
+          {r.bonus ? <div className="small muted">Slot value about {money(r.bonus)} · starts at {r.level}</div> : null}
+          <div className="small muted">{r.status === "signed" ? "Signed." : r.status === "returned" ? "Went back to school for another year." : r.status === "drafted" ? "Decision pending." : ""}</div>
+        </div>
+      )}
+      {pj && (
+        <div className="grid g2">
+          <div>
+            <div className="st-quick" style={{ marginTop: 0 }}>
+              <Stat label="scout score" value={fmt(pj.score)} />
+              <Stat label="projected" value={pj.round ? `Round ${pj.round}` : "undrafted"} />
+              <Stat label="around pick" value={pj.round ? String(pj.pick) : "—"} />
+            </div>
+            <div className="hint" style={{ marginTop: 8 }}>
+              {grade && grade < 15 ? `Eligible after your junior year (${15 - grade === 1 ? "next" : "in " + (15 - grade)} season${15 - grade === 1 ? "" : "s"}).` : "Eligible this July."} Projections move with every season. Draft day adds some luck.
+            </div>
+          </div>
+          <div className="meters">
+            {pj.terms.map(([k, v]: [string, number]) => <Signed key={k} label={k} value={v} right={fmt(v)} />)}
+          </div>
+        </div>
+      )}
+    </Panel>
+  );
+}
+
 function Recruiting({ s }: { s: any }) {
   const rec = s.recruiting;
   const me = s.me;
@@ -1035,7 +1084,7 @@ function Recruiting({ s }: { s: any }) {
         <div className="st-commit">
           <div className="st-kick">Decided</div>
           <b>{committed}</b>
-          {me.path.tier && <> <Tier t={me.path.tier} /></>}
+          {(me.path.conference || me.path.tier) && <> <Tier t={me.path.conference || me.path.tier} /></>}
         </div>
       )}
       {scores.length > 0 && (
@@ -1049,8 +1098,9 @@ function Recruiting({ s }: { s: any }) {
           <div className="st-offers">
             {rec.offers.map((o: any, i: number) => (
               <div key={i} className="st-offer">
-                <div className="row between"><b>{o.name}</b><Tier t={o.tier} /></div>
-                <div className="small muted">{o.sport} · {o.scholarship ? "scholarship" : "roster spot"}</div>
+                <div className="row between"><b>{o.short || o.name}</b><Tier t={o.conference || o.tier} /></div>
+                <div className="small muted">{o.sport} · {o.aid || (o.scholarship ? "scholarship" : "roster spot")}</div>
+                {o.min_gpa ? <div className={cx("small", me.gpa < o.min_gpa ? "bad-t" : "dim")}>{me.gpa < o.min_gpa ? `Needs a ${o.min_gpa.toFixed(1)} GPA. You're at ${me.gpa.toFixed(2)}.` : `GPA ${o.min_gpa.toFixed(1)}+ to keep it`}</div> : null}
               </div>
             ))}
           </div>
@@ -1061,20 +1111,26 @@ function Recruiting({ s }: { s: any }) {
           <div className="st-sec-l">Interest</div>
           <div className="meters">
             {rec.interest.map((x: any, i: number) => (
-              <Meter key={i} label={<span><Tier t={x.tier} /> {x.name} <span className="dim">· {x.sport}</span></span>} value={x.level} right={x.level}
+              <Meter key={i} label={<span><Tier t={x.conference || x.tier} /> {x.short || x.name} <span className="dim">· {x.sport}{x.min_gpa ? ` · ${x.min_gpa.toFixed(1)} GPA` : ""}</span></span>} value={x.level} right={x.level}
                 color={x.level >= 75 ? "var(--good)" : x.level >= 50 ? "var(--accent)" : "var(--dim)"} />
             ))}
           </div>
         </>
-      ) : !rec.offers.length && (
+      ) : !rec.offers.length && !committed && (
         <Empty>
           {(me.grade || 0) < 10 ? "Colleges start watching in sophomore year." : "No college interest yet."} Strong seasons raise your scout grade; offers come junior and senior year if you're good enough and your GPA holds up.
         </Empty>
       )}
+      {(rec.lost_offers || []).length > 0 && (
+        <>
+          <div className="st-sec-l" style={{ marginTop: 12 }}>Lost over grades</div>
+          <div className="chips">{rec.lost_offers.map((o: any, i: number) => <Tag key={i} tone="bad">{o.short || o.name} {o.sport} (needed {o.min_gpa?.toFixed(1)})</Tag>)}</div>
+        </>
+      )}
       {rec.admits.length > 0 && (
         <>
           <div className="st-sec-l" style={{ marginTop: 12 }}>Admitted as a student</div>
-          <div className="chips">{rec.admits.map((a: any, i: number) => <Tag key={i} tone="good">{a.name} ({a.tier})</Tag>)}</div>
+          <div className="chips">{rec.admits.map((a: any, i: number) => <Tag key={i} tone="good">{a.short || a.name}</Tag>)}</div>
         </>
       )}
     </Panel>
@@ -1157,7 +1213,7 @@ function StorySoFar({ s }: { s: any }) {
         <div className="evlist scroll">{s.feed.length ? s.feed.map((e: any) => <EventRow key={e.id} ev={e} />) : <Empty>Your story hasn't started yet.</Empty>}</div>
         <div className="row" style={{ marginTop: 8 }}>
           <button className="small" onClick={() => go(`characters/${s.protagonist}`)}>Full timeline</button>
-          <button className="small ghost" onClick={() => go("history")}>Everything in Hollow Creek</button>
+          <button className="small ghost" onClick={() => go("history")}>Everything in {PLACE.town}</button>
         </div>
       </Panel>
       <Upcoming s={s} />

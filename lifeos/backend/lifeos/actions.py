@@ -104,7 +104,8 @@ def skill_gain(sim, c, skill, base, ev=None) -> float:
     cap = (1 - tw) * 100 + tw * apt
     cur = c.skills.get(skill, 0)
     apt_f = 0.4 + apt / 100 * 1.2
-    ceil_f = max(0.03, (cap - cur) / cap) ** 0.8 if cur < cap else 0.03
+    curve = R["dev.sport_ceiling_curve"] if sim.cat.skills[skill].get("kind") == "sport" else 0.8
+    ceil_f = max(0.03, (cap - cur) / cap) ** curve if cur < cap else 0.03
     g = base * 0.55 * R["dev.skill_rate"] * apt_f * ceil_f
     if ev is not None:
         _calc(ev, f"{skill} skill gain", terms=[["base x session quality", round(base, 3)], ["skill rate", R["dev.skill_rate"]],

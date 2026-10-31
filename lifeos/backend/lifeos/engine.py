@@ -186,6 +186,10 @@ class Simulation:
             g = c.flags.get("grounded_until")
             if g is not None and g < w.day:
                 c.flags.pop("grounded_until", None)
+        d = calm.date_of(w.day)
+        if (d.month, d.day) == tuple(self.cat.sports["mlb"]["draft_day"]):
+            from . import sports
+            sports.mlb_draft(self)
         self.ctx_practices = self.institutions.practices_today() if calm.is_school_day(w.day, cal) else []
         self._story_dawn()
 
@@ -203,9 +207,17 @@ class Simulation:
                 from .sports import opponent_name
                 self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": opponent_name(self, w.groups[it["group"]], n)})
         cal = self.cat.world["calendar"]
+        st = w.meta.get("story") or {}
         if calm.break_name(w.day, cal) == "Summer" and calm.break_name(w.day - 1, cal) != "Summer":
             self.moment_trigger("year_review", prot, {})
-            self.moment_trigger("summer", prot, {})
+            if not (st and w.day - st.get("start_day", 0) >= (st.get("years", 7) - 1) * 365 + 200):
+                self.moment_trigger("summer", prot, {})
+        if st and not st.get("complete") and w.day - st.get("start_day", 0) >= (st.get("years", 7) - 1) * 365 + 280:
+            dd = calm.date_of(w.day)
+            after_draft = (dd.month, dd.day) > tuple(self.cat.sports["mlb"]["draft_day"]) and dd.month < 9
+            waiting = any(m["kind"] in ("mlb_draft", "draft_passed") for m in moments.pending(w))
+            if after_draft and not waiting:
+                self.moment_trigger("story_end", prot, {})
         for m in moments.pending(w):
             if w.day - m["day"] >= (1 if m["kind"] == "game_day" else 3):
                 moments.resolve(self, m["id"], None)

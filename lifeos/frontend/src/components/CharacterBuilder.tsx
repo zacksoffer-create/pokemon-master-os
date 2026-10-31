@@ -33,6 +33,7 @@ export interface Person {
   color?: string;
   bio?: string;
   relationships?: RelSpec[];
+  path?: { kind?: "college" | "work"; college?: string; sport?: string | null } | null;
   // siblings
   twin_of?: string;
   strength?: number;
@@ -252,6 +253,7 @@ export function sectionForError(msg: string) {
   if (/body|position|jersey/.test(msg)) return "athlete";
   if (/relationships/.test(msg)) return "relationships";
   if (/archetype/.test(msg)) return "start";
+  if (/\.path/.test(msg)) return "future";
   return "basics";
 }
 export function friendlyError(msg: string) {
@@ -295,6 +297,10 @@ export function cleanPerson(p: Person, kind: BuilderMode): any {
     const pos = Object.fromEntries(Object.entries(p.positions || {}).filter(([, v]) => v));
     if (Object.keys(pos).length) o.positions = pos;
     if (p.jersey !== undefined && p.jersey !== null && String(p.jersey) !== "") o.jersey = Number(p.jersey);
+  }
+  if (!staff && kind !== "protagonist" && p.path) {
+    if (p.path.kind === "work") o.path = { kind: "work" };
+    else if (p.path.college) o.path = p.path.sport ? { college: p.path.college, sport: p.path.sport } : { college: p.path.college };
   }
   const rels = (p.relationships || []).filter((r) => r.to && r.type).map((r) => (r.strength ? { to: r.to, type: r.type, strength: Math.round(r.strength) } : { to: r.to, type: r.type }));
   if (rels.length) o.relationships = rels;
@@ -421,7 +427,8 @@ export default function CharacterBuilder({ value: p, onChange, cat, mode, people
   const sections: [string, string][] = staff
     ? [["basics", "Basics"], ["personality", "Personality"], ["relationships", "Relationships"]]
     : [["basics", "Basics"], ["start", "Starting point"], ["personality", "Personality"], ["talent", "Talent"], ["drives", "What drives them"],
-       ["interests", "Interests & skills"], ["athlete", "Athlete"], ["relationships", "Relationships"]];
+       ["interests", "Interests & skills"], ["athlete", "Athlete"], ["relationships", "Relationships"],
+       ...(mode === "protagonist" ? [] : [["future", "After high school"] as [string, string]])];
   const ids = sections.map((s) => s[0]);
   const cur = ids.includes(sec) ? sec : "basics";
   const errBySec = useMemo(() => {
@@ -439,6 +446,7 @@ export default function CharacterBuilder({ value: p, onChange, cat, mode, people
     if (s === "athlete") return !!(p.body?.height_in || p.body?.build || Object.keys(p.positions || {}).length || p.jersey);
     if (s === "relationships") return !!(p.relationships || []).length;
     if (s === "start") return !!p.archetype;
+    if (s === "future") return !!p.path;
     if (s === "basics") return !!(p.first?.trim() && p.gender);
     return false;
   };
@@ -453,6 +461,7 @@ export default function CharacterBuilder({ value: p, onChange, cat, mode, people
     drives: "What they want out of life. These weigh on every decision.",
     interests: "What they're into. Interests pull them toward clubs, teams and the people who share them.",
     athlete: "Body, number and positions. Coaches pick rosters and starters from skill, talent, fitness and fit.",
+    future: `Leave it to play out, or decide now where ${X} ends up after graduation. A set path is a promise: the offer or the acceptance shows up senior spring and ${X} takes it.`,
     relationships: you ? "You can also set these from each person's side in the next steps." : `How ${X} knows the people in this story, from ${X === "they" ? "their" : X + "'s"} point of view.`,
   };
   return (
@@ -483,6 +492,7 @@ export default function CharacterBuilder({ value: p, onChange, cat, mode, people
         {cur === "interests" && <Interests p={p} onChange={onChange} cat={cat} />}
         {cur === "athlete" && <Athlete p={p} onChange={onChange} cat={cat} />}
         {cur === "relationships" && <Relationships p={p} set={set} people={people} mode={mode} />}
+        {cur === "future" && <Future p={p} set={set} cat={cat} />}
         <div className="cb-sec-f">
           <button type="button" disabled={idx === 0} onClick={() => setSec(ids[idx - 1])}>← {idx > 0 ? sections[idx - 1][1] : ""}</button>
           <span className="spacer" />
@@ -494,6 +504,69 @@ export default function CharacterBuilder({ value: p, onChange, cat, mode, people
 }
 
 // ---------------------------------------------------------------- sections
+
+function Future({ p, set, cat }: { p: Person; set: (x: Partial<Person>) => void; cat: any }) {
+  const cols: any[] = cat.colleges || [];
+  const path = p.path || null;
+  const mode = !path ? "auto" : path.kind === "work" ? "work" : path.sport ? "sport" : "student";
+  const col = cols.find((c) => c.id === path?.college);
+  const big = cols.filter((c) => !c.local);
+  const local = cols.filter((c) => c.local);
+  const pickCollege = (id: string) => {
+    const c = cols.find((x) => x.id === id);
+    let sport = mode === "sport" ? path?.sport || c?.sports?.[0] || null : null;
+    if (sport && c && !c.sports.includes(sport)) sport = c.sports[0] || null;
+    set({ path: { kind: "college", college: id, sport } });
+  };
+  const card = (c: any) => (
+    <button key={c.id} type="button" className={cx("cb-arch", path?.college === c.id && "on")} onClick={() => pickCollege(c.id)}>
+      <div className="cb-arch-h"><b>{c.short}</b> <span className="hint">{c.conference || (c.tier === "CC" ? "community college" : c.tier)}</span></div>
+      <div className="hint">{c.mascot ? `${c.mascot} · ` : ""}{c.location}</div>
+      {mode === "sport" && c.sports.length > 0 && (
+        <div className="hint">{c.sports.map((s: string) => `${cap(s)} ${c.programs[s]}`).join(" · ")}</div>
+      )}
+    </button>
+  );
+  return (
+    <div className="cb-fields">
+      <Field label="Their path" wide>
+        <Seg value={mode} onChange={(v) => {
+          if (v === "auto") set({ path: null });
+          else if (v === "work") set({ path: { kind: "work" } });
+          else if (v === "student") set({ path: { kind: "college", college: path?.college || "uconn", sport: null } });
+          else {
+            const c = cols.find((x) => x.id === (path?.college || "uconn"));
+            set({ path: { kind: "college", college: c?.id || "uconn", sport: c?.sports?.[0] || "basketball" } });
+          }
+        }} options={[["auto", "Let it play out"], ["sport", "Play a sport in college"], ["student", "College as a student"], ["work", "Stay in town and work"]]} />
+      </Field>
+      {(mode === "sport" || mode === "student") && (
+        <>
+          <Field label="College" wide hint={mode === "sport" ? "Numbers are how strong each program is. Stronger programs want better players." : undefined}>
+            <div className="cb-arch-grid">{big.map(card)}</div>
+          </Field>
+          {mode === "student" && local.length > 0 && (
+            <Field label="Close to home" wide><div className="cb-arch-grid">{local.map(card)}</div></Field>
+          )}
+          {mode === "sport" && col && (
+            <Field label="Sport" wide>
+              <Seg value={path?.sport} onChange={(v) => set({ path: { kind: "college", college: col.id, sport: v } })}
+                options={col.sports.map((s: string) => [s, cap(s)])} />
+            </Field>
+          )}
+          {col && (
+            <div className="callout" style={{ gridColumn: "1 / -1" }}>
+              {mode === "sport"
+                ? <>{p.first || "They"} will get a {path?.sport === "baseball" ? "partial" : "full"} scholarship offer from {col.short} senior spring and commit. We'll make sure {p.first || "they"} {path?.sport ? `plays ${path.sport} in high school and is good enough to be recruited` : "is ready"}.</>
+                : <>{p.first || "They"} will get into {col.short} and go there after graduation.</>}
+            </div>
+          )}
+        </>
+      )}
+      {mode === "work" && <div className="callout" style={{ gridColumn: "1 / -1" }}>{p.first || "They"} will skip college, stay home and start working full time after graduation.</div>}
+    </div>
+  );
+}
 function Basics({ p, set, cat, mode }: { p: Person; set: (x: Partial<Person>) => void; cat: any; mode: BuilderMode }) {
   const staff = p.role === "staff";
   const canStaff = mode === "cast" || mode === "studio";

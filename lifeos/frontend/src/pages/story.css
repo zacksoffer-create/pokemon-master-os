@@ -154,3 +154,4 @@ table.st-stats tr.me td { background: rgba(87, 217, 195, 0.08); }
 .st-wrap table.mini.st-stats { width: auto; min-width: 0; }
 .st-wrap table.mini.st-stats th, .st-wrap table.mini.st-stats td { padding: 5px 12px; }
 .st-top { align-items: start; }
+.bad-t { color: var(--bad); }

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { api } from "../api";
-import { go, useStore } from "../store";
+import { go, useStore, PLACE } from "../store";
 import { Avatar, Calc, Changes, Empty, ErrorBox, EventRow, Icon, Loading, Meter, Name, Panel, Tag, TermBars, cx, fmt, moodColor, pretty, signed } from "../ui";
 import "./play.css";
 
@@ -171,7 +171,7 @@ function Session({ id }: { id: string }) {
                 <div key={g.id} className="row between small" style={{ padding: "4px 0" }}><span>{g.label}</span><Tag tone="accent">{fmt(g.priority)}</Tag></div>
               )) : <Empty>No active goals.</Empty>}
             </Panel>
-            <Panel title="Meanwhile in Hollow Creek" sub="Notable things that happened while the clock moved">
+            <Panel title={`Meanwhile in ${PLACE.town}`} sub="Notable things that happened while the clock moved">
               <div className="evlist">{opts.skipped_events.length ? opts.skipped_events.slice().reverse().map((e: any) => <EventRow key={e.id} ev={e} compact />) : <Empty>Quiet.</Empty>}</div>
             </Panel>
           </div>

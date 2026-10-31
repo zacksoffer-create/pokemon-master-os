@@ -1,14 +1,15 @@
 # LIFE OS · Living World Laboratory (v0.1)
 
-A persistent small-town life simulation with a lab built around it. Hollow Creek has one high school,
-its students, staff and their households. Every person decides for themselves what to do,
+A persistent small-town life simulation with a lab built around it. The town is Guilford, Connecticut:
+Guilford High School (the Grizzlies, Southern Connecticut Conference), its students, staff and their households. Every person decides for themselves what to do,
 twice a day, from a transparent utility model. You can watch, inspect any decision down to the
 random roll, change the rules, run controlled experiments, and step into one person's life.
 
 **Story mode** is the playable side: build yourself, your family and the people you want in your life,
 let the town fill in around them, and live seven years, from the first day of freshman year through
-three years of college (or work). It has a full sports career in football, basketball and baseball:
-JV and varsity, starting spots, box scores, season stats, awards, injuries, recruiting and offers.
+three years of college and the MLB Draft (or work). It has a full sports career in football, basketball and baseball:
+JV and varsity, starting spots, box scores, season stats, awards, injuries, recruiting, offers from real
+colleges (UConn, Stanford, UCLA, LSU, UNC, Texas, Oklahoma, Florida State, Miami, Michigan) and the draft.
 
 Everything here runs locally. No paid APIs, and no AI-generated text: the narrative comes from
 procedural templates filled in from recorded simulation state.
@@ -65,6 +66,8 @@ Open **My Story** in the sidebar and click **Start your story**. The setup has s
    There are one-click buttons for an older brother who's a senior and twin sisters a year older than you.
 4. **Your people.** Friends, a crush, a rival, a coach, anyone. Each one gets the same builder, plus
    how they feel about you (best friend, crush, rival, teammate...).
+   Anyone besides you can also get a set path for after high school, like "play basketball at UConn":
+   the offer shows up senior spring and they take it. Siblings have a quick dropdown for this on their card.
 5. **The town.** How many students per grade (6–20). Generated classmates fill each grade around your people.
 6. **Review & start.** Check catches every problem at once. You can also download your cast as a file
    and load it again later, so you don't have to rebuild your people.
@@ -81,9 +84,23 @@ stats, your family and your people.
 - At any choice, **Let them decide** hands it back to the simulation.
 
 Everyone else lives their own life the whole time. Your brother graduates and leaves, your sisters
-go off to college a year later and come home for Thanksgiving, friends drift, rivals show up. In senior spring you
-choose a path from the offers and admissions you've earned. On September 1 you arrive at college
-(teams, a roommate, new classmates) or start working in town.
+go off to college a year later and come home for Thanksgiving, friends drift, rivals show up. Siblings
+playing college sports somewhere else still get season stats on their page.
+
+**Grades matter.** GPAs run on a real 4.0 scale (most kids land around 3.0–3.3). Every program has a GPA it
+needs from recruits: the NCAA minimum is 2.3, and Stanford wants a 3.4. If your GPA is under it at
+senior spring, the offer gets pulled. Regular admission to the big schools is hard (Stanford is a long shot
+even with a 4.0). Southern Connecticut State and Gateway Community College are there as local options.
+
+**Recruiting is earned.** Each college has a program strength per sport (LSU baseball, UConn basketball and
+Michigan football are the top of the list). The stronger the program, the better you need to be before
+they offer. In senior spring you pick your path from the offers and admissions you've earned. On September 1
+you arrive at college (teams, a roommate, new classmates, real conference opponents) or start working in town.
+
+**The draft.** If you play college baseball, the Sports tab gets an MLB Draft board with your projected round
+and why. The draft is in mid-July after your junior year: 20 rounds, real MLB teams, approximate slot values.
+If you're picked, you choose: sign and start pro ball, or go back for senior year. That's the last chapter,
+and the story closes with a look back at your seven years.
 
 You can open anyone in **Character Studio** (including yourself) to see their full profile and athlete
 page, and **History Explorer** shows the math behind anything that happened.
@@ -92,7 +109,7 @@ page, and **History Explorer** shows the math behind anything that happened.
 
 ```bash
 cd lifeos
-python -m pytest backend/tests -q      # 27 tests, about 40 seconds
+python -m pytest backend/tests -q      # 34 tests, about 40 seconds
 ```
 
 They cover every acceptance criterion in the brief. Each name below is a test:
@@ -103,7 +120,7 @@ They cover every acceptance criterion in the brief. Each name below is a test:
 - **Configuration:** invalid configuration is rejected without partially applying; every rule parameter is read by the engine.
 - **Lab tools:** experiment runs are isolated and reproducible; player choices go through the same resolvers; lab edits are validated and recorded; the workbook round-trips.
 - **Demo:** the demo world produces measurably different lives.
-- **Story mode** (`test_story.py`): the spec builds you, your siblings (twins included), your people and the town; validation reports every problem; moment choices change state and are recorded; a football season has rosters, box scores and stats; a senior leaves with a path, arrives at college and comes home for Thanksgiving; the story API flow works end to end.
+- **Story mode** (`test_story.py`): the spec builds you, your siblings (twins included), your people and the town; validation reports every problem; moment choices change state and are recorded; a football season has rosters, box scores and stats; a senior leaves with a path, arrives at college and comes home for Thanksgiving; the story API flow works end to end. Also: the Guilford setting and the real colleges; a sibling set to play basketball at UConn ends up there; offers get pulled over GPA; the MLB draft after junior year and the finale; offscreen college seasons.
 
 ## Demonstration scenario
 
@@ -130,7 +147,7 @@ Marcus 58→64 and Devon 48→73, and raising social approval ×2.5 clearly rais
 | **Live Any Life** | Pick anyone. At each decision point you see their real options, why each is available, and how likely they would be to pick it on their own. Choose one, or let them decide. The simulation resolves it with the same rules and dice as everyone else's choices. |
 | **History Explorer** | Every event, filterable by person, type, importance, date range and text, with a CSV export. Each event shows its calculation (probabilities and rolls), every state change (before, after and why), the memories it created, its causes and its consequences. The **decision trace inspector** shows every option weighed, each term's contribution, the temperature, the random roll and the weights in effect. |
 | **Experiment Center** | Presets and a builder: a base world (fresh from a generation seed, the current world, or a save), the number of days, the seeds, and variants with rule overrides. Runs happen in separate processes. Results are labelled honestly: one seed is a *deterministic paired comparison* (including whose lives changed and the day the timelines split); several seeds are a *repeated-run measurement* (means, 95% intervals on paired differences, direction counts, effect sizes). |
-| **Engine Workshop** | 76 rule parameters with ranges, defaults and descriptions, applied from the next slot. Changes are validated, logged as lab events and versioned. Per-action coefficients (base, risk, need/motive/trait weights, target terms, on/off). Excel workbook export and import. Change log. |
+| **Engine Workshop** | 78 rule parameters with ranges, defaults and descriptions, applied from the next slot. Changes are validated, logged as lab events and versioned. Per-action coefficients (base, risk, need/motive/trait weights, target terms, on/off). Excel workbook export and import. Change log. |
 | **Content Library** | The data catalogs: actions, goals, narrative templates, world and institutions, archetypes and staff, attribute definitions, metrics. |
 | **Saves & Worlds** | Save, load, download and upload snapshots. Generate a new world (generation seed, population, with or without the featured cast). Change the simulation seed. |
 
@@ -200,8 +217,9 @@ lifeos/
 - **Guardians** are household-level actors with a parenting style. They react to grades and trouble, but they aren't autonomous agents.
 - **Pets** affect household members (pet time relieves stress). They have no needs or behavior of their own.
 - **Careers and economy** are minimal: two part-time employers, allowance by income level, and costs for outings.
-- **After high school**: your own college is fully simulated (teams, classes, roommate, classmates). Everyone else who leaves town lives offscreen: weekly updates, no daily decisions, home for breaks. Graduates who stay in town work full time. The seven chapters end with college junior year and a final review. The world keeps running after that (college senior year, then graduates move on), but there's no grad school or later adult life yet.
-- **College sports** are simplified: one varsity team per sport, a short schedule, and no transfer portal or redshirts.
+- **After high school**: your own college is fully simulated (teams, classes, roommate, classmates). Everyone else who leaves town lives offscreen: weekly updates, no daily decisions, home for breaks. Graduates who stay in town work full time. The seven chapters end with the MLB Draft after college junior year and a final review. The world keeps running after that, but pro ball is offscreen (no minor league seasons yet), and there's no grad school or later adult life.
+- **College sports** are simplified: one varsity team per sport, a short schedule (11 football games, 18 basketball, 14 baseball), and no transfer portal, redshirts or NIL.
+- **Real names, simulated numbers.** Guilford, its spots (the Green, Jacobs Beach, Bishop's Orchards), the SCC opponents, the colleges, their conferences and the MLB teams are real. Program strengths, GPA cutoffs, draft projections and slot values are design values for the simulation, not official figures. Every person is generated or made by you.
 - **Spreadsheet import** covers Rules, Actions and Characters. Groups, templates and goals are edited in the JSON catalogs; restart the server to reload them.
 - **Narrative text** is template-based and functional rather than literary.
 - **Balance** is a first pass. The demo produces plausible years, but the numbers are design values meant to be tuned in the Workshop. Known tendencies: moods trend high over a long run, team rosters in a 36-student school are small, and outcomes vary a lot between seeds (which is what the Experiment Center is for).

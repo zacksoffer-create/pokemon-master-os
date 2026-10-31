@@ -1,14 +1,19 @@
 {
  "version": 1,
  "town": {
-  "name": "Hollow Creek",
-  "tagline": "A river town of about nine thousand people, one high school, and too many opinions.",
+  "name": "Guilford",
+  "state": "CT",
+  "full": "Guilford, Connecticut",
+  "tagline": "A shoreline town on Long Island Sound, about 22,000 people, one public high school and a town green everyone knows.",
   "start_date": "2025-09-01"
  },
  "school": {
   "id": "hchs",
-  "name": "Hollow Creek High",
-  "mascot": "Herons"
+  "name": "Guilford High School",
+  "short": "Guilford High",
+  "mascot": "Grizzlies",
+  "colors": "green and white",
+  "conference": "Southern Connecticut Conference"
  },
  "skills": [
   {
@@ -149,25 +154,25 @@
  "places": [
   {
    "id": "diner",
-   "name": "Rosie's Diner",
+   "name": "the Route 1 Diner",
    "cost": 8,
    "vibe": "booths, fries and bottomless sodas"
   },
   {
    "id": "park",
-   "name": "Millpond Park",
+   "name": "the Guilford Green",
    "cost": 0,
-   "vibe": "the benches by the pond"
+   "vibe": "benches under the big trees on the town green"
   },
   {
    "id": "arcade",
-   "name": "Pixel Palace",
+   "name": "the ice cream shop on the Green",
    "cost": 10,
-   "vibe": "the arcade by the old cinema"
+   "vibe": "a cone on the steps and people watching"
   },
   {
    "id": "library",
-   "name": "the town library",
+   "name": "the Guilford Free Library",
    "cost": 0,
    "vibe": "the quiet back tables"
   },
@@ -185,15 +190,15 @@
   },
   {
    "id": "riverwalk",
-   "name": "the Riverwalk",
+   "name": "Jacobs Beach",
    "cost": 0,
-   "vibe": "the path along the creek"
+   "vibe": "the sand and the jetty at sunset"
   }
  ],
  "groups": [
   {
    "id": "football",
-   "name": "Herons Football",
+   "name": "Guilford Football",
    "kind": "team",
    "skill": "football",
    "selection": "tryout",
@@ -227,7 +232,7 @@
   },
   {
    "id": "basketball",
-   "name": "Herons Basketball",
+   "name": "Guilford Basketball",
    "kind": "team",
    "skill": "basketball",
    "selection": "tryout",
@@ -261,7 +266,7 @@
   },
   {
    "id": "baseball",
-   "name": "Herons Baseball",
+   "name": "Guilford Baseball",
    "kind": "team",
    "skill": "baseball",
    "selection": "tryout",
@@ -381,7 +386,7 @@
   },
   {
    "id": "paper",
-   "name": "The Heron Herald",
+   "name": "The Grizzly Gazette",
    "kind": "club",
    "skill": "writing",
    "selection": "open",
@@ -417,7 +422,7 @@
   },
   {
    "id": "job_diner",
-   "name": "Rosie's Diner",
+   "name": "Route 1 Diner",
    "kind": "job",
    "skill": null,
    "selection": "hire",
@@ -434,7 +439,7 @@
   },
   {
    "id": "job_market",
-   "name": "Creekside Market",
+   "name": "Bishop's Orchards",
    "kind": "job",
    "skill": null,
    "selection": "hire",
@@ -451,7 +456,7 @@
   },
   {
    "id": "job_auto",
-   "name": "Creek Auto & Tire",
+   "name": "Route 1 Auto",
    "kind": "job",
    "skill": null,
    "selection": "hire",
@@ -472,7 +477,7 @@
   },
   {
    "id": "job_builders",
-   "name": "Hollow Creek Builders",
+   "name": "Shoreline Builders",
    "kind": "job",
    "skill": null,
    "selection": "hire",
@@ -493,7 +498,7 @@
   },
   {
    "id": "rec_league",
-   "name": "Hollow Creek Rec League",
+   "name": "Guilford Rec League",
    "kind": "club",
    "skill": "basketball",
    "selection": "open",
@@ -724,16 +729,20 @@
  },
  "opponents": {
   "hchs": [
-   "Cedar Falls",
-   "North Ridge",
-   "Marlow",
-   "St. Bernard's",
-   "Fairhaven",
-   "Kingsport",
-   "Westbrook",
-   "Oak Hill",
-   "Lyndon",
-   "Bayview"
+   "Hand",
+   "Branford",
+   "North Haven",
+   "East Haven",
+   "Amity",
+   "Cheshire",
+   "Hamden",
+   "Shelton",
+   "Xavier",
+   "Notre Dame-West Haven",
+   "West Haven",
+   "Lyman Hall",
+   "Sheehan",
+   "Wilbur Cross"
   ],
   "college": [
    "Northgate",

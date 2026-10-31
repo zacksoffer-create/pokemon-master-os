@@ -2,6 +2,15 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { api, CharSummary, WorldInfo } from "./api";
 
+/** The town and school names, from the world's setting (kept here so any component can use them). */
+export const PLACE = { town: "Guilford", school: "Guilford High School", short: "Guilford High", mascot: "Grizzlies" };
+function setPlace(w: any) {
+  if (w?.town?.name) PLACE.town = w.town.name;
+  if (w?.school?.name) PLACE.school = w.school.name;
+  if (w?.school?.short) PLACE.short = w.school.short;
+  if (w?.school?.mascot) PLACE.mascot = w.school.mascot;
+}
+
 export type Tone = "info" | "good" | "bad" | "warn";
 interface Toast {
   id: number;
@@ -60,6 +69,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const refresh = useCallback(async () => {
     try {
       const [w, cs] = await Promise.all([api.get("/api/state"), api.get("/api/characters")]);
+      setPlace(w);
       setWorld(w);
       setCharList(cs);
       setError(null);
@@ -83,7 +93,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           setJob(j);
           if (days > 20) {
             try {
-              setWorld(await api.get("/api/state"));
+              const w2 = await api.get("/api/state");
+              setPlace(w2);
+              setWorld(w2);
             } catch {
               /* keep polling */
             }

@@ -13,7 +13,8 @@ import string
 from .history import Effects
 from .rng import clamp, softmax_pick
 
-DEDUPE = {"first_day", "college_decision", "summer", "graduation", "college_arrival", "year_review", "game_day", "benched"}
+DEDUPE = {"first_day", "college_decision", "summer", "graduation", "college_arrival", "year_review", "game_day", "benched",
+          "mlb_draft", "draft_passed", "story_end"}
 
 
 class _Safe(dict):
@@ -38,6 +39,8 @@ def pending(w) -> list:
 def _names(sim, ctx) -> dict:
     w = sim.w
     out = _Safe()
+    out["school"] = sim.cat.world["school"]["name"]
+    out["town"] = sim.cat.world["town"]["name"]
     for k, v in ctx.items():
         if isinstance(v, str) and v in w.chars:
             out[k] = w.chars[v].name
@@ -79,7 +82,9 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
             choices.append({"label": o["label"], "hint": "", "ops": [["path", i]], "fits": {}})
     else:
         for ch in spec["choices"]:
-            choices.append({"label": _render(ch["label"], names), "hint": ch.get("hint", ""), "ops": ch["ops"], "fits": ch.get("fits", {})})
+            if ch.get("requires") and not ctx.get(ch["requires"]):
+                continue
+            choices.append({"label": _render(ch["label"], names), "hint": _render(ch.get("hint", ""), names), "ops": ch["ops"], "fits": ch.get("fits", {})})
     m = {"id": f"mo{w.next_id('moment')}", "kind": kind, "day": w.day, "status": "pending", "ctx": ctx,
          "title": _render(spec["title"], names), "text": _render(spec["text"], names),
          "choices": [{"label": ch["label"], "hint": ch["hint"]} for ch in choices], "_choices": choices}
@@ -117,16 +122,52 @@ def _enrich(sim, c, kind, ctx):
                          + (f", and {len(c.awards)} award{'s' if len(c.awards) != 1 else ''} so far" if c.awards else "") + ".")
         ctx["summer_line"] = ""
         ctx["year_label"] = c.year_label + " year"
-        st = w.meta.get("story") or {}
-        years = st.get("years", 7)
-        if kind == "year_review" and st and w.day - st.get("start_day", 0) >= (years - 1) * 365 + 200:
-            games = sum(s["games"] for s in c.stats.values())
-            sports = sorted({s["sport"] for s in c.stats.values()})
-            where = c.path.get("name") or c.path.get("label") or "Hollow Creek"
-            ctx["review"] += (f" That's {years} years since your first day at Hollow Creek High: {games} games"
-                              + (f" of {', '.join(sports)}" if sports else "") + f", {len(c.awards)} awards, and {where}. "
-                              "Those are the seven chapters. The world keeps going if you do.")
+
+
+    if kind == "mlb_draft":
+        ctx["return_line"] = ("As a senior you don't have much leverage. This is probably the offer." if ctx.get("senior")
+                              else "You could also go back for your senior year and try to climb the board next July.")
+    if kind == "draft_passed":
+        ctx["udfa_line"] = ("A couple of teams called afterward about signing as an undrafted free agent." if ctx.get("udfa")
+                            else "Nobody called afterward either.")
+    if kind == "story_end":
+        ctx["review"] = story_review(sim, c)
+        st = w.meta.get("story")
+        if st is not None:
             st["complete"] = True
+
+
+def story_review(sim, c) -> str:
+    """The closing summary: high school, college, the draft and the people."""
+    w = sim.w
+    school = sim.cat.world["school"]["name"]
+    hs = [st for st in c.stats.values() if st.get("school") == "hchs"]
+    col = [st for st in c.stats.values() if st.get("school") != "hchs"]
+    hs_aw = [a for a in c.awards if any(a.get("season") == k and st.get("school") == "hchs" for k, st in c.stats.items())]
+    parts = [f"Seven years ago you walked into {school} as a freshman."]
+    if hs:
+        sports_hs = sorted({st["sport"] for st in hs})
+        parts.append(f"You played {sum(st['games'] for st in hs)} games of {', '.join(sports_hs)} there"
+                     + (f" and won {len(hs_aw)} award{'s' if len(hs_aw) != 1 else ''}" if hs_aw else "") + ".")
+    p = c.path or {}
+    d = c.recruiting.get("draft") or {}
+    colname = p.get("name") if p.get("kind") == "college" else (sim.cat.college_by_id.get(p.get("college") or "", {}).get("short"))
+    if col and colname:
+        parts.append(f"In college you played {sum(st['games'] for st in col)} games for {colname}.")
+    if p.get("kind") == "pro":
+        parts.append(f"Then the {p['team']} drafted you in round {p['round']} and you signed. Next stop: {p['level']}." if p.get("team")
+                     else f"You went undrafted and signed anyway. Next stop: {p['level']}.")
+    elif d.get("status") == "returned":
+        parts.append("You turned the draft down to go back for one more year.")
+    elif d.get("status") == "undrafted":
+        parts.append("The draft passed you by.")
+    elif p.get("kind") == "work":
+        parts.append(f"You stayed in {sim.cat.world['town']['name']} and went to work.")
+    f = sum(1 for o, r in w.out.get(c.id, {}).items() if r.affection >= w.rules["rel.friend_threshold"])
+    partner = c.flags.get("partner")
+    parts.append(f"You've got {f} people you'd call friends" + (f", and you're with {w.chars[partner].short}" if partner in w.chars else "") + ".")
+    parts.append("Those are the seven chapters. The world keeps going if you do.")
+    return " ".join(parts)
 
 
 def auto_choice(sim, c, m) -> int:
@@ -244,6 +285,19 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
             fx.flag(c.id, "injured_until", w.day + int((until - w.day) * (1 - op[1])), m["title"])
         elif kind == "injury_extend":
             fx.flag(c.id, "injured_until", c.flags.get("injured_until", w.day) + op[1], m["title"])
+        elif kind == "pro":
+            sports.sign_pro(sim, c, fx=fx, udfa=(op[1] == "udfa"))
+        elif kind == "draft_return":
+            d = c.recruiting.get("draft")
+            if d:
+                d["status"] = "returned"
+        elif kind == "retire_baseball":
+            for gid in list(c.memberships):
+                if w.groups[gid].get("skill") == "baseball":
+                    fx.leave(c.id, gid, "stepped away from baseball")
+            fx.interest(c.id, "baseball", -30, m["title"])
+            if c.path:
+                c.path["sport"] = None
         elif kind == "path":
             opt = ctx["paths"][op[1]]
             sports.choose_path(sim.institutions, c, rng, option=opt, how="player")

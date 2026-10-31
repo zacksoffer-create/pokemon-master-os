@@ -15,7 +15,7 @@ from .history import History
 from .model import World, pair_key
 from .rng import clamp, derive_seed
 from .rules import schema
-from .worldgen import Generator, _groups, _staff, initial_relationships, pronouns_for
+from .worldgen import Generator, _groups, _staff, initial_relationships, pronouns_for, start_gpa
 
 REL_PRESETS = {
     "twin": {"label": "Twin", "both": {"familiarity": 100, "affection": 60, "trust": 75}, "bond": "twin"},
@@ -126,6 +126,18 @@ def validate_person(p: dict, path: str, cat: Catalogs, errors: list, allow_staff
             _num(r["strength"], -40, 40, f"{path}.relationships.strength", errors)
     if len(str(p.get("bio", ""))) > 500:
         errors.append(f"{path}.bio is longer than 500 characters")
+    pp = p.get("path")
+    if pp:
+        if not isinstance(pp, dict):
+            errors.append(f"{path}.path must be an object")
+        elif pp.get("kind", "college") == "work":
+            pass
+        elif pp.get("college") not in cat.college_by_id:
+            errors.append(f"{path}.path: unknown college {pp.get('college')}")
+        elif pp.get("sport") and pp["sport"] not in cat.college_by_id[pp["college"]]["sports"]:
+            errors.append(f"{path}.path: {cat.college_by_id[pp['college']]['short']} doesn't have a {pp['sport']} team here")
+        if role == "staff":
+            errors.append(f"{path}.path: staff don't go to college")
 
 
 def validate_story(spec: dict) -> dict:
@@ -218,7 +230,21 @@ def build_person(w, gen, rng, p: dict, household: dict, day: int = 0):
     if p.get("bio"):
         c.bio = str(p["bio"]).strip()
     c.birth_day = _birth_day(grade, p.get("birthday"), rng)
-    c.gpa = round(clamp(1.2 + c.skills["academics"] / 28 + c.traits["discipline"] / 140, 0.8, 4.0), 2)
+    c.gpa = start_gpa(c.skills["academics"], c.aptitudes["academic"], c.traits["discipline"], 0.0)
+    pp = p.get("path")
+    if pp:
+        preset = {"kind": "work"} if pp.get("kind") == "work" else {"kind": "college", "college": pp["college"], "sport": pp.get("sport") or None}
+        c.flags["preset_path"] = preset
+        sp = preset.get("sport")
+        if sp:
+            # a recruited athlete plays the sport and is good at it by the time the offer comes
+            c.interests[sp] = max(c.interests.get(sp, 0), 82.0)
+            col = gen.cat.college_by_id[preset["college"]]
+            target = 48 + 0.3 * col["programs"].get(sp, 60) + (grade - 9) * 2
+            if sp not in sk:
+                c.skills[sp] = round(max(c.skills.get(sp, 0), target), 1)
+            c.aptitudes["athletic"] = max(c.aptitudes["athletic"], 70.0) if "athletic" not in (p.get("aptitudes") or {}) else c.aptitudes["athletic"]
+            c.skills["fitness"] = max(c.skills.get("fitness", 0), 55.0)
     c.custom = True
     c.featured = True
     c.flags["confidence_base"] = c.traits["confidence"]
@@ -521,9 +547,17 @@ def summary(sim, char_summary, rel_view, ev_out) -> dict:
         "teams": teams, "seasons": seasons, "career": career(c), "awards": c.awards[::-1],
         "recruiting": {"offers": c.recruiting.get("offers", []), "admits": c.recruiting.get("admits", []),
                        "score": c.recruiting.get("score", {}),
+                       "lost_offers": c.recruiting.get("lost_offers", []),
                        "interest": sorted([{"college": k.split(":")[0], "name": sim.cat.college_by_id[k.split(":")[0]]["name"],
-                                            "tier": sim.cat.college_by_id[k.split(":")[0]]["tier"], "sport": k.split(":")[1], "level": v}
-                                           for k, v in c.recruiting.get("interest", {}).items()], key=lambda x: -x["level"])[:10]},
+                                            "short": sim.cat.college_by_id[k.split(":")[0]]["short"],
+                                            "tier": sim.cat.college_by_id[k.split(":")[0]]["tier"],
+                                            "conference": sim.cat.college_by_id[k.split(":")[0]].get("conference"),
+                                            "min_gpa": sim.cat.college_by_id[k.split(":")[0]].get("athlete_min_gpa"),
+                                            "sport": k.split(":")[1], "level": v}
+                                           for k, v in c.recruiting.get("interest", {}).items()], key=lambda x: -x["level"])[:12]},
+        "draft": {"result": c.recruiting.get("draft"),
+                  "projection": sports.draft_score(sim, c) if sports.plays_college_baseball(w, c) else None},
+        "setting": {"town": sim.cat.world["town"], "school": sim.cat.world["school"]},
         "college": col, "upcoming": upcoming[:12], "feed": feed, "inbox": inbox, "moments": pend,
         "control": moments.control(w), "sports_catalog": sim.cat.sports["sports"],
     }

@@ -3,7 +3,7 @@
  "notes": "Story moments: the points where the game stops and asks the player. Triggers live in moments.py; titles, text and choices live here. Placeholders like {group} come from the moment's context. Each choice runs a list of ops (see moments.py for the vocabulary). 'fits' says which personalities lean toward a choice when a character decides on their own. Chance ops roll against the person's own traits, so a choice never guarantees the outcome.",
  "moments": {
   "first_day": {
-   "title": "First day at Hollow Creek High",
+   "title": "First day at {school}",
    "text": "Freshman year starts today. {siblings_line}Football sign-ups are already on the board outside the gym. What do you want this first stretch to be about?",
    "choices": [
     {
@@ -792,7 +792,7 @@
   },
   "graduation": {
    "title": "Graduation day",
-   "text": "You walk across the stage at Hollow Creek High. {path_line}",
+   "text": "You walk across the stage at {school}. {path_line}",
    "choices": [
     {
      "label": "Celebrate with your family.",
@@ -1001,6 +1001,141 @@
        "no"
       ]
      ]
+    }
+   ]
+  },
+  "mlb_draft": {
+   "title": "Draft day: the {team} took you",
+   "text": "Round {round}, pick {pick} overall. Your phone hasn't stopped buzzing since your name came up. The slot value is about {bonus}, and they'd start you at {level}. {return_line}",
+   "choices": [
+    {
+     "label": "Sign. This is what you've worked for.",
+     "hint": "Leave {college_name} and start your pro career.",
+     "fits": {
+      "ambition": 1.0,
+      "competitiveness": 0.6
+     },
+     "ops": [
+      [
+       "pro",
+       "sign"
+      ],
+      [
+       "mood",
+       8
+      ],
+      [
+       "memory",
+       "Signed with the {team} out of {college_name}",
+       0.9,
+       95,
+       []
+      ]
+     ]
+    },
+    {
+     "label": "Go back to {college_name} for one more year.",
+     "hint": "Bet on yourself and try to climb the board next July.",
+     "fits": {
+      "loyalty": 0.6,
+      "discipline": 0.4,
+      "ambition": -0.6
+     },
+     "ops": [
+      [
+       "draft_return"
+      ],
+      [
+       "memory",
+       "Turned down the {team} to go back for one more year",
+       0.4,
+       70,
+       []
+      ]
+     ]
+    }
+   ]
+  },
+  "draft_passed": {
+   "title": "The draft came and went",
+   "text": "Twenty rounds, and your name never came up. {udfa_line}",
+   "choices": [
+    {
+     "label": "Go back to {college_name} and make them regret it.",
+     "hint": "One more season to change their minds.",
+     "fits": {
+      "competitiveness": 1.0,
+      "discipline": 0.5
+     },
+     "ops": [
+      [
+       "draft_return"
+      ],
+      [
+       "mood",
+       -4
+      ],
+      [
+       "memory",
+       "Went undrafted and went back to work",
+       -0.2,
+       70,
+       []
+      ]
+     ]
+    },
+    {
+     "label": "Take the free-agent call and sign anyway.",
+     "hint": "No bonus, but a uniform and a chance.",
+     "requires": "udfa",
+     "fits": {
+      "ambition": 1.0
+     },
+     "ops": [
+      [
+       "pro",
+       "udfa"
+      ],
+      [
+       "memory",
+       "Signed as an undrafted free agent",
+       0.6,
+       85,
+       []
+      ]
+     ]
+    },
+    {
+     "label": "Hang up the cleats and figure out what's next.",
+     "hint": "Baseball was a big part of who you are. Maybe not the whole thing.",
+     "fits": {
+      "ambition": -0.6,
+      "curiosity": 0.6
+     },
+     "ops": [
+      [
+       "retire_baseball"
+      ],
+      [
+       "memory",
+       "Walked away from baseball after college",
+       0.0,
+       80,
+       []
+      ]
+     ]
+    }
+   ]
+  },
+  "story_end": {
+   "title": "Seven years",
+   "text": "{review}",
+   "choices": [
+    {
+     "label": "Keep living.",
+     "hint": "The world keeps going if you do.",
+     "fits": {},
+     "ops": []
     }
    ]
   }

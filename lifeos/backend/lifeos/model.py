@@ -156,7 +156,7 @@ class World:
     """The single authoritative simulation state. Everything that matters is in here."""
 
     def __init__(self):
-        self.name = "Hollow Creek"
+        self.name = "Guilford"
         self.gen_seed = 0
         self.seed = 0
         self.day = 0

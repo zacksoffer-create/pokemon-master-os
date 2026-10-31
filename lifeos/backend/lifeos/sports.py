@@ -21,7 +21,29 @@ INJURIES = {
     "baseball": [("pulled hamstring", 7, 21), ("sore elbow", 7, 24), ("sprained wrist", 7, 18)],
 }
 BUILD_BONUS = {"slight": -5, "average": 0, "athletic": 4, "strong": 5}
-TIER_VALUE = {"D1": 30, "D2": 22, "D3": 16, "JUCO": 10}
+CONF_SHORT = {"Southern Connecticut Conference": "SCC", "Big Ten": "Big Ten", "Big East": "Big East", "SEC": "SEC", "ACC": "ACC", "NE10": "NE10"}
+
+
+def program(col, sport) -> float:
+    return float(col.get("programs", {}).get(sport, 0))
+
+
+def recruit_bar(col, sport) -> float:
+    """The recruiting score a player needs before this program offers."""
+    return 52 + 0.36 * program(col, sport)
+
+
+def team_level(col, sport) -> float:
+    """How well this program's team plays (the bar for starting, and the opponents' strength)."""
+    return 58 + 0.2 * program(col, sport)
+
+
+def college_level(meta, sport) -> float:
+    return (meta.get("levels") or {}).get(sport, meta.get("level", 70))
+
+
+def aid_label(col, sport) -> str:
+    return "partial scholarship" if sport == "baseball" or col.get("tier") != "D1" else "full scholarship"
 
 
 def poisson(rng, lam: float) -> int:
@@ -203,6 +225,10 @@ def add_line(dst: dict, line: dict):
 def opponent_name(sim, g, n: int) -> str:
     school = "college" if g.get("school") == "college" else "hchs"
     names = sim.cat.world.get("opponents", {}).get(school) or ["Rival"]
+    meta = sim.w.meta.get("college")
+    if school == "college" and meta and meta["id"] in sim.cat.college_by_id:
+        opp = sim.cat.college_by_id[meta["id"]].get("opponents", {})
+        names = opp.get(g.get("skill")) or opp.get("default") or names
     return names[(n * 7 + len(g["id"])) % len(names)]
 
 
@@ -239,15 +265,16 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
         bonus = {"all_out": 4.0, "smart": 0.0, "team": -1.0}.get(approach, 0.0)
         perf[cid] = pre[cid] + rng.gauss(0, 7) + bonus + (c.mood - 55) * 0.05
     college = w.meta.get("college") if g.get("school") == "college" else None
-    filler = (college["level"] - 8) if college else 38.0
+    clevel = college_level(college, sport) if college else None
+    filler = (clevel - 8) if college else 38.0
     if college:
-        bar = college["level"] + 2
-        starters = [s for s in starters if pre[s] - (w.chars[s].grade - 13) * 2 >= bar or len(players) <= n_start // 2]
+        bar = clevel + 2
+        starters = [s for s in starters if pre[s] + (w.chars[s].grade - 13) * 2 >= bar or len(players) <= n_start // 2]
         share = {}
     filled = [perf[s] for s in starters] + [filler] * max(0, n_start - len(starters))
     share = {cid: 1.0 if cid in starters else 0.3 for cid in players}
     strength = sum(filled) / max(1, len(filled))
-    base = college["level"] if college else (48 if level == "varsity" else 41)
+    base = clevel if college else (48 if level == "varsity" else 41)
     opp = base + rng.gauss(0, 8)
     home = 2 if fans else 0
     margin = strength - opp + rng.gauss(0, 6) + home
@@ -398,7 +425,11 @@ def season_awards(inst, g):
         awards.append((rows[0][1], f"{g['name']} MVP"))
         for imp, cid, st in rows:
             if st["starts"] >= max(2, st["games"] // 2) and imp / st["games"] >= (66 if g.get("school") == "college" else 60):
-                awards.append((cid, f"All-Conference {sim.cat.sports['sports'][sport]['label']}"))
+                if g.get("school") == "college" and w.meta.get("college"):
+                    conf = sim.cat.college_by_id[w.meta["college"]["id"]].get("conference") or "Conference"
+                else:
+                    conf = sim.cat.world["school"].get("conference", "Conference")
+                awards.append((cid, f"All-{CONF_SHORT.get(conf, conf)} {sim.cat.sports['sports'][sport]['label']}"))
     for cid, label in awards:
         c = w.chars[cid]
         ev = inst.event("award", "won", [cid], importance=36, group=g["id"], data={"label": label})
@@ -418,9 +449,9 @@ def recruit_score(c, sport) -> float:
     prod = 0.0
     if entries:
         last = entries[-1]
-        prod = (last["impact"] / last["games"] - 55) * 0.4
-    aw = min(10, 4 * sum(1 for a in c.awards if a.get("sport") == sport))
-    return rating(c, sport) + prod + aw + ((c.grade or 12) - 10) * 1.5
+        prod = (last["impact"] / last["games"] - 60) * 0.25
+    aw = min(6, 2 * sum(1 for a in c.awards if a.get("sport") == sport))
+    return rating(c, sport) + prod + aw + ((c.grade or 12) - 10) * 1.0
 
 
 def recruiting_update(inst, c, sport, rng):
@@ -438,50 +469,81 @@ def recruiting_update(inst, c, sport, rng):
         if sport not in col["sports"]:
             continue
         key = f"{col['id']}:{sport}"
-        gap = score - col["recruit_bar"]
+        gap = score - recruit_bar(col, sport)
         if gap < -6:
             continue
         first = key not in rec["interest"]
         rec["interest"][key] = max(rec["interest"].get(key, 0), int(clamp(50 + gap * 5, 5, 99)))
         already = any(o["college"] == col["id"] and o["sport"] == sport for o in rec["offers"])
-        eligible = c.gpa >= col["min_gpa"] * 0.85
+        eligible = c.gpa >= col.get("athlete_min_gpa", 2.3) - 0.25
         p = sigmoid(gap / 3) * (0.9 if c.grade >= 12 else 0.5 if c.grade == 11 else 0.0)
         if not already and c.grade >= 11 and gap >= 0 and eligible and rng.random() < p:
-            offer = {"college": col["id"], "name": col["name"], "tier": col["tier"], "sport": sport,
-                     "scholarship": col["tier"] in ("D1", "D2", "JUCO"), "day": w.day}
-            rec["offers"].append(offer)
-            ev = inst.event("recruiting", "offer", [c.id], importance=42, data={"label": col["name"], "sport": sport})
-            ev["text"] = (f"{col['name']} ({col['tier']}) offered {c.short} a "
-                          f"{'scholarship' if offer['scholarship'] else 'roster spot'} to play {sport}.")
-            fx = Effects(w, ev)
-            fx.mood(c.id, 10, "college offer")
-            fx.memory(c.id, "offer", [], 0.8, 70, f"Offer from {col['name']} for {sport}")
-            sim.confidence(c.id, 1.5, fx, "college offer")
-            sim.finish(ev, fx)
-            sim.moment_trigger("offer", c.id, {"college": col["id"], "college_name": col["name"], "sport": sport, "tier": col["tier"]})
+            make_offer(inst, c, col, sport)
         elif first:
             ev = inst.event("recruiting", "interest", [c.id], importance=22, data={"label": col["name"], "sport": sport})
-            ev["text"] = f"{col['name']} coaches are keeping an eye on {c.short} ({sport})."
+            ev["text"] = f"{col['short']} coaches are keeping an eye on {c.short} ({sport})."
             sim.finish(ev, Effects(w, ev))
 
 
+def make_offer(inst, c, col, sport, committed=False):
+    sim = inst.sim
+    w = sim.w
+    aid = aid_label(col, sport)
+    offer = {"college": col["id"], "name": col["name"], "short": col["short"], "tier": col["tier"], "conference": col.get("conference"),
+             "sport": sport, "scholarship": True, "aid": aid, "min_gpa": col.get("athlete_min_gpa", 2.3), "day": w.day}
+    c.recruiting.setdefault("offers", []).append(offer)
+    ev = inst.event("recruiting", "offer", [c.id], importance=42, data={"label": col["name"], "sport": sport})
+    ev["text"] = f"{col['name']} offered {c.short} a {aid} to play {sport}."
+    fx = Effects(w, ev)
+    fx.mood(c.id, 10, "college offer")
+    fx.memory(c.id, "offer", [], 0.8, 70, f"Offer from {col['short']} for {sport}")
+    sim.confidence(c.id, 1.5, fx, "college offer")
+    sim.finish(ev, fx)
+    if not committed:
+        sim.moment_trigger("offer", c.id, {"college": col["id"], "college_name": col["name"], "sport": sport, "tier": col.get("conference") or col["tier"]})
+    return offer
+
+
 def admissions(inst, rng):
+    """Senior spring: acceptance letters, and offers that don't survive the GPA check."""
     sim = inst.sim
     w = sim.w
     for c in sorted(w.students(), key=lambda c: c.id):
         if c.school != "hchs" or c.grade != 12:
             continue
+        prot = w.meta.get("protagonist") == c.id
+        preset = c.flags.get("preset_path") or {}
+        if preset.get("college") and preset.get("sport") and not any(o["college"] == preset["college"] and o["sport"] == preset["sport"]
+                                                                     for o in c.recruiting.get("offers", [])):
+            make_offer(inst, c, sim.cat.college_by_id[preset["college"]], preset["sport"], committed=True)
         admits = []
         for col in sim.cat.colleges:
-            if c.gpa + rng.gauss(0, 0.15) >= col["min_gpa"]:
-                admits.append({"college": col["id"], "name": col["name"], "tier": col["tier"]})
+            gpa = c.gpa + rng.gauss(0, 0.1)
+            p = col.get("admit_cap", 1.0) * sigmoid((gpa - col["min_gpa"]) / 0.12)
+            if (preset.get("college") == col["id"] and not preset.get("sport")) or rng.random() < p:
+                admits.append({"college": col["id"], "name": col["name"], "short": col["short"], "tier": col["tier"],
+                               "conference": col.get("conference")})
         c.recruiting["admits"] = admits
-        prot = w.meta.get("protagonist") == c.id
         ev = inst.event("admissions", "letters", [c.id], importance=30 if prot else 12,
-                        data={"label": ", ".join(a["name"] for a in admits[:4])})
+                        data={"label": ", ".join(a["short"] for a in admits[:4])})
+        big = [a["short"] for a in admits if not sim.cat.college_by_id[a["college"]].get("local")]
         ev["text"] = (f"{c.short} got into {len(admits)} school{'s' if len(admits) != 1 else ''}"
-                      + (f": {', '.join(a['name'] for a in admits[:3])}" if admits else "") + ".")
+                      + (f", including {', '.join(big[:3])}" if big else "") + ".")
         sim.finish(ev, Effects(w, ev))
+        kept, lost = [], []
+        for o in c.recruiting.get("offers", []):
+            (kept if c.gpa >= o.get("min_gpa", 0) or (preset.get("college") == o["college"] and preset.get("sport") == o["sport"]) else lost).append(o)
+        for o in lost:
+            ev = inst.event("recruiting", "pulled", [c.id], importance=40 if prot else 14, data={"label": o["name"], "sport": o["sport"]})
+            ev["text"] = (f"{o.get('short', o['name'])} pulled its {o['sport']} offer: {c.short}'s {c.gpa:.2f} GPA is under "
+                          f"the {o['min_gpa']:.1f} it needs from recruits.")
+            fx = Effects(w, ev)
+            fx.mood(c.id, -8, "offer pulled over grades")
+            fx.memory(c.id, "offer_pulled", [], -0.6, 60, f"Lost the {o.get('short', o['name'])} offer over my GPA")
+            sim.finish(ev, fx)
+        c.recruiting["offers"] = kept
+        if lost:
+            c.recruiting.setdefault("lost_offers", []).extend(lost)
 
 
 def path_options(sim, c) -> list:
@@ -492,18 +554,25 @@ def path_options(sim, c) -> list:
     poor = h.get("income") == "low"
     opts = []
     for o in c.recruiting.get("offers", []):
+        col = sim.cat.college_by_id[o["college"]]
         iv = c.interests.get(o["sport"], 50)
-        v = TIER_VALUE[o["tier"]] + iv * 0.2 + (8 if o["scholarship"] else 0) + m["achievement"] * 0.1 + (6 if poor and o["scholarship"] else 0)
-        opts.append({"kind": "college", "college": o["college"], "name": o["name"], "tier": o["tier"], "sport": o["sport"],
-                     "scholarship": o["scholarship"], "utility": round(v, 1),
-                     "label": f"Play {o['sport']} at {o['name']} ({o['tier']}{', scholarship' if o['scholarship'] else ''})"})
+        full = o.get("aid", "full scholarship").startswith("full")
+        v = (10 + program(col, o["sport"]) * 0.22 + iv * 0.2 + (8 if full else 4) + m["achievement"] * 0.1
+             + (6 if poor else 0) + (4 if col.get("home_state") and m["belonging"] > 60 else 0))
+        opts.append({"kind": "college", "college": o["college"], "name": o["name"], "tier": o["tier"], "conference": col.get("conference"),
+                     "sport": o["sport"], "scholarship": True, "aid": o.get("aid"), "program": program(col, o["sport"]),
+                     "utility": round(v, 1), "label": f"Play {o['sport']} at {col['short']} ({o.get('aid', 'scholarship')})"})
     for a in c.recruiting.get("admits", []):
-        v = {"D1": 24, "D2": 18, "D3": 19, "JUCO": 9}[a["tier"]] + t["ambition"] * 0.15 + c.aptitudes["academic"] * 0.05 - (5 if poor and a["tier"] != "JUCO" else 0)
-        opts.append({"kind": "college", "college": a["college"], "name": a["name"], "tier": a["tier"], "sport": None,
-                     "scholarship": False, "utility": round(v, 1), "label": f"Go to {a['name']} as a regular student"})
+        col = sim.cat.college_by_id[a["college"]]
+        v = (6 + col.get("academic_rank", 50) * 0.18 + t["ambition"] * 0.15 + c.aptitudes["academic"] * 0.05
+             - (5 if poor and not col.get("home_state") else 0))
+        opts.append({"kind": "college", "college": a["college"], "name": a["name"], "tier": a["tier"], "conference": col.get("conference"),
+                     "sport": None, "scholarship": False, "aid": None, "program": None, "utility": round(v, 1),
+                     "label": f"Go to {col['short']} as a regular student"})
     v = 12 + m["pleasure"] * 0.08 + (50 - t["ambition"]) * 0.2 + (6 if poor else 0)
-    opts.append({"kind": "work", "college": None, "name": "Hollow Creek", "tier": None, "sport": None, "scholarship": False,
-                 "utility": round(v, 1), "label": "Stay in Hollow Creek and work"})
+    town = sim.cat.world["town"]["name"]
+    opts.append({"kind": "work", "college": None, "name": town, "tier": None, "conference": None, "sport": None, "scholarship": False,
+                 "aid": None, "program": None, "utility": round(v, 1), "label": f"Stay in {town} and work"})
     return opts
 
 
@@ -511,17 +580,21 @@ def choose_path(inst, c, rng, option=None, how="decided"):
     sim = inst.sim
     w = sim.w
     opts = path_options(sim, c)
+    preset = c.flags.get("preset_path")
+    if option is None and preset:
+        option = next((o for o in opts if (preset.get("kind") == "work" and o["kind"] == "work")
+                       or (o["college"] == preset.get("college") and o["sport"] == preset.get("sport"))), None)
     if option is None:
         from .rng import softmax_pick
         idx, _ = softmax_pick([o["utility"] for o in opts], 6.0, rng.random())
         option = opts[idx]
-    c.path = {k: option[k] for k in ("kind", "college", "name", "tier", "sport", "scholarship")}
+    c.path = {k: option.get(k) for k in ("kind", "college", "name", "tier", "conference", "sport", "scholarship", "aid")}
     c.path["decided"] = w.day
     if option["kind"] == "college":
-        txt = (f"{c.short} committed to play {option['sport']} at {option['name']}." if option["sport"]
+        txt = (f"{c.short} committed to play {option['sport']} at {option['name']} ({option.get('aid') or 'scholarship'})." if option["sport"]
                else f"{c.short} will attend {option['name']} in the fall.")
     else:
-        txt = f"{c.short} plans to stay in Hollow Creek and work after graduation."
+        txt = f"{c.short} plans to stay in {sim.cat.world['town']['name']} and work after graduation."
     ev = inst.event("path", "chosen", [c.id], importance=40, data={"label": option["label"]})
     ev["text"] = txt
     fx = Effects(w, ev)
@@ -529,3 +602,155 @@ def choose_path(inst, c, rng, option=None, how="decided"):
     fx.mood(c.id, 5, "made the big decision")
     sim.finish(ev, fx)
     return c.path
+
+
+# --- the MLB draft --------------------------------------------------------------------------
+
+def college_baseball(c) -> list:
+    """College baseball seasons, oldest first (on campus or offscreen)."""
+    return [st for k, st in sorted(c.stats.items()) if st["sport"] == "baseball" and st["games"]
+            and (st.get("school") == "college" or str(st.get("school") or "").startswith("away:"))]
+
+
+def plays_college_baseball(w, c) -> bool:
+    p = c.path or {}
+    if p.get("kind") != "college" or c.role != "student" or not c.grade or c.grade < 13:
+        return False
+    return "col_baseball" in c.memberships or (p.get("sport") == "baseball" and str(c.school or "").startswith("away:")) \
+        or bool(college_baseball(c))
+
+
+def draft_score(sim, c) -> dict:
+    """How MLB scouts see a college player: tools, production against their level, honors and exposure."""
+    w = sim.w
+    p = c.path or {}
+    col = sim.cat.college_by_id.get(p.get("college")) or {}
+    lvl = team_level(col, "baseball") if col else 70.0
+    seasons = college_baseball(c)[-2:]
+    r = rating(c, "baseball")
+    prod = 0.0
+    if seasons:
+        ipg = sum(st["impact"] for st in seasons) / max(1, sum(st["games"] for st in seasons))
+        starts = sum(st["starts"] for st in seasons) / max(1, sum(st["games"] for st in seasons))
+        prod = 0.3 * (ipg - lvl) * (0.5 + 0.5 * starts)
+    honors = [a for a in c.awards if a.get("sport") == "baseball" and a.get("season") and any(
+        a["season"] == k for k, st in c.stats.items() if st in seasons or st.get("school") == "college")]
+    aw = min(8.0, 2.5 * len(honors))
+    exposure = (program(col, "baseball") - 80) / 10 if col else -2.0
+    total = r + prod + aw + exposure
+    terms = [["baseball rating", round(r, 1)], ["production vs. level", round(prod, 1)], ["honors", aw], ["program exposure", round(exposure, 1)]]
+    return {"score": round(total, 1), "terms": terms, "pick": pick_from_score(total), "round": round_of(pick_from_score(total))}
+
+
+def pick_from_score(x: float) -> int:
+    import math
+    return max(1, int(round(10 * math.exp((97 - x) * 0.2))))
+
+
+def round_of(pick: int, rounds: int = 20) -> int | None:
+    if pick > 615:
+        return None
+    return min(rounds, (pick - 1) // 31 + 1)
+
+
+def slot_value(sim, pick: int) -> int:
+    pts = sim.cat.sports["mlb"]["slots"]
+    for (p0, v0), (p1, v1) in zip(pts, pts[1:]):
+        if p0 <= pick <= p1:
+            import math
+            t = (math.log(pick) - math.log(p0)) / max(1e-9, math.log(p1) - math.log(p0))
+            return int(round(math.exp(math.log(v0) + t * (math.log(v1) - math.log(v0))) / 5000) * 5000)
+    return pts[-1][1]
+
+
+def money(n: int) -> str:
+    return f"${n / 1_000_000:.1f} million" if n >= 1_000_000 else f"${n // 1000:,}K"
+
+
+def first_level(rnd: int | None) -> str:
+    if not rnd:
+        return "a rookie-ball complex team"
+    return "High-A" if rnd <= 2 else "Low-A" if rnd <= 10 else "a rookie-ball complex team"
+
+
+def mlb_draft(sim):
+    """Draft day. Eligible: college juniors and seniors who play baseball."""
+    w = sim.w
+    mlb = sim.cat.sports["mlb"]
+    year = calm.date_of(w.day).year
+    rng = sim.streams.get("mlb-draft", year)
+    order = list(mlb["teams"])
+    rng.shuffle(order)
+    prot = w.meta.get("protagonist")
+    pool = []
+    for c in sorted(w.chars.values(), key=lambda c: c.id):
+        if c.status != "active" or c.grade not in (15, 16) or not plays_college_baseball(w, c):
+            continue
+        d = draft_score(sim, c)
+        noisy = d["score"] + rng.gauss(0, 2.5)
+        pool.append((pick_from_score(noisy), c, d, noisy))
+    taken = set()
+    for pick, c, d, noisy in sorted(pool, key=lambda x: (x[0], x[1].id)):
+        while pick in taken:
+            pick += 1
+        rnd = round_of(pick, mlb["rounds"])
+        senior = c.grade == 16
+        if rnd is None:
+            c.recruiting["draft"] = {"year": year, "status": "undrafted", "score": d["score"], "terms": d["terms"], "senior": senior}
+            ev = sim.new_event("draft", "passed", [c.id], [], 40 if c.id == prot else 8, {"label": "MLB Draft"})
+            ev["text"] = f"All 20 rounds of the MLB Draft went by without {c.short}'s name."
+            sim.finish(ev, Effects(w, ev))
+            if c.id == prot:
+                sim.moment_trigger("draft_passed", c.id, {"college_name": (c.path or {}).get("name", "school"), "udfa": d["score"] >= 72,
+                                                          "senior": senior})
+            continue
+        taken.add(pick)
+        team = order[(pick - 1) % len(order)]
+        bonus = slot_value(sim, pick)
+        if senior and pick > 100:
+            bonus = max(10000, int(bonus * 0.4 / 5000) * 5000)
+        c.recruiting["draft"] = {"year": year, "status": "drafted", "pick": pick, "round": rnd, "team": team, "bonus": bonus,
+                                 "level": first_level(rnd), "score": d["score"], "terms": d["terms"], "senior": senior}
+        ev = sim.new_event("draft", "drafted", [c.id], [], 60 if c.id == prot else 20, {"label": team})
+        ev["text"] = f"The {team} drafted {c.short} in round {rnd}, pick {pick} overall. Slot value: about {money(bonus)}."
+        ev["calc"] = [{"step": "MLB draft", "terms": d["terms"], "total": d["score"], "with_luck": round(noisy, 1), "pick": pick,
+                       "rule": "pick = 10 x e^(0.2 x (97 - score)); past pick 615 is undrafted"}] if w.tracing or c.id == prot else None
+        fx = Effects(w, ev)
+        fx.mood(c.id, 15, "drafted")
+        fx.memory(c.id, "drafted", [], 0.9, 90, f"Drafted by the {team}, round {rnd}")
+        for s in sim.siblings(c.id):
+            fx.mood(s, 6, f"{c.short} got drafted")
+        sim.finish(ev, fx)
+        if c.id == prot:
+            sim.moment_trigger("mlb_draft", c.id, {"team": team, "round": rnd, "pick": pick, "bonus": money(bonus),
+                                                   "level": first_level(rnd), "college_name": (c.path or {}).get("name", "school"),
+                                                   "senior": senior})
+        elif rnd <= 10 or senior:
+            sign_pro(sim, c, fx=None)
+
+
+def sign_pro(sim, c, fx=None, udfa=False):
+    """Sign a pro contract: leave college for the minor leagues (offscreen from here)."""
+    w = sim.w
+    d = c.recruiting.get("draft") or {}
+    own = fx is None
+    if own:
+        ev = sim.new_event("draft", "signed", [c.id], [], 50 if c.id == w.meta.get("protagonist") else 14, {"label": d.get("team", "")})
+        fx = Effects(w, ev)
+    team = d.get("team") if not udfa else None
+    level = d.get("level") if not udfa else "a rookie-ball complex team"
+    for gid in list(c.memberships):
+        if w.groups[gid].get("school") == "college" or w.groups[gid]["kind"] == "job":
+            fx.leave(c.id, gid, "signed a pro contract")
+    c.path = {"kind": "pro", "team": team, "round": d.get("round"), "pick": d.get("pick"), "bonus": 0 if udfa else d.get("bonus"),
+              "level": level, "college": (c.path or {}).get("college"), "name": team or "pro ball", "udfa": udfa, "started": w.day}
+    c.role = "alumni"
+    c.grade = None
+    c.school = None
+    c.location = "away"
+    c.flags.pop("term_location", None)
+    d["status"] = "signed"
+    if own:
+        ev["text"] = (f"{c.short} signed with the {team} and reports to their {level} club." if team
+                      else f"{c.short} signed as an undrafted free agent and reports to {level}.")
+        sim.finish(ev, fx)

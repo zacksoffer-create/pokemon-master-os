@@ -34,6 +34,11 @@ def _pick_weighted(rng, items, key="weight"):
     return items[-1]
 
 
+def start_gpa(academics: float, aptitude: float, discipline: float, noise: float = 0.0) -> float:
+    """Starting GPA on the 4.0 scale, matched to where exams settle (an average student lands around 3.0-3.3)."""
+    return round(clamp(3.6 + 0.03 * (academics - 50) + 0.025 * (aptitude - 50) + (discipline - 50) / 150 + noise, 1.0, 4.0), 2)
+
+
 def pronouns_for(g: str) -> str:
     return {"f": "she/her", "m": "he/him"}.get(g, "they/them")
 
@@ -150,7 +155,7 @@ class Generator:
                    "fun": round(clamp(rng.gauss(60, 12), 20, 100), 1),
                    "stress": round(clamp(25 + traits["volatility"] * 0.2 + rng.gauss(0, 8), 5, 80), 1)},
             mood=round(clamp(rng.gauss(62, 8), 30, 90), 1), interests=interests,
-            money=float(income_money), gpa=round(clamp(1.2 + skills["academics"] / 28 + traits["discipline"] / 140 + rng.gauss(0, 0.25), 0.8, 4.0), 2),
+            money=float(income_money), gpa=start_gpa(skills["academics"], apt["academic"], traits["discipline"], rng.gauss(0, 0.22)),
         )
         c.bio = self.bio(c, arch)
         household["members"].append(cid)

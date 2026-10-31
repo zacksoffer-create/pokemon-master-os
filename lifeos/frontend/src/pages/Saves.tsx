@@ -1,7 +1,7 @@
 // Saves & Worlds: snapshots, files, new worlds and seeds.
 import React, { useState } from "react";
 import { api } from "../api";
-import { go, useApi, useStore } from "../store";
+import { go, useApi, useStore, PLACE } from "../store";
 import { Empty, ErrorBox, Icon, Loading, Panel, Tag } from "../ui";
 import "./lab.css";
 
@@ -191,7 +191,7 @@ export default function Saves() {
               <div className="field"><label>Generation seed</label><input type="number" value={nw.gen_seed} onChange={(e) => setNw({ ...nw, gen_seed: e.target.value })} /></div>
               <div className="field"><label>Students (8-60)</label><input type="number" min={8} max={60} value={nw.students} onChange={(e) => setNw({ ...nw, students: e.target.value })} /></div>
               <div className="field"><label>Simulation seed (optional)</label><input type="text" placeholder="derived from the generation seed" value={nw.sim_seed} onChange={(e) => setNw({ ...nw, sim_seed: e.target.value })} /></div>
-              <div className="field"><label>World name (optional)</label><input type="text" placeholder="Hollow Creek" value={nw.name} onChange={(e) => setNw({ ...nw, name: e.target.value })} /></div>
+              <div className="field"><label>World name (optional)</label><input type="text" placeholder={PLACE.town} value={nw.name} onChange={(e) => setNw({ ...nw, name: e.target.value })} /></div>
             </div>
             <label className="row small" style={{ flexWrap: "nowrap", alignItems: "flex-start" }}>
               <input type="checkbox" checked={nw.featured} onChange={(e) => setNw({ ...nw, featured: e.target.checked })} />

@@ -84,7 +84,7 @@ def report_card_reaction(sim, c, it, rng):
     h = w.households.get(c.household_id)
     if not h:
         return
-    standard = 1.6 + h["expectations"] / 100 * 2.2
+    standard = 2.1 + h["expectations"] / 100 * 1.8
     diff = c.gpa - standard
     s = h["strictness"] / 100 * R["inst.parent_strictness"]
     terms = [["GPA", round(c.gpa, 2)], ["household standard", round(standard, 2)], ["strictness x rules", round(s, 3)],

@@ -182,11 +182,13 @@ class Institutions:
         fx = Effects(w, ev)
         scores = {}
         for c in studs:
-            terms = [("baseline", 74.0), ("academic skill", 0.35 * (c.skills.get("academics", 0) - 50)),
+            terms = [("baseline", 81.0), ("academic skill", 0.35 * (c.skills.get("academics", 0) - 50)),
                      ("academic aptitude", 0.25 * (c.aptitudes["academic"] - 50)),
                      ("recent studying", 12 * min(1.5, c.study_ema / 5) * R["inst.study_effect"]),
                      ("difficulty", -(R["inst.exam_difficulty"] - 50) * 0.4), ("mood", (c.mood - 50) * 0.1),
                      ("stress", -max(0.0, c.needs["stress"] - 55) * 0.25), ("luck", rng.gauss(0, 7))]
+            if school == "college":
+                terms.append(("college coursework", -3.0))
             s = clamp(sum(t[1] for t in terms), 0, 100)
             scores[c.id] = round(s, 1)
             gp = clamp((s - 50) / 10, 0.0, 4.0)
@@ -383,6 +385,8 @@ class Institutions:
             if g.get("skill") and not hurt:
                 focus = (0.7 + (c.traits["discipline"] - 50) / 100 * R["dev.discipline_focus"]) * (0.5 + c.needs["energy"] / 200)
                 coach_q = 1.0 + ((w.chars[coach].traits["discipline"] - 50) / 250 if coach else 0)
+                if g.get("school") == "college":
+                    coach_q *= 1.8  # college programs: full-time coaches, strength staff, film, more reps
                 fx.skill(cid, g["skill"], skill_gain(sim, c, g["skill"], 1.1 * max(0.2, focus) * coach_q), f"{g['name']} practice")
                 c.counters["skillpractice:" + g["skill"]] = c.counters.get("skillpractice:" + g["skill"], 0) + 1
                 fx.interest(cid, g["skill"], R["dev.interest_drift"] * 0.3, "practice")
@@ -1110,7 +1114,7 @@ class Institutions:
             fx.scalar(cid, "role", "alumni", "graduated")
             c.grade = None
             c.school = None
-            fx.memory(cid, "graduated", [], 0.8, 80, "Graduated from Hollow Creek High")
+            fx.memory(cid, "graduated", [], 0.8, 80, f"Graduated from {sim.cat.world['school']['name']}")
             c.achievements.append({"day": w.day, "label": "Graduated", "event": ev.get("id")})
             for go in c.goals:
                 if go["status"] == "active" and go["type"] in ("make_group", "grades", "win_election", "improve_skill"):
@@ -1120,7 +1124,7 @@ class Institutions:
             if cid == w.meta.get("protagonist"):
                 p = c.path or {}
                 line = (f"Next: {p.get('sport') + ' at ' if p.get('sport') else ''}{p.get('name')}." if p.get("kind") == "college"
-                        else "Next: staying in Hollow Creek and working.")
+                        else f"Next: staying in {sim.cat.world['town']['name']} and working.")
                 sim.moment_trigger("graduation", cid, {"path_line": line})
         w.meta["graduated_last"] = len(seniors)
 
@@ -1152,5 +1156,5 @@ class Institutions:
         w.calendar = [i for i in w.calendar if i["day"] >= w.day] + calm.build_year(w, sim.cat, y)
         w.calendar.sort(key=lambda i: (i["day"], i["kind"], i.get("group") or "", i["key"]))
         ev = self.event("new_year", "started", [], importance=30, data={"year": y + 1, "freshmen": [c.id for c in fresh]})
-        ev["text"] = f"A new school year begins at Hollow Creek High. {len(fresh)} freshmen arrive."
+        ev["text"] = f"A new school year begins at {sim.cat.world['school']['name']}. {len(fresh)} freshmen arrive."
         sim.finish(ev, Effects(w, ev))

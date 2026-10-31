@@ -8,7 +8,8 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from lifeos import calendar as calm  # noqa: E402
-from lifeos import moments  # noqa: E402
+from lifeos import college, moments, sports  # noqa: E402
+from lifeos.history import Effects  # noqa: E402
 from lifeos.engine import Simulation  # noqa: E402
 from lifeos.story import StoryError, begin, create_story, validate_story  # noqa: E402
 
@@ -130,7 +131,7 @@ def test_senior_year_ends_in_a_path_and_college_life():
     sim.advance_days(2)
     assert me.role == "alumni" and me.path, "every senior leaves with a path"
     if me.path["kind"] != "college":
-        me.path = {"kind": "college", "college": "millbrook", "name": "Millbrook College", "tier": "D3", "sport": "baseball", "scholarship": False}
+        me.path = {"kind": "college", "college": "uconn", "name": "University of Connecticut", "tier": "D1", "sport": "baseball", "scholarship": True}
     others = [c for c in w.chars.values() if c.role == "alumni" and c.id != me.id]
     assert others and all(c.path for c in others)
     while calm.school_year_of(w.day) == 0:
@@ -184,3 +185,99 @@ def test_story_api_flow():
     new = c.post("/api/characters", json={"first": "Riley", "last": "Moss", "gender": "f", "grade": 10,
                                           "relationships": [{"to": "me", "type": "crush"}]}).json()
     assert new["custom"] and new["grade"] == 10
+
+
+def test_guilford_and_the_real_colleges():
+    w = create_story(spec(per=6))
+    sim = Simulation(w)
+    assert w.name == "Guilford" and sim.cat.world["school"]["name"] == "Guilford High School"
+    assert w.groups["football"]["name"] == "Guilford Football"
+    assert "Hand" in sim.cat.world["opponents"]["hchs"]
+    ids = {c["id"] for c in sim.cat.colleges}
+    assert {"uconn", "stanford", "ucla", "lsu", "unc", "texas", "oklahoma", "fsu", "miami", "michigan"} <= ids
+    lsu, uconn = sim.cat.college_by_id["lsu"], sim.cat.college_by_id["uconn"]
+    assert sports.recruit_bar(lsu, "baseball") > sports.recruit_bar(uconn, "baseball")
+    assert sports.recruit_bar(uconn, "basketball") > sports.recruit_bar(lsu, "basketball")
+
+
+def test_a_sibling_can_be_set_to_play_basketball_at_uconn():
+    s = spec(per=6)
+    s["siblings"][0]["path"] = {"college": "uconn", "sport": "basketball"}
+    w = create_story(s)
+    sim = Simulation(w)
+    mike = w.chars[w.meta["story"]["keys"]["bro"]]
+    assert mike.flags["preset_path"] == {"kind": "college", "college": "uconn", "sport": "basketball"}
+    assert mike.interests["basketball"] >= 80
+    mike.gpa = 2.0  # even a rough senior spring doesn't undo a commitment
+    sports.admissions(sim.institutions, sim.streams.get("t", 1))
+    sports.choose_path(sim.institutions, mike, sim.streams.get("t", 2))
+    assert mike.path["college"] == "uconn" and mike.path["sport"] == "basketball" and mike.path["aid"] == "full scholarship"
+    bad = spec()
+    bad["siblings"][0]["path"] = {"college": "harvard"}
+    with pytest.raises(StoryError):
+        validate_story(bad)
+
+
+def test_grades_matter_offers_need_the_gpa():
+    w = create_story(spec(grade=12, per=6, siblings=[], cast=[]))
+    sim = Simulation(w)
+    me = w.chars[w.meta["protagonist"]]
+    sports.make_offer(sim.institutions, me, sim.cat.college_by_id["stanford"], "baseball", committed=True)
+    sports.make_offer(sim.institutions, me, sim.cat.college_by_id["lsu"], "baseball", committed=True)
+    me.gpa = 2.9
+    sports.admissions(sim.institutions, sim.streams.get("t", 3))
+    assert [o["college"] for o in me.recruiting["offers"]] == ["lsu"]
+    assert me.recruiting["lost_offers"][0]["college"] == "stanford"
+    assert any(e["type"] == "recruiting" and e["outcome"] == "pulled" for e in w.history.events.values())
+    gpas = [c.gpa for c in w.students()]
+    assert 2.6 <= sum(gpas) / len(gpas) <= 3.6
+
+
+def _college_junior(sim, college_id="lsu"):
+    w = sim.w
+    me = w.chars[w.meta["protagonist"]]
+    col = sim.cat.college_by_id[college_id]
+    me.path = {"kind": "college", "college": col["id"], "name": col["name"], "tier": col["tier"], "sport": "baseball", "scholarship": True, "started": 0}
+    me.role, me.grade, me.school, me.location = "student", 15, "college", "college"
+    college.ensure_college(sim, col["id"])
+    Effects(w, None).join(me.id, "col_baseball", "test")
+    me.skills["baseball"], me.skills["fitness"] = 86, 80
+    me.stats["baseball:2030-31:varsity"] = {"sport": "baseball", "level": "varsity", "team": "col_baseball", "team_name": "LSU Baseball",
+                                            "school": "college", "games": 14, "starts": 14, "wins": 9, "losses": 5, "line": {"h": 20, "ab": 52},
+                                            "impact": 14 * 84.0}
+    return me
+
+
+def test_mlb_draft_after_college_junior_year_and_the_finale():
+    w = create_story(spec(grade=12, per=6, siblings=[], cast=[]))
+    sim = Simulation(w)
+    begin(sim)
+    moments.resolve(sim, moments.pending(w)[0]["id"], None)
+    me = _college_junior(sim)
+    proj = sports.draft_score(sim, me)
+    assert proj["round"] is not None and proj["terms"]
+    sports.mlb_draft(sim)
+    d = me.recruiting["draft"]
+    assert d["status"] == "drafted" and d["team"] in sim.cat.sports["mlb"]["teams"] and 1 <= d["round"] <= 20 and d["bonus"] > 0
+    m = next(m for m in moments.pending(w) if m["kind"] == "mlb_draft")
+    assert d["team"] in m["title"] and len(m["choices"]) == 2
+    moments.resolve(sim, m["id"], 0)
+    assert me.path["kind"] == "pro" and me.path["team"] == d["team"] and me.location == "away" and "col_baseball" not in me.memberships
+    w.meta["story"]["start_day"] = w.day - 7 * 365 + 40
+    import datetime
+    while (calm.date_of(w.day).month, calm.date_of(w.day).day) <= (7, 13) or calm.date_of(w.day).month >= 9:
+        w.day += 1
+    sim._story_dawn()
+    end = next(m for m in moments.pending(w) if m["kind"] == "story_end")
+    assert d["team"] in end["text"] and w.meta["story"]["complete"]
+
+
+def test_offscreen_college_athletes_get_seasons():
+    w = create_story(spec(per=6))
+    sim = Simulation(w)
+    mike = w.chars[w.meta["story"]["keys"]["bro"]]
+    mike.path = {"kind": "college", "college": "uconn", "name": "University of Connecticut", "sport": "basketball", "started": 0}
+    mike.role, mike.grade, mike.school, mike.location = "student", 13, "away:uconn", "away"
+    college.offscreen_season(sim, "basketball")
+    st = next(st for k, st in mike.stats.items() if k.startswith("basketball:"))
+    assert st["offscreen"] and st["games"] >= 10 and st["team_name"] == "UConn Basketball" and st["line"].get("pts", 0) > 0

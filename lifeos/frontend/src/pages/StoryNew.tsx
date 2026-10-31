@@ -1,7 +1,7 @@
 // Story setup: you, your family, your people, the town, then start the seven years.
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../api";
-import { go, useStore } from "../store";
+import { go, useStore, PLACE } from "../store";
 import { Modal, Panel, Tag, cx } from "../ui";
 import CharacterBuilder, {
   COLORS, GRADE_LABEL, Person, PersonAvatar, SPORTS, Seg, Target, archLabel, cap, cleanPerson, displayName, friendlyError, heightLabel,
@@ -403,7 +403,7 @@ export default function StoryNew(_props: { route?: string[] }) {
         <div className="sn-building">
           <div className="sn-building-b">
             <div className="sn-spinner" />
-            <h2>Building Hollow Creek</h2>
+            <h2>Building {PLACE.town}</h2>
             <p>Your family, your people and about {d.students_per_grade * 4} classmates, each with their own personality, history and friendships.</p>
           </div>
         </div>
@@ -429,7 +429,7 @@ function Welcome({ d, update, hasStory, storyTitle, onStartOver, onLoad }: any) 
       ) : null}
       <div className="sn-welcome">
         <div className="sn-welcome-l">
-          <h2>Seven years in Hollow Creek</h2>
+          <h2>Seven years in {PLACE.town}</h2>
           <p className="muted">You start on the first day of high school. You live one life; everyone else lives theirs, making their own choices, friendships, rivalries and mistakes, whether you're watching or not.</p>
           <div className="sn-arc">
             <div><b>Years 1-4</b><span>High school. Tryouts, JV and varsity, classes, parties, dances, friends and the people you fall for.</span></div>
@@ -569,7 +569,7 @@ function FamilyStep({ d, setD, cat, errsFor, nextKey, pickColor, onEdit, onRemov
         </Panel>
       </div>
 
-      <Panel title="Brothers & sisters" sub="Older siblings are already at Hollow Creek High when you get there, and their friends already know who you are."
+      <Panel title="Brothers & sisters" sub={`Older siblings are already at ${PLACE.short} when you get there, and their friends already know who you are.`}
         actions={
           <>
             <button className="small" onClick={() => add([{ gender: "m", grade: 12, archetype: "athlete" }])}>+ Older brother (senior)</button>
@@ -621,6 +621,18 @@ function FamilyStep({ d, setD, cat, errsFor, nextKey, pickColor, onEdit, onRemov
                         {pointer ? <option value="">Twin of {pointer.first || "a sibling"}</option> : twinOpts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
                       </select>
                     </div>
+                    {(s.grade || 9) > (me.grade || 9) && (
+                      <div className="sn-sib-row">
+                        <select value={pathValue(s.path)} onChange={(e) => setSib(s.key!, { path: pathFromValue(e.target.value) })} title="Where they end up after high school">
+                          <option value="">After high school: let it play out</option>
+                          {(cat.colleges || []).filter((c: any) => !c.local).flatMap((c: any) => c.sports.map((sp: string) => (
+                            <option key={`${c.id}:${sp}`} value={`${c.id}:${sp}`}>Play {sp} at {c.short}</option>
+                          )))}
+                          {(cat.colleges || []).map((c: any) => <option key={`${c.id}:`} value={`${c.id}:`}>Go to {c.short} as a student</option>)}
+                          <option value="work">Stay in town and work</option>
+                        </select>
+                      </div>
+                    )}
                     <div className="sn-sib-close">
                       <div className="row between"><span className="cb-field-l">How you two get along</span><b className="small">{closeness(s.strength || 0)}</b></div>
                       <input type="range" className="slider" min={-40} max={40} value={s.strength || 0} onChange={(e) => setSib(s.key!, { strength: Number(e.target.value) })} />
@@ -642,6 +654,18 @@ function FamilyStep({ d, setD, cat, errsFor, nextKey, pickColor, onEdit, onRemov
       </Panel>
     </div>
   );
+}
+
+function pathValue(p: Person["path"]) {
+  if (!p) return "";
+  if (p.kind === "work") return "work";
+  return `${p.college}:${p.sport || ""}`;
+}
+function pathFromValue(v: string): Person["path"] {
+  if (!v) return null;
+  if (v === "work") return { kind: "work" };
+  const [college, sport] = v.split(":");
+  return { kind: "college", college, sport: sport || null };
 }
 
 // ------------------------------------------------------------------ your people
@@ -676,7 +700,7 @@ function PeopleStep({ d, setD, cat, errsFor, nextKey, pickColor, onEdit, onRemov
         {d.cast.length === 0 ? (
           <div className="sn-empty">
             <div>Nobody yet. Add a best friend, a crush, a rival, a coach...</div>
-            <div className="hint">You can add up to 40. Everyone else at Hollow Creek High is generated, and they all know each other in their own ways.</div>
+            <div className="hint">You can add up to 40. Everyone else at {PLACE.short} is generated, and they all know each other in their own ways.</div>
           </div>
         ) : (
           <div className="sn-cast-grid">
@@ -722,7 +746,7 @@ function TownStep({ d, update, errs }: { d: Draft; update: (p: Partial<Draft>) =
   for (const p of [d.protagonist, ...d.siblings, ...d.cast.filter((c) => c.role !== "staff")]) custom[p.grade || 9] = (custom[p.grade || 9] || 0) + 1;
   return (
     <div className="grid g2">
-      <Panel title="Hollow Creek High" sub="Generated students fill out each grade around the people you made.">
+      <Panel title={PLACE.school} sub="Generated students fill out each grade around the people you made.">
         <div className="sn-town-big"><b>{per}</b><span>students per grade</span></div>
         <input type="range" className="slider" min={6} max={20} value={per} onChange={(e) => update({ students_per_grade: Number(e.target.value) })} />
         <div className="row between hint"><span>6 · small and tight-knit</span><span>20 · big and busy</span></div>
@@ -745,7 +769,7 @@ function TownStep({ d, update, errs }: { d: Draft; update: (p: Partial<Draft>) =
         <div className="hint" style={{ marginTop: 10 }}>More students means a richer social world but slower days. 10-14 is a good middle. Roughly {per * 4} students in all, plus teachers and coaches.</div>
         {errs.length > 0 && <div className="errorbox">{errs.join("\n")}</div>}
       </Panel>
-      <Panel title="Seeds" sub="Seeds make the world reproducible: the same setup and seeds give you the same Hollow Creek every time.">
+      <Panel title="Seeds" sub={`Seeds make the world reproducible: the same setup and seeds give you the same ${PLACE.town} every time.`}>
         <div className="cb-fields">
           <div className="cb-field wide">
             <div className="cb-field-l">World seed</div>
@@ -804,7 +828,7 @@ function Review({ d, cat, spec, check, problems, onFix, onRecheck, onStart, star
         <div style={{ flex: 1, minWidth: 0 }}>
           <div className="sn-kicker">Starring</div>
           <h2>{me.first?.trim() || "You"} {me.last?.trim() || last}</h2>
-          <div className="muted">{yearLabel(me)} at Hollow Creek High · {archLabel(cat, me.archetype)}{me.body?.height_in ? ` · ${heightLabel(me.body.height_in)}` : ""}{me.body?.build ? ` ${me.body.build}` : ""}{me.jersey !== undefined && me.jersey !== null && String(me.jersey) !== "" ? ` · #${me.jersey}` : ""}</div>
+          <div className="muted">{yearLabel(me)} at {PLACE.short} · {archLabel(cat, me.archetype)}{me.body?.height_in ? ` · ${heightLabel(me.body.height_in)}` : ""}{me.body?.build ? ` ${me.body.build}` : ""}{me.jersey !== undefined && me.jersey !== null && String(me.jersey) !== "" ? ` · #${me.jersey}` : ""}</div>
           <div className="sn-review-sum">{summaryLine(cat, me)}</div>
           {plays.length > 0 && (
             <div className="chips" style={{ marginTop: 8 }}>

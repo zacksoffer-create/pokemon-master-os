@@ -616,6 +616,16 @@
      "description": "How much natural aptitude raises the ceiling on a skill. 0 = anyone can reach the top with work."
     },
     {
+     "key": "dev.sport_ceiling_curve",
+     "label": "Sport skill curve",
+     "type": "float",
+     "default": 2.2,
+     "min": 0.5,
+     "max": 4,
+     "step": 0.1,
+     "description": "How sharply sport skill gains slow down near a player's ceiling. Higher means quick progress early and a slow climb at the top, so only real talents reach college level."
+    },
+    {
      "key": "dev.discipline_focus",
      "label": "Discipline focus",
      "type": "float",

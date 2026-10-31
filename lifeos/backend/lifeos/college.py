@@ -1,7 +1,7 @@
 """Life after high school: graduates' paths, the protagonist's college, offscreen lives, breaks at home.
 
 Every graduate gets a path during senior spring: play a sport in college, go to college as a
-regular student, or stay in Hollow Creek and work. On Sept 1 the paths take effect:
+regular student, or stay in town and work. On Sept 1 the paths take effect:
   - the protagonist's college is built the first time anyone from town arrives there: teams,
     clubs, a campus job, coaches, a professor, a roommate and a cohort of classmates;
   - graduates going to other colleges move offscreen (lightweight weekly updates, no daily
@@ -31,9 +31,12 @@ def ensure_college(sim, college_id: str):
     w = sim.w
     if w.meta.get("college"):
         return w.meta["college"]
+    from .sports import team_level
     col = sim.cat.college_by_id[college_id]
+    levels = {s: round(team_level(col, s), 1) for s in col["sports"]}
     meta = {"id": col["id"], "name": col["name"], "short": col.get("short", col["name"]), "tier": col["tier"],
-            "level": col["level"], "mascot": col.get("mascot", ""), "created": w.day}
+            "conference": col.get("conference"), "location": col.get("location"), "levels": levels,
+            "level": round(sum(levels.values()) / len(levels), 1) if levels else 65.0, "mascot": col.get("mascot", ""), "created": w.day}
     w.meta["college"] = meta
     gen = Generator(w.gen_seed)
     gen.used_names = {(c.first, c.last) for c in w.chars.values()}
@@ -83,6 +86,17 @@ def ensure_college(sim, college_id: str):
         w.groups[gid] = {"id": gid, "name": name, "kind": kind, "skill": skill, "selection": sel, "capacity": cap, "practice_days": days,
                          "prestige": 20, "school": "college", "members": [], "leaders": [], "absences": {}, "cut": [],
                          "record": {"w": 0, "l": 0}, "production": None, "joined": {}, "history": [], "streak": 0}
+    # townies who were already here (an older sibling, a teammate from home) are now on campus with you
+    for c in sorted(w.chars.values(), key=lambda c: c.id):
+        if c.status == "active" and c.school == f"away:{col['id']}":
+            c.school = "college"
+            if c.flags.get("term_location"):
+                c.flags["term_location"] = "college"
+            else:
+                c.location = "college"
+            sp = (c.path or {}).get("sport")
+            if sp and f"col_{sp}" in w.groups:
+                Effects(w, None).join(c.id, f"col_{sp}", "already on the roster")
     w.groups["col_job"] = {"id": "col_job", "name": f"{meta['short']} Dining Hall", "kind": "job", "skill": None, "selection": "hire",
                            "capacity": 8, "shift_days": [1, 3], "pay": 55, "min_age": 17, "prestige": 5, "school": None, "location": "college",
                            "members": [], "leaders": [], "absences": {}, "cut": [], "record": {"w": 0, "l": 0}, "production": None,
@@ -108,7 +122,7 @@ def add_college_students(sim, rng, per_grade: dict, col):
     gen.used_names = {(c.first, c.last) for c in w.chars.values()}
     gen.used_last = {h["last"] for h in w.households.values()}
     out = []
-    lvl = col["level"]
+    from .sports import team_level
     athletes_left = {s: {"football": 4, "basketball": 3, "baseball": 3}[s] for s in col["sports"]}
     for grade, n in sorted(per_grade.items()):
         for _ in range(n):
@@ -129,7 +143,7 @@ def add_college_students(sim, rng, per_grade: dict, col):
                 athletes_left[sport] -= 1
                 c.interests[sport] = round(clamp(rng.gauss(85, 6), 60, 99), 1)
                 c.aptitudes["athletic"] = round(clamp(rng.gauss(75, 8), 55, 98), 1)
-                c.skills[sport] = round(clamp(rng.gauss(lvl - 2 + (grade - 13) * 3, 5), 45, 92), 1)
+                c.skills[sport] = round(clamp(rng.gauss(team_level(col, sport) - 2 + (grade - 13) * 3, 5), 45, 92), 1)
                 c.skills["fitness"] = round(clamp(rng.gauss(70, 8), 40, 95), 1)
                 c.path = {"kind": "college", "college": col["id"], "sport": sport, "scholarship": True}
                 sports.ensure_athlete(c, sport, rng)
@@ -186,7 +200,7 @@ def depart(sim, rng):
                 where = p.get("name") or "college"
             c.flags.pop("term_location", None)
             ev = sim.new_event("path", "left", [c.id], [], 32 if c.id != prot else 45, {"label": where})
-            ev["text"] = f"{c.short} left Hollow Creek for {where}."
+            ev["text"] = f"{c.short} left {sim.cat.world['town']['name']} for {where}."
             fx = Effects(w, ev)
             fx.memory(c.id, "left_home", [], 0.5, 70, f"Left home for {where}")
             for sib in sim.siblings(c.id):
@@ -265,8 +279,12 @@ def new_college_year(sim, rng):
 
 
 def daily(sim):
-    """Breaks: college students from Hollow Creek come home, then go back."""
+    """Breaks: college students from town come home, then go back. Offscreen seasons wrap up."""
     w = sim.w
+    d = calm.date_of(w.day)
+    for sport, spec in COLLEGE_TEAMS.items():
+        if (d.month, d.day) == tuple(spec["season"]["end"]):
+            offscreen_season(sim, sport)
     on = calm.break_name(w.day, sim.cat.world["calendar"]) is not None
     was = w.meta.get("on_break", False)
     if on == was:
@@ -295,8 +313,62 @@ def offscreen_weekly(sim):
         if c.status != "active" or c.location != "away":
             continue
         c.skills["academics"] = clamp(c.skills.get("academics", 40) + 0.4, 0, 100)
+        sp = (c.path or {}).get("sport")
+        if sp and (c.path or {}).get("kind") == "college":
+            ceiling = 55 + c.aptitudes.get("athletic", 50) * 0.45
+            c.skills[sp] = round(clamp(c.skills.get(sp, 40) + 0.22 * max(0.0, 1 - c.skills.get(sp, 40) / max(ceiling, 1)) * 3, 0, ceiling), 2)
+            c.skills["fitness"] = round(clamp(c.skills.get("fitness", 40) + 0.1, 0, 95), 2)
         c.mood += (62 - c.mood) * 0.3
         c.needs["stress"] += (30 - c.needs["stress"]) * 0.3
         c.needs["social"] = 70.0
         c.needs["fun"] = 65.0
         c.needs["energy"] = 75.0
+
+
+def season_games(sport) -> int:
+    spec = COLLEGE_TEAMS[sport]["season"]
+    start = calm.md_to_day(0, tuple(spec["start"]))
+    end = calm.md_to_day(0, tuple(spec["end"]))
+    return max(1, (end - start) // 7)
+
+
+def offscreen_season(sim, sport):
+    """College athletes from town who play somewhere else get a season summary: games, starts, a stat line."""
+    from . import sports
+    w = sim.w
+    games = season_games(sport)
+    for c in sorted(w.chars.values(), key=lambda c: c.id):
+        p = c.path or {}
+        if c.status != "active" or p.get("kind") != "college" or p.get("sport") != sport or not (c.school or "").startswith("away:"):
+            continue
+        col = sim.cat.college_by_id.get(p.get("college"))
+        if not col or sport not in col["sports"]:
+            continue
+        rng = sim.streams.get("offscreen-season", w.day, c.id)
+        lvl = sports.team_level(col, sport)
+        r = sports.rating(c, sport)
+        starter = r + ((c.grade or 13) - 13) * 2 >= lvl + 2  # experience counts
+        pos = c.positions.get(sport) or sports.default_position(c, sport, rng)
+        win_p = clamp(0.3 + sports.program(col, sport) / 250, 0.2, 0.85)
+        skey = sports.season_key(sport, w.day - 1, "varsity")
+        st = {"sport": sport, "level": "varsity", "team": f"away:{col['id']}:{sport}", "team_name": f"{col['short']} {sim.cat.sports['sports'][sport]['label']}",
+              "school": f"away:{col['id']}", "games": 0, "starts": 0, "wins": 0, "losses": 0, "line": {}, "impact": 0.0, "offscreen": True}
+        for _ in range(games):
+            if rng.random() < 0.06:
+                continue  # sat out
+            perf = r + rng.gauss(0, 7)
+            f = clamp(perf / 62, 0.25, 1.8) * (1.0 if starter else 0.35)
+            sports.add_line(st["line"], sports.stat_line(sport, pos, f, starter, rng))
+            st["games"] += 1
+            st["starts"] += 1 if starter else 0
+            st["impact"] = round(st["impact"] + perf * (1.0 if starter else 0.3), 2)
+            st["wins" if rng.random() < win_p else "losses"] += 1
+        if not st["games"]:
+            continue
+        c.stats[skey] = st
+        role = "starting" if starter else "off the bench"
+        ev = sim.new_event("season", "offscreen", [c.id], [], 24 if c.id in sim.siblings(w.meta.get("protagonist") or "") else 10,
+                           {"label": st["team_name"], "sport": sport})
+        ev["text"] = (f"{c.short} finished the season at {col['short']}: {st['games']} games {role}, "
+                      f"{sports.line_text(sport, st['line'])}. The team went {st['wins']}-{st['losses']}.")
+        sim.finish(ev, Effects(w, ev))
