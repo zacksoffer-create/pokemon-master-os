@@ -16,3 +16,6 @@ engine/app/shots.mjs
 # LIFE OS local state
 lifeos/var/
 lifeos/frontend/node_modules/
+
+# launcher-created environment
+lifeos/.venv/

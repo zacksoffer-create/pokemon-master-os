@@ -10,7 +10,21 @@ procedural templates filled in from recorded simulation state.
 
 ## Run it
 
-You need **Python 3.10+**. Node is only needed if you want to change the interface (the built UI
+### The easy way (no typing)
+
+1. Install Python from [python.org/downloads](https://www.python.org/downloads/). On Windows, tick **"Add python.exe to PATH"** on the installer's first screen.
+2. Unzip the LIFE OS folder (on Windows: right-click the zip, then **Extract All**; don't run it from inside the zip).
+3. Double-click **`Start LIFE OS (Windows).bat`** or **`Start LIFE OS (Mac).command`**.
+   - Windows may say "Windows protected your PC": click **More info**, then **Run anyway**.
+   - Mac may say it's from an unidentified developer: right-click the file, choose **Open**, then **Open** again.
+4. The first time, it spends a minute or two setting up (needs internet). After that it starts in a few seconds.
+   Your browser opens to the lab. Keep the black window open while you use it; close it to stop.
+
+Don't open the Python app itself and paste commands into it. That window only understands Python code.
+
+### The command-line way
+
+You need **Python 3.10+** (tested on 3.13 and 3.15). Node is only needed if you want to change the interface (the built UI
 is committed in `frontend/dist`).
 
 ```bash
