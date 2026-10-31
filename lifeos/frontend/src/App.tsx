@@ -8,15 +8,18 @@ import Overview from "./pages/Overview";
 import Play from "./pages/Play";
 import Saves from "./pages/Saves";
 import Social from "./pages/Social";
+import Story from "./pages/Story";
+import StoryNew from "./pages/StoryNew";
 import Workshop from "./pages/Workshop";
 import { SPEEDS, useRoute, useStore } from "./store";
 import { cx, Icon, Meter } from "./ui";
 
 const NAV: [string, string, string, string?][] = [
+  ["story", "My Story", "play"],
   ["overview", "World Overview", "overview"],
   ["characters", "Character Studio", "people"],
   ["social", "Social Network", "web"],
-  ["play", "Live a Life", "play"],
+  ["play", "Live Any Life", "spark"],
   ["history", "History Explorer", "history", "Lab"],
   ["experiments", "Experiment Center", "flask"],
   ["workshop", "Engine Workshop", "sliders"],
@@ -100,6 +103,7 @@ export default function App() {
     body = <div className="loading">Waking up Hollow Creek...</div>;
   } else {
     body = {
+      story: route[1] === "new" ? <StoryNew route={route} /> : <Story route={route} />,
       overview: <Overview />,
       characters: <Characters route={route} />,
       social: <Social route={route} />,
