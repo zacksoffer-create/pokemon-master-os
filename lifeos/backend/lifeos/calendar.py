@@ -97,8 +97,8 @@ def next_weekday(day: int, wd: int) -> int:
     return day + ((wd - weekday(day)) % 7)
 
 
-def build_year(world, cat, year: int) -> list[dict]:
-    """Every scheduled institutional event for one school year."""
+def build_year(world, cat, year: int, only: set | None = None) -> list[dict]:
+    """Every scheduled institutional event for one school year (or just for the groups in `only`)."""
     cal = cat.world["calendar"]
     items: list[dict] = []
     y0 = md_to_day(year, cal["school_year_start"])
@@ -108,6 +108,10 @@ def build_year(world, cat, year: int) -> list[dict]:
         return "after_school" if is_school_day(d, cal) else ("evening" if weekday(d) >= 5 else "day")
 
     for g in world.groups.values():
+        if only is not None and g["id"] not in only:
+            continue
+        if only is None and g.get("school") == "college":
+            continue
         if g["kind"] == "team":
             s_start = md_to_day(year, g["season"]["start"])
             s_end = md_to_day(year, g["season"]["end"])
@@ -143,7 +147,7 @@ def build_year(world, cat, year: int) -> list[dict]:
             items.append({"day": e, "kind": "election", "group": g["id"], "slot": "lunch",
                           "name": "Student Council election", "key": f"election:{g['id']}:{year}",
                           "signup_from": md_to_day(year, g["signup_open"])})
-    for ev in cal["events"]:
+    for ev in (cal["events"] if only is None else []):
         d = md_to_day(year, ev["date"])
         if ev["kind"] == "dance":
             d = next_weekday(d, 5)
@@ -157,10 +161,13 @@ def build_year(world, cat, year: int) -> list[dict]:
         elif ev["kind"] == "graduation":
             items.append({"day": d, "kind": "graduation", "slot": "night", "name": ev["name"], "id": ev["id"],
                           "key": f"graduation:{year}"})
+        elif ev["kind"] in ("admissions", "decision_day", "college_decision"):
+            items.append({"day": d, "kind": ev["kind"], "slot": None, "name": ev["name"], "id": ev["id"],
+                          "key": f"{ev['kind']}:{year}"})
     q = cal.get("quiz_every_days", 14)
     d = next_weekday(y0 + 10, 4)
     n = 0
-    while d < y1:
+    while d < y1 and only is None:
         if is_school_day(d, cal) and not any(i["day"] == d and i["kind"] == "exam" for i in items):
             n += 1
             items.append({"day": d, "kind": "exam", "slot": "classes", "name": f"Quiz {n}", "id": f"quiz{n}",

@@ -9,7 +9,7 @@ voters) are computed from their own traits and relationships and recorded in ev[
 from __future__ import annotations
 
 from . import calendar as calm
-from . import social
+from . import social, sports
 from .actions import hear_rumor, skill_gain, start_dating
 from .history import Effects
 from .rng import clamp, sigmoid
@@ -92,10 +92,19 @@ class Institutions:
         """Open sign-ups for this character right now."""
         w = self.sim.w
         out = []
-        if c.role != "student":
+        if c.role not in ("student", "alumni") or c.location == "away":
             return out
         for g in sorted(w.groups.values(), key=lambda g: g["id"]):
             if g["id"] in c.memberships:
+                continue
+            gs, gl = g.get("school"), g.get("location")
+            if gs is not None and gs != c.school:
+                continue
+            if gs is None and gl is not None and gl != c.location:
+                continue
+            if g.get("adult") and c.role != "alumni":
+                continue
+            if c.role == "alumni" and not g.get("adult") and g["kind"] != "job":
                 continue
             if g["selection"] == "open":
                 if len(g["members"]) < g["capacity"]:
@@ -113,6 +122,10 @@ class Institutions:
                 g = w.groups[it["group"]]
                 if it["kind"] == "tryout" and g["id"] in c.memberships:
                     continue
+                if g.get("school") != c.school:
+                    continue
+                if c.school == "college" and g["kind"] == "team" and c.path.get("sport") and g["skill"] != c.path["sport"]:
+                    continue
                 out.append((g["id"], it, f"{it['name']} on {calm.label(it['day'])}"))
         return out
 
@@ -120,14 +133,15 @@ class Institutions:
     def classes(self, rng):
         sim = self.sim
         w, R = sim.w, sim.w.rules
-        studs = sorted(w.students(), key=lambda c: c.id)
+        studs = sorted((c for c in w.students() if c.location != "away" and c.school in ("hchs", "college")), key=lambda c: c.id)
         ev = self.event("classes", "day", [], importance=1, data={"n": len(studs)})
         fx = Effects(w, ev)
-        by_grade: dict[int, list] = {}
+        by_grade: dict = {}
         for c in studs:
-            by_grade.setdefault(c.grade, []).append(c.id)
+            by_grade.setdefault((c.school, c.grade), []).append(c.id)
             g = skill_gain(sim, c, "academics", 0.12 * (0.6 + c.traits["discipline"] / 200) * (0.5 + c.needs["energy"] / 200))
             fx.skill(c.id, "academics", g, "class")
+            c.study_ema += 0.15 + c.traits["discipline"] / 450  # homework done in study hall
             fx.need(c.id, "stress", R["needs.school_stress"] * (0.6 + c.traits["volatility"] / 125), "school day")
             load = sum(1.2 if w.groups[g]["kind"] in ("team", "production") else 0.6 for g in c.memberships)
             if load:
@@ -158,7 +172,10 @@ class Institutions:
     def exam(self, it, rng):
         sim = self.sim
         w, R = sim.w, sim.w.rules
-        studs = sorted(w.students(), key=lambda c: c.id)
+        school = it.get("school", "hchs")
+        studs = sorted((c for c in w.students() if c.school == school and c.location != "away"), key=lambda c: c.id)
+        if not studs:
+            return
         major = it["weight"] >= 2
         ev = self.event("exam", "held", [c.id for c in studs] if major else [], importance=8 if major else 3,
                         data={"event": it["name"], "weight": it["weight"]})
@@ -202,7 +219,9 @@ class Institutions:
     def report_cards(self, it, rng):
         from .households import report_card_reaction
         for c in sorted(self.sim.w.students(), key=lambda c: c.id):
-            report_card_reaction(self.sim, c, it, rng)
+            if c.school == "hchs":
+                c.gpa_history.append([self.sim.w.day, round(c.gpa, 2)])
+                report_card_reaction(self.sim, c, it, rng)
 
     # --- collective resolution after a slot ----------------------------------------------
     def after_slot(self, slot, rng):
@@ -356,7 +375,12 @@ class Institutions:
         coach = g.get("staff")
         for cid in att:
             c = w.chars[cid]
-            if g.get("skill"):
+            hurt = c.flags.get("injured_until", -1) >= w.day
+            if g["kind"] == "team" and not hurt:
+                fx.skill(cid, "fitness", skill_gain(sim, c, "fitness", 0.35), "team conditioning")
+                if rng.random() < sports.INJURY_RATE.get(g["skill"], 0) * 0.15 * (1.35 - c.skills.get("fitness", 30) / 100):
+                    sports.injure(self, cid, g["skill"], rng, ev, during="practice")
+            if g.get("skill") and not hurt:
                 focus = (0.7 + (c.traits["discipline"] - 50) / 100 * R["dev.discipline_focus"]) * (0.5 + c.needs["energy"] / 200)
                 coach_q = 1.0 + ((w.chars[coach].traits["discipline"] - 50) / 250 if coach else 0)
                 fx.skill(cid, g["skill"], skill_gain(sim, c, g["skill"], 1.1 * max(0.2, focus) * coach_q), f"{g['name']} practice")
@@ -441,6 +465,8 @@ class Institutions:
                 ev["causes"] = [cause["id"]]
             fx = Effects(w, ev)
             fx.join(cid, gid, "called up")
+            g.setdefault("levels", {})[cid] = "varsity"
+            sports.ensure_athlete(c, g["skill"], rng) if rng else None
             fx.mood(cid, 12, f"called up to {g['name']}")
             fx.memory(cid, "made_team", [g.get("staff")] if g.get("staff") else [], 0.85, 75, f"Got called up to {g['name']}", tags=[gid])
             sim.confidence(cid, 2.5, fx, "called up")
@@ -469,14 +495,24 @@ class Institutions:
         wt = R["inst.coach_talent_weight"] * (0.6 + (coach.traits["competitiveness"] if coach else 50) / 250)
         we = R["inst.coach_effort_weight"] * (0.3 + (coach.traits["discipline"] if coach else 50) / 200)
         wf = R["inst.coach_favoritism"]
+        is_team = g["kind"] == "team"
         for cid in came:
             c = w.chars[cid]
-            perf = (0.55 * c.skills.get(sk, 0) + 0.25 * c.aptitudes[apt_key] + 0.10 * c.traits["confidence"]
-                    + 0.10 * c.needs["energy"] - max(0.0, c.needs["stress"] - 60) * 0.3 + rng.gauss(0, 8))
+            if is_team:
+                sports.ensure_athlete(c, sk, rng)
+                perf = (sports.rating(c, sk) + 0.05 * (c.needs["energy"] - 60) - max(0.0, c.needs["stress"] - 60) * 0.3
+                        + rng.gauss(0, 6))
+            else:
+                perf = (0.55 * c.skills.get(sk, 0) + 0.25 * c.aptitudes[apt_key] + 0.10 * c.traits["confidence"]
+                        + 0.10 * c.needs["energy"] - max(0.0, c.needs["stress"] - 60) * 0.3 + rng.gauss(0, 8))
             effort = 0.5 * c.traits["discipline"] + min(50.0, c.counters.get("skillpractice:" + sk, 0) * 4)
             fav = wf * ((w.rels[(coach.id, cid)].affection + w.rels[(coach.id, cid)].respect * 0.5) / 100 * 20
                         if coach and (coach.id, cid) in w.rels else 0)
-            sen = (c.grade - 9) * 2
+            sen = ((c.grade or 9) - 9) * (3 if is_team else 2)
+            if c.flags.get("injured_until", -1) >= w.day:
+                perf -= 25
+            if g.get("school") == "college" and c.path.get("scholarship") and c.path.get("sport") == sk:
+                sen += 40  # recruited: the roster spot is theirs to lose
             score = wt * perf + we * effort * 0.6 + fav + sen
             rows.append({"char": cid, "performance": round(perf, 1), "effort": round(effort, 1), "favor": round(fav, 1),
                          "seniority": sen, "score": round(score, 2)})
@@ -484,13 +520,21 @@ class Institutions:
             fx.need(cid, "energy", -10, "tryout")
         rows.sort(key=lambda r: (-r["score"], r["char"]))
         cap = g["capacity"]
+        jv_cap = g.get("jv_capacity", 0)
+        jv_used = 0
         for i, r in enumerate(rows):
             r["made"] = i < cap
+            r["level"] = "varsity" if i < cap else None
+            if not r["made"] and jv_used < jv_cap and (w.chars[r["char"]].grade or 12) <= 11:
+                r["made"] = True
+                r["level"] = "jv"
+                jv_used += 1
         ev["calc"] = [{"step": f"{coach.name if coach else 'Selection'}'s evaluation",
                        "weights": {"talent": round(wt, 3), "effort": round(we * 0.6, 3), "favoritism": wf,
                                    "coach_competitiveness": coach.traits["competitiveness"] if coach else None,
                                    "coach_discipline": coach.traits["discipline"] if coach else None},
-                       "rule": f"score = talent x performance + effort weight x effort + favoritism + seniority; top {cap} make it",
+                       "rule": f"score = talent x performance + effort weight x effort + favoritism + seniority; top {cap} make it"
+                               + (f", the next {jv_cap} (grades 9-11) make JV" if jv_cap else ""),
                        "rows": rows}] if w.tracing else None
         ev["data"]["rows"] = rows
         for cid in noshow:
@@ -506,9 +550,6 @@ class Institutions:
         sim.attach_traces(ev, came)
         sim.finish(ev, fx)
         w.registrations.pop(it["key"], None)
-        if g["kind"] == "team":
-            for m in list(g["members"]):
-                pass
         sim.schedule(w.day + 1, "selection_results", {"item": it, "rows": rows}, ev.get("id"))
 
     def selection_results(self, payload, cause_id, rng):
@@ -538,8 +579,12 @@ class Institutions:
             if r["made"]:
                 out = "lead" if lead else "made"
                 etype = "audition" if is_prod else "tryout"
-                ev = self.event(etype, out, [cid], importance=45 if lead else 34, group=g["id"],
-                                data={"group": g["name"], "event": it.get("production_name", it["name"]), "score": r["score"]})
+                lvl = r.get("level") or "varsity"
+                ev = self.event(etype, out, [cid], importance=(45 if lead else 34) if lvl == "varsity" else 26, group=g["id"],
+                                data={"group": g["name"], "event": it.get("production_name", it["name"]), "score": r["score"],
+                                      "level": lvl})
+                if g["kind"] == "team":
+                    ev["text"] = f"{c.short} made {g['name']}" + (" (JV)." if lvl == "jv" else " varsity!")
             else:
                 ev = self.event("audition" if is_prod else "tryout", "cut", [cid], importance=36, group=g["id"],
                                 data={"group": g["name"], "event": it.get("production_name", it["name"]), "score": r["score"]})
@@ -548,6 +593,9 @@ class Institutions:
             fx = Effects(w, ev)
             if r["made"]:
                 fx.join(cid, g["id"], "made the cut")
+                if g["kind"] == "team":
+                    g.setdefault("levels", {})[cid] = r.get("level") or "varsity"
+                    sports.ensure_athlete(c, sk, rng)
                 if is_prod:
                     g["production"]["cast"].append(cid)
                     if lead:
@@ -564,6 +612,7 @@ class Institutions:
                         go["closed"] = w.day
             else:
                 g["cut"].append([cid, r["score"]])
+                sim.moment_trigger("cut", cid, {"group": g["id"]})
                 fx.mood(cid, -10, "cut")
                 fx.need(cid, "stress", 8, "cut")
                 sim.confidence(cid, -2.5 * (0.5 + c.traits["volatility"] / 100), fx, "cut")
@@ -590,9 +639,21 @@ class Institutions:
                 else:
                     fx.interest(cid, sk, -10 * R["dev.interest_drift"], "discouraged")
             sim.finish(ev, fx)
+        if g["kind"] == "team":
+            self.walk_ons(g, rng)
         if g["kind"] == "team" and made:
-            cands = sorted([r for r in made if w.chars[r["char"]].grade >= 11], key=lambda r: -r["score"]) or made
-            g["leaders"] = [cands[0]["char"]]
+            varsity = [r for r in made if r.get("level", "varsity") == "varsity"]
+            cands = sorted([r for r in varsity if (w.chars[r["char"]].grade or 0) >= 11], key=lambda r: -r["score"]) or varsity
+            if cands:
+                g["leaders"] = [cands[0]["char"]]
+                cap_c = w.chars[cands[0]["char"]]
+                e4 = self.event("tryout", "captain", [cap_c.id], importance=34, group=g["id"], data={"group": g["name"]})
+                e4["text"] = f"{cap_c.short} was named captain of {g['name']}."
+                f4 = Effects(w, e4)
+                f4.rep(cap_c.id, "leader", 5, "named captain")
+                f4.memory(cap_c.id, "captain", [], 0.8, 70, f"Named captain of {g['name']}")
+                cap_c.achievements.append({"day": w.day, "label": f"Captain, {g['name']}", "event": None})
+                sim.finish(e4, f4)
         if made:
             for i in range(len(made)):
                 for j in range(i + 1, len(made)):
@@ -600,7 +661,30 @@ class Institutions:
                     fx2 = Effects(w, None)
                     fx2.add_bond(a, b, f"teammate:{g['id']}")
 
+    def walk_ons(self, g, rng):
+        """Small schools: a coach short of a lineup talks interested students into joining."""
+        sim = self.sim
+        w = sim.w
+        need = g.get("starters", 5) + 3 - len(g["members"])
+        if need <= 0:
+            return
+        sk = g["skill"]
+        pool = sorted((c for c in w.students() if c.school == g.get("school", "hchs") and g["id"] not in c.memberships
+                       and c.interests.get(sk, 0) >= 30 and c.flags.get("injured_until", -1) < w.day
+                       and not any(w.groups[m]["kind"] == "team" and self.in_season(w.groups[m]) for m in c.memberships)),
+                      key=lambda c: (-(sports.rating(c, sk) + c.interests.get(sk, 0) * 0.3), c.id))
+        for c in pool[:need]:
+            ev = self.event("tryout", "walk_on", [c.id], importance=24, group=g["id"], data={"group": g["name"]})
+            ev["text"] = f"{w.chars[g['staff']].short if g.get('staff') in w.chars else 'The coach'} talked {c.short} into joining {g['name']}."
+            fx = Effects(w, ev)
+            fx.join(c.id, g["id"], "walked on")
+            g.setdefault("levels", {})[c.id] = "varsity" if (c.grade or 9) >= 11 or not g.get("jv_capacity") else "jv"
+            sports.ensure_athlete(c, sk, rng)
+            sim.finish(ev, fx)
+
     def game(self, it, rng):
+        if self.sim.w.groups[it["group"]].get("levels") is not None or self.sim.w.groups[it["group"]]["kind"] == "team":
+            return sports.play_game(self, it, rng)
         sim = self.sim
         w = sim.w
         g = w.groups[it["group"]]
@@ -929,11 +1013,11 @@ class Institutions:
         g = w.groups[it["group"]]
         cands = sorted(w.registrations.get(it["key"], []))
         w.registrations.pop(it["key"], None)
-        cands = [c for c in cands if w.chars[c].status == "active" and w.chars[c].role == "student"]
+        cands = [c for c in cands if w.chars[c].status == "active" and w.chars[c].role == "student" and w.chars[c].school == "hchs"]
         if not cands:
             return
         votes = {c: 0 for c in cands}
-        for v in sorted(w.students(), key=lambda c: c.id):
+        for v in sorted((x for x in w.students() if x.school == "hchs"), key=lambda c: c.id):
             best, bs = None, -1e9
             for c in cands:
                 if c == v.id:
@@ -988,7 +1072,14 @@ class Institutions:
         w = self.sim.w
         g = w.groups[it["group"]]
         rec = dict(g["record"])
-        g["history"].append({"year": calm.school_year_of(w.day), "record": rec, "roster": list(g["members"])})
+        awards = sports.season_awards(self, g) if g["kind"] == "team" else []
+        rng = self.sim.streams.get("season_end", w.day, g["id"])
+        if g["kind"] == "team":
+            for m in sorted(g["members"]):
+                if g.get("levels", {}).get(m, "varsity") == "varsity":
+                    sports.recruiting_update(self, w.chars[m], g["skill"], rng)
+        g["history"].append({"year": calm.school_year_of(w.day), "record": rec, "roster": list(g["members"]),
+                             "levels": dict(g.get("levels", {})), "awards": [[a, b] for a, b in awards]})
         ev = self.event("season_end", "ended", list(g["members"]), importance=12, group=g["id"],
                         data={"group": g["name"], "record": f"{rec['w']}-{rec['l']}"})
         ev["text"] = f"{g['name']} finished the season {rec['w']}-{rec['l']}."
@@ -999,21 +1090,26 @@ class Institutions:
         g["absences"] = {}
         g["cut"] = []
         g["leaders"] = []
+        g["levels"] = {}
         self.sim.finish(ev, fx)
 
     def graduation(self, it):
         sim = self.sim
         w = sim.w
-        seniors = sorted(c.id for c in w.students() if c.grade == 12)
+        seniors = sorted(c.id for c in w.students() if c.grade == 12 and c.school == "hchs")
+        rng = sim.streams.get("graduation", w.day)
         for cid in seniors:
+            c = w.chars[cid]
+            if not c.path:
+                sports.choose_path(self, c, rng)
             ev = self.event("graduation", "graduated", [cid], importance=40)
             fx = Effects(w, ev)
-            c = w.chars[cid]
             for gid in list(c.memberships):
                 if w.groups[gid]["kind"] != "job":
                     fx.leave(cid, gid, "graduated")
             fx.scalar(cid, "role", "alumni", "graduated")
             c.grade = None
+            c.school = None
             fx.memory(cid, "graduated", [], 0.8, 80, "Graduated from Hollow Creek High")
             c.achievements.append({"day": w.day, "label": "Graduated", "event": ev.get("id")})
             for go in c.goals:
@@ -1021,6 +1117,11 @@ class Institutions:
                     go["status"] = "abandoned"
                     go["closed"] = w.day
             sim.finish(ev, fx)
+            if cid == w.meta.get("protagonist"):
+                p = c.path or {}
+                line = (f"Next: {p.get('sport') + ' at ' if p.get('sport') else ''}{p.get('name')}." if p.get("kind") == "college"
+                        else "Next: staying in Hollow Creek and working.")
+                sim.moment_trigger("graduation", cid, {"path_line": line})
         w.meta["graduated_last"] = len(seniors)
 
     def new_year(self):
@@ -1030,8 +1131,12 @@ class Institutions:
         w = sim.w
         y = calm.school_year_of(w.day)
         w.year = y
+        from . import college
         for c in sorted(w.students(), key=lambda c: c.id):
-            c.grade += 1
+            if c.school == "hchs":
+                c.grade += 1
+        college.new_college_year(sim, sim.streams.get("college-year", w.day))
+        college.depart(sim, sim.streams.get("depart", w.day))
         n = w.meta.get("graduated_last", 0) or 0
         n = n if n else w.meta.get("generated", {}).get("students", 36) // 4
         fresh = new_freshmen(w, y, n, w.day)

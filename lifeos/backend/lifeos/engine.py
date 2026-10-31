@@ -10,6 +10,8 @@ Night handles recovery and the daily/weekly/yearly bookkeeping.
 """
 from __future__ import annotations
 
+import zlib
+
 from . import calendar as calm
 from . import development, households, metrics, social
 from .actions import RESOLVERS
@@ -82,6 +84,9 @@ class Simulation:
         social.detect_cliques(self, rng)
         for c in sorted(w.active(), key=lambda c: c.id):
             development.review_goals(self, c, rng)
+        if w.meta.get("protagonist"):
+            from .story import story_circle
+            w.meta["circle"] = sorted(story_circle(w))
         w.stats_series.append(metrics.snapshot(w))
 
     def _refresh_day(self):
@@ -148,6 +153,8 @@ class Simulation:
         if w.day > 0 and calm.date_of(w.day).month == 9 and calm.date_of(w.day).day == 1:
             self.institutions.new_year()
             self._refresh_day()
+        from . import college
+        college.daily(self)
         rng = self.streams.get("dawn", w.day)
         due = [s for s in w.schedule if s["day"] <= w.day]
         w.schedule = [s for s in w.schedule if s["day"] > w.day]
@@ -156,6 +163,19 @@ class Simulation:
         for it in self.today(None):
             if it["kind"] == "season_end":
                 self.institutions.season_end(it)
+            elif it["kind"] == "admissions":
+                from . import sports
+                sports.admissions(self.institutions, rng)
+            elif it["kind"] == "college_decision":
+                p = w.meta.get("protagonist")
+                pc = w.chars.get(p) if p else None
+                if pc and pc.school == "hchs" and pc.grade == 12 and not pc.path:
+                    self.moment_trigger("college_decision", p, {})
+            elif it["kind"] == "decision_day":
+                from . import sports
+                for c in sorted(w.students(), key=lambda c: c.id):
+                    if c.school == "hchs" and c.grade == 12 and not c.path and c.id != w.meta.get("protagonist"):
+                        sports.choose_path(self.institutions, c, rng)
         for c in sorted(w.active(), key=lambda c: c.id):
             if (w.day - c.birth_day) % 365 == 0 and c.role in ("student", "alumni"):
                 ev = self.new_event("birthday", "birthday", [c.id], [], 8, {"n": c.age(w.day)})
@@ -167,6 +187,38 @@ class Simulation:
             if g is not None and g < w.day:
                 c.flags.pop("grounded_until", None)
         self.ctx_practices = self.institutions.practices_today() if calm.is_school_day(w.day, cal) else []
+        self._story_dawn()
+
+    def _story_dawn(self):
+        """Protagonist-only checks each morning: game day, the end of a school year, stale invitations."""
+        from . import moments
+        w = self.w
+        prot = w.meta.get("protagonist")
+        if not prot or prot not in w.chars:
+            return
+        pc = w.chars[prot]
+        for it in self._today:
+            if it["kind"] == "game" and prot in w.groups[it["group"]]["members"] and pc.flags.get("injured_until", -1) < w.day:
+                n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
+                from .sports import opponent_name
+                self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": opponent_name(self, w.groups[it["group"]], n)})
+        cal = self.cat.world["calendar"]
+        if calm.break_name(w.day, cal) == "Summer" and calm.break_name(w.day - 1, cal) != "Summer":
+            self.moment_trigger("year_review", prot, {})
+            self.moment_trigger("summer", prot, {})
+        for m in moments.pending(w):
+            if w.day - m["day"] >= (1 if m["kind"] == "game_day" else 3):
+                moments.resolve(self, m["id"], None)
+        for inv in w.meta.get("inbox", []):
+            if inv["status"] == "pending" and w.day - inv["day"] >= 2:
+                inv["status"] = "expired"
+                if inv["from"] in w.chars:
+                    fx = Effects(w, None)
+                    fx.rel(inv["from"], prot, "affection", -2, "left on read")
+                    fx.rel(inv["from"], prot, "perceived", -5, "left on read")
+        if len(w.meta.get("inbox", [])) > 60:
+            w.meta["inbox"] = [i for i in w.meta["inbox"] if i["status"] == "pending"] + \
+                              [i for i in w.meta["inbox"] if i["status"] != "pending"][-30:]
 
     def _handle(self, s, rng):
         k = s["kind"]
@@ -211,6 +263,8 @@ class Simulation:
         ev["calc"] = [{"step": "do they find out who started it?", "p": R["social.rumor_discovery"] if origin else 0,
                        "roll": round(roll, 4), "outcome": "found the source" if found else "no"}] if w.tracing else None
         self.finish(ev, fx)
+        if not jealous:
+            self.moment_trigger("rumor", subject, {"about": rum["text"], "origin": origin if found else None})
         if found:
             e2 = self.new_event("rumor_reached", "source", [subject], [origin], 36, {"about": rum["text"]})
             e2["causes"] = [ev["id"]]
@@ -271,19 +325,33 @@ class Simulation:
             development.review_goals(self, c, rng)
         households.weekly(self, rng)
         development.weekly(self, rng)
+        if w.meta.get("protagonist"):
+            from .story import story_circle
+            w.meta["circle"] = sorted(story_circle(w))
+        from . import college
+        college.offscreen_weekly(self)
         w.stats_series.append(metrics.snapshot(w))
         if w.tracing:
             w.history.compact(w.day, R)
 
     # --- slots -------------------------------------------------------------------
     def slot_actors(self, slot) -> list:
+        """Who decides in this slot. Far from the story (another place, outside your circle) people act once a day."""
         out = []
+        w = self.w
+        prot = w.chars.get(w.meta.get("protagonist")) if w.meta.get("protagonist") else None
+        circle = set(w.meta.get("circle", [])) if prot is not None else ()
         for c in self.w.chars.values():
             if c.status != "active":
                 continue
+            if prot is not None and c.location != prot.location and c.id not in circle:
+                if slot in ("lunch", "evening") or (w.day + zlib.crc32(c.id.encode())) % 2:
+                    continue
             if slot == "lunch":
-                if c.role == "student":
+                if c.role == "student" and c.location != "away":
                     out.append(c.id)
+            elif c.location == "away":
+                continue
             elif slot in ("after_school", "day"):
                 out.append(c.id)
             elif slot == "evening" and c.role in ("student", "alumni"):
@@ -294,8 +362,13 @@ class Simulation:
         w = self.w
         exams = [i for i in self.upcoming if i["kind"] == "exam" and i.get("weight", 1) >= 2 and 0 <= i["day"] - w.day <= 3]
         dance = next((i for i in self.upcoming if i["kind"] == "dance" and i["ask_from"] <= w.day < i["day"]), None)
+        recent = [r for r in w.rumors.values() if w.day - r["day"] <= 60]
+        by_knower: dict = {}
+        for r in recent:
+            for k in r["known_by"]:
+                by_knower.setdefault(k, []).append(r)
         return {"slot": slot, "day": w.day, "practices": self.ctx_practices, "events": self.today(slot),
-                "rumors": [r for r in w.rumors.values() if w.day - r["day"] <= 60],
+                "rumors": recent, "rumors_by": by_knower,
                 "exam_soon": exams[0] if exams else None, "dance": dance,
                 "opps": self.institutions.opportunities, "peer": {}}
 
@@ -324,10 +397,20 @@ class Simulation:
         self.ctx = self.slot_ctx(slot)
         self.slot = SlotState(slot)
         actors = self.slot_actors(slot)
+        everyone = w.rules.get("history.trace_everyone", True)
+        circle = set(w.meta.get("circle", [])) if not everyone else None
         for cid in actors:
-            dec = self.decide_for(cid, slot, w.tracing)
+            dec = self.decide_for(cid, slot, w.tracing and (everyone or cid in circle))
             if dec is None:
                 continue
+            q = w.meta.get("control", {}).get("queued")
+            if q and cid == w.meta.get("protagonist") and cid not in overrides:
+                for i, cd in enumerate(dec["cands"]):
+                    if isinstance(cd.extra, dict) and cd.extra.get("invite") == q.get("invite"):
+                        overrides = dict(overrides)
+                        overrides[cid] = i
+                        break
+                w.meta["control"].pop("queued", None)
             if cid in overrides:
                 i = overrides[cid]
                 if 0 <= i < len(dec["cands"]):
@@ -392,7 +475,7 @@ class Simulation:
         if tid:
             ev["trace"] = tid
         self.finish(ev, fx)
-        if ev.get("outcome") in ("declined", "busy") and cid not in self.slot.engaged and not dec.get("fallback"):
+        if ev.get("outcome") in ("declined", "busy", "invited") and cid not in self.slot.engaged and not dec.get("fallback"):
             self._fallback(dec, ev)
 
     def _fallback(self, dec, failed_ev):
@@ -420,6 +503,16 @@ class Simulation:
         """The invited person decides whether to accept, weighing it against their own plan."""
         w = self.w
         T = w.chars[target]
+        from .moments import control
+        if (target == w.meta.get("protagonist") and control(w).get("ask_invites") and not self.slot.planned.get(target, {}).get("player")
+                and cand.a["id"] in ("hang_out", "date")):
+            inv = {"id": f"in{w.next_id('invite')}", "day": w.day, "slot": self.slot.slot, "from": inviter, "to": target,
+                   "action": cand.a["id"], "status": "pending", "event": ev.get("id")}
+            w.meta.setdefault("inbox", []).append(inv)
+            if ev.get("calc") is not None:
+                ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "waiting for you",
+                                   "rule": "invitations to your character wait in your inbox"})
+            return "invited"
         if target in self.slot.engaged:
             if ev.get("calc") is not None:
                 ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "busy",
@@ -562,6 +655,11 @@ class Simulation:
             return t
         return None
 
+    def moment_trigger(self, kind, cid, ctx):
+        """Story moments are for the protagonist; everyone else decides on their own."""
+        from . import moments
+        moments.trigger(self, kind, cid, ctx)
+
     def add_goal(self, c, gtype, target, label, priority, **kw):
         return development.add_goal(self, c, gtype, target, label, priority, **kw)
 
@@ -687,6 +785,50 @@ class Simulation:
                                                           for l, k, v in plan)
         self.finish(ev, fx)
         return ev
+
+    def create_custom(self, spec: dict):
+        """A fully specified character from the builder, added to the running world."""
+        from .story import REL_PRESETS, StoryError, apply_relationship, build_person, build_staff, validate_person
+        from .worldgen import Generator, initial_relationships
+        w = self.w
+        errors = []
+        validate_person(spec, "character", self.cat, errors, allow_staff=True)
+        prot = w.meta.get("protagonist")
+        for r in spec.get("relationships") or []:
+            to = prot if r.get("to") == "me" else r.get("to")
+            if to not in w.chars:
+                errors.append(f"relationships: {r.get('to')} isn't anyone in this world")
+        if errors:
+            raise EditError("; ".join(errors))
+        gen = Generator(w.gen_seed)
+        gen.used_names = {(c.first, c.last) for c in w.chars.values()}
+        gen.used_last = {h["last"] for h in w.households.values()}
+        n = w.next_id("char")
+        rng = gen.streams.get("gen", "custom", n)
+        if spec.get("role") == "staff":
+            c = build_staff(w, rng, spec)
+        else:
+            hh = spec.get("household")
+            if hh == "family" and prot and w.chars[prot].household_id:
+                h = w.households[w.chars[prot].household_id]
+            elif hh in w.households:
+                h = w.households[hh]
+            else:
+                h = gen.household(w, rng, last=(spec.get("last") or None))
+            c = build_person(w, gen, rng, spec, h, day=w.day)
+            initial_relationships(gen, w, gen.streams.get("gen", "custom-rels", n), day=w.day, only={c.id})
+            if hh == "family" and prot:
+                apply_relationship(w, c.id, prot, "sibling", day=w.day)
+        for r in spec.get("relationships") or []:
+            to = prot if r.get("to") == "me" else r.get("to")
+            apply_relationship(w, c.id, to, r["type"], float(r.get("strength", 0) or 0), day=w.day)
+        for (a, b), r in w.rels.items():
+            if c.id in (a, b):
+                r.label = social.label_for(r, w.rules)
+        ev = self.new_event("lab", "created", [c.id], [], 30, {})
+        self.finish(ev, Effects(w, ev))
+        self.review_goals_for(c)
+        return c
 
     def create_character(self, spec: dict):
         from .worldgen import Generator, initial_relationships

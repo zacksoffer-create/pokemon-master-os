@@ -1,0 +1,116 @@
+{
+ "version": 1,
+ "notes": "Positions and how they show up in box scores. The stat formulas live in sports.py; this file holds the labels, the position lists and body preferences (height in inches, build).",
+ "builds": [
+  "slight",
+  "average",
+  "athletic",
+  "strong"
+ ],
+ "sports": {
+  "football": {
+   "label": "Football",
+   "starters": 11,
+   "season": "fall",
+   "positions": {
+    "QB": "Quarterback",
+    "RB": "Running back",
+    "WR": "Wide receiver",
+    "TE": "Tight end",
+    "OL": "Offensive line",
+    "DL": "Defensive line",
+    "LB": "Linebacker",
+    "DB": "Defensive back",
+    "K": "Kicker"
+   },
+   "lineup": [
+    "QB",
+    "RB",
+    "WR",
+    "WR",
+    "TE",
+    "OL",
+    "OL",
+    "DL",
+    "LB",
+    "LB",
+    "DB"
+   ],
+   "stats": {
+    "pass_yds": "pass yds",
+    "pass_td": "pass TD",
+    "int_thrown": "INT",
+    "rush_yds": "rush yds",
+    "rush_td": "rush TD",
+    "rec": "rec",
+    "rec_yds": "rec yds",
+    "rec_td": "rec TD",
+    "tackles": "tackles",
+    "sacks": "sacks",
+    "ints": "INT (def)",
+    "fg": "FG"
+   }
+  },
+  "basketball": {
+   "label": "Basketball",
+   "starters": 5,
+   "season": "winter",
+   "positions": {
+    "PG": "Point guard",
+    "SG": "Shooting guard",
+    "SF": "Small forward",
+    "PF": "Power forward",
+    "C": "Center"
+   },
+   "lineup": [
+    "PG",
+    "SG",
+    "SF",
+    "PF",
+    "C"
+   ],
+   "stats": {
+    "pts": "PTS",
+    "reb": "REB",
+    "ast": "AST",
+    "stl": "STL",
+    "blk": "BLK"
+   }
+  },
+  "baseball": {
+   "label": "Baseball",
+   "starters": 9,
+   "season": "spring",
+   "positions": {
+    "P": "Pitcher",
+    "C": "Catcher",
+    "1B": "First base",
+    "2B": "Second base",
+    "SS": "Shortstop",
+    "3B": "Third base",
+    "OF": "Outfield"
+   },
+   "lineup": [
+    "P",
+    "C",
+    "1B",
+    "2B",
+    "SS",
+    "3B",
+    "OF",
+    "OF",
+    "OF"
+   ],
+   "stats": {
+    "ab": "AB",
+    "h": "H",
+    "hr": "HR",
+    "rbi": "RBI",
+    "sb": "SB",
+    "ip": "IP",
+    "k": "K",
+    "er": "ER"
+   }
+  }
+ }
+}

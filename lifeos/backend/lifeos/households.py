@@ -25,7 +25,8 @@ def weekly(sim, rng):
     week = w.day // 7
     for hid in sorted(w.households):
         h = w.households[hid]
-        kids = [w.chars[m] for m in h["members"] if m in w.chars and w.chars[m].status == "active" and w.chars[m].role == "student"]
+        kids = [w.chars[m] for m in h["members"] if m in w.chars and w.chars[m].status == "active" and w.chars[m].role == "student"
+                and w.chars[m].school == "hchs"]
         if not kids:
             continue
         h["away_weekend"] = week + 1 if rng.random() < h["permissive"] * 0.5 else None

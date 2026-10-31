@@ -149,8 +149,26 @@ def r_interact(sim, c, cand, ev, fx, rng, ctx):
     kind = p["kind"]
     ev["data"]["kind"] = kind
     ev["type"] = f"interact.{kind}"
-    if p.get("needs_acceptance"):
+    invite = cand.extra.get("invite") if isinstance(cand.extra, dict) else None
+    if invite:
+        inv = next((i for i in w.meta.get("inbox", []) if i["id"] == invite), None)
+        if inv:
+            inv["status"] = "accepted"
+        if b in sim.slot.engaged:
+            ev["outcome"] = "busy"
+            ev["type"] = f"interact.{kind}"
+            fx.mood(c.id, -2, "they made other plans")
+            return
+        plan = sim.slot.planned.get(b)
+        if b not in sim.slot.done and plan:
+            sim.cancel_plan(b, f"{c.short} said yes to their invite")
+        sim.engage(b, c.id)
+    elif p.get("needs_acceptance"):
         resp = sim.respond(b, c.id, cand, rng, ev)
+        if resp == "invited":
+            ev["outcome"] = "invited"
+            ev["importance"] = 16
+            return
         if resp != "accepted":
             ev["outcome"] = resp
             fx.mood(c.id, -3 if resp == "declined" else -1, f"{w.chars[b].short} said no")
@@ -205,6 +223,17 @@ def r_ask_out(sim, c, cand, ev, fx, rng, ctx):
     b = cand.target
     B = w.chars[b]
     dance = cand.a["params"].get("context") == "dance"
+    from .moments import control
+    if b == w.meta.get("protagonist") and control(w).get("ask_romance"):
+        d = ctx.get("dance") if dance else None
+        ev["type"] = "ask_to_dance" if dance else "ask_out"
+        ev["outcome"] = "pending"
+        ev["targets"] = [b]
+        if d:
+            ev["data"]["event"] = d["name"]
+        sim.moment_trigger("asked_to_dance" if dance else "asked_out", b,
+                           {"other": c.id, "event": d["name"] if d else "", "dance_key": d["key"] if d else None, "extra": ""})
+        return
     rba = w.ensure_rel(b, c.id, w.day)
     others = [r for oid, r in w.out.get(b, {}).items() if r.crush and oid != c.id]
     terms = [
@@ -352,6 +381,7 @@ def r_break_up(sim, c, cand, ev, fx, rng, ctx):
     fx.mood(c.id, -3 if mutual else 1, "breakup")
     fx.rel(c.id, b, "attraction", -8, "broke up")
     fx.memory(b, "broke_up", [c.id], -0.8 * hurt, 75 * hurt + 10, f"{c.name} broke up with them")
+    sim.moment_trigger("heartbreak", b, {"other": c.id})
     fx.memory(c.id, "broke_up", [b], -0.3, 50, f"Broke up with {B.name}")
     friends = sorted(o for o in w.out.get(b, {}) if is_friend(w.rels.get((o, b)), R))[:8]
     make_rumor(sim, b, "breakup", f"{c.name} dumped {B.name}", True, -0.1, 0.65, None,

@@ -1,0 +1,94 @@
+{
+ "version": 1,
+ "notes": "Fictional colleges for recruiting and the after-high-school years. recruit_bar is the sport rating a player needs for real interest; min_gpa is academic admission.",
+ "colleges": [
+  {
+   "id": "riverton",
+   "name": "Riverton State University",
+   "short": "Riverton State",
+   "tier": "D1",
+   "min_gpa": 2.8,
+   "sports": [
+    "football",
+    "basketball",
+    "baseball"
+   ],
+   "recruit_bar": 80,
+   "mascot": "Rams",
+   "level": 72
+  },
+  {
+   "id": "lakeshore",
+   "name": "Lakeshore University",
+   "short": "Lakeshore",
+   "tier": "D1",
+   "min_gpa": 3.4,
+   "sports": [
+    "basketball",
+    "baseball"
+   ],
+   "recruit_bar": 83,
+   "mascot": "Lakers",
+   "level": 74
+  },
+  {
+   "id": "granite",
+   "name": "Granite Valley University",
+   "short": "Granite Valley",
+   "tier": "D2",
+   "min_gpa": 2.5,
+   "sports": [
+    "football",
+    "basketball",
+    "baseball"
+   ],
+   "recruit_bar": 70,
+   "mascot": "Miners",
+   "level": 66
+  },
+  {
+   "id": "millbrook",
+   "name": "Millbrook College",
+   "short": "Millbrook",
+   "tier": "D3",
+   "min_gpa": 3.0,
+   "sports": [
+    "football",
+    "basketball",
+    "baseball"
+   ],
+   "recruit_bar": 60,
+   "mascot": "Owls",
+   "level": 60
+  },
+  {
+   "id": "eastport",
+   "name": "Eastport Tech",
+   "short": "Eastport",
+   "tier": "D3",
+   "min_gpa": 3.3,
+   "sports": [
+    "basketball",
+    "baseball"
+   ],
+   "recruit_bar": 57,
+   "mascot": "Engineers",
+   "level": 58
+  },
+  {
+   "id": "pineridge",
+   "name": "Pine Ridge Community College",
+   "short": "Pine Ridge CC",
+   "tier": "JUCO",
+   "min_gpa": 0.0,
+   "sports": [
+    "football",
+    "basketball",
+    "baseball"
+   ],
+   "recruit_bar": 52,
+   "mascot": "Timberwolves",
+   "level": 56
+  }
+ ]
+}

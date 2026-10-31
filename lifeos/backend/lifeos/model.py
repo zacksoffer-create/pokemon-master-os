@@ -58,6 +58,29 @@ class Character:
     achievements: list = field(default_factory=list)
     counters: dict = field(default_factory=dict)
     recent_actions: list = field(default_factory=list)
+    # where they are and where they go to school ("hchs", "college", "away:<college id>", None)
+    school: str | None = "hchs"
+    location: str = "hollow_creek"
+    # athlete details
+    body: dict = field(default_factory=dict)        # {"height_in": 70, "build": "athletic"}
+    positions: dict = field(default_factory=dict)   # {"football": "RB", ...}
+    jersey: int = 0
+    stats: dict = field(default_factory=dict)       # "football:2025:varsity" -> {games, line, team, level}
+    awards: list = field(default_factory=list)
+    recruiting: dict = field(default_factory=dict)  # {"interest": {...}, "offers": [...], "admits": [...]}
+    path: dict = field(default_factory=dict)        # after high school: {"kind": "college"|"work", ...}
+    gpa_history: list = field(default_factory=list)
+    custom: bool = False                            # created by the user
+
+    @property
+    def year_label(self) -> str:
+        if self.role == "staff":
+            return self.role_label or "Staff"
+        if self.grade and self.grade <= 12:
+            return {9: "Freshman", 10: "Sophomore", 11: "Junior", 12: "Senior"}[self.grade]
+        if self.grade and self.grade > 12:
+            return ["College freshman", "College sophomore", "College junior", "College senior"][min(3, self.grade - 13)]
+        return "Graduate"
 
     @property
     def name(self) -> str:

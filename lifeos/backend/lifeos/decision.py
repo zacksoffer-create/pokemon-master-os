@@ -61,6 +61,9 @@ def requirement(sim, c, req: str, ctx) -> str | None:
         if h and h["style"] == "permissive":
             return "guardians don't mind parties"
         return None
+    if req == "healthy":
+        g = c.flags.get("injured_until", -1)
+        return "healthy" if g < w.day else None
     if req == "has_pet":
         h = w.households.get(c.household_id)
         return f"household has {h['pet']['name']}" if h and h.get("pet") else None
@@ -80,7 +83,7 @@ def _dance_ok(w, c, dance) -> bool:
 
 def _present(sim, c, other_id, slot) -> bool:
     o = sim.w.chars.get(other_id)
-    if o is None or o.status != "active" or o.id == c.id:
+    if o is None or o.status != "active" or o.id == c.id or o.location != c.location:
         return False
     if slot == "lunch":
         return o.role == "student"
@@ -126,7 +129,8 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
     rels_out = sim.w.out.get(c.id, {})
     known = ctx["known"]
     if sel in ("known", "listener", "tease_target", "colleague"):
-        cand = [r for oid, r in known if r.familiarity >= 10]
+        pool = ctx["known_remote"] if a["id"] == "chat_online" else known
+        cand = [r for oid, r in pool if r.familiarity >= 10]
         if sel == "colleague":
             cand = [r for r in cand if w.chars[r.dst].role == "staff"]
         if sel == "listener":
@@ -149,7 +153,7 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
             why = f"knows {o.short} ({r.label}, affection {r.affection:.0f})"
             extra = None
             if sel == "listener":
-                rum = best_rumor_for(w, c.id, r.dst, R, ctx.get("rumors"))
+                rum = best_rumor_for(w, c.id, r.dst, R, ctx.get("rumors_by", {}).get(c.id, []) if "rumors_by" in ctx else ctx.get("rumors"))
                 if rum is None:
                     continue
                 extra = rum["id"]
@@ -159,7 +163,7 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
     if sel == "stranger":
         pool = []
         for o in sim.w.students():
-            if o.id == c.id:
+            if o.id == c.id or o.location != c.location or o.school != c.school:
                 continue
             r = rels_out.get(o.id)
             if r is not None and r.familiarity >= 15:
@@ -232,8 +236,11 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
                 if gid in c.memberships]
     if sel == "event":
         res = []
+        hurt = c.flags.get("injured_until", -1) >= w.day
         for it in ctx["events"]:
             k = it["kind"]
+            if hurt and k in ("tryout", "game"):
+                continue
             if k in ("tryout", "audition") and c.id in w.registrations.get(it["key"], []):
                 res.append((it["key"], it, f"signed up for {it['name']}"))
             elif k == "game" and c.id in w.groups[it["group"]]["members"]:
@@ -276,6 +283,12 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
     if sel == "sibling":
         sibs = [oid for oid in sim.siblings(c.id) if _present(sim, c, oid, "day")]
         return [(s, None, f"sibling {w.chars[s].short}") for s in sibs[:2]]
+    if sel == "inbox":
+        res = []
+        for inv in sim.w.meta.get("inbox", []):
+            if inv["to"] == c.id and inv["status"] == "pending" and inv["from"] in sim.w.chars and _present(sim, c, inv["from"], slot):
+                res.append((inv["from"], {"invite": inv["id"]}, f"{sim.w.chars[inv['from']].short} asked you to hang out"))
+        return res
     if sel == "pet":
         h = w.households.get(c.household_id)
         return [(None, None, f"{h['pet']['name']} the {h['pet']['species']}")] if h and h.get("pet") else []
@@ -417,6 +430,8 @@ def _interest_for(sim, c, cand) -> float:
     aid = a["id"]
     if aid in ("study", "study_at_lunch"):
         return c.interests.get("academics", 30)
+    if aid == "train":
+        return max([c.interests.get(s, 0) for s in ("football", "basketball", "baseball", "fitness")] + [20])
     if aid in ("practice_skill",):
         return c.interests.get(t, 0)
     if aid == "hobby":
@@ -512,6 +527,9 @@ def _context(sim, c, cand, ctx):
     w, R = sim.w, sim.w.rules
     aid = cand.a["id"]
     out = []
+    if aid in ("study", "study_at_lunch", "practice_skill", "train", "hobby") and ctx["events"]:
+        if any(it["kind"] in ("game", "show") and (c.id in w.groups[it["group"]]["members"]) for it in ctx["events"] if it.get("group")):
+            out.append(("game tonight", -12.0, "you're on the roster"))
     if aid in ("study", "study_at_lunch"):
         if ctx["slot"] == "after_school" and aid == "study":
             out.append(("homework due tomorrow", 4 + 6 * c.traits["discipline"] / 100, "school night"))
@@ -524,7 +542,7 @@ def _context(sim, c, cand, ctx):
     elif aid == "attend_practice":
         g = w.groups[cand.target]
         out.append(("the coach takes attendance" if g["kind"] in ("team", "production") else "it's a regular commitment",
-                    20.0 if g["kind"] in ("team", "production") else 8.0, g["kind"]))
+                    26.0 if g["kind"] in ("team", "production") else 8.0, g["kind"]))
         if g["kind"] == "club" and any(w.groups[x]["kind"] in ("team", "production") for x in ctx["practices"] if x in c.memberships):
             out.append(("team practice is the same day", -12.0, "the team comes first"))
         ab = g["absences"].get(c.id)
@@ -539,7 +557,7 @@ def _context(sim, c, cand, ctx):
     elif aid == "attend_event" and cand.extra:
         it = cand.extra
         if it["kind"] in ("tryout", "audition"):
-            out.append(("signed up for this", 12.0, "your name is on the list"))
+            out.append(("signed up for this", 20.0, "your name is on the list"))
             nerves = (c.traits["volatility"] - 50) / 50 * 5 - (c.traits["confidence"] - 50) / 50 * 5 + (c.needs["stress"] - 50) / 50 * 4
             out.append(("nerves", -nerves, f"volatility {c.traits['volatility']:.0f}, confidence {c.traits['confidence']:.0f}, stress {c.needs['stress']:.0f}"))
         if it["kind"] == "dance":
@@ -550,7 +568,7 @@ def _context(sim, c, cand, ctx):
                 out.append(("no date", (c.traits["confidence"] - 60) / 50 * 6 + (c.traits["sociability"] - 50) / 50 * 4,
                             "going solo depends on nerve"))
         if it["kind"] in ("game", "show"):
-            out.append(("the team is counting on you", 22.0, "performers are expected"))
+            out.append(("the team is counting on you", 40.0, "players are expected at games"))
     elif aid == "sign_up" and cand.extra:
         it = cand.extra
         g = w.groups[cand.target]
@@ -629,7 +647,31 @@ def _context(sim, c, cand, ctx):
             out.append(("already has plans", -8.0, f"{busy[0]} today"))
     elif aid == "rest" and ctx["slot"] == "evening":
         out.append(("it's late", 3.0, "evenings favor winding down"))
+    if c.id == w.meta.get("protagonist"):
+        focus = w.meta.get("control", {}).get("focus", "balanced")
+        if aid in FOCUS.get(focus, ()):
+            if aid not in ("attend_event", "sign_up") or focus != "athletics" or _sporty(w, cand):
+                out.append((f"your focus: {focus}", 7.0, "set by you"))
     return out
+
+
+FOCUS = {
+    "athletics": ("practice_skill", "train", "attend_practice", "attend_event", "sign_up"),
+    "academics": ("study", "study_at_lunch"),
+    "social": ("hang_out", "sit_with", "introduce", "chat_online", "go_to_party", "throw_party", "reply_invite"),
+    "romance": ("flirt", "ask_out", "date", "ask_to_dance", "reply_invite"),
+    "family": ("family_time", "pet_time", "help_friend"),
+    "rest": ("rest", "hobby", "sit_alone", "pet_time"),
+    "work": ("work_shift", "sign_up"),
+}
+
+
+def _sporty(w, cand) -> bool:
+    t = cand.target
+    if isinstance(cand.extra, dict) and cand.extra.get("group"):
+        t = cand.extra["group"]
+    g = w.groups.get(t) if isinstance(t, str) else None
+    return bool(g and g["kind"] == "team")
 
 
 # --- the decision ------------------------------------------------------------------
@@ -644,7 +686,21 @@ def temperature(sim, c) -> float:
 def prepare(sim, c, slot, ctx):
     """Per-person, per-slot lookups shared by every candidate: who is around, which goals each action serves."""
     w = sim.w
-    ctx["known"] = [(oid, r) for oid, r in w.out.get(c.id, {}).items() if _present(sim, c, oid, slot)]
+    chars = w.chars
+    loc = c.location
+    lunch = slot == "lunch"
+    staff = c.role == "staff"
+    known, remote = [], []
+    for oid, r in w.out.get(c.id, {}).items():
+        o = chars.get(oid)
+        if o is None or o.status != "active" or oid == c.id:
+            continue
+        if o.location == loc and ((o.role == "student") if lunch else (o.role == "staff") if staff else (o.role in ("student", "alumni"))):
+            known.append((oid, r))
+        if r.familiarity >= 25 and o.role in ("student", "alumni"):
+            remote.append((oid, r))
+    ctx["known"] = known
+    ctx["known_remote"] = remote
     ctx["grudge"] = {oid: grudge_score(w, r, w.day) for oid, r in ctx["known"] if r.affection < 0 or r.rivalry > 20}
     ga: dict = {}
     for g in c.goals:

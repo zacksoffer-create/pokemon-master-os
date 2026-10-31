@@ -1492,6 +1492,107 @@
     "social",
     "staff"
    ]
+  },
+  {
+   "id": "train",
+   "label": "Work out / train",
+   "category": "activity",
+   "slots": [
+    "after_school",
+    "day",
+    "evening"
+   ],
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "target": null,
+   "base": -1.0,
+   "needs": {
+    "energy": -0.6,
+    "fun": 0.1,
+    "stress": 0.4
+   },
+   "motives": {
+    "achievement": 0.7,
+    "mastery": 0.5
+   },
+   "traits": {
+    "discipline": 0.8,
+    "competitiveness": 0.5,
+    "impulsivity": -0.2
+   },
+   "interest": 0.9,
+   "requires": [
+    "healthy"
+   ],
+   "risk": 0,
+   "resolver": "solo",
+   "params": {
+    "skill": "fitness",
+    "gain": 1.0,
+    "energy": -14,
+    "fun": 2,
+    "stress": -5,
+    "social": -1,
+    "enjoy_trait": "interest"
+   },
+   "importance": 3,
+   "tags": [
+    "athletic",
+    "solo"
+   ]
+  },
+  {
+   "id": "reply_invite",
+   "label": "Say yes to an invitation",
+   "category": "social",
+   "slots": [
+    "lunch",
+    "after_school",
+    "day",
+    "evening"
+   ],
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "target": "inbox",
+   "base": 6.0,
+   "needs": {
+    "social": 1.0,
+    "fun": 0.8
+   },
+   "motives": {
+    "belonging": 0.8,
+    "pleasure": 0.5
+   },
+   "traits": {
+    "sociability": 0.4
+   },
+   "target_terms": {
+    "affection": 0.8,
+    "attraction": 0.5
+   },
+   "risk": 0,
+   "resolver": "interact",
+   "params": {
+    "kind": "hang_out",
+    "quality_bias": 0.2,
+    "familiarity": 8,
+    "affection": 10,
+    "trust": 4,
+    "attraction": 1.2,
+    "social": 22,
+    "fun": 18,
+    "energy": -8,
+    "stress": -4,
+    "place": true
+   },
+   "importance": 10,
+   "tags": [
+    "social"
+   ]
   }
  ]
 }

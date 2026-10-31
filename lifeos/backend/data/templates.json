@@ -533,6 +533,19 @@
   ],
   "birthday.birthday": [
    "{a} turned {n}."
+  ],
+  "interact.hang_out.invited": [
+   "{a} asked {b} to hang out. Waiting on an answer.",
+   "{a} texted {b}: want to hang out?"
+  ],
+  "interact.date.invited": [
+   "{a} asked {b} out on a date. Waiting on an answer."
+  ],
+  "ask_out.pending": [
+   "{a} asked {b} out. Waiting on an answer."
+  ],
+  "ask_to_dance.pending": [
+   "{a} asked {b} to {event}. Waiting on an answer."
   ]
  }
 }

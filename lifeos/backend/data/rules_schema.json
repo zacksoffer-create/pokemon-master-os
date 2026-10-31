@@ -818,6 +818,13 @@
      "max": 100,
      "step": 1,
      "description": "Events at or above this importance are never compacted."
+    },
+    {
+     "key": "history.trace_everyone",
+     "label": "Trace everyone's decisions",
+     "type": "bool",
+     "default": true,
+     "description": "Off: only you and the people around you keep full decision traces (much faster over a long story). Everyone's events are still recorded."
     }
    ]
   }

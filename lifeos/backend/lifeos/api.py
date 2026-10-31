@@ -110,6 +110,85 @@ class Lab:
         return job
 
 
+    STOP_TYPES = {"tryout", "audition", "injury", "recruiting", "award", "path", "ask_out", "ask_to_dance", "break_up", "election",
+                  "rumor_reached", "graduation", "exclusion", "admissions"}
+
+    def start_story_advance(self, until: str) -> dict:
+        """Live the protagonist's life forward until something worth stopping for."""
+        from . import moments
+        from .calendar import DECISION_SLOTS
+        self.guard()
+        limits = {"decision": 4, "day": 1, "week": 7, "month": 31, "moment": 400}
+        if until not in limits:
+            raise HTTPException(422, f"until must be one of {', '.join(limits)}")
+        self.job_seq += 1
+        w = self.w
+        job = {"id": self.job_seq, "status": "running", "days": limits[until], "done": 0, "start_day": w.day, "story": True,
+               "until": until, "start_event": w.history.next_event, "started": time.time(), "error": None, "stop": None}
+        self.job = job
+
+        def work():
+            try:
+                sim = self.sim
+                w = sim.w
+                prot = w.meta.get("protagonist")
+                start = w.day
+                seen = {i["id"] for i in w.meta.get("inbox", [])}
+                stepped = False
+                reason = None
+                ctl = moments.control(w)
+                while True:
+                    with self.lock:
+                        if moments.pending(w):
+                            reason = "moment"
+                            break
+                        ph = sim.current_phase()
+                        if until == "decision" and stepped and ph in DECISION_SLOTS and prot in sim.slot_actors(ph):
+                            reason = "decision"
+                            break
+                        if w.day >= start + limits[until] and (until != "decision" or stepped):
+                            reason = "time"
+                            break
+                        before = w.history.next_event
+                        sim.step()
+                        stepped = True
+                        if until == "moment":
+                            fresh = [i for i in w.meta.get("inbox", []) if i["id"] not in seen and i["status"] == "pending" and i["to"] == prot]
+                            seen |= {i["id"] for i in fresh}
+                            close = [i for i in fresh if (prot, i["from"]) in w.rels and (w.rels[(prot, i["from"])].affection >= w.rules["rel.friend_threshold"]
+                                     or w.rels[(prot, i["from"])].crush or w.chars[prot].flags.get("partner") == i["from"])]
+                            if close and ctl.get("ask_invites") and w.meta.get("_invite_stop_day") != w.day:
+                                w.meta["_invite_stop_day"] = w.day
+                                reason = "invite"
+                                break
+                            if ctl.get("stop_on_big"):
+                                hit = [e for eid, e in w.history.events.items() if eid >= before and
+                                       (prot in e["actors"] or (prot in e["targets"] and e["type"] != "exclusion")) and
+                                       (e["type"].split(".")[0] in self.STOP_TYPES or e["importance"] >= 40)]
+                                if hit:
+                                    reason = "event"
+                                    break
+                    job["done"] = w.day - start
+                with self.lock:
+                    self.autosave(force=(w.day - start) >= 7)
+                job["status"] = "done"
+            except Exception as e:  # surface it
+                import traceback
+                job["status"] = "failed"
+                job["error"] = f"{type(e).__name__}: {e}"
+                job["trace"] = traceback.format_exc()[-3000:]
+            job["stop"] = reason
+            job["end_day"] = self.w.day
+            job["seconds"] = round(time.time() - job["started"], 2)
+            job["new_events"] = self.w.history.next_event - job["start_event"]
+
+        if until in ("decision", "day"):
+            work()
+        else:
+            threading.Thread(target=work, daemon=True).start()
+        return job
+
+
 lab: Lab | None = None
 
 
@@ -161,7 +240,9 @@ def world_info(L: Lab) -> dict:
             "phase": L.sim.current_phase(), "phases": L.sim.phases(), "seed": w.seed, "gen_seed": w.gen_seed,
             "population": roles, "rules_version": rules_hash(w.rules), "events": len(w.history.events),
             "traces": len(w.history.traces), "folded": w.history.folded_total,
-            "job": L.job, "busy": L.busy(), "action_overrides": sorted(w.action_overrides)}
+            "job": L.job, "busy": L.busy(), "action_overrides": sorted(w.action_overrides),
+            "protagonist": w.meta.get("protagonist"), "story_title": (w.meta.get("story") or {}).get("title"),
+            "pending_moments": sum(1 for m in w.meta.get("moments", []) if m["status"] == "pending")}
 
 
 def rep_tags(c, n=3):
@@ -175,6 +256,7 @@ def char_summary(L: Lab, c) -> dict:
     cl = w.cliques.get(c.flags.get("clique") or "")
     top = sorted(c.interests.items(), key=lambda x: -x[1])[:3]
     return {"id": c.id, "name": c.name, "first": c.first, "last": c.last, "short": c.short, "role": c.role, "grade": c.grade,
+            "year_label": c.year_label, "location": c.location, "school": c.school, "custom": c.custom,
             "archetype": c.archetype, "color": c.color, "pronouns": c.pronouns, "featured": c.featured, "status": c.status,
             "mood": r2(c.mood), "stress": r2(c.needs.get("stress", 0)), "energy": r2(c.needs.get("energy", 0)),
             "popularity": r2(c.popularity), "friends": friends, "clique": {"id": cl["id"], "name": cl["name"]} if cl and cl.get("active") else None,
@@ -353,7 +435,13 @@ def api_character(cid: str):
             "household_info": h and {k: h[k] for k in ("id", "name", "style", "style_label", "income", "guardians", "pet", "members", "warmth", "strictness", "expectations")},
             "timeline": timeline[::-1][:200], "decisions": decisions, "counters": {k: v for k, v in c.counters.items() if not k.startswith("skillpractice:")},
             "docs": ATTRIBUTE_DOCS,
+            "year_label": c.year_label, "school": c.school, "location": c.location, "body": c.body, "positions": c.positions,
+            "jersey": c.jersey, "seasons": [dict(st, key=k) for k, st in sorted(c.stats.items(), key=lambda x: (x[0].split(":")[1], x[0]))],
+            "awards": c.awards[::-1], "recruiting": c.recruiting, "path": c.path, "custom": c.custom,
+            "is_protagonist": c.id == w.meta.get("protagonist"),
         })
+        from .story import career
+        d["career"] = career(c)
         return d
 
 
@@ -372,7 +460,7 @@ def api_create_character(body: dict = Body(...)):
     L = get_lab()
     L.guard()
     with L.lock:
-        c = L.sim.create_character(body)
+        c = L.sim.create_custom(body) if body.get("first") and body.get("gender") else L.sim.create_character(body)
         L.autosave()
         return char_summary(L, c)
 
@@ -832,6 +920,134 @@ async def api_import_workbook(request: Request):
     except (OSError, ValueError, KeyError) as e:
         raise HTTPException(422, f"Could not read that workbook: {e}")
     return rep
+
+
+# --- story mode ----------------------------------------------------------------------------------
+
+@app.get("/api/story")
+def api_story():
+    from . import story
+    L = get_lab()
+    with L.lock:
+        return story.summary(L.sim, lambda sim, c: char_summary(L, c), lambda sim, r: rel_view(L, r), ev_out)
+
+
+@app.get("/api/story/catalog")
+def api_story_catalog():
+    from . import story
+    L = get_lab()
+    cat = L.sim.cat
+    return {"archetypes": cat.people["archetypes"], "relationships": [{"id": k, "label": v["label"]} for k, v in story.REL_PRESETS.items()],
+            "sports": cat.sports["sports"], "builds": list(story.BUILDS), "guardian_styles": cat.people["guardian_styles"],
+            "incomes": list(story.INCOMES), "skills": cat.world["skills"], "hobbies": cat.world["hobbies"], "attributes": ATTRIBUTE_DOCS,
+            "colleges": cat.colleges, "names": {k: v[:12] for k, v in cat.people["names"].items()}}
+
+
+@app.post("/api/story/validate")
+def api_story_validate(body: dict = Body(...)):
+    from . import story
+    try:
+        story.validate_story(body.get("spec") or body)
+    except story.StoryError as e:
+        return JSONResponse(status_code=422, content={"detail": "The story needs a few fixes", "errors": e.errors})
+    return {"ok": True}
+
+
+@app.post("/api/story/new")
+def api_story_new(body: dict = Body(...)):
+    from . import story
+    L = get_lab()
+    L.guard()
+    try:
+        w = story.create_story(body.get("spec") or body)
+    except story.StoryError as e:
+        return JSONResponse(status_code=422, content={"detail": "The story needs a few fixes", "errors": e.errors})
+    with L.lock:
+        L.replace_world(w)
+        story.begin(L.sim)
+        L.autosave()
+    return world_info(L)
+
+
+@app.post("/api/story/advance")
+def api_story_advance(body: dict = Body(default={})):
+    from . import moments
+    L = get_lab()
+    if not L.w.meta.get("protagonist"):
+        raise HTTPException(409, "There is no story yet. Start one first.")
+    if body.get("focus"):
+        moments.control(L.w)["focus"] = str(body["focus"])
+    return L.start_story_advance(body.get("until", "moment"))
+
+
+@app.post("/api/story/control")
+def api_story_control(body: dict = Body(...)):
+    from . import moments
+    from .decision import FOCUS
+    L = get_lab()
+    with L.lock:
+        ctl = moments.control(L.w)
+        if "focus" in body:
+            if body["focus"] not in list(FOCUS) + ["balanced"]:
+                raise HTTPException(422, f"focus must be one of balanced, {', '.join(FOCUS)}")
+            ctl["focus"] = body["focus"]
+        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big"):
+            if k in body:
+                ctl[k] = bool(body[k])
+        return ctl
+
+
+@app.post("/api/story/moment/{mid}")
+def api_story_moment(mid: str, body: dict = Body(default={})):
+    from . import moments
+    L = get_lab()
+    L.guard()
+    with L.lock:
+        try:
+            ev = moments.resolve(L.sim, mid, body.get("index"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave(force=False)
+        return {"event": ev_out(ev, True)}
+
+
+@app.post("/api/story/inbox/{iid}")
+def api_story_inbox(iid: str, body: dict = Body(...)):
+    from .history import Effects
+    L = get_lab()
+    L.guard()
+    with L.lock:
+        w = L.w
+        inv = next((i for i in w.meta.get("inbox", []) if i["id"] == iid), None)
+        if inv is None or inv["status"] != "pending":
+            raise HTTPException(409, "that invitation isn't waiting anymore")
+        if body.get("accept"):
+            w.meta.setdefault("control", {})["queued"] = {"invite": iid}
+            return {"queued": True, "note": "You'll say yes at your next free moment."}
+        inv["status"] = "declined"
+        ev = L.sim.new_event("interact.hang_out", "declined", [inv["from"]], [inv["to"]], 8, {"kind": "hang_out"})
+        fx = Effects(w, ev)
+        fx.rel(inv["from"], inv["to"], "perceived", -5, "invite declined")
+        fx.rel(inv["from"], inv["to"], "affection", -1, "invite declined")
+        L.sim.finish(ev, fx)
+        return {"declined": True}
+
+
+@app.post("/api/story/protagonist")
+def api_story_protagonist(body: dict = Body(...)):
+    L = get_lab()
+    L.guard()
+    cid = body.get("id")
+    with L.lock:
+        c = L.w.chars.get(cid)
+        if c is None or c.role == "staff" or c.status != "active":
+            raise HTTPException(422, "pick an active student or graduate")
+        L.w.meta["protagonist"] = cid
+        L.w.meta.setdefault("story", {"title": f"{c.name}'s story", "start_day": L.w.day, "years": 7})
+        from .story import story_circle
+        L.w.meta["circle"] = sorted(story_circle(L.w))
+        L.autosave()
+        return world_info(L)
 
 
 # --- frontend ---------------------------------------------------------------------------------

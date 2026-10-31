@@ -42,7 +42,7 @@ def gini(xs):
 
 def compute(w) -> dict:
     R = w.rules
-    studs = sorted(c.id for c in w.chars.values() if c.role == "student" and c.status == "active")
+    studs = sorted(c.id for c in w.chars.values() if c.role == "student" and c.status == "active" and c.school == "hchs")
     sset = set(studs)
     ft = R["rel.friend_threshold"]
     mutual = one = 0

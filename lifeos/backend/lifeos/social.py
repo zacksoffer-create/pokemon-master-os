@@ -203,10 +203,21 @@ def update_labels(sim, fx, cause_ev):
 # --- popularity -------------------------------------------------------------
 
 def recompute_popularity(sim, fx):
+    w = sim.w
+    by_school: dict = {}
+    for c in w.students():
+        if c.location != "away":
+            by_school.setdefault(c.school, []).append(c)
+    raw_all = {}
+    for school, studs in sorted(by_school.items(), key=lambda x: str(x[0])):
+        raw_all.update(_popularity(sim, fx, sorted(studs, key=lambda c: c.id)))
+    w.meta["popularity_raw"] = raw_all
+
+
+def _popularity(sim, fx, studs):
     w, R = sim.w, sim.w.rules
-    studs = sorted(w.students(), key=lambda c: c.id)
     if not studs:
-        return
+        return {}
     vis = R["social.popularity_visibility"]
     prev = {c.id: c.popularity for c in studs}
     raw = {}
@@ -231,13 +242,13 @@ def recompute_popularity(sim, fx):
         pct = 100.0 * i / max(1, n - 1)
         new = 0.5 * prev[cid] + 0.5 * pct
         fx.scalar(cid, "popularity", round(new, 2), "weekly popularity")
-    w.meta["popularity_raw"] = {k: round(v, 2) for k, v in raw.items()}
+    return {k: round(v, 2) for k, v in raw.items()}
 
 
 # --- cliques ----------------------------------------------------------------
 
 CLIQUE_NAMES = {
-    "soccer": ["the Pitch Crew", "the Cleats"], "basketball": ["the Court Crew", "the Hoopers"],
+    "football": ["the Friday Night Crew", "the Linemen"], "fitness": ["the Gym Rats"], "basketball": ["the Court Crew", "the Hoopers"],
     "baseball": ["the Dugout", "the Bullpen"], "drama": ["the Theater Kids", "the Understudies"],
     "art": ["the Sketchbook Circle", "the Paint-Stained"], "music": ["the Band Room", "the Garage Band"],
     "tech": ["the Lab Rats", "the Robot Garage"], "writing": ["the Herald Desk", "the Margins"],
@@ -252,11 +263,11 @@ CLIQUE_NAMES = {
 def detect_cliques(sim, rng):
     w, R = sim.w, sim.w.rules
     thr = R["social.clique_threshold"]
-    studs = sorted(c.id for c in w.chars.values() if c.role == "student" and c.status == "active")
+    studs = sorted(c.id for c in w.chars.values() if c.role == "student" and c.status == "active" and c.location != "away")
     adj: dict[str, dict[str, float]] = {s: {} for s in studs}
     for a in studs:
         for b, r in w.out.get(a, {}).items():
-            if b in adj and a < b:
+            if b in adj and a < b and w.chars[a].school == w.chars[b].school:
                 r2 = w.rels.get((b, a))
                 if r2 is None:
                     continue
@@ -387,7 +398,8 @@ def make_rumor(sim, about: str, kind: str, phrase: str, truth: bool, valence: fl
 def witnesses(sim, rng, exclude: set, n: int, prefer: list | None = None) -> list:
     """Random students who saw something at school (prefers people near the involved)."""
     w = sim.w
-    pool = sorted(c.id for c in w.students() if c.id not in exclude)
+    loc = next((w.chars[x].location for x in sorted(exclude) if x in w.chars), "hollow_creek")
+    pool = sorted(c.id for c in w.students() if c.id not in exclude and c.location == loc)
     out = []
     if prefer:
         for p in prefer:
