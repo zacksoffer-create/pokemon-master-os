@@ -1044,11 +1044,11 @@ function DraftBoard({ s }: { s: any }) {
       {r && (
         <div className="st-commit" style={{ marginBottom: 12 }}>
           <div className="st-kick">{r.year} draft</div>
-          {r.status === "undrafted" ? <b>Went undrafted</b> : (
+          {r.status === "undrafted" || r.status === "returned_undrafted" ? <b>Went undrafted</b> : (
             <b>Round {r.round}, pick {r.pick}: {r.team}</b>
           )}
           {r.bonus ? <div className="small muted">Slot value about {money(r.bonus)} · starts at {r.level}</div> : null}
-          <div className="small muted">{r.status === "signed" ? "Signed." : r.status === "returned" ? "Went back to school for another year." : r.status === "drafted" ? "Decision pending." : ""}</div>
+          <div className="small muted">{r.status === "signed" ? "Signed." : r.status === "returned" || r.status === "returned_undrafted" ? "Went back to school for another year." : r.status === "drafted" ? "Decision pending." : ""}</div>
         </div>
       )}
       {pj && (

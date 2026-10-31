@@ -675,6 +675,7 @@ class Institutions:
         sk = g["skill"]
         pool = sorted((c for c in w.students() if c.school == g.get("school", "hchs") and g["id"] not in c.memberships
                        and c.interests.get(sk, 0) >= 30 and c.flags.get("injured_until", -1) < w.day
+                       and not (g.get("school") == "college" and (c.path or {}).get("sport") and c.path["sport"] != sk)
                        and not any(w.groups[m]["kind"] == "team" and self.in_season(w.groups[m]) for m in c.memberships)),
                       key=lambda c: (-(sports.rating(c, sk) + c.interests.get(sk, 0) * 0.3), c.id))
         for c in pool[:need]:

@@ -221,10 +221,16 @@ def depart(sim, rng):
                     fx.leave(c.id, gid, "took a full-time job")
             fx.join(c.id, job, "hired full-time")
             sim.finish(ev, fx)
-        if p["kind"] == "college" and col and p["college"] == col["id"] and p.get("sport"):
-            it = next((i for i in w.calendar if i.get("group") == f"col_{p['sport']}" and i["kind"] == "tryout" and i["day"] >= w.day), None)
-            if it:
-                w.registrations.setdefault(it["key"], []).append(c.id)
+        if p["kind"] == "college" and col and p["college"] == col["id"] and p.get("sport") and f"col_{p['sport']}" in w.groups:
+            gid = f"col_{p['sport']}"
+            if p.get("scholarship"):
+                # recruited: they're on the roster from day one
+                Effects(w, None).join(c.id, gid, "recruited")
+                w.groups[gid].setdefault("levels", {})[c.id] = "varsity"
+            else:
+                it = next((i for i in w.calendar if i.get("group") == gid and i["kind"] == "tryout" and i["day"] >= w.day), None)
+                if it:
+                    w.registrations.setdefault(it["key"], []).append(c.id)
         if c.id == prot and p["kind"] == "college" and col and p["college"] == col["id"]:
             arrive(sim, c, rng)
 

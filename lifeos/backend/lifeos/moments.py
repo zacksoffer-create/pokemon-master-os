@@ -158,7 +158,9 @@ def story_review(sim, c) -> str:
         parts.append(f"Then the {p['team']} drafted you in round {p['round']} and you signed. Next stop: {p['level']}." if p.get("team")
                      else f"You went undrafted and signed anyway. Next stop: {p['level']}.")
     elif d.get("status") == "returned":
-        parts.append("You turned the draft down to go back for one more year.")
+        parts.append(f"The {d.get('team')} drafted you in round {d.get('round')}, and you turned them down to go back for one more year.")
+    elif d.get("status") == "returned_undrafted":
+        parts.append("The draft passed you by, so you went back for one more year to change their minds.")
     elif d.get("status") == "undrafted":
         parts.append("The draft passed you by.")
     elif p.get("kind") == "work":
@@ -290,7 +292,7 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
         elif kind == "draft_return":
             d = c.recruiting.get("draft")
             if d:
-                d["status"] = "returned"
+                d["status"] = "returned_undrafted" if d.get("status") == "undrafted" else "returned"
         elif kind == "retire_baseball":
             for gid in list(c.memberships):
                 if w.groups[gid].get("skill") == "baseball":
