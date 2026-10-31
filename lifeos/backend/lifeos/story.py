@@ -425,7 +425,8 @@ def progress(w) -> dict:
     st = w.meta.get("story", {})
     total = int(st.get("years", 7) * 365)
     done = w.day - st.get("start_day", 0)
-    return {"day": done, "total": total, "pct": round(min(100.0, 100.0 * done / total), 1), "year": done // 365 + 1}
+    return {"day": done, "total": total, "pct": round(min(100.0, 100.0 * done / total), 1), "year": done // 365 + 1,
+            "complete": bool(st.get("complete"))}
 
 
 def career(c) -> dict:

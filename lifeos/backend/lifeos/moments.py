@@ -117,6 +117,16 @@ def _enrich(sim, c, kind, ctx):
                          + (f", and {len(c.awards)} award{'s' if len(c.awards) != 1 else ''} so far" if c.awards else "") + ".")
         ctx["summer_line"] = ""
         ctx["year_label"] = c.year_label + " year"
+        st = w.meta.get("story") or {}
+        years = st.get("years", 7)
+        if kind == "year_review" and st and w.day - st.get("start_day", 0) >= (years - 1) * 365 + 200:
+            games = sum(s["games"] for s in c.stats.values())
+            sports = sorted({s["sport"] for s in c.stats.values()})
+            where = c.path.get("name") or c.path.get("label") or "Hollow Creek"
+            ctx["review"] += (f" That's {years} years since your first day at Hollow Creek High: {games} games"
+                              + (f" of {', '.join(sports)}" if sports else "") + f", {len(c.awards)} awards, and {where}. "
+                              "Those are the seven chapters. The world keeps going if you do.")
+            st["complete"] = True
 
 
 def auto_choice(sim, c, m) -> int:

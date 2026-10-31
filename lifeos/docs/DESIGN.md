@@ -23,6 +23,10 @@ A modular monolith in Python with a React lab on top.
 | | `social.py` | Interaction quality and perception, relationship labels and milestones, popularity, clique detection, rumors |
 | | `institutions.py` | The school day, exams, lunch tables and exclusion, practices, tryouts and auditions, games, shows, dances, parties, elections, jobs, graduation, the new year |
 | | `households.py` | Guardian reactions, allowance, weekends away, support |
+| | `sports.py` | Sport ratings, varsity/JV, starters, box scores, season stats, awards, injuries, recruiting, admissions, paths |
+| | `college.py` | Life after high school: departures, the protagonist's college, offscreen lives, breaks at home, jobs in town |
+| Story | `story.py` | The story spec: validation, building you, your family, your people and the town; the dashboard summary |
+| | `moments.py` | Story moments: triggers, choices, chance rolls, auto-choice when you let them decide |
 | | `narrative.py` | Template rendering from structured events (presentation-only randomness) |
 | Lab | `metrics.py`, `experiments.py`, `spreadsheet.py`, `api.py` | World statistics, isolated multi-process experiments, the Excel round-trip, and the HTTP API |
 | Orchestration | `engine.py` | `Simulation`: phases, slots, invitations and responses, fallbacks, nightly and weekly processing, player mode, lab edits |
@@ -226,3 +230,77 @@ The UI and `demo.py` say which kind of result they are showing, and warn that sm
   slot actors in `engine.slot_actors`, and the domain module.
 - **Spreadsheet master:** `spreadsheet.py` already round-trips Rules, Actions and Characters. Groups,
   templates and goals would follow the same pattern.
+
+## 11. Story mode
+
+Story mode is the same simulation with one person marked as the protagonist and a few extra systems
+around them. Nothing about the protagonist's life is scripted: moments are triggered by things that
+actually happened in the world, and their choices run through the same `Effects` recorder as everything else.
+
+### The spec
+
+`story.create_story(spec)` builds a world from a JSON spec:
+- the protagonist;
+- `family` (last name, guardians, parenting style, income, pet);
+- `siblings`, where `twin_of` gives a shared birthday and a twin bond;
+- `cast`, any number of custom students or staff, with `coach_of` for coaches;
+- `students_per_grade`, which the generator fills around the custom people.
+
+Every person field is optional except a first name. Blanks come from the archetype's distributions, so
+a sketch of a person becomes a full one. Relationships use presets (`REL_PRESETS`: best friend, crush,
+mutual crush, rival, twin...). Each preset sets the directed fields (affection, attraction, rivalry,
+trust...) from the subject's point of view, plus a reciprocal for the other side, and a strength
+of ±40 scales it. Validation collects every error with a path (`cast[1].traits.swagger`) before
+anything is built, so the UI can show them all at once.
+
+### Sports
+
+- **Rating** = 0.6·skill + 0.15·athletic aptitude + 0.12·fitness + body bonus + 0.06·(confidence−50) + 6.
+  The body bonus is height for basketball (more for C/PF) and pitchers, and build for football
+  (strong for linemen, athletic or slight for skill positions).
+- **Tryouts** rank everyone who registered. The top N make varsity; the next ones in grades 9–11 make JV.
+  Coaches start the top-rated healthy players. A long bench streak can trigger the "riding the bench" moment.
+- **Games** draw a team performance against an opponent strength. Each player's stat line comes from
+  their position's template, scaled by how they played and whether they started. Every game event carries the full box score.
+- **Season stats** are keyed `sport:YYYY-YY:level`. At season's end the best impact per game wins MVP,
+  and strong seasons win All-Conference.
+- **Recruiting** score = rating + recent varsity production + awards + a grade bonus. Each college has
+  a recruiting bar. Interest grows with the gap, and an offer comes past a threshold (scholarships at
+  D1, D2 and JUCO). Admissions use GPA and academics.
+- **The path** is chosen in senior spring from offers, admissions and staying to work. The player picks
+  from the college_decision moment. Everyone else scores the options from their own interests,
+  ambition, money and the offer's tier.
+
+### After high school
+
+On September 1 the paths take effect. Your college is created the first time someone from town
+arrives: teams with college schedules, clubs, a campus job, coaches, a professor, a roommate and a
+cohort of classmates. Graduates going elsewhere go offscreen. They get weekly drift instead of daily
+decisions, keep their relationships, and come home for breaks, so the twins are at the Thanksgiving table.
+Graduates who stay in town take full-time jobs.
+
+### Playing
+
+- **Focus** adds a named +7 term ("your focus: athletics") to the protagonist's matching actions when
+  the simulation decides for them. It's visible in every trace.
+- **Advance until**:
+  - `decision`: the next slot where the protagonist acts;
+  - `moment`: a story moment, an invitation you asked to see, or a big event, with day/week/month limits.
+
+  The job reports why it stopped.
+- **Moments** wait in `meta.moments`. A choice runs ops (stat changes, focus, sign-ups, memories,
+  chance rolls against the person's own traits). If you don't choose within a few days, the
+  protagonist chooses for themselves with `auto_choice`, which respects their traits and orientation.
+- **Invitations** to the protagonist wait in the inbox. Accepting queues a yes at the next free slot.
+
+### Level of detail
+
+The protagonist's circle is tracked with full detail:
+- family;
+- custom characters;
+- their top relationships;
+- teammates and coaches.
+
+Everyone else in town is untraced. People in another location who aren't in the circle skip lunch and evening slots and
+act every other day. This keeps a seven-year story at roughly 25–35 s per simulated year without
+changing how the people you care about behave.

@@ -1,9 +1,14 @@
 # LIFE OS · Living World Laboratory (v0.1)
 
 A persistent small-town life simulation with a lab built around it. Hollow Creek has one high school,
-36 students, 8 staff and their households. Every person decides for themselves what to do,
+its students, staff and their households. Every person decides for themselves what to do,
 twice a day, from a transparent utility model. You can watch, inspect any decision down to the
 random roll, change the rules, run controlled experiments, and step into one person's life.
+
+**Story mode** is the playable side: build yourself, your family and the people you want in your life,
+let the town fill in around them, and live seven years, from the first day of freshman year through
+three years of college (or work). It has a full sports career in football, basketball and baseball:
+JV and varsity, starting spots, box scores, season stats, awards, injuries, recruiting and offers.
 
 Everything here runs locally. No paid APIs, and no AI-generated text: the narrative comes from
 procedural templates filled in from recorded simulation state.
@@ -45,11 +50,49 @@ npm run dev      # http://localhost:5173, proxies /api to the Python server on 8
 npm run build    # rebuilds frontend/dist
 ```
 
+## Your story (start here)
+
+Open **My Story** in the sidebar and click **Start your story**. The setup has six steps:
+
+1. **Welcome.** Name your story.
+2. **You.** The character builder. Pick a starting archetype (athlete, brain, artist...) and it fills
+   in a believable person, then tweak anything:
+   - personality (10 traits), natural talent (5 aptitudes) and what drives them (6 motives);
+   - interests and starting skills (a typical freshman is 25–50 in a sport);
+   - height and build, jersey number, and a position in each sport you play.
+3. **Family.** Your last name, guardians, how they parent, income and an optional pet. Add siblings
+   with a grade each; set "twin of" to make twins (same birthday, a twin bond).
+   There are one-click buttons for an older brother who's a senior and twin sisters who are juniors.
+4. **Your people.** Friends, a crush, a rival, a coach, anyone. Each one gets the same builder, plus
+   how they feel about you (best friend, crush, rival, teammate...).
+5. **The town.** How many students per grade (6–20). Generated classmates fill each grade around your people.
+6. **Review & start.** Check catches every problem at once. You can also download your cast as a file
+   and load it again later, so you don't have to rebuild your people.
+
+**Playing.** The story page shows where you are in the seven years, how you're doing, your teams and
+stats, your family and your people.
+- **Live until something happens** runs the world until there's something for you: a story moment
+  (tryouts, getting cut, an injury, a scholarship offer, a sibling leaving for college, someone asking
+  you out, the college decision), an invitation, or a big event.
+- **Next choice** stops at your very next decision so you can pick exactly what you do. You see every
+  real option and how likely you'd be to pick it on your own.
+- **Focus** (athletics, academics, social, romance, family, rest, work) tilts what you do when you
+  let yourself decide. It's a named term in every decision trace, so you can see how much it mattered.
+- At any choice, **Let them decide** hands it back to the simulation.
+
+Everyone else lives their own life the whole time. Your brother graduates and leaves, your sisters
+go off to college a year later and come home for Thanksgiving, friends drift, rivals show up. In senior spring you
+choose a path from the offers and admissions you've earned. On September 1 you arrive at college
+(teams, a roommate, new classmates) or start working in town.
+
+You can open anyone in **Character Studio** (including yourself) to see their full profile and athlete
+page, and **History Explorer** shows the math behind anything that happened.
+
 ## Tests
 
 ```bash
 cd lifeos
-python -m pytest backend/tests -q      # 21 tests, about 15 seconds
+python -m pytest backend/tests -q      # 27 tests, about 40 seconds
 ```
 
 They cover every acceptance criterion in the brief. Each name below is a test:
@@ -60,6 +103,7 @@ They cover every acceptance criterion in the brief. Each name below is a test:
 - **Configuration:** invalid configuration is rejected without partially applying; every rule parameter is read by the engine.
 - **Lab tools:** experiment runs are isolated and reproducible; player choices go through the same resolvers; lab edits are validated and recorded; the workbook round-trips.
 - **Demo:** the demo world produces measurably different lives.
+- **Story mode** (`test_story.py`): the spec builds you, your siblings (twins included), your people and the town; validation reports every problem; moment choices change state and are recorded; a football season has rosters, box scores and stats; a senior leaves with a path, arrives at college and comes home for Thanksgiving; the story API flow works end to end.
 
 ## Demonstration scenario
 
@@ -79,10 +123,11 @@ Marcus 58→64 and Devon 48→73, and raising social approval ×2.5 clearly rais
 
 | Section | What you can do |
 |---|---|
+| **My Story** | Story mode: the setup wizard, then your life. Moments, choices, invitations, focus, your teams, season stats, box scores, awards, recruiting board, family and people. |
 | **World Overview** | Clock, population and world statistics, the notable-events feed (filter by social / romance / conflict / school), upcoming calendar, spotlight (most popular, most stressed, loneliest), weekly trend charts, cliques, institutions. |
-| **Character Studio** | Every person as a card. Their profile keeps the layers separate: personality, aptitude, learned skills (with the talent ceiling marked), motives, current condition, circumstances (household, money, groups). Also goals, interests, reputation and learned expectations. The relationships table shows both sides: how they see each person, what they *think* that person feels, and what that person actually feels. Then their timeline, recent decisions (each opens its trace) and memories. **Edit** any attribute, validated and logged as a lab edit. **Create a character** from an archetype. |
+| **Character Studio** | Every person as a card. Their profile keeps the layers separate: personality, aptitude, learned skills (with the talent ceiling marked), motives, current condition, circumstances (household, money, groups). Also goals, interests, reputation and learned expectations. The relationships table shows both sides: how they see each person, what they *think* that person feels, and what that person actually feels. Then their timeline, recent decisions (each opens its trace) and memories. **Edit** any attribute, validated and logged as a lab edit. **Create a character** with the full character builder (personality, body, positions, relationships). Athletes get an athlete page with season stats, career totals, awards and recruiting. |
 | **Social Network** | A force-directed map: mutual friendships, one-sided ones (dashed), couples, crushes, rivalries. Click a person or a line. Below it: cliques, groups and institutions (rosters, captains, records, cut lists), the biggest perception gaps, and households. |
-| **Live a Life** | Pick a student. At each decision point you see their real options, why each is available, and how likely they would be to pick it on their own. Choose one, or let them decide. The simulation resolves it with the same rules and dice as everyone else's choices. |
+| **Live Any Life** | Pick anyone. At each decision point you see their real options, why each is available, and how likely they would be to pick it on their own. Choose one, or let them decide. The simulation resolves it with the same rules and dice as everyone else's choices. |
 | **History Explorer** | Every event, filterable by person, type, importance, date range and text, with a CSV export. Each event shows its calculation (probabilities and rolls), every state change (before, after and why), the memories it created, its causes and its consequences. The **decision trace inspector** shows every option weighed, each term's contribution, the temperature, the random roll and the weights in effect. |
 | **Experiment Center** | Presets and a builder: a base world (fresh from a generation seed, the current world, or a save), the number of days, the seeds, and variants with rule overrides. Runs happen in separate processes. Results are labelled honestly: one seed is a *deterministic paired comparison* (including whose lives changed and the day the timelines split); several seeds are a *repeated-run measurement* (means, 95% intervals on paired differences, direction counts, effect sizes). |
 | **Engine Workshop** | 76 rule parameters with ranges, defaults and descriptions, applied from the next slot. Changes are validated, logged as lab events and versioned. Per-action coefficients (base, risk, need/motive/trait weights, target terms, on/off). Excel workbook export and import. Change log. |
@@ -131,12 +176,14 @@ lifeos/
   demo.py                the demonstration scenario
   requirements.txt
   backend/
-    data/                the data catalogs (JSON): rules schema, actions, world, people, templates, goals
+    data/                the data catalogs (JSON): rules schema, actions, world, people, templates, goals,
+                         sports, colleges, story moments
     lifeos/              the engine and API (Python)
       rng.py rules.py catalogs.py model.py history.py calendar.py worldgen.py
       decision.py actions.py social.py institutions.py households.py development.py
+      sports.py college.py story.py moments.py
       narrative.py metrics.py engine.py experiments.py storage.py spreadsheet.py api.py
-    tests/test_lifeos.py
+    tests/test_lifeos.py tests/test_story.py
   frontend/              React + TypeScript + Vite; dist/ is the built app the server serves
   docs/DESIGN.md
 ```
@@ -146,15 +193,17 @@ lifeos/
 **Working and tested:**
 - The world, time advancement, autonomous agents, social dynamics, institutions and households.
 - Persistent history with decision traces and state-change logs.
-- Rules and action editing with validation, save/load, experiments, the workbook round-trip, play mode, and all nine UI sections.
+- Rules and action editing with validation, save/load, experiments, the workbook round-trip, play mode, and all the UI sections.
+- Story mode: the spec and builder, siblings and twins, custom relationships, moments, focus, invitations, the three sports, recruiting, the college decision, college life and breaks at home, jobs in town.
 
 **Not implemented or partial in v0.1 (labelled honestly):**
 - **Guardians** are household-level actors with a parenting style. They react to grades and trouble, but they aren't autonomous agents.
 - **Pets** affect household members (pet time relieves stress). They have no needs or behavior of their own.
 - **Careers and economy** are minimal: two part-time employers, allowance by income level, and costs for outings.
-- **Alumni** stay in the world and keep relationships, but have a reduced action set. There is no college or adult life yet.
+- **After high school**: your own college is fully simulated (teams, classes, roommate, classmates). Everyone else who leaves town lives offscreen: weekly updates, no daily decisions, home for breaks. Graduates who stay in town work full time. The seven chapters end with college junior year and a final review. The world keeps running after that (college senior year, then graduates move on), but there's no grad school or later adult life yet.
+- **College sports** are simplified: one varsity team per sport, a short schedule, and no transfer portal or redshirts.
 - **Spreadsheet import** covers Rules, Actions and Characters. Groups, templates and goals are edited in the JSON catalogs; restart the server to reload them.
 - **Narrative text** is template-based and functional rather than literary.
 - **Balance** is a first pass. The demo produces plausible years, but the numbers are design values meant to be tuned in the Workshop. Known tendencies: moods trend high over a long run, team rosters in a 36-student school are small, and outcomes vary a lot between seeds (which is what the Experiment Center is for).
-- **Speed**: a traced year takes 25–35 s in pure Python. Experiments run untraced and in parallel.
+- **Speed**: a traced year takes 25–35 s in pure Python. In story mode, people far from your life act less often and aren't traced, so a story year runs in about the same time. Experiments run untraced and in parallel.
 - **History retention**: routine events older than 60 days are folded into per-person counters. Routine decision traces are kept for 45 days, and traces for important events are kept forever. All of this is configurable in the Workshop.
