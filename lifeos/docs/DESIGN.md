@@ -341,3 +341,72 @@ The protagonist's circle is tracked with full detail:
 Everyone else in town is untraced. People in another location who aren't in the circle skip lunch and evening slots and
 act every other day. This keeps a seven-year story at roughly 25–35 s per simulated year without
 changing how the people you care about behave.
+
+## 12. The phone
+
+The phone app (`#/m`) is a second view of the same simulation, built for a single player.
+
+### First person
+
+`pov.second_person` rewrites lines about the protagonist ("Zack was named captain" becomes "You were named
+captain"), with verb agreement and possessives. It only rewrites they/their when nobody else is in the line.
+Scenes come from the phase, the place and what's on today: lunch is the cafeteria, a game day after school is
+the field, a summer day is Jacobs Beach. Choices are the protagonist's real options, worded naturally (`phone_api.PHRASE`).
+
+### Texting (`messages.py`, `data/texts.json`)
+
+Threads live in `w.meta["phone"]`: DMs, the family chat (guardians appear as Mom/Dad when their names say so) and team chats.
+Texts come from:
+- events, via a hook in `Simulation.finish`;
+- delayed "later today" texts, delivered after each phase;
+- daily chatter, weighted by how much a friend likes you and how sociable they are;
+- the night before games;
+- pet chores.
+
+Invitations and moments like being asked out arrive as texts whose replies resolve the real invitation or moment.
+
+Every sender has a voice from their personality: casual people lowercase, abbreviate and use emoji that fit the kind of message;
+parents and coaches write properly. Reply options carry effects (affection, perceived feelings, attraction, forgiveness,
+parent trust).
+
+Texting first is limited to once per person per day. Their answer depends on how they feel about you and their personality,
+and they can leave you on read. Agreeing to hang out by text queues a plan, and the invitee accepts at the next free slot
+(`SlotState.agreed`).
+
+You only have someone's number after a real interaction or once you're familiar enough.
+
+### Pets (`pets.py`)
+
+The protagonist's household pets are full entities in `w.meta["pets"]`:
+- species, breed, coat, personality;
+- happiness, fullness, energy, health and cleanliness;
+- a bond with each person, with diminishing returns;
+- trick progress.
+
+Chores per species (feeding twice a day, walks, litter, baths...) are assigned once in `w.meta["responsibilities"]`:
+- a person;
+- `parents`;
+- `rotate`, meaning the kids at home take turns by day.
+
+Each night every due chore resolves. A sibling or the protagonist does it with a probability based on discipline,
+loyalty, stress and a busy day (games, exams). Misses hurt the pet's happiness and draw family texts. Streaks raise parent trust.
+
+Quick activities (cuddle, treat, feed, brush) happen immediately with daily limits. Timed ones (walk, park, play, train) are
+real actions, `pet_walk`, `pet_park`, `pet_play` and `pet_train`, which anyone in the household can choose. The phone either
+does them in the current slot or queues them for the next free one. The park can introduce you to someone.
+
+Asking for a pet rolls against household warmth, permissiveness, income, your GPA, existing pets and parent trust.
+A yes unlocks adoption: name, breed and coat, then the one-time chore setup.
+
+### Looks (`appearance.py`)
+
+Every character has a look: skin, hair style and color, eyes, facial hair, glasses, freckles. Generated looks come from a hash
+of the character id, so they never consume simulation randomness. Builder choices override them. The phone draws portraits
+from the look, with an expression per moment.
+
+### The worksheet (`worksheet.py`)
+
+The Excel worksheet has one column per person and one row per field. Column A holds the field codes the importer reads.
+Dropdowns and number limits come from the catalogs, and the Reference tab lists types, positions, colleges, looks and
+relationship types. `parse_workbook` turns a filled sheet into a story spec. `guide_markdown` produces the AI interview prompt
+and the cast-file format, so a conversation with ChatGPT or Claude ends in a file the wizard loads.

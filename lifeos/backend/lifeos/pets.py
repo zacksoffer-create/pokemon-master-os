@@ -230,7 +230,7 @@ def night(sim):
                 _miss(pet, duty)
                 if who == prot:
                     missed_by_me.append(duty)
-                elif who != "parents" and who in w.chars and rng.random() < 0.5:
+                elif who != "parents" and who in w.chars and rng.random() < 0.3:
                     messages.family_text(sim, "pet_sibling_forgot", pet=pet["name"], who=w.chars[who].first, chore=DUTIES[duty]["noun"],
                                          chore_a=DUTIES[duty]["a"])
         st = pet["streaks"]

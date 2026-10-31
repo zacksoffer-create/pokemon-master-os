@@ -13,6 +13,8 @@ import os
 import threading
 import time
 
+import mimetypes
+
 from fastapi import Body, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
@@ -199,6 +201,7 @@ def get_lab() -> Lab:
     return lab
 
 
+mimetypes.add_type("application/manifest+json", ".webmanifest")
 app = FastAPI(title="LIFE OS - Living World Laboratory", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
@@ -1049,6 +1052,45 @@ def api_story_protagonist(body: dict = Body(...)):
         L.w.meta["circle"] = sorted(story_circle(L.w))
         L.autosave()
         return world_info(L)
+
+
+# --- character worksheet -------------------------------------------------------------------------
+
+@app.get("/api/story/worksheet.xlsx")
+def api_worksheet():
+    from .worksheet import build_workbook
+    return Response(build_workbook(get_lab().sim.cat), media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    headers={"Content-Disposition": "attachment; filename=character-worksheet.xlsx"})
+
+
+@app.get("/api/story/worksheet-guide")
+def api_worksheet_guide(download: int = 0):
+    from .worksheet import guide_markdown
+    headers = {"Content-Disposition": "attachment; filename=character-worksheet-guide.md"} if download else {}
+    return Response(guide_markdown(get_lab().sim.cat), media_type="text/markdown; charset=utf-8", headers=headers)
+
+
+@app.get("/api/story/worksheet-prompt")
+def api_worksheet_prompt():
+    from .worksheet import PROMPT
+    cat = get_lab().sim.cat
+    return {"prompt": PROMPT.replace("{school}", cat.world["school"]["name"]).replace("{town}", cat.world["town"]["name"]).strip()}
+
+
+@app.post("/api/story/import-sheet")
+async def api_import_sheet(request: Request):
+    from .story import StoryError
+    from .worksheet import parse_workbook
+    data = await request.body()
+    if not data:
+        raise HTTPException(422, "send the .xlsx file as the request body")
+    try:
+        spec = parse_workbook(data)
+    except StoryError as e:
+        return JSONResponse({"detail": "the worksheet has a few problems", "errors": e.errors}, status_code=422)
+    except Exception as e:  # noqa: BLE001
+        raise HTTPException(422, f"couldn't read that file as a worksheet ({type(e).__name__})")
+    return {"spec": spec}
 
 
 # --- the phone app ------------------------------------------------------------------------------

@@ -223,8 +223,8 @@ def post(sim, tid, sid, text, kind="text", replies=None, ctx=None, phase=None, u
     msg = {"id": mid, "from": sid, "text": voice(sim, sid, text, mid, kind), "day": w.day, "phase": phase,
            "at": time_label(w.day, phase, mid), "kind": kind, "replies": replies, "chosen": None, "ctx": ctx or {}}
     t["msgs"].append(msg)
-    if len(t["msgs"]) > 80:
-        t["msgs"] = t["msgs"][-80:]
+    if len(t["msgs"]) > 150:
+        t["msgs"] = t["msgs"][-150:]
     if unread and sid != "me":
         t["unread"] += 1
     t["last"] = ph["next"]
@@ -420,7 +420,7 @@ def daily(sim):
         if pets.setup_needed(w, pet["id"]):
             continue
         for d in pets.SPECIES[pet["species"]]["duties"]:
-            if pets.due_today(d, w.day) and pets.owner_today(sim, pet, d) == me.id and _h(w.day, pet["id"], d) % 14 == 0:
+            if pets.due_today(d, w.day) and pets.owner_today(sim, pet, d) == me.id and _h(w.day, pet["id"], d) % 20 == 0:
                 phone(w)["pending"].append({"due": w.day * 10 + 5, "from": "family", "key": "pet_reminder",
                                             "kw": {"pet": pet["name"], "chore": pets.DUTIES[d]["noun"], "chore_a": pets.DUTIES[d]["a"]}})
                 break

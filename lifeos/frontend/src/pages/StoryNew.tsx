@@ -262,7 +262,17 @@ export default function StoryNew(_props: { route?: string[] }) {
   const loadFile = async (f: File | undefined) => {
     if (!f) return;
     try {
-      const j = JSON.parse(await f.text());
+      let j: any;
+      if (/\.xlsx$/i.test(f.name)) {
+        const res = await fetch("/api/story/import-sheet", { method: "POST", body: await f.arrayBuffer(), headers: { "Content-Type": "application/octet-stream" } });
+        const body = await res.json();
+        if (!res.ok) throw new Error([body.detail, ...(body.errors || [])].filter(Boolean).join(" · "));
+        j = body;
+      } else {
+        const text = await f.text();
+        const m = text.match(/\{[\s\S]*\}/);
+        j = JSON.parse(m ? m[0] : text);
+      }
       const s = j.spec || j;
       if (!s.protagonist) throw new Error("That file doesn't have a story cast in it.");
       setD(specToDraft(s));
@@ -330,7 +340,7 @@ export default function StoryNew(_props: { route?: string[] }) {
         <div className="row">
           <button className="small ghost" onClick={() => fileRef.current?.click()} title="Load people you saved before">Load a cast file</button>
           <button className="small ghost" onClick={download} title="Save everyone you've made to a file">Download cast</button>
-          <input ref={fileRef} type="file" accept=".json,application/json" style={{ display: "none" }} onChange={(e) => loadFile(e.target.files?.[0])} />
+          <input ref={fileRef} type="file" accept=".json,.xlsx,.txt,application/json" style={{ display: "none" }} onChange={(e) => loadFile(e.target.files?.[0])} />
         </div>
       </div>
 
@@ -454,10 +464,38 @@ function Welcome({ d, update, hasStory, storyTitle, onStartOver, onLoad }: any) 
               <div key={n} className="sn-plan-i"><span className="sn-num">{n}</span><div><b>{t}</b><div className="hint">{s}</div></div></div>
             ))}
             <div className="hint" style={{ marginTop: 10 }}>Anything you skip is generated. Only first names are required.</div>
-            <button className="small" style={{ marginTop: 10 }} onClick={onLoad}>Have a cast file? Load it</button>
+            <button className="small" style={{ marginTop: 10 }} onClick={onLoad}>Have a cast file or worksheet? Load it</button>
           </div>
+          <PlanFirst />
         </div>
       </div>
+    </div>
+  );
+}
+
+function PlanFirst() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      const r = await fetch("/api/story/worksheet-prompt");
+      const { prompt } = await r.json();
+      await navigator.clipboard.writeText(prompt);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      window.open("/api/story/worksheet-guide", "_blank");
+    }
+  };
+  return (
+    <div className="sn-plan" style={{ marginTop: 12 }}>
+      <div className="sn-plan-h">Want to plan it first?</div>
+      <div className="hint">Fill out the worksheet, or talk it through with ChatGPT or Claude before you decide on numbers. Then load the file here.</div>
+      <div className="row" style={{ marginTop: 10, flexWrap: "wrap", gap: 8 }}>
+        <a className="btn small" href="/api/story/worksheet.xlsx">Excel worksheet</a>
+        <button className="small" onClick={copy}>{copied ? "Copied! Paste it into ChatGPT" : "Copy the ChatGPT prompt"}</button>
+        <a className="btn small ghost" href="/api/story/worksheet-guide?download=1">Full guide (.md)</a>
+      </div>
+      <div className="hint" style={{ marginTop: 8 }}>The AI gives you back a block of JSON. Save it as a .json (or .txt) file and load it with the button above.</div>
     </div>
   );
 }

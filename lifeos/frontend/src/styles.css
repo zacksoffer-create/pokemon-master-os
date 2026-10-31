@@ -46,6 +46,11 @@ button {
   transition: background 0.12s, border-color 0.12s, transform 0.05s;
   white-space: nowrap;
 }
+a.btn { display: inline-flex; align-items: center; gap: 6px; background: var(--panel-3); border: 1px solid var(--line-2); border-radius: 10px;
+  padding: 7px 12px; color: var(--text); text-decoration: none; white-space: nowrap; transition: background 0.12s, border-color 0.12s; }
+a.btn:hover { background: #2a3360; border-color: #46528a; }
+a.btn.small { padding: 4px 10px; font-size: 12.5px; }
+a.btn.ghost { background: transparent; border-color: transparent; }
 button:hover:not(:disabled) { background: #2a3360; border-color: #46528a; }
 button:active:not(:disabled) { transform: translateY(1px); }
 button:disabled { opacity: 0.45; cursor: not-allowed; }

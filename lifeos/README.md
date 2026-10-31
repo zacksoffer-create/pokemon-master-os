@@ -105,11 +105,45 @@ and the story closes with a look back at your seven years.
 You can open anyone in **Character Studio** (including yourself) to see their full profile and athlete
 page, and **History Explorer** shows the math behind anything that happened.
 
+## Play on your phone
+
+The phone app is the single-player side of your story: your life in first person, one moment at a time.
+
+1. Double-click **`Play on Phone (Windows).bat`** or **`Play on Phone (Mac).command`** (instead of the regular Start file).
+2. A page opens on your computer with a QR code. Point your phone's camera at it. Your phone has to be on the same Wi-Fi.
+   If Windows asks about the firewall, choose **Allow** (private networks).
+3. To make it an app: on iPhone tap **Share**, then **Add to Home Screen**. On Android, tap the menu, then **Add to Home screen**.
+4. Keep the computer on and the black window open while you play. Your progress saves on the computer.
+
+What's in it:
+- **Story.** Where you are and what's happening right now, drawn as a scene, and what you do about it. Choices are worded like
+  life ("Sit with Danny", "Take Buster to the park"), and outcomes come back in first person with what changed ("Danny +4, Energy −6").
+  **Continue** goes to your next choice; **Skip ahead** lives until something happens.
+- **Phone.** Your texts and contacts inside the game. Friends text you after a good hangout, the team chat lights up before games,
+  your family chat has opinions, people ask you out by text, invitations arrive as messages, and you can answer or text people first.
+  People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).
+  You only have someone's number once you've actually hung out or gotten close.
+- **Home.** Your family and your pets. A pet is a real animal with needs, moods, a bond with each person and tricks to learn.
+  The first time, you decide once who handles each chore (breakfast, dinner, walks, baths...): you, a sibling, your parents, or taking turns.
+  After that the chores happen every day; forget yours and the pet (and your parents' group texts) let you know. The pet menu:
+  cuddle, treats, feeding, brushing, walks, the park (you run into people there), play, teaching tricks. No pet? Ask your parents.
+  Their answer depends on how they parent, money at home, your grades and how much they trust you.
+- **Me.** Your stats, grades, teams, the seven-year timeline, your focus and when the story should stop to ask you.
+
+## Plan your characters first
+
+Open **My Story → Start your story**. The first step has a **Want to plan it first?** panel:
+- **Excel worksheet**: one column per person, every field explained, dropdowns for every choice, a Reference tab with every type,
+  trait, position, college and relationship. Fill in what you know; blanks are generated. Load the filled file with **Load a cast file**.
+- **Copy the ChatGPT prompt**: paste it into ChatGPT or Claude and it interviews you about each person, explains the numbers, and gives back
+  a cast file. Save its JSON answer as a `.json` or `.txt` file and load it the same way.
+- Copies are also in `docs/character-worksheet.xlsx` and `docs/character-worksheet-guide.md`.
+
 ## Tests
 
 ```bash
 cd lifeos
-python -m pytest backend/tests -q      # 34 tests, about 40 seconds
+python -m pytest backend/tests -q      # 43 tests, about 40 seconds
 ```
 
 They cover every acceptance criterion in the brief. Each name below is a test:
@@ -120,6 +154,7 @@ They cover every acceptance criterion in the brief. Each name below is a test:
 - **Configuration:** invalid configuration is rejected without partially applying; every rule parameter is read by the engine.
 - **Lab tools:** experiment runs are isolated and reproducible; player choices go through the same resolvers; lab edits are validated and recorded; the workbook round-trips.
 - **Demo:** the demo world produces measurably different lives.
+- **Phone** (`test_phone.py`): the family dog becomes a real pet with a one-time chore setup; quick and timed pet activities; asking for and adopting a pet; texts come from what happens and replies change relationships; plans made by text happen; second-person text; everyone has a look; the phone API flow; the character worksheet round-trip.
 - **Story mode** (`test_story.py`): the spec builds you, your siblings (twins included), your people and the town; validation reports every problem; moment choices change state and are recorded; a football season has rosters, box scores and stats; a senior leaves with a path, arrives at college and comes home for Thanksgiving; the story API flow works end to end. Also: the Guilford setting and the real colleges; a sibling set to play basketball at UConn ends up there; offers get pulled over GPA; the MLB draft after junior year and the finale; offscreen college seasons.
 
 ## Demonstration scenario
@@ -200,7 +235,8 @@ lifeos/
       decision.py actions.py social.py institutions.py households.py development.py
       sports.py college.py story.py moments.py
       narrative.py metrics.py engine.py experiments.py storage.py spreadsheet.py api.py
-    tests/test_lifeos.py tests/test_story.py
+      appearance.py pets.py messages.py pov.py phone_api.py worksheet.py
+    tests/test_lifeos.py tests/test_story.py tests/test_phone.py
   frontend/              React + TypeScript + Vite; dist/ is the built app the server serves
   docs/DESIGN.md
 ```
@@ -215,7 +251,10 @@ lifeos/
 
 **Not implemented or partial in v0.1 (labelled honestly):**
 - **Guardians** are household-level actors with a parenting style. They react to grades and trouble, but they aren't autonomous agents.
-- **Pets** affect household members (pet time relieves stress). They have no needs or behavior of their own.
+- **Pets** in your household are full animals with needs, bonds, tricks and chores. Pets in other households are still a simple line (they relieve stress at home).
+- **Phone art** is hand-drawn vector illustration (portraits generated from each person's look, scene backdrops per place, season and time of day). Image generation wasn't available, so there are no painted backgrounds.
+- **Texts** are written from templates with a per-person voice. They follow what happens, but conversations are a choice of replies, not free typing.
+- **Playing away from home** needs the computer running and reachable; phones connect over the same Wi-Fi. There's no cloud hosting.
 - **Careers and economy** are minimal: two part-time employers, allowance by income level, and costs for outings.
 - **After high school**: your own college is fully simulated (teams, classes, roommate, classmates). Everyone else who leaves town lives offscreen: weekly updates, no daily decisions, home for breaks. Graduates who stay in town work full time. The seven chapters end with the MLB Draft after college junior year and a final review. The world keeps running after that, but pro ball is offscreen (no minor league seasons yet), and there's no grad school or later adult life.
 - **College sports** are simplified: one varsity team per sport, a short schedule (11 football games, 18 basketball, 14 baseball), and no transfer portal, redshirts or NIL.
