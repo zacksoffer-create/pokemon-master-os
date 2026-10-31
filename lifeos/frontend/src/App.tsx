@@ -11,11 +11,14 @@ import Social from "./pages/Social";
 import Story from "./pages/Story";
 import StoryNew from "./pages/StoryNew";
 import Workshop from "./pages/Workshop";
+import Connect from "./pages/Connect";
+import PhoneApp from "./phone/PhoneApp";
 import { SPEEDS, useRoute, useStore } from "./store";
 import { cx, Icon, Meter } from "./ui";
 
 const NAV: [string, string, string, string?][] = [
   ["story", "My Story", "play"],
+  ["connect", "Play on Your Phone", "spark"],
   ["overview", "World Overview", "overview"],
   ["characters", "Character Studio", "people"],
   ["social", "Social Network", "web"],
@@ -88,6 +91,7 @@ export default function App() {
   const route = useRoute();
   const { world, error, toasts } = useStore();
   const page = route[0];
+  if (page === "m") return <PhoneApp route={route.slice(1)} />;
   let body: React.ReactNode;
   if (error && !world) {
     body = (
@@ -113,6 +117,7 @@ export default function App() {
       workshop: <Workshop route={route} />,
       library: <Library route={route} />,
       saves: <Saves />,
+      connect: <Connect />,
     }[page] || <Overview />;
   }
   return (

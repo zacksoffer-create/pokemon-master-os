@@ -1,0 +1,577 @@
+"""The phone app's API: your life in first person, one screen at a time.
+
+Everything goes through the same simulation as the lab. These endpoints only shape it for a phone:
+second-person text, natural choice wording, the scene you're in, your texts, contacts and pets.
+"""
+from __future__ import annotations
+
+import socket
+
+from fastapi import APIRouter, Body, HTTPException
+
+from . import calendar as calm
+from . import messages, pets, pov
+from .appearance import look_of
+
+router = APIRouter()
+
+
+def _lab():
+    from . import api as A
+    return A, A.get_lab()
+
+
+def _me(L):
+    p = L.w.meta.get("protagonist")
+    if not p or p not in L.w.chars:
+        raise HTTPException(409, "start a story first")
+    return L.w.chars[p]
+
+
+def _ready(L):
+    """Make sure an older story has a phone and full pets."""
+    from .story import start_phone
+    if "phone" not in L.w.meta or not L.w.meta.get("pets_seeded"):
+        start_phone(L.sim)
+
+
+# --- scenes -------------------------------------------------------------------------------
+
+def scene(sim, me) -> dict:
+    w = sim.w
+    ph = sim.current_phase()
+    d = calm.date_of(w.day)
+    month = d.month
+    season = "winter" if month in (12, 1, 2) else "spring" if month in (3, 4, 5) else "summer" if month in (6, 7, 8) else "fall"
+    weekend = calm.weekday(w.day) >= 5
+    cal = sim.cat.world["calendar"]
+    brk = calm.break_name(w.day, cal)
+    school = sim.cat.world["school"]["short"]
+    town = sim.cat.world["town"]["name"]
+    games = [i for i in sim._today if i["kind"] == "game" and i.get("group") in me.memberships]
+    practice = next((g for g in me.memberships if w.groups[g]["kind"] == "team" and sim.institutions.in_season(w.groups[g])), None)
+    col = w.meta.get("college")
+    art, title, line = "home_morning", "Home", ""
+    if (me.path or {}).get("kind") == "pro":
+        art, title, line = "ballpark", "Pro ball", f"Somewhere between bus rides and batting practice with the {me.path.get('team') or 'club'}."
+    elif me.location == "college" and col:
+        if ph in ("dawn", "night", "evening"):
+            art, title, line = "dorm", "The dorm", f"Your room at {col['short']}. Someone down the hall is blasting music."
+        elif games:
+            art, title, line = "stadium", "Game day", f"{col['short']} plays today."
+        elif ph == "lunch":
+            art, title, line = "dining_hall", "Dining hall", "Lunch in the dining hall."
+        else:
+            art, title, line = "campus", col["short"], f"Afternoon on campus at {col['short']}."
+    elif ph == "dawn":
+        art, title = "home_morning", "Morning"
+        line = "Saturday morning. No alarm." if weekend else "The alarm goes off. Another day."
+    elif ph == "classes":
+        art, title, line = "classroom", school, "Classes drag on."
+    elif ph == "lunch":
+        art, title, line = "cafeteria", "Lunch", f"The {school} cafeteria is loud as usual. Where do you sit?"
+    elif ph == "after_school":
+        if games:
+            g = w.groups[games[0]["group"]]
+            art = {"football": "football_field", "basketball": "gym", "baseball": "baseball_field"}.get(g.get("skill"), "school_hall")
+            title, line = "Game day", f"{g['name']} plays tonight."
+        elif practice:
+            g = w.groups[practice]
+            art = {"football": "football_field", "basketball": "gym", "baseball": "baseball_field"}.get(g.get("skill"), "school_hall")
+            title, line = "After school", f"The final bell. {g['name']} practice is in twenty minutes."
+        else:
+            art, title, line = "school_hall", "After school", "The final bell rings. The afternoon is yours."
+    elif ph == "day":
+        if season == "summer":
+            art, title, line = "beach", "Summer", f"Summer in {town}. Jacobs Beach is packed."
+        else:
+            art, title, line = "town_green", "Weekend" if weekend else (brk or "Day off"), f"A free day in {town}. The Green is busy."
+    elif ph in ("evening", "night"):
+        art, title, line = "bedroom", "Tonight", "Homework's on your desk. Your phone keeps buzzing."
+    return {"art": art, "title": title, "line": line, "phase": ph, "season": season, "weekend": weekend, "break": brk,
+            "time": {"dawn": "Morning", "classes": "Class", "lunch": "Lunch", "after_school": "After school", "day": "Daytime",
+                     "evening": "Evening", "night": "Night"}.get(ph, ph)}
+
+
+# --- choice wording ----------------------------------------------------------------------------
+
+PHRASE = {
+    "study": "Hit the books", "study_at_lunch": "Study through lunch", "practice_skill": "Work on {t}", "train": "Hit the weight room",
+    "hobby": "Spend time on {t}", "rest": "Chill and recharge", "sit_alone": "Eat alone with your headphones in",
+    "sit_with": "Sit with {f}", "introduce": "Introduce yourself to {f}", "chat_online": "Message {f}",
+    "hang_out": "Ask {f} to hang out", "help_friend": "Help {f} out", "flirt": "Flirt with {f}", "ask_out": "Ask {f} out",
+    "ask_to_dance": "Ask {f} to the dance", "date": "Go on a date with {f}", "break_up": "Break up with {f}",
+    "confront": "Confront {f}", "apologize": "Apologize to {f}", "gossip": "Gossip with {f}", "spread_rumor": "Start a rumor about {f}",
+    "tease": "Give {f} a hard time", "prank": "Prank {f}", "sneak_out": "Sneak out tonight", "attend_practice": "Go to practice",
+    "attend_event": "Go to {t}", "sign_up": "Sign up: {t}", "quit_group": "Quit {t}", "work_shift": "Work a shift at {t}",
+    "throw_party": "Throw a party", "go_to_party": "Go to {t}", "spectate": "Watch {t}", "family_time": "Hang out with {f}",
+    "pet_time": "Chill with {t}", "pet_walk": "Walk {t}", "pet_park": "Take {t} to the park", "pet_play": "Play with {t}",
+    "pet_train": "Teach {t} a trick", "mentor": "Help {f} get better", "staff_chat": "Talk to {f}", "reply_invite": "Say yes to {f}",
+}
+ICON = {"social": "people", "romance": "heart", "school": "book", "conflict": "bolt", "rest": "moon", "family": "home",
+        "activity": "star", "sport": "ball", "work": "work", "risk": "warn"}
+
+
+def phrase(sim, opt) -> str:
+    w = sim.w
+    tmpl = PHRASE.get(opt["action"])
+    tname = opt.get("target_name") or ""
+    tid = opt.get("target")
+    first = w.chars[tid].first if isinstance(tid, str) and tid in w.chars else tname.split(" ")[0] if tname else "them"
+    if not tmpl:
+        return opt["label"] + (f": {tname}" if tname else "")
+    return tmpl.format(f=first, t=tname or "it")
+
+
+# --- state ----------------------------------------------------------------------------------
+
+@router.get("/api/phone/state")
+def phone_state(since: int | None = None):
+    A, L = _lab()
+    with L.lock:
+        w = L.w
+        if not w.meta.get("protagonist"):
+            return {"active": False}
+        _ready(L)
+        sim = L.sim
+        me = _me(L)
+        from . import moments
+        from .story import progress
+        from .calendar import DECISION_SLOTS
+        ph = sim.current_phase()
+        ready = ph in DECISION_SLOTS and me.id in sim.slot_actors(ph)
+        pend = []
+        for m in moments.pending(w):
+            mm = {k: v for k, v in m.items() if k != "_choices"}
+            mm["text"] = pov.second_person(m["text"], me)
+            mm["title"] = pov.second_person(m["title"], me)
+            pend.append(mm)
+        evs = w.history.by_char.get(me.id, [])
+        feed = []
+        for eid in evs[::-1]:
+            e = w.history.events.get(eid)
+            if not e or e["importance"] < 6:
+                continue
+            if since is not None and eid <= since:
+                break
+            feed.append({"id": eid, "date": calm.label(e["day"]), "slot": e.get("slot"), "type": e["type"], "outcome": e.get("outcome"),
+                         "text": pov.event_line(w, e, me.id), "with": [x for x in e["actors"] + e["targets"] if x != me.id][:3],
+                         "importance": e["importance"]})
+            if len(feed) >= (40 if since is not None else 25):
+                break
+        h = w.households.get(me.household_id) or {}
+        threads = messages.threads_view(sim)
+        hp = pets.household_pets(w, me.household_id or "")
+        q = w.meta.get("control", {}).get("queued")
+        teams = [{"id": g, "name": w.groups[g]["name"], "sport": w.groups[g].get("skill"), "record": w.groups[g]["record"],
+                  "level": w.groups[g].get("levels", {}).get(me.id, "varsity"), "position": me.positions.get(w.groups[g].get("skill"))}
+                 for g in me.memberships if w.groups[g]["kind"] == "team"]
+        return {
+            "active": True, "day": w.day, "date": calm.label(w.day), "weekday": calm.date_of(w.day).strftime("%A"),
+            "term": calm.term_label(w.day, sim.cat.world["calendar"]), "scene": scene(sim, me), "decision_ready": ready,
+            "progress": progress(w), "title": w.meta.get("story", {}).get("title"),
+            "me": dict(A.char_summary(L, me), age=me.age(w.day), needs={k: round(v) for k, v in me.needs.items()}, money=round(me.money),
+                       gpa=round(me.gpa, 2), injured=me.flags.get("injured_until", -1) >= w.day, path=me.path, body=me.body,
+                       positions=me.positions, jersey=me.jersey),
+            "moments": pend, "feed": feed, "last_event": w.history.next_event - 1,
+            "unread": sum(t["unread"] for t in threads), "needs_reply": sum(1 for t in threads if t["needs_reply"]),
+            "pets": [pets.view(sim, p) for p in hp], "pet_setup_needed": any(pets.setup_needed(w, p["id"]) for p in hp),
+            "pet_approved": w.meta.get("pet_approved"), "queued": q and {"label": q.get("label") or ("Plans with " + w.chars[q["target"]].first if q.get("target") in w.chars else "Saying yes to an invite")},
+            "family": {"name": h.get("name"), "guardians": messages.parent_names(sim), "siblings": [
+                {"id": s, "first": w.chars[s].first, "year_label": w.chars[s].year_label, "location": w.chars[s].location,
+                 "look": look_of(w.chars[s]), "path": w.chars[s].path} for s in sim.siblings(me.id)], "style": h.get("style_label"),
+                "trust": round(messages.phone(w)["parent_trust"])},
+            "teams": teams, "control": moments.control(w),
+            "setting": {"town": sim.cat.world["town"]["name"], "school": sim.cat.world["school"]["name"],
+                        "short": sim.cat.world["school"]["short"], "mascot": sim.cat.world["school"]["mascot"]},
+        }
+
+
+@router.get("/api/phone/choices")
+def phone_choices():
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        sim = L.sim
+        me = _me(L)
+        from .calendar import DECISION_SLOTS
+        ph = sim.current_phase()
+        if not (ph in DECISION_SLOTS and me.id in sim.slot_actors(ph)):
+            return {"ready": False}
+        res = sim.options_for(me.id)
+        if res is None:
+            return {"ready": False}
+        slot, dec = res
+        order = sorted(range(len(dec["cands"])), key=lambda i: -dec["cands"][i].u)
+        opts = []
+        for i in order:
+            cd = dec["cands"][i]
+            o = {"index": i, "action": cd.a["id"], "label": cd.a["label"], "category": cd.a["category"],
+                 "target": cd.target if isinstance(cd.target, str) and cd.target in L.w.chars else None,
+                 "target_name": sim.target_name(cd), "prob": round(cd.prob, 4), "risk": cd.a["risk"]}
+            o["text"] = phrase(sim, o)
+            o["icon"] = ICON.get(cd.a["category"], "star")
+            o["why"] = cd.why
+            opts.append(o)
+        seen, uniq = set(), []
+        for o in opts:
+            if o["text"] in seen:
+                continue
+            seen.add(o["text"])
+            uniq.append(o)
+        return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": uniq}
+
+
+@router.post("/api/phone/choose")
+def phone_choose(body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        sim = L.sim
+        me = _me(L)
+        try:
+            idx = int(body["index"])
+        except (KeyError, TypeError, ValueError):
+            raise HTTPException(422, "index must be a whole number")
+        needs0 = dict(me.needs)
+        mood0 = me.mood
+        rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
+        try:
+            evs = sim.act_as(me.id, idx)
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return {"lines": _lines(L, evs, me), "chips": _chips(L, me, needs0, mood0, rels0)}
+
+
+def _lines(L, evs, me):
+    w = L.w
+    out = []
+    for e in evs:
+        if e.get("importance", 0) < 3 and e["type"] in ("practice", "exam"):
+            continue
+        out.append({"id": e["id"], "type": e["type"], "outcome": e.get("outcome"), "text": pov.event_line(w, e, me.id),
+                    "with": [x for x in e["actors"] + e["targets"] if x != me.id][:3]})
+    return out[:6]
+
+
+def _chips(L, me, needs0, mood0, rels0):
+    w = L.w
+    chips = []
+    for k, label in (("energy", "Energy"), ("stress", "Stress"), ("fun", "Fun"), ("social", "Social")):
+        d = me.needs.get(k, 0) - needs0.get(k, 0)
+        if abs(d) >= 2:
+            chips.append({"label": label, "delta": round(d), "good": d > 0 if k != "stress" else d < 0})
+    for o, r in w.out.get(me.id, {}).items():
+        a0, at0, t0 = rels0.get(o, (0, 0, 0))
+        if abs(r.affection - a0) >= 1.5:
+            chips.append({"label": w.chars[o].first, "delta": round(r.affection - a0), "good": r.affection > a0, "who": o, "kind": "friend"})
+        if abs(r.attraction - at0) >= 2:
+            chips.append({"label": w.chars[o].first, "delta": round(r.attraction - at0), "good": r.attraction > at0, "who": o, "kind": "heart"})
+    return chips[:6]
+
+
+@router.post("/api/phone/moment/{mid}")
+def phone_moment(mid: str, body: dict = Body(default={})):
+    A, L = _lab()
+    L.guard()
+    from . import moments
+    with L.lock:
+        me = _me(L)
+        idx = body.get("index")
+        needs0, mood0 = dict(me.needs), me.mood
+        rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
+        try:
+            ev = moments.resolve(L.sim, mid, None if idx is None else int(idx))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        follow = [L.w.history.events[i] for i in range(ev["id"] + 1, L.w.history.next_event) if i in L.w.history.events
+                  and me.id in L.w.history.events[i]["actors"] + L.w.history.events[i]["targets"]]
+        L.autosave()
+        lines = [{"id": ev["id"], "type": "moment", "text": pov.event_line(L.w, ev, me.id), "calc": ev.get("calc")}] + _lines(L, follow, me)
+        return {"lines": lines, "chips": _chips(L, me, needs0, mood0, rels0)}
+
+
+# --- messages -------------------------------------------------------------------------------
+
+@router.get("/api/phone/threads")
+def phone_threads():
+    A, L = _lab()
+    with L.lock:
+        _me(L)
+        _ready(L)
+        return {"threads": messages.threads_view(L.sim)}
+
+
+@router.get("/api/phone/thread/{tid}")
+def phone_thread(tid: str):
+    A, L = _lab()
+    with L.lock:
+        me = _me(L)
+        _ready(L)
+        ph = messages.phone(L.w)
+        if tid not in ph["threads"]:
+            if tid.startswith("dm:") and tid[3:] in L.w.chars:
+                messages.dm(L.sim, tid[3:])
+            else:
+                raise HTTPException(404, "no such conversation")
+        return messages.thread_view(L.sim, tid, mark_read=True)
+
+
+@router.post("/api/phone/thread/{tid}/reply")
+def phone_reply(tid: str, body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        try:
+            out = messages.reply(L.sim, tid, body.get("msg"), int(body.get("index", -1)))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return out
+
+
+@router.post("/api/phone/text")
+def phone_text(body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        try:
+            out = messages.text_first(L.sim, body.get("to"), body.get("kind"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return out
+
+
+# --- contacts -------------------------------------------------------------------------------
+
+def _hearts(x) -> int:
+    return max(0, min(5, int(round((x + 10) / 22))))
+
+
+def _feel(x, kind="affection") -> str:
+    if kind == "perceived":
+        return ("they really like you" if x >= 60 else "they like you" if x >= 30 else "they're friendly" if x >= 10
+                else "hard to read" if x >= -10 else "they're cold toward you")
+    return ("love them" if x >= 80 else "really close" if x >= 60 else "good friends" if x >= 35 else "friendly" if x >= 15
+            else "don't know them well" if x >= -10 else "not a fan" if x >= -40 else "can't stand them")
+
+
+def contact_row(L, me, oid):
+    w = L.w
+    o = w.chars[oid]
+    r = w.rels.get((me.id, oid))
+    ph = messages.phone(w)
+    sib = oid in L.sim.siblings(me.id)
+    t = ph["threads"].get(f"dm:{oid}")
+    last = t["msgs"][-1] if t and t["msgs"] else None
+    roles = (w.bond(me.id, oid) or {"roles": []})["roles"]
+    return {"id": oid, "name": o.name, "first": o.first, "year_label": o.year_label, "look": look_of(o), "color": o.color,
+            "label": "sibling" if sib else (r.label if r else "stranger"), "crush": bool(r and r.crush),
+            "partner": me.flags.get("partner") == oid, "roles": [x.split(":")[0] for x in roles],
+            "affection": round(r.affection) if r else 0, "hearts": _hearts(r.affection if r else 0),
+            "attraction": round(r.attraction) if r else 0, "rivalry": round(r.rivalry) if r else 0,
+            "perceived": round(r.perceived) if r else 0, "has_number": oid in ph["contacts"] or sib,
+            "unread": t["unread"] if t else 0, "last": last and {"text": last["text"], "at": last["at"], "from": last["from"]},
+            "location": o.location, "role": o.role}
+
+
+@router.get("/api/phone/contacts")
+def phone_contacts():
+    A, L = _lab()
+    with L.lock:
+        me = _me(L)
+        _ready(L)
+        w = L.w
+        sibs = set(L.sim.siblings(me.id))
+        rows = []
+        for oid, r in w.out.get(me.id, {}).items():
+            o = w.chars.get(oid)
+            if not o or o.status not in ("active",) or (r.familiarity < 10 and oid not in sibs):
+                continue
+            rows.append(contact_row(L, me, oid))
+        for s in sibs:
+            if not any(x["id"] == s for x in rows):
+                rows.append(contact_row(L, me, s))
+        team = {m for g in me.memberships if w.groups[g]["kind"] == "team" for m in w.groups[g]["members"]}
+        groups = {"Family": [], "Favorites": [], "Friends": [], "Teammates": [], "Rivals": [], "People you know": []}
+        for x in sorted(rows, key=lambda x: (-x["affection"], x["name"])):
+            if x["id"] in sibs:
+                groups["Family"].append(x)
+            elif x["partner"] or x["affection"] >= 70 or x["crush"]:
+                groups["Favorites"].append(x)
+            elif x["rivalry"] >= 40 or x["affection"] <= -30:
+                groups["Rivals"].append(x)
+            elif x["affection"] >= w.rules["rel.friend_threshold"]:
+                groups["Friends"].append(x)
+            elif x["id"] in team:
+                groups["Teammates"].append(x)
+            else:
+                groups["People you know"].append(x)
+        parents = [{"id": p["id"], "name": p["name"], "full": p["full"], "parent": True} for p in messages.parent_names(L.sim)]
+        return {"groups": [{"name": k, "people": v} for k, v in groups.items() if v], "parents": parents}
+
+
+@router.get("/api/phone/contact/{cid}")
+def phone_contact(cid: str):
+    A, L = _lab()
+    with L.lock:
+        me = _me(L)
+        _ready(L)
+        w = L.w
+        o = w.chars.get(cid)
+        if not o:
+            raise HTTPException(404, "unknown person")
+        r = w.rels.get((me.id, cid))
+        row = contact_row(L, me, cid)
+        mems = [{"text": pov.second_person(m["text"], me), "date": calm.label(m["day"]), "valence": m["valence"]}
+                for m in sorted(me.memories, key=lambda m: -m["day"]) if cid in m.get("with", [])][:8]
+        shared = []
+        for eid in w.history.by_char.get(me.id, [])[::-1]:
+            e = w.history.events.get(eid)
+            if e and cid in e["actors"] + e["targets"] and e["importance"] >= 5:
+                shared.append({"id": eid, "date": calm.label(e["day"]), "text": pov.event_line(w, e, me.id)})
+                if len(shared) >= 10:
+                    break
+        teams = [w.groups[g]["name"] for g in o.memberships]
+        return dict(row, bio=o.bio, archetype=o.archetype, pronouns=o.pronouns, teams=teams, school=o.school,
+                    since=calm.label(r.met_day) if r and r.met_day is not None else None,
+                    feel=_feel(r.affection if r else 0), seems=_feel(r.perceived if r else 0, "perceived"),
+                    trust=round(r.trust) if r else 0, respect=round(r.respect) if r else 0, familiarity=round(r.familiarity) if r else 0,
+                    memories=mems, shared=shared, text_options=messages.text_options(L.sim, cid) if row["has_number"] else [],
+                    partner_of=o.flags.get("partner") and w.chars[o.flags["partner"]].first if o.flags.get("partner") in w.chars else None)
+
+
+# --- pets -----------------------------------------------------------------------------------
+
+@router.get("/api/phone/pets")
+def phone_pets():
+    A, L = _lab()
+    with L.lock:
+        me = _me(L)
+        _ready(L)
+        w = L.w
+        hp = pets.household_pets(w, me.household_id or "")
+        kids = [{"id": k, "first": w.chars[k].first, "me": k == me.id} for k in pets._kids(L.sim, hp[0])] if hp else []
+        return {"pets": [pets.view(L.sim, p) for p in hp], "kids": kids, "approved": w.meta.get("pet_approved"),
+                "species": {k: {"label": v["label"], "breeds": v["breeds"], "coats": v["coats"],
+                                "duties": [{"id": d, **{kk: pets.DUTIES[d][kk] for kk in ("label", "hint", "when")}} for d in v["duties"]]}
+                            for k, v in pets.SPECIES.items()},
+                "asked": w.meta.get("pet_asked")}
+
+
+@router.post("/api/phone/pet/{pid}/setup")
+def phone_pet_setup(pid: str, body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        if pid not in pets.pets(L.w):
+            raise HTTPException(404, "no such pet")
+        try:
+            pets.set_duties(L.sim, pid, body.get("duties") or {})
+        except ValueError as e:
+            raise HTTPException(422, str(e))
+        L.autosave()
+        return pets.view(L.sim, pets.pets(L.w)[pid])
+
+
+@router.post("/api/phone/pet/{pid}/do")
+def phone_pet_do(pid: str, body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        me = _me(L)
+        act = body.get("activity")
+        spec = pets.ACTIVITIES.get(act)
+        if not spec:
+            raise HTTPException(422, "unknown activity")
+        try:
+            if spec.get("quick"):
+                out = pets.quick(L.sim, pid, act)
+                L.autosave()
+                return dict(out, done=True)
+            q = pets.queue(L.sim, pid, act, body.get("trick"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        sim = L.sim
+        from .calendar import DECISION_SLOTS
+        ph = sim.current_phase()
+        if body.get("now") and ph in DECISION_SLOTS and me.id in sim.slot_actors(ph):
+            res = sim.options_for(me.id)
+            hit = None
+            if res:
+                slot, dec = res
+                hit = next((i for i, cd in enumerate(dec["cands"]) if cd.a["id"] == q["action"]
+                            and isinstance(cd.extra, dict) and cd.extra.get("pet") == pid), None)
+            if hit is not None:
+                needs0, mood0 = dict(me.needs), me.mood
+                rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
+                before = L.w.history.next_event
+                sim.step()  # the queued plan is picked up in this slot (with the trick, if any)
+                evs = [e for eid, e in L.w.history.events.items() if eid >= before and
+                       (me.id in e["actors"] or me.id in e["targets"] or me.id in e.get("involved", []))]
+                L.autosave()
+                return {"done": True, "lines": _lines(L, evs, me), "chips": _chips(L, me, needs0, mood0, rels0),
+                        "pet": pets.view(sim, pets.pets(L.w)[pid])}
+        L.autosave()
+        return {"done": False, "queued": q["label"], "note": f"{q['label']}: planned for your next free time."}
+
+
+@router.post("/api/phone/pet/ask")
+def phone_pet_ask(body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        try:
+            out = pets.ask_for_pet(L.sim, body.get("species", "dog"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return out
+
+
+@router.post("/api/phone/pet/adopt")
+def phone_pet_adopt(body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        try:
+            out = pets.adopt(L.sim, body.get("species"), body.get("name"), body.get("breed"), body.get("coat"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return out
+
+
+# --- playing on your phone ------------------------------------------------------------------------
+
+def lan_ips() -> list:
+    ips = set()
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("10.255.255.255", 1))
+        ips.add(s.getsockname()[0])
+        s.close()
+    except OSError:
+        pass
+    try:
+        for info in socket.getaddrinfo(socket.gethostname(), None, socket.AF_INET):
+            ips.add(info[4][0])
+    except OSError:
+        pass
+    return sorted(ip for ip in ips if not ip.startswith("127."))
+
+
+@router.get("/api/net")
+def net_info():
+    import os
+    port = int(os.environ.get("LIFEOS_PORT", "8765"))
+    lan = os.environ.get("LIFEOS_LAN") == "1"
+    return {"lan": lan, "port": port, "urls": [f"http://{ip}:{port}/#/m" for ip in lan_ips()] if lan else [],
+            "host": socket.gethostname()}

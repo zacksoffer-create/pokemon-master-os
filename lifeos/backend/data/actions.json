@@ -1593,6 +1593,166 @@
    "tags": [
     "social"
    ]
+  },
+  {
+   "roles": [
+    "student"
+   ],
+   "risk": 0,
+   "resolver": "pet_activity",
+   "tags": [
+    "family",
+    "pet"
+   ],
+   "requires": [
+    "pet_home"
+   ],
+   "id": "pet_walk",
+   "label": "Walk the dog",
+   "category": "family",
+   "slots": [
+    "after_school",
+    "day",
+    "evening"
+   ],
+   "target": "pet_entity_dog",
+   "base": 0.2,
+   "needs": {
+    "stress": 0.6,
+    "fun": 0.3,
+    "energy": -0.2
+   },
+   "motives": {
+    "altruism": 0.3,
+    "pleasure": 0.2
+   },
+   "traits": {
+    "discipline": 0.3,
+    "empathy": 0.3
+   },
+   "params": {
+    "kind": "walk"
+   },
+   "importance": 5
+  },
+  {
+   "roles": [
+    "student"
+   ],
+   "risk": 0,
+   "resolver": "pet_activity",
+   "tags": [
+    "family",
+    "pet"
+   ],
+   "requires": [
+    "pet_home"
+   ],
+   "id": "pet_park",
+   "label": "Take the dog to the park",
+   "category": "family",
+   "slots": [
+    "after_school",
+    "day"
+   ],
+   "target": "pet_entity_dog",
+   "base": 0.0,
+   "needs": {
+    "stress": 0.6,
+    "fun": 0.6,
+    "social": 0.3,
+    "energy": -0.3
+   },
+   "motives": {
+    "pleasure": 0.4,
+    "belonging": 0.2
+   },
+   "traits": {
+    "sociability": 0.2,
+    "empathy": 0.3
+   },
+   "params": {
+    "kind": "park"
+   },
+   "importance": 8
+  },
+  {
+   "roles": [
+    "student"
+   ],
+   "risk": 0,
+   "resolver": "pet_activity",
+   "tags": [
+    "family",
+    "pet"
+   ],
+   "requires": [
+    "pet_home"
+   ],
+   "id": "pet_play",
+   "label": "Play with the pet",
+   "category": "family",
+   "slots": [
+    "after_school",
+    "day",
+    "evening"
+   ],
+   "target": "pet_entity",
+   "base": 0.1,
+   "needs": {
+    "fun": 0.8,
+    "stress": 0.5
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {
+    "impulsivity": 0.2,
+    "empathy": 0.3
+   },
+   "params": {
+    "kind": "play"
+   },
+   "importance": 4
+  },
+  {
+   "roles": [
+    "student"
+   ],
+   "risk": 0,
+   "resolver": "pet_activity",
+   "tags": [
+    "family",
+    "pet"
+   ],
+   "requires": [
+    "pet_home"
+   ],
+   "id": "pet_train",
+   "label": "Teach the pet a trick",
+   "category": "family",
+   "slots": [
+    "after_school",
+    "day",
+    "evening"
+   ],
+   "target": "pet_entity",
+   "base": -0.2,
+   "needs": {
+    "fun": 0.4
+   },
+   "motives": {
+    "mastery": 0.5,
+    "achievement": 0.2
+   },
+   "traits": {
+    "discipline": 0.4,
+    "empathy": 0.2
+   },
+   "params": {
+    "kind": "train"
+   },
+   "importance": 5
   }
  ]
 }

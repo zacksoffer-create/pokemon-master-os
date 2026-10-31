@@ -67,6 +67,12 @@ def requirement(sim, c, req: str, ctx) -> str | None:
     if req == "has_pet":
         h = w.households.get(c.household_id)
         return f"household has {h['pet']['name']}" if h and h.get("pet") else None
+    if req == "pet_home":
+        if c.location != "hollow_creek" or not c.household_id:
+            return None
+        from .pets import household_pets
+        hp = household_pets(w, c.household_id)
+        return f"{hp[0]['name']} is home" if hp else None
     if req == "dance_window":
         return f"{ctx['dance']['name']} is coming up" if ctx.get("dance") and _dance_ok(w, c, ctx["dance"]) else None
     if req == "no_dance_date":
@@ -289,6 +295,10 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
             if inv["to"] == c.id and inv["status"] == "pending" and inv["from"] in sim.w.chars and _present(sim, c, inv["from"], slot):
                 res.append((inv["from"], {"invite": inv["id"]}, f"{sim.w.chars[inv['from']].short} asked you to hang out"))
         return res
+    if sel in ("pet_entity", "pet_entity_dog"):
+        from .pets import household_pets
+        hp = [p for p in household_pets(w, c.household_id) if sel == "pet_entity" or p["species"] == "dog"]
+        return [(None, {"pet": p["id"], "name": p["name"]}, f"{p['name']} the {p['species']}") for p in hp]
     if sel == "pet":
         h = w.households.get(c.household_id)
         return [(None, None, f"{h['pet']['name']} the {h['pet']['species']}")] if h and h.get("pet") else []
@@ -660,8 +670,8 @@ FOCUS = {
     "academics": ("study", "study_at_lunch"),
     "social": ("hang_out", "sit_with", "introduce", "chat_online", "go_to_party", "throw_party", "reply_invite"),
     "romance": ("flirt", "ask_out", "date", "ask_to_dance", "reply_invite"),
-    "family": ("family_time", "pet_time", "help_friend"),
-    "rest": ("rest", "hobby", "sit_alone", "pet_time"),
+    "family": ("family_time", "pet_time", "help_friend", "pet_walk", "pet_park", "pet_play", "pet_train"),
+    "rest": ("rest", "hobby", "sit_alone", "pet_time", "pet_play"),
     "work": ("work_shift", "sign_up"),
 }
 

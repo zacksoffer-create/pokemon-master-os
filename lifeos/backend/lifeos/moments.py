@@ -89,6 +89,9 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
          "title": _render(spec["title"], names), "text": _render(spec["text"], names),
          "choices": [{"label": ch["label"], "hint": ch["hint"]} for ch in choices], "_choices": choices}
     w.meta.setdefault("moments", []).append(m)
+    if "phone" in w.meta:
+        from . import messages
+        messages.moment_text(sim, m)
     if len(w.meta["moments"]) > 300:
         w.meta["moments"] = [x for x in w.meta["moments"] if x["status"] == "pending"] + \
                             [x for x in w.meta["moments"] if x["status"] != "pending"][-200:]

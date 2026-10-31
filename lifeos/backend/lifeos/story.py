@@ -126,6 +126,8 @@ def validate_person(p: dict, path: str, cat: Catalogs, errors: list, allow_staff
             _num(r["strength"], -40, 40, f"{path}.relationships.strength", errors)
     if len(str(p.get("bio", ""))) > 500:
         errors.append(f"{path}.bio is longer than 500 characters")
+    from . import appearance
+    appearance.validate(p.get("look"), path, errors)
     pp = p.get("path")
     if pp:
         if not isinstance(pp, dict):
@@ -229,6 +231,8 @@ def build_person(w, gen, rng, p: dict, household: dict, day: int = 0):
         c.color = str(p["color"])[:9]
     if p.get("bio"):
         c.bio = str(p["bio"]).strip()
+    if p.get("look"):
+        c.look = {k: v for k, v in p["look"].items() if v not in (None, "")}
     c.birth_day = _birth_day(grade, p.get("birthday"), rng)
     c.gpa = start_gpa(c.skills["academics"], c.aptitudes["academic"], c.traits["discipline"], 0.0)
     pp = p.get("path")
@@ -267,6 +271,8 @@ def build_staff(w, rng, p: dict):
                   motives={"achievement": 60.0, "approval": 35.0, "belonging": 50.0, "pleasure": 40.0, "altruism": 60.0, "mastery": 55.0},
                   needs={"energy": 70.0, "social": 60.0, "fun": 55.0, "stress": 30.0}, mood=62.0, money=200.0,
                   bio=p.get("bio") or "", custom=True, featured=True, color=p.get("color") or "#9aa1c4")
+    if p.get("look"):
+        c.look = {k: v for k, v in p["look"].items() if v not in (None, "")}
     w.chars[cid] = c
     if p.get("coach_of"):
         for g in w.groups.values():
@@ -429,10 +435,18 @@ def create_story(spec: dict) -> World:
 
 
 def begin(sim):
-    """After the Simulation is built: the first moment of the story."""
+    """After the Simulation is built: the first moment of the story, the pets and the phone."""
     p = sim.w.meta.get("protagonist")
     if p:
+        start_phone(sim)
         sim.moment_trigger("first_day", p, {})
+
+
+def start_phone(sim):
+    from . import messages, pets
+    messages.phone(sim.w)
+    messages.seed_contacts(sim)
+    pets.ensure(sim)
 
 
 def story_circle(w) -> set:

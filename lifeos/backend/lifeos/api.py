@@ -250,6 +250,7 @@ def rep_tags(c, n=3):
 
 
 def char_summary(L: Lab, c) -> dict:
+    from .appearance import look_of
     w = L.w
     R = w.rules
     friends = sum(1 for o, r in w.out.get(c.id, {}).items() if r.affection >= R["rel.friend_threshold"] and w.chars[o].role != "staff")
@@ -264,7 +265,7 @@ def char_summary(L: Lab, c) -> dict:
             "partner": c.flags.get("partner"), "title": c.title, "role_label": c.role_label,
             "interests": [[k, round(v)] for k, v in top], "reputation": rep_tags(c), "bio": c.bio, "gpa": round(c.gpa, 2),
             "household": c.household_id, "grounded": c.flags.get("grounded_until", -1) >= w.day,
-            "goals": [g["label"] for g in c.goals if g["status"] == "active"][:3]}
+            "goals": [g["label"] for g in c.goals if g["status"] == "active"][:3], "look": look_of(c)}
 
 
 def rel_view(L: Lab, r, include_recent=False) -> dict:
@@ -1049,6 +1050,11 @@ def api_story_protagonist(body: dict = Body(...)):
         L.autosave()
         return world_info(L)
 
+
+# --- the phone app ------------------------------------------------------------------------------
+
+from .phone_api import router as _phone_router  # noqa: E402
+app.include_router(_phone_router)
 
 # --- frontend ---------------------------------------------------------------------------------
 

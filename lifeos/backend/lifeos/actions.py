@@ -131,6 +131,12 @@ def r_pet(sim, c, cand, ev, fx, rng, ctx):
     ev["data"]["pet"] = pet["name"]
 
 
+@resolver("pet_activity")
+def r_pet_activity(sim, c, cand, ev, fx, rng, ctx):
+    from .pets import timed_resolve
+    timed_resolve(sim, c, cand, ev, fx, rng, ctx)
+
+
 # --- two-person interactions ----------------------------------------------------
 
 def pick_place(sim, a_id, b_id, rng):

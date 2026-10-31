@@ -71,6 +71,7 @@ class Character:
     path: dict = field(default_factory=dict)        # after high school: {"kind": "college"|"work", ...}
     gpa_history: list = field(default_factory=list)
     custom: bool = False                            # created by the user
+    look: dict = field(default_factory=dict)        # appearance set in the builder (generated values fill the rest)
 
     @property
     def year_label(self) -> str:

@@ -35,6 +35,7 @@ class SlotState:
         self.tables: list = []
         self.traces: dict = {}
         self.cancelled: dict = {}
+        self.agreed: set = set()
 
     def engaged_in_event(self, cid) -> bool:
         for (what, key), ids in self.attend.items():
@@ -128,6 +129,9 @@ class Simulation:
             self.w.day += 1
             self.w.phase = 0
             self._refresh_day()
+        if "phone" in self.w.meta:
+            from . import messages
+            messages.tick(self)
 
     def advance_days(self, n: int, progress=None):
         target = self.w.day + int(n)
@@ -153,8 +157,9 @@ class Simulation:
         if w.day > 0 and calm.date_of(w.day).month == 9 and calm.date_of(w.day).day == 1:
             self.institutions.new_year()
             self._refresh_day()
-        from . import college
+        from . import college, pets
         college.daily(self)
+        pets.dawn(self)
         rng = self.streams.get("dawn", w.day)
         due = [s for s in w.schedule if s["day"] <= w.day]
         w.schedule = [s for s in w.schedule if s["day"] > w.day]
@@ -201,6 +206,9 @@ class Simulation:
         if not prot or prot not in w.chars:
             return
         pc = w.chars[prot]
+        if "phone" in w.meta:
+            from . import messages
+            messages.daily(self)
         for it in self._today:
             if it["kind"] == "game" and prot in w.groups[it["group"]]["members"] and pc.flags.get("injured_until", -1) < w.day:
                 n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
@@ -307,12 +315,19 @@ class Simulation:
         for it in self.today("night"):
             if it["kind"] == "graduation":
                 self.institutions.graduation(it)
+        from . import pets
+        pets.night(self)
+        if "phone" in w.meta:
+            from . import messages
+            messages.pregame(self)
         if calm.weekday(w.day) == 6:
             self._weekly()
 
     def _weekly(self):
         w, R = self.w, self.w.rules
         rng = self.streams.get("weekly", w.day)
+        from . import pets
+        pets.weekly(self)
         fx = Effects(w, None)
         decay = R["rel.affection_decay"] / 100
         for (a, b), r in w.rels.items():
@@ -417,12 +432,25 @@ class Simulation:
                 continue
             q = w.meta.get("control", {}).get("queued")
             if q and cid == w.meta.get("protagonist") and cid not in overrides:
+                hit = None
                 for i, cd in enumerate(dec["cands"]):
-                    if isinstance(cd.extra, dict) and cd.extra.get("invite") == q.get("invite"):
-                        overrides = dict(overrides)
-                        overrides[cid] = i
+                    ex = cd.extra if isinstance(cd.extra, dict) else {}
+                    if q.get("invite") and ex.get("invite") == q.get("invite"):
+                        hit = i
+                    elif q.get("action") and cd.a["id"] == q["action"] and (not q.get("target") or cd.target == q["target"]) \
+                            and (not q.get("pet") or ex.get("pet") == q["pet"]):
+                        hit = i
+                    if hit is not None:
                         break
-                w.meta["control"].pop("queued", None)
+                if hit is not None:
+                    overrides = dict(overrides)
+                    overrides[cid] = hit
+                    if q.get("trick"):
+                        dec["cands"][hit].extra = dict(dec["cands"][hit].extra or {}, trick=q["trick"])
+                    if q.get("agreed") and q.get("target"):
+                        self.slot.agreed.add((cid, q["target"]))
+                if hit is not None or q.get("invite") or w.day - q.get("day", w.day) > 2:
+                    w.meta["control"].pop("queued", None)
             if cid in overrides:
                 i = overrides[cid]
                 if 0 <= i < len(dec["cands"]):
@@ -521,10 +549,19 @@ class Simulation:
             inv = {"id": f"in{w.next_id('invite')}", "day": w.day, "slot": self.slot.slot, "from": inviter, "to": target,
                    "action": cand.a["id"], "status": "pending", "event": ev.get("id")}
             w.meta.setdefault("inbox", []).append(inv)
+            if "phone" in w.meta:
+                from . import messages
+                messages.invite_text(self, inv)
             if ev.get("calc") is not None:
                 ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "waiting for you",
                                    "rule": "invitations to your character wait in your inbox"})
             return "invited"
+        if (inviter, target) in self.slot.agreed and target not in self.slot.engaged:
+            if ev.get("calc") is not None:
+                ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "accepted", "rule": "you already made these plans by text"})
+            if target not in self.slot.done and self.slot.planned.get(target):
+                self.cancel_plan(target, f"had plans with {w.chars[inviter].short}")
+            return "accepted"
         if target in self.slot.engaged:
             if ev.get("calc") is not None:
                 ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "busy",
@@ -592,6 +629,9 @@ class Simulation:
     def finish(self, ev, fx, record=True):
         w = self.w
         social.update_labels(self, fx, ev)
+        if "phone" in w.meta:
+            from . import messages
+            messages.on_event(self, ev)
         key = f"{ev['type']}.{ev.get('outcome')}"
         t = w.meta.setdefault("tally", {})
         t[key] = t.get(key, 0) + 1
@@ -646,6 +686,8 @@ class Simulation:
             if cand.a["id"] == "pet_time":
                 h = w.households.get(w.chars[cand.extra].household_id) if isinstance(cand.extra, str) else None
                 return h["pet"]["name"] if h and h.get("pet") else "the pet"
+            if isinstance(cand.extra, dict) and cand.extra.get("name"):
+                return cand.extra["name"]
             return None
         if isinstance(t, str):
             if t in w.chars:
