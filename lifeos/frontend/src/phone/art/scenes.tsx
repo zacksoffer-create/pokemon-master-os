@@ -376,23 +376,25 @@ const cafeteria: S = (c) => ({
       {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <path key={i} d={`M${-200 + i * 100} 480 L${120 + i * 22} 260`} stroke="#d2c4ab" strokeWidth={1.2} />)}
       {[290, 330, 390, 470].map((y) => <path key={y} d={`M0 ${y} H390`} stroke="#d2c4ab" strokeWidth={1.2} />)}
       {/* tables */}
-      {[[290, 0.6], [345, 0.8], [420, 1.05]].map(([y, s], i) => {
+      {[[284, 0.55], [334, 0.75], [404, 1.0]].map(([y, s], i) => {
         const w = 330 * (s as number);
         const x0 = 195 - w / 2 + 40;
         const yy = y as number;
         const k = s as number;
         return (
           <g key={i}>
-            <rect x={x0 - 8 * k} y={yy + 26 * k} width={w + 16 * k} height={8 * k} rx={3} fill="#3b7f5a" stroke={OUT} strokeWidth={1.2} />
-            <path d={`M${x0} ${yy} H${x0 + w} L${x0 + w + 10 * k} ${yy + 20 * k} H${x0 - 10 * k} Z`} fill="#dfe5ea" stroke={OUT} strokeWidth={1.5} />
-            {[0.15, 0.4, 0.68].map((t, j) => (
+            <path d={`M${x0 - 4 * k} ${yy - 10 * k} H${x0 + w + 4 * k} L${x0 + w + 8 * k} ${yy - 2 * k} H${x0 - 8 * k} Z`} fill="#3b7f5a" stroke={OUT} strokeWidth={1.2} />
+            <path d={`M${x0} ${yy} H${x0 + w} L${x0 + w + 14 * k} ${yy + 34 * k} H${x0 - 14 * k} Z`} fill="#e6ebef" stroke={OUT} strokeWidth={1.5} />
+            <path d={`M${x0 - 14 * k} ${yy + 34 * k} H${x0 + w + 14 * k} V${yy + 40 * k} H${x0 - 14 * k} Z`} fill="#b9c3cc" stroke={OUT} strokeWidth={1.2} />
+            {[0.1, 0.36, 0.62, 0.84].map((t, j) => (
               <g key={j}>
-                <rect x={x0 + w * t} y={yy + 4 * k} width={34 * k} height={12 * k} rx={2} fill={j % 2 ? "#ff9f5a" : "#5fb7c9"} />
-                <circle cx={x0 + w * t + 9 * k} cy={yy + 10 * k} r={3.2 * k} fill="#f2d16b" />
-                <circle cx={x0 + w * t + 21 * k} cy={yy + 10 * k} r={3.6 * k} fill="#8bc36a" />
+                <path d={`M${x0 + w * t} ${yy + 8 * k} h${36 * k} l${2 * k} ${16 * k} h${-40 * k} Z`} fill={j % 2 ? "#ff9f5a" : "#5fb7c9"} stroke={OUT} strokeWidth={1} />
+                <circle cx={x0 + w * t + 10 * k} cy={yy + 16 * k} r={4 * k} fill="#f2d16b" />
+                <circle cx={x0 + w * t + 24 * k} cy={yy + 16 * k} r={4.5 * k} fill="#8bc36a" />
+                <rect x={x0 + w * t + 32 * k} y={yy + 4 * k} width={6 * k} height={12 * k} rx={1} fill="#fff" stroke={OUT} strokeWidth={0.8} />
               </g>
             ))}
-            <path d={`M${x0 + 10} ${yy + 20 * k} v${20 * k} M${x0 + w - 10} ${yy + 20 * k} v${20 * k}`} stroke="#7d8790" strokeWidth={3 * k} />
+            <path d={`M${x0 - 6 * k} ${yy + 40 * k} H${x0 + w + 6 * k} L${x0 + w + 12 * k} ${yy + 48 * k} H${x0 - 12 * k} Z`} fill="#3b7f5a" stroke={OUT} strokeWidth={1.2} />
           </g>
         );
       })}
@@ -480,26 +482,35 @@ const footballField: S = (c) => {
         <rect x={270} y={126} width={54} height={12} fill={lit(c.t) ? "#ffe6a3" : "#9fc7e6"} />
         <StadiumLights x={40} y={60} c={c} />
         <StadiumLights x={350} y={40} c={c} s={0.9} />
-        {/* field */}
-        <path d="M0 230 L390 230 L390 480 L0 480 Z" fill={g1} />
+        {/* field in perspective */}
+        <path d="M0 230 L390 230 L390 480 L0 480 Z" fill="#b65a3e" />
+        <path d="M30 232 L360 232 L470 480 L-80 480 Z" fill={g1} />
         {[0, 1, 2, 3, 4, 5, 6].map((i) => {
-          const y0 = 230 + 250 * Math.pow(i / 7, 1.6), y1 = 230 + 250 * Math.pow((i + 1) / 7, 1.6);
-          return i % 2 ? <rect key={i} x={0} y={y0} width={390} height={y1 - y0} fill={g2} /> : null;
+          const y0 = 232 + 248 * Math.pow(i / 7, 1.5), y1 = 232 + 248 * Math.pow((i + 1) / 7, 1.5);
+          const xl = (y: number) => 30 - 110 * ((y - 232) / 248), xr = (y: number) => 360 + 110 * ((y - 232) / 248);
+          return i % 2 ? <path key={i} d={`M${xl(y0)} ${y0} L${xr(y0)} ${y0} L${xr(y1)} ${y1} L${xl(y1)} ${y1} Z`} fill={g2} /> : null;
         })}
         {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
-          const y = 230 + 250 * Math.pow(i / 7, 1.6);
-          return <path key={`l${i}`} d={`M0 ${y} H390`} stroke="#fff" strokeWidth={1 + i * 0.4} opacity={0.85} />;
+          const y = 232 + 248 * Math.pow(i / 7, 1.5);
+          const t = (y - 232) / 248;
+          return <path key={`l${i}`} d={`M${30 - 110 * t} ${y} H${360 + 110 * t}`} stroke="#fff" strokeWidth={1 + i * 0.45} opacity={0.85} />;
         })}
-        <path d="M0 236 L390 236" stroke="#fff" strokeWidth={2} />
-        <path d="M0 480 L0 420 Q20 300 0 230" fill="#b6563d" opacity={0.0} />
+        <path d="M30 232 L-80 480 M360 232 L470 480" stroke="#fff" strokeWidth={3} />
+        {[0.12, 0.3, 0.52, 0.78].map((t, i) => {
+          const y = 232 + 248 * t;
+          const xl = 30 - 110 * t, xr = 360 + 110 * t;
+          return <g key={`hash${i}`} stroke="#fff" strokeWidth={1.4 + t * 2} opacity={0.8}>
+            <path d={`M${xl + (xr - xl) * 0.38} ${y} v${4 + t * 6}`} /><path d={`M${xl + (xr - xl) * 0.62} ${y} v${4 + t * 6}`} />
+          </g>;
+        })}
+        {/* far end zone */}
+        <path d="M30 232 L360 232 L364 244 L26 244 Z" fill="#1f6b3c" />
         {/* goalposts */}
         <g stroke="#f2c932" strokeWidth={4} strokeLinecap="round" fill="none">
-          <path d="M120 228 V196 M120 196 H170 M120 196 V150 M170 196 V150" />
-          <path d="M145 228 V196" strokeWidth={5} />
+          <path d="M195 238 V206 M170 206 H220 M170 206 V158 M220 206 V158" />
         </g>
         {c.s === "winter" && <path d="M0 230 H390 V250 H0 Z" fill="#fff" opacity={0.5} />}
-        <path d="M0 440 Q195 420 390 440 L390 480 L0 480 Z" fill="#b65a3e" />
-        <path d="M0 446 Q195 426 390 446" stroke="#fff" strokeWidth={1.5} fill="none" opacity={0.7} />
+
       </g>
     ),
     lights: lit(c.t) ? (
@@ -847,14 +858,29 @@ const diningHall: S = (c) => ({
       ))}
       <rect y={280} width={390} height={200} fill="#b9b2a4" />
       {[300, 340, 400, 470].map((y) => <path key={y} d={`M0 ${y} H390`} stroke="#a59e90" strokeWidth={1.2} />)}
-      {[-1, 1].map((side) => (
-        <g key={side}>
-          <path d={`M${195 + side * 30} 270 L${195 + side * 70} 270 L${195 + side * 190} 480 L${195 + side * 70} 480 Z`} fill="#b07a4c" stroke={OUT} strokeWidth={1.5} />
-          {[0.2, 0.45, 0.7].map((t, i) => (
-            <circle key={i} cx={195 + side * (50 + 80 * t)} cy={270 + 210 * t} r={6 + 6 * t} fill="#f6f1e6" stroke={OUT} strokeWidth={1} />
-          ))}
-        </g>
-      ))}
+      {[-1, 1].map((side) => {
+        const X = (inner: number, outer: number, t: number) => 195 + side * (inner + (outer - inner) * t);
+        return (
+          <g key={side}>
+            {/* outer bench */}
+            <path d={`M${X(76, 76, 0)} 276 L${X(84, 84, 0)} 276 L${X(214, 214, 1)} 480 L${X(196, 196, 1)} 480 Z`} fill="#7a5233" stroke={OUT} strokeWidth={1.2} />
+            {/* table */}
+            <path d={`M${X(26, 26, 0)} 268 L${X(72, 72, 0)} 268 L${X(190, 190, 1)} 480 L${X(60, 60, 1)} 480 Z`} fill="#b9824f" stroke={OUT} strokeWidth={1.5} />
+            <path d={`M${X(49, 49, 0)} 268 L${X(125, 125, 1)} 480`} stroke="#9c6b3e" strokeWidth={2} opacity={0.6} />
+            {[0.18, 0.38, 0.6, 0.84].map((t, i) => {
+              const y = 268 + 212 * t;
+              const k = 0.5 + t;
+              return (
+                <g key={i}>
+                  <ellipse cx={X(38, 92, t)} cy={y} rx={8 * k} ry={4 * k} fill="#f6f1e6" stroke={OUT} strokeWidth={1} />
+                  <ellipse cx={X(60, 156, t)} cy={y + 4 * k} rx={8 * k} ry={4 * k} fill="#f6f1e6" stroke={OUT} strokeWidth={1} />
+                  <rect x={X(50, 124, t) - 2.5 * k} y={y - 8 * k} width={5 * k} height={8 * k} rx={1} fill="#e9f3f7" stroke={OUT} strokeWidth={0.8} />
+                </g>
+              );
+            })}
+          </g>
+        );
+      })}
       {[[195, 140, 1], [120, 110, 0.7], [270, 110, 0.7]].map(([x, y, s], i) => (
         <g key={i} transform={`translate(${x} ${y}) scale(${s})`}>
           <path d="M0 -110 V-20" stroke="#4b3c3a" strokeWidth={2} />

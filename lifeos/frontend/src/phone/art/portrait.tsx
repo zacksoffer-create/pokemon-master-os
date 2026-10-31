@@ -248,7 +248,7 @@ export function Portrait({ look, size = 56, mood = "neutral", color, name, ring,
   const hairInk = shade(hc[1], -0.35);
   const iris = EYE_PAL[L.eyes] || EYE_PAL.brown;
   const H = HAIR[L.hair] || HAIR.short;
-  const tint = color || "#8fb6d9";
+  const tint = color || ["#8fb6d9", "#e9a8b8", "#a8d5b5", "#f2c58f", "#b9a8e6", "#9ed3d8", "#f0b49a"][hashStr(name || `${L.skin}${L.hair}${L.hair_color}`) % 7];
   const bgA = shade(tint, 0.72);
   const bgB = shade(tint, 0.45);
   const top = shirt || (color ? shade(color, -0.15) : ["#3f6fb5", "#c4566a", "#4b8b6a", "#7a5cb3", "#d08a35", "#2f8f9d"][hashStr(name || L.skin) % 6]);
@@ -277,7 +277,7 @@ export function Portrait({ look, size = 56, mood = "neutral", color, name, ring,
           <g>
             <path d="M40 176 C47 166 58 160 70 157" fill="none" stroke="#fff" strokeWidth={6} strokeLinecap="round" />
             <path d="M160 176 C153 166 142 160 130 157" fill="none" stroke="#fff" strokeWidth={6} strokeLinecap="round" />
-            <text x={128} y={181} textAnchor="middle" fontFamily="'Fredoka', 'Nunito', system-ui, sans-serif" fontWeight={800} fontSize={17}
+            <text x={127} y={173} textAnchor="middle" fontFamily="'Fredoka', 'Nunito', system-ui, sans-serif" fontWeight={800} fontSize={15}
               fill="#fff" stroke="#123f23" strokeWidth={1.4} paintOrder="stroke">{jersey}</text>
           </g>
         ) : (

@@ -1,7 +1,8 @@
 """How people look: skin, hair, eyes, glasses. Used by the phone's portraits.
 
 Generated looks come from a hash of the character id (no simulation randomness is used, so adding
-looks never changes what happens). Anything set in the character builder overrides the generated value.
+looks never changes what happens). Families resemble each other: skin tone comes from the household,
+and hair and eye color usually do. Anything set in the character builder overrides the generated value.
 """
 from __future__ import annotations
 
@@ -38,7 +39,10 @@ def _pick(cid, key, options, weights=None):
 
 def generated(c) -> dict:
     cid = c.id
-    skin = _pick(cid, "skin", SKIN, [6, 14, 16, 16, 12, 10, 14, 12])
+    fam = getattr(c, "household_id", None)
+    skin = _pick(fam or cid, "skin", SKIN, [6, 14, 16, 16, 12, 10, 14, 12])
+    if fam and _h(cid, "skin-shift") % 6 == 0:  # siblings are close, not identical
+        skin = SKIN[max(0, min(len(SKIN) - 1, SKIN.index(skin) + (1 if _h(cid, "dir") % 2 else -1)))]
     dark = SKIN.index(skin) >= 5
     if c.gender == "m":
         styles = _MASC
@@ -46,17 +50,19 @@ def generated(c) -> dict:
         styles = _FEM
     else:
         styles = ["short", "messy", "bob", "curly_short", "long_wavy", "side_part", "curly_long"]
+    if not dark and SKIN.index(skin) <= 3:
+        styles = [x for x in styles if x not in ("afro", "locs", "braids")]
     hair = _pick(cid, "hair", styles)
     if dark and hair in ("long_straight", "messy", "side_part") and _h(cid, "texture") % 3 == 0:
         hair = {"long_straight": "braids", "messy": "curly_short", "side_part": "fade"}[hair]
     color_w = [40, 30, 14, 6, 3, 1, 1, 4, 1, 0] if dark else [10, 22, 22, 14, 6, 4, 3, 15, 3, 1]
     age = c.age(0) if hasattr(c, "age") else 16
-    hair_color = _pick(cid, "hair_color", HAIR_COLORS, color_w)
+    hair_color = _pick(fam if fam and _h(cid, "fam-hair") % 10 < 7 else cid, "hair_color", HAIR_COLORS, color_w)
     if c.role == "staff" and _h(cid, "gray") % 3 == 0:
         hair_color = "gray"
     if c.role == "staff" and c.gender == "m" and _h(cid, "bald") % 5 == 0:
         hair = "bald"
-    eyes = _pick(cid, "eyes", EYES, [34, 22, 14, 8, 16, 6] if not dark else [60, 30, 8, 1, 1, 0])
+    eyes = _pick(fam if fam and _h(cid, "fam-eyes") % 10 < 6 else cid, "eyes", EYES, [34, 22, 14, 8, 16, 6] if not dark else [60, 30, 8, 1, 1, 0])
     facial = "none"
     if c.gender == "m":
         if c.role == "staff":
