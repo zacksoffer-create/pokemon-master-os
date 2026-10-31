@@ -14,9 +14,17 @@ const KICKER: Record<string, string> = {
   draft_passed: "MLB Draft", story_end: "The end of the beginning",
 };
 const CAT: Record<string, string> = {
-  social: "Friends", romance: "Romance", school: "School", conflict: "Drama", rest: "Downtime", family: "Family", activity: "Activities",
-  sport: "Sports", work: "Work", risk: "Risky",
+  social: "Friends", romance: "Romance", academic: "School", conflict: "Drama", leisure: "Downtime", family: "Family", activity: "Getting better",
+  obligation: "Commitments", achievement: "Big moves", risk: "Risky", staff: "Mentoring",
 };
+const ACTION_ICON: Record<string, string> = {
+  study: "book", study_at_lunch: "book", practice_skill: "ball", train: "bolt", hobby: "sparkle", rest: "moon", sit_alone: "moon",
+  attend_practice: "ball", attend_event: "star", work_shift: "work", sign_up: "star", quit_group: "x", sneak_out: "moon", prank: "warn",
+  family_time: "home", pet_time: "paw", pet_walk: "walk", pet_park: "tree", pet_play: "ballplay", pet_train: "wand", throw_party: "sparkle",
+  go_to_party: "sparkle", spectate: "trophy", confront: "bolt", spread_rumor: "chat", gossip: "chat", chat_online: "chat",
+};
+const CAT_ICON: Record<string, string> = { social: "people", romance: "heart", academic: "book", conflict: "bolt", leisure: "moon", family: "home",
+  activity: "ball", obligation: "clock", achievement: "star", risk: "warn", staff: "people" };
 const PERSON_KEYS = ["other", "sibling", "roommate", "coach", "origin", "best_friend"];
 
 type Outcome = { lines: Line[]; chips: Chip[]; title?: string };
@@ -113,7 +121,7 @@ export default function StoryTab() {
 
   return (
     <div className="ph-story">
-      <div className="ph-hero">
+      <div className={cx("ph-hero", moment && "compact")}>
         <Scene art={s.scene.art} season={s.scene.season} phase={s.scene.phase} className="ph-hero-art" />
         <div className="ph-hero-fade" />
         <TopBar />
@@ -235,7 +243,7 @@ function ChoiceCard({ c, gut, busy, onPick, delay = 0, small }: { c: Choice; gut
   return (
     <button className={cx("ph-choice", small && "compact", "cat-" + c.category)} disabled={busy} onClick={() => onPick(c)} style={{ animationDelay: `${delay * 60}ms` }}>
       <span className="ph-choice-i">
-        {c.target ? <Face id={c.target} size={small ? 34 : 42} /> : <span className="ph-icon-bubble"><PIcon name={c.icon} size={small ? 18 : 21} /></span>}
+        {c.target ? <Face id={c.target} size={small ? 34 : 42} /> : <span className="ph-icon-bubble"><PIcon name={ACTION_ICON[c.action] || CAT_ICON[c.category] || "star"} size={small ? 18 : 21} /></span>}
       </span>
       <span className="ph-choice-m">
         <b>{c.text}</b>

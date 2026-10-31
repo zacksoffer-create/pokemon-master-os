@@ -17,6 +17,18 @@ const COAT: Record<string, string> = {
 const QUICK_ICON: Record<string, string> = { cuddle: "heart", treat: "bone", feed: "bowl", brush: "brush" };
 const TIMED_ICON: Record<string, string> = { walk: "walk", park: "tree", play: "ballplay", train: "wand" };
 const DUTY_ICON: Record<string, string> = { feed_am: "bowl", feed_pm: "bowl", walk: "walk", bath: "sparkle", litter: "sparkle", brush: "brush", cage: "home" };
+// when each longer activity is possible (the same windows the simulation uses)
+const WINDOWS: Record<string, string[]> = { walk: ["after_school", "day", "evening"], park: ["after_school", "day"], play: ["after_school", "day", "evening"], train: ["after_school", "day", "evening"] };
+const PHASE_WORD: Record<string, string> = { dawn: "It's early", classes: "You're in class", lunch: "It's lunch at school", night: "It's late", evening: "It's evening" };
+function nowState(act: string, phase: string, ready: boolean, home: boolean): { now: boolean; why: string } {
+  if (!home) return { now: false, why: "You're away from home right now." };
+  if (!(WINDOWS[act] || []).includes(phase)) {
+    const when = act === "park" ? "after school or on a free day" : "after school or tonight";
+    return { now: false, why: `${PHASE_WORD[phase] || "Not right now"}. You'll do it ${when}.` };
+  }
+  if (!ready) return { now: false, why: "You're in the middle of something. It'll happen at your next free moment." };
+  return { now: true, why: "" };
+}
 const SPECIES_WORD: Record<string, [string, string]> = { dog: ["Dog", "Walks, fetch, endless love."], cat: ["Cat", "Independent. Loves you on their terms."], rabbit: ["Rabbit", "Quiet, soft, secretly hilarious."] };
 
 export default function HomeTab() {
@@ -121,7 +133,7 @@ export default function HomeTab() {
 
         <div className="ph-section-t">{s.pets.length ? (s.pets.length === 1 ? s.pets[0].name : "Your pets") : "Pets"}</div>
         {s.pets.map((p) => (
-          <PetCard key={p.id} pet={p} nameOf={nameOf} bubble={bubble[p.id]} busy={busy} decisionReady={s.decision_ready}
+          <PetCard key={p.id} pet={p} nameOf={nameOf} bubble={bubble[p.id]} busy={busy} phase={s.scene.phase} home={s.me.location === "hollow_creek"} decisionReady={s.decision_ready}
             onQuick={(a) => quick(p, a)} onTimed={(a) => setAction({ pet: p, act: a })} onSetup={() => setSetupFor(p)} />
         ))}
         {s.pets.length === 0 ? (
@@ -142,7 +154,7 @@ export default function HomeTab() {
           onSaved={async (pet) => { setSetupFor(null); await refresh(); toast(`Chores are set. ${pet.name} is counting on you.`, "good"); }} />
       )}
 
-      <TimedSheet sel={action} decisionReady={s.decision_ready} onClose={() => setAction(null)}
+      <TimedSheet sel={action} phase={s.scene.phase} home={s.me.location === "hollow_creek"} decisionReady={s.decision_ready} onClose={() => setAction(null)}
         onDone={async (r, label) => {
           setAction(null);
           if (r.done) {
@@ -181,8 +193,8 @@ function where(sib: { location: string; path: any }) {
   return "Away";
 }
 
-function PetCard({ pet, nameOf, bubble, busy, decisionReady, onQuick, onTimed, onSetup }: {
-  pet: Pet; nameOf: (id: string | null) => string; bubble?: { text: string; n: number }; busy: boolean; decisionReady: boolean;
+function PetCard({ pet, nameOf, bubble, busy, phase, home, decisionReady, onQuick, onTimed, onSetup }: {
+  pet: Pet; nameOf: (id: string | null) => string; bubble?: { text: string; n: number }; busy: boolean; phase: string; home: boolean; decisionReady: boolean;
   onQuick: (a: string) => void; onTimed: (a: string) => void; onSetup: () => void;
 }) {
   const happy = pet.happiness >= 65 ? "happy" : pet.happiness >= 40 ? "neutral" : "sad";
@@ -236,7 +248,7 @@ function PetCard({ pet, nameOf, bubble, busy, decisionReady, onQuick, onTimed, o
         {timed.map((a) => (
           <button key={a.id} className="ph-tbtn" disabled={busy} onClick={() => onTimed(a.id)}>
             <span className="ph-icon-bubble"><PIcon name={TIMED_ICON[a.id] || "star"} size={20} /></span>
-            <span><b>{a.label}</b><small>{decisionReady ? "You've got free time now" : "Plan it for later"}</small></span>
+            <span><b>{a.label}</b><small>{nowState(a.id, phase, decisionReady, home).now ? "You're free right now" : "Plan it for later"}</small></span>
           </button>
         ))}
       </div>
@@ -326,8 +338,8 @@ function ChoreSetup({ pet, info, meId, parentsLabel, onClose, onSaved }: {
   );
 }
 
-function TimedSheet({ sel, decisionReady, onClose, onDone }: {
-  sel: { pet: Pet; act: string } | null; decisionReady: boolean; onClose: () => void; onDone: (r: any, label: string) => void;
+function TimedSheet({ sel, phase, home, decisionReady, onClose, onDone }: {
+  sel: { pet: Pet; act: string } | null; phase: string; home: boolean; decisionReady: boolean; onClose: () => void; onDone: (r: any, label: string) => void;
 }) {
   const { toast } = usePhone();
   const [trick, setTrick] = useState<string | null>(null);
@@ -373,7 +385,7 @@ function TimedSheet({ sel, decisionReady, onClose, onDone }: {
               ))}
             </div>
           )}
-          {decisionReady ? (
+          {nowState(act, phase, decisionReady, home).now ? (
             <>
               <button className="ph-btn primary block big" disabled={busy} onClick={() => go(true)}>Do it now</button>
               <p className="ph-dim small center">Uses the free time you have right now.</p>
@@ -382,7 +394,7 @@ function TimedSheet({ sel, decisionReady, onClose, onDone }: {
           ) : (
             <>
               <button className="ph-btn primary block big" disabled={busy} onClick={() => go(false)}>Plan it for my next free time</button>
-              <p className="ph-dim small center">You're busy right now. It'll happen the next chance you get.</p>
+              <p className="ph-dim small center">{nowState(act, phase, decisionReady, home).why}</p>
             </>
           )}
         </>
@@ -434,7 +446,14 @@ function AskSheet({ open, parentsLabel, onClose, onYes }: { open: boolean; paren
       ) : (
         <div className="ph-answer">
           <PetArt species={species} size={110} mood={answer.yes ? "happy" : "sad"} />
-          <p>{answer.text.replace(/^You asked for a \w+\. /, "")}</p>
+          {answer.yes ? (
+            <p>{answer.text.replace(/^You asked for a \w+\. /, "")}</p>
+          ) : (
+            <div className="ph-quote">
+              <p>“{answer.reason || "Not right now."}”</p>
+              <small>— {parentsLabel}</small>
+            </div>
+          )}
           {answer.yes ? (
             <button className="ph-btn primary block big" onClick={() => onYes(species)}>Bring them home</button>
           ) : (
