@@ -4,10 +4,10 @@
 //   ["contacts"]      -> Contacts
 //   ["contact", cid]  -> a person's profile
 import React from "react";
-import "@fontsource/nunito/400.css";
-import "@fontsource/nunito/600.css";
-import "@fontsource/nunito/700.css";
-import "@fontsource/nunito/800.css";
+import "@fontsource/nunito/latin-400.css";
+import "@fontsource/nunito/latin-600.css";
+import "@fontsource/nunito/latin-700.css";
+import "@fontsource/nunito/latin-800.css";
 import "./messages.css";
 import { pgo } from "./api";
 import { usePhone } from "./PhoneContext";

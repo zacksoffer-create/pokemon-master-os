@@ -221,6 +221,9 @@ def resolve(sim, mid: str, index: int | None, by: str = "player"):
     m["status"] = "resolved"
     m["choice"] = index
     m["by"] = by
+    if "phone" in w.meta and m["kind"] in ("asked_out", "asked_to_dance"):
+        from . import messages
+        messages.answered_elsewhere(sim, "moment", m["id"], index)
     m["event"] = ev["id"]
     sim.finish(ev, fx)
     return ev

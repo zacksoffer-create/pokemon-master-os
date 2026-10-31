@@ -1025,9 +1025,14 @@ def api_story_inbox(iid: str, body: dict = Body(...)):
         inv = next((i for i in w.meta.get("inbox", []) if i["id"] == iid), None)
         if inv is None or inv["status"] != "pending":
             raise HTTPException(409, "that invitation isn't waiting anymore")
+        from . import messages
         if body.get("accept"):
             w.meta.setdefault("control", {})["queued"] = {"invite": iid}
+            if "phone" in w.meta:
+                messages.answered_elsewhere(L.sim, "invite", iid, 0)
             return {"queued": True, "note": "You'll say yes at your next free moment."}
+        if "phone" in w.meta:
+            messages.answered_elsewhere(L.sim, "invite", iid, 1)
         inv["status"] = "declined"
         ev = L.sim.new_event("interact.hang_out", "declined", [inv["from"]], [inv["to"]], 8, {"kind": "hang_out"})
         fx = Effects(w, ev)

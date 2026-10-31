@@ -14,6 +14,23 @@ VERB_FIX = {"was": "were", "is": "are", "has": "have", "does": "do", "wasn't": "
             "finished": "finished", "seems": "seem", "looks": "look", "gives": "give", "tries": "try", "hopes": "hope"}
 
 
+NOT_VERBS = {"is", "was", "has", "does", "us", "as", "his", "this", "plus", "always", "perhaps", "towards", "across", "less", "unless",
+             "yes", "thus", "its", "guys", "s", "yourself", "yours", "afterwards", "besides"}
+
+
+def _agree(word: str) -> str:
+    """Third-person singular verb -> second person ('thinks' -> 'think', 'tries' -> 'try', "wasn't" -> "weren't")."""
+    if word in VERB_FIX:
+        return VERB_FIX[word]
+    if word in NOT_VERBS or len(word) < 4 or not word.endswith("s") or word.endswith("ss") or word.endswith("us") or word.endswith("'s"):
+        return word
+    if word.endswith("ies"):
+        return word[:-3] + "y"
+    if word.endswith(("ches", "shes", "sses", "xes", "zes", "oes")):
+        return word[:-2]
+    return word[:-1]
+
+
 def second_person(text: str, c, solo: bool = False) -> str:
     """Rewrite references to character c as 'you'. solo=True also rewrites they/their (no one else in the line)."""
     if not text or c is None:
@@ -29,8 +46,10 @@ def second_person(text: str, c, solo: bool = False) -> str:
         out = re.sub(r"\btheir\b", "your", out)
         out = re.sub(r"\bthey\b", "you", out)
         out = re.sub(r"\bthem\b", "you", out)
-    # verb agreement right after "you"
-    out = re.sub(r"\byou (\w+(?:n't)?)\b", lambda m: "you " + VERB_FIX.get(m.group(1), m.group(1)), out)
+    # verb agreement right after "you" (allowing one adverb in between: "you now thinks" -> "you now think")
+    out = re.sub(r"\byou ((?:now|only|also|still|finally|really|never|always|just|quietly|actually|officially|even|already) )?([a-z]+n't|[a-z]+)\b",
+                 lambda m: "you " + (m.group(1) or "") + _agree(m.group(2)), out)
+    out = re.sub(r"^([Yy]ou\b.*?\bone of) their\b", r"\1 your", out)
     out = re.sub(r"\byou and (\w+) (was|is|has)\b", lambda m: f"you and {m.group(1)} " + {"was": "were", "is": "are", "has": "have"}[m.group(2)], out)
     # sentence starts
     out = re.sub(r"(^|[.!?]\s+|\"\s*)you\b", lambda m: m.group(1) + "You", out)

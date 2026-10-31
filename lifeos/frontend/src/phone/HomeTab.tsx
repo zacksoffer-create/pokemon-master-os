@@ -149,7 +149,7 @@ export default function HomeTab() {
       </div>
 
       {setupFor && info && (
-        <ChoreSetup pet={state.pets.find((p) => p.id === setupFor.id) || setupFor} info={info} meId={meId} parentsLabel={parentsLabel}
+        <ChoreSetup key={`${setupFor.id}:${info.kids.length}`} pet={state.pets.find((p) => p.id === setupFor.id) || setupFor} info={info} meId={meId} parentsLabel={parentsLabel}
           onClose={() => { setSetupDismissed((d) => ({ ...d, [setupFor.id]: true })); setSetupFor(null); }}
           onSaved={async (pet) => { setSetupFor(null); await refresh(); toast(`Chores are set. ${pet.name} is counting on you.`, "good"); }} />
       )}

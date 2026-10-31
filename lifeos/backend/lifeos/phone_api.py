@@ -64,7 +64,7 @@ def scene(sim, me) -> dict:
         else:
             art, title, line = "campus", col["short"], f"Afternoon on campus at {col['short']}."
     elif ph == "dawn":
-        art, title = "home_morning", "Morning"
+        art, title = "home_morning", "At home"
         line = "Saturday morning. No alarm." if weekend else "The alarm goes off. Another day."
     elif ph == "classes":
         art, title, line = "classroom", school, "Classes drag on."
@@ -320,6 +320,11 @@ def phone_thread(tid: str):
         if tid not in ph["threads"]:
             if tid.startswith("dm:") and tid[3:] in L.w.chars:
                 messages.dm(L.sim, tid[3:])
+            elif tid == "family":
+                messages.family_thread(L.sim)
+            elif tid.startswith("team:") and tid[5:] in L.w.groups:
+                g = L.w.groups[tid[5:]]
+                messages.thread(L.sim, tid, title=g["name"], members=[m for m in g["members"] if m != me.id], kind="group")
             else:
                 raise HTTPException(404, "no such conversation")
         return messages.thread_view(L.sim, tid, mark_read=True)

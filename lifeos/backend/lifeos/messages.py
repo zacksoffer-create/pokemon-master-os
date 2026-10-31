@@ -483,6 +483,40 @@ def moment_text(sim, m):
          ctx={"moment": m["id"]})
 
 
+def answered_elsewhere(sim, kind, ref, index, label=None):
+    """You answered an invite or a moment from the story screen: the text thread shows your answer too."""
+    w = sim.w
+    for t in phone(w)["threads"].values():
+        for m in t["msgs"][::-1]:
+            if m.get("ctx", {}).get(kind) == ref and m.get("replies") and m.get("chosen") is None:
+                if index is None or not 0 <= index < len(m["replies"]):
+                    m["chosen"] = -1
+                    return
+                m["chosen"] = index
+                post(sim, t["id"], "me", label or m["replies"][index]["label"], kind="reply", unread=False)
+                sender = m["from"]
+                yes = index == 0
+                post(sim, t["id"], sender, pick("react_flirt_yes" if (yes and kind == "moment") else "react_plans_yes" if yes else "react_dry",
+                                                f"{m['id']}:echo"), kind="react", unread=False)
+                return
+
+
+def start_texts(sim):
+    """The first morning: your phone isn't empty."""
+    w = sim.w
+    me = prot(w)
+    if not me or phone(w).get("started"):
+        return
+    phone(w)["started"] = True
+    if me.grade == 9 and me.school == "hchs":
+        family_text(sim, "parent_first_day")
+        bf = best_friend(sim)
+        if bf:
+            post(sim, f"dm:{bf}", bf, pick("friend_first_day", f"{w.day}:{bf}"), kind="chatter",
+                 replies=[{"label": "so ready. see you there", "fx": "warm"}, {"label": "lol no. but yes", "fx": "funny"},
+                          {"label": "running late already", "fx": "dry"}])
+
+
 # --- replying ---------------------------------------------------------------------------------
 
 REPLY_SETS = {
@@ -634,7 +668,8 @@ def text_options(sim, cid) -> list:
     recent = [a for a in o.achievements if w.day - a["day"] <= 7]
     if recent:
         out.append({"kind": "congrats", "label": f"Congrats on {recent[-1]['label'].lower()}"})
-    if r and (r.rivalry >= 25 or r.affection < 0):
+    hurt = any(m["valence"] <= -0.3 and cid in m.get("with", []) and w.day - m["day"] <= 21 for m in me.memories)
+    if r and (r.affection < 0 or hurt or (r.rivalry >= 45 and r.affection < 30)):
         out.append({"kind": "sorry", "label": "Apologize"})
     return out
 

@@ -1,8 +1,8 @@
 // The phone app: your story in first person. Tabs: Story, Phone (texts + contacts), Home (family + pets), Me.
-import "@fontsource/fredoka/600.css";
-import "@fontsource/nunito/400.css";
-import "@fontsource/nunito/700.css";
-import "@fontsource/nunito/800.css";
+import "@fontsource/fredoka/latin-600.css";
+import "@fontsource/nunito/latin-400.css";
+import "@fontsource/nunito/latin-700.css";
+import "@fontsource/nunito/latin-800.css";
 import React, { useEffect, useState } from "react";
 import { api } from "../api";
 import { useStore } from "../store";

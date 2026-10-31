@@ -447,6 +447,7 @@ def start_phone(sim):
     messages.phone(sim.w)
     messages.seed_contacts(sim)
     pets.ensure(sim)
+    messages.start_texts(sim)
 
 
 def story_circle(w) -> set:

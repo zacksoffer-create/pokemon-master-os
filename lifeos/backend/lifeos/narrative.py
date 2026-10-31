@@ -17,6 +17,9 @@ class _Safe(dict):
 
 
 def _names(w, ids):
+    p = w.meta.get("protagonist")
+    if p in ids:
+        ids = [p] + [i for i in ids if i != p]
     ns = [w.chars[i].short if i in w.chars else i for i in ids]
     if len(ns) <= 2:
         return " and ".join(ns)
