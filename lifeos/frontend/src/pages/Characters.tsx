@@ -4,6 +4,7 @@ import { go, useApi, useStore } from "../store";
 import {
   Avatar, Changes, Empty, ErrorBox, EventRow, Icon, Loading, Meter, Modal, Name, Panel, Signed, Slider, Stat, Tabs, Tag, cx, fmt, moodColor, pretty, signed,
 } from "../ui";
+import CharacterBuilder, { Person, Target, cleanPerson, heightLabel, sectionForError, useStoryCatalog } from "../components/CharacterBuilder";
 import "./characters.css";
 
 const TRAITS = ["sociability", "confidence", "discipline", "ambition", "impulsivity", "empathy", "competitiveness", "curiosity", "volatility", "loyalty"];
@@ -102,45 +103,100 @@ function List() {
 }
 
 function CreateModal({ onClose }: any) {
-  const { refresh, bump, toast } = useStore();
+  const { refresh, bump, toast, world, charList, chars } = useStore();
+  const { cat } = useStoryCatalog();
+  const prot: string | null = (world as any)?.protagonist || null;
+  const [mode, setMode] = useState("build");
+  const [person, setPerson] = useState<Person>({ first: "", gender: "f", grade: 9, color: "#ff8fc7" });
+  const [household, setHousehold] = useState("new");
+  const [section, setSection] = useState("basics");
+  const [errs, setErrs] = useState<string[]>([]);
   const [spec, setSpec] = useState<any>({ grade: 9, archetype: "", first: "", last: "", gender: "" });
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const create = async () => {
+  const done = async (c: any) => {
+    await refresh();
+    bump();
+    toast(`${c.name} joined ${c.role === "staff" ? "the staff" : "Hollow Creek High"}.`, "good");
+    onClose();
+    go(`characters/${c.id}`);
+  };
+  const quick = async () => {
     setBusy(true);
     try {
       const body: any = { grade: Number(spec.grade) };
       if (spec.archetype) body.archetype = spec.archetype;
-      if (spec.first) body.first = spec.first;
       if (spec.last) body.last = spec.last;
-      if (spec.gender) body.gender = spec.gender;
-      const c = await api.post("/api/characters", body);
-      await refresh();
-      bump();
-      toast(`${c.name} joined Hollow Creek High.`, "good");
-      onClose();
-      go(`characters/${c.id}`);
+      await done(await api.post("/api/characters", body));
     } catch (e: any) {
       setErr([e.message, ...(e.errors || [])].join("\n"));
     } finally {
       setBusy(false);
     }
   };
+  const build = async () => {
+    if (!person.first.trim() || !person.gender) {
+      setErrs(["character: a first name and a gender are required"]);
+      setSection("basics");
+      return;
+    }
+    setBusy(true);
+    try {
+      const body = cleanPerson(person, "studio");
+      if (household === "family" && prot && person.role !== "staff") body.household = "family";
+      await done(await api.post("/api/characters", body));
+    } catch (e: any) {
+      const list = e.errors?.length ? e.errors : [e.message];
+      setErrs(list);
+      setSection(sectionForError(list[0] || ""));
+    } finally {
+      setBusy(false);
+    }
+  };
+  const people: Target[] = [
+    ...(prot && chars[prot] ? [{ key: "me", name: chars[prot].name }] : []),
+    ...charList.filter((c) => c.status === "active" && c.id !== prot && (c.role === "student" || c.role === "staff"))
+      .map((c) => ({ key: c.id, name: `${c.name} (${c.role === "staff" ? c.role_label || "staff" : `grade ${c.grade}`})` })),
+  ];
   return (
-    <Modal title="Create a character" onClose={onClose}>
-      <p className="muted">The generator builds a full person from an archetype (with noise), puts them in a household, and gives them realistic starting relationships with their classmates. You can fine-tune everything afterwards in the Edit tab.</p>
-      <div className="form">
-        <label>Grade<select value={spec.grade} onChange={(e) => setSpec({ ...spec, grade: e.target.value })}>{[9, 10, 11, 12].map((g) => <option key={g}>{g}</option>)}</select></label>
-        <label>Archetype<select value={spec.archetype} onChange={(e) => setSpec({ ...spec, archetype: e.target.value })}><option value="">Random</option>{ARCHETYPES.map((a) => <option key={a}>{a}</option>)}</select></label>
-        <label>First name<input type="text" value={spec.first} placeholder="random" onChange={(e) => setSpec({ ...spec, first: e.target.value })} /></label>
-        <label>Last name<input type="text" value={spec.last} placeholder="random (new household)" onChange={(e) => setSpec({ ...spec, last: e.target.value })} /></label>
-        <label>Gender<select value={spec.gender} onChange={(e) => setSpec({ ...spec, gender: e.target.value })}><option value="">Random</option><option value="f">Female</option><option value="m">Male</option><option value="nb">Nonbinary</option></select></label>
+    <Modal title="Create a character" onClose={onClose} wide>
+      <div className="row between" style={{ marginBottom: 14 }}>
+        <Tabs tabs={[["build", "Build someone"], ["quick", "Quick random person"]]} active={mode} onChange={setMode} />
+        {mode === "build" && <span className="hint">They join the running world today, with realistic starting relationships with everyone else.</span>}
       </div>
-      <ErrorBox error={err} />
-      <div className="row" style={{ marginTop: 12 }}>
-        <button className="primary" onClick={create} disabled={busy}>Create</button>
-        <button onClick={onClose}>Cancel</button>
-      </div>
+      {mode === "build" ? (
+        <>
+          <CharacterBuilder value={person} onChange={setPerson} cat={cat} mode="studio" people={people} errors={errs.map((e) => e.replace(/^character:?\s*/, ""))}
+            section={section} onSection={setSection}
+            sideExtra={person.role !== "staff" && (
+              <div className="cb-field" style={{ marginTop: 12, textAlign: "left" }}>
+                <div className="cb-field-l">Where they live</div>
+                <select value={household} onChange={(e) => setHousehold(e.target.value)}>
+                  <option value="new">With their own family</option>
+                  {prot && chars[prot] && <option value="family">With {chars[prot].first}'s family (a sibling)</option>}
+                </select>
+              </div>
+            )} />
+          <div className="row" style={{ marginTop: 14, justifyContent: "flex-end" }}>
+            <button onClick={onClose}>Cancel</button>
+            <button className="primary" onClick={build} disabled={busy}>{busy ? "Creating..." : `Create ${person.first.trim() || "them"}`}</button>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="muted">The generator builds a full person from an archetype (with noise), puts them in a household, and gives them realistic starting relationships with their classmates. You can fine-tune everything afterwards in the Edit tab.</p>
+          <div className="form">
+            <label>Grade<select value={spec.grade} onChange={(e) => setSpec({ ...spec, grade: e.target.value })}>{[9, 10, 11, 12].map((g) => <option key={g}>{g}</option>)}</select></label>
+            <label>Archetype<select value={spec.archetype} onChange={(e) => setSpec({ ...spec, archetype: e.target.value })}><option value="">Random</option>{ARCHETYPES.map((a) => <option key={a}>{a}</option>)}</select></label>
+            <label>Last name<input type="text" value={spec.last} placeholder="random (new household)" onChange={(e) => setSpec({ ...spec, last: e.target.value })} /></label>
+          </div>
+          <ErrorBox error={err} />
+          <div className="row" style={{ marginTop: 12 }}>
+            <button className="primary" onClick={quick} disabled={busy}>Generate</button>
+            <button onClick={onClose}>Cancel</button>
+          </div>
+        </>
+      )}
     </Modal>
   );
 }
@@ -225,7 +281,10 @@ function Profile({ c, h }: any) {
   const d = c.docs;
   const goalsActive = c.goals.filter((g: any) => g.status === "active");
   const goalsDone = c.goals.filter((g: any) => g.status !== "active").slice(0, 8);
+  const athlete = Object.keys(c.positions || {}).length > 0 || (c.seasons || []).length > 0 || !!c.path?.kind || (c.awards || []).length > 0;
   return (
+    <div className="stack">
+    {athlete && <AthletePanel c={c} />}
     <div className="grid g3">
       <LayerPanel title="Personality" about={d.traits.about} values={c.traits} keys={TRAITS} color="var(--accent-2)" docs={d.traits.items} />
       <div className="stack">
@@ -313,6 +372,124 @@ function Profile({ c, h }: any) {
         )}
       </Panel>
     </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------ athlete
+const SPORT_ORDER = ["football", "basketball", "baseball"];
+const statNum = (v: any) => (typeof v === "number" ? (Number.isInteger(v) ? String(v) : v.toFixed(1)) : v ?? "-");
+function derived(sport: string, line: any): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (sport === "baseball") {
+    if (line.ab > 0) out.AVG = (line.h / line.ab).toFixed(3).replace(/^0/, "");
+    if (line.ip > 0) out.ERA = ((line.er * 9) / line.ip).toFixed(2);
+  }
+  return out;
+}
+
+function AthletePanel({ c }: any) {
+  const { cat } = useStoryCatalog();
+  const sports = cat?.sports || {};
+  const colleges: Record<string, any> = Object.fromEntries((cat?.colleges || []).map((x: any) => [x.id, x]));
+  const body = c.body || {};
+  const seasons: any[] = c.seasons || [];
+  const rec = c.recruiting || {};
+  const interest = Object.entries(rec.interest || {}).map(([k, v]: any) => {
+    const [col, sport] = k.split(":");
+    return { col, sport, level: v, name: colleges[col]?.name || col, tier: colleges[col]?.tier };
+  }).sort((a, b) => b.level - a.level).slice(0, 8);
+  const path = c.path?.kind ? c.path : null;
+  const bySport = SPORT_ORDER.filter((s) => seasons.some((x) => x.sport === s) || c.positions?.[s]);
+  return (
+    <Panel title="Athlete" sub={[body.height_in ? heightLabel(body.height_in) : null, body.build, c.jersey ? `#${c.jersey}` : null].filter(Boolean).join(" · ") || undefined}>
+      <div className="ath">
+        <div className="ath-pos">
+          {SPORT_ORDER.filter((s) => c.positions?.[s]).map((s) => (
+            <div key={s} className="ath-pos-i">
+              <span className="hint">{sports[s]?.label || s}</span>
+              <b>{c.positions[s]}</b>
+              <span className="small muted">{sports[s]?.positions?.[c.positions[s]] || ""}</span>
+            </div>
+          ))}
+          {path && (
+            <div className="ath-path">
+              <span className="hint">After high school</span>
+              <b>{path.kind === "college" ? (path.sport ? `Playing ${path.sport} at ${path.name || colleges[path.college]?.name || path.college}` : `Studying at ${path.name || colleges[path.college]?.name || path.college}`) : "Working in Hollow Creek"}</b>
+              <span className="small muted">{[path.tier, path.scholarship ? "scholarship" : null].filter(Boolean).join(" · ")}</span>
+            </div>
+          )}
+        </div>
+        {bySport.map((sport) => {
+          const rows = seasons.filter((x) => x.sport === sport);
+          const keys = Object.keys(sports[sport]?.stats || {}).filter((k) => rows.some((r) => r.line?.[k]));
+          const car = c.career?.[sport];
+          if (!rows.length) return null;
+          const dcols = Array.from(new Set(rows.flatMap((r) => Object.keys(derived(sport, r.line || {})))));
+          return (
+            <div key={sport} className="ath-sport">
+              <div className="ath-sport-h"><b>{sports[sport]?.label || sport}</b>{car && <span className="hint">{car.seasons} season{car.seasons === 1 ? "" : "s"} · {car.games} games · {car.wins}-{car.losses}</span>}</div>
+              <div style={{ overflowX: "auto" }}>
+                <table className="mini">
+                  <thead>
+                    <tr>
+                      <th>season</th><th>team</th><th className="num">G</th><th className="num">GS</th><th className="num">W-L</th>
+                      {keys.map((k) => <th key={k} className="num">{sports[sport].stats[k]}</th>)}
+                      {dcols.map((l) => <th key={l} className="num">{l}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((r) => {
+                      const [, yr, level] = r.key.split(":");
+                      return (
+                        <tr key={r.key}>
+                          <td>{yr} <Tag tone={level === "varsity" ? "accent" : "dim"}>{level === "jv" ? "JV" : level}</Tag></td>
+                          <td className="dim">{r.team_name}</td>
+                          <td className="num">{r.games}</td>
+                          <td className="num">{r.starts}</td>
+                          <td className="num">{r.wins}-{r.losses}</td>
+                          {keys.map((k) => <td key={k} className="num">{statNum(r.line?.[k] ?? 0)}</td>)}
+                          {dcols.map((l) => <td key={l} className="num">{derived(sport, r.line || {})[l] ?? "-"}</td>)}
+                        </tr>
+                      );
+                    })}
+                    {car && rows.length > 1 && (
+                      <tr className="ath-total">
+                        <td><b>Career</b></td><td />
+                        <td className="num">{car.games}</td><td className="num">{car.starts}</td><td className="num">{car.wins}-{car.losses}</td>
+                        {keys.map((k) => <td key={k} className="num"><b>{statNum(car.line?.[k] ?? 0)}</b></td>)}
+                        {dcols.map((l) => <td key={l} className="num"><b>{derived(sport, car.line || {})[l] ?? "-"}</b></td>)}
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          );
+        })}
+        {!seasons.length && <div className="hint">No games played yet. Season stats show up here after their first game.</div>}
+        <div className="ath-grid">
+          <div>
+            <div className="hint" style={{ marginBottom: 4 }}>Awards</div>
+            {(c.awards || []).length ? c.awards.map((a: any, i: number) => <div key={i} className="small">🏆 {a.label} <span className="hint">{a.season?.split(":")[1] || ""}</span></div>) : <div className="dim small">None yet.</div>}
+          </div>
+          <div>
+            <div className="hint" style={{ marginBottom: 4 }}>Recruiting{rec.score && Object.keys(rec.score).length ? ` · ${Object.entries(rec.score).map(([s, v]: any) => `${s} ${Math.round(v)}`).join(" · ")}` : ""}</div>
+            {(rec.offers || []).map((o: any, i: number) => (
+              <div key={i} className="small"><Tag tone="good">offer</Tag> {o.name} <span className="hint">{o.tier} · {o.sport}{o.scholarship ? " · scholarship" : ""}</span></div>
+            ))}
+            {interest.filter((x) => !(rec.offers || []).some((o: any) => o.college === x.col && o.sport === x.sport)).map((x) => (
+              <div key={x.col + x.sport} className="small"><Tag tone="dim">interest {x.level}</Tag> {x.name} <span className="hint">{x.tier} · {x.sport}</span></div>
+            ))}
+            {!(rec.offers || []).length && !interest.length && <div className="dim small">No college interest yet. Coaches start watching sophomores who produce.</div>}
+          </div>
+          <div>
+            <div className="hint" style={{ marginBottom: 4 }}>Admissions</div>
+            {(rec.admits || []).length ? rec.admits.map((a: any, i: number) => <div key={i} className="small">✉️ {a.name} <span className="hint">{a.tier}</span></div>) : <div className="dim small">Letters arrive senior year.</div>}
+          </div>
+        </div>
+      </div>
+    </Panel>
   );
 }
 

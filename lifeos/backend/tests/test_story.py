@@ -55,6 +55,16 @@ def test_story_builds_you_your_family_and_your_people():
         assert sum(1 for c in w.students() if c.grade == g) == 8
     pend = moments.pending(w)
     assert pend and pend[0]["kind"] == "first_day"
+    assert all(55 <= c.body["height_in"] <= 80 for c in w.chars.values() if c.body)
+
+
+@pytest.mark.parametrize("pet,expect", [(None, None), ({"species": "dog", "name": "Buster"}, "Buster")])
+def test_family_pet_can_be_none_or_named(pet, expect):
+    s = spec(per=6)
+    s["family"]["pet"] = pet
+    w = create_story(s)
+    h = w.households[w.chars[w.meta["protagonist"]].household_id]
+    assert (h["pet"] or {}).get("name") == expect
 
 
 def test_story_validation_lists_every_problem():

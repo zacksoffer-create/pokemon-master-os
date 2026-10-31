@@ -48,6 +48,7 @@ def default_body(c, rng) -> dict:
     h = mean + rng.gauss(0, sd) + (c.aptitudes.get("athletic", 50) - 50) / 25
     if c.grade and c.grade <= 10:
         h -= (11 - c.grade) * 0.8  # still growing
+    h = clamp(h, mean - 6.5, mean + 9)
     a = c.aptitudes.get("athletic", 50)
     r = rng.random()
     if a >= 65:

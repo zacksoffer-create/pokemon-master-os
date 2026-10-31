@@ -60,9 +60,9 @@ Open **My Story** in the sidebar and click **Start your story**. The setup has s
    - personality (10 traits), natural talent (5 aptitudes) and what drives them (6 motives);
    - interests and starting skills (a typical freshman is 25–50 in a sport);
    - height and build, jersey number, and a position in each sport you play.
-3. **Family.** Your last name, guardians, how they parent, income and an optional pet. Add siblings
+3. **Family.** Your last name, guardians, how they parent, income and a pet (or no pet). Add siblings
    with a grade each; set "twin of" to make twins (same birthday, a twin bond).
-   There are one-click buttons for an older brother who's a senior and twin sisters who are juniors.
+   There are one-click buttons for an older brother who's a senior and twin sisters a year older than you.
 4. **Your people.** Friends, a crush, a rival, a coach, anyone. Each one gets the same builder, plus
    how they feel about you (best friend, crush, rival, teammate...).
 5. **The town.** How many students per grade (6–20). Generated classmates fill each grade around your people.

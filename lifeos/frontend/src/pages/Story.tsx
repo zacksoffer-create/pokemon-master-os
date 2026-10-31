@@ -1088,6 +1088,7 @@ function Feel({ r, label }: { r: any; label: string }) {
 }
 
 function PeopleTab({ s }: { s: any }) {
+  const { chars } = useStore();
   const h = s.household;
   return (
     <div className="grid g2">
@@ -1103,7 +1104,7 @@ function PeopleTab({ s }: { s: any }) {
             <Avatar id={f.id} size={40} />
             <div style={{ minWidth: 0 }}>
               <div className="row between">
-                <div><Name id={f.id} full /> <span className="hint">{f.year_label}</span> {f.twin && <Tag tone="accent">twin</Tag>}</div>
+                <div><Name id={f.id} full /> <span className="hint">{f.year_label}</span> {f.twin && <Tag tone="accent">{f.twin_of === s.protagonist ? "your twin" : `twin of ${chars[f.twin_of]?.first ?? "a sibling"}`}</Tag>}</div>
                 <span className="hint">{where(f.location, s.college)}</span>
               </div>
               {pathText(f.path) && <div className="small muted">{pathText(f.path)}</div>}

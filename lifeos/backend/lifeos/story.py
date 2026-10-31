@@ -282,6 +282,16 @@ def apply_relationship(w, a: str, b: str, rtype: str, strength: float = 0.0, day
             w.chars[b].flags["partner"] = a
 
 
+def _pet(fam: dict):
+    """Missing = leave it to chance; null or "none" = no pet; true = a random pet; {species, name} = that pet."""
+    if "pet" not in fam:
+        return False
+    pet = fam["pet"]
+    if pet is None or pet == "none" or pet == {}:
+        return None
+    return pet
+
+
 def create_story(spec: dict) -> World:
     spec = validate_story(spec)
     seed = int(spec.get("gen_seed") or derive_seed(spec["protagonist"]["first"], "story") % 100000)
@@ -300,7 +310,7 @@ def create_story(spec: dict) -> World:
     fam = spec.get("family") or {}
     last = (fam.get("last") or me.get("last") or "Rivera").strip()
     hh = gen.household(w, rng, last=last, style=fam.get("style") or "warm", income=fam.get("income") or "middle",
-                       guardians=fam.get("guardians") or None, pet=fam.get("pet") or False, key="family")
+                       guardians=fam.get("guardians") or None, pet=_pet(fam), key="family")
     keymap = {}
     pc = build_person(w, gen, rng, dict(me, grade=me.get("grade", 9)), hh)
     keymap["me"] = pc.id
@@ -456,8 +466,9 @@ def summary(sim, char_summary, rel_view, ev_out) -> dict:
     fam = []
     for sid in sim.siblings(p):
         s = w.chars[sid]
-        bond = w.bond(p, sid) or {"roles": []}
-        fam.append({"id": sid, "year_label": s.year_label, "location": s.location, "path": s.path, "twin": "twin" in bond["roles"],
+        twin_of = next((o for o in [p] + sim.siblings(p) if o != sid and "twin" in (w.bond(sid, o) or {"roles": []})["roles"]), None)
+        fam.append({"id": sid, "year_label": s.year_label, "location": s.location, "path": s.path, "twin": twin_of is not None,
+                    "twin_of": twin_of,
                     "mine": rel_view(sim, w.rels[(p, sid)]) if (p, sid) in w.rels else None,
                     "theirs": rel_view(sim, w.rels[(sid, p)]) if (sid, p) in w.rels else None})
     people = []
