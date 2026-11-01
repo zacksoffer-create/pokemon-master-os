@@ -163,6 +163,7 @@ def phone_state(since: int | None = None):
         h = w.households.get(me.household_id) or {}
         threads = messages.threads_view(sim)
         hp = pets.household_pets(w, me.household_id or "")
+        from . import planner
         q = w.meta.get("control", {}).get("queued")
         teams = [{"id": g, "name": w.groups[g]["name"], "sport": w.groups[g].get("skill"), "record": w.groups[g]["record"],
                   "level": w.groups[g].get("levels", {}).get(me.id, "varsity"), "position": me.positions.get(w.groups[g].get("skill"))}
@@ -177,7 +178,7 @@ def phone_state(since: int | None = None):
             "moments": pend, "feed": feed, "last_event": w.history.next_event - 1,
             "unread": sum(t["unread"] for t in threads), "needs_reply": sum(1 for t in threads if t["needs_reply"]),
             "pets": [pets.view(sim, p) for p in hp], "pet_setup_needed": any(pets.setup_needed(w, p["id"]) for p in hp),
-            "pet_approved": w.meta.get("pet_approved"), "queued": q and {"label": q.get("label") or ("Plans with " + w.chars[q["target"]].first if q.get("target") in w.chars else "Saying yes to an invite")},
+            "pet_approved": w.meta.get("pet_approved"), "queued": q and {"label": planner.plan_label(sim, q) or "Saying yes to an invite"},
             "family": {"name": h.get("name"), "guardians": messages.parent_names(sim), "siblings": [
                 {"id": s, "first": w.chars[s].first, "year_label": w.chars[s].year_label, "location": w.chars[s].location,
                  "look": look_of(w.chars[s]), "path": w.chars[s].path} for s in sim.siblings(me.id)], "style": h.get("style_label"),

@@ -96,6 +96,9 @@ stats, your family and your people.
   choice says why it's there: "Quiz 1 tomorrow", "Coach takes attendance", "10 days since you talked". Choices that can
   wait have **Save for after school** or **Save for evening**: it's picked for you then, unless someone pulls you into
   something else first.
+- **Invites never overrule you.** When you've made your own pick and a friend asks you to hang out in that same part of
+  the day, the game doesn't answer for you: they text you to try again later ("saw you were busy. later this week?") and
+  it's yours to answer. Plans you've said yes to show what and with whom: "Hanging out with Danny, next time you're free".
 
 Everyone else lives their own life the whole time. Your brother graduates and leaves, your sisters
 go off to college a year later and come home for Thanksgiving, friends drift, rivals show up. Siblings

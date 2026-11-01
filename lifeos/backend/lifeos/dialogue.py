@@ -85,6 +85,7 @@ REPLY_SET_DOCS = {
 
 POOL_DOCS = {
     "invite": "A friend asks you to hang out.",
+    "invite_later": "A friend who asked while you were busy, texting to try again later.",
     "invite_date": "Someone you're dating or into asks you somewhere, just the two of you.",
     "after_good": "A friend, after a good hangout.",
     "after_good_date": "After a good date.",

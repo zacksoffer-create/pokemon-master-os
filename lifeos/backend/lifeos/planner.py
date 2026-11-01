@@ -161,7 +161,7 @@ def strip(sim, me) -> list:
             elif ph == "night":
                 s["note"] = "sleep"
             elif q and q.get("day") == w.day and q.get("slot") == ph:
-                s.update(note="planned", kind="planned", plan=q.get("label"))
+                s.update(note="planned", kind="planned", plan=plan_label(sim, q))
             elif s["decide"]:
                 s["note"] = "now" if i == now else "open"
             if i == now and s["note"] in ("open", ""):
@@ -253,6 +253,32 @@ def week(sim, me) -> list:
 def today(sim) -> dict:
     me = _me(sim)
     return {"strip": strip(sim, me), "plate": plate(sim, me), "week": week(sim, me)}
+
+
+# ---------------------------------------------------------------------------------------- plans
+
+def plan_label(sim, q) -> str | None:
+    """A plan in plain words: what, with whom, and when ("Hanging out with Danny, next time you're free")."""
+    if not q:
+        return None
+    w = sim.w
+    verb = {"hang_out": "Hanging out", "date": "Going out", "family_time": "Time"}
+    who, act = q.get("target"), q.get("action")
+    if q.get("invite"):
+        inv = next((i for i in w.meta.get("inbox", []) if i["id"] == q["invite"]), None)
+        if inv:
+            who, act = inv.get("from"), inv.get("action")
+    if q.get("slot") and q.get("day") == w.day:
+        when = "tonight" if q["slot"] == "evening" else LABEL.get(q["slot"], q["slot"]).lower()
+    else:
+        when = "next time you're free"
+    if who in w.chars and act in verb:
+        return f"{verb[act]} with {w.chars[who].first}, {when}"
+    if q.get("label"):
+        return q["label"] if q.get("slot") else f"{q['label']}, {when}"
+    if who in w.chars:
+        return f"Plans with {w.chars[who].first}, {when}"
+    return None
 
 
 # ---------------------------------------------------------------------------------------- choices with reasons

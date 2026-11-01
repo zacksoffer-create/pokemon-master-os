@@ -470,6 +470,8 @@ def invite_text(sim, inv):
     places = [p["name"] for p in sim.cat.world["places"] if p["id"] not in ("house",)]
     place = places[_h(inv["id"]) % len(places)] if places else "the diner"
     key = "invite_date" if inv.get("action") == "date" else "invite"
+    if inv.get("later") and key == "invite":
+        key = "invite_later"
     post(sim, f"dm:{cid}", cid, pick(key, inv["id"], sim=sim, frm=cid, place=place), kind="invite",
          replies=[{"label": "i'm in", "fx": f"invite:{inv['id']}:yes"}, {"label": "can't today, sorry", "fx": f"invite:{inv['id']}:no"}],
          ctx={"invite": inv["id"]})

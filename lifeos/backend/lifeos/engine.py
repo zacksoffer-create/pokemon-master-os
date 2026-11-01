@@ -552,10 +552,13 @@ class Simulation:
         w = self.w
         T = w.chars[target]
         from .moments import control
-        if (target == w.meta.get("protagonist") and control(w).get("ask_invites") and not self.slot.planned.get(target, {}).get("player")
-                and cand.a["id"] in ("hang_out", "date")):
+        mine = self.slot.planned.get(target, {}).get("player")
+        if (target == w.meta.get("protagonist") and cand.a["id"] in ("hang_out", "date") and (inviter, target) not in self.slot.agreed
+                and (control(w).get("ask_invites") or mine)):
+            # it's your call: an invite waits for your answer. If you already picked something for now, it's a rain check:
+            # they text you about later, and your pick stands.
             inv = {"id": f"in{w.next_id('invite')}", "day": w.day, "slot": self.slot.slot, "from": inviter, "to": target,
-                   "action": cand.a["id"], "status": "pending", "event": ev.get("id")}
+                   "action": cand.a["id"], "status": "pending", "event": ev.get("id"), "later": bool(mine)}
             w.meta.setdefault("inbox", []).append(inv)
             if "phone" in w.meta:
                 from . import messages

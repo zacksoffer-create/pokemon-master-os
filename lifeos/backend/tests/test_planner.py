@@ -138,3 +138,34 @@ def test_phone_today_and_later_routes():
         no = next((o for o in ch["options"] if not o.get("later")), None)
         if no:
             assert c.post("/api/phone/later", json={"index": no["index"]}).status_code == 409
+
+
+def test_invites_never_override_your_pick_or_answer_for_you():
+    w, sim = story(pet=False)
+    me = w.chars[w.meta["protagonist"]]
+    assert not w.meta["control"]["ask_invites"], "the default: you don't get stopped for invites"
+    asked = []
+    for _ in range(60):
+        to_decision(sim, w, me)
+        opts = options(sim, w, me)
+        mine = next((o for o in opts if o["action"] in ("study", "rest", "hobby", "practice_skill", "train", "sit_alone", "study_at_lunch")), opts[0])
+        before = w.history.next_event
+        sim.act_as(me.id, mine["index"])
+        for eid, e in w.history.events.items():
+            if eid >= before and e["type"] in ("interact.hang_out", "interact.date") and me.id in e["targets"] and me.id not in e["actors"]:
+                asked.append(e)
+        if len(asked) >= 2:
+            break
+    assert asked, "over a few weeks of picks, somebody asks you to hang out"
+    for e in asked:
+        assert e["outcome"] == "invited", (e["outcome"], e.get("text"))
+    inv = [i for i in w.meta["inbox"] if i.get("later")]
+    assert inv and all(i["status"] in ("pending", "expired", "accepted", "declined") for i in inv)
+    # they texted you to try again, and it's yours to answer
+    t = messages.phone(w)["threads"].get(f"dm:{inv[0]['from']}")
+    assert t and any(m.get("ctx", {}).get("invite") == inv[0]["id"] and m["replies"] for m in t["msgs"])
+    # say yes: the plan says what and with whom
+    w.meta["control"]["queued"] = {"invite": inv[0]["id"]}
+    label = planner.plan_label(sim, w.meta["control"]["queued"])
+    first = w.chars[inv[0]["from"]].first
+    assert label in (f"Hanging out with {first}, next time you're free", f"Going out with {first}, next time you're free"), label

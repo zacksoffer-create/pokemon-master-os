@@ -53,7 +53,7 @@ TAGS = {
 PHASE_TAG = {"dawn": "morning", "classes": "morning", "lunch": "afternoon", "after_school": "afternoon", "day": "afternoon",
              "evening": "evening", "night": "late_night"}
 # pools whose lines are casual enough to dress with an opener or a closer
-DRESS = {"invite", "invite_date", "after_good", "after_good_date", "after_awkward", "u_ok", "they_apologize", "congrats_team",
+DRESS = {"invite", "invite_date", "invite_later", "after_good", "after_good_date", "after_awkward", "u_ok", "they_apologize", "congrats_team",
          "consolation_cut", "congrats_award", "rumor", "chatter_partner", "flirt_in", "park_followup", "sibling_home", "sibling_chatter", "chatter_plans", "chatter_school", "chatter_vent", "chatter_funny",
          "chatter_game", "friend_first_day", "scene"}
 SPOKEN = [(r"\bu\b", "you"), (r"\bur\b", "your"), (r"\br\b", "are"), (r"\btn\b", "tonight"), (r"\btmrw\b", "tomorrow"),

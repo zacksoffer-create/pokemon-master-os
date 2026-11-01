@@ -103,11 +103,11 @@
    "{a} and {b} hung out at {place}. It went sideways."
   ],
   "interact.hang_out.declined": [
-   "{a} asked {b} to hang out. {b} said no.",
+   "{a} asked {b} to hang out. {b} passed this time.",
    "{a} invited {b} to {place}; {b} passed."
   ],
   "interact.hang_out.busy": [
-   "{a} tried to get {b} to hang out, but {b} was already busy."
+   "{a} wanted to hang out with {b}, but {b} already had plans."
   ],
   "interact.support.great": [
    "{a} checked in on {b}, who'd been having a hard time. It really helped.",
@@ -535,11 +535,11 @@
    "{a} turned {n}."
   ],
   "interact.hang_out.invited": [
-   "{a} asked {b} to hang out. Waiting on an answer.",
+   "{a} asked {b} to hang out.",
    "{a} texted {b}: want to hang out?"
   ],
   "interact.date.invited": [
-   "{a} asked {b} out on a date. Waiting on an answer."
+   "{a} asked {b} out on a date."
   ],
   "ask_out.pending": [
    "{a} asked {b} out. Waiting on an answer."
