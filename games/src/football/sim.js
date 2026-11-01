@@ -519,6 +519,31 @@ const FB = (() => {
     // the rushers know where the ball is from the snap; the coverage is watching receivers
     for (const d of P.players) if (d.team === 'D') d.know = d.role === 'rush' ? P.t : Infinity;
   }
+  // where a receiver will be in t seconds if he keeps running his route
+  function routeAhead(m, t) {
+    let x = m.x, y = m.y, left = t * Math.max(m.v, m.spd * 0.9);
+    if (m.role !== 'route' || !m.wps) return [m.x + m.vx * t, m.y + m.vy * t];
+    let i = m.wi;
+    while (left > 0 && i < m.wps.length) {
+      const [tx, ty] = m.wps[i], d = Math.hypot(tx - x, ty - y);
+      if (d >= left) return [x + ((tx - x) / (d || 1)) * left, y + ((ty - y) / (d || 1)) * left];
+      x = tx; y = ty; left -= d; i++;
+    }
+    if (m.sit) return [x, y];
+    let dx = Math.cos(m.h), dy = Math.sin(m.h);
+    if (m.wi < m.wps.length || i > m.wi) { const n = m.wps.length, a = n > 1 ? m.wps[n - 2] : [m.x0, m.y0], b = m.wps[n - 1], dl = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1; dx = (b[0] - a[0]) / dl; dy = (b[1] - a[1]) / dl; }
+    return [x + dx * left, clamp(y + dy * left, -SIDE + 1, SIDE - 1)];
+  }
+  // zip: 0 floats it, 1 is a laser; the default is a normal throw
+  const ZIP = 0.43;
+  const throwSpeed = (dd, zip) => (15 + dd * 0.2) * (0.85 + 0.35 * (zip == null ? ZIP : zip));
+  // the spot to throw to so the ball meets him in stride
+  function leadFor(P, id, zip) {
+    const q = P.by.QB, m = P.by[id];
+    let T = 0.6, px = m.x, py = m.y;
+    for (let i = 0; i < 4; i++) { [px, py] = routeAhead(m, T); T = Math.hypot(px - q.x, py - q.y) / throwSpeed(Math.hypot(px - q.x, py - q.y), zip); }
+    return { x: px, y: py, T };
+  }
   function canThrow(P) {
     const q = P.by.QB;
     return P.play === 'pass' && P.phase === 'run' && P.carrier === q && !P.thrown && !P.scramble && q.st !== 'down';
@@ -568,11 +593,11 @@ const FB = (() => {
     const correct = target.sep >= 0.8 || val(target) >= val(best) - 0.6;
     return { kind: 'throw', choice: target.id, sep: Math.round(target.sep * 10) / 10, best: best.id, bestSep: Math.round(best.sep * 10) / 10, cov: P.look.cov, correct };
   }
-  function doThrow(P, tx, ty) {
+  function doThrow(P, tx, ty, zip) {
     if (!canThrow(P)) return false;
     const q = P.by.QB, r = P.r;
     const dx = tx - q.x, dy = ty - q.y, dd = Math.max(2, Math.hypot(dx, dy));
-    const v = 15 + dd * 0.2, T = dd / v;
+    const z = zip == null ? ZIP : clamp(zip, 0, 1), v = throwSpeed(dd, z), T = dd / v;
     let near = 9, hit = false;
     for (const d of P.players) if (d.team === 'D' && d.st !== 'down' && !d.eng) { const k = dist(d, q); near = Math.min(near, k); if (d.st === 'lunge' && k < 1.6) hit = true; }
     let err = 0.35 + dd * 0.025 + (near < 2.2 ? 0.25 + (2.2 - near) * 0.45 : 0) + (hit ? 0.8 : 0) + (q.v > 3 ? 0.3 : 0) - (P.skill - 55) * 0.004;
@@ -580,7 +605,7 @@ const FB = (() => {
     const ux = dx / dd, uy = dy / dd, e1 = gauss(r) * err * 0.7, e2 = gauss(r) * err;
     const ax = tx + ux * e2 - uy * e1, ay = ty + uy * e2 + ux * e1;
     P.dec.read1 = judgeThrow(P, tx, ty, T);
-    P.ball = { st: 'pass', fx: q.x, fy: q.y, tx: ax, ty: ay, T, t0: P.t, peak: 0.35 + dd * 0.075, x: q.x, y: q.y, z: 1.9, to: P.dec.read1.choice };
+    P.ball = { st: 'pass', fx: q.x, fy: q.y, tx: ax, ty: ay, T, t0: P.t, peak: (0.35 + dd * 0.075) * (1.25 - 0.6 * z), x: q.x, y: q.y, z: 1.9, to: P.dec.read1.choice };
     P.thrown = { t: P.t, err: Math.round(err * 100) / 100, dist: Math.round(dd), target: P.dec.read1.choice, pressured: near < 2.2 || hit };
     P.carrier = null; q.st = 'fake'; q.fakeT = 9;
     // receivers who can get there go for it; the coverage breaks on it once he sees it
@@ -1093,13 +1118,13 @@ const FB = (() => {
     } else if (P.phase === 'mesh') meshStep(P, inp, dt);
     else if (P.phase === 'run') {
       // lining up a throw slows the world down a touch
-      const want = P.play === 'pass' && inp.aiming && canThrow(P) ? 0.55 : 1;
-      P.scale += clamp(want - P.scale, -3 * real, 2.4 * real);
+      const want = P.play === 'pass' && inp.aiming && canThrow(P) ? 0.72 : 1;
+      P.scale += clamp(want - P.scale, -1.6 * real, 2.4 * real);
       const c = P.ctrl, q = P.by.QB;
       if (c && c === q && P.play === 'pass' && P.carrier === q && !P.scramble) pocketStep(P, q, inp, dt);
       else if (c && (P.carrier === c || P.ball.st === 'loose')) carrierStep(P, c, inp, dt);
       if (inp.pitch) doPitch(P);
-      if (inp.throw) doThrow(P, inp.throw.x, inp.throw.y);
+      if (inp.throw) doThrow(P, inp.throw.x, inp.throw.y, inp.throw.zip);
     }
     if (P.play === 'pass' && P.phase !== 'pre' && P.phase !== 'dead') for (const id of ELIGIBLE) {
       const m = P.by[id]; m.hist.push({ t: P.t, x: m.x, y: m.y });
@@ -1146,7 +1171,7 @@ const FB = (() => {
     return [read1Of(P).id, key2Of(P).id];
   }
 
-  return { SIDE, HASH, KIND, LOOKS, COVERS, CONCEPTS, ROUTES, ELIGIBLE, create, step, keys, canPitch, canThrow, routeArt, openness,
+  return { SIDE, HASH, KIND, LOOKS, COVERS, CONCEPTS, ROUTES, ELIGIBLE, create, step, keys, canPitch, canThrow, routeArt, openness, leadFor, routeAhead, throwSpeed,
     meshBack, pitchMan, read1Of, key2Of, dist, angDiff, clamp };
 })();
 if (typeof module !== 'undefined') module.exports = FB;

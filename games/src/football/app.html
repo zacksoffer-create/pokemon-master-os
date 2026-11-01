@@ -135,7 +135,7 @@
       <span>🕹</span><span><b>Left thumb</b> steers whoever has the ball. Let go and he runs upfield.</span>
       <span>↕</span><span><b>Right thumb:</b> swipe up or down to <b>juke</b>, back to <b>spin</b>, forward to <b>hurdle</b>. Tap to lower your shoulder and <b>truck</b>.</span>
       <span>🧠</span><span>Truck the small guys. Juke the big ones. Spin off a man coming from the side. Hurdle a man <b>as he dives</b>, never one standing up.</span>
-      <span>🎯</span><span><b>Passing:</b> tap SNAP. Pull back on the right side of the screen to aim (the arc shows where it lands), let go to throw. Lead your man. The left thumb moves the QB; cross the line and you're a runner.</span>
+      <span>🎯</span><span><b>Passing:</b> tap SNAP. The camera goes up behind you (All-22) so you can see the routes. Pull down and to the side on the right half of the screen to aim (the arc shows where it lands), let go to throw. Lead your man. The left thumb moves the QB; cross the line and you're a runner.</span>
     </div>
     <p style="margin-top:10px">Read help puts a ring on the two defenders you're reading and slows the exchange. Turn it off in settings when you've got it.</p>
     <button class="oa-go" id="oa-how-go">Got it</button>
@@ -149,6 +149,7 @@
     <div class="oa-row"><b>Exchange speed</b><div class="oa-chips" data-set="exch"><button data-v="slow">Slow</button><button data-v="normal">Normal</button><button data-v="quick">Quick</button></div></div>
     <div class="oa-row"><b>Read help</b><div class="oa-chips" data-set="help"><button data-v="on">Rings on the reads</button><button data-v="off">Off</button></div></div>
     <div class="oa-row" id="oa-diffrow"><b>Defense</b><div class="oa-chips" data-set="diff"><button data-v="easy">Easy</button><button data-v="normal">Normal</button><button data-v="hard">Hard</button></div></div>
+    <div class="oa-row"><b>Camera angle</b><div class="oa-chips" data-set="cam"><button data-v="auto">All-22 on passes</button><button data-v="a22">All-22 always</button><button data-v="side">Sideline always</button></div></div>
     <div class="oa-row"><b>Camera</b><div class="oa-chips" data-set="zoom"><button data-v="close">Close</button><button data-v="wide">Wide</button></div></div>
     <div class="oa-row"><b>Sound</b><div class="oa-chips" data-set="sound"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
     <button class="oa-go" id="oa-set-done">Done</button>
@@ -253,7 +254,9 @@ const lookName = k => (FB.LOOKS.find(l => l[0] === k) || [k, String(k).split('+'
 // ------------------------------------------------------------------ saved settings and film
 function load() { try { return JSON.parse(localStorage.getItem(SAVE)) || {}; } catch (_) { return {}; } }
 const saved = load();
-const S = Object.assign({ mesh: 'hold', exch: 'normal', help: 'on', diff: 'normal', zoom: 'close', sound: 'on' }, saved.settings || {});
+const S = Object.assign({ mesh: 'hold', exch: 'normal', help: 'on', diff: 'normal', zoom: 'close', sound: 'on', cam: 'auto' }, saved.settings || {});
+// which camera a play uses: the All-22 end-zone angle shows downfield for passes; the sideline view for the run game
+const camFor = play => (S.cam === 'a22' ? 'a22' : S.cam === 'side' ? 'side' : play === 'pass' ? 'a22' : 'side');
 let film = Array.isArray(saved.film) ? saved.film : [];
 let best = saved.best || {};
 let seenHow = !!saved.seenHow;
@@ -303,15 +306,16 @@ const Snd = (() => {
 const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (_) {} };
 
 // ------------------------------------------------------------------ screen
-let W = 0, H = 0, V = null;
+let W = 0, H = 0, V = null, P = null;
 function resize() {
   const dpr = Math.min(2, window.devicePixelRatio || 1);
   W = window.innerWidth; H = window.innerHeight;
   cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
   g.setTransform(dpr, 0, 0, dpr, 0, 0);
   const old = V;
-  V = FBView.view(W, H, S.zoom === 'wide' ? 0.78 : 1);
+  V = FBView.view(W, H, S.zoom === 'wide' ? 0.78 : 1, old ? old.mode : 'side');
   if (old) { V.cx = old.cx; V.cy = old.cy; }
+  if (P) FBView.follow(V, P, 1, true);
   $('oa-turn').style.display = H > W ? '' : 'none';
 }
 window.addEventListener('resize', resize);
@@ -320,7 +324,7 @@ resize();
 // ------------------------------------------------------------------ the game: modes, downs, the play
 const G = { mode: null, n: 0, max: 10, spot: 35, down: 1, toGo: 10, fdAt: 45, startSpot: 35, call: 'tri-d', look: 'mixed', cover: 'mixed', total: 0, plays: [], over: false };
 let nextSeed = null;
-let P = null, deadAt = null, cardUp = false, pullAt = null, fxList = [], tNow = 0;
+let deadAt = null, cardUp = false, pullAt = null, fxList = [], tNow = 0;
 const LIFE = { on: false, cfg: null };
 function difficulty() { return LIFE.on ? (+LIFE.cfg.difficulty || 50) + (G.mode === 'goal' ? 6 : 0) : DIFF[S.diff] + (G.mode === 'goal' ? 6 : 0); }
 function skill() { return LIFE.on ? +LIFE.cfg.skill || 55 : 55; }
@@ -347,6 +351,7 @@ function newPlay() {
     toGoal: 100 - spot, toOwn: spot, mesh: S.mesh, exchange: S.exch, training: S.help === 'on' });
   aimT = null;
   P.spotAbs = spot;
+  FBView.setMode(V, camFor(c.play));
   FBView.follow(V, P, 1, true);
   inp.hold = false;
   updateHud(true);
@@ -368,8 +373,8 @@ function aimTarget() {
   if (!aimT || !P) return null;
   const px = aimT.ox - aimT.x, py = aimT.oy - aimT.y, pl = Math.hypot(px, py);
   if (pl < 12) return null;
-  const k = 0.22 * 390 / Math.max(320, Math.min(W, H)), qb = P.by.QB;
-  let fx = px * k, fy = (py / FBView.K) * k;
+  const k = 0.22 * 390 / Math.max(320, Math.min(W, H)), qb = P.by.QB, d = toField(px, py);
+  let fx = d.x * k, fy = d.y * k;
   const fl = Math.hypot(fx, fy), want = Math.max(3, Math.min(45, fl));
   fx *= want / fl; fy *= want / fl;
   return { x: qb.x + fx, y: Math.max(-FB.SIDE + 0.5, Math.min(FB.SIDE - 0.5, qb.y + fy)) };
@@ -383,13 +388,12 @@ function quickThrow(id) {
   q.throw = { x: m.x + m.vx * T, y: m.y + m.vy * T };
 }
 const keys = {};
+// a motion on the screen as a direction on the field: sideline camera, right is downfield; All-22, up is downfield
+function toField(dx, dy) { return V.mode === 'a22' ? { x: -dy, y: dx } : { x: dx, y: dy / FBView.K }; }
 function steerVec() {
-  if (stick && Math.hypot(stick.x - stick.ox, stick.y - stick.oy) > 9) {
-    const dx = stick.x - stick.ox, dy = (stick.y - stick.oy) / FBView.K;
-    return { x: dx, y: dy };
-  }
+  if (stick && Math.hypot(stick.x - stick.ox, stick.y - stick.oy) > 9) return toField(stick.x - stick.ox, stick.y - stick.oy);
   const kx = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0), ky = (keys.ArrowDown ? 1 : 0) - (keys.ArrowUp ? 1 : 0);
-  if (kx || ky) return { x: kx || 0.0001, y: ky };
+  if (kx || ky) { const f = toField(kx, ky); return { x: f.x || 0.0001, y: f.y }; }
   return null;
 }
 function blocked() { return cardUp || !$('oa-home').hidden || [...document.querySelectorAll('.oa-ov')].some(o => !o.hidden); }
@@ -406,8 +410,10 @@ cv.addEventListener('pointermove', e => {
   if (aimT && e.pointerId === aimT.id) { aimT.x = e.clientX; aimT.y = e.clientY; }
   if (gest && e.pointerId === gest.id && !gest.done) {
     const dx = e.clientX - gest.x0, dy = e.clientY - gest.y0, el = performance.now() - gest.t0;
-    if (el < 380 && Math.abs(dy) > 24 && Math.abs(dy) > Math.abs(dx) * 1.2) { q.juke = dy > 0 ? 1 : -1; gest.done = true; }
-    else if (el < 380 && Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy) * 1.2) { if (dx > 0) q.hurdle = true; else q.spin = true; gest.done = true; }
+    // across the field is a juke, toward the goal a hurdle, back toward your own end a spin
+    const f = toField(dx, dy), across = Math.hypot(dx, dy);
+    if (el < 380 && across > 26 && Math.abs(f.y) > Math.abs(f.x) * 1.2) { q.juke = f.y > 0 ? 1 : -1; gest.done = true; }
+    else if (el < 380 && across > 30 && Math.abs(f.x) > Math.abs(f.y) * 1.2) { if (f.x > 0) q.hurdle = true; else q.spin = true; gest.done = true; }
   }
 });
 function endPointer(e) {
@@ -499,10 +505,11 @@ function updateButtons(dt) {
     const n = film.length;
     let h = '';
     const passes = film.filter(f => f.play === 'pass').length;
-    if (ph === 'pre' && P.play === 'pass') h = passes < 6 ? 'Tap SNAP. Pull back on the right side to aim, let go to throw.' : '';
+    const pullWord = V.mode === 'a22' ? 'Pull down' : 'Pull back';
+    if (ph === 'pre' && P.play === 'pass') h = passes < 6 ? `Tap SNAP. ${pullWord} on the right side to aim, let go to throw.` : '';
     else if (ph === 'pre') h = n < 6 ? (S.mesh === 'hold' ? 'Hold GIVE to snap. Keep holding to give it, let go to pull it.' : 'Tap SNAP, then tap GIVE before the exchange ends to give it.') : '';
-    else if (ph === 'run' && FB.canThrow(P) && passes < 6) h = aimT ? 'Let go to throw · pull farther to throw farther' : 'Pull back on the right to aim · left thumb moves the QB';
-    else if (ph === 'run' && P.carrier === P.ctrl && P.carrier && n < 8) h = 'Left thumb steers · swipe ↑↓ juke · ← spin · → hurdle · tap truck';
+    else if (ph === 'run' && FB.canThrow(P) && passes < 6) h = aimT ? 'Let go to throw · pull farther to throw farther' : `${pullWord} on the right to aim · left thumb moves the QB`;
+    else if (ph === 'run' && P.carrier === P.ctrl && P.carrier && n < 8) h = V.mode === 'a22' ? 'Left thumb steers · swipe ←→ juke · ↓ spin · ↑ hurdle · tap truck' : 'Left thumb steers · swipe ↑↓ juke · ← spin · → hurdle · tap truck';
     if ($('oa-hint').textContent !== h) $('oa-hint').textContent = h;
   }
 }
@@ -721,6 +728,7 @@ function goHome() {
   $('oa-pbest').textContent = best.pass ? `Best set: ${best.pass} yards` : '';
   $('oa-home').hidden = false;
   P = FB.create({ play: 'triple', side: 1, look: 'mixed', difficulty: 50 });
+  FBView.setMode(V, 'side');
   FBView.follow(V, P, 1, true);
   updateHud(true);
 }
@@ -749,6 +757,7 @@ document.querySelectorAll('[data-set]').forEach(row => row.addEventListener('cli
   const b = e.target.closest('button'); if (!b) return;
   S[row.dataset.set] = b.dataset.v; persist(); renderSettings(); Snd.play('ui');
   if (row.dataset.set === 'zoom') resize();
+  if (row.dataset.set === 'cam' && P) { FBView.setMode(V, G.mode ? camFor(P.play) : 'side'); FBView.follow(V, P, 1, true); }
   if (P && P.phase === 'pre') { P.mesh = S.mesh; P.slow = { slow: 0.42, normal: 0.6, quick: 0.82 }[S.exch]; P.training = S.help === 'on'; }
 }));
 const openSettings = () => { renderSettings(); $('oa-settings').hidden = false; };

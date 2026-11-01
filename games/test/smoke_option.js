@@ -160,6 +160,7 @@ async function passing(browser, w, h, tag) {
   await p.click('[data-mode="pass"]'); await wait(200);
   await OA(() => { OptionArcade.G.cover = 'cover3'; OptionArcade.G.call = 'smash'; OptionArcade.newPlay(); });
   await wait(250); await shot('p04-pass-presnap');
+  check(await OA(() => OptionArcade.V.mode === 'a22'), `${tag}: pass plays use the All-22 camera`);
   [gx, gy] = await box('#oa-give');
   await p.mouse.click(gx, gy);
   await p.waitForFunction(() => OptionArcade.P.phase === 'run' && FB.canThrow(OptionArcade.P), null, { timeout: 5000 });
@@ -167,14 +168,16 @@ async function passing(browser, w, h, tag) {
   await OA(({ w, h }) => {
     const cv = document.getElementById('oa-canvas');
     const ev = (type, x, y) => cv.dispatchEvent(new PointerEvent(type, { pointerId: 31, clientX: x, clientY: y, bubbles: true, pointerType: 'touch' }));
-    ev('pointerdown', w * 0.8, h * 0.62); ev('pointermove', w * 0.8 - 40, h * 0.62 + 5); ev('pointermove', w * 0.8 - 85, h * 0.62 + 10);
-    window.__release = () => ev('pointerup', w * 0.8 - 85, h * 0.62 + 10);
+    // All-22: pull down (and a little to the side) on the right half; the throw goes upfield
+    ev('pointerdown', w * 0.75, h * 0.45); ev('pointermove', w * 0.74, h * 0.45 + 50); ev('pointermove', w * 0.72, h * 0.45 + 100);
+    window.__release = () => ev('pointerup', w * 0.72, h * 0.45 + 100);
   }, { w, h });
   await wait(120); await shot('p05-aiming');
   check(await OA(() => OptionArcade.P.scale < 0.95), `${tag}: lining up a throw slows the world down`);
   await OA(() => window.__release());
   await p.waitForFunction(() => OptionArcade.P.thrown || OptionArcade.P.phase === 'dead', null, { timeout: 3000 }).catch(() => {});
   check(await OA(() => !!OptionArcade.P.thrown), `${tag}: letting go throws it`);
+  check(await OA(() => OptionArcade.P.ball.tx > OptionArcade.P.by.QB.x + 8), `${tag}: pulling down throws it downfield`);
   await wait(350); await shot('p06-ball-in-air');
   await cardUp(); await wait(200); await shot('p07-pass-card');
   const t = await OA(() => document.getElementById('oa-reads').textContent + ' | ' + document.getElementById('oa-yds').textContent);
@@ -188,6 +191,10 @@ async function passing(browser, w, h, tag) {
   await p.waitForFunction(() => OptionArcade.P.thrown || OptionArcade.P.phase === 'dead', null, { timeout: 3000 }).catch(() => {});
   check(await OA(() => OptionArcade.P.thrown && OptionArcade.P.thrown.target === 'SR'), `${tag}: the 3 key throws to the right slot`);
   await cardUp();
+  // the camera setting: sideline always puts pass plays back on the sideline view
+  await OA(() => { OptionArcade.S.cam = 'side'; OptionArcade.newPlay(); });
+  check(await OA(() => OptionArcade.V.mode === 'side'), `${tag}: 'Sideline always' keeps passes on the sideline camera`);
+  await OA(() => { OptionArcade.S.cam = 'auto'; });
   // the whole playbook in a drive
   await p.click('#oa-exit');
   await p.click('[data-mode="drive"]'); await wait(200);
