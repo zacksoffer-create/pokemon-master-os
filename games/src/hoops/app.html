@@ -285,6 +285,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
 <!--@include shared/gesture.js-->
 <!--@include shared/audio.js-->
 <!--@include shared/save.js-->
+<!--@include shared/lifeos.js-->
 <!--@include hoops/court.js-->
 <!--@include hoops/physics.js-->
 <!--@include hoops/defense.js-->
@@ -335,11 +336,14 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let engine = null, lastSpec = null, lastCtx = null, current = 'home';
   let pmEngine = null, pmSpec = null, pmCtx = null;
+  // Inside LIFE OS (an iframe with ?embed=1) the page plays one session and hands its score back. On its own, EMBED is false and nothing below changes.
+  const EMBED = LifeOS.embedded;
+  let pmFeelLock = null; // the LIFE OS Playmaker round plays on Casual without touching the saved setting
 
   function applySettings() {
     Sfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ touchK: D.touchK || 1.75, feel: D.settings.feel, showTags: D.settings.tags });
-    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, pmFeel: D.settings.pmFeel || 'casual', court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur });
+    if (pmEngine) pmEngine.setSettings({ feel: D.settings.feel, pmFeel: pmFeelLock || D.settings.pmFeel || 'casual', court: D.settings.court, passK: D.pm.k, passL0: D.pm.l0, passDur: D.pm.dur });
   }
   function go(id) {
     document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
@@ -418,7 +422,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
         const t = lastCtx.then; lastCtx = null;
         if (t) t(); else go('home');
       },
-      onQuit: () => { closeGame(); go('home'); }
+      onQuit: () => { closeGame(); if (EMBED) return LifeOS.quit(); go('home'); }
     });
   }
 
@@ -432,8 +436,12 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     closeGame();
     const ctx = lastCtx || {};
     recordZones(res);
-    if (res.kind === 'free') { D.records.free.makes += res.makes; D.records.free.attempts += res.attempts; store.save(); return go('home'); }
-    if (quit && !(res.log && res.log.length) && res.kind !== 'horse') { store.save(); return go(ctx.back || 'home'); }
+    if (res.kind === 'free') {
+      D.records.free.makes += res.makes; D.records.free.attempts += res.attempts; store.save();
+      if (EMBED) { if (!res.attempts) return LifeOS.quit(); renderResults(res, false, ctx); return go('results'); }
+      return go('home');
+    }
+    if (quit && !(res.log && res.log.length) && res.kind !== 'horse') { store.save(); if (EMBED) return LifeOS.quit(); return go(ctx.back || 'home'); }
     let newBest = false;
     if (res.kind === 'possessions') {
       (res.log || []).forEach(l => {
@@ -459,7 +467,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       }
     }
     store.save();
-    if (quit && res.kind === 'horse') return go(ctx.back || 'horse');
+    if (quit && res.kind === 'horse') { if (EMBED) return LifeOS.quit(); return go(ctx.back || 'horse'); }
     renderResults(res, newBest, ctx);
     go('results');
   }
@@ -497,6 +505,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="${esc(ctx.back || 'home')}" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>${head}${body}
       <div class="ctas"><button class="cta" type="button" id="again">Run it back</button><button class="cta ghost" type="button" data-go="${esc(ctx.back || 'home')}">Done</button></div>`;
     $('#again').addEventListener('click', () => { Sfx.play('ui'); play(lastSpec, lastCtx); });
+    if (EMBED) embedResults(el, lifeosResult(res, lastSpec, ctx));
   }
 
   // ---------- HORSE ----------
@@ -677,7 +686,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
         if (res.passK) { D.pm.k = res.passK; D.pm.l0 = res.passL0; D.pm.dur = res.passDur; store.save(); applySettings(); }
         if (then) then(); else go('pm');
       },
-      onQuit: () => { closePm(); go('pm'); }
+      onQuit: () => { closePm(); if (EMBED) return LifeOS.quit(); go('pm'); }
     });
   }
   function finishPm(res, quit) {
@@ -692,7 +701,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       const s = D.scoutDef[l.scheme] = D.scoutDef[l.scheme] || { faced: 0, points: 0, a: 0 };
       s.faced++; s.points += l.points; if (l.grade === 'A') s.a++;
     });
-    if (quit && !(res.log && res.log.length)) { store.save(); return go('pm'); }
+    if (quit && !(res.log && res.log.length)) { store.save(); if (EMBED) return LifeOS.quit(); return go('pm'); }
     let newBest = false;
     if (!quit) {
       const r = D.pm;
@@ -724,6 +733,7 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
       ${sc ? `<div class="panel"><h3>One to work on</h3><p class="lede"><b>${esc(sc.name)}.</b> ${esc(sc.tell)} ${esc(sc.read)}</p></div>` : ''}
       <div class="ctas"><button class="cta" type="button" id="pm-again">Run it back</button><button class="cta ghost" type="button" data-go="pm">Done</button></div>`;
     $('#pm-again').addEventListener('click', () => { Sfx.play('ui'); playPm(pmSpec, pmCtx); });
+    if (EMBED) embedResults(el, lifeosResult(res, pmSpec, ctx));
   }
   const PM_FEELS = [['casual', 'Casual', 'Flick toward a man and it finds him, leading him, with the pass that gets through traffic. Your reads still decide it.'], ['normal', 'Normal', 'A smaller cone, and your flick picks the pass: snap it for a bullet, pull back for a bounce.'], ['pro', 'Pro', 'You throw it to a spot. Where he is when it gets there is on you.']];
   function renderPmFeel() {
@@ -786,11 +796,78 @@ input[type=text] { width: 100%; box-sizing: border-box; padding: 11px 12px; bord
     }
   });
 
+  // ---------- LIFE OS (embedded only) ----------
+  // play "clutch": three possessions with the game on the line, defenders picked by difficulty.
+  // play "playmaker": five Playmaker trips on Casual passing. Anything else ("menu"): the home screen; the first session
+  // that reaches the results screen is the one that counts.
+  const CLUTCH_DEFENDERS = {
+    easy: ['sagger', 'baseline', 'middle'],                     // he gives you the jumper, or tells you which way to drive
+    mixed: ['sagger', 'baseline', 'middle', 'closer', 'gambler'],
+    tough: ['closer', 'long', 'pest', 'gambler']               // plus help behind him after the first trip
+  };
+  function clutchSpec(cfg) {
+    const d = Number(cfg.difficulty), diff = isFinite(d) ? d : 50;
+    const tier = diff < 45 ? 'easy' : diff <= 65 ? 'mixed' : 'tough';
+    const count = 3;
+    const plan = Array.from({ length: count }, (_, i) => i === 0 ? { situation: `Game on the line: ${count} possessions` } : i === count - 1 ? { situation: 'Last possession' } : {});
+    const spec = { kind: 'possessions', court: 'gym', count, shotClock: 6, defenders: CLUTCH_DEFENDERS[tier], help: tier === 'tough' ? 'mix' : 'none', helpRate: 1, plan,
+                   title: cfg.opponent ? `vs ${cfg.opponent}` : 'Game on the line' };
+    if (Number(cfg.seed)) spec.seed = Number(cfg.seed) >>> 0;
+    return spec;
+  }
+  // score / max for LIFE OS (great at 80%, good at 50%), from the numbers the results screen already shows.
+  function lifeosResult(res, spec, ctx) {
+    spec = spec || {};
+    const log = res.log || [];
+    const scored = log.filter(l => l.points > 0).length;
+    let score = 0, max = 1, summary = '';
+    if (res.kind === 'possessions' || res.kind === 'pm') {
+      max = spec.count || (res.kind === 'pm' ? 8 : log.length) || 1;
+      score = scored;
+      summary = res.kind === 'pm' ? `Scored on ${scored} of ${max} trips` + (res.assists ? `, ${res.assists} assist${res.assists === 1 ? '' : 's'}` : '') : `Scored on ${scored} of ${max} possessions`;
+    } else if (res.kind === 'rack') {
+      max = (spec.racks || []).length * ((spec.perRack || 5) + (spec.money ? 1 : 0)) || 1;
+      score = res.points;
+      summary = `${res.points} of ${max} points`;
+    } else if (res.kind === 'horse') {
+      const w = spec.word || 'HORSE', L = res.letters || { you: 0, cpu: 0 }, opp = spec.opponent ? spec.opponent.name : 'them';
+      max = w.length + 1; // a win is full marks; a loss counts the letters you put on them, so even H-O-R-S is short of great
+      score = res.won ? max : Math.min(w.length, L.cpu);
+      summary = `${res.won ? 'Beat' : 'Lost to'} ${opp} at ${w}, ${L.you} letter${L.you === 1 ? '' : 's'} to ${L.cpu}`;
+    } else {
+      max = res.attempts || 1;
+      score = res.makes || 0;
+      summary = `${res.makes || 0} of ${res.attempts || 0} shots`;
+    }
+    score = Math.max(0, Math.min(max, Number(score) || 0));
+    const mode = ctx.lifeos || ctx.rec || (ctx.challenge || ctx.back === 'builder' ? 'challenge' : res.kind === 'pm' ? 'playmaker' : res.kind);
+    const { zone, log: _log, ...rest } = res;
+    const stats = Object.assign(rest, { mode, title: ctx.title || spec.title || '', log: log.map(({ actions, text, tags, ...l }) => l) });
+    return { score, max, summary, stats };
+  }
+  // Results screen inside LIFE OS: one way out, Done, which hands the score back.
+  function embedResults(el, result) {
+    el.querySelectorAll('.bar .back').forEach(b => b.remove());
+    const ctas = el.querySelector('.ctas');
+    ctas.insertAdjacentHTML('beforebegin', `<p class="note">${esc(result.summary)}</p>`);
+    ctas.innerHTML = '<button class="cta" type="button" id="lifeos-done">Done</button>';
+    const done = ctas.querySelector('#lifeos-done');
+    done.addEventListener('click', () => { Sfx.play('ui'); done.disabled = true; LifeOS.finish(result); });
+  }
+  function embedStart(cfg) {
+    applySettings();
+    const what = String(cfg.play || 'menu');
+    if (what === 'clutch') { const spec = clutchSpec(cfg); return play(spec, { lifeos: 'clutch', title: spec.title }); }
+    if (what === 'playmaker') { pmFeelLock = 'casual'; return playPm({ kind: 'pm', count: 5, shotClock: 13, title: 'Playmaker' }, { lifeos: 'playmaker', title: 'Playmaker' }); }
+    go('home');
+  }
+
   // live updates from the viewer keep the current screen
   if (window.claude && window.claude.hot && typeof window.claude.hot.snapshot === 'function') {
     try { window.claude.hot.snapshot(() => ({ screen: current })); } catch (_) {}
   }
   const boot = data => { applySettings(); go(data && data.screen && document.getElementById(data.screen) && data.screen !== 'results' ? data.screen : 'home'); };
-  if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
+  if (EMBED) { document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = true; }); LifeOS.onStart(embedStart); }
+  else if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
 })();
 </script>

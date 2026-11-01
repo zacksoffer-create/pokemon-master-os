@@ -215,6 +215,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 <!--@include golf/reads.js-->
 <!--@include golf/swing.js-->
 <!--@include golf/engine.js-->
+<!--@include shared/lifeos.js-->
+<!--@include golf/embed.js-->
 </script>
 <script>
 (() => {
@@ -259,12 +261,18 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let engine = null, lastSpec = null, lastCtx = null, current = 'home';
   const toPar = n => n === 0 ? 'E' : n > 0 ? '+' + n : String(n);
+  // LIFE OS: inside the phone app (lifeos.js) the first results screen hands its score back.
+  // embedPlay is what LIFE OS asked for; anything but 'menu' launches one session with no home screen.
+  const EMBED = LifeOS.embedded;
+  let embedPlay = null;
+  const embedDirect = () => EMBED && embedPlay != null && embedPlay !== 'menu';
 
   function applySettings() {
     GolfSfx.muted = !D.settings.sound;
     if (engine) engine.setSettings({ feel: D.settings.feel, showTags: D.settings.tags, swing: D.swing, shirt: D.settings.shirt, seen: D.seen });
   }
   function go(id) {
+    if (id === 'home' && embedDirect()) return LifeOS.quit(); // a launched session has no home screen: leaving it backs out
     document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
     current = id;
     if (id === 'home') renderHome();
@@ -425,9 +433,18 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
       }
     }
     const title = ctx.title || (lastSpec && lastSpec.title) || 'Results';
+    if (EMBED) return renderEmbedResults(el, res, ctx, title, head, body);
     el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="${esc(ctx.back || 'home')}" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>${head}${body}
       <div class="ctas"><button class="cta" type="button" id="again">Play it again</button><button class="cta ghost" type="button" data-go="${esc(ctx.back || 'home')}">Done</button></div>`;
     $('#again').addEventListener('click', () => { GolfSfx.play('ui'); play(lastSpec, lastCtx); });
+  }
+  // inside LIFE OS the scorecard is the end: Done hands the score back, the back arrow backs out, nothing starts another session
+  function renderEmbedResults(el, res, ctx, title, head, body) {
+    const out = GolfEmbed.result(res, lastSpec, ctx);
+    el.innerHTML = `<div class="bar"><button class="back" type="button" id="lifeos-back" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>${head}${body}
+      <div class="ctas"><button class="cta" type="button" id="lifeos-done">Done</button></div>`;
+    $('#lifeos-back').addEventListener('click', () => { GolfSfx.play('ui'); LifeOS.quit(); });
+    $('#lifeos-done').addEventListener('click', e => { GolfSfx.play('ui'); e.currentTarget.disabled = true; LifeOS.finish(out); });
   }
 
   // ---------- challenges ----------
@@ -501,6 +518,19 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
     try { window.claude.hot.snapshot(() => ({ screen: current })); } catch (_) {}
   }
   const boot = data => { applySettings(); go(data && data.screen && document.getElementById(data.screen) && data.screen !== 'results' ? data.screen : 'home'); };
-  if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
+  // LIFE OS launches: 'menu' is free play from the home screen; 'short' (or 'clutch') is three holes of Play 9,
+  // a stretch picked by the seed; 'putting' the putting green; 'ctp' and 'round' the full modes.
+  const SHORT = [['h1', 'h2', 'h3'], ['h4', 'h5', 'h6'], ['h7', 'h8', 'h9']];
+  function startEmbedded(cfg) {
+    const want = String(cfg.play || 'menu').toLowerCase();
+    embedPlay = { short: 'short', clutch: 'short', putting: 'putting', ctp: 'ctp', round: 'round' }[want] || 'menu';
+    if (embedPlay === 'menu') return go('home');
+    if (embedPlay === 'short') return play({ kind: 'round', holes: SHORT[Math.abs(Math.floor(+cfg.seed || 0)) % 3].slice(), title: 'Three holes' }, { title: 'Three holes' });
+    if (embedPlay === 'putting') return play({ kind: 'putting', putts: PUTTS, title: 'Putting Green' }, { rec: 'putting' });
+    if (embedPlay === 'ctp') return play({ kind: 'ctp', shots: CTP, title: 'Closest to the Pin' }, { rec: 'ctp' });
+    return play({ kind: 'round', holes: GolfCourse.ROUND.slice(), title: 'Play 9' }, { rec: 'round' });
+  }
+  if (EMBED) { applySettings(); $('#home').hidden = true; LifeOS.onStart(startEmbedded); }
+  else if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
 })();
 </script>

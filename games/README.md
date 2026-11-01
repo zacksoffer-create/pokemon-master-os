@@ -9,6 +9,7 @@ Phone games built on shared engines, as a test of the "mechanics library" idea: 
 | **Fairway** (`dist/fairway.html`) | Golf. Pull back and swing through; read the wind, the lie and the pin. Modes: Play 9, Closest to the Pin, Putting Green, Challenges, the Range. | Swing gesture + ball flight, conditions as data |
 | **Pong Night** (`dist/pong-night.html`) | Beer pong against opponents with habits. Read the rack and the guy across the table, call your re-racks. Modes: a game, Rack Attack, Island drills, Practice. | Flick + trajectory, opponents as data, cup physics |
 | **At Bat** (`dist/at-bat.html`) | Baseball hitting. Read the pitcher, the count and the situation, then put a swing on it. Modes: At-Bats, Situational, Home Run Derby, Batting Cage, Challenges. | Hold-drag-swipe swing, pitchers as data, pitch and batted-ball physics, fielders |
+| **Swing Lab** (`dist/swing-lab.html`) | Batting feel prototype. A big, bright, slower ball; swipe through it as it arrives. Fastball, changeup and curveball differ only in how they move. Training mode, pitcher-facing vs side-offset camera, trail and speed settings, and a stats sheet that answers: can you track it, do you know when to swipe, are you improving. | 3D pitch paths, contact plane, timing and height windows, batted-ball flight and fielders, synthesized sounds |
 
 ## Basketball controls
 
@@ -158,6 +159,15 @@ node games/test/shots_school.js OUTDIR   # Living School screens, light and dark
 ```
 
 Run the browser tests one at a time; several Chromium instances at once can run the container out of memory.
+
+## Inside LIFE OS
+
+Every game carries the LIFE OS bridge (`src/shared/lifeos.js`). Opened on its own it plays exactly as before. Inside the
+LIFE OS phone app (an iframe with `?embed=1`) it waits for the round's config, opens the mode LIFE OS asks for
+(`config.play`: `menu`, `clutch`, or a game's own mode like `playmaker` or `short`), and hands the score back with
+`LifeOS.finish({score, max})`. The embed glue lives beside each game (`src/golf/embed.js`, `src/pong/embed.js`,
+`src/bat/embed.js`, and in `src/hoops/app.html`) and never touches the mechanics. After changing a game run
+`python lifeos/tools/sync_games.py` to copy the built pages into LIFE OS.
 
 ## Keep a copy
 

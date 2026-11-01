@@ -510,4 +510,11 @@ Differences from the server:
     `lifeos:minigame` ready/finish/quit). `Trivia.tsx` is the built-in quiz.
 - **Games:** `frontend/public/minigames/*.html` (the lab serves them; `build_phone_app.py` copies them into
   `docs/play/minigames/`). The contract is in that folder's README.
+  - `soccer.html` is written here. The rest are built in `games/` and copied in by `tools/sync_games.py`
+    (basketball-playground → basketball, fairway → golf, pong-night → cup_pong, at-bat → baseball, swing-lab → swing).
+  - Each registry entry's `play` maps a context (free / clutch / scene) to a launch mode; `config()` sends it as
+    `config.play` and the game's embed glue opens that mode. One page can back two entries (`basketball` and
+    `playmaker` both load basketball.html).
+  - `sport_games.baseball` is At Bat. Swing Lab (`swing_lab`) is the batting feel prototype and can take over game day
+    by pointing `sport_games.baseball` at it.
 

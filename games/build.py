@@ -13,6 +13,7 @@ APPS = {
     "golf/app.html": "fairway.html",
     "pong/app.html": "pong-night.html",
     "bat/app.html": "at-bat.html",
+    "swing/app.html": "swing-lab.html",
 }
 
 

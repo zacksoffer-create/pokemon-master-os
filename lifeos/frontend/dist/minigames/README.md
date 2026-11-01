@@ -43,9 +43,19 @@ A round is `score / max`. **Great** is 80% or more, **good** is 50% or more, any
 
 ## Games
 
-| file | status |
-|---|---|
-| `soccer.html` | ready: penalty kicks |
-| `basketball.html` | coming (port from the basketball playground) |
-| `football.html`, `baseball.html` | coming (in progress) |
-| `paper_toss.html`, `cup_pong.html`, `golf.html` | coming (the toss mechanic) |
+The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab) are copied here by
+`python lifeos/tools/sync_games.py`. Edit them in `games/src/`, not here: the sync overwrites these copies.
+
+| file | game id(s) | status | launches |
+|---|---|---|---|
+| `soccer.html` | `soccer_pk` | ready: penalty kicks | menu / clutch |
+| `basketball.html` | `basketball`, `playmaker` | ready: Basketball Playground | menu / clutch (game day) / playmaker |
+| `baseball.html` | `baseball` | ready: At Bat (game day uses this) | menu / clutch |
+| `swing.html` | `swing_lab` | ready: Swing Lab batting prototype | menu / clutch (3 PAs) |
+| `golf.html` | `golf` | ready: Fairway (weekends) | menu / short |
+| `cup_pong.html` | `cup_pong` | ready: cup pong, beer pong in college (weekend nights) | menu / game |
+| `football.html` | `football` | coming (in progress) | |
+| `paper_toss.html` | `paper_toss` | coming (idea: the toss mechanic) | |
+
+`play` in minigames.json says which mode a game opens in for each context (free play, game day clutch, story scene);
+the game reads it from `config.play`.

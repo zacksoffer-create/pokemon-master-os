@@ -212,6 +212,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 <!--@include bat/park.js-->
 <!--@include bat/pitchers.js-->
 <!--@include bat/engine.js-->
+<!--@include shared/lifeos.js-->
+<!--@include bat/embed.js-->
 </script>
 <script>
 (() => {
@@ -239,6 +241,9 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let engine = null, lastSpec = null, lastCtx = null, current = 'home';
+  // inside LIFE OS: one counted session, then Done hands the score back. Opened on its own, none of this runs.
+  const EMBED = LifeOS.embedded;
+  let embedPlay = null;
 
   function applySettings() {
     Sfx.muted = !D.settings.sound;
@@ -311,7 +316,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
         const t = lastCtx.then; lastCtx = null;
         if (t) t(); else go('settings');
       },
-      onQuit: () => { closeGame(); go('home'); }
+      onQuit: () => { closeGame(); if (EMBED && embedPlay === 'clutch') LifeOS.quit(); go('home'); }
     });
   }
 
@@ -334,6 +339,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
       store.save();
       if (quit && !res.swings) return go('cage');
     }
+    if (EMBED && quit && ctx.lifeos === 'clutch' && !(res.log && res.log.length)) { store.save(); LifeOS.quit(); return go('home'); }
+    if (EMBED && quit && res.kind === 'derby' && !res.hr && !res.outs) { store.save(); return go(ctx.back || 'home'); }
     if (quit && !(res.log && res.log.length) && res.kind !== 'derby' && res.kind !== 'cage') { store.save(); return go(ctx.back || 'home'); }
     let newBest = false;
     if (!quit) {
@@ -381,6 +388,44 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
     el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="${esc(ctx.back || 'home')}" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>${head}${body}
       <div class="ctas"><button class="cta" type="button" id="again">Run it back</button><button class="cta ghost" type="button" data-go="${esc(ctx.back || 'home')}">Done</button></div>`;
     $('#again').addEventListener('click', () => { Sfx.play('ui'); play(lastSpec, lastCtx); });
+    if (EMBED) embedResults(res, ctx);
+  }
+
+  // ---------- LIFE OS ----------
+  // the results screen of a counted session: Done reports it, back quits, nothing starts another session or goes home
+  function embedResults(res, ctx) {
+    const r = BatEmbed.result(res, lastSpec, ctx);
+    if (!r) return; // the batting cage is practice: it doesn't end the round
+    const el = $('#results');
+    const back = el.querySelector('.bar .back');
+    back.parentElement.style.cssText = 'position:relative;z-index:1'; // keep the arrow above the big number's glyphs
+    back.removeAttribute('data-go');
+    back.addEventListener('click', () => { Sfx.play('ui'); LifeOS.quit(); });
+    if (ctx.lifeos === 'clutch') {
+      if (ctx.opponent) el.querySelector('.bar').insertAdjacentHTML('afterend', `<div class="eyebrow">vs ${esc(ctx.opponent)}</div>`);
+      el.querySelector('.result-head .big').textContent = `${r.stats.cameThrough}/${r.stats.planned}`;
+      el.querySelector('.result-head .unit').textContent = 'came through';
+      el.querySelector('.result-head').insertAdjacentHTML('afterend', `<p class="lede">${esc(r.summary)}</p>`);
+    } else if (res.kind === 'abs') {
+      el.querySelector('.result-head').insertAdjacentHTML('afterend', `<p class="lede">Did the job in ${r.stats.cameThrough} of ${r.stats.planned}: ${esc(r.summary)}</p>`);
+    }
+    el.querySelector('.ctas').innerHTML = '<button class="cta" type="button" id="lifeos-done">Done</button>';
+    $('#lifeos-done').addEventListener('click', e => {
+      Sfx.play('ui'); e.currentTarget.disabled = true;
+      LifeOS.finish({ score: r.score, max: r.max, summary: r.summary, stats: r.stats });
+    });
+  }
+  function startEmbed(cfg) {
+    $('#app').style.visibility = '';
+    embedPlay = BatEmbed.playOf(cfg);
+    if (embedPlay === 'clutch') {
+      Sfx.unlock();
+      const spec = BatEmbed.clutchSpec(cfg);
+      return play(spec, { lifeos: 'clutch', title: 'Game on the line', opponent: cfg.opponent || '' });
+    }
+    go('home');
+    const b = embedPlay !== 'menu' && document.querySelector(`#home [data-go="${embedPlay}"]`);
+    if (b) b.click();
   }
 
   // ---------- cage ----------
@@ -465,6 +510,7 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
     try { window.claude.hot.snapshot(() => ({ screen: current })); } catch (_) {}
   }
   const boot = data => { applySettings(); go(data && data.screen && document.getElementById(data.screen) && data.screen !== 'results' ? data.screen : 'home'); };
-  if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
+  if (EMBED) { $('#app').style.visibility = 'hidden'; boot({}); LifeOS.onStart(startEmbed); }
+  else if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
 })();
 </script>

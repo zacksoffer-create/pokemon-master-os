@@ -2175,6 +2175,101 @@ const PongEngine = (() => {
 
   return { create, FEEL };
 })();
+// LIFE OS bridge: lets a game run inside the LIFE OS phone app and hand its score back to the story.
+// Opened on its own (a file, an artifact, Google Drive), the game behaves exactly as before: LifeOS.embedded is false.
+//
+//   LifeOS.embedded                 true when running inside LIFE OS (in an iframe, with ?embed=1)
+//   LifeOS.onStart(cfg => ...)      called once with the round's config (see below)
+//   LifeOS.finish({score, max, summary, stats})   the round is over: score out of max (any units), a short summary
+//   LifeOS.quit()                   the player backed out
+//
+// config: { play: what to launch ("menu" = let the player pick a mode, "clutch" = a short pressure round, or a game-specific
+//           mode name), skill 0-100 (the character's skill), difficulty 0-100, mode ("free" | "clutch"), seed, me, them,
+//           college (true in college), opponent, label }
+const LifeOS = (() => {
+  const qs = new URLSearchParams(location.search);
+  const embedded = window.parent !== window && qs.get('embed') === '1';
+  const config = { play: qs.get('play') || 'menu', skill: +(qs.get('skill') || 55), difficulty: +(qs.get('difficulty') || 50),
+                   mode: qs.get('mode') || 'free', me: qs.get('me') || 'You', seed: +(qs.get('seed') || 0), college: qs.get('college') === '1' };
+  let started = false, cb = null, done = false;
+  const fire = () => { if (!started && cb) { started = true; cb(config); } };
+  window.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'lifeos:init') { Object.assign(config, e.data.config || {}); fire(); }
+  });
+  const post = (event, data) => { if (embedded) parent.postMessage(Object.assign({ type: 'lifeos:minigame', event }, data || {}), '*'); };
+  return {
+    embedded, config,
+    onStart(f) { cb = f; if (!embedded) return; post('ready'); setTimeout(fire, 2500); },
+    finish(result) { if (done) return; done = true; post('finish', { result }); },
+    quit() { post('quit'); },
+  };
+})();
+/* PongEmbed: Pong Night inside LIFE OS (see shared/lifeos.js). Labels, the opponent for a launched game, and what a
+   finished session is worth. Pure: it reads LIFE OS's config and the engine's own summary of the session; it never
+   touches the game. LIFE OS reads score / max as great (80% or more), good (50% or more) or a miss.
+
+   Labels: before college (cfg.college !== true) the page is Cup Pong, water in the cups: the sign reads Cup Pong and the
+   line above it ("Beer pong") reads Ten cups a side. In college it reads as written.
+   Opponent by difficulty: under 40 the Statue; 40-59 the Waver or the Blower (the seed picks); 60-75 the Swatter; over 75 the Sniper.
+   Score:
+     game      cups you made out of 10. A win is 10/10; a loss caps at 9 (an overtime loss is 9).
+     attack    throws to clear the rack: 10 or fewer is 20/20, one point off for each throw over 10, 30 or more is 0.
+               14 throws is great (80%), 20 is good (50%). Fixed, so the same rack scores the same every time.
+     shots     an Island drill: makes out of throws (a bounce in is one make).
+     practice  makes out of throws, out of at least 10, so one lucky throw and quitting isn't great. */
+const PongEmbed = (() => {
+  const CUP_PONG = { doc: 'Cup Pong', eyebrow: 'Ten cups a side', sign: ['Cup', 'Pong'], game: 'Cup Pong' };
+  function labels(cfg) { return cfg && cfg.college === true ? null : CUP_PONG; }
+
+  function opponent(cfg) {
+    cfg = cfg || {};
+    const ask = String(cfg.opponent || '').toLowerCase().replace(/^the\s+/, '').trim();
+    if (Pong.OPPONENTS[ask]) return ask;
+    const n = Number(cfg.difficulty), d = isFinite(n) ? n : 50;
+    if (d < 40) return 'statue';
+    if (d < 60) { const s = Math.abs(Math.floor(Number(cfg.seed) || 0)); return (s ? s % 2 === 1 : d >= 50) ? 'blower' : 'waver'; }
+    if (d <= 75) return 'swatter';
+    return 'sniper';
+  }
+  // "the Swatter" mid-sentence, or the friend's name
+  const who = (o, them) => them || o.name.replace(/^The /, 'the ');
+  const ots = n => n > 1 ? `${n} overtimes` : 'overtime';
+
+  // res: the engine's summary. ctx: { title, them, drill, newBest, best }
+  function result(res, ctx) {
+    res = res || {}; ctx = ctx || {};
+    const k = res.kind, st = res.stats || {};
+    const makes = res.makes || 0, throws = res.throws || 0;
+    const stats = { kind: k, title: ctx.title || '', makes, throws, cupsMade: res.cupsMade || 0, readIQ: res.readIQ || 0,
+                    arcs: st.arc, fastballs: st.fast, bounces: st.bounce };
+    let score = 0, max = 1, summary = '';
+    if (k === 'game') {
+      const o = Pong.OPPONENTS[res.opponent] || { name: 'The other side' };
+      const won = !!res.won, ot = res.overtime || 0;
+      const mine = won ? 10 : Math.min(9, res.cupsMade || 0);
+      const theirs = ot ? 10 : 10 - (res.yoursLeft || 0);
+      max = 10; score = mine;
+      Object.assign(stats, { opponent: res.opponent, them: ctx.them || null, won, overtime: ot, theirs });
+      const vs = who(o, ctx.them);
+      summary = won ? (ot ? `You beat ${vs} in ${ots(ot)}` : `You beat ${vs} 10-${theirs}`)
+                    : (ot ? `You lost to ${vs} in ${ots(ot)}` : `You lost 10-${mine} to ${vs}`);
+    } else if (k === 'attack') {
+      max = 20; score = Math.max(0, Math.min(20, 30 - throws));
+      Object.assign(stats, { best: ctx.best || throws, newBest: !!ctx.newBest });
+      summary = `Cleared ten cups in ${throws} throws${ctx.newBest ? ', a new best' : ''}`;
+    } else if (k === 'shots') {
+      max = Math.max(1, throws); score = makes;
+      stats.drill = ctx.drill || null;
+      summary = `${ctx.title ? ctx.title + ': ' : ''}${makes} of ${throws}${res.cupsMade !== makes ? ` (${res.cupsMade} cups)` : ''}`;
+    } else if (k === 'practice') {
+      max = Math.max(10, throws); score = makes;
+      summary = `${makes} of ${throws} in practice${throws < 10 ? ', counted out of 10 throws' : ''}`;
+    }
+    return { score: Math.max(0, Math.min(max, score)), max, summary, stats };
+  }
+
+  return { labels, opponent, result };
+})();
 </script>
 <script>
 (() => {
@@ -2197,15 +2292,22 @@ const PongEngine = (() => {
     book: {}, shots: { arc: [0, 0], fast: [0, 0], bounce: [0, 0] }
   }));
   let D = store.load();
-  store.onRemote(s => { D = s; applySettings(); go(current === 'results' ? 'home' : current); });
+  store.onRemote(s => { D = s; applySettings(); if (EMBED && current === 'results') return; go(current === 'results' ? 'home' : current); });
 
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   let engine = null, lastSpec = null, lastCtx = null, current = 'home';
+  // LIFE OS: inside the phone app (shared/lifeos.js, pong/embed.js) the first results screen hands its score back.
+  // embedPlay is what LIFE OS asked for: 'game' launches one game with no home screen, 'menu' is free play from home.
+  // On its own EMBED is false and none of this runs; gameTitle stays 'Pong Night'.
+  const EMBED = LifeOS.embedded;
+  let embedPlay = null, embedThem = null, gameTitle = 'Pong Night';
+  const embedDirect = () => EMBED && embedPlay === 'game';
 
   function engineSettings() { return { touchK: D.touchK || 1.5, L0: D.L0 || 0.3, S0: D.S0 || 2.2, feel: D.settings.feel, showTags: D.settings.tags, seen: D.seen }; }
   function applySettings() { PongSfx.muted = !D.settings.sound; if (engine) engine.setSettings(engineSettings()); }
   function go(id) {
+    if (id === 'home' && embedDirect()) return LifeOS.quit(); // a launched game has no home screen: leaving it backs out
     document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = s.id !== id; });
     current = id;
     if (id === 'home') renderHome();
@@ -2265,6 +2367,12 @@ const PongEngine = (() => {
     lastSpec = spec; lastCtx = ctx || {};
     open();
     ensureEngine().run(spec, { onEnd: res => finish(res, false), onQuit: res => finish(res, true) });
+    if (embedThem && spec.kind === 'game') nameOpponent(spec.opponent);
+  }
+  // a game LIFE OS launched against a friend: the friend's name on the scoreboard, the habit under it
+  function nameOpponent(id) {
+    const o = Pong.OPPONENTS[id], b = $('#game .px-title b'), s = $('#game .px-title span');
+    if (o && b && s) { b.textContent = embedThem; s.textContent = `${o.name} · ${o.tag}`; }
   }
   function calibrate(then) {
     open();
@@ -2282,7 +2390,11 @@ const PongEngine = (() => {
     closeGame();
     const ctx = lastCtx || {};
     ['arc', 'fast', 'bounce'].forEach(k => { D.shots[k][0] += res.stats[k][0]; D.shots[k][1] += res.stats[k][1]; });
-    if (res.kind === 'practice') { D.records.practice.makes += res.makes; D.records.practice.attempts += res.throws; store.save(); return go('home'); }
+    if (res.kind === 'practice') {
+      D.records.practice.makes += res.makes; D.records.practice.attempts += res.throws; store.save();
+      if (EMBED && res.throws) { renderResults(res, false, ctx); return go('results'); } // inside LIFE OS a practice session counts
+      return go('home');
+    }
     if (quit && !(res.log && res.log.length) && res.kind !== 'game') { store.save(); return go(ctx.back || 'home'); }
     let newBest = false;
     if (res.kind === 'game' && res.opponent) {
@@ -2311,7 +2423,7 @@ const PongEngine = (() => {
     if (res.kind === 'game') {
       const o = Pong.OPPONENTS[res.opponent];
       const r = D.records.game[o.id] || { w: 0, l: 0 };
-      head = `<div class="result-head"><div class="big">${res.won ? 'Win' : 'Loss'}</div><div class="unit">vs ${esc(o.name)}${res.overtime ? ` · ${res.overtime > 1 ? res.overtime + ' overtimes' : 'overtime'}` : ''}</div></div>`;
+      head = `<div class="result-head"><div class="big">${res.won ? 'Win' : 'Loss'}</div><div class="unit">vs ${esc(ctx.them ? `${ctx.them} (${o.name.replace(/^The /, 'the ')})` : o.name)}${res.overtime ? ` · ${res.overtime > 1 ? res.overtime + ' overtimes' : 'overtime'}` : ''}</div></div>`;
       body = `<div class="stats"><div class="stat"><b>${res.cupsMade}</b><span>Cups made</span></div><div class="stat"><b>${res.readIQ || 0}</b><span>Read IQ</span></div><div class="stat"><b>${r.w}-${r.l}</b><span>All-time</span></div></div>
         <div class="stats">${shotStats(res.stats)}</div>
         <div class="panel"><h3>Turn by turn</h3><div class="plist">${res.log.map(l => `<div class="prow"><span class="g ${l.grade}">${l.grade}</span><div><b>${l.throws.map(t => ({ arc: 'Arc', fast: 'Fastball', bounce: 'Bounce' })[t.kind] + (t.made ? ' ✓' : ' ✗')).join(' · ')}</b><small>${esc(l.why)}</small></div><span class="pts">${l.made}</span></div>`).join('')}</div></div>`;
@@ -2325,11 +2437,23 @@ const PongEngine = (() => {
       const d = DRILLS.find(x => x.id === ctx.drill);
       head = `<div class="result-head"><div class="big">${res.cupsMade}</div><div class="unit">cups</div>${newBest ? '<span class="badge">New best</span>' : ''}</div>`;
       body = `<div class="stats">${shotStats(res.stats)}</div>${d ? `<div class="panel"><h3>The read</h3><p class="lede">${esc(d.read)}</p></div>` : ''}`;
+    } else if (res.kind === 'practice') { // only inside LIFE OS; on its own, practice goes straight home
+      head = `<div class="result-head"><div class="big">${res.makes}</div><div class="unit">made of ${res.throws}</div></div>`;
+      body = `<div class="stats">${shotStats(res.stats)}</div>`;
     }
     const title = ctx.title || (lastSpec && lastSpec.title) || 'Results';
+    if (EMBED) return renderEmbedResults(el, res, ctx, newBest, title, head, body);
     el.innerHTML = `<div class="bar"><button class="back" type="button" data-go="${esc(ctx.back || 'home')}" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>${head}${body}
       <div class="ctas"><button class="cta" type="button" id="again">Run it back</button><button class="cta ghost" type="button" data-go="${esc(ctx.back || 'home')}">Done</button></div>`;
     $('#again').addEventListener('click', () => { PongSfx.play('ui'); play(lastSpec, lastCtx); });
+  }
+  // inside LIFE OS the results screen is the end: Done hands the score back, the back arrow backs out, nothing starts another session
+  function renderEmbedResults(el, res, ctx, newBest, title, head, body) {
+    const out = PongEmbed.result(res, { title, them: ctx.them, drill: ctx.drill, newBest, best: D.records.attack.best });
+    el.innerHTML = `<div class="bar"><button class="back" type="button" id="lifeos-back" aria-label="Back">&#x2190;</button><h2>${esc(title)}</h2></div>${head}${body}
+      <p class="note">${esc(out.summary)}</p><div class="ctas"><button class="cta" type="button" id="lifeos-done">Done</button></div>`;
+    $('#lifeos-back').addEventListener('click', () => { PongSfx.play('ui'); LifeOS.quit(); });
+    $('#lifeos-done').addEventListener('click', e => { PongSfx.play('ui'); e.currentTarget.disabled = true; LifeOS.finish(out); });
   }
 
   // ---------- opponents ----------
@@ -2348,7 +2472,7 @@ const PongEngine = (() => {
   $('#opp-list').addEventListener('click', e => {
     const b = e.target.closest('[data-opp]'); if (!b) return;
     PongSfx.unlock(); PongSfx.play('ui');
-    play({ kind: 'game', opponent: b.dataset.opp, title: 'Pong Night' }, { back: 'opps', title: 'Game' });
+    play({ kind: 'game', opponent: b.dataset.opp, title: gameTitle }, { back: 'opps', title: 'Game' });
   });
 
   // ---------- island ----------
@@ -2418,6 +2542,21 @@ const PongEngine = (() => {
     try { window.claude.hot.snapshot(() => ({ screen: current })); } catch (_) {}
   }
   const boot = data => { applySettings(); go(data && data.screen && document.getElementById(data.screen) && data.screen !== 'results' ? data.screen : 'home'); };
-  if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
+  // LIFE OS launches: 'game' starts a game at once against an opponent picked by difficulty (PongEmbed.opponent);
+  // anything else ('menu') is the home screen. Before college the sign reads Cup Pong (PongEmbed.labels).
+  function startEmbedded(cfg) {
+    const L = PongEmbed.labels(cfg);
+    if (L) {
+      document.title = L.doc; gameTitle = L.game;
+      $('#home .eyebrow').textContent = L.eyebrow;
+      $('#home .mast h1').innerHTML = `${esc(L.sign[0])}<span>${esc(L.sign[1])}</span>`;
+    }
+    embedPlay = String(cfg.play || 'menu').toLowerCase() === 'game' ? 'game' : 'menu';
+    if (embedPlay === 'menu') return go('home');
+    embedThem = typeof cfg.them === 'string' && cfg.them.trim() ? cfg.them.trim() : null;
+    play({ kind: 'game', opponent: PongEmbed.opponent(cfg), title: gameTitle }, { back: 'home', title: 'Game', them: embedThem });
+  }
+  if (EMBED) { applySettings(); document.querySelectorAll('#app > .screen').forEach(s => { s.hidden = true; }); LifeOS.onStart(startEmbedded); }
+  else if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot); else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
 })();
 </script>

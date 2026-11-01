@@ -57,9 +57,9 @@ def test_free_play_soccer_rewards_once_a_day():
     to_phase(sim, ("after_school", "day", "evening"))
     c = sim.w.chars[sim.w.meta["protagonist"]]
     games = {g["id"]: g for g in minigames.free_list(sim)}
-    assert games["soccer_pk"]["available"] and not games["basketball"]["available"]
+    assert games["soccer_pk"]["available"] and games["basketball"]["available"] and not games["football"]["available"]
     with pytest.raises(ValueError):
-        minigames.start(sim, "basketball")  # not ready yet
+        minigames.start(sim, "football")  # not ready yet
     cfg = minigames.start(sim, "soccer_pk")
     assert cfg["file"] == "soccer.html" and 0 <= cfg["skill"] <= 100
     fit0, fun0 = c.skills["fitness"], c.needs["fun"]
@@ -128,9 +128,9 @@ def test_unplayed_moment_rolls_the_fallback_and_hidden_choices():
     w = sim.w
     c = w.chars[w.meta["protagonist"]]
     # game day: the "play it yourself" choice only shows when that sport's game is ready
-    moments.trigger(sim, "game_day", c.id, {"group": next(g for g in w.groups if w.groups[g].get("skill") == "basketball"), "opponent": "Branford"})
+    moments.trigger(sim, "game_day", c.id, {"group": next(g for g in w.groups if w.groups[g].get("skill") == "football"), "opponent": "Branford"})
     m = moments.pending(w)[-1]
-    assert not any("yourself" in ch["label"] for ch in m["choices"])
+    assert not any("yourself" in ch["label"] for ch in m["choices"]), "football's game isn't ready yet"
     moments.resolve(sim, m["id"], None)
     m["day"] -= 1  # game day moments are once a day; pretend that one was yesterday
     reg = minigames.reg()

@@ -19,6 +19,7 @@ PAGES = {
     "fairway.html": "golf.html",
     "pong-night.html": "cup_pong.html",
     "at-bat.html": "baseball.html",
+    "swing-lab.html": "swing.html",
 }
 
 
