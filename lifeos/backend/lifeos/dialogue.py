@@ -34,7 +34,21 @@ SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia
 MOD_KINDS = {"open": "said before a text (\"ok so\", \"u up?\")", "close": "tacked on after a text (\"lol\")",
              "talk": "how a line is said in person: \"{them_first} {says}, grinning\" ({says} becomes says or asks)"}
 PH = re.compile(r"\{(\w+)\}")
-SLUG = re.compile(r"^[a-z][a-z0-9_]{2,40}$")
+SLUG = re.compile(r"^[a-z][a-z0-9_]{2,79}$")   # ids and remembered facts: lowercase, digits, underscores, up to 80 long
+
+
+def _slug_problem(v) -> str:
+    """Why a name isn't a good id, in words."""
+    if not isinstance(v, str) or not v:
+        return "needs a short lowercase id with underscores, like cover_for_me"
+    if len(v) > 80:
+        return f"is {len(v)} characters; keep it under 80"
+    if not re.match(r"^[a-z]", v):
+        return f"'{v}' has to start with a lowercase letter"
+    bad = sorted(set(re.sub(r"[a-z0-9_]", "", v)))
+    if bad:
+        return f"'{v}' can only have lowercase letters, digits and underscores (it has {' '.join(repr(c) for c in bad)})"
+    return f"'{v}' is too short; use at least 3 characters"
 
 # ---------------------------------------------------------------------------------------- vocabulary
 
@@ -434,7 +448,7 @@ def _check_ops(R, where, ops, refs, names, depth=0):
             ref_ok(args[0])
         elif name in ("remember", "forget"):
             if not isinstance(args[0], str) or not SLUG.match(args[0]):
-                R.err(w, "a remembered fact is a short lowercase name with underscores, like covered_for_sibling")
+                R.err(w, "a remembered fact " + _slug_problem(args[0]).replace("needs a short lowercase id", "needs a short lowercase name").removeprefix("is "))
         elif name == "minigame":
             from .minigames import reg
             game, tiers, spec = args
@@ -505,7 +519,7 @@ def _check_scene(R, where, sc, seen_ids):
         return
     sid = sc.get("id")
     if not isinstance(sid, str) or not SLUG.match(sid):
-        R.err(where + ".id", "needs a short lowercase id with underscores, like cover_for_me")
+        R.err(where + ".id", _slug_problem(sid))
     elif sid in base_moments:
         R.err(where + ".id", f"'{sid}' is already a moment in the game; pick another id")
     elif sid in seen_ids:
@@ -526,8 +540,8 @@ def _check_scene(R, where, sc, seen_ids):
     _check_line(R, where + ".title", sc.get("title"), names, 80)
     _check_variants(R, where + ".text", sc.get("text"), names, 700)
     if sc.get("by_text") is not None:
-        if not who or who in ("coach",):
-            R.err(where + ".by_text", "a texted version needs the scene to be about someone (who), and not a coach")
+        if not who:
+            R.warn(where + ".by_text", "is skipped: a texted version needs the scene to be about someone (set who), so the game knows who it's from")
         else:
             _check_variants(R, where + ".by_text", sc["by_text"], names, 220)
     when = sc.get("when", {})
@@ -584,7 +598,7 @@ def _check_scene(R, where, sc, seen_ids):
         elif k in ("remembered", "not_remembered"):
             for r in v if isinstance(v, list) else [v]:
                 if not isinstance(r, str) or not SLUG.match(r):
-                    R.err(w, f"'{r}' should be a short lowercase name with underscores")
+                    R.err(w, _slug_problem(r))
         elif k == "once":
             if not isinstance(v, bool):
                 R.err(w, "is true or false")

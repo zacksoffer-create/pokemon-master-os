@@ -239,3 +239,19 @@ def test_the_upgrade_prompt_carries_your_pack_and_the_new_ways_to_write():
     for must in ("## Mods", "late_night", "by_text", "soccer_11", "hang_talk", "Nothing repeats"):
         assert must in g, must
     assert "Write a LOT" in dialogue.prompt_for_ai()
+
+
+def test_long_descriptive_ids_and_texted_versions_from_a_coach_load():
+    sc = lambda sid, who, **kw: {"id": sid, **({"who": who} if who else {}), "title": "A thing", "text": "Something happens.",
+                                 "choices": [{"label": "Okay.", "ops": [["mood", 1]]}, {"label": "No.", "ops": [["mood", -1]]}], **kw}
+    pack = {"name": "Baseball extras", "scenes": [
+        sc("baseball_extra_07_first_varsity_hit_aftermath", "teammate"),
+        sc("baseball_extra_02_first_varsity_atbat", "coach", by_text="you're leading off tomorrow. be ready"),
+        sc("baseball_extra_03_offseason_home_run_derby", None, by_text="derby saturday?"),
+    ]}
+    r = dialogue.check(pack)
+    assert r["ok"], r["errors"]
+    assert any("skipped" in wn and "who" in wn for wn in r["warnings"]), r["warnings"]
+    bad = dialogue.check({"name": "x", "scenes": [sc("big game", None), sc("x" * 90, None)]})
+    msg = " ".join(bad["errors"])
+    assert "lowercase letters, digits and underscores" in msg and "keep it under 80" in msg
