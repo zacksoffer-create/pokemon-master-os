@@ -83,6 +83,20 @@ stats, your family and your people.
   let yourself decide. It's a named term in every decision trace, so you can see how much it mattered.
 - At any choice, **Let them decide** hands it back to the simulation.
 
+**Your day on the phone.** The Story tab opens on today at a glance:
+- **The day strip:** every part of today (morning, class, lunch, after school, evening, night). What you already did
+  ("w/ Danny", "studied"), where you are now, and what's coming: practice, a game, a quiz, a plan you saved, or open time.
+- **On your plate:** everything that needs you, from every corner of the game, in one list. Texts waiting on an answer,
+  your pet chores, a test or game today or tomorrow, tryouts coming up, a dance you don't have a date for, a close
+  friend's birthday, friends you haven't talked to in a week or more, and running on empty. Tap one to go handle it.
+  When there's nothing, it says **You're all caught up**.
+- **This week:** the next seven days with your games, tests, dances, tryouts, breaks and birthdays. Tap a day to see it.
+- **What do you do?** is sorted into **Should** (practice, a shift, studying with a test tomorrow, your chore), **Want
+  to** (the friend who asked, your partner, someone you're drifting from, a crush) and **Could** (everything else). Each
+  choice says why it's there: "Quiz 1 tomorrow", "Coach takes attendance", "10 days since you talked". Choices that can
+  wait have **Save for after school** or **Save for evening**: it's picked for you then, unless someone pulls you into
+  something else first.
+
 Everyone else lives their own life the whole time. Your brother graduates and leaves, your sisters
 go off to college a year later and come home for Thanksgiving, friends drift, rivals show up. Siblings
 playing college sports somewhere else still get season stats on their page.

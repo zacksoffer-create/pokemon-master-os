@@ -26,7 +26,12 @@ export type PhoneState = {
   control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean };
   setting: { town: string; school: string; short: string; mascot: string };
 };
-export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string };
+export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string;
+  group?: "should" | "want" | "could"; reason?: string; later?: string | null; gut?: boolean };
+export type DaySlot = { phase: string; label: string; icon: string; state: "done" | "now" | "later"; note: string; decide: boolean; kind?: string; plan?: string };
+export type PlateItem = { id: string; kind: string; icon: string; title: string; sub: string; go?: string; cta?: string };
+export type WeekDay = { n: number; dow: string; num: number; date: string; school: boolean; items: { icon: string; label: string; kind: string }[] };
+export type Today = { strip: DaySlot[]; plate: PlateItem[]; week: WeekDay[] };
 export type Line = { id: number; type: string; outcome?: string; text: string; with?: string[]; calc?: any };
 export type Chip = { label: string; delta: number; good: boolean; who?: string; kind?: string };
 export type ThreadSummary = { id: string; kind: "dm" | "group"; title: string; members: string[]; unread: number; last: string; last_from: string; at: string; date: string; needs_reply: boolean };
@@ -50,6 +55,8 @@ export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[] }> => api.get("/api/phone/choices"),
   choose: (index: number): Promise<{ lines: Line[]; chips: Chip[] }> => api.post("/api/phone/choose", { index }),
+  today: (): Promise<Today> => api.get("/api/phone/today"),
+  later: (index: number): Promise<{ queued: string; note: string }> => api.post("/api/phone/later", { index }),
   moment: (id: string, index: number | null, extra: Record<string, any> = {}): Promise<{ lines: Line[]; chips: Chip[]; minigame?: any }> =>
     api.post(`/api/phone/moment/${id}`, index === null ? { ...extra } : { index, ...extra }),
   minigames: (): Promise<{ games: MiniGameRow[]; recent: any[] }> => api.get("/api/phone/minigames"),

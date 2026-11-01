@@ -213,6 +213,8 @@ def phone_choices():
             o["text"] = phrase(sim, o)
             o["icon"] = ICON.get(cd.a["category"], "star")
             o["why"] = cd.why
+            if isinstance(cd.extra, dict) and cd.extra.get("pet"):
+                o["pet"] = cd.extra["pet"]
             opts.append(o)
         seen, uniq = set(), []
         for o in opts:
@@ -220,7 +222,47 @@ def phone_choices():
                 continue
             seen.add(o["text"])
             uniq.append(o)
-        return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": uniq}
+        if uniq:
+            uniq[0]["gut"] = True
+        from . import planner
+        return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": planner.annotate(sim, me, uniq)}
+
+
+@router.get("/api/phone/today")
+def phone_today():
+    """Your day at a glance: the parts of today, what needs you, and the next seven days."""
+    A, L = _lab()
+    with L.lock:
+        _me(L)
+        _ready(L)
+        from . import planner
+        return planner.today(L.sim)
+
+
+@router.post("/api/phone/later")
+def phone_later(body: dict = Body(...)):
+    """Save one of the current choices for the next part of today you get to decide in."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        me = _me(L)
+        res = phone_choices()
+        if not res.get("ready"):
+            raise HTTPException(409, "there's nothing to plan right now")
+        try:
+            idx = int(body["index"])
+        except (KeyError, TypeError, ValueError):
+            raise HTTPException(422, "index must be a whole number")
+        opt = next((o for o in res["options"] if o["index"] == idx), None)
+        if opt is None or not opt.get("later"):
+            raise HTTPException(409, "that one can't wait")
+        from . import planner
+        try:
+            plan = planner.save_for_later(L.sim, opt)
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return {"queued": plan["label"], "note": f"Saved: {plan['label']}. It's picked for you then."}
 
 
 @router.post("/api/phone/choose")

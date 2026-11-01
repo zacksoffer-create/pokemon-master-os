@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "../store";
 import MiniGame, { MGConfig, MGResult } from "../minigames/MiniGame";
-import { Chip, Choice, FeedItem, Line, MiniGameRow, Moment, phoneApi, pgo } from "./api";
+import { Chip, Choice, DaySlot, FeedItem, Line, MiniGameRow, Moment, phoneApi, pgo, PlateItem, Today, WeekDay } from "./api";
 import { Portrait, Scene } from "./art";
 import { PIcon } from "./icons";
 import { buzz, cx, errText, Face, Lines, money, Sheet, StatChips, useWho } from "./kit";
@@ -44,6 +44,7 @@ export default function StoryTab() {
   const [showToday, setShowToday] = useState(false);
   const [playing, setPlaying] = useState<Playing | null>(null);
   const [games, setGames] = useState<MiniGameRow[] | null>(null);
+  const [today, setToday] = useState<Today | null>(null);
   const alive = useRef(true);
   useEffect(() => {
     alive.current = true;
@@ -70,6 +71,12 @@ export default function StoryTab() {
     phoneApi.minigames().then((r) => setGames(r.games)).catch(() => setGames(null));
   }, [wantChoices, key]);
 
+  // your day at a glance: the parts of today, what needs you, the week ahead
+  const loadToday = () => phoneApi.today().then(setToday).catch(() => setToday(null));
+  useEffect(() => {
+    if (state?.active) loadToday();
+  }, [key, state?.unread, state?.needs_reply]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!state) return null;
   const s = state;
   const moment = s.moments[0];
@@ -86,6 +93,14 @@ export default function StoryTab() {
       setGlobalBusy(false);
     }
   };
+
+  const later = (c: Choice) => run(async () => {
+    buzz();
+    const r = await phoneApi.later(c.index);
+    toast(r.note, "good");
+    await refresh();
+    loadToday();
+  });
 
   const choose = (c: Choice) => run(async () => {
     buzz();
@@ -167,8 +182,11 @@ export default function StoryTab() {
     lab.refresh();
   });
 
-  const today = s.feed.filter((f) => f.date === s.date);
-  const rest = choices ? choices.slice(5) : [];
+  const todayFeed = s.feed.filter((f) => f.date === s.date);
+  // choices sorted into should / want to / could: the first few of each up front, the rest behind "More options"
+  const groups = (["should", "want", "could"] as const).map((g) => ({ g, list: (choices || []).filter((c) => (c.group || "could") === g) }));
+  const shown = groups.map(({ g, list }) => ({ g, list: more ? list : list.slice(0, g === "could" ? 2 : 3) }));
+  const hidden = groups.reduce((n, { list }, i) => n + list.length - shown[i].list.length, 0);
 
   return (
     <div className="ph-story">
@@ -184,9 +202,12 @@ export default function StoryTab() {
       </div>
 
       <div className="ph-pad ph-story-b">
+        {today && <DayStrip strip={today.strip} />}
         {s.queued && (
           <div className="ph-planned"><PIcon name="clock" size={16} /> Planned: {s.queued.label}</div>
         )}
+        {today && !moment && !skip && <Plate items={today.plate} />}
+        {today && !moment && !skip && <Week days={today.week} />}
 
         {skip ? (
           <SkipProgress done={skip.done} />
@@ -201,11 +222,15 @@ export default function StoryTab() {
               <button className="ph-btn primary block" onClick={next} disabled={busy}>Keep going</button>
             ) : (
               <>
-                {choices.slice(0, 5).map((c, i) => <ChoiceCard key={c.index} c={c} gut={i === 0} busy={busy} onPick={choose} delay={i} />)}
-                {rest.length > 0 && !more && (
-                  <button className="ph-more" onClick={() => setMore(true)}>More options ({rest.length})</button>
+                {shown.map(({ g, list }) => list.length > 0 && (
+                  <div key={g} className={cx("ph-cgroup", "g-" + g)}>
+                    <div className="ph-cgroup-t">{g === "should" ? "Should" : g === "want" ? "Want to" : "Could"}</div>
+                    {list.map((c, i) => <ChoiceCard key={c.index} c={c} gut={!!c.gut} busy={busy} onPick={choose} onLater={later} delay={i} />)}
+                  </div>
+                ))}
+                {hidden > 0 && !more && (
+                  <button className="ph-more" onClick={() => setMore(true)}>More options ({hidden})</button>
                 )}
-                {more && rest.map((c, i) => <ChoiceCard key={c.index} c={c} busy={busy} onPick={choose} delay={i} small />)}
                 <button className="ph-link center" onClick={next} disabled={busy}>Let it play out</button>
               </>
             )}
@@ -241,12 +266,12 @@ export default function StoryTab() {
 
         <div className="ph-today">
           <button className="ph-today-h" onClick={() => setShowToday(!showToday)}>
-            <span>{today.length ? "Today so far" : "Recently"}</span>
-            <span className="ph-dim">{showToday ? "Hide" : `${(today.length || Math.min(6, s.feed.length))}`}</span>
+            <span>{todayFeed.length ? "Today so far" : "Recently"}</span>
+            <span className="ph-dim">{showToday ? "Hide" : `${(todayFeed.length || Math.min(6, s.feed.length))}`}</span>
           </button>
           {showToday && (
             <div className="ph-feed">
-              {(today.length ? today : s.feed.slice(0, 6)).map((f) => <FeedRow key={f.id} f={f} />)}
+              {(todayFeed.length ? todayFeed : s.feed.slice(0, 6)).map((f) => <FeedRow key={f.id} f={f} />)}
               {!s.feed.length && <div className="ph-dim">Nothing yet. Your story is just starting.</div>}
             </div>
           )}
@@ -312,8 +337,10 @@ function TopBar() {
   );
 }
 
-function ChoiceCard({ c, gut, busy, onPick, delay = 0, small }: { c: Choice; gut?: boolean; busy: boolean; onPick: (c: Choice) => void; delay?: number; small?: boolean }) {
+function ChoiceCard({ c, gut, busy, onPick, onLater, delay = 0, small }: { c: Choice; gut?: boolean; busy: boolean; onPick: (c: Choice) => void;
+  onLater?: (c: Choice) => void; delay?: number; small?: boolean }) {
   return (
+    <div className="ph-choice-wrap">
     <button className={cx("ph-choice", small && "compact", "cat-" + c.category)} disabled={busy} onClick={() => onPick(c)} style={{ animationDelay: `${delay * 60}ms` }}>
       <span className="ph-choice-i">
         {c.target ? <Face id={c.target} size={small ? 34 : 42} /> : <span className="ph-icon-bubble"><PIcon name={ACTION_ICON[c.action] || CAT_ICON[c.category] || "star"} size={small ? 18 : 21} /></span>}
@@ -321,13 +348,84 @@ function ChoiceCard({ c, gut, busy, onPick, delay = 0, small }: { c: Choice; gut
       <span className="ph-choice-m">
         <b>{c.text}</b>
         <span className="ph-choice-s">
-          {CAT[c.category] || c.category}
-          {c.risk >= 0.3 && <em className="risky">risky</em>}
+          {c.reason || CAT[c.category] || c.category}
+          {c.risk >= 0.3 && c.reason !== "Risky" && <em className="risky">risky</em>}
           {gut && <em className="gut"><PIcon name="sparkle" size={11} /> your gut</em>}
         </span>
       </span>
       <PIcon name="chevron" size={18} className="ph-choice-c" />
     </button>
+    {c.later && onLater && (
+      <button className="ph-later" disabled={busy} onClick={() => onLater(c)}><PIcon name="clock" size={13} /> {c.later}</button>
+    )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- your day at a glance
+
+function DayStrip({ strip }: { strip: DaySlot[] }) {
+  return (
+    <div className="ph-day" role="list" aria-label="Today">
+      {strip.map((d) => (
+        <div key={d.phase} role="listitem" title={d.plan || undefined}
+          className={cx("ph-slot", d.state, d.state === "later" && d.decide && d.note === "open" && "open", d.kind && "k-" + d.kind)}>
+          <PIcon name={d.state === "done" ? "check" : d.icon} size={16} />
+          <b>{d.label}</b>
+          <small>{d.note || (d.state === "done" ? "done" : "")}</small>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Plate({ items }: { items: PlateItem[] }) {
+  const [all, setAll] = useState(false);
+  const list = all ? items : items.slice(0, 4);
+  return (
+    <div className="ph-plate">
+      <div className="ph-section-t ph-plate-h">On your plate {items.length > 0 && <em>{items.length} thing{items.length === 1 ? "" : "s"}</em>}</div>
+      {items.length === 0 ? (
+        <div className="ph-caught"><PIcon name="check" size={16} /> You're all caught up.</div>
+      ) : (
+        <div className="ph-card ph-plate-list">
+          {list.map((it) => (
+            <button key={it.id} className={cx("ph-plate-row", "k-" + it.kind)} disabled={!it.go} onClick={() => it.go && pgo(it.go)}>
+              <span className="ph-plate-i"><PIcon name={it.icon} size={16} /></span>
+              <span className="ph-plate-m"><b>{it.title}</b><small>{it.sub}</small></span>
+              {it.go && it.cta && <span className="ph-plate-go">{it.cta}</span>}
+            </button>
+          ))}
+          {items.length > 4 && !all && <button className="ph-link center" onClick={() => setAll(true)}>Show all {items.length}</button>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Week({ days }: { days: WeekDay[] }) {
+  const [open, setOpen] = useState<number | null>(null);
+  const sel = open === null ? null : days[open];
+  return (
+    <div className="ph-week-wrap">
+      <div className="ph-section-t">This week</div>
+      <div className="ph-week">
+        {days.map((d) => (
+          <button key={d.n} className={cx("ph-wd", d.n === 0 && "today", open === d.n && "sel", !d.school && "off")} onClick={() => setOpen(open === d.n ? null : d.n)}
+            aria-label={`${d.date}: ${d.items.map((i) => i.label).join(", ") || "nothing planned"}`}>
+            <small>{d.n === 0 ? "TODAY" : d.dow}</small>
+            <b>{d.num}</b>
+            <span className="ph-wd-i">{d.items[0] ? <PIcon name={d.items[0].icon} size={13} /> : null}{d.items.length > 1 && <i>+{d.items.length - 1}</i>}</span>
+          </button>
+        ))}
+      </div>
+      {sel && (
+        <div className="ph-wd-detail">
+          <b>{sel.date}</b>
+          {sel.items.length ? sel.items.map((i, k) => <span key={k}><PIcon name={i.icon} size={13} /> {i.label}</span>) : <span className="ph-dim">Nothing on the calendar.{sel.school ? " A normal school day." : ""}</span>}
+        </div>
+      )}
+    </div>
   );
 }
 

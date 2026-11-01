@@ -437,6 +437,8 @@ class Simulation:
             if dec is None:
                 continue
             q = w.meta.get("control", {}).get("queued")
+            if q and q.get("slot") and q.get("day") == w.day and q["slot"] != slot:
+                q = None  # saved for a later part of today
             if q and cid == w.meta.get("protagonist") and cid not in overrides:
                 hit = None
                 for i, cd in enumerate(dec["cands"]):
