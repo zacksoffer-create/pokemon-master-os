@@ -165,7 +165,8 @@ def phone_state(since: int | None = None):
         hp = pets.household_pets(w, me.household_id or "")
         from . import planner
         q = w.meta.get("control", {}).get("queued")
-        teams = [{"id": g, "name": w.groups[g]["name"], "sport": w.groups[g].get("skill"), "record": w.groups[g]["record"],
+        teams = [{"id": g, "name": w.groups[g]["name"], "sport": w.groups[g].get("skill"),
+                  "record": w.groups[g].get("record_jv", {"w": 0, "l": 0}) if w.groups[g].get("levels", {}).get(me.id) == "jv" else w.groups[g]["record"],
                   "level": w.groups[g].get("levels", {}).get(me.id, "varsity"), "position": me.positions.get(w.groups[g].get("skill"))}
                  for g in me.memberships if w.groups[g]["kind"] == "team"]
         return {

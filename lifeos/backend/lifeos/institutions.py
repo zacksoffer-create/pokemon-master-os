@@ -1098,6 +1098,7 @@ class Institutions:
         for m in list(g["members"]):
             fx.leave(m, g["id"], "season ended")
         g["record"] = {"w": 0, "l": 0}
+        g["record_jv"] = {"w": 0, "l": 0}
         g["absences"] = {}
         g["cut"] = []
         g["leaders"] = []

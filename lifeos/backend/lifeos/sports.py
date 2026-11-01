@@ -232,6 +232,21 @@ def opponent_name(sim, g, n: int) -> str:
     return names[(n * 7 + len(g["id"])) % len(names)]
 
 
+def football_score(margin, rng):
+    """A football score that adds up: touchdowns (7) and field goals (3) for each side, the winner by about the margin.
+    Returns (winner's points, loser's points, the winner-or-loser's touchdown budget for your box score)."""
+    gap = max(1, int(abs(margin) / 1.6))
+    lose_td, lose_fg = int(rng.random() * 3), int(rng.random() * 2)
+    lose = 7 * lose_td + 3 * lose_fg
+    win_td, win_fg = lose_td, lose_fg
+    while 7 * win_td + 3 * win_fg - lose < gap or 7 * win_td + 3 * win_fg <= lose:
+        if rng.random() < 0.6:
+            win_td += 1
+        else:
+            win_fg += 1
+    return 7 * win_td + 3 * win_fg, lose, (win_td, lose_td)
+
+
 def play_game(inst, it, rng):
     sim = inst.sim
     w = sim.w
@@ -283,10 +298,11 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     win = margin > 0
     oname = opponent_name(sim, g, num)
     score = inst.score_line(sport, margin, rng)
+    tds = None
     if sport == "football":
-        a = 7 * max(1, int(abs(margin) / 7) + 1) + int(rng.random() * 14)
-        b = max(0, a - max(3, int(abs(margin) / 1.5)))
+        a, b, (wtd, ltd) = football_score(margin, rng)
         score = f"{a}-{b}" if win else f"{b}-{a}"
+        tds = {"team": wtd if win else ltd, "left": wtd if win else ltd}
     box = {}
     skey = season_key(sport, w.day, level)
     for cid in players:
@@ -294,6 +310,14 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
         pos = c.positions.get(sport) or default_position(c, sport, rng)
         f = clamp(perf[cid] / 62, 0.25, 1.8) * (1.0 if cid in starters else 0.35)
         line = stat_line(sport, pos, f, cid in starters, rng)
+        if tds is not None:
+            # touchdowns come out of the team's: a rusher or receiver can't score more than the team did
+            for k in ("rush_td", "rec_td"):
+                if k in line:
+                    line[k] = min(line[k], tds["left"])
+                    tds["left"] -= line[k]
+            if "pass_td" in line:
+                line["pass_td"] = min(line["pass_td"], tds["team"])
         box[cid] = {"pos": pos, "starter": cid in starters, "line": line, "perf": round(perf[cid], 1), "approach": appr[cid]}
         st = c.stats.setdefault(skey, {"sport": sport, "level": level, "team": g["id"], "team_name": g["name"],
                                        "school": g.get("school"), "games": 0, "starts": 0, "wins": 0, "losses": 0,
@@ -317,6 +341,8 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     fx = Effects(w, ev)
     if level == "varsity":
         g["record"]["w" if win else "l"] += 1
+    else:
+        g.setdefault("record_jv", {"w": 0, "l": 0})["w" if win else "l"] += 1
     for cid in players:
         fx.mood(cid, 6 if win else -4, "game")
         fx.need(cid, "energy", -14 if cid in starters else -6, "game")
