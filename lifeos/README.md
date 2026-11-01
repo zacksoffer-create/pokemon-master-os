@@ -177,11 +177,49 @@ Open **My Story → Start your story**. The first step has a **Want to plan it f
   a cast file. Save its JSON answer as a `.json` or `.txt` file and load it the same way.
 - Copies are also in `docs/character-worksheet.xlsx` and `docs/character-worksheet-guide.md`.
 
+## Add dialogue (with ChatGPT, Claude, or by hand)
+
+Texts, reply options, story-feed lines, moment choices and **whole new scenes** come from *dialogue packs*: one JSON file each.
+A pack only adds. Nothing it does can break the base game.
+
+**On the phone:** Me → **Dialogue packs**.
+1. Tap **Copy the ChatGPT prompt** and paste it into ChatGPT. It carries the full format and every list the game accepts.
+2. Replace the "What I want" line with your idea ("15 more texts from my older brother", "a scene where my twin sisters fight over
+   the car", "make the team group chat funnier").
+3. Copy ChatGPT's whole answer, tap **Paste a pack**, then **Check it**. If something's off, the game says exactly what (and **Copy the
+   problems for ChatGPT** hands the list back to it). **Add to my game**.
+4. Open the pack and tap **Play now** on any scene to see it in your story right away. Packs can be turned off or removed.
+
+**In the lab:** Content Library → **Dialogue**. Same steps. You can also download the guide (`.md`) and all the current dialogue
+(`.json`), so the AI can match what's there.
+
+**What a pack can add:**
+- **texts:** lines for any of 66 text situations (friend invites, team chat after a win, parents after a report card, siblings...).
+- **replies:** more reply buttons. Each has a tone that decides what it does: warm, funny, vent, flirt, dry, cold...
+- **narration:** story-feed lines.
+- **moment_choices:** extra choices on the built-in moments (a rumor, an injury, getting cut...).
+- **scenes:** brand-new moments. Each scene has:
+  - `who` it's about: best friend, crush, partner, rival, teammate, an older sibling, your twin, a coach...
+  - `when` it can happen: school year, months, a date like Halloween, weekends, in season, feelings toward that person, your stress
+    or GPA.
+  - 2 to 4 choices. Their effects can be dialogue lines (`say`), a text they send you later (`text`), relationship changes, plans
+    to hang out, or a chance roll against your own traits.
+  - `remember` facts that later scenes can depend on, so scenes chain. A follow-up stays with the same person.
+
+The game starts at most one pack scene every few days, and dated scenes always get their day. A scene or choice that mentions
+someone only shows up when that person exists. Built-in starter pack: **Everyday life** (12 scenes, 43 texts, 10 replies). The
+full reference is `docs/dialogue-guide.md`.
+
+**For Claude (or anyone editing the repo):** put the pack in `backend/data/dialogue/<name>.json` and check it with
+`python -m lifeos.dialogue check backend/data/dialogue/<name>.json` (run from `backend/`). Then rebuild the phone app
+(`python lifeos/tools/build_phone_app.py`) and push. Built-in packs load for everyone; packs loaded in the app are kept in
+`var/dialogue/` (lab) or on the phone.
+
 ## Tests
 
 ```bash
 cd lifeos
-python -m pytest backend/tests -q      # 46 tests, about 40 seconds
+python -m pytest backend/tests -q      # 53 tests, about 45 seconds
 ```
 
 They cover every acceptance criterion in the brief. Each name below is a test:
@@ -267,8 +305,9 @@ lifeos/
   requirements.txt
   backend/
     data/                the data catalogs (JSON): rules schema, actions, world, people, templates, goals,
-                         sports, colleges, story moments
-    lifeos/              the engine and API (Python)
+                         sports, colleges, story moments, texts
+      dialogue/          built-in dialogue packs (Everyday life)
+    lifeos/              the engine and API (Python); dialogue.py loads and checks dialogue packs
       rng.py rules.py catalogs.py model.py history.py calendar.py worldgen.py
       decision.py actions.py social.py institutions.py households.py development.py
       sports.py college.py story.py moments.py

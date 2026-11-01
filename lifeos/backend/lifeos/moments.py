@@ -82,7 +82,8 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
             choices.append({"label": o["label"], "hint": "", "ops": [["path", i]], "fits": {}})
     else:
         for ch in spec["choices"]:
-            if ch.get("requires") and not ctx.get(ch["requires"]):
+            req = ch.get("requires")
+            if req and any(not ctx.get(r) for r in (req if isinstance(req, list) else [req])):
                 continue
             choices.append({"label": _render(ch["label"], names), "hint": _render(ch.get("hint", ""), names), "ops": ch["ops"], "fits": ch.get("fits", {})})
     m = {"id": f"mo{w.next_id('moment')}", "kind": kind, "day": w.day, "status": "pending", "ctx": ctx,
@@ -212,7 +213,8 @@ def resolve(sim, mid: str, index: int | None, by: str = "player"):
         raise ValueError("no such choice")
     ch = m["_choices"][index]
     ctx = m["ctx"]
-    targets = [v for k, v in ctx.items() if isinstance(v, str) and v in w.chars and v != c.id and k in ("coach", "sibling", "roommate", "other", "origin")]
+    targets = [v for k, v in ctx.items() if isinstance(v, str) and v in w.chars and v != c.id
+               and k in ("them", "coach", "sibling", "roommate", "other", "origin", "partner")]
     ev = sim.new_event("moment", m["kind"], [c.id], targets[:3], 32, {"label": m["title"], "choice": ch["label"], "by": by})
     ev["text"] = f"{m['title']}: {c.short} {'chose' if by == 'player' else 'decided'} to {ch['label'][0].lower() + ch['label'][1:].rstrip('.')}."
     fx = Effects(w, ev)
@@ -263,10 +265,12 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
         elif kind == "trait":
             fx.trait(c.id, op[1], op[2], m["title"])
         elif kind == "skill":
-            fx.skill(c.id, op[1], op[2], m["title"])
+            key = _ref(ctx, op[1])  # a skill id, or "sport": your main sport
+            if key in sim.cat.skills:
+                fx.skill(c.id, key, op[2], m["title"])
         elif kind == "interest":
             key = _ref(ctx, op[1])
-            if isinstance(key, str):
+            if isinstance(key, str) and (key in sim.cat.skills or key in sim.cat.hobbies):
                 fx.interest(c.id, key, op[2], m["title"])
         elif kind == "rep":
             fx.rep(c.id, op[1], op[2], m["title"])
@@ -326,6 +330,24 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                     class _Ctx(dict):
                         pass
                     _rejected(sim, w.chars[other], c.id, ev, fx, rng, {"slot": "after_school"}, dance=bool(ctx.get("dance_key")))
+        elif kind == "say":
+            ev["data"].setdefault("say", []).append(_render(op[1], names))
+        elif kind == "text":
+            who = _ref(ctx, op[1])
+            if "phone" in w.meta and isinstance(who, str) and who in w.chars and who != c.id:
+                from . import messages
+                messages.add_contact(sim, who, "scene")
+                messages.later(sim, who, "scene", delay_phases=1, text=_render(op[2], names))
+        elif kind == "hang_out":
+            who = _ref(ctx, op[1])
+            if isinstance(who, str) and who in w.chars and who != c.id:
+                control(w)["queued"] = {"action": "hang_out", "target": who, "agreed": True, "day": w.day}
+                if ev.get("changes") is not None:
+                    ev["changes"].append([c.id, "plans", None, w.chars[who].first, "your choice"])
+        elif kind == "remember":
+            w.meta.setdefault("remembered", {})[op[1]] = {"day": w.day, "them": ctx.get("them")}
+        elif kind == "forget":
+            w.meta.setdefault("remembered", {}).pop(op[1], None)
         elif kind == "chance":
             spec, ok_ops, bad_ops = op[1], op[2], op[3]
             terms = [["baseline", spec.get("base", 0.5)]]

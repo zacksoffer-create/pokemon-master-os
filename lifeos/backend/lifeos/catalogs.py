@@ -86,12 +86,13 @@ class Catalogs:
     def __init__(self, action_overrides: dict | None = None):
         self.world = _base("world.json")
         self.people = _base("people.json")
-        self.templates = _base("templates.json")["templates"]
+        from . import dialogue  # base content plus any dialogue packs
+        self.templates = dialogue.templates()
         self.goals = _base("goals.json")["goals"]
         self.sports = _base("sports.json")
         self.colleges = _base("colleges.json")["colleges"]
         self.college_by_id = {c["id"]: c for c in self.colleges}
-        self.moments = _base("moments.json")["moments"]
+        self.moments = dialogue.moments()
         self.action_overrides = copy.deepcopy(action_overrides or {})
         self._build_actions()
         self.skills = {s["id"]: s for s in self.world["skills"]}

@@ -22,7 +22,7 @@ from fastapi.staticfiles import StaticFiles
 
 from . import calendar as calm
 from . import metrics, pets
-from .catalogs import ATTRIBUTE_DOCS, CatalogError
+from .catalogs import ATTRIBUTE_DOCS, CatalogError, Catalogs
 from .engine import EditError, Simulation
 from .experiments import PRESETS, Runner, validate_spec
 from .rules import RulesError, rules_hash, schema
@@ -1108,6 +1108,123 @@ def api_worksheet():
     from .worksheet import build_workbook
     return Response(build_workbook(get_lab().sim.cat), media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     headers={"Content-Disposition": "attachment; filename=character-worksheet.xlsx"})
+
+
+# --- dialogue packs --------------------------------------------------------------------------
+
+def _pack_from(body: dict) -> dict:
+    from . import dialogue
+    if isinstance(body.get("pack"), dict):
+        return body["pack"]
+    if isinstance(body.get("text"), str):
+        return dialogue.parse_text(body["text"])
+    if any(k in body for k in dialogue.SECTIONS):
+        return body
+    raise ValueError("send the pack as {\"pack\": {...}} or {\"text\": \"...\"}")
+
+
+def _dialogue_changed(L):
+    with L.lock:
+        L.sim.cat = Catalogs(L.w.action_overrides)
+
+
+def _dialogue_list():
+    from . import dialogue
+    m = dialogue.merged()
+    return {"packs": [dialogue.pack_summary(p) for p in dialogue.packs()],
+            "scenes": sorted(k for k, v in m["moments"].items() if v.get("scene")),
+            "lines": sum(len(v) for v in m["texts"].values())}
+
+
+@app.get("/api/dialogue/packs")
+def api_dialogue_packs():
+    return _dialogue_list()
+
+
+@app.post("/api/dialogue/check")
+def api_dialogue_check(body: dict = Body(...)):
+    from . import dialogue
+    try:
+        pack = _pack_from(body)
+    except ValueError as e:
+        return {"ok": False, "errors": [str(e)], "warnings": [], "summary": {}}
+    return {**dialogue.check(pack), "name": pack.get("name")}
+
+
+@app.post("/api/dialogue/packs")
+def api_dialogue_add(body: dict = Body(...)):
+    from . import dialogue
+    L = get_lab()
+    try:
+        pack = _pack_from(body)
+    except ValueError as e:
+        return JSONResponse({"detail": str(e), "errors": [str(e)]}, status_code=422)
+    r = dialogue.add_pack(pack)
+    if not r["ok"]:
+        return JSONResponse({"detail": "the pack has a few problems", "errors": r["errors"], "warnings": r["warnings"]}, status_code=422)
+    _dialogue_changed(L)
+    return {**_dialogue_list(), "added": r["id"], "warnings": r["warnings"], "summary": r["summary"]}
+
+
+@app.post("/api/dialogue/packs/{pid}/enabled")
+def api_dialogue_enable(pid: str, body: dict = Body(...)):
+    from . import dialogue
+    try:
+        dialogue.set_enabled(pid, bool(body.get("enabled", True)))
+    except KeyError:
+        raise HTTPException(404, "no such pack")
+    _dialogue_changed(get_lab())
+    return _dialogue_list()
+
+
+@app.post("/api/dialogue/packs/{pid}/remove")
+def api_dialogue_remove(pid: str):
+    from . import dialogue
+    try:
+        dialogue.remove_pack(pid)
+    except KeyError:
+        raise HTTPException(404, "no such pack")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
+    _dialogue_changed(get_lab())
+    return _dialogue_list()
+
+
+@app.get("/api/dialogue/guide.md")
+def api_dialogue_guide(download: int = 0):
+    from . import dialogue
+    headers = {"Content-Disposition": "attachment; filename=lifeos-dialogue-guide.md"} if download else {}
+    return Response(dialogue.guide_markdown(), media_type="text/markdown; charset=utf-8", headers=headers)
+
+
+@app.get("/api/dialogue/prompt")
+def api_dialogue_prompt():
+    from . import dialogue
+    return {"prompt": dialogue.prompt_for_ai()}
+
+
+@app.get("/api/dialogue/current")
+def api_dialogue_current(download: int = 0):
+    from . import dialogue
+    data = json.dumps(dialogue.current_dialogue(), indent=1, ensure_ascii=False)
+    headers = {"Content-Disposition": "attachment; filename=lifeos-current-dialogue.json"} if download else {}
+    return Response(data, media_type="application/json; charset=utf-8", headers=headers)
+
+
+@app.post("/api/dialogue/try/{sid}")
+def api_dialogue_try(sid: str):
+    from . import dialogue
+    L = get_lab()
+    L.guard()
+    with L.lock:
+        try:
+            m = dialogue.try_scene(L.sim, sid)
+        except KeyError:
+            raise HTTPException(404, "no such scene")
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return {"moment": {k: m[k] for k in ("id", "kind", "title", "text", "choices")}}
 
 
 @app.get("/api/story/worksheet-guide")

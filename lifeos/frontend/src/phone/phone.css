@@ -609,3 +609,30 @@ html.ph-html body { color-scheme: light; }
 .ph-filebtns .ph-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 .ph-welcome-more { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
 .ph-root .ph-welcome-more .ph-link { display: inline-flex; align-items: center; gap: 6px; }
+
+/* ---------- dialogue packs (Me) ---------- */
+.dl-how { margin: 12px 0 4px; padding-left: 20px; color: var(--ph-ink-2); font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+.dl-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.dl-pack { border-radius: 16px; box-shadow: inset 0 0 0 2px var(--ph-line); overflow: hidden; }
+.dl-pack.off { opacity: 0.6; }
+.ph-root .dl-pack-h { --btn-bg: transparent; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 12px; text-align: left; color: var(--ph-ink); }
+.ph-root .dl-pack-h:active:not(:disabled) { transform: none; }
+.dl-pack-m { display: flex; flex-direction: column; min-width: 0; }
+.dl-pack-m b { font-size: 15px; }
+.dl-pack-m small { color: var(--ph-dim); font-weight: 700; font-size: 12.5px; }
+.dl-pack-b { padding: 0 12px 12px; }
+.dl-sub { font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ph-dim); margin: 6px 0 6px; }
+.dl-scene { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid var(--ph-line); }
+.dl-scene > span { display: flex; flex-direction: column; min-width: 0; }
+.dl-scene b { font-size: 14px; }
+.dl-scene small { color: var(--ph-dim); font-weight: 700; font-size: 12px; }
+.ph-root .dl-try { --btn-bg: #fff0e6; color: #d4432c; font-weight: 800; font-size: 13px; padding: 7px 12px; border-radius: 999px; flex-shrink: 0; }
+.ph-root .ph-link.dl-remove { color: #c23b2a; padding: 10px 0 0; }
+.dl-problems { background: #ffe9e4; border-radius: 14px; padding: 10px 12px; margin: 10px 0; color: #a8321f; font-size: 13px; font-weight: 700; display: flex; flex-direction: column; gap: 5px; }
+.dl-warn { color: #8a5a00; font-weight: 600; }
+.dl-ok { background: #e3f7ee; color: #11704f; border-radius: 14px; padding: 10px 12px; margin: 10px 0; font-size: 14px; font-weight: 600; }
+.dl-ok .dl-problems { background: #fff6e0; }
+.dl-paste-btns { display: flex; gap: 8px; margin: 10px 0; }
+.ph-root .dl-paste-btns .ph-btn { flex: 1; padding: 10px 12px; font-size: 14px; margin: 0; }
+.ph-root textarea.dl-text { min-height: 220px; resize: vertical; font: 500 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.dl-paste-foot { position: sticky; bottom: 0; padding-top: 8px; background: linear-gradient(to bottom, rgba(255, 244, 230, 0), var(--ph-bg) 30%); }

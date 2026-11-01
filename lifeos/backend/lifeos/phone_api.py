@@ -296,7 +296,8 @@ def phone_moment(mid: str, body: dict = Body(default={})):
         follow = [L.w.history.events[i] for i in range(ev["id"] + 1, L.w.history.next_event) if i in L.w.history.events
                   and me.id in L.w.history.events[i]["actors"] + L.w.history.events[i]["targets"]]
         L.autosave()
-        lines = [{"id": ev["id"], "type": "moment", "text": pov.event_line(L.w, ev, me.id), "calc": ev.get("calc")}] + _lines(L, follow, me)
+        says = [{"id": f"say{ev['id']}-{i}", "type": "say", "text": t} for i, t in enumerate(ev["data"].get("say", []))]
+        lines = [{"id": ev["id"], "type": "moment", "text": pov.event_line(L.w, ev, me.id), "calc": ev.get("calc")}] + says + _lines(L, follow, me)
         return {"lines": lines, "chips": _chips(L, me, needs0, mood0, rels0)}
 
 

@@ -84,8 +84,9 @@ async function flush(force) {
   if (!api) return;
   try {
     const wrote = api.flush();
-    if (wrote || force) await syncfs(false);
-    if (wrote) dirtySince = 0;
+    // sync whenever anything changed (a save, a dialogue pack...), not only when the autosave wrote just now
+    if (wrote || force || dirtySince) await syncfs(false);
+    dirtySince = 0;
   } catch (e) { /* try again next time */ }
 }
 

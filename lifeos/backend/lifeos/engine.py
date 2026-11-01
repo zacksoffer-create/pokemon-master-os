@@ -229,6 +229,8 @@ class Simulation:
         for m in moments.pending(w):
             if w.day - m["day"] >= (1 if m["kind"] == "game_day" else 3):
                 moments.resolve(self, m["id"], None)
+        from . import dialogue
+        dialogue.maybe_scene(self)  # scenes from dialogue packs
         for inv in w.meta.get("inbox", []):
             if inv["status"] == "pending" and w.day - inv["day"] >= 2:
                 inv["status"] = "expired"

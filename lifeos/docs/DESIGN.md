@@ -444,3 +444,35 @@ Differences from the server:
 - A picked pet can name its breed and coat. `validate_story` checks both, and `pets.ensure` carries the coat over.
 - `appearance.resemble()`: when you pick your own look, siblings left on auto take your skin, hair color and eyes when the story is built.
   They use the same odds as generated families: skin is shared (sometimes a shade off), hair color usually is, and eye color often is.
+
+## 14. Dialogue packs
+
+`lifeos/dialogue.py`: everything people say comes from data, and dialogue packs add to it without touching code.
+- **Base content:** `data/texts.json` (66 text pools), `messages.REPLY_SETS` (reply buttons, by tone), `data/templates.json`
+  (narration), `data/moments.json` (the built-in moments).
+- **Packs:** `data/dialogue/*.json` (built in) and `dialogue.USER_DIR` (yours: `var/dialogue/` on a computer, `/data/dialogue/`
+  on the phone, which syncs to IndexedDB). They load in order and only append; duplicate lines are skipped. `state.json` there
+  remembers which packs are off.
+- **Merging:** `dialogue.merged()` builds the combined content once and caches it until a pack changes. `Catalogs` takes
+  `templates` and `moments` from it, `messages.T()` the text pools, `messages._replies` the reply sets. A set bigger than 3 shows
+  3 at a time, keeping a mix of tones.
+- **Checking:** `check(pack)` returns errors (won't load) and warnings (will) in plain words, with "did you mean" suggestions.
+  Placeholders are checked per spot against what the code really fills in, taken from the base lines, so a pack can't leave a
+  literal `{x}` on screen.
+- **Scenes** are moments with a `scene` block: `who`, `when`, plus the people the text needs.
+  - `maybe_scene()` runs each morning in story mode from its own random stream. It allows at most one pack scene every
+    `SCENE_GAP_DAYS` days and none while another moment waits, except scenes on a set date.
+  - It picks the person from `candidates()`, filters them by `you_feel`/`they_feel`, and fills `{them_first}` and the rest.
+  - A choice whose text or ops mention someone gets `requires` automatically, so it's hidden when that person doesn't exist.
+    A scene needs two usable choices to start.
+- **New ops:**
+  - `say`: lines shown after the choice, in `ev.data.say` and on the phone.
+  - `text`: they text you later today.
+  - `hang_out`: queues plans.
+  - `remember` / `forget`: `w.meta.remembered`, which keeps who the fact was about, so a follow-up scene stays with that person.
+  - `skill` / `interest` accept `"sport"`, meaning your main sport.
+- **The guide:** `guide_markdown()` and `PROMPT` are generated from the data, so the AI always gets the real lists.
+  `docs/dialogue-guide.md` is a copy, regenerated with `python -m lifeos.dialogue guide`.
+- **API:** `/api/dialogue/packs` (list, add), `/packs/{id}/enabled`, `/packs/{id}/remove`, `/check`, `/guide.md`, `/prompt`,
+  `/current`, `/try/{scene}`. The same handlers answer on the phone through `local_api`.
+

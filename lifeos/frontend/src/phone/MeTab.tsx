@@ -5,6 +5,7 @@ import { Portrait } from "./art";
 import { PIcon } from "./icons";
 import { Bar, cx, errText, money } from "./kit";
 import { usePhone } from "./PhoneContext";
+import DialogueCard from "./DialogueCard";
 import { STANDALONE, StoryFilesCard } from "./StoryFiles";
 
 const FOCUS: [string, string, string, string][] = [
@@ -123,6 +124,8 @@ export default function MeTab() {
         </div>
 
         <StoryFilesCard hasStory={!!state.active} />
+
+        <DialogueCard />
 
         {!STANDALONE && (
           <div className="ph-links">

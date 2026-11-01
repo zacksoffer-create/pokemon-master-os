@@ -35,9 +35,12 @@ def engine_zip() -> bytes:
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
         for sub, exts in (("lifeos", (".py",)), ("data", (".json",))):
-            for f in sorted(os.listdir(os.path.join(BACK, sub))):
-                if f.endswith(exts):
-                    z.write(os.path.join(BACK, sub, f), f"{sub}/{f}")
+            for dirpath, dirs, files in os.walk(os.path.join(BACK, sub)):  # data/ includes data/dialogue/ (built-in packs)
+                dirs[:] = sorted(d for d in dirs if d != "__pycache__")
+                for f in sorted(files):
+                    if f.endswith(exts):
+                        full = os.path.join(dirpath, f)
+                        z.write(full, f"{sub}/" + os.path.relpath(full, os.path.join(BACK, sub)).replace(os.sep, "/"))
         root = os.path.join(BACK, "standalone")
         for dirpath, dirs, files in os.walk(root):
             dirs[:] = [d for d in dirs if d not in ("__pycache__", "wheels")]

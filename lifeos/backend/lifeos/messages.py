@@ -19,8 +19,6 @@ from . import calendar as calm
 from .history import Effects
 from .rng import clamp
 
-_DATA = os.path.join(os.path.dirname(__file__), "..", "data", "texts.json")
-_T = None
 PHASE_TIME = {"dawn": (7, 0, 50), "classes": (10, 0, 200), "lunch": (12, 0, 40), "after_school": (15, 30, 150), "day": (11, 0, 300),
               "evening": (19, 0, 180), "night": (22, 0, 60)}
 ABBR = [(r"\byou\b", "u"), (r"\bare\b", "r"), (r"\btonight\b", "tn"), (r"\btomorrow\b", "tmrw"), (r"\bthough\b", "tho"),
@@ -47,11 +45,9 @@ EMOJI_BY_KIND = {"team_win": ["🔥", "💪", "🐻"], "team": ["🔥", "💪"],
 
 
 def T() -> dict:
-    global _T
-    if _T is None:
-        with open(_DATA, encoding="utf-8") as f:
-            _T = json.load(f)
-    return _T
+    """Every text pool: texts.json plus any dialogue packs."""
+    from . import dialogue
+    return dialogue.texts()
 
 
 def _h(*parts) -> int:
@@ -389,7 +385,10 @@ def tick(sim):
         kw = dict(x["kw"])
         rk = kw.pop("replies", None)
         salt = f"{w.day}:{x['key']}:{cid}:{ph['next']}"
-        text = pick(x["key"], salt, avoid=_avoid(sim, f"dm:{cid}"), me=w.chars[w.meta["protagonist"]].first, **kw)
+        if x["key"] == "scene":  # a line written in a dialogue pack scene
+            text = kw.pop("text", "")
+        else:
+            text = pick(x["key"], salt, avoid=_avoid(sim, f"dm:{cid}"), me=w.chars[w.meta["protagonist"]].first, **kw)
         post(sim, f"dm:{cid}", cid, text, kind=x["key"], replies=_replies(rk, salt) if rk else _replies("generic", salt))
 
 
@@ -539,7 +538,20 @@ REPLY_SETS = {
 
 
 def _replies(key, salt):
-    opts = REPLY_SETS.get(key) or REPLY_SETS["generic"]
+    """Up to three reply options from the set (packs can make sets bigger), keeping a mix of tones."""
+    from . import dialogue
+    sets = dialogue.reply_sets()
+    opts = list(sets.get(key) or sets["generic"])
+    if len(opts) > 3:
+        opts.sort(key=lambda o: _h(salt, key, o[0]))
+        pick3 = opts[:3]
+        if len({fx for _, fx in pick3}) < 2:
+            other = next((o for o in opts[3:] if o[1] != pick3[0][1]), None)
+            if other:
+                pick3[2] = other
+        nice = {"warm", "funny", "thanks", "forgive", "vent", "flirt", "sibling_warm"}
+        pick3.sort(key=lambda o: (o[1] not in nice, o[1] in ("dry", "cold")))
+        opts = pick3
     return [{"label": l, "fx": fx} for l, fx in opts]
 
 

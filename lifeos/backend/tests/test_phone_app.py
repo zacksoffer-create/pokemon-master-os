@@ -44,6 +44,14 @@ def test_local_api_answers_like_the_server(tmp_path):
             r = call('POST', '/api/phone/thread/' + quote(dm['id'], safe='') + '/reply', {{'msg': ask['id'], 'index': 0}})
             assert r['status'] == 200, r['body'][:200]
         assert call('GET', '/api/characters/zack-soffer')['status'] == 200
+        # dialogue packs on the phone: pasted from ChatGPT, kept in the phone's own storage
+        pasted = 'sure! ```json ' + json.dumps({{'name': 'Phone pack', 'texts': {{'chatter_vent': ['monday again. why']}}}}) + ' ```'
+        r = call('POST', '/api/dialogue/packs', {{'text': pasted}})
+        assert r['status'] == 200, r['body'][:300]
+        import os
+        assert os.path.exists({str(tmp_path / 'dialogue' / 'phone_pack.json')!r})
+        assert call('POST', '/api/dialogue/packs/yours%3Aphone_pack/enabled', {{'enabled': False}})['status'] == 200
+        assert not any(p['id'] == 'yours:phone_pack' and p['enabled'] for p in js(call('GET', '/api/dialogue/packs'))['packs'])
         assert call('GET', '/api/nope')['status'] == 404
         assert call('POST', '/api/story/control', {{'focus': 'nonsense'}})['status'] == 422
         b = call('GET', '/api/phone/backup')

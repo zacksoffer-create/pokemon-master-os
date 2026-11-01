@@ -9,6 +9,7 @@ from __future__ import annotations
 import asyncio
 import inspect
 import json
+import os
 import re
 import traceback
 import typing
@@ -25,6 +26,9 @@ def boot(data_dir: str = "/data/saves"):
     from . import api
     from .storage import FileStore
     from . import phone_api  # noqa: F401  (registers the phone routes)
+    from . import dialogue
+    dialogue.USER_DIR = os.path.join(os.path.dirname(data_dir.rstrip("/")) or "/", "dialogue")  # your dialogue packs, on the phone
+    dialogue.reload()
     lab = api.Lab(FileStore(data_dir))
     lab.inline = True
     api.lab = lab

@@ -1,11 +1,12 @@
 // Content Library: the data-driven catalogs the simulation runs on, browsable in one place.
 import React, { useMemo, useState } from "react";
 import { go, useApi } from "../store";
+import Dialogue from "./LibraryDialogue";
 import { cx, Empty, ErrorBox, Loading, Meter, Panel, pretty, Stat, Tabs, Tag } from "../ui";
 import "./library.css";
 
 const TABS: [string, string][] = [
-  ["actions", "Actions"], ["goals", "Goals"], ["templates", "Narrative templates"], ["world", "World"],
+  ["dialogue", "Dialogue"], ["actions", "Actions"], ["goals", "Goals"], ["templates", "Narrative templates"], ["world", "World"],
   ["people", "People"], ["attributes", "Attributes"], ["metrics", "Metrics"],
 ];
 const FILE_FOR: Record<string, string> = {
@@ -16,7 +17,7 @@ const WD = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const md = (x: any) => (Array.isArray(x) ? `${MONTHS[x[0]]} ${x[1]}` : "-");
 
 export default function Library({ route }: { route: string[] }) {
-  const tab = TABS.some(([k]) => k === route[1]) ? route[1] : "actions";
+  const tab = TABS.some(([k]) => k === route[1]) ? route[1] : "dialogue";
   const { data, error, loading } = useApi<any>("/api/catalogs");
   return (
     <div>
@@ -28,9 +29,10 @@ export default function Library({ route }: { route: string[] }) {
         </div>
         <Tabs tabs={TABS} active={tab} onChange={(k) => go(`library/${k}`)} />
       </div>
-      <ErrorBox error={error} />
-      {loading && !data && <Loading what="Loading catalogs" />}
-      {data && (
+      {tab === "dialogue" && <Dialogue />}
+      {tab !== "dialogue" && <ErrorBox error={error} />}
+      {tab !== "dialogue" && loading && !data && <Loading what="Loading catalogs" />}
+      {tab !== "dialogue" && data && (
         <>
           <div className="callout lib-files">
             These are plain JSON files, the data-driven source of the simulation. Edit them directly and restart the server to reload.
