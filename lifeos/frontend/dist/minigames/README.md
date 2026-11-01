@@ -43,7 +43,7 @@ A round is `score / max`. **Great** is 80% or more, **good** is 50% or more, any
 
 ## Games
 
-The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab) are copied here by
+The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab, Option Arcade) are copied here by
 `python lifeos/tools/sync_games.py`. Edit them in `games/src/`, not here: the sync overwrites these copies.
 
 | file | game id(s) | status | launches |
@@ -54,7 +54,7 @@ The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab) are copi
 | `swing.html` | `swing_lab` | ready: Swing Lab batting prototype | menu / clutch (3 PAs) |
 | `golf.html` | `golf` | ready: Fairway (weekends) | menu / short |
 | `cup_pong.html` | `cup_pong` | ready: cup pong, beer pong in college (weekend nights) | menu / game |
-| `football.html` | `football` | coming (in progress) | |
+| `football.html` | `football` | ready: Option Arcade (game day uses this) | menu / clutch (Goal Line: four downs from the 10) |
 | `paper_toss.html` | `paper_toss` | coming (idea: the toss mechanic) | |
 
 `play` in minigames.json says which mode a game opens in for each context (free play, game day clutch, story scene);

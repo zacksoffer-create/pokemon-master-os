@@ -193,7 +193,8 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
 
 **Mini games:** short rounds whose results feed the story.
 - **Free play:** in free time, the Story tab shows **Or play something**: pickup soccer, shooting around in the driveway,
-  running the offense at the park (Playmaker), hitting at the batting cages (At Bat), batting practice (Swing Lab), and on
+  running the offense at the park (Playmaker), running the option at practice (Option Arcade), hitting at the batting cages
+  (At Bat), batting practice (Swing Lab), and on
   weekends a round of golf (Fairway) and cup pong in a friend's basement (beer pong at a party once you're in college).
   The first round each day counts as practice (a small skill gain, plus fun), scaled by how you did.
 - **Game day:** **Take over late. Play the big moment yourself.** plays your sport's game. A great round adds +7 to your
@@ -202,7 +203,10 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
 - **Penalty kicks** (soccer) is ready. Swipe from the ball toward the goal: the angle aims, a faster swipe hits harder and
   higher (too hard sails over), and curving your swipe bends the ball. The keeper reads you more often at higher
   difficulty, and your character's skill steadies your aim.
-- **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab) run inside the app with
+- **Option Arcade** (football) is the option offense played by hand: hold GIVE to snap and give it to the fullback, let
+  go to pull it, read the next man and PITCH or keep, then steer the runner, swipe to juke, tap to truck. Game day is a
+  goal-line stand in reverse: first and goal from the 10, four downs. A touchdown is a great round.
+- **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab, Option Arcade) run inside the app with
   their mechanics untouched. Each opens to its own home screen in free play; on game day basketball and baseball open
   straight into a short clutch round. Edit them in `games/src/`, then run `python lifeos/tools/sync_games.py` and rebuild.
 - **Swing Lab** is the batting prototype: a bigger, brighter, slower ball, a swipe through an invisible contact plane,
@@ -211,8 +215,8 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
 
 **Add a game:** every game is one standalone HTML file in `frontend/public/minigames/`, so it can live in Google Drive
 too. Paste in `lifeos-bridge.js`, call `LifeOS.finish({score, max})` when the round ends, register it in
-`backend/data/minigames.json`, and rebuild. The full contract is in `frontend/public/minigames/README.md`. Football
-and paper toss are registered as "coming" and appear once their files land.
+`backend/data/minigames.json`, and rebuild. The full contract is in `frontend/public/minigames/README.md`. Paper toss
+is registered as "coming" and appears once its file lands.
 
 ## Add dialogue (with ChatGPT, Claude, or by hand)
 

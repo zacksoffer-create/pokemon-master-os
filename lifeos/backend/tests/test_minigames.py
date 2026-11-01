@@ -57,9 +57,9 @@ def test_free_play_soccer_rewards_once_a_day():
     to_phase(sim, ("after_school", "day", "evening"))
     c = sim.w.chars[sim.w.meta["protagonist"]]
     games = {g["id"]: g for g in minigames.free_list(sim)}
-    assert games["soccer_pk"]["available"] and games["basketball"]["available"] and not games["football"]["available"]
+    assert games["soccer_pk"]["available"] and games["basketball"]["available"] and games["football"]["available"] and not games["paper_toss"]["available"]
     with pytest.raises(ValueError):
-        minigames.start(sim, "football")  # not ready yet
+        minigames.start(sim, "paper_toss")  # not ready yet
     cfg = minigames.start(sim, "soccer_pk")
     assert cfg["file"] == "soccer.html" and 0 <= cfg["skill"] <= 100
     fit0, fun0 = c.skills["fitness"], c.needs["fun"]
@@ -127,25 +127,27 @@ def test_unplayed_moment_rolls_the_fallback_and_hidden_choices():
     sim = story()
     w = sim.w
     c = w.chars[w.meta["protagonist"]]
+    football = next(g for g in w.groups if w.groups[g].get("skill") == "football")
     # game day: the "play it yourself" choice only shows when that sport's game is ready
-    moments.trigger(sim, "game_day", c.id, {"group": next(g for g in w.groups if w.groups[g].get("skill") == "football"), "opponent": "Branford"})
-    m = moments.pending(w)[-1]
-    assert not any("yourself" in ch["label"] for ch in m["choices"]), "football's game isn't ready yet"
+    reg = minigames.reg()
+    old = reg["games"]["football"]["status"]
+    try:
+        reg["games"]["football"]["status"] = "coming"
+        moments.trigger(sim, "game_day", c.id, {"group": football, "opponent": "Branford"})
+        m = moments.pending(w)[-1]
+        assert not any("yourself" in ch["label"] for ch in m["choices"]), "a game that isn't ready hides the choice"
+    finally:
+        reg["games"]["football"]["status"] = old
     moments.resolve(sim, m["id"], None)
     m["day"] -= 1  # game day moments are once a day; pretend that one was yesterday
-    reg = minigames.reg()
-    old = reg["games"]["basketball"]["status"]
-    try:
-        reg["games"]["basketball"]["status"] = "ready"
-        moments.trigger(sim, "game_day", c.id, {"group": next(g for g in w.groups if w.groups[g].get("skill") == "basketball"), "opponent": "Madison"})
-        m = moments.pending(w)[-1]
-        i = next(k for k, ch in enumerate(m["choices"]) if "yourself" in ch["label"])
-        cfg = minigames.start(sim, "sport", kind="moment", mid=m["id"], index=i, ctx=m["ctx"])
-        assert cfg["game"] == "basketball" and cfg["mode"] == "clutch"
-        minigames.finish(sim, cfg["session"], 9, 10)
-        assert c.flags["game_clutch"] == 7 and c.flags["game_clutch_day"] == w.day
-    finally:
-        reg["games"]["basketball"]["status"] = old
+    # football is ready: game day opens the option game's goal-line round
+    moments.trigger(sim, "game_day", c.id, {"group": football, "opponent": "Madison"})
+    m = moments.pending(w)[-1]
+    i = next(k for k, ch in enumerate(m["choices"]) if "yourself" in ch["label"])
+    cfg = minigames.start(sim, "sport", kind="moment", mid=m["id"], index=i, ctx=m["ctx"])
+    assert cfg["game"] == "football" and cfg["mode"] == "clutch" and cfg["play"] == "clutch" and cfg["file"] == "football.html"
+    minigames.finish(sim, cfg["session"], 10, 10)
+    assert c.flags["game_clutch"] == 7 and c.flags["game_clutch_day"] == w.day
 
 
 def test_dialogue_packs_add_trivia_and_minigame_scenes():

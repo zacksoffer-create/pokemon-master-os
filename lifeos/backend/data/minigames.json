@@ -80,16 +80,16 @@
       }
     },
     "football": {
-      "title": "Football",
+      "title": "Option Arcade",
       "kind": "html",
       "file": "football.html",
-      "status": "coming",
+      "status": "ready",
       "icon": "ball",
-      "blurb": "In the works.",
+      "blurb": "Run the triple option: read the end, read the next man, then take the ball yourself.",
       "skill": "football",
       "aptitude": "athletic",
       "free": {
-        "label": "Throw the football around",
+        "label": "Run the option at practice",
         "phases": [
           "after_school",
           "day",
@@ -101,6 +101,11 @@
         "gain": 0.8,
         "fun": 6,
         "energy": -6
+      },
+      "play": {
+        "free": "menu",
+        "clutch": "clutch",
+        "scene": "menu"
       }
     },
     "baseball": {

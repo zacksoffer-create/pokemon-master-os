@@ -9,6 +9,7 @@ Phone games built on shared engines, as a test of the "mechanics library" idea: 
 | **Fairway** (`dist/fairway.html`) | Golf. Pull back and swing through; read the wind, the lie and the pin. Modes: Play 9, Closest to the Pin, Putting Green, Challenges, the Range. | Swing gesture + ball flight, conditions as data |
 | **Pong Night** (`dist/pong-night.html`) | Beer pong against opponents with habits. Read the rack and the guy across the table, call your re-racks. Modes: a game, Rack Attack, Island drills, Practice. | Flick + trajectory, opponents as data, cup physics |
 | **At Bat** (`dist/at-bat.html`) | Baseball hitting. Read the pitcher, the count and the situation, then put a swing on it. Modes: At-Bats, Situational, Home Run Derby, Batting Cage, Challenges. | Hold-drag-swipe swing, pitchers as data, pitch and batted-ball physics, fielders |
+| **Option Arcade** (`dist/option-arcade.html`) | Football: the option offense, played by hand. Hold to give, let go to pull, read the end and then the next man, pitch or keep, then steer whoever has the ball, juke and truck. Modes: Option Lab (pick the defense, ten plays), Drive (own 25, four downs at a time), Goal Line (first and goal from the 10), and a film room. | Mesh decision as a hold/release, defenders who each read the play, blocks that hold or get shed, ball-carrier steering and contact |
 | **Swing Lab** (`dist/swing-lab.html`) | Batting feel prototype. A big, bright, slower ball; swipe through it as it arrives. Fastball, changeup and curveball differ only in how they move. Training mode, pitcher-facing vs side-offset camera, trail and speed settings, and a stats sheet that answers: can you track it, do you know when to swipe, are you improving. | 3D pitch paths, contact plane, timing and height windows, batted-ball flight and fielders, synthesized sounds |
 
 ## Basketball controls
@@ -153,12 +154,27 @@ node games/test/smoke_pong.js OUTDIR     # every mode through the app
 node games/test/physics_bat.js           # pitch movement, outcomes by timing and contact, situations
 node games/test/controls_bat.js OUTDIR   # calibration, timing, swing plane, takes, situations
 node games/test/smoke_bat.js OUTDIR      # every mode through the app
+node games/test/sim_option.js [N]        # Option Arcade, headless: every defensive look, right reads vs wrong reads
+node games/test/smoke_option.js OUTDIR   # Option Arcade through its controls at three phone sizes, plus the LIFE OS round
 node games/test/bot_school.js SEED [PNG] # plays a full semester with random choices
 node games/test/tryouts_school.js OUTDIR # tryouts with the real engine
 node games/test/shots_school.js OUTDIR   # Living School screens, light and dark
 ```
 
 Run the browser tests one at a time; several Chromium instances at once can run the container out of memory.
+
+## Option Arcade controls
+
+| Gesture | Move |
+|---|---|
+| Hold GIVE | Snap it. Keep holding through the exchange and the fullback gets it. |
+| Let go of GIVE | Pull it back and keep it. Pull too late, with both hands on it, and it can come out. |
+| PITCH (shows up once you've pulled it, with the pitch man trailing) | Pitch it. A real toss: pitch under pressure, too far, or across your body and it can hit the ground. |
+| Left thumb, drag | Steer whoever has the ball. Let go and he bends upfield. Sharp cuts cost speed. |
+| Right thumb, swipe up or down | Juke that way. Time it as he dives and he grabs air; close defenders can bite on it. |
+| Right thumb, tap | Truck: lower your shoulder for a moment. Wins against smaller defenders and bad angles, loses to a big man squared up. |
+
+The reads are the game. The first is the end: if he crashes in on the dive, pull it; if he sits or comes at you, give it. The second, once you've pulled it, is the next man out: if he comes for you, pitch it; if he runs with the pitch man, keep it. Defenders show it with their bodies (shoulders and facemask), not labels. Read help rings the two defenders and slows the exchange. Defensive looks (Option Lab): end crashes, end sits, end attacks the QB, backer takes the QB, backer plays the pitch, backer slow-plays, scrape exchange, safety fills the alley, and mixed. Also the read option (shotgun, give or keep). Spin, hurdle and the passing game come next. Code is in `src/football/`: `sim.js` (the play: no DOM, runs headless), `render.js`, `app.html`.
 
 ## Inside LIFE OS
 

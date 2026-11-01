@@ -1,0 +1,730 @@
+<title>Option Arcade</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  :root { --ink: #0c131b; --chalk: #f5f2ea; --gold: #ffd84a; --green: #1f6f4a; --mint: #4fd39a; --coral: #ff6b57; --sky: #5cc8ff; --orange: #ff9d4a; --muted: #9aa6b6; --paper: #f6f2ea; --paperInk: #1b2232; }
+  html, body { margin: 0; height: 100%; background: var(--ink); color: var(--chalk); overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none;
+    font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-tap-highlight-color: transparent; }
+  #oa-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; }
+  .oa-top { position: fixed; top: calc(10px + env(safe-area-inset-top)); left: calc(12px + env(safe-area-inset-left)); right: calc(12px + env(safe-area-inset-right)); display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; pointer-events: none; z-index: 3; }
+  .oa-pill { background: rgba(8, 13, 20, 0.66); border-radius: 999px; padding: 7px 13px; font-weight: 800; font-size: 13px; letter-spacing: 0.01em; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); white-space: nowrap; }
+  .oa-pill small { font-weight: 700; opacity: 0.72; margin-left: 6px; }
+  .oa-btns { display: flex; gap: 8px; pointer-events: auto; }
+  .oa-ic { width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(8, 13, 20, 0.66); color: #fff; font-size: 17px; display: grid; place-items: center; cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .oa-call { position: fixed; top: calc(58px + env(safe-area-inset-top)); left: 0; right: 0; text-align: center; pointer-events: none; z-index: 3; font-weight: 900; font-size: 15px; letter-spacing: 0.02em; text-shadow: 0 1px 6px rgba(0,0,0,0.7); }
+  .oa-call small { display: block; font-weight: 700; font-size: 12.5px; opacity: 0.8; margin-top: 2px; }
+  .oa-hint { position: fixed; left: 50%; transform: translateX(-50%); top: calc(104px + env(safe-area-inset-top)); width: min(340px, calc(100vw - 32px)); text-align: center; pointer-events: none; z-index: 3;
+    font-weight: 800; font-size: 13px; line-height: 1.35; text-shadow: 0 1px 5px rgba(0,0,0,0.85); }
+  .oa-pad { position: fixed; right: calc(18px + env(safe-area-inset-right)); bottom: calc(20px + env(safe-area-inset-bottom)); width: 108px; height: 108px; border-radius: 50%; border: 0; z-index: 4; cursor: pointer;
+    color: #2a1d00; font: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; touch-action: none;
+    background: radial-gradient(circle at 50% 38%, #ffe680, #ffc531 70%); box-shadow: 0 10px 26px -10px rgba(0,0,0,0.8), inset 0 -4px 0 rgba(0,0,0,0.15); }
+  .oa-pad::before { content: ''; position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(rgba(255,255,255,0.95) calc(var(--u, 0) * 360deg), rgba(255,255,255,0.14) 0); -webkit-mask: radial-gradient(circle, transparent 57px, #000 58px); mask: radial-gradient(circle, transparent 57px, #000 58px); }
+  .oa-pad b { font-size: 21px; font-weight: 900; letter-spacing: 0.04em; }
+  .oa-pad small { font-size: 11.5px; font-weight: 800; opacity: 0.75; margin-top: 1px; }
+  .oa-pad.held { transform: scale(0.94); }
+  .oa-pad.pulled { background: radial-gradient(circle at 50% 38%, #9fe6c4, #4fd39a 70%); }
+  .oa-pitch { background: radial-gradient(circle at 50% 38%, #ffc08a, #ff8a3d 70%); color: #2b1100; animation: oa-pop 0.18s ease-out; }
+  .oa-pitch::before { display: none; }
+  .oa-pad[hidden] { display: none; }
+  @keyframes oa-pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .oa-card { position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: min(480px, 100vw); box-sizing: border-box; z-index: 6; max-height: 70vh; overflow-y: auto;
+    background: var(--paper); color: var(--paperInk); border-radius: 24px 24px 0 0; padding: 14px 18px calc(16px + env(safe-area-inset-bottom)); box-shadow: 0 -12px 30px rgba(0,0,0,0.35); }
+  .oa-card[hidden] { display: none; }
+  .oa-res { display: flex; align-items: baseline; gap: 10px; }
+  .oa-res b { font-size: 34px; font-weight: 900; letter-spacing: -0.01em; }
+  .oa-res span { font-weight: 700; color: #4b5468; font-size: 14px; }
+  .oa-reads { list-style: none; margin: 8px 0 4px; padding: 0; }
+  .oa-reads li { display: grid; grid-template-columns: 24px 1fr; gap: 6px; font-size: 14px; font-weight: 650; line-height: 1.4; margin: 5px 0; color: #2c3448; }
+  .oa-reads li i { font-style: normal; font-weight: 900; text-align: center; }
+  .oa-reads li.ok i { color: #1d9a63; } .oa-reads li.no i { color: #d6493a; } .oa-reads li.note i { color: #7a8297; }
+  .oa-sit { font-size: 13px; font-weight: 800; color: #7a8297; letter-spacing: 0.04em; text-transform: uppercase; margin: 10px 0 6px; }
+  .oa-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .oa-chips button { flex: 1 1 auto; border: 0; border-radius: 999px; padding: 10px 10px; font: inherit; font-weight: 800; font-size: 14px; background: #fff; color: #39415a; box-shadow: inset 0 0 0 2px #e6ddcf; cursor: pointer; }
+  .oa-chips button.on { background: #1b2232; color: #fff; box-shadow: none; }
+  .oa-go { display: block; width: 100%; margin-top: 12px; border: 0; border-radius: 18px; padding: 15px; font: inherit; font-weight: 900; font-size: 17px; color: #fff; cursor: pointer;
+    background: linear-gradient(135deg, #1f6f4a, #2f9a66); box-shadow: 0 14px 26px -14px rgba(31, 111, 74, 0.9); }
+  .oa-ghost { display: block; width: 100%; margin-top: 6px; border: 0; background: none; color: #6a7286; font: inherit; font-weight: 800; padding: 10px; cursor: pointer; }
+  .oa-ov { position: fixed; inset: 0; z-index: 10; display: flex; align-items: flex-end; justify-content: center; background: rgba(5, 9, 14, 0.55); }
+  .oa-ov[hidden] { display: none; }
+  .oa-sheet { width: min(480px, 100vw); max-height: 92vh; overflow-y: auto; background: var(--paper); color: var(--paperInk); border-radius: 26px 26px 0 0; padding: 18px 18px calc(22px + env(safe-area-inset-bottom)); box-sizing: border-box; }
+  .oa-sheet h2 { margin: 0 0 4px; font-size: 22px; font-weight: 900; }
+  .oa-sheet p { margin: 0 0 10px; color: #4b5468; font-weight: 600; font-size: 14px; line-height: 1.45; }
+  .oa-row { margin: 12px 0; }
+  .oa-row > b { display: block; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7a8297; margin-bottom: 6px; }
+  .oa-how { display: grid; grid-template-columns: 34px 1fr; gap: 9px 10px; align-items: center; margin: 8px 0 4px; font-size: 14px; font-weight: 600; color: #39415a; line-height: 1.4; }
+  .oa-how span:nth-child(odd) { font-size: 22px; text-align: center; }
+  .oa-stat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0; }
+  .oa-stat div { background: #fff; border-radius: 14px; padding: 10px 6px; text-align: center; box-shadow: inset 0 0 0 2px #ece4d8; }
+  .oa-stat b { display: block; font-size: 22px; color: #1b2232; font-weight: 900; }
+  .oa-stat small { font-size: 11.5px; font-weight: 800; color: #7a8297; }
+  .oa-table { width: 100%; border-collapse: collapse; font-size: 13px; font-weight: 650; color: #39415a; }
+  .oa-table th { text-align: left; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a8297; padding: 4px 4px; }
+  .oa-table td { padding: 6px 4px; border-top: 1px solid #ebe3d6; }
+  .oa-looks { display: grid; gap: 6px; }
+  .oa-looks button { text-align: left; border: 0; border-radius: 14px; padding: 10px 12px; font: inherit; background: #fff; color: #39415a; box-shadow: inset 0 0 0 2px #e6ddcf; cursor: pointer; }
+  .oa-looks button b { display: block; font-size: 15px; color: #1b2232; }
+  .oa-looks button span { font-size: 13px; font-weight: 600; color: #6a7286; }
+  .oa-looks button.on { box-shadow: inset 0 0 0 3px #1f6f4a; }
+  /* home */
+  .oa-home { position: fixed; inset: 0; z-index: 9; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; background: linear-gradient(180deg, rgba(8,13,20,0.2), rgba(8,13,20,0.82) 55%, rgba(8,13,20,0.96)); }
+  .oa-home[hidden] { display: none; }
+  .oa-homein { width: min(480px, 100vw); box-sizing: border-box; padding: 18px 18px calc(18px + env(safe-area-inset-bottom)); max-height: 100%; overflow-y: auto; }
+  .oa-kick { font-size: 12px; font-weight: 900; letter-spacing: 0.32em; color: var(--gold); }
+  .oa-title { font-size: clamp(40px, 12vw, 64px); font-weight: 900; line-height: 0.95; margin: 4px 0 8px; letter-spacing: -0.01em; }
+  .oa-sub { color: #c9d1dc; font-weight: 650; font-size: 15px; line-height: 1.45; margin: 0 0 14px; }
+  .oa-mode { display: grid; grid-template-columns: 52px 1fr; gap: 12px; align-items: center; width: 100%; text-align: left; border: 0; border-radius: 18px; padding: 13px 14px; margin: 8px 0; font: inherit; color: var(--chalk); cursor: pointer;
+    background: rgba(255,255,255,0.07); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.12); }
+  .oa-mode.main { background: linear-gradient(135deg, #1f6f4a, #2a8a5c); box-shadow: none; }
+  .oa-mode i { font-style: normal; font-size: 28px; text-align: center; }
+  .oa-mode b { display: block; font-size: 18px; font-weight: 900; }
+  .oa-mode span { font-size: 13.5px; font-weight: 600; opacity: 0.82; line-height: 1.35; }
+  .oa-mode em { display: block; font-style: normal; font-size: 12px; font-weight: 900; letter-spacing: 0.08em; color: var(--gold); margin-top: 3px; text-transform: uppercase; }
+  .oa-links { display: flex; gap: 8px; margin-top: 6px; }
+  .oa-links button { flex: 1; border: 0; border-radius: 14px; padding: 11px; font: inherit; font-weight: 800; font-size: 14px; color: var(--chalk); background: rgba(255,255,255,0.08); cursor: pointer; }
+  .oa-turn { margin-top: 10px; font-size: 12.5px; font-weight: 700; color: #9aa6b6; text-align: center; }
+</style>
+
+<canvas id="oa-canvas"></canvas>
+<div class="oa-top">
+  <div class="oa-pill" id="oa-status">Option Arcade</div>
+  <div class="oa-btns">
+    <button class="oa-ic" id="oa-film-btn" aria-label="Film room">📋</button>
+    <button class="oa-ic" id="oa-gear" aria-label="Settings">⚙︎</button>
+    <button class="oa-ic" id="oa-exit" aria-label="Leave">✕</button>
+  </div>
+</div>
+<div class="oa-call" id="oa-call"></div>
+<div class="oa-hint" id="oa-hint"></div>
+<button class="oa-pad" id="oa-give" aria-label="Give"><b>HOLD</b><small>to snap</small></button>
+<button class="oa-pad oa-pitch" id="oa-pitch" aria-label="Pitch" hidden><b>PITCH</b></button>
+
+<div class="oa-card" id="oa-card" hidden>
+  <div class="oa-res"><b id="oa-yds">+0</b><span id="oa-how"></span></div>
+  <ul class="oa-reads" id="oa-reads"></ul>
+  <div class="oa-sit" id="oa-sit"></div>
+  <div class="oa-chips" id="oa-plays"></div>
+  <div class="oa-chips" id="oa-lookrow" style="margin-top:6px"></div>
+  <button class="oa-go" id="oa-next">Next play</button>
+</div>
+
+<div class="oa-home" id="oa-home">
+  <div class="oa-homein">
+    <div class="oa-kick">FOOTBALL</div>
+    <div class="oa-title">OPTION<br>ARCADE</div>
+    <p class="oa-sub">Read the end. Read the next man. Then take the ball yourself and make something happen.</p>
+    <button class="oa-mode main" data-mode="lab"><i>🧪</i><div><b>Option Lab</b><span>Pick the defense and run ten plays at it. Rack up yards.</span><em id="oa-best"></em></div></button>
+    <button class="oa-mode" data-mode="drive"><i>🏈</i><div><b>Drive</b><span>Your own 25, four downs at a time, option only. Go score.</span></div></button>
+    <button class="oa-mode" data-mode="goal"><i>🥅</i><div><b>Goal Line</b><span>First and goal from the 10. Four shots to punch it in.</span></div></button>
+    <div class="oa-links">
+      <button id="oa-how-btn">How to play</button>
+      <button id="oa-film-btn2">Film room</button>
+      <button id="oa-gear2">Settings</button>
+    </div>
+    <div class="oa-turn" id="oa-turn">Turn your phone sideways for the widest view.</div>
+  </div>
+</div>
+
+<div class="oa-ov" id="oa-howsheet" hidden>
+  <div class="oa-sheet">
+    <h2>How the option works</h2>
+    <p>One play, three people who might end up with the ball. You make two reads in about two seconds, then you're the runner.</p>
+    <div class="oa-how">
+      <span>✋</span><span><b>Hold GIVE</b> to snap. Keep holding through the exchange and the fullback gets it. <b>Let go</b> and you pull it back.</span>
+      <span>①</span><span>Watch <b>the end</b>. Crashing in on the dive? <b>Pull it.</b> Sitting square or coming at you? <b>Give it.</b></span>
+      <span>②</span><span>Pulled it? Watch <b>the next man out</b>. Coming for you? <b>PITCH.</b> Running with the pitch man? <b>Keep it.</b></span>
+      <span>🕹</span><span><b>Left thumb</b> steers whoever has the ball. Let go and he runs upfield.</span>
+      <span>↕</span><span><b>Right thumb:</b> swipe up or down to <b>juke</b>. Tap to lower your shoulder and <b>truck</b>. Truck the small guys; juke the big ones.</span>
+    </div>
+    <p style="margin-top:10px">Read help puts a ring on the two defenders you're reading and slows the exchange. Turn it off in settings when you've got it.</p>
+    <button class="oa-go" id="oa-how-go">Got it</button>
+  </div>
+</div>
+
+<div class="oa-ov" id="oa-settings" hidden>
+  <div class="oa-sheet">
+    <h2>Settings</h2>
+    <div class="oa-row"><b>The exchange</b><div class="oa-chips" data-set="mesh"><button data-v="hold">Hold to give</button><button data-v="tap">Tap to give</button></div></div>
+    <div class="oa-row"><b>Exchange speed</b><div class="oa-chips" data-set="exch"><button data-v="slow">Slow</button><button data-v="normal">Normal</button><button data-v="quick">Quick</button></div></div>
+    <div class="oa-row"><b>Read help</b><div class="oa-chips" data-set="help"><button data-v="on">Rings on the reads</button><button data-v="off">Off</button></div></div>
+    <div class="oa-row" id="oa-diffrow"><b>Defense</b><div class="oa-chips" data-set="diff"><button data-v="easy">Easy</button><button data-v="normal">Normal</button><button data-v="hard">Hard</button></div></div>
+    <div class="oa-row"><b>Camera</b><div class="oa-chips" data-set="zoom"><button data-v="close">Close</button><button data-v="wide">Wide</button></div></div>
+    <div class="oa-row"><b>Sound</b><div class="oa-chips" data-set="sound"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
+    <button class="oa-go" id="oa-set-done">Done</button>
+  </div>
+</div>
+
+<div class="oa-ov" id="oa-looksheet" hidden>
+  <div class="oa-sheet">
+    <h2>Pick the defense</h2>
+    <p>What the defenders you're reading will do. Mixed is a real defense: anything, and you have to read it.</p>
+    <div class="oa-looks" id="oa-looks"></div>
+    <button class="oa-ghost" id="oa-look-close">Close</button>
+  </div>
+</div>
+
+<div class="oa-ov" id="oa-film" hidden>
+  <div class="oa-sheet">
+    <h2>Film room</h2>
+    <p id="oa-film-sub">Every option play you've run, and whether you read it right.</p>
+    <div class="oa-stat">
+      <div><b id="oa-f-plays">0</b><small>plays</small></div>
+      <div><b id="oa-f-ypp">-</b><small>yards a play</small></div>
+      <div><b id="oa-f-long">-</b><small>longest</small></div>
+      <div><b id="oa-f-r1">-</b><small>give / pull right</small></div>
+      <div><b id="oa-f-r2">-</b><small>keep / pitch right</small></div>
+      <div><b id="oa-f-brk">-</b><small>broken tackles</small></div>
+    </div>
+    <p id="oa-f-split"></p>
+    <table class="oa-table"><thead><tr><th>Defense</th><th>Plays</th><th>Reads right</th><th>Yds/play</th></tr></thead><tbody id="oa-f-looks"></tbody></table>
+    <div class="oa-row"><b>Last plays</b><table class="oa-table"><tbody id="oa-f-last"></tbody></table></div>
+    <button class="oa-go" id="oa-film-close">Close</button>
+    <button class="oa-ghost" id="oa-film-reset">Clear the film</button>
+  </div>
+</div>
+
+<div class="oa-ov" id="oa-sum" hidden>
+  <div class="oa-sheet">
+    <h2 id="oa-sum-h">Done</h2>
+    <p id="oa-sum-p"></p>
+    <div class="oa-stat" id="oa-sum-stats"></div>
+    <button class="oa-go" id="oa-sum-go">Run it again</button>
+    <button class="oa-ghost" id="oa-sum-home">Home</button>
+  </div>
+</div>
+
+<script>
+<!--@include shared/lifeos.js-->
+</script>
+<script>
+<!--@include football/sim.js-->
+</script>
+<script>
+<!--@include football/render.js-->
+</script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const cv = $('oa-canvas'), g = cv.getContext('2d');
+const SAVE = 'optionarcade.v1';
+const DIFF = { easy: 25, normal: 50, hard: 78 };
+const LOOK_INFO = {
+  mixed: 'Anything goes. Read it.',
+  crash: 'He squeezes down on the dive. Pull it.',
+  sit: 'He stays home in the gap with his eyes on you. Give it.',
+  attack: 'He comes straight at you. Give it.',
+  qb: 'The next man out comes for you. Pull it, then pitch.',
+  pitch: 'The next man out runs with the pitch man. Pull it, then keep it.',
+  feather: 'He hangs between you and the pitch man. Attack him, then go with what he picks.',
+  scrape: 'The end crashes and a linebacker loops outside to take you. Pull it, then pitch.',
+  alley: 'A safety comes downhill into the alley. The right read still leaves a man to beat.',
+};
+const PLAYS = [['triple', 1, '↓ Triple'], ['triple', -1, '↑ Triple'], ['read', 1, '↓ Read'], ['read', -1, '↑ Read']];
+const PLAY_NAME = { triple: 'Triple option', read: 'Read option' };
+const DEF_NAME = { DT: 'defensive tackle', DE: 'end', LB: 'linebacker', CB: 'corner', S: 'safety' };
+const lookName = k => (FB.LOOKS.find(l => l[0] === k) || [k, String(k).split('+').map(x => (FB.LOOKS.find(l => l[0] === x) || [x, x])[1]).join(' + ')])[1];
+
+// ------------------------------------------------------------------ saved settings and film
+function load() { try { return JSON.parse(localStorage.getItem(SAVE)) || {}; } catch (_) { return {}; } }
+const saved = load();
+const S = Object.assign({ mesh: 'hold', exch: 'normal', help: 'on', diff: 'normal', zoom: 'close', sound: 'on' }, saved.settings || {});
+let film = Array.isArray(saved.film) ? saved.film : [];
+let best = saved.best || {};
+let seenHow = !!saved.seenHow;
+function persist() { try { localStorage.setItem(SAVE, JSON.stringify({ settings: S, film: film.slice(-300), best, seenHow })); } catch (_) {} }
+
+// ------------------------------------------------------------------ sound: built from oscillators, no files
+const Snd = (() => {
+  let ctx = null, master = null, buf = null;
+  function ensure() {
+    if (ctx) return ctx;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+      ctx = new AC(); master = ctx.createGain(); master.gain.value = 0.55; master.connect(ctx.destination);
+      buf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    } catch (_) { ctx = null; }
+    return ctx;
+  }
+  function env(gn, t, a, peak, d) { gn.gain.setValueAtTime(0.0001, t); gn.gain.exponentialRampToValueAtTime(peak, t + a); gn.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
+  function tone(f, d, type, vol, when, slide) {
+    const c = ensure(); if (!c || S.sound === 'off') return;
+    const t = c.currentTime + (when || 0), o = c.createOscillator(), gn = c.createGain();
+    o.type = type || 'sine'; o.frequency.setValueAtTime(f, t); if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + d);
+    env(gn, t, 0.005, vol || 0.3, d); o.connect(gn); gn.connect(master); o.start(t); o.stop(t + d + 0.05);
+  }
+  function noise(d, type, f, q, vol, when) {
+    const c = ensure(); if (!c || S.sound === 'off') return;
+    const t = c.currentTime + (when || 0), s = c.createBufferSource(); s.buffer = buf;
+    const fl = c.createBiquadFilter(); fl.type = type; fl.frequency.value = f; fl.Q.value = q || 1;
+    const gn = c.createGain(); env(gn, t, 0.004, vol || 0.3, d); s.connect(fl); fl.connect(gn); gn.connect(master); s.start(t, Math.random() * 0.5); s.stop(t + d + 0.05);
+  }
+  const fx = {
+    hut() { noise(0.1, 'bandpass', 650, 2.2, 0.26); tone(160, 0.1, 'sawtooth', 0.05, 0, 120); },
+    whistle() { tone(2300, 0.42, 'square', 0.07); tone(2390, 0.42, 'square', 0.05); },
+    hit(h) { const k = h || 1; tone(85, 0.17, 'sine', 0.42 * k, 0, 48); noise(0.1, 'lowpass', 900, 1, 0.34 * k); },
+    truck() { tone(58, 0.32, 'sine', 0.62, 0, 36); noise(0.22, 'lowpass', 600, 1, 0.5); },
+    swish() { noise(0.16, 'highpass', 2400, 0.7, 0.2); },
+    pop() { tone(700, 0.06, 'sine', 0.2, 0, 1100); },
+    thump() { tone(120, 0.09, 'sine', 0.26, 0, 80); },
+    cheer() { noise(1.7, 'bandpass', 1200, 0.6, 0.22); noise(1.2, 'bandpass', 2300, 0.8, 0.1, 0.15); },
+    groan() { noise(0.8, 'lowpass', 480, 0.7, 0.16); },
+    loose() { tone(440, 0.12, 'triangle', 0.16); tone(300, 0.16, 'triangle', 0.16, 0.1); },
+    tick() { tone(1200, 0.03, 'square', 0.04); },
+    ui() { tone(560, 0.05, 'sine', 0.1); },
+  };
+  return { play(n, a) { try { fx[n] && fx[n](a); } catch (_) {} }, unlock() { const c = ensure(); if (c && c.state === 'suspended') c.resume().catch(() => {}); } };
+})();
+const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (_) {} };
+
+// ------------------------------------------------------------------ screen
+let W = 0, H = 0, V = null;
+function resize() {
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  W = window.innerWidth; H = window.innerHeight;
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const old = V;
+  V = FBView.view(W, H, S.zoom === 'wide' ? 0.78 : 1);
+  if (old) { V.cx = old.cx; V.cy = old.cy; }
+  $('oa-turn').style.display = H > W ? '' : 'none';
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ------------------------------------------------------------------ the game: modes, downs, the play
+const G = { mode: null, n: 0, max: 10, spot: 35, down: 1, toGo: 10, fdAt: 45, startSpot: 35, call: { play: 'triple', side: 1 }, look: 'mixed', total: 0, plays: [], over: false };
+let P = null, deadAt = null, cardUp = false, pullAt = null, fxList = [], tNow = 0;
+const LIFE = { on: false, cfg: null };
+function difficulty() { return LIFE.on ? (+LIFE.cfg.difficulty || 50) + (G.mode === 'goal' ? 6 : 0) : DIFF[S.diff] + (G.mode === 'goal' ? 6 : 0); }
+function skill() { return LIFE.on ? +LIFE.cfg.skill || 55 : 55; }
+
+function startMode(mode) {
+  Snd.unlock();
+  Object.assign(G, { mode, n: 0, total: 0, plays: [], over: false, down: 1 });
+  if (mode === 'lab') { G.max = 10; G.spot = 35; }
+  if (mode === 'drive') { G.max = 99; G.spot = 25; G.toGo = 10; G.fdAt = 35; }
+  if (mode === 'goal') { G.max = 4; G.spot = 90; G.toGo = 10; G.fdAt = 100; }
+  G.startSpot = G.spot;
+  $('oa-home').hidden = true; $('oa-sum').hidden = true;
+  if (!seenHow) { $('oa-howsheet').hidden = false; }
+  newPlay();
+}
+function newPlay() {
+  cardUp = false; deadAt = null; pullAt = null;
+  $('oa-card').hidden = true;
+  const spot = G.mode === 'lab' ? 35 : G.spot;
+  P = FB.create({ play: G.call.play, side: G.call.side, look: G.mode === 'lab' ? G.look : 'mixed', difficulty: difficulty(), skill: skill(),
+    toGoal: 100 - spot, toOwn: spot, mesh: S.mesh, exchange: S.exch, training: S.help === 'on' });
+  P.spotAbs = spot;
+  FBView.follow(V, P, 1, true);
+  inp.hold = false;
+  updateHud(true);
+}
+function situation() {
+  if (G.mode === 'lab') return `Play ${Math.min(G.n + 1, G.max)} of ${G.max}`;
+  const ord = ['1st', '2nd', '3rd', '4th'][G.down - 1] || '4th';
+  const dist = G.fdAt >= 100 ? 'goal' : G.toGo;
+  const ball = G.spot < 50 ? `Own ${G.spot}` : G.spot === 50 ? 'Midfield' : `Opp ${100 - G.spot}`;
+  return `${ord} & ${dist} · ${ball}`;
+}
+
+// ------------------------------------------------------------------ input
+const inp = { hold: false };
+const q = { juke: 0, truck: false, pitch: false, give: false, snap: false };
+let stick = null, gest = null;
+const keys = {};
+function steerVec() {
+  if (stick && Math.hypot(stick.x - stick.ox, stick.y - stick.oy) > 9) {
+    const dx = stick.x - stick.ox, dy = (stick.y - stick.oy) / FBView.K;
+    return { x: dx, y: dy };
+  }
+  const kx = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0), ky = (keys.ArrowDown ? 1 : 0) - (keys.ArrowUp ? 1 : 0);
+  if (kx || ky) return { x: kx || 0.0001, y: ky };
+  return null;
+}
+function blocked() { return cardUp || !$('oa-home').hidden || [...document.querySelectorAll('.oa-ov')].some(o => !o.hidden); }
+cv.addEventListener('pointerdown', e => {
+  Snd.unlock();
+  if (blocked() || !P) return;
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  if (e.clientX < W * 0.5) stick = { id: e.pointerId, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY };
+  else gest = { id: e.pointerId, x0: e.clientX, y0: e.clientY, t0: performance.now(), done: false };
+});
+cv.addEventListener('pointermove', e => {
+  if (stick && e.pointerId === stick.id) { stick.x = e.clientX; stick.y = e.clientY; }
+  if (gest && e.pointerId === gest.id && !gest.done) {
+    const dx = e.clientX - gest.x0, dy = e.clientY - gest.y0, el = performance.now() - gest.t0;
+    if (el < 380 && Math.abs(dy) > 24 && Math.abs(dy) > Math.abs(dx) * 1.2) { q.juke = dy > 0 ? 1 : -1; gest.done = true; }
+    else if (el < 380 && Math.abs(dx) > 34 && Math.abs(dx) > Math.abs(dy) * 1.2) { gest.done = true; hintOnce('spin', 'Spin and hurdle are coming next. For now: swipe up or down to juke, tap to truck.'); }
+  }
+});
+function endPointer(e) {
+  if (stick && e.pointerId === stick.id) stick = null;
+  if (gest && e.pointerId === gest.id) {
+    const el = performance.now() - gest.t0, moved = Math.hypot(e.clientX - gest.x0, e.clientY - gest.y0);
+    if (!gest.done && el < 280 && moved < 16) q.truck = true;
+    gest = null;
+  }
+}
+cv.addEventListener('pointerup', endPointer);
+cv.addEventListener('pointercancel', endPointer);
+
+const pad = $('oa-give'), pitchBtn = $('oa-pitch');
+pad.addEventListener('pointerdown', e => {
+  e.preventDefault(); Snd.unlock();
+  if (blocked() || !P) return;
+  try { pad.setPointerCapture(e.pointerId); } catch (_) {}
+  inp.hold = true;
+  if (S.mesh === 'tap') { if (P.phase === 'pre') q.snap = true; else q.give = true; }
+});
+const padUp = () => { inp.hold = false; };
+pad.addEventListener('pointerup', padUp);
+pad.addEventListener('pointercancel', padUp);
+pad.addEventListener('contextmenu', e => e.preventDefault());
+pitchBtn.addEventListener('pointerdown', e => { e.preventDefault(); if (!blocked()) q.pitch = true; });
+
+window.addEventListener('keydown', e => {
+  if (e.repeat) return;
+  keys[e.key] = true;
+  if (blocked()) { if (e.key === 'Enter' && cardUp) $('oa-next').click(); return; }
+  if (e.key === ' ') { e.preventDefault(); inp.hold = true; if (S.mesh === 'tap') { if (P && P.phase === 'pre') q.snap = true; else q.give = true; } }
+  if (e.key === 'z' || e.key === 'w') q.juke = -1;
+  if (e.key === 'x' || e.key === 's') q.juke = 1;
+  if (e.key === 'c' || e.key === 'd') q.truck = true;
+  if (e.key === 'p' || e.key === 'Enter') q.pitch = true;
+});
+window.addEventListener('keyup', e => { keys[e.key] = false; if (e.key === ' ') inp.hold = false; });
+
+// ------------------------------------------------------------------ hints and the HUD
+let hintTimer = 0, hintsDone = {};
+function hintOnce(k, text) { if (hintsDone[k]) return; hintsDone[k] = true; showHint(text, 3.2); }
+function showHint(text, secs) { $('oa-hint').textContent = text; hintTimer = secs || 0; }
+let lastPad = '';
+function updateHud(force) {
+  const status = $('oa-status');
+  const label = G.mode === 'lab' ? 'Option Lab' : G.mode === 'drive' ? 'Drive' : G.mode === 'goal' ? 'Goal Line' : 'Option Arcade';
+  const html = G.mode ? `${label}<small>${situation()}</small>` : label;
+  if (force || status.innerHTML !== html) status.innerHTML = html;
+  if (!P) return;
+  const call = $('oa-call');
+  const pre = P.phase === 'pre';
+  const vs = G.mode === 'lab' ? lookName(G.look) : '';
+  call.innerHTML = pre && !cardUp && G.mode ? `${G.call.side > 0 ? '↓' : '↑'} ${PLAY_NAME[G.call.play]}${vs ? `<small>vs ${vs}</small>` : ''}` : '';
+}
+function updateButtons(dt) {
+  if (!P) return;
+  const ph = P.phase;
+  let state = 'hidden';
+  if (!cardUp && (ph === 'pre' || ph === 'cadence' || ph === 'mesh')) state = ph;
+  if (!G.mode) state = 'hidden';
+  pad.hidden = state === 'hidden';
+  if (!pad.hidden) {
+    let txt;
+    if (S.mesh === 'hold') txt = ph === 'pre' ? '<b>HOLD</b><small>to snap</small>' : P.wantPull ? '<b>PULL</b><small>you kept it</small>' : '<b>GIVE</b><small>let go to pull</small>';
+    else txt = ph === 'pre' ? '<b>SNAP</b><small>tap</small>' : P.tapAt != null ? '<b>GAVE</b><small>it\'s his</small>' : '<b>GIVE</b><small>tap to give</small>';
+    if (txt !== lastPad) { pad.innerHTML = txt; lastPad = txt; }
+    pad.classList.toggle('held', inp.hold && ph !== 'pre');
+    pad.classList.toggle('pulled', !!P.wantPull);
+    pad.style.setProperty('--u', ph === 'mesh' ? Math.max(0, Math.min(1, (P.rideU + 0.35) / 1.35)) : 0);
+  }
+  if (ph === 'run' && P.give === false && pullAt == null) pullAt = tNow;
+  const canP = !cardUp && FB.canPitch(P) && pullAt != null && tNow - pullAt > 0.22;
+  if (pitchBtn.hidden === canP) pitchBtn.hidden = !canP;
+  if (hintTimer > 0) { hintTimer -= dt; if (hintTimer <= 0) $('oa-hint').textContent = ''; }
+  else if (!cardUp && G.mode) {
+    const n = film.length;
+    let h = '';
+    if (ph === 'pre') h = n < 6 ? (S.mesh === 'hold' ? 'Hold GIVE to snap. Keep holding to give it, let go to pull it.' : 'Tap SNAP, then tap GIVE before the exchange ends to give it.') : '';
+    else if (ph === 'run' && P.carrier === P.ctrl && n < 6) h = 'Left thumb steers · swipe ↑↓ to juke · tap to truck';
+    if ($('oa-hint').textContent !== h) $('oa-hint').textContent = h;
+  }
+}
+
+// ------------------------------------------------------------------ what the sim reported
+function onFx(list) {
+  for (const f of list) {
+    const at = f.x != null ? { x: f.x, y: f.y } : null;
+    switch (f.k) {
+      case 'hut': Snd.play('hut'); break;
+      case 'give': Snd.play('thump'); break;
+      case 'pull': Snd.play('swish'); break;
+      case 'pitch': Snd.play('swish'); break;
+      case 'catch': Snd.play('pop'); fxList.push({ kind: 'ring', ...at, t: 0, life: 0.35, color: '#ffd84a', size: 1 }); break;
+      case 'hit': Snd.play('hit', f.ang === 'head' ? 1.1 : 0.8); buzz(16); fxList.push({ kind: 'ring', ...at, t: 0, life: 0.3, size: 1.2 }); if (f.ang === 'head') V.shake = Math.max(V.shake, 0.25); break;
+      case 'thud': Snd.play('hit', 0.6); break;
+      case 'broken': fxList.push({ kind: 'text', ...at, text: 'Broke a tackle', t: 0, life: 0.9, color: '#ffd84a' }); Snd.play('swish'); break;
+      case 'truck': Snd.play('truck'); buzz(40); V.shake = 0.7; fxList.push({ kind: 'text', ...at, text: 'Trucked him', t: 0, life: 1, color: '#ffd84a' }, { kind: 'ring', ...at, t: 0, life: 0.45, size: 2.4, color: '#ffd84a' }); break;
+      case 'juke': Snd.play('swish'); fxList.push({ kind: 'dust', ...at, t: 0, life: 0.45, seed: Math.random() * 6 }); break;
+      case 'bite': fxList.push({ kind: 'text', ...at, text: 'Bit on it', t: 0, life: 0.8, color: '#9fe6c4' }, { kind: 'dust', ...at, t: 0, life: 0.5, seed: 1 }); break;
+      case 'whiff': fxList.push({ kind: 'dust', ...at, t: 0, life: 0.5, seed: Math.random() * 6 }); break;
+      case 'fumble': Snd.play('loose'); buzz(60); fxList.push({ kind: 'text', ...at, text: 'Loose ball!', t: 0, life: 1, color: '#ff8a7a' }); break;
+      case 'bounce': Snd.play('tick'); break;
+      case 'scoop': Snd.play('pop'); break;
+      case 'whistle': Snd.play('whistle'); break;
+      case 'td': Snd.play('whistle'); Snd.play('cheer'); buzz([30, 40, 30]); { const c = P.carrier; fxList.push({ kind: 'confetti', x: c ? c.x : P.toGoal, y: c ? c.y : 0, t: 0, life: 1.6, seed: 2 }); } break;
+    }
+  }
+}
+
+// ------------------------------------------------------------------ after the whistle: what happened, in plain words
+function defName(id) { const d = id && P.by[id]; return d ? DEF_NAME[d.kind] || 'defender' : 'defender'; }
+function readWords(res) {
+  const out = [];
+  const r1 = res.reads.read1, r2 = res.reads.read2;
+  if (r1) {
+    const who = res.play === 'read' ? 'The read end' : 'The end';
+    const what = { crash: `${who} crashed down on the ${res.play === 'read' ? 'back' : 'dive'}`, sit: `${who} stayed home, eyes on you`, attack: `${who} came straight at you` }[r1.beh];
+    out.push({ ok: r1.correct, text: `${what}: ${r1.want === 'pull' ? 'pulling it' : 'giving it'} was right${r1.correct ? '.' : `, and you ${r1.choice === 'pull' ? 'pulled it' : 'gave it'}.`}` });
+  }
+  if (r2) {
+    let what;
+    if (r2.beh === 'scrape') what = 'Scrape exchange: a linebacker looped outside to take you';
+    else if (r2.beh === 'qb') what = 'The next man came for you';
+    else if (r2.beh === 'pitch') what = 'The next man ran with the pitch man';
+    else what = r2.commit === 'qb' ? 'He slow-played, then took you' : r2.commit === 'pitch' ? 'He slow-played, then jumped the pitch' : 'He slow-played and hadn\'t picked yet';
+    const want = r2.want === 'pitch' ? 'pitching it' : r2.want === 'keep' ? 'keeping it' : 'making him pick first';
+    out.push({ ok: r2.correct, text: `${what}: ${want} was right${r2.correct ? '.' : `, and you ${r2.choice === 'pitch' ? 'pitched it' : 'kept it'}.`}` });
+  }
+  if (res.look.alley && res.play === 'triple') out.push({ note: true, text: 'A safety filled the alley: even a right read leaves a man to beat.' });
+  const st = res.stats;
+  const moves = [];
+  if (st.broken) moves.push(`${st.broken} broken tackle${st.broken > 1 ? 's' : ''}`);
+  if (st.truckWins) moves.push(`trucked ${st.truckWins}`);
+  if (st.jukeMiss) moves.push(`${st.jukeMiss} juked`);
+  if (moves.length) out.push({ note: true, text: moves.join(' · ') });
+  if (res.pitch && (res.log || []).some(l => /ground|tipped|picked/.test(l))) out.push({ note: true, text: res.pitch.err > 0.6 ? 'The pitch went out under pressure: pitch before he gets to you.' : 'The pitch got away.' });
+  if ((res.log || []).includes('mesh fumble')) out.push({ no: true, text: 'You pulled it out of his belly too late: decide earlier in the exchange.' });
+  return out;
+}
+function headline(res) {
+  if (res.how === 'td') return ['TOUCHDOWN', 'all the way'];
+  if (res.how === 'turnover') return ['TURNOVER', (res.log || []).includes('pitch picked off') ? 'the pitch was picked off' : 'the defense fell on it'];
+  if (res.how === 'safety') return ['SAFETY', 'tackled in your own end zone'];
+  const y = res.yards;
+  const who = { QB: 'QB keep', FB: 'Fullback dive', SB: 'Pitch', RB: 'Give to the back' }[res.carrierKind] || 'Run';
+  const how = res.how === 'oob' ? 'pushed out of bounds' : `brought down by the ${defName(res.by)}`;
+  return [y > 0 ? `+${y}` : y === 0 ? 'No gain' : `${y}`, `${who} · ${how}`];
+}
+function showResult() {
+  const res = P.result;
+  cardUp = true;
+  const [h, sub] = headline(res);
+  $('oa-yds').textContent = h; $('oa-how').textContent = sub;
+  $('oa-yds').style.color = res.how === 'td' ? '#1d9a63' : res.how === 'turnover' || res.yards < 0 ? '#d6493a' : '#1b2232';
+  $('oa-reads').innerHTML = readWords(res).map(r => `<li class="${r.note ? 'note' : r.ok ? 'ok' : 'no'}"><i>${r.note ? '·' : r.ok ? '✓' : '✗'}</i><span>${r.text}</span></li>`).join('');
+  if (res.yards >= 12 || res.how === 'td') { if (res.how !== 'td') Snd.play('cheer'); } else if (res.yards < 0) Snd.play('groan');
+  record(res);
+  const over = advance(res);
+  $('oa-sit').textContent = over ? '' : (G.mode === 'lab' ? `${G.total} yards in ${G.n} · ${situation()}` : situation()) + ' · next call';
+  renderChips(over);
+  $('oa-next').textContent = over ? 'See how you did' : 'Next play';
+  $('oa-next').onclick = () => { Snd.play('ui'); if (over) summary(over); else newPlay(); };
+  $('oa-card').hidden = false;
+  updateHud(true);
+}
+function renderChips(over) {
+  const row = $('oa-plays'), lr = $('oa-lookrow');
+  row.innerHTML = ''; lr.innerHTML = '';
+  if (over) return;
+  for (const [play, side, label] of PLAYS) {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.className = G.call.play === play && G.call.side === side ? 'on' : '';
+    b.onclick = () => { G.call = { play, side }; Snd.play('ui'); renderChips(false); };
+    row.appendChild(b);
+  }
+  if (G.mode === 'lab') {
+    const b = document.createElement('button');
+    b.textContent = `Defense: ${lookName(G.look)} ▾`;
+    b.onclick = openLooks;
+    lr.appendChild(b);
+  }
+}
+function record(res) {
+  const r1 = res.reads.read1, r2 = res.reads.read2;
+  film.push({ t: Date.now(), play: res.play, look: G.mode === 'lab' ? G.look : 'mixed', de: res.look.de, k2: res.look.scrape ? 'scrape' : res.look.key2, alley: res.look.alley,
+    r1: r1 ? [r1.choice, r1.correct ? 1 : 0] : null, r2: r2 ? [r2.choice, r2.correct ? 1 : 0] : null, y: res.how === 'turnover' ? 0 : res.yards, how: res.how,
+    who: res.carrierKind, brk: res.stats.broken });
+  persist();
+}
+// downs, distance, the end of a set; returns why it's over, or null
+function advance(res) {
+  G.n++;
+  const y = res.how === 'turnover' ? 0 : res.yards;
+  G.total += y;
+  G.plays.push({ y, how: res.how, r1: res.reads.read1 && res.reads.read1.correct, r2: res.reads.read2 ? res.reads.read2.correct : null });
+  if (G.mode === 'lab') return G.n >= G.max ? 'set' : null;
+  if (res.how === 'td') return 'td';
+  if (res.how === 'turnover') return 'turnover';
+  G.spot = Math.max(0, Math.min(100, G.spot + y));
+  if (res.how === 'safety' || G.spot <= 0) return 'safety';
+  if (G.spot >= G.fdAt) { G.down = 1; G.toGo = Math.min(10, 100 - G.spot); G.fdAt = G.mode === 'goal' ? 100 : Math.min(100, G.spot + 10); }
+  else { G.down++; G.toGo = G.fdAt - G.spot; if (G.down > 4) return 'downs'; }
+  return null;
+}
+
+// ------------------------------------------------------------------ end of a set or drive
+function lifeResult(why) {
+  const reads = G.plays.flatMap(p => [p.r1, p.r2]).filter(v => v != null), right = reads.filter(Boolean).length;
+  const readTxt = reads.length ? `, ${right} of ${reads.length} reads right` : '';
+  if (G.mode === 'lab') return { score: Math.max(0, Math.min(70, G.total)), max: 70, summary: `${G.total} yards on ${G.n} option plays${readTxt}`, stats: { mode: 'lab', yards: G.total, plays: G.n, reads: right, of: reads.length } };
+  const dist = 100 - G.startSpot, gained = Math.max(0, Math.min(dist, (why === 'td' ? 100 : G.spot) - G.startSpot));
+  const score = why === 'td' ? 10 : Math.max(0, Math.min(7, Math.round(7 * gained / dist)));
+  const what = why === 'td' ? `Touchdown in ${G.n} play${G.n === 1 ? '' : 's'}` : why === 'turnover' ? `Turned it over after ${gained} yards` : why === 'safety' ? 'Tackled for a safety' : `Stopped on downs after ${gained} yards`;
+  return { score, max: 10, summary: what + readTxt, stats: { mode: G.mode, result: why, plays: G.n, yards: gained, reads: right, of: reads.length } };
+}
+function summary(why) {
+  cardUp = false; $('oa-card').hidden = true;
+  const res = lifeResult(why);
+  const reads = G.plays.flatMap(p => [p.r1, p.r2]).filter(v => v != null), right = reads.filter(Boolean).length;
+  let h, p;
+  if (G.mode === 'lab') {
+    const prev = best.lab || 0;
+    if (G.total > prev) { best.lab = G.total; persist(); }
+    h = `${G.total} yards`; p = G.total > prev && prev ? `A new best, beating ${prev}.` : G.total >= 56 ? 'That\'s moving the ball.' : G.total >= 35 ? 'Solid. Read it cleaner and the pitch opens up.' : 'Tough set. Open the film room and see which read is getting you.';
+  } else {
+    h = why === 'td' ? 'Touchdown' : why === 'turnover' ? 'Turnover' : why === 'safety' ? 'Safety' : 'Stopped on downs';
+    p = res.summary + '.';
+    if (why === 'td') { Snd.play('cheer'); }
+  }
+  $('oa-sum-h').textContent = h; $('oa-sum-p').textContent = p;
+  const ypp = G.n ? (G.total / G.n).toFixed(1) : '0';
+  $('oa-sum-stats').innerHTML = `<div><b>${G.n}</b><small>plays</small></div><div><b>${ypp}</b><small>yards a play</small></div><div><b>${reads.length ? Math.round(right / reads.length * 100) + '%' : '-'}</b><small>reads right</small></div>`;
+  const go = $('oa-sum-go'), home = $('oa-sum-home');
+  if (LIFE.on) {
+    go.textContent = 'Done';
+    go.onclick = () => LifeOS.finish(res);
+    home.hidden = !(LIFE.cfg && LIFE.cfg.play === 'menu');
+    home.textContent = 'Play something else'; home.onclick = () => goHome();
+    if (LIFE.cfg.play !== 'menu') home.hidden = true;
+  } else {
+    go.textContent = G.mode === 'lab' ? 'Run another set' : 'Run it again';
+    go.onclick = () => startMode(G.mode);
+    home.hidden = false; home.textContent = 'Home'; home.onclick = () => goHome();
+  }
+  $('oa-sum').hidden = false;
+}
+function goHome() {
+  $('oa-hint').textContent = ''; $('oa-call').innerHTML = '';
+  $('oa-sum').hidden = true; $('oa-card').hidden = true; cardUp = false;
+  G.mode = null;
+  $('oa-best').textContent = best.lab ? `Best set: ${best.lab} yards` : '';
+  $('oa-home').hidden = false;
+  P = FB.create({ play: 'triple', side: 1, look: 'mixed', difficulty: 50 });
+  FBView.follow(V, P, 1, true);
+  updateHud(true);
+}
+
+// ------------------------------------------------------------------ sheets
+function openLooks() {
+  const box = $('oa-looks');
+  box.innerHTML = '';
+  for (const [k, name] of FB.LOOKS) {
+    const b = document.createElement('button');
+    b.className = k === G.look ? 'on' : '';
+    b.innerHTML = `<b>${name}</b><span>${LOOK_INFO[k]}</span>`;
+    b.onclick = () => { G.look = k; Snd.play('ui'); $('oa-looksheet').hidden = true; renderChips(false); updateHud(true); };
+    box.appendChild(b);
+  }
+  $('oa-looksheet').hidden = false;
+}
+$('oa-look-close').onclick = () => { $('oa-looksheet').hidden = true; };
+function renderSettings() {
+  document.querySelectorAll('[data-set]').forEach(row => {
+    row.querySelectorAll('button').forEach(b => { b.classList.toggle('on', S[row.dataset.set] === b.dataset.v); });
+  });
+  $('oa-diffrow').hidden = LIFE.on;
+}
+document.querySelectorAll('[data-set]').forEach(row => row.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  S[row.dataset.set] = b.dataset.v; persist(); renderSettings(); Snd.play('ui');
+  if (row.dataset.set === 'zoom') resize();
+  if (P && P.phase === 'pre') { P.mesh = S.mesh; P.slow = { slow: 0.42, normal: 0.6, quick: 0.82 }[S.exch]; P.training = S.help === 'on'; }
+}));
+const openSettings = () => { renderSettings(); $('oa-settings').hidden = false; };
+$('oa-gear').onclick = openSettings; $('oa-gear2').onclick = openSettings;
+$('oa-set-done').onclick = () => { $('oa-settings').hidden = true; };
+const openHow = () => { $('oa-howsheet').hidden = false; };
+$('oa-how-btn').onclick = openHow;
+$('oa-how-go').onclick = () => { $('oa-howsheet').hidden = true; seenHow = true; persist(); };
+
+function renderFilm() {
+  const n = film.length;
+  const pct = (a, b) => (b ? Math.round(a / b * 100) + '%' : '-');
+  const r1 = film.filter(f => f.r1), r2 = film.filter(f => f.r2);
+  $('oa-f-plays').textContent = n;
+  $('oa-f-ypp').textContent = n ? (film.reduce((a, f) => a + f.y, 0) / n).toFixed(1) : '-';
+  $('oa-f-long').textContent = n ? Math.max(...film.map(f => f.y)) : '-';
+  $('oa-f-r1').textContent = pct(r1.filter(f => f.r1[1]).length, r1.length);
+  $('oa-f-r2').textContent = pct(r2.filter(f => f.r2[1]).length, r2.length);
+  $('oa-f-brk').textContent = n ? film.reduce((a, f) => a + (f.brk || 0), 0) : '-';
+  const right = film.filter(f => f.r1 && f.r1[1] && (!f.r2 || f.r2[1])), wrong = film.filter(f => f.r1 && !(f.r1[1] && (!f.r2 || f.r2[1])));
+  const avg = l => (l.length ? (l.reduce((a, f) => a + f.y, 0) / l.length).toFixed(1) : '-');
+  $('oa-f-split').textContent = n ? `Read it all right: ${avg(right)} yards a play (${right.length}). Missed a read: ${avg(wrong)} (${wrong.length}).${n >= 20 ? ` Your first ten: ${avg(film.slice(0, 10))} a play. Your last ten: ${avg(film.slice(-10))}.` : ''}` : 'Run some plays and they show up here.';
+  const by = {};
+  for (const f of film) {
+    const k = f.k2 === 'scrape' ? 'Scrape exchange' : f.alley ? 'Safety in the alley' : ({ crash: 'End crashes', sit: 'End sits', attack: 'End attacks' })[f.de] || f.de;
+    const e = by[k] || (by[k] = { n: 0, y: 0, r: 0, rn: 0 });
+    e.n++; e.y += f.y;
+    for (const r of [f.r1, f.r2]) if (r) { e.rn++; e.r += r[1]; }
+  }
+  $('oa-f-looks').innerHTML = Object.entries(by).sort((a, b) => b[1].n - a[1].n).map(([k, e]) => `<tr><td>${k}</td><td>${e.n}</td><td>${pct(e.r, e.rn)}</td><td>${(e.y / e.n).toFixed(1)}</td></tr>`).join('') || '<tr><td colspan="4">Nothing yet.</td></tr>';
+  const mark = r => (r ? (r[1] ? '✓ ' : '✗ ') + r[0] : '');
+  $('oa-f-last').innerHTML = film.slice(-12).reverse().map(f => `<tr><td>${f.play === 'read' ? 'Read' : 'Triple'}</td><td>${mark(f.r1)}</td><td>${mark(f.r2)}</td><td>${f.how === 'td' ? 'TD' : f.how === 'turnover' ? 'TO' : (f.y > 0 ? '+' : '') + f.y}</td></tr>`).join('');
+}
+const openFilm = () => { renderFilm(); $('oa-film').hidden = false; };
+$('oa-film-btn').onclick = openFilm; $('oa-film-btn2').onclick = openFilm;
+$('oa-film-close').onclick = () => { $('oa-film').hidden = true; };
+$('oa-film-reset').onclick = () => { film = []; persist(); renderFilm(); };
+$('oa-exit').onclick = () => {
+  Snd.play('ui');
+  if (LIFE.on && (G.mode == null || LIFE.cfg.play !== 'menu')) return LifeOS.quit();
+  if (G.mode) goHome(); else if (LIFE.on) LifeOS.quit();
+};
+document.querySelectorAll('.oa-mode').forEach(b => b.addEventListener('click', () => { Snd.play('ui'); startMode(b.dataset.mode); }));
+
+// ------------------------------------------------------------------ inside LIFE OS
+LifeOS.onStart(cfg => {
+  LIFE.on = LifeOS.embedded; LIFE.cfg = cfg;
+  if (!LIFE.on) return;
+  const p = String(cfg.play || 'menu').toLowerCase();
+  if (p === 'clutch' || cfg.mode === 'clutch') { LIFE.cfg.play = 'clutch'; startMode('goal'); }
+  else if (p === 'lab' || p === 'drive' || p === 'goal') startMode(p);
+  else { LIFE.cfg.play = 'menu'; goHome(); }
+  renderSettings();
+});
+
+// ------------------------------------------------------------------ the loop
+goHome();
+let last = performance.now();
+function loop(ts) {
+  const dt = Math.min(0.05, (ts - last) / 1000);
+  last = ts; tNow += dt;
+  if (P) {
+    if (G.mode && !blocked()) {
+      const i = { hold: inp.hold, steer: steerVec(), juke: q.juke, truck: q.truck, pitch: q.pitch, give: q.give, snap: q.snap };
+      FB.step(P, dt, i);
+      onFx(P.fx); P.fx.length = 0;
+      if (P.phase === 'dead' && deadAt == null) deadAt = tNow;
+      if (deadAt != null && !cardUp && tNow - deadAt > 1.15) showResult();
+    }
+    q.juke = 0; q.truck = q.pitch = q.give = q.snap = false;
+    FBView.follow(V, P, dt);
+    const fd = G.mode && G.mode !== 'lab' && G.fdAt < 100 ? G.fdAt - G.spot : null;
+    FBView.frame(g, V, P, { spot: P.spotAbs || 35, keys: S.help === 'on' && G.mode && !cardUp && (P.phase !== 'run' || (P.carrier === P.by.QB && P.give === false && !P.dec.read2)) && P.phase !== 'dead', t: tNow, firstDown: fd, home: 'OPTION', away: 'ARCADE' });
+    FBView.effects(g, V, fxList, dt);
+    if (stick) {
+      g.strokeStyle = 'rgba(255,255,255,0.5)'; g.lineWidth = 3;
+      g.beginPath(); g.arc(stick.ox, stick.oy, 46, 0, Math.PI * 2); g.stroke();
+      const dx = stick.x - stick.ox, dy = stick.y - stick.oy, d = Math.hypot(dx, dy), k = d > 46 ? 46 / d : 1;
+      g.fillStyle = 'rgba(255,255,255,0.75)'; g.beginPath(); g.arc(stick.ox + dx * k, stick.oy + dy * k, 20, 0, Math.PI * 2); g.fill();
+    }
+    updateButtons(dt);
+    updateHud();
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+window.OptionArcade = { get P() { return P; }, get G() { return G; }, get V() { return V; }, startMode, newPlay, showResult, S, q, inp, get film() { return film; } };
+})();
+</script>
