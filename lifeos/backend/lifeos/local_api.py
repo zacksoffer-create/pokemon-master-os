@@ -12,7 +12,7 @@ import json
 import re
 import traceback
 import typing
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, unquote
 
 _compiled = []
 LEAN = {"history.event_window_days": 21, "history.event_keep_importance": 22, "history.trace_window_days": 10,
@@ -92,7 +92,7 @@ async def handle(method: str, path: str, query_string: str, body: bytes | None) 
             for name, p in sig.parameters.items():
                 hint = hints.get(name, str)
                 if name in hit.groupdict():
-                    kwargs[name] = _convert(hit.group(name), hint)
+                    kwargs[name] = _convert(unquote(hit.group(name)), hint)  # "dm%3Ajordan" -> "dm:jordan", like the server
                 elif isinstance(p.default, fastapi._BodyMarker):
                     if body:
                         kwargs[name] = json.loads(body)

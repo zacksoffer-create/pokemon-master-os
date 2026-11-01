@@ -32,7 +32,17 @@ def test_local_api_answers_like_the_server(tmp_path):
         while local_api.pump(0.2):
             pass
         assert js(call('GET', '/api/sim/job'))['status'] == 'done'
-        assert call('GET', '/api/phone/threads')['status'] == 200
+        threads = js(call('GET', '/api/phone/threads'))['threads']
+        # the phone screens encode thread ids ("dm:bf" -> "dm%3Abf"), just like a browser talking to the server
+        from urllib.parse import quote
+        dm = next(t for t in threads if t['id'].startswith('dm:'))
+        r = call('GET', '/api/phone/thread/' + quote(dm['id'], safe=''))
+        assert r['status'] == 200, r['body'][:200]
+        t = js(r)
+        ask = next((m for m in reversed(t['msgs']) if m.get('replies') and m.get('chosen') is None), None)
+        if ask:
+            r = call('POST', '/api/phone/thread/' + quote(dm['id'], safe='') + '/reply', {{'msg': ask['id'], 'index': 0}})
+            assert r['status'] == 200, r['body'][:200]
         assert call('GET', '/api/characters/zack-soffer')['status'] == 200
         assert call('GET', '/api/nope')['status'] == 404
         assert call('POST', '/api/story/control', {{'focus': 'nonsense'}})['status'] == 422
