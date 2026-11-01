@@ -473,7 +473,7 @@ const SC = (() => {
     if (kind === 'shot') { T = d / (17 + 11 * opts.zip); peak = opts.z * 0.5 + 0.3; vEnd = 17 + 11 * opts.zip; }
     else if (opts.lofted) { T = 0.5 + d / (18 + 8 * opts.zip); peak = clamp(2.5 + d * 0.09, 3, 11); vEnd = 7; }
     else {
-      vEnd = 5 + 8 * opts.zip;
+      vEnd = 9 + 9 * opts.zip;
       const v0 = clamp(Math.sqrt(vEnd * vEnd + 2 * ROLL * d), 8, 28);
       vEnd = Math.sqrt(Math.max(0, v0 * v0 - 2 * ROLL * d));
       T = (v0 - vEnd) / ROLL;
@@ -501,7 +501,8 @@ const SC = (() => {
     const b = P.ball;
     if (b.st === 'held') {
       const c = P.by[b.holder];
-      b.x = c.x + Math.cos(c.h) * 0.55; b.y = c.y + Math.sin(c.h) * 0.55; b.z = 0.11;
+      const lead = 0.5 + Math.min(1, c.v / 5) * 0.32 * (0.5 + 0.5 * Math.sin(c.anim * 1.25));
+      b.x = c.x + Math.cos(c.h) * lead; b.y = c.y + Math.sin(c.h) * lead; b.z = 0.11;
       return;
     }
     if (b.st === 'pass' || b.st === 'shot') {
@@ -534,10 +535,13 @@ const SC = (() => {
   // who gets to a moving ball: your man controls it (or takes a heavy touch), theirs cuts it out (or deflects it)
   function touches(P) {
     const b = P.ball;
-    if (b.z > 1.7) return;
+    // a keeper in his box can take it with his hands, well over everyone else's heads
+    const inBox = b.x > BOX_X && Math.abs(b.y) < BOX_HW;
+    if (b.z > (inBox ? 2.7 : 1.7)) return;
     const sp = b.st === 'pass' ? passSpeed(P, b) : Math.hypot(b.vx, b.vy);
     let best = null, bd = 99;
     for (const p of P.players) {
+      if (b.z > 1.7 && !(p.gk && inBox)) continue;
       if (p.st === 'down' || b.touched[p.id] || (b.st === 'pass' && p.id === b.from && P.t - b.t0 < 0.35) || (b.st === 'free' && p.id === b.from && P.t - (b.t || 0) < 0.4)) continue;
       if (b.st === 'pass' && p.team === 'A' && P.t - b.t0 < 0.25) {
         const ux = b.tx - b.fx, uy = b.ty - b.fy, L = Math.hypot(ux, uy) || 1;
@@ -551,7 +555,7 @@ const SC = (() => {
     const p = best;
     b.touched[p.id] = true;
     if (p.team === 'A') {
-      const pc = p.gk ? 0.9 : clamp(0.78 - (sp - 13) * 0.035 + (p.tck - 60) / 200, 0.25, 0.95);
+      const pc = p.gk ? 0.9 : clamp(0.84 - (sp - 16) * 0.02 + (p.tck - 60) / 200, 0.35, 0.95);
       if (P.r() < pc) { P.log.push(p.gk ? 'keeper claimed it' : 'intercepted'); P.fx.push({ k: 'steal', x: p.x, y: p.y }); return end(P, p.gk ? 'claimed' : 'intercepted', p); }
       // a toe on it: the ball squirts off somewhere
       const a = Math.atan2(b.st === 'pass' ? b.ty - b.y : b.vy, b.st === 'pass' ? b.tx - b.x : b.vx) + (P.r() - 0.5) * 2.4, s = sp * 0.4;
@@ -561,7 +565,17 @@ const SC = (() => {
     }
     // yours: offside if he was off when it was played
     if (b.offside && b.to === p.id) { P.log.push('offside'); P.fx.push({ k: 'flag', x: p.x, y: p.y }); return end(P, 'offside', p); }
-    const clean = clamp(0.95 - Math.max(0, sp - 14) * 0.05 + (p.ctl - 70) / 220, 0.35, 0.99);
+    // a man tight on him when it arrives: he gets a foot in, or at least makes the first touch harder
+    let tight = null, td = 1.4;
+    for (const d of P.away) { if (d.gk || d.st !== 'run' || b.touched[d.id]) continue; const k = dist(d, p); if (k < td) { td = k; tight = d; } }
+    if (tight && !p.gk) {
+      b.touched[tight.id] = true;
+      if (P.r() < clamp(0.42 + (tight.tck - p.ctl) / 180 - td * 0.15 + (P.dif - 50) / 500, 0.12, 0.7)) {
+        P.log.push('intercepted'); P.fx.push({ k: 'steal', x: tight.x, y: tight.y });
+        return end(P, 'intercepted', tight);
+      }
+    }
+    const clean = clamp(0.96 - Math.max(0, sp - 19) * 0.05 + (p.ctl - 70) / 220 - (tight ? 0.2 : 0) - (b.lofted ? 0.15 : 0), 0.4, 0.99);
     if (P.r() < clean || p.gk) {
       receive(P, p, b.st === 'pass' && b.from !== p.id);
     } else {
@@ -578,7 +592,7 @@ const SC = (() => {
     const d = Math.max(2, Math.hypot(to.x - from.x, to.y - from.y));
     let T;
     if (lofted) T = 0.5 + d / (18 + 8 * zip);
-    else { let vEnd = 5 + 8 * zip; const v0 = clamp(Math.sqrt(vEnd * vEnd + 2 * ROLL * d), 8, 28); vEnd = Math.sqrt(Math.max(0, v0 * v0 - 2 * ROLL * d)); T = (v0 - vEnd) / ROLL; }
+    else { let vEnd = 9 + 9 * zip; const v0 = clamp(Math.sqrt(vEnd * vEnd + 2 * ROLL * d), 8, 28); vEnd = Math.sqrt(Math.max(0, v0 * v0 - 2 * ROLL * d)); T = (v0 - vEnd) / ROLL; }
     const peak = clamp(2.5 + d * 0.09, 3, 11);
     let margin = 9;
     const ux = (to.x - from.x) / d, uy = (to.y - from.y) / d;
@@ -653,7 +667,7 @@ const SC = (() => {
         px = m.x + m.vx * k; py = m.y + m.vy * k;
       }
       const d = Math.hypot(px - from.x, py - from.y);
-      T = lofted ? 0.5 + d / (18 + 8 * zip) : d / (9 + 7 * zip);
+      T = lofted ? 0.5 + d / (18 + 8 * zip) : d / (12 + 7 * zip);
     }
     return { x: clamp(px, 1, LEN - 1), y: clamp(py, -HALF + 1, HALF - 1), T };
   }
@@ -692,7 +706,7 @@ const SC = (() => {
     } else {
       const dd = clamp(f.dist || 15, 5, 50), tx = clamp(c.x + Math.cos(dir) * dd, 1, LEN + 2), ty = clamp(c.y + Math.sin(dir) * dd, -HALF - 1, HALF + 1);
       // it's for whoever can get on the end of it first: a runner going that way, or the man nearest the spot
-      const lofted = dd > 27, T = lofted ? 0.5 + dd / (18 + 8 * zip) : dd / (9 + 7 * zip);
+      const lofted = dd > 27, T = lofted ? 0.5 + dd / (18 + 8 * zip) : dd / (12 + 7 * zip);
       let to = null, bd = 1.2;
       for (const m of P.home) {
         if (m === c || m.gk) continue;
@@ -892,7 +906,7 @@ const SCView = (() => {
   }
   function follow(v, P, dt, snap) {
     const [tx, ty] = camTarget(v, P);
-    const k = snap ? 1 : 1 - Math.exp(-dt * (P.ball.st === 'pass' ? 2.2 : 3.2));
+    const k = snap ? 1 : 1 - Math.exp(-dt * (P.ball.st === 'pass' ? 1.9 : 2.6));
     v.cx += (tx - v.cx) * k; v.cy += (ty - v.cy) * k;
     if (v.shake > 0) { v.shake = Math.max(0, v.shake - dt * 2.5); v.shakeX = (Math.random() - 0.5) * v.shake * 10; v.shakeY = (Math.random() - 0.5) * v.shake * 10; }
     else v.shakeX = v.shakeY = 0;
@@ -1067,8 +1081,21 @@ const SCView = (() => {
       g.lineWidth = 3; g.strokeStyle = 'rgba(0,0,0,0.6)'; g.strokeText(o.label, hx, hy - u * 0.42); g.fillStyle = '#fff'; g.fillText(o.label, hx, hy - u * 0.42);
     }
   }
+  const trail = [];
   function ball(g, v, b, t) {
     if (!b || b.x == null) return;
+    const moving = b.st === 'pass' || b.st === 'shot' || (b.st === 'free' && Math.hypot(b.vx || 0, b.vy || 0) > 6);
+    if (moving) { trail.push([b.x, b.y, b.z || 0.11]); if (trail.length > 9) trail.shift(); } else trail.length = 0;
+    if (trail.length > 2) {
+      g.save(); g.lineCap = 'round';
+      for (let i = 1; i < trail.length; i++) {
+        const a = proj(v, trail[i - 1][0], trail[i - 1][1], trail[i - 1][2] + 0.11), c = proj(v, trail[i][0], trail[i][1], trail[i][2] + 0.11);
+        g.strokeStyle = `rgba(255,255,255,${(i / trail.length) * (b.st === 'shot' ? 0.55 : 0.4)})`;
+        g.lineWidth = Math.max(1.5, c[2] * 0.16 * (i / trail.length));
+        g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(c[0], c[1]); g.stroke();
+      }
+      g.restore();
+    }
     const [gx, gy, s] = proj(v, b.x, b.y, 0);
     const r = Math.max(2.6, s * 0.11 * FIG * 1.6);
     const z = b.z || 0.11;
@@ -1174,6 +1201,7 @@ const SAVE = 'soccerplaymaker.v1';
 const DIFF = { easy: 25, normal: 50, hard: 78 };
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 const VISION = 1.6;              // seconds of slow motion you get each attack
+const PACE = 0.82;               // the match runs a little under real time: room to see it and play it
 const FLICK = 1.35;              // screen heights a second: faster than this is a flick, slower is a drag
 
 // ------------------------------------------------------------------ saved settings
@@ -1209,7 +1237,7 @@ const Snd = (() => {
     const gn = c.createGain(); env(gn, t, 0.004, vol || 0.3, d); s.connect(fl); fl.connect(gn); gn.connect(master); s.start(t, Math.random() * 0.5); s.stop(t + d + 0.05);
   }
   const fx = {
-    kick(h) { const k = h || 1; tone(140, 0.08, 'sine', 0.32 * k, 0, 70); noise(0.05, 'lowpass', 1400, 1, 0.22 * k); },
+    kick(h) { const k = h || 1; tone(150, 0.07, 'sine', 0.34 * k, 0, 70); noise(0.035, 'bandpass', 2600, 1.4, 0.2 * k); noise(0.05, 'lowpass', 1400, 1, 0.18 * k); },
     shot() { tone(110, 0.12, 'sine', 0.5, 0, 55); noise(0.08, 'lowpass', 1800, 1, 0.34); },
     touch() { tone(220, 0.04, 'sine', 0.14, 0, 160); },
     whistle() { tone(2300, 0.42, 'square', 0.07); tone(2390, 0.42, 'square', 0.05); },
@@ -1394,11 +1422,19 @@ function dragTarget() {
     const kx = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0), ky = (keys.ArrowDown ? 1 : 0) - (keys.ArrowUp ? 1 : 0);
     if (kx || ky) { dx = kx; dy = ky; mag = keys.Shift ? 1 : 0.7; }
   }
-  if (!mag || Math.hypot(dx, dy) < 6 && IN.mode === 'drag') return null;
+  if (!mag || Math.hypot(dx, dy) < 6 && IN.mode === 'drag') { steer = null; return null; }
   const f = SCView.toPitch(V, c, dx, dy), l = Math.hypot(f.x, f.y) || 1;
-  const reach = 0.8 + mag * 3.4;
-  return { x: c.x + (f.x / l) * reach, y: c.y + (f.y / l) * reach };
+  const want = { x: f.x / l, y: f.y / l, m: mag };
+  if (!steer || steer.c !== c.id) steer = { ...want, c: c.id };
+  else {
+    const k = 1 - Math.exp(-lastDt * 16);
+    steer.x += (want.x - steer.x) * k; steer.y += (want.y - steer.y) * k; steer.m += (want.m - steer.m) * k;
+    const sl = Math.hypot(steer.x, steer.y) || 1; steer.x /= sl; steer.y /= sl;
+  }
+  const reach = 0.8 + steer.m * 3.4;
+  return { x: c.x + steer.x * reach, y: c.y + steer.y * reach };
 }
+let steer = null, lastDt = 1 / 60;
 const keys = {};
 window.addEventListener('keydown', e => {
   if (e.repeat) return;
@@ -1439,9 +1475,10 @@ function onFx(list) {
   for (const f of list) {
     const at = f.x != null ? { x: f.x, y: f.y } : null;
     switch (f.k) {
-      case 'pass': Snd.play('kick', 0.8); track.lastFrom = f.from; if (P.lastPass && P.lastPass.run) track.thru = f.to; break;
+      case 'pass': Snd.play('kick', 1); buzz(8); fxList.push({ kind: 'ring', ...at, z: 0.1, t: 0, life: 0.25, size: 0.8, color: '#ffffff' });
+        track.lastFrom = f.from; if (P.lastPass && P.lastPass.run) track.thru = f.to; break;
       case 'receive':
-        Snd.play('touch');
+        Snd.play('touch'); fxList.push({ kind: 'ring', ...at, z: 0.1, t: 0, life: 0.3, size: 0.9, color: '#ffe14d' });
         track.passes.push({ from: track.lastFrom, to: f.id });
         if (track.thru && track.thru === f.id) { G.through++; fxList.push({ kind: 'text', ...at, text: 'Through ball', t: 0, life: 0.9, color: '#ffe14d' }); }
         track.thru = null;
@@ -1632,6 +1669,7 @@ function loop(ts) {
     }
     visK += ((looking ? 1 : 0) - visK) * Math.min(1, rdt * (looking ? 7 : 4.5));
     scale = 1 - 0.68 * visK * visK * (3 - 2 * visK);
+    lastDt = rdt;
     if (live) {
       if (G.ready > 0) { G.ready -= rdt; if (G.ready <= 0) banner(''); }
       else {
@@ -1639,7 +1677,7 @@ function loop(ts) {
         if (queued && P.ball.st === 'held' && P.ctrl) { if (P.ctrl.id === queued.to && tNow - queued.t < 2) applyFlick(queued.st, P.ctrl); queued = null; }
         if (queued && tNow - queued.t > 2) queued = null;
         const inp = { drag: dragTarget(), flick: q.flick, fake: q.fake };
-        SC.step(P, rdt, inp, scale);
+        SC.step(P, rdt, inp, scale * PACE);
         onFx(P.fx); P.fx.length = 0;
       }
     } else if (G.mode && P.phase !== 'live') {

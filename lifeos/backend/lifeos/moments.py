@@ -89,9 +89,21 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
             if not minigames.choice_ok(ch.get("ops"), ctx):
                 continue  # that mini game isn't ready yet
             choices.append({"label": _render(ch["label"], names), "hint": _render(ch.get("hint", ""), names), "ops": ch["ops"], "fits": ch.get("fits", {})})
+    from . import lines
+    text = lines.variant(sim, f"scene:{kind}", spec["text"], f"{w.day}:{kind}")
     m = {"id": f"mo{w.next_id('moment')}", "kind": kind, "day": w.day, "status": "pending", "ctx": ctx,
-         "title": _render(spec["title"], names), "text": _render(spec["text"], names),
+         "title": _render(spec["title"], names), "text": _render(text, names),
          "choices": [{"label": ch["label"], "hint": ch["hint"]} for ch in choices], "_choices": choices}
+    # a scene written both ways can happen in person or by text: by text more on days off, rarely with family
+    by = (spec.get("scene") or {}).get("by_text")
+    them = ctx.get("them")
+    if by and them in w.chars and "phone" in w.meta:
+        fam = them in sim.siblings(c.id)
+        p_text = 0.15 if fam else 0.6 if "school_day" not in lines.tags_for(sim, them) else 0.35
+        if lines._h(w.seed, kind, w.day, "channel") % 100 < p_text * 100:
+            line = _render(lines.variant(sim, f"bytext:{kind}", by, f"{w.day}:{kind}:text"), names)
+            m["text"] = f"{w.chars[them].first} texted you: \"{line}\""
+            m["by_text"] = line
     w.meta.setdefault("moments", []).append(m)
     if "phone" in w.meta:
         from . import messages
@@ -338,13 +350,15 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                         pass
                     _rejected(sim, w.chars[other], c.id, ev, fx, rng, {"slot": "after_school"}, dance=bool(ctx.get("dance_key")))
         elif kind == "say":
-            ev["data"].setdefault("say", []).append(_render(op[1], names))
+            from . import lines
+            ev["data"].setdefault("say", []).append(_render(lines.variant(sim, f"say:{m['kind']}", op[1], f"{m['id']}:{len(ev['data'].get('say', []))}"), names))
         elif kind == "text":
             who = _ref(ctx, op[1])
             if "phone" in w.meta and isinstance(who, str) and who in w.chars and who != c.id:
                 from . import messages
                 messages.add_contact(sim, who, "scene")
-                messages.later(sim, who, "scene", delay_phases=1, text=_render(op[2], names))
+                from . import lines
+                messages.later(sim, who, "scene", delay_phases=1, text=_render(lines.variant(sim, f"textop:{m['kind']}", op[2], f"{m['id']}:t"), names))
         elif kind == "hang_out":
             who = _ref(ctx, op[1])
             if isinstance(who, str) and who in w.chars and who != c.id:

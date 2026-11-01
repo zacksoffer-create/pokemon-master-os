@@ -191,8 +191,14 @@ def voice(sim, sid, text, salt, kind="text") -> str:
     return out
 
 
-def pick(key, salt, avoid=None, **kw) -> str:
-    pool = T().get(key) or [key]
+def pick(key, salt, avoid=None, sim=None, frm=None, **kw) -> str:
+    """A line from a pool. With the sim: fitted to who's sending it and when, dressed for the moment, and not one
+    that's been used lately (lines.py). Without it: a plain deterministic pick."""
+    if sim is not None:
+        from . import lines
+        return lines.pick_text(sim, key, salt, frm=frm, avoid=avoid, kw=kw)
+    from .lines import text_of
+    pool = [text_of(x) for x in (T().get(key) or [key])]
     i0 = _h(salt, key) % len(pool)
     for k in range(len(pool)):
         s = _fill(pool[(i0 + k) % len(pool)], kw)
@@ -266,7 +272,7 @@ def family_text(sim, key, sender=None, **kw):
         replies = [{"label": "love you guys ❤️", "fx": "parent_ok"}, {"label": "thanks!", "fx": "parent_ok"}]
     elif key in ("parent_report_worried", "parent_grounded"):
         replies = [{"label": "ok. i know", "fx": "parent_ok"}, {"label": "this is so unfair", "fx": "parent_annoyed"}]
-    return post(sim, "family", sender, pick(key, f"{w.day}:{key}:{sender}:{phone(w)['next']}", avoid=_avoid(sim, "family"), **kw),
+    return post(sim, "family", sender, pick(key, f"{w.day}:{key}:{sender}:{phone(w)['next']}", avoid=_avoid(sim, "family"), sim=sim, frm=sender, **kw),
                 kind=key, replies=replies)
 
 
@@ -325,7 +331,7 @@ def on_event(sim, ev):
             mates = sorted([m for m in g["members"] if m != p and m in w.chars], key=lambda m: -w.chars[m].traits["sociability"])
             if mates:
                 s = mates[_h(salt, "mate") % min(3, len(mates))]
-                post(sim, f"team:{g['id']}", s, pick(f"team_{out}", salt, opp=d.get("opponent", "them")), kind="team",
+                post(sim, f"team:{g['id']}", s, pick(f"team_{out}", salt, sim=sim, frm=s, opp=d.get("opponent", "them")), kind="team",
                      title=g["name"], members=[m for m in g["members"] if m != p], tkind="group", phase="night")
             if _h(salt, "par") % 3 != 0:
                 family_text(sim, f"parent_{out}")
@@ -351,7 +357,7 @@ def on_event(sim, ev):
         if f:
             later(sim, f, "rumor", delay_phases=1, replies="rumor")
     elif et == "path" and out == "home" and actors and actors[0] in sim.siblings(p):
-        post(sim, f"dm:{actors[0]}", actors[0], pick("sibling_home", salt), kind="sibling", replies=_replies("sibling", salt))
+        post(sim, f"dm:{actors[0]}", actors[0], pick("sibling_home", salt, sim=sim, frm=actors[0]), kind="sibling", replies=_replies("sibling", salt))
     elif et == "path" and out == "left" and actors and actors[0] in sim.siblings(p):
         later(sim, actors[0], "sibling_leaving", delay_phases=1, replies="sibling")
 
@@ -388,7 +394,7 @@ def tick(sim):
         if x["key"] == "scene":  # a line written in a dialogue pack scene
             text = kw.pop("text", "")
         else:
-            text = pick(x["key"], salt, avoid=_avoid(sim, f"dm:{cid}"), me=w.chars[w.meta["protagonist"]].first, **kw)
+            text = pick(x["key"], salt, avoid=_avoid(sim, f"dm:{cid}"), sim=sim, frm=cid, me=w.chars[w.meta["protagonist"]].first, **kw)
         post(sim, f"dm:{cid}", cid, text, kind=x["key"], replies=_replies(rk, salt) if rk else _replies("generic", salt))
 
 
@@ -450,7 +456,7 @@ def pregame(sim):
                 from .sports import opponent_name
                 n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
                 s = mates[_h(w.day, g["id"]) % min(2, len(mates))]
-                post(sim, f"team:{g['id']}", s, pick("team_pregame", f"{w.day}:{g['id']}", opp=opponent_name(sim, g, n)), kind="team",
+                post(sim, f"team:{g['id']}", s, pick("team_pregame", f"{w.day}:{g['id']}", sim=sim, frm=s, opp=opponent_name(sim, g, n)), kind="team",
                      title=g["name"], members=[m for m in g["members"] if m != me.id], tkind="group", phase="evening")
             if _h(w.day, "pp") % 2 == 0:
                 family_text(sim, "parent_pregame")
@@ -464,7 +470,7 @@ def invite_text(sim, inv):
     places = [p["name"] for p in sim.cat.world["places"] if p["id"] not in ("house",)]
     place = places[_h(inv["id"]) % len(places)] if places else "the diner"
     key = "invite_date" if inv.get("action") == "date" else "invite"
-    post(sim, f"dm:{cid}", cid, pick(key, inv["id"], place=place), kind="invite",
+    post(sim, f"dm:{cid}", cid, pick(key, inv["id"], sim=sim, frm=cid, place=place), kind="invite",
          replies=[{"label": "i'm in", "fx": f"invite:{inv['id']}:yes"}, {"label": "can't today, sorry", "fx": f"invite:{inv['id']}:no"}],
          ctx={"invite": inv["id"]})
 
@@ -473,11 +479,19 @@ def moment_text(sim, m):
     """Some moments are really texts: someone asking you out, asking you to a dance."""
     w = sim.w
     kind = m["kind"]
+    if m.get("by_text"):
+        # a dialogue-pack scene that happened by text: their message, and the choices as your replies
+        them = m["ctx"].get("them")
+        if them in w.chars:
+            add_contact(sim, them, "scene")
+            post(sim, f"dm:{them}", them, m["by_text"], kind="scene",
+                 replies=[{"label": ch["label"], "fx": f"moment:{m['id']}:{i}"} for i, ch in enumerate(m["choices"])], ctx={"moment": m["id"]})
+        return
     other = m["ctx"].get("other")
     if kind not in ("asked_out", "asked_to_dance") or other not in w.chars:
         return
     labels = ["yes!! 😊", "i'm sorry, i don't feel that way"] if kind == "asked_out" else ["yes, let's go", "i can't, sorry"]
-    post(sim, f"dm:{other}", other, pick(kind, m["id"], event=m["ctx"].get("event", "the dance")), kind=kind,
+    post(sim, f"dm:{other}", other, pick(kind, m["id"], sim=sim, frm=other, event=m["ctx"].get("event", "the dance")), kind=kind,
          replies=[{"label": labels[0], "fx": f"moment:{m['id']}:0"}, {"label": labels[1], "fx": f"moment:{m['id']}:1"}],
          ctx={"moment": m["id"]})
 
@@ -496,7 +510,7 @@ def answered_elsewhere(sim, kind, ref, index, label=None):
                 sender = m["from"]
                 yes = index == 0
                 post(sim, t["id"], sender, pick("react_flirt_yes" if (yes and kind == "moment") else "react_plans_yes" if yes else "react_dry",
-                                                f"{m['id']}:echo"), kind="react", unread=False)
+                                                f"{m['id']}:echo", sim=sim, frm=sender), kind="react", unread=False)
                 return
 
 
@@ -511,7 +525,7 @@ def start_texts(sim):
         family_text(sim, "parent_first_day")
         bf = best_friend(sim)
         if bf:
-            post(sim, f"dm:{bf}", bf, pick("friend_first_day", f"{w.day}:{bf}"), kind="chatter",
+            post(sim, f"dm:{bf}", bf, pick("friend_first_day", f"{w.day}:{bf}", sim=sim, frm=bf), kind="chatter",
                  replies=[{"label": "so ready. see you there", "fx": "warm"}, {"label": "lol no. but yes", "fx": "funny"},
                           {"label": "running late already", "fx": "dry"}])
 
@@ -597,8 +611,9 @@ def reply(sim, tid, mid, index) -> dict:
     if fx_key.startswith("moment:"):
         _, mo, i = fx_key.split(":")
         from . import moments
+        scene = next((x for x in w.meta.get("moments", []) if x["id"] == mo), {}).get("by_text")
         moments.resolve(sim, mo, int(i))
-        answer = "react_flirt_yes" if int(i) == 0 else "react_dry"
+        answer = None if scene else "react_flirt_yes" if int(i) == 0 else "react_dry"
     elif fx_key.startswith("invite:"):
         _, iid, yn = fx_key.split(":")
         inv = next(i for i in w.meta.get("inbox", []) if i["id"] == iid)
@@ -652,7 +667,7 @@ def reply(sim, tid, mid, index) -> dict:
             answer = "react_funny"
     sim.finish(ev, fx)
     if answer:
-        post(sim, tid, sender, pick(answer, f"{mid}:ans"), kind="react", unread=False)
+        post(sim, tid, sender, pick(answer, f"{mid}:ans", sim=sim, frm=sender), kind="react", unread=False)
     t["unread"] = 0
     return {"thread": thread_view(sim, tid)}
 
@@ -700,7 +715,7 @@ def text_first(sim, cid, kind) -> dict:
     tid = f"dm:{cid}"
     places = [p["name"] for p in sim.cat.world["places"] if p["id"] not in ("house",)]
     salt = f"{w.day}:{cid}:{kind}"
-    post(sim, tid, "me", pick(f"first_{kind}", salt, place=places[_h(salt) % len(places)]), kind="first", unread=False)
+    post(sim, tid, "me", pick(f"first_{kind}", salt, sim=sim, frm="me", place=places[_h(salt) % len(places)]), kind="first", unread=False)
     r_them = w.ensure_rel(cid, me.id, w.day)
     r_me = w.ensure_rel(me.id, cid, w.day)
     ev = sim.new_event("text", kind, [me.id], [cid], 8, {"label": kind})
@@ -757,7 +772,7 @@ def text_first(sim, cid, kind) -> dict:
     ev["text"] = f"You texted {o.first}." + (" They're in." if plans else " Left on read." if note == "read" else "")
     sim.finish(ev, fx)
     if answer:
-        post(sim, tid, cid, pick(answer, f"{salt}:ans"), kind="react", unread=False)
+        post(sim, tid, cid, pick(answer, f"{salt}:ans", sim=sim, frm=cid), kind="react", unread=False)
     t = phone(w)["threads"][tid]
     if note == "read":
         t["msgs"][-1]["read"] = True

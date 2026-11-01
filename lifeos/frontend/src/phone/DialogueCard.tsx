@@ -44,6 +44,7 @@ export function addsLine(s: Record<string, number>) {
   if (s.replies) parts.push(`${s.replies} repl${s.replies === 1 ? "y" : "ies"}`);
   if (s.moment_choices) parts.push(`${s.moment_choices} choice${s.moment_choices === 1 ? "" : "s"}`);
   if (s.narration) parts.push(`${s.narration} story line${s.narration === 1 ? "" : "s"}`);
+  if (s.mods) parts.push(`${s.mods} mod${s.mods === 1 ? "" : "s"}`);
   return parts.join(" · ") || "nothing yet";
 }
 
@@ -64,6 +65,20 @@ export default function DialogueCard() {
       const r = await api.get("/api/dialogue/prompt");
       const ok = await copyText(r.prompt);
       toast(ok ? "Copied. Paste it into ChatGPT, say what you want, then paste its answer here." : "Couldn't copy on this phone. Try again.", ok ? "good" : "bad");
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
+  // the prompt that upgrades a pack you already have (with ?pack= it carries the pack itself)
+  const copyUpdate = async (pid?: string) => {
+    setBusy(pid ? `up:${pid}` : "up");
+    try {
+      const r = await api.get(`/api/dialogue/update-prompt${pid ? `?pack=${encodeURIComponent(pid)}` : ""}`);
+      const ok = await copyText(r.prompt);
+      toast(ok ? (pid ? "Copied, with your pack in it. Paste it into ChatGPT, then paste its answer back here: it replaces the old one."
+        : "Copied. Paste it into ChatGPT, add your pack where it says, then paste the answer back here.") : "Couldn't copy on this phone. Try again.", ok ? "good" : "bad");
     } catch (e) {
       toast(errText(e), "bad");
     } finally {
@@ -127,6 +142,10 @@ export default function DialogueCard() {
           <li>Replace the "What I want" line with your idea.</li>
           <li>Copy ChatGPT's whole answer and tap <b>Paste a pack</b>.</li>
         </ol>
+        <p className="ph-dim small">
+          Made packs before? Open one below and tap <b>Upgrade it</b>: ChatGPT makes it bigger and adds in-person lines, versions
+          that don't repeat, and mini games. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate()}>Pack not on this phone? Copy the upgrade prompt</button>
+        </p>
         <div className="dl-list">
           {data?.packs.map((p) => (
             <div key={p.id} className={cx("dl-pack", !p.enabled && "off")}>
@@ -155,6 +174,11 @@ export default function DialogueCard() {
                         </div>
                       ))}
                     </>
+                  )}
+                  {p.source === "yours" && p.ok && (
+                    <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id)}>
+                      {busy === `up:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Upgrade it: copy the prompt for ChatGPT
+                    </button>
                   )}
                   {p.source === "yours" && <button className="ph-link dl-remove" onClick={() => remove(p)}>Remove this pack</button>}
                 </div>

@@ -28,8 +28,9 @@ function decide(P, c, policy, held) {
       // the most covered teammate ahead of the ball: the pass a defender is most likely to get to
       let worst = null, wv = 1e9;
       for (const m of P.home) {
-        if (m === c || m.gk || m.x < c.x - 5) continue;
-        const far = SC.dist(m, c) > 27, L = SC.leadFor(P, m, c, far, 0.5), o = SC.passRisk(P, c, L, far, 0.5, m);
+        // into feet, along the floor, to whoever has a defender closest to the ball's path
+        if (m === c || m.gk || m.x < c.x - 5 || SC.dist(m, c) > 26) continue;
+        const L = SC.leadFor(P, m, c, false, 0.5), o = SC.passRisk(P, c, L, false, 0.5, m);
         if (o < wv) { wv = o; worst = { m, L }; }
       }
       if (worst) return { flick: { dir: Math.atan2(worst.L.y - c.y, worst.L.x - c.x), dist: SC.dist(worst.L, c), zip: 0.5, curl: 0 } };

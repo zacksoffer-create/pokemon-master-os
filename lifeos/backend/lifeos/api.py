@@ -1203,6 +1203,16 @@ def api_dialogue_prompt():
     return {"prompt": dialogue.prompt_for_ai()}
 
 
+@app.get("/api/dialogue/update-prompt")
+def api_dialogue_update_prompt(pack: str = ""):
+    """The prompt that upgrades a pack you already made: with ?pack=<id> it includes that pack's JSON."""
+    from . import dialogue
+    try:
+        return {"prompt": dialogue.prompt_for_update(pack or None)}
+    except KeyError:
+        raise HTTPException(404, "no such pack")
+
+
 @app.get("/api/dialogue/current")
 def api_dialogue_current(download: int = 0):
     from . import dialogue

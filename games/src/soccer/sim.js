@@ -281,7 +281,7 @@ const SC = (() => {
     if (kind === 'shot') { T = d / (17 + 11 * opts.zip); peak = opts.z * 0.5 + 0.3; vEnd = 17 + 11 * opts.zip; }
     else if (opts.lofted) { T = 0.5 + d / (18 + 8 * opts.zip); peak = clamp(2.5 + d * 0.09, 3, 11); vEnd = 7; }
     else {
-      vEnd = 5 + 8 * opts.zip;
+      vEnd = 9 + 9 * opts.zip;
       const v0 = clamp(Math.sqrt(vEnd * vEnd + 2 * ROLL * d), 8, 28);
       vEnd = Math.sqrt(Math.max(0, v0 * v0 - 2 * ROLL * d));
       T = (v0 - vEnd) / ROLL;
@@ -309,7 +309,8 @@ const SC = (() => {
     const b = P.ball;
     if (b.st === 'held') {
       const c = P.by[b.holder];
-      b.x = c.x + Math.cos(c.h) * 0.55; b.y = c.y + Math.sin(c.h) * 0.55; b.z = 0.11;
+      const lead = 0.5 + Math.min(1, c.v / 5) * 0.32 * (0.5 + 0.5 * Math.sin(c.anim * 1.25));
+      b.x = c.x + Math.cos(c.h) * lead; b.y = c.y + Math.sin(c.h) * lead; b.z = 0.11;
       return;
     }
     if (b.st === 'pass' || b.st === 'shot') {
@@ -342,10 +343,13 @@ const SC = (() => {
   // who gets to a moving ball: your man controls it (or takes a heavy touch), theirs cuts it out (or deflects it)
   function touches(P) {
     const b = P.ball;
-    if (b.z > 1.7) return;
+    // a keeper in his box can take it with his hands, well over everyone else's heads
+    const inBox = b.x > BOX_X && Math.abs(b.y) < BOX_HW;
+    if (b.z > (inBox ? 2.7 : 1.7)) return;
     const sp = b.st === 'pass' ? passSpeed(P, b) : Math.hypot(b.vx, b.vy);
     let best = null, bd = 99;
     for (const p of P.players) {
+      if (b.z > 1.7 && !(p.gk && inBox)) continue;
       if (p.st === 'down' || b.touched[p.id] || (b.st === 'pass' && p.id === b.from && P.t - b.t0 < 0.35) || (b.st === 'free' && p.id === b.from && P.t - (b.t || 0) < 0.4)) continue;
       if (b.st === 'pass' && p.team === 'A' && P.t - b.t0 < 0.25) {
         const ux = b.tx - b.fx, uy = b.ty - b.fy, L = Math.hypot(ux, uy) || 1;
@@ -359,7 +363,7 @@ const SC = (() => {
     const p = best;
     b.touched[p.id] = true;
     if (p.team === 'A') {
-      const pc = p.gk ? 0.9 : clamp(0.78 - (sp - 13) * 0.035 + (p.tck - 60) / 200, 0.25, 0.95);
+      const pc = p.gk ? 0.9 : clamp(0.84 - (sp - 16) * 0.02 + (p.tck - 60) / 200, 0.35, 0.95);
       if (P.r() < pc) { P.log.push(p.gk ? 'keeper claimed it' : 'intercepted'); P.fx.push({ k: 'steal', x: p.x, y: p.y }); return end(P, p.gk ? 'claimed' : 'intercepted', p); }
       // a toe on it: the ball squirts off somewhere
       const a = Math.atan2(b.st === 'pass' ? b.ty - b.y : b.vy, b.st === 'pass' ? b.tx - b.x : b.vx) + (P.r() - 0.5) * 2.4, s = sp * 0.4;
@@ -369,7 +373,17 @@ const SC = (() => {
     }
     // yours: offside if he was off when it was played
     if (b.offside && b.to === p.id) { P.log.push('offside'); P.fx.push({ k: 'flag', x: p.x, y: p.y }); return end(P, 'offside', p); }
-    const clean = clamp(0.95 - Math.max(0, sp - 14) * 0.05 + (p.ctl - 70) / 220, 0.35, 0.99);
+    // a man tight on him when it arrives: he gets a foot in, or at least makes the first touch harder
+    let tight = null, td = 1.4;
+    for (const d of P.away) { if (d.gk || d.st !== 'run' || b.touched[d.id]) continue; const k = dist(d, p); if (k < td) { td = k; tight = d; } }
+    if (tight && !p.gk) {
+      b.touched[tight.id] = true;
+      if (P.r() < clamp(0.42 + (tight.tck - p.ctl) / 180 - td * 0.15 + (P.dif - 50) / 500, 0.12, 0.7)) {
+        P.log.push('intercepted'); P.fx.push({ k: 'steal', x: tight.x, y: tight.y });
+        return end(P, 'intercepted', tight);
+      }
+    }
+    const clean = clamp(0.96 - Math.max(0, sp - 19) * 0.05 + (p.ctl - 70) / 220 - (tight ? 0.2 : 0) - (b.lofted ? 0.15 : 0), 0.4, 0.99);
     if (P.r() < clean || p.gk) {
       receive(P, p, b.st === 'pass' && b.from !== p.id);
     } else {
@@ -386,7 +400,7 @@ const SC = (() => {
     const d = Math.max(2, Math.hypot(to.x - from.x, to.y - from.y));
     let T;
     if (lofted) T = 0.5 + d / (18 + 8 * zip);
-    else { let vEnd = 5 + 8 * zip; const v0 = clamp(Math.sqrt(vEnd * vEnd + 2 * ROLL * d), 8, 28); vEnd = Math.sqrt(Math.max(0, v0 * v0 - 2 * ROLL * d)); T = (v0 - vEnd) / ROLL; }
+    else { let vEnd = 9 + 9 * zip; const v0 = clamp(Math.sqrt(vEnd * vEnd + 2 * ROLL * d), 8, 28); vEnd = Math.sqrt(Math.max(0, v0 * v0 - 2 * ROLL * d)); T = (v0 - vEnd) / ROLL; }
     const peak = clamp(2.5 + d * 0.09, 3, 11);
     let margin = 9;
     const ux = (to.x - from.x) / d, uy = (to.y - from.y) / d;
@@ -461,7 +475,7 @@ const SC = (() => {
         px = m.x + m.vx * k; py = m.y + m.vy * k;
       }
       const d = Math.hypot(px - from.x, py - from.y);
-      T = lofted ? 0.5 + d / (18 + 8 * zip) : d / (9 + 7 * zip);
+      T = lofted ? 0.5 + d / (18 + 8 * zip) : d / (12 + 7 * zip);
     }
     return { x: clamp(px, 1, LEN - 1), y: clamp(py, -HALF + 1, HALF - 1), T };
   }
@@ -500,7 +514,7 @@ const SC = (() => {
     } else {
       const dd = clamp(f.dist || 15, 5, 50), tx = clamp(c.x + Math.cos(dir) * dd, 1, LEN + 2), ty = clamp(c.y + Math.sin(dir) * dd, -HALF - 1, HALF + 1);
       // it's for whoever can get on the end of it first: a runner going that way, or the man nearest the spot
-      const lofted = dd > 27, T = lofted ? 0.5 + dd / (18 + 8 * zip) : dd / (9 + 7 * zip);
+      const lofted = dd > 27, T = lofted ? 0.5 + dd / (18 + 8 * zip) : dd / (12 + 7 * zip);
       let to = null, bd = 1.2;
       for (const m of P.home) {
         if (m === c || m.gk) continue;

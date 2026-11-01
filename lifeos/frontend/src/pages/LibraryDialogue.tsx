@@ -57,6 +57,11 @@ export default function Dialogue() {
     const r = await api.get("/api/dialogue/prompt");
     toast((await copyText(r.prompt)) ? "Prompt copied. Paste it into ChatGPT or Claude and describe what you want." : "Couldn't copy.", "good");
   });
+  const copyUpdate = (pid?: string) => run(pid ? `up:${pid}` : "up", async () => {
+    const r = await api.get(`/api/dialogue/update-prompt${pid ? `?pack=${encodeURIComponent(pid)}` : ""}`);
+    toast((await copyText(r.prompt)) ? (pid ? "Upgrade prompt copied, with the pack in it. Paste it into ChatGPT or Claude; the answer replaces the old pack."
+      : "Upgrade prompt copied. Paste your pack where it says.") : "Couldn't copy.", "good");
+  });
   const toggle = (p: PackRow) => run(p.id, async () => setData(await api.post(`/api/dialogue/packs/${encodeURIComponent(p.id)}/enabled`, { enabled: !p.enabled })));
   const remove = (p: PackRow) => {
     if (!window.confirm(`Remove "${p.name}"?`)) return;
@@ -74,6 +79,7 @@ export default function Dialogue() {
       <Panel title="Dialogue packs" sub="More texts, reply options, story-feed lines, moment choices and whole new scenes. A pack is one JSON file; it only ever adds.">
         <div className="row" style={{ gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
           <button className="primary" disabled={!!busy} onClick={copyPrompt}>Copy the ChatGPT prompt</button>
+          <button disabled={!!busy} onClick={() => copyUpdate()}>Copy the upgrade prompt (for a pack you already made)</button>
           <a className="btn" href="/api/dialogue/guide.md?download=1">Download the guide (.md)</a>
           <a className="btn" href="/api/dialogue/current?download=1">Download all current dialogue (.json)</a>
         </div>
@@ -125,6 +131,7 @@ export default function Dialogue() {
                 </div>
                 <div className="row" style={{ gap: 6 }}>
                   <button className="small" disabled={!p.ok || busy === p.id} onClick={() => toggle(p)}>{p.enabled ? "Turn off" : "Turn on"}</button>
+                  {p.source === "yours" && p.ok && <button className="small" disabled={!!busy} onClick={() => copyUpdate(p.id)}>Upgrade it (copy prompt)</button>}
                   {p.source === "yours" && <button className="small ghost" onClick={() => remove(p)}>Remove</button>}
                 </div>
               </div>

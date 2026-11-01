@@ -57,4 +57,33 @@ def render(sim, ev) -> str:
         extra = f" with {vals['b']}" if vals["b"] else ""
         return f"{who}: {ev['type'].replace('_', ' ').replace('.', ' ')} ({ev.get('outcome')}){extra}."
     i = derive_seed(w.seed, "text", ev.get("id", 0), key) % len(variants)
-    return string.Formatter().vformat(variants[i], (), vals)
+    out = string.Formatter().vformat(variants[i], (), vals)
+    said = _talk(sim, ev, key, vals)
+    return f"{out} {said}" if said else out
+
+
+# in-person moments with you in them: the other person says something (the spoken version of a pool line)
+TALK = {"interact.hang_out.great": "hang_talk", "interact.hang_out.good": "hang_talk", "interact.hang_out.awkward": "awkward_talk",
+        "interact.hang_out.bad": "awkward_talk", "interact.date.great": "date_talk", "interact.date.good": "date_talk",
+        "interact.date.awkward": "awkward_talk", "interact.date.bad": "awkward_talk", "interact.chat.great": "chat_talk",
+        "interact.chat.good": "chat_talk", "interact.sit_with.good": "chat_talk", "interact.sit_with.great": "chat_talk",
+        "interact.flirt.great": "flirt_in"}
+
+
+def _talk(sim, ev, key, vals) -> str:
+    w = sim.w
+    pool = TALK.get(key)
+    p = w.meta.get("protagonist")
+    if not pool or not p:
+        return ""
+    actors, targets = ev.get("actors") or [], ev.get("targets") or []
+    if p not in actors + targets:
+        return ""
+    other = next((x for x in actors + targets if x != p and x in w.chars), None)
+    if not other or w.chars[other].role == "staff" or derive_seed(w.seed, "talk", ev.get("id", 0)) % 100 >= 65:
+        return ""
+    from . import lines
+    try:
+        return lines.say_from_pool(sim, pool, other, f"{ev.get('id')}:{key}", {"place": vals.get("place") or "here"})
+    except Exception:  # noqa: BLE001  a line is decoration; it never breaks the story feed
+        return ""

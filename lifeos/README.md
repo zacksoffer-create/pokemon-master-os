@@ -208,8 +208,8 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
   and higher, and curving your swipe bends it. The keeper reads you more often at higher difficulty, and your
   character's skill steadies your aim.
 - **Option Arcade** (football) is football played by hand. The option: hold GIVE to snap and give it to the fullback,
-  let go to pull it, read the next man and PITCH or keep. The jet sweep. The passing game: flick toward a receiver to
-  throw, against Cover 1, 2, 3 and the blitz, and scramble when it breaks down. Then steer the runner: swipe to juke,
+  let go to pull it, read the next man and PITCH or keep. The jet sweep. The passing game: pull back to aim and let go to
+  throw (or flick), against Cover 1, 2, 3 and the blitz, and scramble when it breaks down. Then steer the runner: swipe to juke,
   spin, hurdle, tap to truck. Game day is first and goal from the 10 with the whole playbook, four downs; a touchdown is
   a great round.
 - **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab, Option Arcade, Soccer Playmaker) run inside the app with
@@ -236,26 +236,46 @@ A pack only adds. Nothing it does can break the base game.
 3. Copy ChatGPT's whole answer, tap **Paste a pack**, then **Check it**. If something's off, the game says exactly what (and **Copy the
    problems for ChatGPT** hands the list back to it). **Add to my game**.
 4. Open the pack and tap **Play now** on any scene to see it in your story right away. Packs can be turned off or removed.
+5. **Already made packs?** Open one and tap **Upgrade it**. That copies an upgrade prompt with your pack inside it. ChatGPT keeps
+   everything and makes it much bigger: talk versions, context tags, mods, scene versions, texted versions, mini game choices and
+   new scenes. Paste the answer back and it replaces the old pack (same name). For a pack that isn't on the phone, use **Pack not
+   on this phone? Copy the upgrade prompt** and paste the pack in yourself. The same prompt is in `docs/dialogue-update-prompt.md`.
 
 **In the lab:** Content Library → **Dialogue**. Same steps. You can also download the guide (`.md`) and all the current dialogue
 (`.json`), so the AI can match what's there.
 
+**Every line two ways, fitted to the moment, never on repeat:**
+- **Text and talk:** any line can be texted or said in person. A text line is a string, or `{"text", "talk", "when"}`. `talk` is
+  how they'd say it to your face; without it, the game makes one by spelling out the abbreviations and quoting it, then adds
+  who's talking and how ("Jake says, with a shoulder bump"). The IN PERSON pools (`hang_talk`, `date_talk`, `chat_talk`,
+  `awkward_talk`) show in the story feed when you hang out, go on a date or stop and talk.
+- **Context:** `when` tags like `late_night`, `close`, `crush`, `partner`, `stressed` and `you_down` pick the line that fits.
+  **Mods** dress a base line: openers ("u up?"), closers ("lol") and ways of saying it ("{them_first} {says}, grinning"), so one
+  line becomes many.
+- **No repeats:** the game remembers every line it uses and rests it before using it again; bigger pools rest longer. Scene
+  text, `say` lines and texts from scenes can be lists of versions it rotates through.
+- **Scenes by text:** a scene with a `by_text` version can arrive as a text instead (more often on days off, rarely from
+  family). The choices become your replies.
+
 **What a pack can add:**
-- **texts:** lines for any of 66 text situations (friend invites, team chat after a win, parents after a report card, siblings...).
+- **texts:** lines for any of 72 text situations (friend invites, team chat after a win, parents after a report card, siblings,
+  and things people say in person).
 - **replies:** more reply buttons. Each has a tone that decides what it does: warm, funny, vent, flirt, dry, cold...
 - **narration:** story-feed lines.
 - **moment_choices:** extra choices on the built-in moments (a rumor, an injury, getting cut...).
 - **trivia:** more quiz questions by subject.
+- **mods:** openers, closers and ways of saying things, by context.
 - **scenes:** brand-new moments. Each scene has:
   - `who` it's about: best friend, crush, partner, rival, teammate, an older sibling, your twin, a coach...
   - `when` it can happen: school year, months, a date like Halloween, weekends, in season, feelings toward that person, your stress
     or GPA.
   - 2 to 4 choices. Their effects can be dialogue lines (`say`), a text they send you later (`text`), relationship changes, plans
-    to hang out, or a chance roll against your own traits.
+    to hang out, a chance roll against your own traits, or a **mini game** you play right there (pickup soccer, HORSE in the
+    driveway, cup pong in a basement, a round of golf, a quiz), with its own outcome for great, good and miss.
   - `remember` facts that later scenes can depend on, so scenes chain. A follow-up stays with the same person.
 
 The game starts at most one pack scene every few days, and dated scenes always get their day. A scene or choice that mentions
-someone only shows up when that person exists. Built-in starter pack: **Everyday life** (12 scenes, 43 texts, 10 replies). The
+someone only shows up when that person exists. Built-in starter pack: **Everyday life** (14 scenes, 54 texts, 10 replies, mods, and a pickup match you can play). The
 full reference is `docs/dialogue-guide.md`.
 
 **For Claude (or anyone editing the repo):** put the pack in `backend/data/dialogue/<name>.json` and check it with

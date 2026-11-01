@@ -62,7 +62,7 @@ const SCView = (() => {
   }
   function follow(v, P, dt, snap) {
     const [tx, ty] = camTarget(v, P);
-    const k = snap ? 1 : 1 - Math.exp(-dt * (P.ball.st === 'pass' ? 2.2 : 3.2));
+    const k = snap ? 1 : 1 - Math.exp(-dt * (P.ball.st === 'pass' ? 1.9 : 2.6));
     v.cx += (tx - v.cx) * k; v.cy += (ty - v.cy) * k;
     if (v.shake > 0) { v.shake = Math.max(0, v.shake - dt * 2.5); v.shakeX = (Math.random() - 0.5) * v.shake * 10; v.shakeY = (Math.random() - 0.5) * v.shake * 10; }
     else v.shakeX = v.shakeY = 0;
@@ -237,8 +237,21 @@ const SCView = (() => {
       g.lineWidth = 3; g.strokeStyle = 'rgba(0,0,0,0.6)'; g.strokeText(o.label, hx, hy - u * 0.42); g.fillStyle = '#fff'; g.fillText(o.label, hx, hy - u * 0.42);
     }
   }
+  const trail = [];
   function ball(g, v, b, t) {
     if (!b || b.x == null) return;
+    const moving = b.st === 'pass' || b.st === 'shot' || (b.st === 'free' && Math.hypot(b.vx || 0, b.vy || 0) > 6);
+    if (moving) { trail.push([b.x, b.y, b.z || 0.11]); if (trail.length > 9) trail.shift(); } else trail.length = 0;
+    if (trail.length > 2) {
+      g.save(); g.lineCap = 'round';
+      for (let i = 1; i < trail.length; i++) {
+        const a = proj(v, trail[i - 1][0], trail[i - 1][1], trail[i - 1][2] + 0.11), c = proj(v, trail[i][0], trail[i][1], trail[i][2] + 0.11);
+        g.strokeStyle = `rgba(255,255,255,${(i / trail.length) * (b.st === 'shot' ? 0.55 : 0.4)})`;
+        g.lineWidth = Math.max(1.5, c[2] * 0.16 * (i / trail.length));
+        g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(c[0], c[1]); g.stroke();
+      }
+      g.restore();
+    }
     const [gx, gy, s] = proj(v, b.x, b.y, 0);
     const r = Math.max(2.6, s * 0.11 * FIG * 1.6);
     const z = b.z || 0.11;

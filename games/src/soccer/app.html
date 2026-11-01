@@ -165,6 +165,7 @@ const SAVE = 'soccerplaymaker.v1';
 const DIFF = { easy: 25, normal: 50, hard: 78 };
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 const VISION = 1.6;              // seconds of slow motion you get each attack
+const PACE = 0.82;               // the match runs a little under real time: room to see it and play it
 const FLICK = 1.35;              // screen heights a second: faster than this is a flick, slower is a drag
 
 // ------------------------------------------------------------------ saved settings
@@ -200,7 +201,7 @@ const Snd = (() => {
     const gn = c.createGain(); env(gn, t, 0.004, vol || 0.3, d); s.connect(fl); fl.connect(gn); gn.connect(master); s.start(t, Math.random() * 0.5); s.stop(t + d + 0.05);
   }
   const fx = {
-    kick(h) { const k = h || 1; tone(140, 0.08, 'sine', 0.32 * k, 0, 70); noise(0.05, 'lowpass', 1400, 1, 0.22 * k); },
+    kick(h) { const k = h || 1; tone(150, 0.07, 'sine', 0.34 * k, 0, 70); noise(0.035, 'bandpass', 2600, 1.4, 0.2 * k); noise(0.05, 'lowpass', 1400, 1, 0.18 * k); },
     shot() { tone(110, 0.12, 'sine', 0.5, 0, 55); noise(0.08, 'lowpass', 1800, 1, 0.34); },
     touch() { tone(220, 0.04, 'sine', 0.14, 0, 160); },
     whistle() { tone(2300, 0.42, 'square', 0.07); tone(2390, 0.42, 'square', 0.05); },
@@ -385,11 +386,19 @@ function dragTarget() {
     const kx = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0), ky = (keys.ArrowDown ? 1 : 0) - (keys.ArrowUp ? 1 : 0);
     if (kx || ky) { dx = kx; dy = ky; mag = keys.Shift ? 1 : 0.7; }
   }
-  if (!mag || Math.hypot(dx, dy) < 6 && IN.mode === 'drag') return null;
+  if (!mag || Math.hypot(dx, dy) < 6 && IN.mode === 'drag') { steer = null; return null; }
   const f = SCView.toPitch(V, c, dx, dy), l = Math.hypot(f.x, f.y) || 1;
-  const reach = 0.8 + mag * 3.4;
-  return { x: c.x + (f.x / l) * reach, y: c.y + (f.y / l) * reach };
+  const want = { x: f.x / l, y: f.y / l, m: mag };
+  if (!steer || steer.c !== c.id) steer = { ...want, c: c.id };
+  else {
+    const k = 1 - Math.exp(-lastDt * 16);
+    steer.x += (want.x - steer.x) * k; steer.y += (want.y - steer.y) * k; steer.m += (want.m - steer.m) * k;
+    const sl = Math.hypot(steer.x, steer.y) || 1; steer.x /= sl; steer.y /= sl;
+  }
+  const reach = 0.8 + steer.m * 3.4;
+  return { x: c.x + steer.x * reach, y: c.y + steer.y * reach };
 }
+let steer = null, lastDt = 1 / 60;
 const keys = {};
 window.addEventListener('keydown', e => {
   if (e.repeat) return;
@@ -430,9 +439,10 @@ function onFx(list) {
   for (const f of list) {
     const at = f.x != null ? { x: f.x, y: f.y } : null;
     switch (f.k) {
-      case 'pass': Snd.play('kick', 0.8); track.lastFrom = f.from; if (P.lastPass && P.lastPass.run) track.thru = f.to; break;
+      case 'pass': Snd.play('kick', 1); buzz(8); fxList.push({ kind: 'ring', ...at, z: 0.1, t: 0, life: 0.25, size: 0.8, color: '#ffffff' });
+        track.lastFrom = f.from; if (P.lastPass && P.lastPass.run) track.thru = f.to; break;
       case 'receive':
-        Snd.play('touch');
+        Snd.play('touch'); fxList.push({ kind: 'ring', ...at, z: 0.1, t: 0, life: 0.3, size: 0.9, color: '#ffe14d' });
         track.passes.push({ from: track.lastFrom, to: f.id });
         if (track.thru && track.thru === f.id) { G.through++; fxList.push({ kind: 'text', ...at, text: 'Through ball', t: 0, life: 0.9, color: '#ffe14d' }); }
         track.thru = null;
@@ -623,6 +633,7 @@ function loop(ts) {
     }
     visK += ((looking ? 1 : 0) - visK) * Math.min(1, rdt * (looking ? 7 : 4.5));
     scale = 1 - 0.68 * visK * visK * (3 - 2 * visK);
+    lastDt = rdt;
     if (live) {
       if (G.ready > 0) { G.ready -= rdt; if (G.ready <= 0) banner(''); }
       else {
@@ -630,7 +641,7 @@ function loop(ts) {
         if (queued && P.ball.st === 'held' && P.ctrl) { if (P.ctrl.id === queued.to && tNow - queued.t < 2) applyFlick(queued.st, P.ctrl); queued = null; }
         if (queued && tNow - queued.t > 2) queued = null;
         const inp = { drag: dragTarget(), flick: q.flick, fake: q.fake };
-        SC.step(P, rdt, inp, scale);
+        SC.step(P, rdt, inp, scale * PACE);
         onFx(P.fx); P.fx.length = 0;
       }
     } else if (G.mode && P.phase !== 'live') {

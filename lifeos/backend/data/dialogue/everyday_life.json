@@ -2,7 +2,7 @@
   "dialogue_pack": 1,
   "name": "Everyday life",
   "author": "LIFE OS",
-  "notes": "Built-in starter pack: more texts and replies, and scenes for siblings, friends, crushes, teammates, rivals, pets, Halloween and the first weeks of college.",
+  "notes": "Built-in starter pack: more texts and replies, and scenes for siblings, friends, crushes, teammates, rivals, pets, Halloween and the first weeks of college. Shows the newer tricks: lines with in-person and texted versions, context tags, mods, scene versions, and a pickup match you can play.",
   "texts": {
     "sibling_chatter": [
       "did you take my charger again",
@@ -26,7 +26,19 @@
     "chatter_vent": [
       "worst day ever. don't ask",
       "my parents took my phone so this is from my ipad lol",
-      "i'm so done with this week"
+      "i'm so done with this week",
+      {
+        "text": "can't sleep. brain won't shut up",
+        "when": [
+          "late_night"
+        ]
+      },
+      {
+        "text": "today was so bad. can i just vent for a sec",
+        "when": [
+          "stressed"
+        ]
+      }
     ],
     "chatter_funny": [
       "someone fell UP the stairs in the science wing today",
@@ -85,6 +97,44 @@
     ],
     "parent_loss": [
       "Proud of you no matter what. Dinner's waiting."
+    ],
+    "hang_talk": [
+      "ok this was a good call",
+      {
+        "text": "i'm really glad we're friends, you know that?",
+        "when": [
+          "close"
+        ]
+      },
+      {
+        "text": "we have to do this again before summer's over",
+        "when": [
+          "summer"
+        ]
+      },
+      "don't let me order another one",
+      {
+        "text": "i didn't want to go home tonight anyway",
+        "when": [
+          "evening"
+        ]
+      }
+    ],
+    "chat_talk": [
+      "did you hear what happened at lunch",
+      {
+        "text": "you look exhausted. you good?",
+        "when": [
+          "you_stressed"
+        ]
+      },
+      {
+        "text": "you seem happy today. what happened",
+        "when": [
+          "you_happy"
+        ]
+      },
+      "are you going to the thing friday"
     ]
   },
   "replies": {
@@ -842,7 +892,11 @@
         "cooldown_days": 90
       },
       "title": "Test tomorrow",
-      "text": "{them_first}: \"bio test tomorrow and i know nothing. facetime and study??\" You were planning on doing basically anything else tonight.",
+      "text": [
+        "{them_first} catches you after last period. \"Bio test tomorrow and I know nothing. Study tonight?\" You were planning on doing basically anything else.",
+        "{them_first} slumps against the locker next to yours. \"Bio. Tomorrow. I'm cooked. Study with me tonight?\"",
+        "\"Please tell me you get the bio stuff,\" {them_first} says on the way out of school. \"Test's tomorrow. Study tonight?\""
+      ],
       "choices": [
         {
           "label": "Study together. Two hours, cameras on.",
@@ -927,6 +981,11 @@
             ]
           ]
         }
+      ],
+      "by_text": [
+        "bio test tomorrow and i know nothing. facetime and study??",
+        "ok i'm cooked for bio tomorrow. study w me tonight?",
+        "pls tell me you understand any of this bio stuff. test is tmrw"
       ]
     },
     {
@@ -1052,7 +1111,11 @@
         "cooldown_days": 120
       },
       "title": "{them_first} has something to say",
-      "text": "{them_first} catches you at your locker. \"Big game coming up. Try not to embarrass yourself.\" A few people stop to watch.",
+      "text": [
+        "{them_first} catches you at your locker. \"Big game coming up. Try not to embarrass yourself.\" A few people stop to watch.",
+        "{them_first} bumps your shoulder on the way past, then turns around. \"Hope you're ready this week. You won't be.\" A couple of people laugh.",
+        "\"Heard you're starting,\" {them_first} says, loud enough for the whole hallway. \"Bold choice by your coach.\""
+      ],
       "choices": [
         {
           "label": "Fire right back.",
@@ -1392,7 +1455,11 @@
         "cooldown_days": 300
       },
       "title": "Halloween",
-      "text": "{them_first}: \"ok what are we doing tonight. and do NOT say nothing\"",
+      "text": [
+        "{them_first} drops into the seat next to you at lunch. \"Okay. What are we doing tonight. And do NOT say nothing.\"",
+        "\"It's Halloween,\" {them_first} says, like you might have missed it. \"We're doing something. What are we doing?\"",
+        "{them_first} is already half in costume at the end of the day. \"Tonight. Plans. Go.\""
+      ],
       "choices": [
         {
           "label": "Party at a senior's house.",
@@ -1498,6 +1565,11 @@
             ]
           ]
         }
+      ],
+      "by_text": [
+        "ok what are we doing tonight. and do NOT say nothing",
+        "it's halloween. we are doing SOMETHING. ideas??",
+        "costume or no costume tonight. decide"
       ]
     },
     {
@@ -1521,7 +1593,10 @@
         "cooldown_days": 60
       },
       "title": "Pickup at the park",
-      "text": "{them_first}: \"pickup soccer at the park, we need one more. it's tied and nobody wants to take pks lol\"",
+      "text": [
+        "{them_first} jogs over from the field. \"Pickup game, we need one more. It's tied and nobody wants to take PKs.\"",
+        "You're walking past the park when {them_first} waves you down. \"We're short one! Get over here.\""
+      ],
       "choices": [
         {
           "label": "Get over there. You'll take the kicks.",
@@ -1597,6 +1672,99 @@
           ]
         },
         {
+          "label": "Get in the game. You'll run the middle.",
+          "fits": {
+            "sociability": 0.5,
+            "competitiveness": 0.5
+          },
+          "ops": [
+            [
+              "minigame",
+              "soccer_11",
+              {
+                "great": [
+                  [
+                    "rel_back",
+                    "them",
+                    "affection",
+                    5
+                  ],
+                  [
+                    "need",
+                    "fun",
+                    8
+                  ],
+                  [
+                    "rep",
+                    "athlete",
+                    2
+                  ],
+                  [
+                    "say",
+                    [
+                      "You run the whole game. {them_first} keeps yelling \"who IS this guy\" to nobody.",
+                      "Two assists and the winner. Nobody wants to stop playing."
+                    ]
+                  ]
+                ],
+                "good": [
+                  [
+                    "rel_back",
+                    "them",
+                    "affection",
+                    3
+                  ],
+                  [
+                    "need",
+                    "fun",
+                    6
+                  ],
+                  [
+                    "need",
+                    "social",
+                    5
+                  ],
+                  [
+                    "say",
+                    [
+                      "You find a couple of good passes. Your team takes it.",
+                      "A solid game. You set up the goal that matters."
+                    ]
+                  ]
+                ],
+                "miss": [
+                  [
+                    "need",
+                    "fun",
+                    3
+                  ],
+                  [
+                    "need",
+                    "social",
+                    4
+                  ],
+                  [
+                    "say",
+                    [
+                      "Nothing goes right, but it's still the best afternoon you've had all week.",
+                      "You lose the ball more than you'd like. {them_first} says you'll get them next time."
+                    ]
+                  ]
+                ]
+              },
+              {
+                "base": 0.5,
+                "athletic": 0.4
+              }
+            ],
+            [
+              "need",
+              "energy",
+              -6
+            ]
+          ]
+        },
+        {
           "label": "Go, but just play. Let someone else shoot.",
           "fits": {
             "empathy": 0.5
@@ -1632,6 +1800,11 @@
             ]
           ]
         }
+      ],
+      "by_text": [
+        "pickup soccer at the park, we need one more. it's tied and nobody wants to take pks lol",
+        "we need one more for pickup at the park. come NOW",
+        "11 v 11 at the park and we're down a guy. you in??"
       ]
     },
     {
@@ -1754,5 +1927,28 @@
         }
       ]
     }
-  ]
+  ],
+  "mods": {
+    "open": {
+      "close": [
+        "ok you're gonna laugh but"
+      ],
+      "late_night": [
+        "are you awake"
+      ]
+    },
+    "close": {
+      "close": [
+        "ily lol"
+      ]
+    },
+    "talk": {
+      "close": [
+        "{them_first} {says}, and steals your drink"
+      ],
+      "teammate": [
+        "{them_first} {says}, retying a cleat"
+      ]
+    }
+  }
 }

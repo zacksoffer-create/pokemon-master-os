@@ -23,13 +23,16 @@ import json
 import os
 import re
 
+from . import lines as _lines
 from .catalogs import APTITUDES, TRAITS, _base, DATA_DIR
 
 BUILTIN_DIR = os.path.join(DATA_DIR, "dialogue")
 USER_DIR = os.environ.get("LIFEOS_DIALOGUE") or os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "var", "dialogue")
 
-SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia")
+SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia", "mods")
+MOD_KINDS = {"open": "said before a text (\"ok so\", \"u up?\")", "close": "tacked on after a text (\"lol\")",
+             "talk": "how a line is said in person: \"{them_first} {says}, grinning\" ({says} becomes says or asks)"}
 PH = re.compile(r"\{(\w+)\}")
 SLUG = re.compile(r"^[a-z][a-z0-9_]{2,40}$")
 
@@ -135,6 +138,10 @@ POOL_DOCS = {
     "chatter_game": "A friend texting about a game (reply set: chatter_game).",
     "parent_first_day": "Mom or Dad, the first morning of high school.",
     "friend_first_day": "A friend, the first morning of high school.",
+    "hang_talk": "IN PERSON: something they say while you're hanging out at {place} (shows in the story feed).",
+    "date_talk": "IN PERSON: something they say on a date at {place}.",
+    "chat_talk": "IN PERSON: something they say when you stop and talk (hallway, lunch, practice).",
+    "awkward_talk": "IN PERSON: something they say when a hangout or date is going badly.",
 }
 
 WHO = {
@@ -179,10 +186,25 @@ DEFAULT_CHANCE = 0.04
 SCENE_GAP_DAYS = 5
 NO_ADD = {"college_decision"}  # choices are built from your real options
 
+# where each mini game fits in a story, for the guide
+MG_FITS = {
+    "trivia": "a pop quiz, a study session, trivia night at a restaurant, a bet over who knows more",
+    "soccer_pk": "penalties at the park, settling an argument, a gym-class shootout",
+    "soccer_11": "a pickup match, gym class, a game where your team needs a goal",
+    "basketball": "shooting around in the driveway, HORSE with a sibling, open gym, a dare from half court",
+    "playmaker": "running the offense at the park, a pickup run where you have to find the open man",
+    "football": "a goal-line stand at practice, a backyard game, a bet on one play",
+    "baseball": "a big at-bat, batting practice, a home run derby with friends",
+    "swing_lab": "the batting cages, a hitting lesson",
+    "golf": "a round with a parent, a golf outing, a bet on one hole",
+    "cup_pong": "a friend's basement, a party (beer pong in college)",
+    "paper_toss": "bored in class, the trash can across the room",
+}
+
 # ops a pack can use: name -> (arg count, how to write it, what it does)
 OPS = {
-    "say": (1, '["say", "{them_first} grins. \\"owe you one.\\""]', "A line of dialogue or narration shown right after the choice."),
-    "text": (2, '["text", "them", "thanks for today fr"]', "Someone (them, best_friend, sibling, partner) texts you this later today."),
+    "say": (1, '["say", ["{them_first} grins. \\"owe you one.\\"", "\\"Legend,\\" {them_first} says."]]', "A line of dialogue or narration shown right after the choice. One line, or a list of versions the game rotates through."),
+    "text": (2, '["text", "them", ["thanks for today fr", "ok that was fun"]]', "Someone (them, best_friend, sibling, partner) texts you this later today. One line or a list of versions."),
     "rel": (3, '["rel", "them", "affection", 6]', "Change how YOU feel about someone (field, amount -30..30)."),
     "rel_back": (3, '["rel_back", "them", "trust", 5]', "Change how THEY feel about you."),
     "mood": (1, '["mood", 4]', "Your mood, -20..20."),
@@ -316,6 +338,16 @@ def _check_line(R, where, s, allowed, max_len=240):
     return True
 
 
+def _check_variants(R, where, v, allowed, max_len=240):
+    """One line, or a list of versions of it (the game rotates through them and doesn't repeat one too soon)."""
+    if isinstance(v, list):
+        if not 1 <= len(v) <= 20:
+            R.err(where, "a list of versions has 1 to 20 lines")
+            return False
+        return all([_check_line(R, f"{where}[{i}]", x, allowed, max_len) for i, x in enumerate(v)])
+    return _check_line(R, where, v, allowed, max_len)
+
+
 def _num(R, where, v, lo, hi):
     if isinstance(v, bool) or not isinstance(v, (int, float)):
         R.err(where, f"needs a number ({lo} to {hi})")
@@ -345,10 +377,10 @@ def _check_ops(R, where, ops, refs, names, depth=0):
             continue
         ref_ok = lambda r: r in refs or R.err(w, f"'{r}' isn't someone this can refer to here. Use one of: {', '.join(sorted(refs)) or 'nobody'}")  # noqa: E731
         if name == "say":
-            _check_line(R, w, args[0], names, 300)
+            _check_variants(R, w, args[0], names, 300)
         elif name == "text":
             if args[0] in refs:
-                _check_line(R, w, args[1], names, 200)
+                _check_variants(R, w, args[1], names, 200)
             else:
                 ref_ok(args[0])
         elif name in ("rel", "rel_back"):
@@ -481,8 +513,8 @@ def _check_scene(R, where, sc, seen_ids):
     else:
         seen_ids.add(sid)
     for k in sc:
-        if k not in ("id", "title", "text", "who", "when", "choices", "notes"):
-            R.warn(where, f"'{k}' is ignored (a scene has id, title, text, who, when, choices)")
+        if k not in ("id", "title", "text", "by_text", "who", "when", "choices", "notes"):
+            R.warn(where, f"'{k}' is ignored (a scene has id, title, text, by_text, who, when, choices)")
     who = sc.get("who")
     if who is not None and who not in WHO:
         R.err(where + ".who", f"'{who}' isn't a kind of person.{_suggest(who, WHO)} Use: {', '.join(WHO)}")
@@ -492,7 +524,12 @@ def _check_scene(R, where, sc, seen_ids):
         names -= {"them", "them_first"}
         refs -= {"them"}
     _check_line(R, where + ".title", sc.get("title"), names, 80)
-    _check_line(R, where + ".text", sc.get("text"), names, 700)
+    _check_variants(R, where + ".text", sc.get("text"), names, 700)
+    if sc.get("by_text") is not None:
+        if not who or who in ("coach",):
+            R.err(where + ".by_text", "a texted version needs the scene to be about someone (who), and not a coach")
+        else:
+            _check_variants(R, where + ".by_text", sc["by_text"], names, 220)
     when = sc.get("when", {})
     if not isinstance(when, dict):
         R.err(where + ".when", "when is an object, like {\"chance\": 0.05, \"years\": [\"freshman\"]}")
@@ -615,15 +652,33 @@ def check(pack: dict) -> dict:
         if not isinstance(lines, list):
             R.err(w, "is a list of lines")
             continue
-        have = {x.lower().strip() for x in base_texts[pool]}
+        have = {_lines.text_of(x).lower().strip() for x in base_texts[pool]}
         allowed = pool_names(pool)
         for i, s in enumerate(lines):
-            if _check_line(R, f"{w}[{i}]", s, allowed, 200):
-                if s.lower().strip() in have:
-                    added["duplicates"] += 1
-                else:
-                    have.add(s.lower().strip())
-                    added["texts"] += 1
+            wi = f"{w}[{i}]"
+            if isinstance(s, dict):
+                for k in s:
+                    if k not in ("text", "talk", "when"):
+                        R.warn(wi, f"'{k}' is ignored (a line has text, talk and when)")
+                if not _check_line(R, wi + ".text", s.get("text"), allowed, 200):
+                    continue
+                if s.get("talk") is not None and not _check_line(R, wi + ".talk", s["talk"], allowed | {"them_first", "says"}, 300):
+                    continue
+                wh = s.get("when", [])
+                if not isinstance(wh, list) or any(t not in _lines.TAGS for t in wh):
+                    bad = [t for t in (wh if isinstance(wh, list) else [wh]) if t not in _lines.TAGS]
+                    R.err(wi + ".when", f"is a list of context tags; {', '.join(map(str, bad))} isn't one.{_suggest(str(bad[0]) if bad else '', _lines.TAGS)} Tags: {', '.join(_lines.TAGS)}")
+                    continue
+                key = s["text"].lower().strip()
+            elif _check_line(R, wi, s, allowed, 200):
+                key = s.lower().strip()
+            else:
+                continue
+            if key in have:
+                added["duplicates"] += 1
+            else:
+                have.add(key)
+                added["texts"] += 1
 
     replies = pack.get("replies", {})
     if not isinstance(replies, dict):
@@ -727,6 +782,37 @@ def check(pack: dict) -> dict:
                     added["duplicates"] += 1
                 else:
                     added["trivia"] += 1
+    mods = pack.get("mods", {})
+    added["mods"] = 0
+    if not isinstance(mods, dict):
+        R.err("mods", 'is an object like {"open": {"late_night": ["u up?"]}, "close": {"close": ["fr"]}, "talk": {"happy": ["{them_first} {says}, grinning"]}}')
+        mods = {}
+    for kind, bank in mods.items():
+        w = f"mods.{kind}"
+        if kind not in MOD_KINDS:
+            R.err(w, f"'{kind}' isn't a kind of mod. Use: {', '.join(MOD_KINDS)}")
+            continue
+        if not isinstance(bank, dict):
+            R.err(w, 'is an object of context tags to lines, like {"late_night": ["u up?"]}')
+            continue
+        for tag, ls in bank.items():
+            wt = f"{w}.{tag}"
+            if tag != "any" and tag not in _lines.TAGS:
+                R.err(wt, f"'{tag}' isn't a context tag.{_suggest(tag, _lines.TAGS)} Tags: any, {', '.join(_lines.TAGS)}")
+                continue
+            if not isinstance(ls, list):
+                R.err(wt, "is a list of lines")
+                continue
+            for i, x in enumerate(ls):
+                if kind == "talk":
+                    if _check_line(R, f"{wt}[{i}]", x, {"them_first", "says"}, 90):
+                        if "{them_first}" not in x:
+                            R.err(f"{wt}[{i}]", "a way of saying something needs {them_first} (who's talking), like \"{them_first} {says}, grinning\"")
+                        else:
+                            added["mods"] += 1
+                elif _check_line(R, f"{wt}[{i}]", x, set(), 40):
+                    added["mods"] += 1
+
     scenes = pack.get("scenes", [])
     if not isinstance(scenes, list):
         R.err("scenes", "is a list of scenes")
@@ -890,6 +976,7 @@ def _build() -> dict:
     templates = copy.deepcopy(_base("templates.json")["templates"])
     moments = copy.deepcopy(_base("moments.json")["moments"])
     replies = {k: list(v) for k, v in _base_reply_sets().items()}
+    mods = {k: copy.deepcopy(v) for k, v in _base("mods.json").items() if k in MOD_KINDS}
     loaded = []
     trivia_extra: dict = {}
     for p in packs():
@@ -898,11 +985,16 @@ def _build() -> dict:
         pk = p["pack"]
         loaded.append(p["id"])
         for pool, lines in (pk.get("texts") or {}).items():
-            have = {x.lower().strip() for x in texts[pool]}
+            have = {_lines.text_of(x).lower().strip() for x in texts[pool]}
             for s in lines:
-                if s.lower().strip() not in have:
+                k = _lines.text_of(s).lower().strip()
+                if k not in have:
                     texts[pool].append(s)
-                    have.add(s.lower().strip())
+                    have.add(k)
+        for kind, bank in (pk.get("mods") or {}).items():
+            for tag, ls in bank.items():
+                cur = mods.setdefault(kind, {}).setdefault(tag, [])
+                cur.extend(x for x in ls if x not in cur)
         for rs, opts in (pk.get("replies") or {}).items():
             have = {l.lower() for l, _ in replies[rs]}
             for o in opts:
@@ -921,9 +1013,10 @@ def _build() -> dict:
                 continue  # an earlier pack already has a scene with this id
             moments[sc["id"]] = {"title": sc["title"], "text": sc["text"],
                                  "choices": [_with_needs(ch) for ch in sc["choices"]],
-                                 "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"],
+                                 "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"),
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
-    return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "loaded": loaded}
+    return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
+            "loaded": loaded}
 
 
 def merged() -> dict:
@@ -946,6 +1039,10 @@ def moments() -> dict:
 
 def reply_sets() -> dict:
     return merged()["replies"]
+
+
+def mods() -> dict:
+    return merged()["mods"]
 
 
 # ---------------------------------------------------------------------------------------- scenes in play
@@ -1212,24 +1309,39 @@ EXAMPLE = {
     "dialogue_pack": 1,
     "name": "Cover for me",
     "author": "ChatGPT",
-    "texts": {"sibling_chatter": ["did you take my charger again", "mom's asking where you are. i said practice"]},
+    "texts": {
+        "sibling_chatter": [
+            "did you take my charger again",
+            {"text": "mom's asking where you are. i said practice", "talk": "\"Mom's asking where you are. I said practice,\" {them_first} whispers from the doorway."},
+            {"text": "u up? i need a favor", "when": ["late_night"]},
+        ],
+        "hang_talk": ["ok but this is the best fries in town", {"text": "i'm so glad we did this", "when": ["close"]}],
+    },
+    "mods": {"open": {"sibling": ["ok don't be mad but"]}, "talk": {"sibling": ["{them_first} {says}, already halfway out the door"]}},
     "replies": {"sibling": [["absolutely not", "sibling_tease"]]},
     "scenes": [{
         "id": "cover_for_me",
         "who": "older_sibling",
         "when": {"years": ["freshman", "sophomore"], "requires": ["school_day"], "chance": 0.05},
         "title": "{them_first} needs a favor",
-        "text": "{them_first} leans into your doorway, already whispering. \"If anyone asks, I was at the library till eleven. Deal?\"",
+        "text": [
+            "{them_first} leans into your doorway, already whispering. \"If anyone asks, I was at the library till eleven. Deal?\"",
+            "{them_first} corners you in the kitchen. \"Library. Till eleven. You saw me there. Okay?\"",
+            "{them_first} drops onto the end of your bed. \"I need an alibi and you're it. Library, eleven. Please.\"",
+        ],
+        "by_text": ["if mom asks i was at the library till 11. deal??", "ok i need you to cover for me tonight. library. 11. pls"],
         "choices": [
             {"label": "Deal. You owe me.", "fits": {"loyalty": 1},
              "ops": [["rel_back", "them", "affection", 6], ["remember", "covered_for_sibling"],
-                     ["say", "{them_first} points at you on the way out. \"Legend.\""]]},
+                     ["say", ["{them_first} points at you on the way out. \"Legend.\"", "\"You're the best. Seriously,\" {them_first} says."]]]},
             {"label": "No way. I'm not lying for you.", "fits": {"discipline": 1, "loyalty": -0.5},
-             "ops": [["rel_back", "them", "affection", -4], ["say", "\"Wow. Okay. Remember this.\""]]},
-            {"label": "Only if you drive me to practice all week.", "fits": {"ambition": 0.5, "confidence": 0.5},
-             "ops": [["chance", {"base": 0.5, "charisma": 0.4},
-                      [["rel_back", "them", "respect", 4], ["say", "\"...Fine. Seven sharp, I'm not waiting.\""]],
-                      [["rel_back", "them", "affection", -2], ["say", "\"Forget it. I'll figure it out.\""]]]]},
+             "ops": [["rel_back", "them", "affection", -4], ["say", ["\"Wow. Okay. Remember this.\"", "{them_first} just stares at you. \"Unbelievable.\""]]]},
+            {"label": "Beat me in HORSE and I'll do it.", "fits": {"competitiveness": 1},
+             "ops": [["minigame", "basketball",
+                      {"great": [["rel_back", "them", "respect", 5], ["say", "You drain the last shot. {them_first} groans. \"Fine. I'll cover for myself.\""]],
+                       "good": [["say", "It comes down to the last shot. You call it a tie and cover anyway."], ["rel_back", "them", "affection", 3]],
+                       "miss": [["rel_back", "them", "affection", 4], ["say", "{them_first} wins easy. \"Library. Eleven. Thanks.\""]]},
+                      {"base": 0.5, "athletic": 0.3}]]},
         ],
     }],
 }
@@ -1250,10 +1362,43 @@ you can add to them by writing a "dialogue pack": one JSON object.
 What I want in this pack:
 [describe it here, e.g. "more texts from my older brother, and 3 scenes about my twin sisters borrowing my stuff"]
 
+How to write it:
+- Write a LOT. The game remembers what it has used and won't repeat a line until it's rested, so more lines means more
+  life. Aim for 12 or more new lines for every text pool you touch, and give every scene 3 versions of its text and
+  2 or 3 versions of every "say" line (a list instead of one string).
+- Every line works two ways: as a text, and said in person. Give the lines that matter most a "talk" version (how they'd say
+  it to your face) and "when" tags (late_night, close, crush, stressed...) so the right line shows up at the right moment.
+  Add "mods" (openers, closers, ways of saying things) for the people in your pack: one base line times its mods is many lines.
+- When a scene is about someone you'd text, add "by_text" (what they'd text you instead) so it can happen either way.
+- Use the mini games. Where a scene fits one (pickup soccer, shooting around, cup pong at a party, a round of golf, a quiz),
+  make one choice play it, with different outcomes for great, good and miss. Always keep two choices that don't need a game.
+- Don't reuse the same idea twice. Vary the openings, the length, and the mood.
+
 How to answer:
 - Reply with ONE JSON code block and nothing else after it. It must be valid JSON (double quotes, no comments, no trailing commas).
 - Follow the format and the lists in the guide below exactly. The game checks every line and will tell me what to fix.
 - Only add what I asked for.
+
+"""
+
+UPDATE_PROMPT = """You're updating a dialogue pack for LIFE OS, a life-simulation game: you play one person from the first day of high
+school (Guilford High School in Guilford, Connecticut) through college. I made this pack before the game could do some new
+things. Upgrade it, and make it much bigger.
+
+Do all of this:
+1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep every scene id and every line
+   that's already there.
+2. Texts: for every pool in the pack, add at least 12 new lines. Turn the best lines into objects with a "talk" version (how
+   they'd say it in person) and "when" tags where a line fits a moment (late_night, close, crush, partner, stressed, weekend...).
+3. Add "mods" for the people in this pack: openers and closers for their texts, and ways they say things in person.
+4. Scenes: turn each scene's "text" into a list of 3 versions, and each "say" into a list of 2 or 3 versions. Add a "by_text"
+   version to scenes about someone you'd text. Add more choices where a scene has only 2 (4 at most).
+5. Mini games: wherever a scene fits one, give it a choice that plays it, with "great", "good" and "miss" outcomes. Then add
+   3 new scenes built around mini games that fit this pack's people.
+6. Add 2 new scenes that follow up on things the old scenes "remember".
+
+Reply with the COMPLETE upgraded pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
+Follow the format and the lists in the guide below exactly; the game checks every line.
 
 """
 
@@ -1272,11 +1417,41 @@ def guide_markdown() -> str:
     a("## The format\n")
     a("Every section is optional; use the ones you need.\n")
     a("```json\n" + json.dumps(EXAMPLE, indent=2, ensure_ascii=False) + "\n```\n")
-    a("- `texts`: more lines for a text-message pool (the list is below). Use only that pool's placeholders.")
+    a("- `texts`: more lines for a text-message pool (the list is below). Use only that pool's placeholders. A line can be a plain "
+      "string or an object with a `talk` version and `when` tags (see Every line, two ways).")
     a("- `replies`: more reply buttons for a reply set. Each option is `[\"what you say\", \"tone\"]`. The tone decides the effect.")
     a("- `narration`: more lines for the story feed, keyed `event.outcome`.")
     a("- `moment_choices`: extra choices on an existing story moment.")
-    a("- `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.\n")
+    a("- `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.")
+    a("- `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.\n")
+    a("## Every line, two ways\n")
+    a("Any line can be texted or said in person. A text-pool line is a plain string (the text), or an object:\n")
+    a('```json\n{"text": "u free later?", "talk": "\\"You free later?\\" {them_first} asks, trying to sound casual.", "when": ["late_night", "crush"]}\n```\n')
+    a("- `text`: how it reads on the phone. The game roughs up spelling and adds emoji by personality, so write it plain.")
+    a("- `talk` (optional): how they'd say it to your face, with `{them_first}` (who's talking). Leave it out and the game makes "
+      "one: it spells out the abbreviations, capitalizes, puts it in quotes and adds how it was said from the `talk` mods.")
+    a("- `when` (optional): context tags that all have to be true for the line to be used. Lines that fit the moment more "
+      "specifically get picked over generic ones more often than not. Tags:\n")
+    a("| tag | true when |")
+    a("|---|---|")
+    for k, v in _lines.TAGS.items():
+        a(f"| `{k}` | {v} |")
+    a("\nThe pools marked IN PERSON below are things people say to your face; they show in the story feed when you hang out, "
+      "go on a date or stop and talk.\n")
+    a("## Mods: one line, many versions\n")
+    a("Mods dress a line for its moment. The game adds an opener or a closer to some texts and says in-person lines a "
+      "particular way, picked by context tag (or `any`). One base line times its mods is a lot of different lines.\n")
+    for k, v in MOD_KINDS.items():
+        a(f"- `{k}`: {v}")
+    base_mods = _base("mods.json")
+    a("\n```json\n\"mods\": " + json.dumps({k: {t: v[:2] for t, v in list(base_mods[k].items())[:3]} for k in MOD_KINDS}, ensure_ascii=False) + "\n```\n")
+    a("Openers and closers are short (under 40 characters, no placeholders). A talk mod must have `{them_first}` and can use "
+      "`{says}` (it becomes says or asks).\n")
+    a("## Nothing repeats\n")
+    a("The game remembers every line it uses and rests it before using it again; the bigger the pool, the longer the rest. "
+      "Scene `text`, `by_text`, `say` lines and `text` op lines can each be a list of versions instead of one string, and "
+      "the game rotates through them the same way. So write plenty, and make the versions really different, not the same "
+      "sentence reworded.\n")
     a("## Voice\n")
     a(VOICE + "\n")
     a("## Text pools (`texts`)\n")
@@ -1314,7 +1489,11 @@ def guide_markdown() -> str:
     a("A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each morning the game may start one scene whose "
       "conditions fit (at most one every few days; scenes on a specific date always get their day).\n")
     a("```json\n" + json.dumps(EXAMPLE["scenes"][0], indent=2, ensure_ascii=False) + "\n```\n")
-    a("**id**: lowercase with underscores, unique.  **title**: under 80 characters.  **text**: the scene, second person.\n")
+    a("**id**: lowercase with underscores, unique.  **title**: under 80 characters.  **text**: the scene, second person; one "
+      "string or a list of versions.\n")
+    a("**by_text** (optional, needs `who`): what they'd text you instead, one line or a list. A scene with both can happen in "
+      "person or by text (more often by text on days off, rarely with family). By text, their message lands in your phone "
+      "and the choices are your replies; write `say` lines that work either way.\n")
     a("**who** (optional): who the scene is about. They become `{them}` / `{them_first}` and the ref `them` in ops.\n")
     for k, v in WHO.items():
         a(f"- `{k}`: {v}")
@@ -1344,9 +1523,17 @@ def guide_markdown() -> str:
     a("## Mini games (the `minigame` op)\n")
     from .minigames import reg as _mreg
     a("A choice can be played: `[\"minigame\", game, {\"great\": [ops], \"good\": [ops], \"miss\": [ops]}, odds if nobody plays]`. "
-      "Use `\"sport\"` for the player's own sport in a sports scene. Games: " +
-      ", ".join(f"`{k}` ({g['title']}{'' if g.get('status') == 'ready' else ', coming soon'})" for k, g in _mreg()["games"].items()) +
-      ". A choice with a game that isn't ready yet stays hidden, so always keep two other choices.\n")
+      "The player plays the game right there; great is 80% or better, good 50% or better, anything else a miss, and each "
+      "picks its own ops (write a different `say` for each). If they skip it, the odds roll instead. Use `\"sport\"` for the "
+      "player's own sport in a sports scene. A choice with a game that isn't ready stays hidden, so always keep two other "
+      "choices. Use them: a scene that turns into a game is the best kind.\n")
+    a("| game | what it is | scenes it fits |")
+    a("|---|---|---|")
+    for k, g in _mreg()["games"].items():
+        if g.get("status") != "ready":
+            continue
+        a(f"| `{k}` | {g['title']}: {g.get('blurb', '')} | {MG_FITS.get(k, '')} |")
+    a("")
     a("## Ops\n")
     a("| op | how to write it | what it does |")
     a("|---|---|---|")
@@ -1356,13 +1543,25 @@ def guide_markdown() -> str:
     a("Keep effects small and believable: most relationship changes are 2 to 8; 10+ is a big moment. Good choices aren't free: "
       "the kind option can cost stress or energy, the bold one can backfire through `chance`.\n")
     a("## Checklist\n")
-    a("- One JSON object, valid JSON, with a `name`.\n- Pool, set, moment and op names exactly as listed.\n"
-      "- Only the placeholders listed for that spot.\n- Scenes have 2 to 4 choices and unique ids.\n")
+    a("- One JSON object, valid JSON, with a `name`.\n- Pool, set, moment, op and tag names exactly as listed.\n"
+      "- Only the placeholders listed for that spot.\n- Scenes have 2 to 4 choices and unique ids.\n"
+      "- Lots of lines, real variety, versions that differ in more than a word.\n")
     return "\n".join(L)
 
 
 def prompt_for_ai() -> str:
     return PROMPT + guide_markdown()
+
+
+def prompt_for_update(pid: str | None = None) -> str:
+    """The prompt that upgrades a pack you already have: the pack itself (when it's loaded here), what to change, and the guide."""
+    body = "Here's my pack:\n\n[paste your pack's JSON here]\n\n"
+    if pid:
+        p = next((x for x in packs() if x["id"] == pid), None)
+        if p is None:
+            raise KeyError(pid)
+        body = "Here's my pack:\n\n```json\n" + json.dumps(p["pack"], indent=1, ensure_ascii=False) + "\n```\n\n"
+    return UPDATE_PROMPT + body + guide_markdown()
 
 
 def current_dialogue() -> dict:
