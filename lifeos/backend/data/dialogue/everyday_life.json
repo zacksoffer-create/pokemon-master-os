@@ -1633,6 +1633,126 @@
           ]
         }
       ]
+    },
+    {
+      "id": "basement_pong",
+      "who": "friend",
+      "when": {
+        "requires": [
+          "weekend"
+        ],
+        "chance": 0.04,
+        "once": false,
+        "cooldown_days": 75
+      },
+      "title": "Next game's yours",
+      "text": "{them_first}'s basement is packed. Somebody hands you a ball. \"We got next. You're with me.\"",
+      "choices": [
+        {
+          "label": "Step up to the table.",
+          "fits": {
+            "sociability": 1,
+            "competitiveness": 0.5
+          },
+          "ops": [
+            [
+              "minigame",
+              "cup_pong",
+              {
+                "great": [
+                  [
+                    "rep",
+                    "legend",
+                    2
+                  ],
+                  [
+                    "rel_back",
+                    "them",
+                    "affection",
+                    5
+                  ],
+                  [
+                    "need",
+                    "fun",
+                    10
+                  ],
+                  [
+                    "say",
+                    "You hit the last cup and the whole basement loses it. {them_first} is still yelling about it."
+                  ]
+                ],
+                "good": [
+                  [
+                    "need",
+                    "fun",
+                    8
+                  ],
+                  [
+                    "rel_back",
+                    "them",
+                    "affection",
+                    3
+                  ],
+                  [
+                    "say",
+                    "Close game. You'd run it back in a heartbeat."
+                  ]
+                ],
+                "miss": [
+                  [
+                    "need",
+                    "fun",
+                    4
+                  ],
+                  [
+                    "say",
+                    "You go cold. {them_first} carries you and doesn't let you forget it."
+                  ]
+                ]
+              },
+              {
+                "base": 0.5,
+                "athletic": 0.3
+              }
+            ]
+          ]
+        },
+        {
+          "label": "Let someone else play. Hang by the couch.",
+          "fits": {
+            "sociability": -0.3
+          },
+          "ops": [
+            [
+              "need",
+              "social",
+              6
+            ],
+            [
+              "need",
+              "fun",
+              3
+            ]
+          ]
+        },
+        {
+          "label": "Head home early.",
+          "fits": {
+            "discipline": 1
+          },
+          "ops": [
+            [
+              "need",
+              "energy",
+              5
+            ],
+            [
+              "say",
+              "\"lame!!\" follows you up the stairs."
+            ]
+          ]
+        }
+      ]
     }
   ]
 }

@@ -122,7 +122,8 @@ def free_list(sim) -> list:
             continue
         ok, why = _now_ok(sim, c, g["free"])
         rdy = g.get("status") == "ready"
-        out.append({"id": gid, "title": title(sim, gid, c), "label": g["free"]["label"], "blurb": g.get("blurb", ""), "icon": g.get("icon", "ball"),
+        label = g["free"].get("college_label") if (c.grade or 0) >= 13 and g["free"].get("college_label") else g["free"]["label"]
+        out.append({"id": gid, "title": title(sim, gid, c), "label": label, "blurb": g.get("blurb", ""), "icon": g.get("icon", "ball"),
                     "ready": rdy, "available": rdy and ok, "why": "coming soon" if not rdy else why,
                     "rewarded_today": st["played"].get(gid) == w.day, "best": st["best"].get(gid)})
     out.sort(key=lambda x: (not x["ready"], not x["available"], x["title"]))
@@ -171,6 +172,9 @@ def config(sim, sess) -> dict:
            "skill": sess["skill"], "difficulty": sess["difficulty"], "seed": sess["seed"], "me": c.first,
            "them": w.chars[them].first if them in w.chars else None, "college": (c.grade or 0) >= 13,
            "sport": ctx.get("sport_id") or ctx.get("sport"), "opponent": ctx.get("opponent"), "label": ctx.get("mg_label")}
+    plays = g.get("play") or {}
+    ctx_kind = "clutch" if cfg["mode"] == "clutch" else "free" if sess["kind"] == "free" else "scene"
+    cfg["play"] = plays.get(ctx_kind) or plays.get("free") or "menu"
     if sess["game"] == "trivia":
         cfg["questions"] = sess["questions"]
         cfg["subject"] = ctx.get("class_name") or "Trivia"
