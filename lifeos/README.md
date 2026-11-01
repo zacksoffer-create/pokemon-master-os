@@ -107,13 +107,35 @@ page, and **History Explorer** shows the math behind anything that happened.
 
 ## Play on your phone
 
-The phone app is the single-player side of your story: your life in first person, one moment at a time.
+**The lab is your dashboard; your phone is where you play.** The phone app, *LIFE OS: Story*, runs the whole
+game on the phone itself: no computer, no server, no monthly bill, and it works offline after the first visit.
 
-1. Double-click **`Play on Phone (Windows).bat`** or **`Play on Phone (Mac).command`** (instead of the regular Start file).
-2. A page opens on your computer with a QR code. Point your phone's camera at it. Your phone has to be on the same Wi-Fi.
-   If Windows asks about the firewall, choose **Allow** (private networks).
-3. To make it an app: on iPhone tap **Share**, then **Add to Home Screen**. On Android, tap the menu, then **Add to Home screen**.
-4. Keep the computer on and the black window open while you play. Your progress saves on the computer.
+**Install it (once):**
+1. Open **https://zacksoffer-create.github.io/pokemon-master-os/play/** in Safari on your iPhone (or Chrome on Android).
+   The lab's **Play on Your Phone** page shows the same link as a QR code.
+2. Tap **Share → Add to Home Screen**. It gets its own icon and opens full screen.
+3. The first launch downloads about 12 MB (the game engine). After that it starts in a few seconds.
+
+**Bring your people:** build them in the lab (My Story → Start your story), click **Download cast**, and send the
+file to your phone (AirDrop, email, iCloud Drive). In the app tap **Load a cast file or backup**. The filled Excel
+worksheet and ChatGPT's JSON answer load the same way. Or tap **Try a sample story**.
+
+**Your story lives on your phone.** It saves by itself. **Me → Back up my story** saves a `.lifeos` file
+(to Files, iCloud, AirDrop). To look under the hood, import that file in the lab under **Saves & Worlds**, load it, and
+the whole history, every decision and the math behind it are there. A lab save loads on the phone the same way.
+
+**How it works:** the same Python engine, compiled for the browser (Pyodide), runs in a background worker on the phone.
+The phone screens talk to it exactly as they talk to the server on a computer. Saves go to the phone's own storage.
+To publish an update: `python lifeos/tools/build_phone_app.py`, then commit the `docs/play/` folder (GitHub Pages serves it).
+
+**Turning on the free hosting (one time):** on GitHub, open the repository's **Settings → Pages**, set **Source** to
+*Deploy from a branch*, pick the branch with the app and the **/docs** folder, and **Save**. The link works a minute later.
+
+### Or play over your Wi-Fi
+
+If you'd rather keep the story on the computer (one world shared with the lab), double-click
+**`Play on Phone (Windows).bat`** / **`Play on Phone (Mac).command`**, scan the QR code with your phone on the same Wi-Fi,
+and keep the computer on while you play.
 
 What's in it:
 - **Story.** Where you are and what's happening right now, drawn as a scene, and what you do about it. Choices are worded like
@@ -143,7 +165,7 @@ Open **My Story → Start your story**. The first step has a **Want to plan it f
 
 ```bash
 cd lifeos
-python -m pytest backend/tests -q      # 43 tests, about 40 seconds
+python -m pytest backend/tests -q      # 44 tests, about 40 seconds
 ```
 
 They cover every acceptance criterion in the brief. Each name below is a test:
@@ -254,7 +276,7 @@ lifeos/
 - **Pets** in your household are full animals with needs, bonds, tricks and chores. Pets in other households are still a simple line (they relieve stress at home).
 - **Phone art** is hand-drawn vector illustration (portraits generated from each person's look, scene backdrops per place, season and time of day). Image generation wasn't available, so there are no painted backgrounds.
 - **Texts** are written from templates with a per-person voice. They follow what happens, but conversations are a choice of replies, not free typing.
-- **Playing away from home** needs the computer running and reachable; phones connect over the same Wi-Fi. There's no cloud hosting.
+- **The phone app** keeps your story on that one phone (back it up). It's slower than a computer on long skips (a few seconds for a week, longer for months) and trims old background history sooner to fit in phone memory. Experiments and the Engine Workshop stay in the lab.
 - **Careers and economy** are minimal: two part-time employers, allowance by income level, and costs for outings.
 - **After high school**: your own college is fully simulated (teams, classes, roommate, classmates). Everyone else who leaves town lives offscreen: weekly updates, no daily decisions, home for breaks. Graduates who stay in town work full time. The seven chapters end with the MLB Draft after college junior year and a final review. The world keeps running after that, but pro ball is offscreen (no minor league seasons yet), and there's no grad school or later adult life.
 - **College sports** are simplified: one varsity team per sport, a short schedule (11 football games, 18 basketball, 14 baseball), and no transfer portal, redshirts or NIL.

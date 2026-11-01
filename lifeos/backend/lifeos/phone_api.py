@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import socket
 
-from fastapi import APIRouter, Body, HTTPException
+from fastapi import APIRouter, Body, HTTPException, Request
+from fastapi.responses import Response
 
 from . import calendar as calm
 from . import messages, pets, pov
@@ -559,6 +560,35 @@ def phone_pet_adopt(body: dict = Body(...)):
             raise HTTPException(409, str(e))
         L.autosave()
         return out
+
+
+# --- backups: move a story between your phone and the lab -----------------------------------------
+
+@router.get("/api/phone/backup")
+def phone_backup():
+    from .storage import world_to_bytes
+    A, L = _lab()
+    with L.lock:
+        w = L.w
+        title = (w.meta.get("story", {}).get("title") or "LIFE OS story").replace("/", "-")
+        data = world_to_bytes(w)
+        name = f"{title} - {calm.date_of(w.day).isoformat()}.lifeos"
+    return Response(data, media_type="application/octet-stream", headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
+@router.post("/api/phone/restore")
+async def phone_restore(request: Request):
+    from .storage import world_from_bytes
+    A, L = _lab()
+    data = await request.body()
+    try:
+        w = world_from_bytes(data)
+    except Exception:  # noqa: BLE001
+        raise HTTPException(422, "That file isn't a LIFE OS story backup.")
+    with L.lock:
+        L.replace_world(w)
+        p = w.meta.get("protagonist")
+        return {"ok": True, "story": bool(p), "name": w.chars[p].name if p in w.chars else None, "date": calm.label(w.day)}
 
 
 # --- playing on your phone ------------------------------------------------------------------------

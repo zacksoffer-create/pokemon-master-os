@@ -410,3 +410,25 @@ The Excel worksheet has one column per person and one row per field. Column A ho
 Dropdowns and number limits come from the catalogs, and the Reference tab lists types, positions, colleges, looks and
 relationship types. `parse_workbook` turns a filled sheet into a story spec. `guide_markdown` produces the AI interview prompt
 and the cast-file format, so a conversation with ChatGPT or Claude ends in a file the wizard loads.
+
+## 13. The phone app (no server)
+
+`docs/play/` at the repository root is a static site: the phone screens plus the engine. In the browser:
+- `engine-worker.js` loads Pyodide (CPython compiled to WebAssembly) and unpacks `engine.zip`, which holds
+  `backend/lifeos`, `backend/data`, the FastAPI stand-in (`backend/standalone/fastapi`) and openpyxl.
+- It mounts IndexedDB at `/data` and calls `lifeos.local_api.boot()`.
+- The FastAPI stand-in records each route as `api.py` and `phone_api.py` are imported.
+- `local_api.handle()` matches a request to its handler, converts path, query and body parameters from the annotations,
+  and returns the same JSON or bytes the real server would.
+- On the main thread, `src/standalone/bridge.ts` replaces `fetch` for `/api/...` with a message to the worker. The phone
+  screens don't know whether they're talking to a server or the phone.
+
+Differences from the server:
+- There are no threads. Long advances are generators (`Lab._launch`); the worker pumps them about 0.12 s at a time,
+  so progress polls get answered in between.
+- `FileStore` replaces SQLite.
+- Autosave is throttled to every 30 seconds. The worker also flushes and syncs IndexedDB when the app is hidden.
+- History is leaner (`local_api.LEAN`) to fit phone memory.
+- The service worker caches everything for offline use.
+
+`lifeos/tools/build_phone_app.py` builds all of it. `tests/test_phone_app.py` runs the same handlers through the stand-in.

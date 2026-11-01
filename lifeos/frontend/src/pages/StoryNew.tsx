@@ -496,6 +496,7 @@ function PlanFirst() {
         <a className="btn small ghost" href="/api/story/worksheet-guide?download=1">Full guide (.md)</a>
       </div>
       <div className="hint" style={{ marginTop: 8 }}>The AI gives you back a block of JSON. Save it as a .json (or .txt) file and load it with the button above.</div>
+      <div className="hint" style={{ marginTop: 6 }}><b>Playing on your phone?</b> Build your people here, use <i>Download cast</i> at the top, then load that file in the phone app.</div>
     </div>
   );
 }

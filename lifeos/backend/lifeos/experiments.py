@@ -20,7 +20,6 @@ import os
 import threading
 import time
 import traceback
-from concurrent.futures import ProcessPoolExecutor
 
 from . import metrics
 
@@ -251,6 +250,7 @@ class Runner:
             results = []
             workers = max(1, min(len(runs), os.cpu_count() or 2, 6))
             try:
+                from concurrent.futures import ProcessPoolExecutor  # not available in the phone app
                 with ProcessPoolExecutor(max_workers=workers) as ex:
                     for r in ex.map(run_one, runs):
                         results.append(r)

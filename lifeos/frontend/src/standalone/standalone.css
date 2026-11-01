@@ -1,0 +1,10 @@
+.sa-boot { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: radial-gradient(circle at 50% 30%, #fffaf2, #ffeedd); color: #2b2340; font-family: "Nunito", -apple-system, system-ui, sans-serif;
+  padding: 24px; text-align: center; }
+.sa-boot h1 { margin: 4px 0 6px; font-size: 30px; letter-spacing: 0.04em; }
+.sa-boot p { margin: 4px 0; font-weight: 700; color: #4b3f66; }
+.sa-boot small { max-width: 300px; color: #8a7f9e; line-height: 1.4; }
+.sa-boot .sa-err { color: #c2412d; max-width: 320px; font-weight: 600; }
+.sa-boot button { margin-top: 10px; background: #ff6b4a; color: #fff; border: 0; border-radius: 14px; padding: 12px 22px; font-weight: 800; font-size: 16px; }
+.sa-spin { width: 34px; height: 34px; border-radius: 50%; border: 4px solid #f3dcc6; border-top-color: #ff6b4a; animation: sa-spin 0.9s linear infinite; margin: 10px 0 4px; }
+@keyframes sa-spin { to { transform: rotate(360deg); } }

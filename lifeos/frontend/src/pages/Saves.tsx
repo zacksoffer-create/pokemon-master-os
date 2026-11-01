@@ -175,7 +175,7 @@ export default function Saves() {
               <div><button className="primary" disabled={!!busy || locked} onClick={save}><Icon name="save" size={15} /> Save snapshot</button></div>
             </div>
           </Panel>
-          <Panel title="Import a save file" sub="A .lifeos file downloaded from this lab (or a raw world JSON).">
+          <Panel title="Import a save file" sub="A .lifeos file from this lab or a backup from the phone app (Me → Back up my story). Import it, then Load it to see everything under the hood.">
             <div className="filebox">
               <input type="file" accept=".lifeos,.json" disabled={!!busy || locked} onChange={(e) => { upload(e.target.files?.[0]); e.target.value = ""; }} />
               {busy === "upload" && <span className="hint">Importing...</span>}

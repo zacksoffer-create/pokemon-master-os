@@ -36,6 +36,8 @@ const P: Record<string, React.ReactNode> = {
   grad: <><path d="M2.5 9 12 5l9.5 4L12 13z" /><path d="M6.5 11v4.5c1.5 1.3 3.3 2 5.5 2s4-.7 5.5-2V11" /></>,
   trophy: <><path d="M8 4h8v5a4 4 0 0 1-8 0z" /><path d="M8 6H4.5a3 3 0 0 0 3.5 4M16 6h3.5a3 3 0 0 1-3.5 4M12 13v4M8.5 20h7" /></>,
   plus: <path d="M12 5v14M5 12h14" />,
+  download: <><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5" /><path d="M4.5 19.5h15" /></>,
+  upload: <><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5" /><path d="M4.5 19.5h15" /></>,
   laptop: <><rect x="4.5" y="5" width="15" height="10" rx="1.5" /><path d="M2.5 19h19" /></>,
   family: <><circle cx="8" cy="7" r="2.6" /><circle cx="16" cy="7" r="2.6" /><circle cx="12" cy="13" r="2" /><path d="M3.5 19c.5-3.4 2.2-5.6 4.5-5.6M20.5 19c-.5-3.4-2.2-5.6-4.5-5.6M9 20c.4-2 1.5-3.2 3-3.2s2.6 1.2 3 3.2" /></>,
   leaf: <><path d="M5 19c0-8 5.5-13 15-14-1 9.5-6 15-14 15z" /><path d="M5 19 13 11" /></>,

@@ -18,6 +18,9 @@ function QR({ text, size = 220 }: { text: string; size?: number }) {
   return <div style={{ width: size, height: size }} dangerouslySetInnerHTML={{ __html: svg }} />;
 }
 
+/** Where the phone app lives (GitHub Pages, built into the repo's docs/play/ folder by lifeos/tools/build_phone_app.py). */
+export const PHONE_APP_URL = "https://zacksoffer-create.github.io/pokemon-master-os/play/";
+
 export default function Connect() {
   const [net, setNet] = useState<{ lan: boolean; port: number; urls: string[]; host: string } | null>(null);
   const [pick, setPick] = useState(0);
@@ -27,7 +30,24 @@ export default function Connect() {
   const url = net?.urls[pick];
   return (
     <div className="stack" style={{ maxWidth: 980 }}>
-      <Panel title="Play on your phone" sub="Your story runs on this computer. Your phone connects to it over your home Wi-Fi.">
+      <Panel title="The phone app: play anywhere, no computer needed" sub="LIFE OS: Story runs entirely on your phone. This lab stays here as your dashboard.">
+        <div className="row" style={{ gap: 28, alignItems: "flex-start", flexWrap: "wrap" }}>
+          <QR text={PHONE_APP_URL} />
+          <div className="stack" style={{ flex: 1, minWidth: 280 }}>
+            <div>
+              <div className="hint">On your iPhone, point the camera at the code (or open this link in Safari):</div>
+              <div style={{ fontSize: 18, fontWeight: 700, margin: "6px 0 2px", userSelect: "all", wordBreak: "break-all" }}>{PHONE_APP_URL}</div>
+            </div>
+            <ol className="muted" style={{ lineHeight: 1.7, margin: 0, paddingLeft: 18 }}>
+              <li>Tap <b>Share</b>, then <b>Add to Home Screen</b>. It opens full screen like an app and works offline after the first time.</li>
+              <li><b>Bring your people:</b> build them in <a href="#/story/new">Start your story</a>, click <i>Download cast</i>, and send the file to your phone (AirDrop, email, iCloud). In the app, tap <i>Load a cast file or backup</i>. The Excel worksheet and ChatGPT's answer work too.</li>
+              <li>Your story saves on the phone. Use <i>Me → Back up my story</i> now and then.</li>
+              <li><b>Look under the hood:</b> import a phone backup in <a href="#/saves">Saves &amp; Worlds</a> here, load it, and everything (history, decisions, the math) is in the lab.</li>
+            </ol>
+          </div>
+        </div>
+      </Panel>
+      <Panel title="Or play over your Wi-Fi" sub="The story runs on this computer and your phone connects to it on the same Wi-Fi (the computer has to stay on).">
         {!net ? (
           <div className="loading">Checking the network...</div>
         ) : net.lan && url ? (

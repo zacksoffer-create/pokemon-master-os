@@ -6,6 +6,7 @@ import "@fontsource/nunito/latin-800.css";
 import React, { useEffect, useState } from "react";
 import { api } from "../api";
 import { useStore } from "../store";
+import { SAMPLE_SPEC, STANDALONE, pickFile, startFromFile } from "./StoryFiles";
 import { pgo } from "./api";
 import { Portrait, Scene } from "./art";
 import Gallery from "./art/Gallery";
@@ -131,6 +132,34 @@ function Welcome() {
       setBusy(null);
     }
   };
+  const fromFile = async () => {
+    const f = await pickFile(".json,.txt,.xlsx,.lifeos,application/json,text/plain");
+    if (!f) return;
+    setBusy("file");
+    try {
+      toast(await startFromFile(f), "good");
+      await refresh();
+      lab.refresh();
+      pgo("");
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
+  const sample = async () => {
+    setBusy("sample");
+    try {
+      await api.post("/api/story/new", { spec: SAMPLE_SPEC });
+      await refresh();
+      lab.refresh();
+      pgo("");
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
   const shown = (list || []).filter((c) => !q || c.name.toLowerCase().includes(q.toLowerCase()));
   return (
     <div className="ph-screen ph-welcome">
@@ -144,16 +173,37 @@ function Welcome() {
         </div>
       </div>
       <div className="ph-pad">
-        <div className="ph-card">
-          <div className="ph-card-row">
-            <div className="ph-icon-bubble"><PIcon name="laptop" size={22} /></div>
-            <div>
-              <h3>Set up your story on your computer</h3>
-              <p className="ph-dim">Build yourself, your family and your people in the story builder, then pick it up here.</p>
+        {STANDALONE ? (
+          <div className="ph-card">
+            <div className="ph-card-row">
+              <div className="ph-icon-bubble"><PIcon name="laptop" size={22} /></div>
+              <div>
+                <h3>Bring your people</h3>
+                <p className="ph-dim">Build yourself, your family and your people in the lab on your computer (or with the worksheet or ChatGPT), save the cast file, and load it here. Your story then lives on this phone.</p>
+              </div>
             </div>
+            <button className="ph-btn primary block" disabled={!!busy} onClick={fromFile}>
+              {busy === "file" ? <span className="ph-spinner small" /> : <PIcon name="upload" size={17} />} Load a cast file or backup
+            </button>
+            <button className="ph-btn soft block" style={{ marginTop: 8 }} disabled={!!busy} onClick={sample}>
+              {busy === "sample" ? <span className="ph-spinner small" /> : <PIcon name="sparkle" size={17} />} Try a sample story
+            </button>
           </div>
-          <a className="ph-btn primary block" href="#/story/new">Open the story builder</a>
-        </div>
+        ) : (
+          <div className="ph-card">
+            <div className="ph-card-row">
+              <div className="ph-icon-bubble"><PIcon name="laptop" size={22} /></div>
+              <div>
+                <h3>Set up your story on your computer</h3>
+                <p className="ph-dim">Build yourself, your family and your people in the story builder, then pick it up here.</p>
+              </div>
+            </div>
+            <a className="ph-btn primary block" href="#/story/new">Open the story builder</a>
+            <button className="ph-btn soft block" style={{ marginTop: 8 }} disabled={!!busy} onClick={fromFile}>
+              <PIcon name="upload" size={17} /> Load a cast file or backup
+            </button>
+          </div>
+        )}
         <div className="ph-section-t">Or play as someone already in town</div>
         <input className="ph-input" type="search" placeholder="Search by name" value={q} onChange={(e) => setQ(e.target.value)} />
         <div className="ph-list">

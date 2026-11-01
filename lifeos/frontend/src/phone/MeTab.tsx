@@ -5,6 +5,7 @@ import { Portrait } from "./art";
 import { PIcon } from "./icons";
 import { Bar, cx, errText, money } from "./kit";
 import { usePhone } from "./PhoneContext";
+import { STANDALONE, StoryFilesCard } from "./StoryFiles";
 
 const FOCUS: [string, string, string, string][] = [
   ["balanced", "Balanced", "star", "No push. You follow your own personality."],
@@ -121,10 +122,14 @@ export default function MeTab() {
           })}
         </div>
 
-        <div className="ph-links">
-          <a className="ph-btn soft block" href="#/story"><PIcon name="laptop" size={17} /> Full dashboard (best on a computer)</a>
-          <a className="ph-link center" href="#/overview">Back to the lab</a>
-        </div>
+        <StoryFilesCard hasStory={!!state.active} />
+
+        {!STANDALONE && (
+          <div className="ph-links">
+            <a className="ph-btn soft block" href="#/story"><PIcon name="laptop" size={17} /> Full dashboard (best on a computer)</a>
+            <a className="ph-link center" href="#/overview">Back to the lab</a>
+          </div>
+        )}
       </div>
     </div>
   );

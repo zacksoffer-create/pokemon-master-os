@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import json
 import os
-import sqlite3
 import threading
 import time
 import zlib
@@ -46,6 +45,7 @@ def world_from_json(s: str) -> World:
 
 class Store:
     def __init__(self, path: str = DEFAULT_DB):
+        import sqlite3
         self.path = path
         if path != ":memory:":
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -62,6 +62,7 @@ class Store:
             cx.execute("CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT)")
 
     def _conn(self):
+        import sqlite3
         if self._mem is not None:
             return _Ctx(self._mem, self._lock)
         cx = sqlite3.connect(self.path, timeout=30)
@@ -147,6 +148,100 @@ class Store:
     def mark_stale_experiments(self):
         with self._conn() as cx:
             cx.execute("UPDATE experiments SET status='failed', error='server restarted before it finished' WHERE status='running'")
+
+
+class FileStore:
+    """Saves as plain files (for the phone app, where there's no SQLite). Same interface as Store; no experiments."""
+
+    def __init__(self, folder: str):
+        self.folder = folder
+        os.makedirs(folder, exist_ok=True)
+        self._index_path = os.path.join(folder, "saves.json")
+
+    def _index(self) -> list:
+        try:
+            with open(self._index_path) as f:
+                return json.load(f)
+        except (OSError, ValueError):
+            return []
+
+    def _write_index(self, rows):
+        tmp = self._index_path + ".tmp"
+        with open(tmp, "w") as f:
+            json.dump(rows, f)
+        os.replace(tmp, self._index_path)
+
+    def save_world(self, w: World, name: str, kind: str = "manual", notes: str = "") -> int:
+        from .calendar import label
+        from .rules import rules_hash
+        blob = world_to_bytes(w)
+        rows = self._index()
+        if kind == "autosave":
+            for r in [r for r in rows if r["kind"] == "autosave"]:
+                try:
+                    os.remove(os.path.join(self.folder, f"save-{r['id']}.bin"))
+                except OSError:
+                    pass
+            rows = [r for r in rows if r["kind"] != "autosave"]
+        sid = max([r["id"] for r in rows] + [0]) + 1
+        tmp = os.path.join(self.folder, f"save-{sid}.bin.tmp")
+        with open(tmp, "wb") as f:
+            f.write(blob)
+        os.replace(tmp, os.path.join(self.folder, f"save-{sid}.bin"))
+        rows.insert(0, {"id": sid, "name": name, "kind": kind, "created": time.time(), "day": w.day, "date_label": label(w.day),
+                        "seed": w.seed, "gen_seed": w.gen_seed, "population": sum(1 for c in w.chars.values() if c.status == "active"),
+                        "rules_version": rules_hash(w.rules), "events": len(w.history.events) if w.history else 0, "notes": notes,
+                        "size": len(blob)})
+        self._write_index(rows)
+        return sid
+
+    def list_saves(self) -> list:
+        return self._index()
+
+    def load_blob(self, sid: int):
+        try:
+            with open(os.path.join(self.folder, f"save-{int(sid)}.bin"), "rb") as f:
+                return f.read()
+        except OSError:
+            return None
+
+    def load_world(self, sid: int):
+        b = self.load_blob(sid)
+        return world_from_bytes(b) if b else None
+
+    def latest_autosave(self):
+        auto = [r for r in self._index() if r["kind"] == "autosave"]
+        return self.load_world(auto[0]["id"]) if auto else None
+
+    def delete_save(self, sid: int) -> bool:
+        rows = self._index()
+        keep = [r for r in rows if r["id"] != sid]
+        if len(keep) == len(rows):
+            return False
+        try:
+            os.remove(os.path.join(self.folder, f"save-{sid}.bin"))
+        except OSError:
+            pass
+        self._write_index(keep)
+        return True
+
+    def create_experiment(self, name, spec):
+        raise RuntimeError("experiments run in the lab on a computer")
+
+    def finish_experiment(self, eid, result, error=None):
+        pass
+
+    def list_experiments(self) -> list:
+        return []
+
+    def get_experiment(self, eid):
+        return None
+
+    def delete_experiment(self, eid) -> bool:
+        return False
+
+    def mark_stale_experiments(self):
+        pass
 
 
 class _Ctx:

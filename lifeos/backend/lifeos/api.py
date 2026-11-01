@@ -44,6 +44,8 @@ class Lab:
         self.runner = Runner(store)
         self.job: dict | None = None
         self.job_seq = 0
+        self.inline = False          # the phone app: no threads; long jobs are pumped step by step
+        self._pump = None
         store.mark_stale_experiments()
         w = None if fresh else store.latest_autosave()
         if w is None:
@@ -65,8 +67,12 @@ class Lab:
             raise HTTPException(409, "The simulation is advancing. Wait for it to finish.")
 
     def autosave(self, force: bool = True):
-        """Persist the world. Advances autosave at most every 20s (a big history takes ~1s to write)."""
+        """Persist the world. Advances autosave at most every 20s (a big history takes ~1s to write).
+        On the phone every save is throttled to 30s; flush() writes whatever is pending."""
         now = time.time()
+        if self.inline and force != "now" and now - getattr(self, "_last_save", 0) < 30:
+            self._dirty = True
+            return
         if not force and now - getattr(self, "_last_save", 0) < 20:
             self._dirty = True
             return
@@ -74,9 +80,41 @@ class Lab:
         self._last_save = now
         self._dirty = False
 
+    def flush(self) -> bool:
+        if getattr(self, "_dirty", False) and not self.busy():
+            with self.lock:
+                self.autosave(force="now")
+            return True
+        return False
+
     def replace_world(self, w):
         self.sim = Simulation(w)
-        self.autosave()
+        self.autosave(force="now")
+
+    # --- running long jobs -------------------------------------------------------
+    def _drain(self, gen):
+        for _ in gen:
+            pass
+
+    def _launch(self, gen):
+        if self.inline:
+            self._pump = gen
+        else:
+            threading.Thread(target=self._drain, args=(gen,), daemon=True).start()
+
+    def pump(self, seconds: float = 0.25) -> bool:
+        """Run a pending job for up to `seconds`. Returns True while there's more to do (phone app)."""
+        gen = self._pump
+        if gen is None:
+            return False
+        end = time.time() + seconds
+        try:
+            while time.time() < end:
+                next(gen)
+        except StopIteration:
+            self._pump = None
+            return False
+        return True
 
     # --- advancing ---------------------------------------------------------------
     def start_advance(self, days: int) -> dict:
@@ -93,6 +131,7 @@ class Lab:
                     with self.lock:
                         self.sim.advance_days(1)
                     job["done"] += 1
+                    yield
                 with self.lock:
                     self.autosave(force=days >= 7)
                 job["status"] = "done"
@@ -106,9 +145,9 @@ class Lab:
             job["new_events"] = self.w.history.next_event - start_ev
 
         if days <= 2:
-            work()
+            self._drain(work())
         else:
-            threading.Thread(target=work, daemon=True).start()
+            self._launch(work())
         return job
 
 
@@ -171,6 +210,7 @@ class Lab:
                                     reason = "event"
                                     break
                     job["done"] = w.day - start
+                    yield
                 with self.lock:
                     self.autosave(force=(w.day - start) >= 7)
                 job["status"] = "done"
@@ -185,9 +225,9 @@ class Lab:
             job["new_events"] = self.w.history.next_event - job["start_event"]
 
         if until in ("decision", "day"):
-            work()
+            self._drain(work())
         else:
-            threading.Thread(target=work, daemon=True).start()
+            self._launch(work())
         return job
 
 

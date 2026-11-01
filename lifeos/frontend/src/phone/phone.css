@@ -604,3 +604,6 @@ html.ph-html body { color-scheme: light; }
 @media (prefers-reduced-motion: reduce) {
   .ph-root *, .ph-root *::before, .ph-root *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+.ph-filebtns { display: grid; gap: 8px; }
+.ph-filebtns .ph-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
