@@ -200,9 +200,12 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
 - **Game day:** **Take over late. Play the big moment yourself.** plays your sport's game. A great round adds +7 to your
   game performance, a good one +3, a miss -2. It appears once that sport's game is ready.
 - **Scenes:** dialogue packs can put a game in a scene, like the built-in pickup soccer scene.
-- **Penalty kicks** (soccer) is ready. Swipe from the ball toward the goal: the angle aims, a faster swipe hits harder and
-  higher (too hard sails over), and curving your swipe bends the ball. The keeper reads you more often at higher
-  difficulty, and your character's skill steadies your aim.
+- **Penalty kicks** (soccer) is ready, with the same two ways to shoot as football's passing (a Drawback / Flick switch
+  above the goal before each kick). Drawback raises the ball 40% up the screen; pull down from it like a slingshot, a
+  ring on the goal shows where it's going and a meter shows the power (red means it sails), the ring sways a touch
+  (less for a better player, more the longer you hold), and you let go to shoot. Flick: swipe from the ball toward the
+  goal; a faster swipe hits harder and higher, and curving your swipe bends it. The keeper reads you more often at
+  higher difficulty, and your character's skill steadies your aim.
 - **Option Arcade** (football) is football played by hand. The option: hold GIVE to snap and give it to the fullback,
   let go to pull it, read the next man and PITCH or keep. The jet sweep. The passing game: pull back to aim, let go to
   throw, against Cover 1, 2, 3 and the blitz, and scramble when it breaks down. Then steer the runner: swipe to juke,

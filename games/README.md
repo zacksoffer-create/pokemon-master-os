@@ -154,6 +154,7 @@ node games/test/smoke_pong.js OUTDIR     # every mode through the app
 node games/test/physics_bat.js           # pitch movement, outcomes by timing and contact, situations
 node games/test/controls_bat.js OUTDIR   # calibration, timing, swing plane, takes, situations
 node games/test/smoke_bat.js OUTDIR      # every mode through the app
+node games/test/smoke_soccer.js OUTDIR   # LIFE OS penalty kicks: the drawback and the flick, portrait and landscape
 node games/test/sim_option.js [N]        # Option Arcade, headless: every defensive look, right reads vs wrong reads (triple, read, jet)
 node games/test/sim_pass.js [N]          # passing, headless: the open man vs the covered man for every coverage and concept; sacks
 node games/test/moves_option.js [N]      # spin and hurdle are counters: a timed hurdle clears a diving man, an early one gets hit

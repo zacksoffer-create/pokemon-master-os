@@ -48,7 +48,7 @@ The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab, Option A
 
 | file | game id(s) | status | launches |
 |---|---|---|---|
-| `soccer.html` | `soccer_pk` | ready: penalty kicks | menu / clutch |
+| `soccer.html` | `soccer_pk` | ready: penalty kicks (drawback or flick, switched above the goal) | menu / clutch |
 | `basketball.html` | `basketball`, `playmaker` | ready: Basketball Playground | menu / clutch (game day) / playmaker |
 | `baseball.html` | `baseball` | ready: At Bat (game day uses this) | menu / clutch |
 | `swing.html` | `swing_lab` | ready: Swing Lab batting prototype | menu / clutch (3 PAs) |
