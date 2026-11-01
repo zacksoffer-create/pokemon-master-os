@@ -17,30 +17,22 @@ const FBView = (() => {
   function view(W, H, zoom, mode) {
     // side: portrait about 17 yards across the screen; landscape about 21 yards of the field's width top to bottom
     const S = Math.max(11, Math.min(34, Math.min(W / 17, H / 21))) * (zoom || 1);
-    const v = { W, H, S, S0: S, zf: 1, cx: 2, cy: 0, ax: 0.5, ay: 0.5, shake: 0, zoom: zoom || 1, mode: mode || 'side', high: false };
+    const v = { W, H, S, S0: S, zf: 1, cx: 2, cy: 0, ax: 0.5, ay: 0.5, shake: 0, zoom: zoom || 1, mode: mode || 'side' };
     setMode(v, v.mode);
     return v;
   }
   // the All-22 camera: portrait looks down steeply so the depth of the field spreads up the tall screen;
   // landscape sits lower and wider
-  function setMode(v, mode, high) {
+  function setMode(v, mode) {
     v.mode = mode;
-    if (high != null) v.high = !!high;
     if (mode !== 'a22') return;
     const portrait = v.H > v.W * 1.15;
-    // tuned so 30 yards downfield stays on screen. Low: the QB near the bottom (portrait about 30 yards wide at the line,
-    // landscape nearly the whole width). High: the QB 40% up from the bottom, leaving room under him to pull back.
-    if (v.high) {
-      v.pitch = portrait ? 1.2 : 0.6;
-      v.dist = 44;
-      v.Sf = Math.max(7, Math.min(30, portrait ? v.W / 34 : v.H / 40)) * v.zoom;
-      v.ay = portrait ? 0.38 : 0.31;
-    } else {
-      v.pitch = portrait ? 1.08 : 0.6;
-      v.dist = portrait ? 44 : 40;
-      v.Sf = Math.max(7, Math.min(30, portrait ? v.W / 34 : v.H / 28)) * v.zoom;
-      v.ay = portrait ? 0.58 : 0.42;
-    }
+    // tuned so the QB sits near the bottom and 30 yards downfield near the top: portrait about 30 yards wide at the line,
+    // landscape nearly the whole width of the field
+    v.pitch = portrait ? 1.08 : 0.6;
+    v.dist = portrait ? 44 : 40;
+    v.Sf = Math.max(7, Math.min(30, portrait ? v.W / 34 : v.H / 28)) * v.zoom;
+    v.ay = portrait ? 0.58 : 0.42;
     aimCam(v);
   }
   function aimCam(v) {

@@ -43,12 +43,13 @@ A round is `score / max`. **Great** is 80% or more, **good** is 50% or more, any
 
 ## Games
 
-The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab, Option Arcade) are copied here by
+The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab, Option Arcade, Soccer Playmaker) are copied here by
 `python lifeos/tools/sync_games.py`. Edit them in `games/src/`, not here: the sync overwrites these copies.
 
 | file | game id(s) | status | launches |
 |---|---|---|---|
-| `soccer.html` | `soccer_pk` | ready: penalty kicks (drawback or flick, switched above the goal) | menu / clutch |
+| `soccer11.html` | `soccer_11` | ready: Soccer Playmaker, 11 v 11 (game day uses this) | menu / clutch (three attacks) |
+| `soccer.html` | `soccer_pk` | ready: penalty kicks (flick) | menu / clutch |
 | `basketball.html` | `basketball`, `playmaker` | ready: Basketball Playground | menu / clutch (game day) / playmaker |
 | `baseball.html` | `baseball` | ready: At Bat (game day uses this) | menu / clutch |
 | `swing.html` | `swing_lab` | ready: Swing Lab batting prototype | menu / clutch (3 PAs) |

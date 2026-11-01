@@ -21,6 +21,7 @@ PAGES = {
     "at-bat.html": "baseball.html",
     "swing-lab.html": "swing.html",
     "option-arcade.html": "football.html",
+    "soccer-playmaker.html": "soccer11.html",
 }
 
 

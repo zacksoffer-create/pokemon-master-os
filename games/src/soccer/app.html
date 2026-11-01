@@ -1,0 +1,686 @@
+<title>Soccer Playmaker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  :root { --ink: #0b1610; --chalk: #f5f2ea; --gold: #ffd23f; --navy: #1d2433; --mint: #57d9c3; --coral: #ff6a5a; --sky: #7fd4ff; --paper: #f6f2ea; --paperInk: #1b2232; }
+  html, body { margin: 0; height: 100%; background: var(--ink); color: var(--chalk); overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none;
+    font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-tap-highlight-color: transparent; }
+  #sp-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; }
+  .sp-top { position: fixed; top: calc(10px + env(safe-area-inset-top)); left: calc(12px + env(safe-area-inset-left)); right: calc(12px + env(safe-area-inset-right)); display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; pointer-events: none; z-index: 3; }
+  .sp-pill { background: rgba(6, 12, 9, 0.66); border-radius: 999px; padding: 7px 13px; font-weight: 800; font-size: 13px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); white-space: nowrap; }
+  .sp-pill small { font-weight: 700; opacity: 0.72; margin-left: 6px; }
+  .sp-btns { display: flex; gap: 8px; pointer-events: auto; }
+  .sp-ic { width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(6, 12, 9, 0.66); color: #fff; font-size: 17px; display: grid; place-items: center; cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .sp-clock { position: fixed; left: 50%; transform: translateX(-50%); top: calc(56px + env(safe-area-inset-top)); z-index: 3; pointer-events: none; min-width: 58px; text-align: center;
+    padding: 3px 12px; border-radius: 10px; background: rgba(6, 12, 9, 0.66); font-weight: 900; font-size: 22px; font-variant-numeric: tabular-nums; color: var(--gold); }
+  .sp-clock.low { color: var(--coral); }
+  .sp-clock[hidden] { display: none; }
+  .sp-banner { position: fixed; left: 0; right: 0; top: 30%; text-align: center; pointer-events: none; z-index: 3; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+  .sp-banner b { display: block; font-size: clamp(30px, 9vw, 52px); font-weight: 900; letter-spacing: 0.01em; }
+  .sp-banner span { display: block; font-size: 15px; font-weight: 800; opacity: 0.9; margin-top: 4px; }
+  .sp-hint { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom)); width: min(360px, calc(100vw - 32px)); text-align: center; pointer-events: none; z-index: 3;
+    font-weight: 800; font-size: 13px; line-height: 1.35; text-shadow: 0 1px 5px rgba(0,0,0,0.9); }
+  .sp-vision { position: fixed; left: calc(14px + env(safe-area-inset-left)); bottom: calc(58px + env(safe-area-inset-bottom)); z-index: 3; pointer-events: none; display: flex; align-items: center; gap: 7px;
+    padding: 5px 9px; border-radius: 9px; background: rgba(6, 12, 9, 0.62); font-weight: 800; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #cfe9ff; }
+  .sp-vision i { display: block; width: 56px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.16); overflow: hidden; }
+  .sp-vision i b { display: block; height: 100%; width: 100%; background: var(--sky); border-radius: 3px; }
+  .sp-vision[hidden] { display: none; }
+  .sp-card { position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: min(480px, 100vw); box-sizing: border-box; z-index: 6; max-height: 70vh; overflow-y: auto;
+    background: var(--paper); color: var(--paperInk); border-radius: 24px 24px 0 0; padding: 14px 18px calc(16px + env(safe-area-inset-bottom)); box-shadow: 0 -12px 30px rgba(0,0,0,0.35); }
+  .sp-card[hidden] { display: none; }
+  .sp-res { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .sp-res b { font-size: 34px; font-weight: 900; }
+  .sp-res span { font-weight: 700; color: #4b5468; font-size: 14px; }
+  .sp-reads { list-style: none; margin: 8px 0 4px; padding: 0; }
+  .sp-reads li { display: grid; grid-template-columns: 24px 1fr; gap: 6px; font-size: 14px; font-weight: 650; line-height: 1.4; margin: 5px 0; color: #2c3448; }
+  .sp-reads li i { font-style: normal; font-weight: 900; text-align: center; }
+  .sp-reads li.ok i { color: #1d9a63; } .sp-reads li.no i { color: #d6493a; } .sp-reads li.note i { color: #7a8297; }
+  .sp-sit { font-size: 13px; font-weight: 800; color: #7a8297; letter-spacing: 0.04em; text-transform: uppercase; margin: 10px 0 2px; }
+  .sp-go { display: block; width: 100%; margin-top: 12px; border: 0; border-radius: 18px; padding: 15px; font: inherit; font-weight: 900; font-size: 17px; color: var(--navy); cursor: pointer;
+    background: linear-gradient(135deg, #ffd23f, #ffb92e); box-shadow: 0 14px 26px -14px rgba(160, 110, 0, 0.9); }
+  .sp-ghost { display: block; width: 100%; margin-top: 6px; border: 0; background: none; color: #6a7286; font: inherit; font-weight: 800; padding: 10px; cursor: pointer; }
+  .sp-ov { position: fixed; inset: 0; z-index: 10; display: flex; align-items: flex-end; justify-content: center; background: rgba(5, 10, 8, 0.55); }
+  .sp-ov[hidden] { display: none; }
+  .sp-sheet { width: min(480px, 100vw); max-height: 92vh; overflow-y: auto; background: var(--paper); color: var(--paperInk); border-radius: 26px 26px 0 0; padding: 18px 18px calc(22px + env(safe-area-inset-bottom)); box-sizing: border-box; }
+  .sp-sheet h2 { margin: 0 0 4px; font-size: 22px; font-weight: 900; }
+  .sp-sheet p { margin: 0 0 10px; color: #4b5468; font-weight: 600; font-size: 14px; line-height: 1.45; }
+  .sp-row { margin: 12px 0; }
+  .sp-row > b { display: block; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7a8297; margin-bottom: 6px; }
+  .sp-row[hidden] { display: none; }
+  .sp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sp-chips button { flex: 1 1 auto; border: 0; border-radius: 999px; padding: 10px 10px; font: inherit; font-weight: 800; font-size: 14px; background: #fff; color: #39415a; box-shadow: inset 0 0 0 2px #e6ddcf; cursor: pointer; }
+  .sp-chips button.on { background: #1b2232; color: #fff; box-shadow: none; }
+  .sp-note { font-size: 12.5px !important; margin: 6px 0 0 !important; }
+  .sp-how { display: grid; grid-template-columns: 34px 1fr; gap: 9px 10px; align-items: center; margin: 8px 0 4px; font-size: 14px; font-weight: 600; color: #39415a; line-height: 1.4; }
+  .sp-how span:nth-child(odd) { font-size: 22px; text-align: center; }
+  .sp-stat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0; }
+  .sp-stat div { background: #fff; border-radius: 14px; padding: 10px 6px; text-align: center; box-shadow: inset 0 0 0 2px #ece4d8; }
+  .sp-stat b { display: block; font-size: 22px; color: #1b2232; font-weight: 900; }
+  .sp-stat small { font-size: 11.5px; font-weight: 800; color: #7a8297; }
+  .sp-home { position: fixed; inset: 0; z-index: 9; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; background: linear-gradient(180deg, rgba(6,12,9,0.15), rgba(6,12,9,0.8) 55%, rgba(6,12,9,0.96)); }
+  .sp-home[hidden] { display: none; }
+  .sp-homein { width: min(480px, 100vw); box-sizing: border-box; padding: 18px 18px calc(18px + env(safe-area-inset-bottom)); max-height: 100%; overflow-y: auto; }
+  .sp-kick { font-size: 12px; font-weight: 900; letter-spacing: 0.32em; color: var(--gold); }
+  .sp-title { font-size: clamp(40px, 12vw, 64px); font-weight: 900; line-height: 0.95; margin: 4px 0 8px; }
+  .sp-sub { color: #c9d6cf; font-weight: 650; font-size: 15px; line-height: 1.45; margin: 0 0 14px; }
+  .sp-mode { display: grid; grid-template-columns: 52px 1fr; gap: 12px; align-items: center; width: 100%; text-align: left; border: 0; border-radius: 18px; padding: 13px 14px; margin: 8px 0; font: inherit; color: var(--chalk); cursor: pointer;
+    background: rgba(255,255,255,0.07); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.12); }
+  .sp-mode.main { background: linear-gradient(135deg, #2b6b3e, #2f8a4c); box-shadow: none; }
+  .sp-mode i { font-style: normal; font-size: 28px; text-align: center; }
+  .sp-mode b { display: block; font-size: 18px; font-weight: 900; }
+  .sp-mode span { font-size: 13.5px; font-weight: 600; opacity: 0.85; line-height: 1.35; }
+  .sp-mode em { display: block; font-style: normal; font-size: 12px; font-weight: 900; letter-spacing: 0.08em; color: var(--gold); margin-top: 3px; text-transform: uppercase; }
+  .sp-links { display: flex; gap: 8px; margin-top: 6px; }
+  .sp-links button { flex: 1; border: 0; border-radius: 14px; padding: 11px; font: inherit; font-weight: 800; font-size: 14px; color: var(--chalk); background: rgba(255,255,255,0.08); cursor: pointer; }
+</style>
+
+<canvas id="sp-canvas"></canvas>
+<div class="sp-top">
+  <div class="sp-pill" id="sp-status">Soccer Playmaker</div>
+  <div class="sp-btns">
+    <button class="sp-ic" id="sp-gear" aria-label="Settings">⚙︎</button>
+    <button class="sp-ic" id="sp-exit" aria-label="Leave">✕</button>
+  </div>
+</div>
+<div class="sp-clock" id="sp-clock" hidden>0:26</div>
+<div class="sp-banner" id="sp-banner"></div>
+<div class="sp-vision" id="sp-vision" hidden>Vision<i><b id="sp-visbar"></b></i></div>
+<div class="sp-hint" id="sp-hint"></div>
+
+<div class="sp-card" id="sp-card" hidden>
+  <div class="sp-res"><b id="sp-head">Goal</b><span id="sp-sub"></span></div>
+  <ul class="sp-reads" id="sp-reads"></ul>
+  <div class="sp-sit" id="sp-sit"></div>
+  <button class="sp-go" id="sp-next">Next attack</button>
+</div>
+
+<div class="sp-home" id="sp-home">
+  <div class="sp-homein">
+    <div class="sp-kick">SOCCER · 11 V 11</div>
+    <div class="sp-title">PLAY<br>MAKER</div>
+    <p class="sp-sub">Whoever has the ball is you. Draw your way through, find the runner, put it in the corner.</p>
+    <button class="sp-mode main" data-mode="match"><i>⚽</i><div><b>Match</b><span>Eight attacks against a back four that holds its shape. How many can you finish?</span><em id="sp-best"></em></div></button>
+    <button class="sp-mode" data-mode="clutch"><i>⏱</i><div><b>Clutch</b><span>Late in the game, a tougher defense, three attacks to find a goal.</span></div></button>
+    <button class="sp-mode" data-mode="practice"><i>🧪</i><div><b>Practice</b><span>Attack after attack, no score. Learn the runs.</span></div></button>
+    <div class="sp-links">
+      <button id="sp-how-btn">How to play</button>
+      <button id="sp-gear2">Settings</button>
+    </div>
+  </div>
+</div>
+
+<div class="sp-ov" id="sp-howsheet" hidden>
+  <div class="sp-sheet">
+    <h2>How to play</h2>
+    <p>One finger does everything. Whoever has the ball is you; when you pass it, you're the man you passed to.</p>
+    <div class="sp-how">
+      <span>✍️</span><span><b>Drag</b> to dribble. Push the way you want to go; push further to run harder. He keeps the ball close until you let go.</span>
+      <span>👆</span><span><b>Flick</b> to pass. Flick toward a teammate and it finds him, leading him if he's running. A harder flick is a firmer pass; a long one goes in the air.</span>
+      <span>🥅</span><span><b>Flick at the goal</b> to shoot. Pick a corner. Harder is higher: a full-power flick can fly over. Bow the flick to bend it.</span>
+      <span>✋</span><span><b>Hold your finger still</b> to look up. Everything slows down, and your forwards make their runs in behind. You get a few seconds of it each attack.</span>
+      <span>⚡</span><span><b>Tap</b> to fake a pass. A defender diving in can bite. <b>Flick while a pass is on its way</b> and he plays it first time.</span>
+      <span>🧠</span><span>The yellow arrows are runs. The blue line is offside: play it before your man is past it. Go past defenders at an angle, not straight at them, and cut as they come in.</span>
+    </div>
+    <button class="sp-go" id="sp-how-go">Got it</button>
+  </div>
+</div>
+
+<div class="sp-ov" id="sp-settings" hidden>
+  <div class="sp-sheet">
+    <h2>Settings</h2>
+    <div class="sp-row"><b>Passing</b><div class="sp-chips" data-set="assist"><button data-v="casual">Casual</button><button data-v="pro">Pro</button></div>
+      <p class="sp-note">Casual finds the teammate you flicked toward and picks the floor or the air for you. Pro puts it on the spot your flick says.</p></div>
+    <div class="sp-row"><b>Offside</b><div class="sp-chips" data-set="offside"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
+    <div class="sp-row" id="sp-diffrow"><b>Defense</b><div class="sp-chips" data-set="diff"><button data-v="easy">Easy</button><button data-v="normal">Normal</button><button data-v="hard">Hard</button></div></div>
+    <div class="sp-row"><b>Camera</b><div class="sp-chips" data-set="zoom"><button data-v="close">Close</button><button data-v="wide">Wide</button></div></div>
+    <div class="sp-row"><b>Sound</b><div class="sp-chips" data-set="sound"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
+    <button class="sp-go" id="sp-set-done">Done</button>
+  </div>
+</div>
+
+<div class="sp-ov" id="sp-sum" hidden>
+  <div class="sp-sheet">
+    <h2 id="sp-sum-h">Done</h2>
+    <p id="sp-sum-p"></p>
+    <div class="sp-stat" id="sp-sum-stats"></div>
+    <button class="sp-go" id="sp-sum-go">Play again</button>
+    <button class="sp-ghost" id="sp-sum-home">Home</button>
+  </div>
+</div>
+
+<script>
+<!--@include shared/lifeos.js-->
+</script>
+<script>
+<!--@include soccer/sim.js-->
+</script>
+<script>
+<!--@include soccer/render.js-->
+</script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const cv = $('sp-canvas'), g = cv.getContext('2d');
+const SAVE = 'soccerplaymaker.v1';
+const DIFF = { easy: 25, normal: 50, hard: 78 };
+const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+const VISION = 1.6;              // seconds of slow motion you get each attack
+const FLICK = 1.35;              // screen heights a second: faster than this is a flick, slower is a drag
+
+// ------------------------------------------------------------------ saved settings
+function load() { try { return JSON.parse(localStorage.getItem(SAVE)) || {}; } catch (_) { return {}; } }
+const saved = load();
+const S = Object.assign({ assist: 'casual', offside: 'on', diff: 'normal', zoom: 'close', sound: 'on' }, saved.settings || {});
+let best = saved.best || {}, seenHow = !!saved.seenHow, played = saved.played || 0;
+function persist() { try { localStorage.setItem(SAVE, JSON.stringify({ settings: S, best, seenHow, played })); } catch (_) {} }
+
+// ------------------------------------------------------------------ sound: built from oscillators, no files
+const Snd = (() => {
+  let ctx = null, master = null, buf = null;
+  function ensure() {
+    if (ctx) return ctx;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+      ctx = new AC(); master = ctx.createGain(); master.gain.value = 0.55; master.connect(ctx.destination);
+      buf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const d = buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    } catch (_) { ctx = null; }
+    return ctx;
+  }
+  function env(gn, t, a, peak, d) { gn.gain.setValueAtTime(0.0001, t); gn.gain.exponentialRampToValueAtTime(peak, t + a); gn.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
+  function tone(f, d, type, vol, when, slide) {
+    const c = ensure(); if (!c || S.sound === 'off') return;
+    const t = c.currentTime + (when || 0), o = c.createOscillator(), gn = c.createGain();
+    o.type = type || 'sine'; o.frequency.setValueAtTime(f, t); if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + d);
+    env(gn, t, 0.005, vol || 0.3, d); o.connect(gn); gn.connect(master); o.start(t); o.stop(t + d + 0.05);
+  }
+  function noise(d, type, f, q, vol, when) {
+    const c = ensure(); if (!c || S.sound === 'off') return;
+    const t = c.currentTime + (when || 0), s = c.createBufferSource(); s.buffer = buf;
+    const fl = c.createBiquadFilter(); fl.type = type; fl.frequency.value = f; fl.Q.value = q || 1;
+    const gn = c.createGain(); env(gn, t, 0.004, vol || 0.3, d); s.connect(fl); fl.connect(gn); gn.connect(master); s.start(t, Math.random() * 0.5); s.stop(t + d + 0.05);
+  }
+  const fx = {
+    kick(h) { const k = h || 1; tone(140, 0.08, 'sine', 0.32 * k, 0, 70); noise(0.05, 'lowpass', 1400, 1, 0.22 * k); },
+    shot() { tone(110, 0.12, 'sine', 0.5, 0, 55); noise(0.08, 'lowpass', 1800, 1, 0.34); },
+    touch() { tone(220, 0.04, 'sine', 0.14, 0, 160); },
+    whistle() { tone(2300, 0.42, 'square', 0.07); tone(2390, 0.42, 'square', 0.05); },
+    tackle() { tone(80, 0.15, 'sine', 0.34, 0, 50); noise(0.1, 'lowpass', 800, 1, 0.24); },
+    net() { noise(0.35, 'bandpass', 900, 0.8, 0.2); },
+    post() { tone(1300, 0.35, 'triangle', 0.2, 0, 1250); tone(1720, 0.3, 'triangle', 0.1); },
+    cheer() { noise(1.9, 'bandpass', 1200, 0.6, 0.24); noise(1.4, 'bandpass', 2300, 0.8, 0.11, 0.15); },
+    groan() { noise(0.8, 'lowpass', 480, 0.7, 0.16); },
+    swish() { noise(0.14, 'highpass', 2400, 0.7, 0.16); },
+    ui() { tone(560, 0.05, 'sine', 0.1); },
+  };
+  return { play(n, a) { try { fx[n] && fx[n](a); } catch (_) {} }, unlock() { const c = ensure(); if (c && c.state === 'suspended') c.resume().catch(() => {}); } };
+})();
+const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (_) {} };
+
+// ------------------------------------------------------------------ screen
+let W = 0, H = 0, V = null, P = null;
+function resize() {
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  W = window.innerWidth; H = window.innerHeight;
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const old = V;
+  V = SCView.view(W, H, S.zoom === 'wide' ? 0.8 : 1);
+  if (old) { V.cx = old.cx; V.cy = old.cy; SCView.follow(V, P || { ball: { x: 50, y: 0, st: 'held' }, phase: 'live' }, 0, false); }
+  if (P) SCView.follow(V, P, 1, true);
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ------------------------------------------------------------------ the game: modes and attacks
+const MODES = {
+  match: { label: 'Match', max: 8, time: 26, plus: 0 },
+  clutch: { label: 'Clutch', max: 3, time: 22, plus: 12 },
+  practice: { label: 'Practice', max: 0, time: 30, plus: 0 },
+};
+const G = { mode: null, n: 0, goals: 0, shots: 0, onT: 0, passes: 0, done: 0, through: 0, beat: 0, list: [], vision: VISION, ready: 0, over: false };
+const LIFE = { on: false, cfg: null };
+let nextSeed = null, deadAt = null, cardUp = false, fxList = [], tNow = 0, scale = 1, visK = 0;
+let track = null;                // this attack: who passed to whom, who shot
+function difficulty() { const m = MODES[G.mode] || MODES.match; return clamp((LIFE.on ? +LIFE.cfg.difficulty || 50 : DIFF[S.diff]) + m.plus, 0, 100); }
+function skill() { return LIFE.on ? +LIFE.cfg.skill || 55 : 55; }
+
+function startMode(mode) {
+  Snd.unlock();
+  Object.assign(G, { mode, n: 0, goals: 0, shots: 0, onT: 0, passes: 0, done: 0, through: 0, beat: 0, list: [], over: false });
+  $('sp-home').hidden = true; $('sp-sum').hidden = true;
+  if (!seenHow) $('sp-howsheet').hidden = false;
+  newAttack();
+}
+function newAttack() {
+  cardUp = false; deadAt = null; queued = null;
+  $('sp-card').hidden = true;
+  const m = MODES[G.mode] || MODES.practice;
+  const seed = nextSeed; nextSeed = null;
+  P = SC.create({ seed, difficulty: difficulty(), skill: skill(), offside: S.offside === 'on', assist: S.assist, time: m.time });
+  track = { passes: [], shooter: null, assist: null, lastFrom: null, through: false };
+  G.vision = VISION; G.ready = 1.1; P.looked = false;
+  SCView.follow(V, P, 1, true);
+  const left = m.max ? `Attack ${G.n + 1} of ${m.max}` : `Attack ${G.n + 1}`;
+  banner(G.mode === 'clutch' && G.n === 0 ? 'Clutch' : left, G.mode === 'clutch' && G.n === 0 ? 'Three attacks. Find a goal.' : `${m.time} seconds to score`);
+  updateHud(true);
+}
+function banner(big, small) { $('sp-banner').innerHTML = big ? `<b>${big}</b>${small ? `<span>${small}</span>` : ''}` : ''; }
+
+// ------------------------------------------------------------------ input: one finger
+/* A quick stroke let go is a flick: a pass, or a shot if it's at the goal. Push and keep pushing is a dribble, steered like
+   a joystick from where you touched. A burst at the end of a dribble is a pass on the move. Holding still slows everything
+   down and sends the runners. A tap is a fake. A flick while a pass is on its way is played first time. */
+const IN = { id: null, start: null, pts: [], mode: null, moveStart: null, burst: null, stillAt: 0, anchor: null, cur: null };
+const q = { flick: null, fake: false };
+let queued = null;
+function speedOver(ms) {
+  const pts = IN.pts, last = pts[pts.length - 1];
+  let k = pts.length - 1;
+  while (k > 0 && last.t - pts[k - 1].t <= ms) k--;
+  const ref = k === pts.length - 1 ? (pts[k - 1] || last) : pts[k];
+  const dt = Math.max(8, last.t - ref.t) / 1000;
+  return { v: Math.hypot(last.x - ref.x, last.y - ref.y) / H / dt, i: k };
+}
+function blocked() { return cardUp || !$('sp-home').hidden || [...document.querySelectorAll('.sp-ov')].some(o => !o.hidden); }
+cv.addEventListener('pointerdown', e => {
+  Snd.unlock();
+  if (IN.id !== null || blocked() || !P) return;
+  IN.id = e.pointerId;
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  const p = { x: e.clientX, y: e.clientY, t: performance.now() };
+  Object.assign(IN, { start: p, pts: [p], mode: 'pending', moveStart: null, burst: null, stillAt: p.t, anchor: { x: p.x, y: p.y }, cur: p });
+  e.preventDefault();
+});
+cv.addEventListener('pointermove', e => {
+  if (e.pointerId !== IN.id) return;
+  const p = { x: e.clientX, y: e.clientY, t: performance.now() };
+  const prev = IN.pts[IN.pts.length - 1];
+  IN.pts.push(p); IN.cur = p;
+  if (IN.pts.length > 120) IN.pts.splice(1, 1);
+  if (Math.hypot(p.x - prev.x, p.y - prev.y) > 2.5) IN.stillAt = p.t;
+  const d = Math.hypot(p.x - IN.start.x, p.y - IN.start.y);
+  if (IN.mode === 'pending' || IN.mode === 'vision') {
+    if (d > 9 && !IN.moveStart) {
+      // after holding still the last sample is old: the stroke starts now, not when the finger came down
+      if (p.t - prev.t > 60) { IN.moveStart = { x: prev.x, y: prev.y, t: p.t - 16 }; IN.pts.splice(IN.pts.length - 1, 0, IN.moveStart); }
+      else IN.moveStart = prev;
+    }
+    // a push that keeps going is a dribble (a quick stroke let go is still a flick)
+    if (IN.moveStart && p.t - IN.moveStart.t > 150 && speedOver(70).v < FLICK && d > 16) { IN.mode = 'drag'; IN.anchor = { x: IN.moveStart.x, y: IN.moveStart.y }; }
+  } else if (IN.mode === 'drag') {
+    const sp = speedOver(60);
+    if (sp.v > FLICK * 1.15) { if (!IN.burst) IN.burst = IN.pts[Math.max(0, sp.i - 1)]; }
+    else if (IN.burst && p.t - IN.burst.t > 320) IN.burst = null;
+    // the stick's center follows a finger that's gone a long way, so turning back is quick
+    const ax = p.x - IN.anchor.x, ay = p.y - IN.anchor.y, al = Math.hypot(ax, ay), R = Math.min(W, H) * 0.16;
+    if (al > R && !IN.burst) { IN.anchor.x = p.x - (ax / al) * R; IN.anchor.y = p.y - (ay / al) * R; }
+  }
+});
+function endPointer(e, cancel) {
+  if (e.pointerId !== IN.id) return;
+  const p = { x: e.clientX, y: e.clientY, t: performance.now() };
+  IN.pts.push(p);
+  IN.id = null;
+  const mode = IN.mode;
+  IN.mode = null;
+  if (cancel || blocked() || !P || P.phase !== 'live') return;
+  const d = Math.hypot(p.x - IN.start.x, p.y - IN.start.y);
+  const k0 = IN.moveStart ? Math.max(0, IN.pts.indexOf(IN.moveStart)) : 0;
+  if (mode === 'drag') {
+    // short and straight and let go: that was a soft pass, not a dribble
+    if (IN.moveStart && p.t - IN.moveStart.t < 340 && d >= 22 && straight(k0)) return flickFrom(k0);
+    if (IN.burst && p.t - IN.burst.t < 280) return flickFrom(IN.pts.indexOf(IN.burst));
+    return;
+  }
+  if (d < 12 && p.t - IN.start.t < 320 && mode !== 'vision') { q.fake = true; return; }
+  if (d >= 22) return flickFrom(k0);
+}
+cv.addEventListener('pointerup', e => endPointer(e, false));
+cv.addEventListener('pointercancel', e => endPointer(e, true));
+function straight(k0) {
+  const pts = IN.pts.slice(k0), a = pts[0], z = pts[pts.length - 1];
+  const L = Math.hypot(z.x - a.x, z.y - a.y);
+  let path = 0;
+  for (let i = 1; i < pts.length; i++) path += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+  return path < L * 1.35 + 12;
+}
+// the stroke from sample k0 to the end: where it points, how long, how fast it was let go, and how much it bowed
+function readStroke(k0) {
+  const pts = IN.pts.slice(Math.max(0, k0));
+  if (pts.length < 2) return null;
+  const a = pts[0], z = pts[pts.length - 1];
+  const vx = z.x - a.x, vy = z.y - a.y, len = Math.hypot(vx, vy);
+  let k = pts.length - 1;
+  while (k > 0 && z.t - pts[k - 1].t <= 90) k--;
+  const ref = k === pts.length - 1 ? pts[Math.max(0, k - 1)] : pts[k];
+  const rel = Math.hypot(z.x - ref.x, z.y - ref.y) / H / (Math.max(8, z.t - ref.t) / 1000);
+  const avg = len / H / (Math.max(16, z.t - a.t) / 1000);
+  let bow = 0;
+  for (const q2 of pts) { const dev = (vx * (q2.y - a.y) - vy * (q2.x - a.x)) / (len || 1); if (Math.abs(dev) > Math.abs(bow)) bow = dev; }
+  return { dx: vx, dy: vy, len, speed: Math.max(rel, avg * 0.85), curl: len ? clamp((bow / len) * 3.2, -1, 1) : 0 };
+}
+function flickFrom(k0) {
+  const st = readStroke(k0);
+  if (!st || st.len < 18) return;
+  const b = P.ball;
+  // the ball's on its way to one of yours: he plays it first time
+  if ((b.st === 'pass' || b.st === 'free') && b.to && P.by[b.to] && P.by[b.to].team === 'H') { queued = { st, t: tNow, to: b.to }; flash('First time', b.to); return; }
+  if (b.st === 'held' && P.ctrl) applyFlick(st, P.ctrl);
+}
+function applyFlick(st, c) {
+  const f = SCView.toPitch(V, c, st.dx, st.dy), flen = Math.hypot(f.x, f.y);
+  if (flen < 0.3) return;
+  const zip = clamp((st.speed - 1.2) / 3.4, 0, 1);
+  q.flick = { dir: Math.atan2(f.y, f.x), dist: clamp(flen * 1.5 + zip * 6, 5, 50), zip, curl: Math.abs(st.curl) > 0.12 ? st.curl : 0 };
+}
+// dribbling: the stick as a spot on the pitch for him to run at
+function dragTarget() {
+  const c = P.ctrl;
+  if (!c || P.ball.st !== 'held') return null;
+  let dx = 0, dy = 0, mag = 0;
+  if (IN.id !== null && IN.mode === 'drag' && IN.cur) {
+    dx = IN.cur.x - IN.anchor.x; dy = IN.cur.y - IN.anchor.y;
+    mag = clamp(Math.hypot(dx, dy) / (Math.min(W, H) * 0.14), 0.15, 1);
+  } else {
+    const kx = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0), ky = (keys.ArrowDown ? 1 : 0) - (keys.ArrowUp ? 1 : 0);
+    if (kx || ky) { dx = kx; dy = ky; mag = keys.Shift ? 1 : 0.7; }
+  }
+  if (!mag || Math.hypot(dx, dy) < 6 && IN.mode === 'drag') return null;
+  const f = SCView.toPitch(V, c, dx, dy), l = Math.hypot(f.x, f.y) || 1;
+  const reach = 0.8 + mag * 3.4;
+  return { x: c.x + (f.x / l) * reach, y: c.y + (f.y / l) * reach };
+}
+const keys = {};
+window.addEventListener('keydown', e => {
+  if (e.repeat) return;
+  keys[e.key] = true;
+  if (blocked()) { if (e.key === 'Enter' && cardUp) $('sp-next').click(); return; }
+  if (e.key === 'f') q.fake = true;
+});
+window.addEventListener('keyup', e => { keys[e.key] = false; });
+
+// ------------------------------------------------------------------ hints and the HUD
+let hintTimer = 0, hintsDone = {};
+function hintOnce(k, text, secs) { if (hintsDone[k]) return; hintsDone[k] = true; showHint(text, secs || 3.4); }
+function showHint(text, secs) { $('sp-hint').textContent = text; hintTimer = secs || 0; }
+function updateHud(force) {
+  const m = MODES[G.mode];
+  const html = m ? `${m.label}<small>${m.max ? `Attack ${Math.min(G.n + 1, m.max)} of ${m.max} · ` : ''}⚽ ${G.goals}</small>` : 'Soccer Playmaker';
+  const st = $('sp-status');
+  if (force || st.innerHTML !== html) st.innerHTML = html;
+  const clock = $('sp-clock'), live = !!(m && P && !cardUp && P.phase === 'live');
+  clock.hidden = !live;
+  if (live) { const s = Math.max(0, Math.ceil(P.timeLeft)); const txt = `0:${String(s).padStart(2, '0')}`; if (clock.textContent !== txt) clock.textContent = txt; clock.classList.toggle('low', s <= 5); }
+  $('sp-vision').hidden = !live;
+  $('sp-visbar').style.width = (G.vision / VISION * 100).toFixed(0) + '%';
+}
+function tickHints(dt) {
+  if (hintTimer > 0) { hintTimer -= dt; if (hintTimer <= 0) $('sp-hint').textContent = ''; return; }
+  if (!G.mode || cardUp || !P || P.phase !== 'live' || G.ready > 0) return;
+  if (played < 2 && P.t < 4) hintOnce('h1', 'Drag to dribble · flick toward a teammate to pass · flick at the goal to shoot', 4);
+  else if (played < 4 && P.t > 1.2) hintOnce('h2', 'Hold your finger still: it slows down, and your forwards run in behind', 3.6);
+  else if (played < 6 && P.t > 2) hintOnce('h3', 'Tap to fake · flick while a pass is on its way to play it first time', 3.4);
+}
+
+// ------------------------------------------------------------------ what the sim reported
+const numOf = id => (P && P.by[id] ? '#' + P.by[id].num : '');
+let flashId = null, flashT = 0, flashTxt = '';
+function flash(txt, id) { flashTxt = txt; flashId = id; flashT = 0.7; }
+function onFx(list) {
+  for (const f of list) {
+    const at = f.x != null ? { x: f.x, y: f.y } : null;
+    switch (f.k) {
+      case 'pass': Snd.play('kick', 0.8); track.lastFrom = f.from; if (P.lastPass && P.lastPass.run) track.thru = f.to; break;
+      case 'receive':
+        Snd.play('touch');
+        track.passes.push({ from: track.lastFrom, to: f.id });
+        if (track.thru && track.thru === f.id) { G.through++; fxList.push({ kind: 'text', ...at, text: 'Through ball', t: 0, life: 0.9, color: '#ffe14d' }); }
+        track.thru = null;
+        break;
+      case 'heavy': Snd.play('touch'); fxList.push({ kind: 'dust', ...at, t: 0, life: 0.4, seed: 2 }); break;
+      case 'shot': {
+        Snd.play('shot'); buzz(12);
+        track.shooter = f.id;
+        const lp = track.passes[track.passes.length - 1];
+        track.assist = lp && lp.to === f.id && lp.from !== f.id ? lp.from : null;
+        break;
+      }
+      case 'tackle': Snd.play('tackle'); buzz(30); fxList.push({ kind: 'dust', ...at, t: 0, life: 0.5, seed: 1 }); break;
+      case 'beat': G.beat++; Snd.play('swish'); fxList.push({ kind: 'text', ...at, text: 'Beat him', t: 0, life: 0.8, color: '#ffe14d' }); break;
+      case 'bite': fxList.push({ kind: 'text', ...at, text: 'Bit on it', t: 0, life: 0.8, color: '#9fe6c4' }); break;
+      case 'fake': Snd.play('swish'); break;
+      case 'steal': Snd.play('tackle'); break;
+      case 'deflect': Snd.play('touch'); fxList.push({ kind: 'ring', ...at, t: 0, life: 0.35, size: 1 }); break;
+      case 'block': Snd.play('tackle'); fxList.push({ kind: 'text', ...at, text: 'Blocked', t: 0, life: 0.8, color: '#ff8a7a' }); break;
+      case 'save': Snd.play('tackle'); fxList.push({ kind: 'text', ...at, text: 'Save', t: 0, life: 0.9, color: '#ffffff' }); break;
+      case 'post': Snd.play('post'); V.shake = 0.4; break;
+      case 'flag': Snd.play('whistle'); fxList.push({ kind: 'text', ...at, text: 'Offside', t: 0, life: 1, color: '#7fd4ff' }); break;
+      case 'goal': Snd.play('net'); break;
+      case 'goalFx': Snd.play('cheer'); buzz([30, 40, 30]); V.shake = 0.6; fxList.push({ kind: 'confetti', x: SC.LEN - 1, y: (P.lastShot || {}).y || 0, t: 0, life: 1.8, seed: 3 }); break;
+      case 'whistle': Snd.play('whistle'); break;
+    }
+  }
+}
+
+// ------------------------------------------------------------------ after the whistle: what happened, in plain words
+function headline(res) {
+  const shooter = track.shooter ? numOf(track.shooter) : '';
+  switch (res.how) {
+    case 'goal': return ['GOAL', `${shooter}${track.assist ? `, assisted by ${numOf(track.assist)}` : ''}`];
+    case 'saved': return ['Saved', 'their keeper got to it'];
+    case 'wide': return ['Wide', `${shooter} pulled it past the post`];
+    case 'over': return ['Over the bar', `${shooter} got under it`];
+    case 'post': return ['Off the post', 'so close'];
+    case 'tackled': return ['Dispossessed', `tackled by their ${numOf(res.by)}`];
+    case 'intercepted': return ['Intercepted', `their ${numOf(res.by)} read it`];
+    case 'claimed': return ['Keeper\'s ball', 'he came off his line and took it'];
+    case 'offside': return ['Offside', `${numOf(res.by)} was past their last man`];
+    case 'out': return ['Out of play', 'it ran out'];
+    case 'time': return ['Time', 'the attack ran out of time'];
+  }
+  return [res.how, ''];
+}
+function feedback(res) {
+  const out = [], lp = res.lastPass, sh = res.lastShot, st = res.stats;
+  if (res.how === 'goal') {
+    if (track.assist && lp && lp.run) out.push({ ok: true, text: 'Through ball into the run, and finished. That\'s the playmaker\'s goal.' });
+    else if (track.assist) out.push({ ok: true, text: `Found ${numOf(track.shooter)} in a spot to shoot, and he buried it.` });
+    else if (st.beat) out.push({ ok: true, text: `Beat ${st.beat > 1 ? st.beat + ' men' : 'his man'} and finished it yourself.` });
+    if (sh && sh.d > 20) out.push({ note: true, text: `From ${Math.round(sh.d)} meters out.` });
+    else if (sh && Math.abs(sh.y) > 2.4) out.push({ note: true, text: 'In the corner, where he can\'t reach.' });
+  } else if (res.how === 'saved') {
+    if (sh && Math.abs(sh.y - sh.keeperY) < 1.4) out.push({ no: true, text: 'Too close to him. Pick a corner: low and to the far post is hardest to reach.' });
+    else out.push({ note: true, text: 'Good shot, good save. From closer in, or across him, he can\'t get there.' });
+  } else if (res.how === 'over') out.push({ no: true, text: 'Harder is higher. Ease off the flick for a placed finish.' });
+  else if (res.how === 'wide') out.push({ no: true, text: 'Aim inside the post: the corner is a yard in, not on the line.' });
+  else if (res.how === 'post') out.push({ note: true, text: 'A yard in and that\'s a goal.' });
+  else if (res.how === 'intercepted') out.push({ no: true, text: lp && lp.open < 1.6 ? 'There was a defender sitting in that lane. Look for the man with nobody between you.' : 'He got there before your man did. Play it into space ahead of a runner, or firmer.' });
+  else if (res.how === 'tackled') out.push({ no: true, text: 'Running straight at him is how he takes it. Go past him at an angle, cut as he comes in, or tap to fake.' });
+  else if (res.how === 'claimed') out.push({ no: true, text: 'Too close to the keeper. Play it earlier, or wider of him.' });
+  else if (res.how === 'offside') out.push({ no: true, text: 'Play it as he starts his run, before he\'s past the blue line.' });
+  else if (res.how === 'time') out.push({ no: true, text: 'Get it forward sooner: hold your finger still and the forwards make their runs.' });
+  const bits = [];
+  if (st.passes) bits.push(`${st.done} of ${st.passes} passes`);
+  if (st.beat) bits.push(`beat ${st.beat}`);
+  if (st.shots) bits.push(`${st.shots} shot${st.shots > 1 ? 's' : ''}`);
+  if (bits.length) out.push({ note: true, text: bits.join(' · ') });
+  return out;
+}
+function showResult() {
+  const res = P.result;
+  cardUp = true;
+  banner('');
+  const [h, sub] = headline(res);
+  $('sp-head').textContent = h; $('sp-sub').textContent = sub;
+  $('sp-head').style.color = res.how === 'goal' ? '#1d9a63' : /tackled|intercepted|claimed|offside/.test(res.how) ? '#d6493a' : '#1b2232';
+  $('sp-reads').innerHTML = feedback(res).map(r => `<li class="${r.note ? 'note' : r.ok ? 'ok' : 'no'}"><i>${r.note ? '·' : r.ok ? '✓' : '✗'}</i><span>${r.text}</span></li>`).join('');
+  if (res.how !== 'goal' && /saved|wide|over|post/.test(res.how)) Snd.play('groan');
+  const over = advance(res);
+  const m = MODES[G.mode];
+  $('sp-sit').textContent = over ? '' : m.max ? `${G.goals} goal${G.goals === 1 ? '' : 's'} · ${m.max - G.n} attack${m.max - G.n === 1 ? '' : 's'} left` : `${G.goals} goal${G.goals === 1 ? '' : 's'} in ${G.n}`;
+  $('sp-next').textContent = over ? 'See how you did' : 'Next attack';
+  $('sp-next').onclick = () => { Snd.play('ui'); if (over) summary(); else newAttack(); };
+  $('sp-card').hidden = false;
+  updateHud(true);
+}
+function advance(res) {
+  G.n++; played++; persist();
+  const st = res.stats;
+  if (res.how === 'goal') G.goals++;
+  G.shots += st.shots; G.onT += st.onTarget; G.passes += st.passes; G.done += st.done;
+  G.list.push({ how: res.how, shots: st.shots });
+  const m = MODES[G.mode];
+  return m.max && G.n >= m.max;
+}
+
+// ------------------------------------------------------------------ end of a set
+function lifeResult() {
+  const clutch = G.mode === 'clutch', max = clutch ? 2 : 3;
+  const sum = `${G.goals} goal${G.goals === 1 ? '' : 's'} from ${G.n} attack${G.n === 1 ? '' : 's'}${G.shots ? `, ${G.onT} of ${G.shots} shots on target` : ''}`;
+  return { score: Math.min(max, G.goals), max, summary: sum, stats: { mode: G.mode, goals: G.goals, attacks: G.n, shots: G.shots, onTarget: G.onT, passes: G.passes, completed: G.done, throughBalls: G.through } };
+}
+function summary() {
+  cardUp = false; deadAt = null; G.over = true; $('sp-card').hidden = true;
+  const res = lifeResult();
+  const prev = best[G.mode] || 0;
+  if (G.mode === 'match' && G.goals > prev) { best.match = G.goals; persist(); }
+  $('sp-sum-h').textContent = `${G.goals} goal${G.goals === 1 ? '' : 's'}`;
+  $('sp-sum-p').textContent = G.mode === 'match' && G.goals > prev && prev ? `A new best, beating ${prev}.` : G.goals >= (G.mode === 'clutch' ? 2 : 4) ? 'That\'s a playmaker.' : G.goals ? res.summary + '.' : 'Nothing went in. Hold still to look up, and find the runner.';
+  $('sp-sum-stats').innerHTML = `<div><b>${G.shots ? G.onT + '/' + G.shots : '-'}</b><small>on target</small></div><div><b>${G.passes ? Math.round(G.done / G.passes * 100) + '%' : '-'}</b><small>passes completed</small></div><div><b>${G.through}</b><small>through balls</small></div>`;
+  const go = $('sp-sum-go'), home = $('sp-sum-home');
+  if (LIFE.on) {
+    go.textContent = 'Done'; go.onclick = () => LifeOS.finish(res);
+    home.hidden = LIFE.cfg.play !== 'menu'; home.textContent = 'Play something else'; home.onclick = () => goHome();
+  } else {
+    go.textContent = 'Play again'; go.onclick = () => startMode(G.mode);
+    home.hidden = false; home.textContent = 'Home'; home.onclick = () => goHome();
+  }
+  $('sp-sum').hidden = false;
+  if (G.goals) Snd.play('cheer');
+}
+function goHome() {
+  $('sp-hint').textContent = ''; banner('');
+  $('sp-sum').hidden = true; $('sp-card').hidden = true; cardUp = false; deadAt = null;
+  G.mode = null;
+  $('sp-best').textContent = best.match ? `Best match: ${best.match} goal${best.match === 1 ? '' : 's'}` : '';
+  $('sp-home').hidden = false;
+  P = SC.create({ seed: 11, difficulty: 50 });
+  track = { passes: [] };
+  SCView.follow(V, P, 1, true);
+  updateHud(true);
+}
+
+// ------------------------------------------------------------------ sheets
+function renderSettings() {
+  document.querySelectorAll('[data-set]').forEach(row => row.querySelectorAll('button').forEach(b => b.classList.toggle('on', S[row.dataset.set] === b.dataset.v)));
+  $('sp-diffrow').hidden = LIFE.on;
+}
+document.querySelectorAll('[data-set]').forEach(row => row.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  S[row.dataset.set] = b.dataset.v; persist(); renderSettings(); Snd.play('ui');
+  if (row.dataset.set === 'zoom') resize();
+  if (P && row.dataset.set === 'assist') P.assist = S.assist;
+  if (P && row.dataset.set === 'offside') P.offside = S.offside === 'on';
+}));
+const openSettings = () => { renderSettings(); $('sp-settings').hidden = false; };
+$('sp-gear').onclick = openSettings; $('sp-gear2').onclick = openSettings;
+$('sp-set-done').onclick = () => { $('sp-settings').hidden = true; };
+$('sp-how-btn').onclick = () => { $('sp-howsheet').hidden = false; };
+$('sp-how-go').onclick = () => { $('sp-howsheet').hidden = true; seenHow = true; persist(); };
+$('sp-exit').onclick = () => {
+  Snd.play('ui');
+  if (LIFE.on && (G.mode == null || LIFE.cfg.play !== 'menu')) return LifeOS.quit();
+  if (G.mode) goHome(); else if (LIFE.on) LifeOS.quit();
+};
+document.querySelectorAll('.sp-mode').forEach(b => b.addEventListener('click', () => { Snd.play('ui'); startMode(b.dataset.mode); }));
+
+// ------------------------------------------------------------------ inside LIFE OS
+LifeOS.onStart(cfg => {
+  LIFE.on = LifeOS.embedded; LIFE.cfg = cfg;
+  if (!LIFE.on) return;
+  const p = String(cfg.play || 'menu').toLowerCase();
+  if (p === 'clutch' || cfg.mode === 'clutch') { LIFE.cfg.play = 'clutch'; startMode('clutch'); }
+  else if (p === 'match' || p === 'practice') startMode(p);
+  else { LIFE.cfg.play = 'menu'; goHome(); }
+  renderSettings();
+});
+
+// ------------------------------------------------------------------ the loop
+goHome();
+let last = performance.now();
+function loop(ts) {
+  const rdt = Math.min(0.05, Math.max(0, (ts - last) / 1000));
+  last = ts; tNow += rdt;
+  if (P) {
+    const live = G.mode && !blocked() && P.phase === 'live';
+    // vision: a finger held still while you have the ball
+    const still = IN.id !== null && (IN.mode === 'vision' || (IN.mode === 'pending' && !IN.moveStart && performance.now() - IN.stillAt > 170));
+    const canLook = live && G.ready <= 0 && P.ball.st === 'held' && P.ctrl && G.vision > 0;
+    const looking = still && canLook;
+    if (looking) {
+      IN.mode = 'vision'; G.vision = Math.max(0, G.vision - rdt);
+      if (!P.looked) { SC.lookUp(P); P.looked = true; }
+    }
+    visK += ((looking ? 1 : 0) - visK) * Math.min(1, rdt * (looking ? 7 : 4.5));
+    scale = 1 - 0.68 * visK * visK * (3 - 2 * visK);
+    if (live) {
+      if (G.ready > 0) { G.ready -= rdt; if (G.ready <= 0) banner(''); }
+      else {
+        // a first-time ball: play it the moment he has it
+        if (queued && P.ball.st === 'held' && P.ctrl) { if (P.ctrl.id === queued.to && tNow - queued.t < 2) applyFlick(queued.st, P.ctrl); queued = null; }
+        if (queued && tNow - queued.t > 2) queued = null;
+        const inp = { drag: dragTarget(), flick: q.flick, fake: q.fake };
+        SC.step(P, rdt, inp, scale);
+        onFx(P.fx); P.fx.length = 0;
+      }
+    } else if (G.mode && P.phase !== 'live') {
+      SC.step(P, rdt, {}, 1);
+      onFx(P.fx); P.fx.length = 0;
+    }
+    q.flick = null; q.fake = false;
+    if (G.mode && !G.over && P.result && deadAt == null) deadAt = tNow;
+    if (deadAt != null && !cardUp && !G.over && P.result && tNow - deadAt > (P.result.how === 'goal' ? 2.2 : 1.4)) showResult();
+    SCView.follow(V, P, rdt);
+    const showRuns = G.mode && !cardUp ? 0.35 + 0.6 * visK : 0;
+    SCView.frame(g, V, P, { t: tNow, runs: showRuns, offside: G.mode && !cardUp && P.offside ? 0.22 + 0.6 * visK : 0 });
+    SCView.effects(g, V, fxList, rdt);
+    // vision: dim the edges a touch so it reads as slowed down
+    if (visK > 0.02) {
+      const grd = g.createRadialGradient(W / 2, H * 0.55, Math.min(W, H) * 0.3, W / 2, H * 0.55, Math.max(W, H) * 0.75);
+      grd.addColorStop(0, 'rgba(10,30,50,0)'); grd.addColorStop(1, `rgba(10,30,50,${0.45 * visK})`);
+      g.fillStyle = grd; g.fillRect(0, 0, W, H);
+    }
+    if (flashT > 0 && flashId && P.by[flashId]) {
+      flashT -= rdt;
+      const m = P.by[flashId], [mx, my, ms] = SCView.proj(V, m.x, m.y, 0);
+      g.globalAlpha = Math.min(1, flashT * 3); g.fillStyle = '#ffe14d'; g.font = '900 14px system-ui, sans-serif'; g.textAlign = 'center';
+      g.fillText(flashTxt, mx, my - ms * 3.4); g.globalAlpha = 1;
+    }
+    // the stick while you dribble
+    if (IN.id !== null && IN.mode === 'drag' && IN.cur) {
+      const R = Math.min(W, H) * 0.14, dx = IN.cur.x - IN.anchor.x, dy = IN.cur.y - IN.anchor.y, d = Math.hypot(dx, dy), k = d > R ? R / d : 1;
+      g.strokeStyle = 'rgba(255,255,255,0.4)'; g.lineWidth = 3;
+      g.beginPath(); g.arc(IN.anchor.x, IN.anchor.y, R, 0, Math.PI * 2); g.stroke();
+      g.fillStyle = 'rgba(255,255,255,0.6)'; g.beginPath(); g.arc(IN.anchor.x + dx * k, IN.anchor.y + dy * k, 18, 0, Math.PI * 2); g.fill();
+    }
+    // the flick as you make it
+    if (IN.id !== null && IN.mode !== 'drag' && IN.moveStart && IN.cur) {
+      g.strokeStyle = 'rgba(255,255,255,0.5)'; g.lineWidth = 6; g.lineCap = 'round';
+      g.beginPath(); g.moveTo(IN.moveStart.x, IN.moveStart.y); g.lineTo(IN.cur.x, IN.cur.y); g.stroke();
+    }
+    tickHints(rdt);
+    updateHud();
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// test hooks: flick(dir in radians on the pitch, dist m, zip 0-1, curl -1..1); a stroke on the screen (dx, dy px, speed)
+window.SoccerPlaymaker = {
+  set seed(v) { nextSeed = v; }, get P() { return P; }, get G() { return G; }, get V() { return V; }, S, q, startMode, newAttack, showResult,
+  flick(dir, dist, zip, curl) { q.flick = { dir, dist: dist || 15, zip: zip == null ? 0.5 : zip, curl: curl || 0 }; },
+  stroke(dx, dy, speed) { if (P && P.ctrl) applyFlick({ dx, dy, speed: speed || 3, curl: 0, len: Math.hypot(dx, dy) }, P.ctrl); },
+  get ready() { return G.ready; }, get scale() { return scale; },
+};
+})();
+</script>

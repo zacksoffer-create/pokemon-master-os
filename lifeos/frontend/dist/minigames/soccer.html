@@ -18,12 +18,6 @@
   .btn { margin-top: 12px; border: 0; border-radius: 18px; padding: 15px 34px; font-weight: 800; font-size: 17px; font-family: inherit; color: #fff; cursor: pointer;
     background: linear-gradient(135deg, #ff6650, #ff9459); box-shadow: 0 14px 26px -14px rgba(255, 92, 66, 0.9); }
   .btn.ghost { background: rgba(255, 255, 255, 0.14); box-shadow: none; }
-  .sw { position: fixed; left: 50%; transform: translateX(-50%); top: calc(44px + env(safe-area-inset-top)); z-index: 3; display: flex; gap: 4px; padding: 4px;
-    border-radius: 999px; background: rgba(8, 22, 14, 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  .sw[hidden] { display: none; }
-  @media (orientation: landscape) and (max-height: 600px) { .sw { left: 14px; transform: none; top: calc(52px + env(safe-area-inset-top)); } }
-  .sw button { border: 0; border-radius: 999px; padding: 8px 14px; font: inherit; font-weight: 800; font-size: 13.5px; color: #d5ecdf; background: none; cursor: pointer; }
-  .sw button.on { background: #ffd66b; color: #2a1d00; }
   .hint { position: fixed; left: 0; right: 0; bottom: calc(18px + env(safe-area-inset-bottom)); text-align: center; font-weight: 800; font-size: 14px;
     color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); pointer-events: none; transition: opacity 0.3s; }
 </style>
@@ -31,12 +25,10 @@
 <body>
 <canvas id="c"></canvas>
 <div class="hint" id="hint">Swipe from the ball toward the goal</div>
-<div class="sw" id="sw" hidden><button data-m="draw">Drawback</button><button data-m="flick">Flick</button></div>
 <div class="ov" id="intro">
   <h1>Penalty kicks</h1>
-  <p>Five shots from the spot. Two ways to shoot, switch above the goal:</p>
-  <p><b>Drawback:</b> pull down from the ball like a slingshot. The ring shows where it's going; pull farther for more power, too far and it sails. Let go to shoot.</p>
-  <p><b>Flick:</b> swipe from the ball toward the goal. Faster is harder and higher; curve your swipe to bend it.</p>
+  <p>Five shots from the spot. Swipe from the ball toward where you want it.</p>
+  <p>Faster swipe = harder and higher. Too hard and it sails. Curve your swipe to bend it around the keeper.</p>
   <button class="btn" id="go">Start</button>
 </div>
 <div class="ov" id="end" hidden>
@@ -72,18 +64,14 @@ const LifeOS = (() => {
 const cv = document.getElementById("c"), g = cv.getContext("2d");
 let W = 0, H = 0, DPR = 1, f = 600, cx = 0, hy = 0;
 const CAM = { y: 1.55, z: 14.2 }, SPOT = 11, GW = 3.66, GH = 2.44, BR = 0.11, KZ = 0.4;
-// how you shoot: 'draw' (pull back, the ball raised 40% up the screen) or 'flick' (swipe, the ball low); remembered
-let shootMode = (() => { try { return localStorage.getItem("pk.mode") || "draw"; } catch (e) { return "draw"; } })();
 function resize() {
   DPR = Math.min(2, window.devicePixelRatio || 1);
   W = window.innerWidth; H = window.innerHeight;
   cv.width = W * DPR; cv.height = H * DPR;
   g.setTransform(DPR, 0, 0, DPR, 0, 0);
-  const raised = shootMode === "draw";
-  // raised, the goal has to fit between the ball (40% up) and the top of the screen
-  f = raised ? Math.min(1.62 * W * 0.82, 0.74 * H) : Math.min(1.62 * W, 1.05 * H);
+  f = Math.min(1.62 * W, 1.05 * H);
   cx = W / 2;
-  hy = (raised ? 0.6 : 0.84) * H - f * (CAM.y - BR) / (CAM.z - SPOT);
+  hy = 0.84 * H - f * (CAM.y - BR) / (CAM.z - SPOT);
 }
 addEventListener("resize", resize);
 resize();
@@ -98,50 +86,29 @@ const N = 5;
 let kicks = [], phase = "intro", t = 0, shot = null, msg = null, trail = [], stroke = null, crowdT = 0, netBulge = null;
 const keeper = { x: 0, y: 0, rot: 0, tx: 0, ty: 0, react: 0.25, speed: 5, reach: 0.9, mood: 0 };
 
-const sw = document.getElementById("sw");
-function paintSwitch() {
-  sw.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.m === shootMode));
-  document.getElementById("hint").textContent = shootMode === "draw" ? "Pull down from the ball to aim · let go to shoot" : "Swipe from the ball toward the goal";
-}
-sw.addEventListener("click", (e) => {
-  const b = e.target.closest("button"); if (!b || phase !== "aim") return;
-  shootMode = b.dataset.m; try { localStorage.setItem("pk.mode", shootMode); } catch (err) {}
-  pull = null; stroke = null; resize(); paintSwitch();
-});
 function resetKick() {
-  shot = null; msg = null; netBulge = null; trail = []; pull = null;
+  shot = null; msg = null; netBulge = null; trail = [];
   keeper.x = 0; keeper.y = 0; keeper.rot = 0; keeper.tx = 0; keeper.ty = 0;
   phase = kicks.length >= N ? "end" : "aim";
-  sw.hidden = phase !== "aim"; paintSwitch();
-  document.getElementById("hint").style.opacity = phase === "aim" && kicks.length < 2 ? 1 : 0;
+  document.getElementById("hint").style.opacity = phase === "aim" && kicks.length === 0 ? 1 : 0;
   if (phase === "end") showEnd();
 }
 
 // ---------------------------------------------------------------------------- input
 function ballScreen() { return P(0, BR, SPOT); }
-let pull = null;
 cv.addEventListener("pointerdown", (e) => {
   if (phase !== "aim") return;
-  if (shootMode === "draw") { pull = { ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY, t0: performance.now() }; try { cv.setPointerCapture(e.pointerId); } catch (err) {} return; }
   const b = ballScreen();
   if (e.clientY < hy + (b.y - hy) * 0.45) return;  // start near the bottom half
   stroke = { pts: [{ x: e.clientX, y: e.clientY, t: performance.now() }] };
   try { cv.setPointerCapture(e.pointerId); } catch (err) {}
 });
 cv.addEventListener("pointermove", (e) => {
-  if (pull) { pull.x = e.clientX; pull.y = e.clientY; return; }
   if (!stroke) return;
   stroke.pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
   trail.push({ x: e.clientX, y: e.clientY, a: 1 });
 });
 cv.addEventListener("pointerup", (e) => {
-  if (pull) {
-    pull.x = e.clientX; pull.y = e.clientY;
-    const a = aimFromPull();
-    pull = null;
-    if (a) makeShot(a.p, a.x, a.y, 0, 0.35); else flash("Pull down from the ball", "#ffd66b", 1.0);
-    return;
-  }
   if (!stroke) return;
   const s = stroke; stroke = null;
   const a = s.pts[0], z = s.pts[s.pts.length - 1];
@@ -149,19 +116,6 @@ cv.addEventListener("pointerup", (e) => {
   kick(s.pts);
 });
 
-// the drawback: direction aims, distance is power. The ring sways a touch (less for a better player, more the longer you
-// hold it), so you shoot when it's on the spot you want.
-function aimFromPull() {
-  if (!pull) return null;
-  const px = pull.ox - pull.x, py = pull.oy - pull.y;
-  if (py > -30) return null;                                    // you have to pull down, toward yourself
-  const len = Math.hypot(px, py), p = Math.max(0.05, Math.min(1.45, len / (0.32 * H)));
-  const hold = (performance.now() - pull.t0) / 1000, tt = performance.now() / 1000;
-  const sway = (0.1 + (1 - skill / 100) * 0.22) * (1 + Math.min(2, hold * 0.6));
-  const x = (px / Math.max(1, -py)) * 6.5 * Math.min(1, len / (0.18 * H)) + Math.sin(tt * 2.3) * sway + Math.sin(tt * 5.1 + 1) * sway * 0.4;
-  const y = Math.max(0.05, Math.min(3.6, 0.1 + (p - 0.25) * 2.35 + Math.sin(tt * 1.9 + 2) * sway * 0.5));
-  return { p, x, y };
-}
 function kick(pts) {
   const S = pts[0], E = pts[pts.length - 1];
   // speed over the last ~120ms of the swipe
@@ -181,14 +135,9 @@ function kick(pts) {
   const L = Math.hypot(E.x - S.x, E.y - S.y) || 1;
   for (const q of pts) { const d = ((E.x - S.x) * (S.y - q.y) - (S.x - q.x) * (E.y - S.y)) / L; if (Math.abs(d) > Math.abs(dev)) dev = d; }
   const curve = Math.max(-1, Math.min(1, -dev / (0.12 * W)));
-  makeShot(p, xEnd + curve * 0.35, yEnd, curve, 1);
-}
-// both ways end here: p is power (over 1 sails it), xEnd/yEnd where it's aimed on the goal line, curve bends it;
-// noise is how much the strike can stray (the drawback already showed you its sway)
-function makeShot(p, xEnd, yEnd, curve, noise) {
   // your character's skill steadies the aim
-  const sd = 0.42 * (1 - skill / 115) * noise;
-  xEnd += gauss() * sd;
+  const sd = 0.42 * (1 - skill / 115);
+  xEnd += gauss() * sd + curve * 0.35;
   yEnd += gauss() * sd * 0.6;
   const T = 0.4 + (1 - Math.min(1, p)) * 0.85;
   shot = { p, xEnd, yEnd, curve, T, t: 0, x: 0, y: BR, z: SPOT, spin: 0, out: null, after: 0, vx: 0, vy: 0, vz: 0, checked: false };
@@ -202,7 +151,6 @@ function makeShot(p, xEnd, yEnd, curve, noise) {
   keeper.reach = 0.62 + diff * 0.003;
   phase = "flight"; t = 0;
   document.getElementById("hint").style.opacity = 0;
-  sw.hidden = true;
   thump(p);
 }
 function gauss() { let u = 0, v = 0; while (!u) u = rng(); while (!v) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
@@ -324,7 +272,6 @@ function draw() {
   drawKeeper();
   drawGoalFrame();
   drawBall();
-  if (pull && phase === "aim") drawAim();
   // swipe trail
   if (trail.length > 1) {
     g.lineCap = "round";
@@ -334,29 +281,6 @@ function draw() {
     }
   }
   drawHud();
-}
-function drawAim() {
-  const a = aimFromPull();
-  const b = ballScreen();
-  if (!a) { g.beginPath(); g.arc(pull.ox, pull.oy, 6, 0, 7); g.fillStyle = "rgba(255,255,255,0.5)"; g.fill(); return; }
-  const col = a.p > 1.02 ? "#ff6a5a" : a.p > 0.82 ? "#ffd66b" : "#8ff0b9";
-  // the flight, as it'll go
-  const loft = 0.12 + (1 - Math.min(1, a.p)) * 0.7;
-  g.strokeStyle = "rgba(255,255,255,0.85)"; g.lineWidth = 2.5; g.setLineDash([7, 7]);
-  g.beginPath();
-  for (let i = 0; i <= 20; i++) { const u = i / 20, q = P(bez(0, a.x * 0.5, a.x, u), bez(BR, (BR + a.y) / 2 + loft, a.y, u), SPOT * (1 - u)); i ? g.lineTo(q.x, q.y) : g.moveTo(q.x, q.y); }
-  g.stroke(); g.setLineDash([]);
-  const r = P(a.x, a.y, 0), rr = Math.max(9, 0.3 * r.s);
-  g.strokeStyle = col; g.lineWidth = 3.5; g.beginPath(); g.arc(r.x, r.y, rr, 0, 7); g.stroke();
-  g.fillStyle = col; g.beginPath(); g.arc(r.x, r.y, rr * 0.25, 0, 7); g.fill();
-  // power meter by the ball
-  const mw = Math.min(150, W * 0.38), mx = b.x - mw / 2, my = b.y + 26;
-  g.fillStyle = "rgba(0,0,0,0.35)"; roundRect(mx, my, mw, 8, 4); g.fill();
-  g.fillStyle = col; roundRect(mx, my, mw * Math.min(1, a.p / 1.45), 8, 4); g.fill();
-  g.fillStyle = "rgba(255,255,255,0.8)"; g.fillRect(mx + mw * (1 / 1.45) - 1, my - 3, 2, 14);
-  // the pull itself
-  g.strokeStyle = "rgba(255,255,255,0.4)"; g.lineWidth = 5; g.lineCap = "round";
-  g.beginPath(); g.moveTo(pull.ox, pull.oy); g.lineTo(pull.x, pull.y); g.stroke();
 }
 function line3(a, b) { const p = P(...a), q = P(...b); g.beginPath(); g.moveTo(p.x, p.y); g.lineTo(q.x, q.y); g.stroke(); }
 function drawNet() {
@@ -485,7 +409,6 @@ document.getElementById("done").onclick = () => {
 };
 document.getElementById("again").onclick = () => { kicks = []; document.getElementById("end").hidden = true; resetKick(); };
 document.getElementById("go").onclick = () => { document.getElementById("intro").hidden = true; resetKick(); };
-paintSwitch();
 
 LifeOS.onStart((c) => {
   cfg = c;
@@ -494,11 +417,10 @@ LifeOS.onStart((c) => {
   rng = seeded((+c.seed || 1) % 2147483647 || 1);
   if (c.mode === "clutch") {
     document.querySelector("#intro h1").textContent = "Game on the line";
-    document.querySelector("#intro p").textContent = "Five kicks to decide it. Pick how you shoot above the goal.";
+    document.querySelector("#intro p").textContent = "Five kicks to decide it. Swipe from the ball toward the corner.";
   }
 });
 
-window.PK = { get phase() { return phase; }, get shot() { return shot; }, get kicks() { return kicks; }, get mode() { return shootMode; }, ballScreen, P, aimFromPull, get pull() { return pull; } };
 let last = performance.now();
 function loop(now) {
   const dt = Math.min(0.033, (now - last) / 1000);

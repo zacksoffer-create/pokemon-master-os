@@ -9,7 +9,7 @@
     "basketball": "basketball",
     "football": "football",
     "baseball": "baseball",
-    "soccer": "soccer_pk"
+    "soccer": "soccer_11"
   },
   "games": {
     "trivia": {
@@ -31,7 +31,7 @@
       "skill": "fitness",
       "aptitude": "athletic",
       "free": {
-        "label": "Pickup soccer at the park",
+        "label": "Penalty kicks at the park",
         "phases": [
           "after_school",
           "day",
@@ -43,6 +43,35 @@
         "gain": 0.6,
         "fun": 8,
         "energy": -6
+      },
+      "play": {
+        "free": "menu",
+        "clutch": "clutch",
+        "scene": "menu"
+      }
+    },
+    "soccer_11": {
+      "title": "Soccer Playmaker",
+      "kind": "html",
+      "file": "soccer11.html",
+      "status": "ready",
+      "icon": "ball",
+      "blurb": "Eleven on eleven, and whoever has the ball is you. Draw your way through, find the runner, finish it.",
+      "skill": "fitness",
+      "aptitude": "athletic",
+      "free": {
+        "label": "Play a pickup match (11 v 11)",
+        "phases": [
+          "after_school",
+          "day",
+          "evening"
+        ]
+      },
+      "practice": {
+        "skill": "fitness",
+        "gain": 0.7,
+        "fun": 9,
+        "energy": -7
       },
       "play": {
         "free": "menu",

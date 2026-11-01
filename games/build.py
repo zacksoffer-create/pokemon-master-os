@@ -15,6 +15,7 @@ APPS = {
     "bat/app.html": "at-bat.html",
     "swing/app.html": "swing-lab.html",
     "football/app.html": "option-arcade.html",
+    "soccer/app.html": "soccer-playmaker.html",
 }
 
 

@@ -25,15 +25,6 @@
   .oa-pitch { background: radial-gradient(circle at 50% 38%, #ffc08a, #ff8a3d 70%); color: #2b1100; animation: oa-pop 0.18s ease-out; }
   .oa-pitch::before { display: none; }
   .oa-pad[hidden] { display: none; }
-  /* raised drawback layout: SNAP in the middle, 40% up from the bottom, over the QB */
-  .oa-pad.mid { right: auto; left: 50%; bottom: calc(40% - 44px); width: 88px; height: 88px; margin-left: -44px; opacity: 0.92; }
-  .oa-pad.mid::before { display: none; }
-  .oa-pad.mid b { font-size: 18px; }
-  .oa-passsw { position: fixed; left: 50%; transform: translateX(-50%); top: calc(150px + env(safe-area-inset-top)); z-index: 4; display: flex; gap: 4px; padding: 4px;
-    border-radius: 999px; background: rgba(8, 13, 20, 0.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  .oa-passsw[hidden] { display: none; }
-  .oa-passsw button { border: 0; border-radius: 999px; padding: 8px 14px; font: inherit; font-weight: 800; font-size: 13.5px; color: #c9d1dc; background: none; cursor: pointer; }
-  .oa-passsw button.on { background: var(--gold); color: #2a1d00; }
   @keyframes oa-pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .oa-card { position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: min(480px, 100vw); box-sizing: border-box; z-index: 6; max-height: 70vh; overflow-y: auto;
     background: var(--paper); color: var(--paperInk); border-radius: 24px 24px 0 0; padding: 14px 18px calc(16px + env(safe-area-inset-bottom)); box-shadow: 0 -12px 30px rgba(0,0,0,0.35); }
@@ -105,7 +96,6 @@
 <div class="oa-hint" id="oa-hint"></div>
 <button class="oa-pad" id="oa-give" aria-label="Give"><b>HOLD</b><small>to snap</small></button>
 <button class="oa-pad oa-pitch" id="oa-pitch" aria-label="Pitch" hidden><b>PITCH</b></button>
-<div class="oa-passsw" id="oa-passsw" hidden><button data-pass="draw">Drawback</button><button data-pass="flick">Flick</button></div>
 
 <div class="oa-card" id="oa-card" hidden>
   <div class="oa-res"><b id="oa-yds">+0</b><span id="oa-how"></span></div>
@@ -145,7 +135,7 @@
       <span>🕹</span><span><b>Left thumb</b> steers whoever has the ball. Let go and he runs upfield.</span>
       <span>↕</span><span><b>Right thumb:</b> swipe up or down to <b>juke</b>, back to <b>spin</b>, forward to <b>hurdle</b>. Tap to lower your shoulder and <b>truck</b>.</span>
       <span>🧠</span><span>Truck the small guys. Juke the big ones. Spin off a man coming from the side. Hurdle a man <b>as he dives</b>, never one standing up.</span>
-      <span>🎯</span><span><b>Passing:</b> tap SNAP. The camera goes up behind you (All-22) so you can see the routes. Two ways to throw (switch above the field before the snap): <b>Drawback</b> puts the QB higher; put your thumb by him and pull down (and to the side) to aim, the arc shows where it lands, let go to throw, and the bottom-left corner moves him. <b>Flick</b>: flick toward a receiver on the right side and it goes where he's headed; flick harder for a harder throw. Cross the line and you're a runner.</span>
+      <span>🎯</span><span><b>Passing:</b> tap SNAP. The camera goes up behind you (All-22) so you can see the routes. Flick toward a receiver on the right side and it goes where he's headed; flick harder for a harder throw. The left thumb moves the QB. Cross the line and you're a runner.</span>
     </div>
     <p style="margin-top:10px">Read help puts a ring on the two defenders you're reading and slows the exchange. Turn it off in settings when you've got it.</p>
     <button class="oa-go" id="oa-how-go">Got it</button>
@@ -159,7 +149,6 @@
     <div class="oa-row"><b>Exchange speed</b><div class="oa-chips" data-set="exch"><button data-v="slow">Slow</button><button data-v="normal">Normal</button><button data-v="quick">Quick</button></div></div>
     <div class="oa-row"><b>Read help</b><div class="oa-chips" data-set="help"><button data-v="on">Rings on the reads</button><button data-v="off">Off</button></div></div>
     <div class="oa-row" id="oa-diffrow"><b>Defense</b><div class="oa-chips" data-set="diff"><button data-v="easy">Easy</button><button data-v="normal">Normal</button><button data-v="hard">Hard</button></div></div>
-    <div class="oa-row"><b>Passing</b><div class="oa-chips" data-set="pass"><button data-v="draw">Drawback (QB raised)</button><button data-v="flick">Flick</button></div></div>
     <div class="oa-row"><b>Camera angle</b><div class="oa-chips" data-set="cam"><button data-v="auto">All-22 on passes</button><button data-v="a22">All-22 always</button><button data-v="side">Sideline always</button></div></div>
     <div class="oa-row"><b>Camera</b><div class="oa-chips" data-set="zoom"><button data-v="close">Close</button><button data-v="wide">Wide</button></div></div>
     <div class="oa-row"><b>Sound</b><div class="oa-chips" data-set="sound"><button data-v="on">On</button><button data-v="off">Off</button></div></div>
@@ -1436,30 +1425,22 @@ const FBView = (() => {
   function view(W, H, zoom, mode) {
     // side: portrait about 17 yards across the screen; landscape about 21 yards of the field's width top to bottom
     const S = Math.max(11, Math.min(34, Math.min(W / 17, H / 21))) * (zoom || 1);
-    const v = { W, H, S, S0: S, zf: 1, cx: 2, cy: 0, ax: 0.5, ay: 0.5, shake: 0, zoom: zoom || 1, mode: mode || 'side', high: false };
+    const v = { W, H, S, S0: S, zf: 1, cx: 2, cy: 0, ax: 0.5, ay: 0.5, shake: 0, zoom: zoom || 1, mode: mode || 'side' };
     setMode(v, v.mode);
     return v;
   }
   // the All-22 camera: portrait looks down steeply so the depth of the field spreads up the tall screen;
   // landscape sits lower and wider
-  function setMode(v, mode, high) {
+  function setMode(v, mode) {
     v.mode = mode;
-    if (high != null) v.high = !!high;
     if (mode !== 'a22') return;
     const portrait = v.H > v.W * 1.15;
-    // tuned so 30 yards downfield stays on screen. Low: the QB near the bottom (portrait about 30 yards wide at the line,
-    // landscape nearly the whole width). High: the QB 40% up from the bottom, leaving room under him to pull back.
-    if (v.high) {
-      v.pitch = portrait ? 1.2 : 0.6;
-      v.dist = 44;
-      v.Sf = Math.max(7, Math.min(30, portrait ? v.W / 34 : v.H / 40)) * v.zoom;
-      v.ay = portrait ? 0.38 : 0.31;
-    } else {
-      v.pitch = portrait ? 1.08 : 0.6;
-      v.dist = portrait ? 44 : 40;
-      v.Sf = Math.max(7, Math.min(30, portrait ? v.W / 34 : v.H / 28)) * v.zoom;
-      v.ay = portrait ? 0.58 : 0.42;
-    }
+    // tuned so the QB sits near the bottom and 30 yards downfield near the top: portrait about 30 yards wide at the line,
+    // landscape nearly the whole width of the field
+    v.pitch = portrait ? 1.08 : 0.6;
+    v.dist = portrait ? 44 : 40;
+    v.Sf = Math.max(7, Math.min(30, portrait ? v.W / 34 : v.H / 28)) * v.zoom;
+    v.ay = portrait ? 0.58 : 0.42;
     aimCam(v);
   }
   function aimCam(v) {
@@ -1886,9 +1867,7 @@ const lookName = k => (FB.LOOKS.find(l => l[0] === k) || [k, String(k).split('+'
 // ------------------------------------------------------------------ saved settings and film
 function load() { try { return JSON.parse(localStorage.getItem(SAVE)) || {}; } catch (_) { return {}; } }
 const saved = load();
-const S = Object.assign({ mesh: 'hold', exch: 'normal', help: 'on', diff: 'normal', zoom: 'close', sound: 'on', cam: 'auto', pass: 'draw' }, saved.settings || {});
-// the raised layout (SNAP and the QB 40% up, room under him to pull back) goes with the drawback; flick keeps the QB low
-const raised = play => play === 'pass' && S.pass === 'draw';
+const S = Object.assign({ mesh: 'hold', exch: 'normal', help: 'on', diff: 'normal', zoom: 'close', sound: 'on', cam: 'auto' }, saved.settings || {});
 // which camera a play uses: the All-22 end-zone angle shows downfield for passes; the sideline view for the run game
 const camFor = play => (S.cam === 'a22' ? 'a22' : S.cam === 'side' ? 'side' : play === 'pass' ? 'a22' : 'side');
 let film = Array.isArray(saved.film) ? saved.film : [];
@@ -1983,9 +1962,8 @@ function newPlay() {
   const seed = nextSeed; nextSeed = null;
   P = FB.create({ seed, play: c.play, side: c.side, concept: c.concept, look: G.mode === 'lab' ? G.look : G.mode === 'pass' ? G.cover : 'mixed', difficulty: difficulty(), skill: skill(),
     toGoal: 100 - spot, toOwn: spot, mesh: S.mesh, exchange: S.exch, training: S.help === 'on' });
-  aimT = null;
   P.spotAbs = spot;
-  FBView.setMode(V, camFor(c.play), raised(c.play));
+  FBView.setMode(V, camFor(c.play));
   FBView.follow(V, P, 1, true);
   inp.hold = false;
   updateHud(true);
@@ -2001,20 +1979,7 @@ function situation() {
 // ------------------------------------------------------------------ input
 const inp = { hold: false };
 const q = { juke: 0, truck: false, spin: false, hurdle: false, pitch: false, give: false, snap: false, throw: null };
-let stick = null, gest = null, aimT = null, flk = null;
-// the raised layout moves the QB-movement thumb to the bottom-left corner so the rest of the screen is free to pull back
-const stickZone = (x, y) => x < W * 0.38 && y > H * 0.72;
-// pull back to aim: the farther you pull, the farther it goes; the arc points the opposite way, like a slingshot
-function aimTarget() {
-  if (!aimT || !P) return null;
-  const px = aimT.ox - aimT.x, py = aimT.oy - aimT.y, pl = Math.hypot(px, py);
-  if (pl < 12) return null;
-  const k = 0.22 * 390 / Math.max(320, Math.min(W, H)), qb = P.by.QB, d = toField(px, py);
-  let fx = d.x * k, fy = d.y * k;
-  const fl = Math.hypot(fx, fy), want = Math.max(3, Math.min(45, fl));
-  fx *= want / fl; fy *= want / fl;
-  return { x: qb.x + fx, y: Math.max(-FB.SIDE + 0.5, Math.min(FB.SIDE - 0.5, qb.y + fy)) };
-}
+let stick = null, gest = null, flk = null;
 // flick: the direction picks the receiver (the ball goes where he's headed on his route); the speed is the zip.
 // Flick at open grass and it goes where you flicked it, as far as the flick says.
 function flickThrow(dx, dy, speed) {
@@ -2055,14 +2020,12 @@ cv.addEventListener('pointerdown', e => {
   if (blocked() || !P) return;
   try { cv.setPointerCapture(e.pointerId); } catch (_) {}
   const pocket = FB.canThrow(P), at = { id: e.pointerId, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY };
-  if (pocket && S.pass === 'draw') { if (stickZone(e.clientX, e.clientY)) stick = at; else aimT = at; return; }
   if (e.clientX < W * 0.5) stick = at;
   else if (pocket) flk = { id: e.pointerId, pts: [[performance.now(), e.clientX, e.clientY]] };
   else gest = { id: e.pointerId, x0: e.clientX, y0: e.clientY, t0: performance.now(), done: false };
 });
 cv.addEventListener('pointermove', e => {
   if (stick && e.pointerId === stick.id) { stick.x = e.clientX; stick.y = e.clientY; }
-  if (aimT && e.pointerId === aimT.id) { aimT.x = e.clientX; aimT.y = e.clientY; }
   if (flk && e.pointerId === flk.id) flk.pts.push([performance.now(), e.clientX, e.clientY]);
   if (gest && e.pointerId === gest.id && !gest.done) {
     const dx = e.clientX - gest.x0, dy = e.clientY - gest.y0, el = performance.now() - gest.t0;
@@ -2083,12 +2046,6 @@ function endPointer(e) {
     if (Math.hypot(x1 - x0, y1 - y0) > 30 && t1 - t0 < 500 && FB.canThrow(P)) flickThrow(x1 - x0, y1 - y0, speed);
     flk = null;
   }
-  if (aimT && e.pointerId === aimT.id) {
-    aimT.x = e.clientX; aimT.y = e.clientY;
-    const t = aimTarget();
-    if (t && Math.hypot(aimT.ox - aimT.x, aimT.oy - aimT.y) > 22) q.throw = t;
-    aimT = null;
-  }
   if (gest && e.pointerId === gest.id) {
     const el = performance.now() - gest.t0, moved = Math.hypot(e.clientX - gest.x0, e.clientY - gest.y0);
     if (!gest.done && el < 280 && moved < 16) q.truck = true;
@@ -2098,12 +2055,7 @@ function endPointer(e) {
 cv.addEventListener('pointerup', endPointer);
 cv.addEventListener('pointercancel', endPointer);
 
-const pad = $('oa-give'), pitchBtn = $('oa-pitch'), passSw = $('oa-passsw');
-passSw.addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b || !P) return;
-  S.pass = b.dataset.pass; persist(); Snd.play('ui');
-  FBView.setMode(V, camFor(P.play), raised(P.play)); FBView.follow(V, P, 1, true);
-});
+const pad = $('oa-give'), pitchBtn = $('oa-pitch');
 pad.addEventListener('pointerdown', e => {
   e.preventDefault(); Snd.unlock();
   if (blocked() || !P) return;
@@ -2157,10 +2109,6 @@ function updateButtons(dt) {
   if (!cardUp && (ph === 'pre' || ph === 'cadence' || ph === 'mesh')) state = ph;
   if (!G.mode || (P.play === 'pass' && ph !== 'pre')) state = 'hidden';
   pad.hidden = state === 'hidden';
-  pad.classList.toggle('mid', raised(P.play));
-  const swOn = !!G.mode && !cardUp && P.play === 'pass' && ph === 'pre';
-  if (passSw.hidden === swOn) passSw.hidden = !swOn;
-  if (swOn) passSw.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.pass === S.pass));
   if (!pad.hidden) {
     let txt;
     if (P.play === 'pass') txt = '<b>SNAP</b><small>tap</small>';
@@ -2179,11 +2127,10 @@ function updateButtons(dt) {
     const n = film.length;
     let h = '';
     const passes = film.filter(f => f.play === 'pass').length;
-    const pullWord = V.mode === 'a22' ? 'Pull down' : 'Pull back';
-    const passHow = S.pass === 'flick' ? 'Flick toward a receiver to throw. Harder flick, harder throw.' : `${pullWord} from the QB to aim, let go to throw. Bottom-left corner moves the QB.`;
+    const passHow = 'Flick toward a receiver to throw. Harder flick, harder throw.';
     if (ph === 'pre' && P.play === 'pass') h = passes < 8 ? `Tap SNAP. ${passHow}` : '';
     else if (ph === 'pre') h = n < 6 ? (S.mesh === 'hold' ? 'Hold GIVE to snap. Keep holding to give it, let go to pull it.' : 'Tap SNAP, then tap GIVE before the exchange ends to give it.') : '';
-    else if (ph === 'run' && FB.canThrow(P) && passes < 8) h = aimT ? 'Let go to throw · pull farther to throw farther' : S.pass === 'flick' ? 'Flick on the right toward a receiver · left thumb moves the QB' : `${pullWord} from the QB to aim · bottom-left corner moves him`;
+    else if (ph === 'run' && FB.canThrow(P) && passes < 8) h = 'Flick on the right toward a receiver · left thumb moves the QB';
     else if (ph === 'run' && P.carrier === P.ctrl && P.carrier && n < 8) h = V.mode === 'a22' ? 'Left thumb steers · swipe ←→ juke · ↓ spin · ↑ hurdle · tap truck' : 'Left thumb steers · swipe ↑↓ juke · ← spin · → hurdle · tap truck';
     if ($('oa-hint').textContent !== h) $('oa-hint').textContent = h;
   }
@@ -2432,7 +2379,7 @@ document.querySelectorAll('[data-set]').forEach(row => row.addEventListener('cli
   const b = e.target.closest('button'); if (!b) return;
   S[row.dataset.set] = b.dataset.v; persist(); renderSettings(); Snd.play('ui');
   if (row.dataset.set === 'zoom') resize();
-  if ((row.dataset.set === 'cam' || row.dataset.set === 'pass') && P) { FBView.setMode(V, G.mode ? camFor(P.play) : 'side', raised(P.play)); FBView.follow(V, P, 1, true); }
+  if (row.dataset.set === 'cam' && P) { FBView.setMode(V, G.mode ? camFor(P.play) : 'side'); FBView.follow(V, P, 1, true); }
   if (P && P.phase === 'pre') { P.mesh = S.mesh; P.slow = { slow: 0.42, normal: 0.6, quick: 0.82 }[S.exch]; P.training = S.help === 'on'; }
 }));
 const openSettings = () => { renderSettings(); $('oa-settings').hidden = false; };
@@ -2503,26 +2450,20 @@ function loop(ts) {
   if (P) {
     if (G.mode && !blocked()) {
       const i = { hold: inp.hold, steer: steerVec(), juke: q.juke, truck: q.truck, spin: q.spin, hurdle: q.hurdle, pitch: q.pitch, give: q.give, snap: q.snap,
-        throw: q.throw, aiming: !!aimTarget() };
+        throw: q.throw };
       FB.step(P, dt, i);
       onFx(P.fx); P.fx.length = 0;
       if (P.phase === 'dead' && deadAt == null) deadAt = tNow;
       if (deadAt != null && !cardUp && tNow - deadAt > 1.15) showResult();
     }
     q.juke = 0; q.truck = q.spin = q.hurdle = q.pitch = q.give = q.snap = false; q.throw = null;
-    if (aimT && !FB.canThrow(P)) aimT = null;
     if (flk && !FB.canThrow(P)) flk = null;
     FBView.follow(V, P, dt);
     const fd = G.mode && G.mode !== 'lab' && G.mode !== 'pass' && G.fdAt < 100 ? G.fdAt - G.spot : null;
     // route art: before the snap with read help on (always in Pass Lab), fainter while the play runs
     const routesA = P.play !== 'pass' || !G.mode || cardUp ? 0 : P.phase === 'pre' ? (S.help === 'on' || G.mode === 'pass' ? 0.6 : 0) : S.help === 'on' && FB.canThrow(P) ? 0.18 : 0;
-    FBView.frame(g, V, P, { spot: P.spotAbs || 35, routes: routesA, aim: aimTarget(), keys: S.help === 'on' && G.mode && !cardUp && (P.phase !== 'run' || (P.carrier === P.by.QB && P.give === false && !P.dec.read2)) && P.phase !== 'dead', t: tNow, firstDown: fd, home: 'OPTION', away: 'ARCADE' });
+    FBView.frame(g, V, P, { spot: P.spotAbs || 35, routes: routesA, keys: S.help === 'on' && G.mode && !cardUp && (P.phase !== 'run' || (P.carrier === P.by.QB && P.give === false && !P.dec.read2)) && P.phase !== 'dead', t: tNow, firstDown: fd, home: 'OPTION', away: 'ARCADE' });
     FBView.effects(g, V, fxList, dt);
-    if (G.mode && FB.canThrow(P) && S.pass === 'draw' && !stick && !aimT) {
-      g.strokeStyle = 'rgba(255,255,255,0.28)'; g.lineWidth = 2;
-      g.beginPath(); g.arc(W * 0.19, H * 0.86, Math.min(52, W * 0.12), 0, Math.PI * 2); g.stroke();
-      g.fillStyle = 'rgba(255,255,255,0.4)'; g.font = '800 11px system-ui, sans-serif'; g.textAlign = 'center'; g.fillText('MOVE', W * 0.19, H * 0.86 + 4);
-    }
     if (flk && flk.pts.length > 1) {
       const [, x0, y0] = flk.pts[0], [, x1, y1] = flk.pts[flk.pts.length - 1];
       g.strokeStyle = 'rgba(255,255,255,0.55)'; g.lineWidth = 6; g.lineCap = 'round';

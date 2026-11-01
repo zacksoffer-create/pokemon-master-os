@@ -192,7 +192,7 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
   skill, mood, stress), and the class's grade remembers how you did.
 
 **Mini games:** short rounds whose results feed the story.
-- **Free play:** in free time, the Story tab shows **Or play something**: pickup soccer, shooting around in the driveway,
+- **Free play:** in free time, the Story tab shows **Or play something**: pickup soccer (penalty kicks or an 11 v 11 match), shooting around in the driveway,
   running the offense at the park (Playmaker), running the option at practice (Option Arcade), hitting at the batting cages
   (At Bat), batting practice (Swing Lab), and on
   weekends a round of golf (Fairway) and cup pong in a friend's basement (beer pong at a party once you're in college).
@@ -200,19 +200,20 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
 - **Game day:** **Take over late. Play the big moment yourself.** plays your sport's game. A great round adds +7 to your
   game performance, a good one +3, a miss -2. It appears once that sport's game is ready.
 - **Scenes:** dialogue packs can put a game in a scene, like the built-in pickup soccer scene.
-- **Penalty kicks** (soccer) is ready, with the same two ways to shoot as football's passing (a Drawback / Flick switch
-  above the goal before each kick). Drawback raises the ball 40% up the screen; pull down from it like a slingshot, a
-  ring on the goal shows where it's going and a meter shows the power (red means it sails), the ring sways a touch
-  (less for a better player, more the longer you hold), and you let go to shoot. Flick: swipe from the ball toward the
-  goal; a faster swipe hits harder and higher, and curving your swipe bends it. The keeper reads you more often at
-  higher difficulty, and your character's skill steadies your aim.
+- **Soccer Playmaker** (soccer, 11 v 11) is soccer's game-day game: whoever has the ball is you. Drag to dribble,
+  flick toward a teammate to pass (it leads his run), flick at the goal to shoot, hold still to look up while it slows
+  down and your forwards run in behind, tap to fake. Game day is Clutch: three attacks against a tougher defense, and
+  two goals is a great round, one a good one. Free play opens its home screen (Match, Clutch, Practice).
+- **Penalty kicks** (soccer) stays as its own free play: swipe from the ball toward the goal; a faster swipe hits harder
+  and higher, and curving your swipe bends it. The keeper reads you more often at higher difficulty, and your
+  character's skill steadies your aim.
 - **Option Arcade** (football) is football played by hand. The option: hold GIVE to snap and give it to the fullback,
-  let go to pull it, read the next man and PITCH or keep. The jet sweep. The passing game: pull back to aim, let go to
+  let go to pull it, read the next man and PITCH or keep. The jet sweep. The passing game: flick toward a receiver to
   throw, against Cover 1, 2, 3 and the blitz, and scramble when it breaks down. Then steer the runner: swipe to juke,
   spin, hurdle, tap to truck. Game day is first and goal from the 10 with the whole playbook, four downs; a touchdown is
   a great round.
-- **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab, Option Arcade) run inside the app with
-  their mechanics untouched. Each opens to its own home screen in free play; on game day basketball and baseball open
+- **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab, Option Arcade, Soccer Playmaker) run inside the app with
+  their mechanics untouched. Each opens to its own home screen in free play; on game day basketball, baseball and soccer open
   straight into a short clutch round. Edit them in `games/src/`, then run `python lifeos/tools/sync_games.py` and rebuild.
 - **Swing Lab** is the batting prototype: a bigger, brighter, slower ball, a swipe through an invisible contact plane,
   fastball / changeup / curveball told apart only by how they move, a training mode, and two cameras to compare. Its

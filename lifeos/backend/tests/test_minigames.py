@@ -11,6 +11,9 @@ from lifeos import classes, dialogue, minigames, moments, trivia  # noqa: E402
 from lifeos.engine import Simulation  # noqa: E402
 from lifeos.story import begin, create_story  # noqa: E402
 from tests.test_story import spec  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+ROOT_PUBLIC = Path(__file__).resolve().parents[2] / "frontend" / "public" / "minigames"
 
 
 @pytest.fixture(autouse=True)
@@ -72,6 +75,22 @@ def test_free_play_soccer_rewards_once_a_day():
     r2 = minigames.finish(sim, cfg2["session"], 1, 5)
     assert r2["tier"] == "miss" and c.skills["fitness"] == fit1, "only the first round of the day counts as practice"
     assert minigames.state(sim.w)["best"]["soccer_pk"] == 1.0
+
+
+def test_soccer_playmaker_is_soccers_game_day_game():
+    sim = story()
+    to_phase(sim, ("after_school", "day", "evening"))
+    reg = minigames.reg()
+    assert reg["sport_games"]["soccer"] == "soccer_11"
+    g = reg["games"]["soccer_11"]
+    assert g["status"] == "ready" and g["play"]["clutch"] == "clutch"
+    assert (ROOT_PUBLIC / g["file"]).exists(), "the 11 v 11 page is synced into the minigames folder"
+    games = {x["id"]: x for x in minigames.free_list(sim)}
+    assert games["soccer_11"]["available"] and games["soccer_pk"]["available"], "penalty kicks stays as its own free play"
+    cfg = minigames.start(sim, "soccer_11")
+    assert cfg["file"] == "soccer11.html" and cfg["play"] == "menu"
+    r = minigames.finish(sim, cfg["session"], 3, 3)
+    assert r["tier"] == "great"
 
 
 def test_class_schedule_and_grades():
