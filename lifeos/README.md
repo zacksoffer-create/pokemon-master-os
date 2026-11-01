@@ -116,9 +116,25 @@ game on the phone itself: no computer, no server, no monthly bill, and it works 
 2. Tap **Share → Add to Home Screen**. It gets its own icon and opens full screen.
 3. The first launch downloads about 12 MB (the game engine). After that it starts in a few seconds.
 
-**Bring your people:** build them in the lab (My Story → Start your story), click **Download cast**, and send the
-file to your phone (AirDrop, email, iCloud Drive). In the app tap **Load a cast file or backup**. The filled Excel
-worksheet and ChatGPT's JSON answer load the same way. Or tap **Try a sample story**.
+**Make your story right in the app:** tap **Create my story**. Seven short steps, built for your thumb:
+1. **You:** name, who you're into, birthday, your color.
+2. **Your look:** every option shown as a portrait.
+3. **Who you are:** your type, plus sliders for personality, talent and drives.
+4. **Sports:** play, maybe, or not, with position, day-one skill, height, build and jersey.
+5. **Your family:** parents, how they parent, money, and a pet (dog, cat or rabbit, with name, breed and coat).
+   Siblings are one tap each (older brother, older sister, twin sisters, twin brothers, your twin), and each one's
+   after-high-school path can be set (say, UConn basketball).
+6. **Your people:** best friend, crush, rival, teammate, coach.
+7. **Ready:** look it over and start.
+
+Problems get checked before you start, and tapping one takes you to the fix. Anything you skip gets generated. Your draft
+saves on the phone as you go, so you can stop halfway. Siblings left on auto get your skin, hair and eye color
+(with natural variation) when you've picked your look. **Save as a cast file** on the last step sends the whole cast to
+the lab, and **Load a cast file to edit** brings one back.
+
+**Or bring people from somewhere else:** build them in the lab (My Story → Start your story) and click **Download cast**,
+or fill in the Excel worksheet, or use ChatGPT's JSON answer. Send the file to your phone (AirDrop, email, iCloud Drive)
+and tap **Load a cast file or backup**. Or tap **Try a sample story**.
 
 **Your story lives on your phone.** It saves by itself. **Me → Back up my story** saves a `.lifeos` file
 (to Files, iCloud, AirDrop). To look under the hood, import that file in the lab under **Saves & Worlds**, load it, and
@@ -165,7 +181,7 @@ Open **My Story → Start your story**. The first step has a **Want to plan it f
 
 ```bash
 cd lifeos
-python -m pytest backend/tests -q      # 44 tests, about 40 seconds
+python -m pytest backend/tests -q      # 46 tests, about 40 seconds
 ```
 
 They cover every acceptance criterion in the brief. Each name below is a test:

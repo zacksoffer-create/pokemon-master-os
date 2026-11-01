@@ -432,3 +432,15 @@ Differences from the server:
 - The service worker caches everything for offline use.
 
 `lifeos/tools/build_phone_app.py` builds all of it. `tests/test_phone_app.py` runs the same handlers through the stand-in.
+
+**Making a story on the phone** (`src/phone/CreateStory.tsx`, at `#/m/create`):
+- It runs the same seven steps as the lab's wizard, laid out for a phone: you, your look, who you are, sports, family, your people, ready.
+- Both wizards share one draft model, `src/story/draft.ts`, which holds `Draft`, `buildSpec`, `parseErrors` and the people templates.
+  Whichever one you use, the server gets the same story spec.
+- The phone keeps its draft in `localStorage` (`lifeos.phoneDraft.v1`), separate from the lab's.
+- Siblings and people are edited in full-screen sheets.
+- The last step calls `/api/story/validate` and lists the problems; each one jumps to the step or person it's about.
+- `/api/story/catalog` also carries the pet species (breeds and coats), the school and the town, so the screens never hardcode them.
+- A picked pet can name its breed and coat. `validate_story` checks both, and `pets.ensure` carries the coat over.
+- `appearance.resemble()`: when you pick your own look, siblings left on auto take your skin, hair color and eyes when the story is built.
+  They use the same odds as generated families: skin is shared (sometimes a shade off), hair color usually is, and eye color often is.

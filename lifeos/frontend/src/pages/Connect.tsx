@@ -40,7 +40,7 @@ export default function Connect() {
             </div>
             <ol className="muted" style={{ lineHeight: 1.7, margin: 0, paddingLeft: 18 }}>
               <li>Tap <b>Share</b>, then <b>Add to Home Screen</b>. It opens full screen like an app and works offline after the first time.</li>
-              <li><b>Bring your people:</b> build them in <a href="#/story/new">Start your story</a>, click <i>Download cast</i>, and send the file to your phone (AirDrop, email, iCloud). In the app, tap <i>Load a cast file or backup</i>. The Excel worksheet and ChatGPT's answer work too.</li>
+              <li><b>Make your story:</b> tap <i>Create my story</i> in the app and build yourself, your family, your pet and your people right on the phone. Or build them here in <a href="#/story/new">Start your story</a>, click <i>Download cast</i>, send the file to your phone (AirDrop, email, iCloud), and tap <i>Load a cast file or backup</i>. The Excel worksheet and ChatGPT's answer work too.</li>
               <li>Your story saves on the phone. Use <i>Me → Back up my story</i> now and then.</li>
               <li><b>Look under the hood:</b> import a phone backup in <a href="#/saves">Saves &amp; Worlds</a> here, load it, and everything (history, decisions, the math) is in the lab.</li>
             </ol>

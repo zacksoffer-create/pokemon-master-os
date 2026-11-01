@@ -74,6 +74,29 @@ def generated(c) -> dict:
             "freckles": (not dark) and _h(cid, "freckles") % 100 < 12}
 
 
+def resemble(c, anchor: dict) -> dict:
+    """Family features for someone whose look is on auto, taken from a relative's chosen look (the protagonist's, in a story).
+    Same odds as generated(): skin is shared (now and then a shade off), hair color usually, eye color often.
+    Returns only the fields to set; anything the person already has chosen is left alone."""
+    cid = c.id
+    mine = {k: v for k, v in (getattr(c, "look", None) or {}).items() if v not in (None, "")}
+    gen = generated(c)
+    out = {}
+    if anchor.get("skin") in SKIN and "skin" not in mine:
+        skin = anchor["skin"]
+        if _h(cid, "skin-shift") % 6 == 0:
+            skin = SKIN[max(0, min(len(SKIN) - 1, SKIN.index(skin) + (1 if _h(cid, "dir") % 2 else -1)))]
+        out["skin"] = skin
+        if SKIN.index(skin) <= 3 and "hair" not in mine and gen["hair"] in ("afro", "locs", "braids"):
+            pool = [x for x in (_MASC if c.gender == "m" else _FEM if c.gender == "f" else ["short", "messy", "bob", "long_wavy"]) if x not in ("afro", "locs", "braids")]
+            out["hair"] = _pick(cid, "hair-light", pool)
+    if anchor.get("hair_color") in HAIR_COLORS and "hair_color" not in mine and _h(cid, "fam-hair") % 10 < 7:
+        out["hair_color"] = anchor["hair_color"]
+    if anchor.get("eyes") in EYES and "eyes" not in mine and _h(cid, "fam-eyes") % 10 < 6:
+        out["eyes"] = anchor["eyes"]
+    return out
+
+
 def look_of(c) -> dict:
     out = generated(c)
     out.update({k: v for k, v in (getattr(c, "look", None) or {}).items() if v not in (None, "")})

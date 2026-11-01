@@ -8,6 +8,7 @@ import { api } from "../api";
 import { useStore } from "../store";
 import { SAMPLE_SPEC, STANDALONE, pickFile, startFromFile } from "./StoryFiles";
 import { pgo } from "./api";
+import CreateStory from "./CreateStory";
 import { Portrait, Scene } from "./art";
 import Gallery from "./art/Gallery";
 import HomeTab from "./HomeTab";
@@ -76,6 +77,7 @@ function Shell({ route }: { route: string[] }) {
       </div>
     );
   }
+  if (tab === "create") return <CreateStory hasStory={!!state.active} />;
   if (!state.active) return <Welcome />;
   let body: React.ReactNode;
   if (tab === "phone") body = <PhoneTab route={route.slice(1)} />;
@@ -173,37 +175,27 @@ function Welcome() {
         </div>
       </div>
       <div className="ph-pad">
-        {STANDALONE ? (
-          <div className="ph-card">
-            <div className="ph-card-row">
-              <div className="ph-icon-bubble"><PIcon name="laptop" size={22} /></div>
-              <div>
-                <h3>Bring your people</h3>
-                <p className="ph-dim">Build yourself, your family and your people in the lab on your computer (or with the worksheet or ChatGPT), save the cast file, and load it here. Your story then lives on this phone.</p>
-              </div>
+        <div className="ph-card">
+          <div className="ph-card-row">
+            <div className="ph-icon-bubble"><PIcon name="sparkle" size={22} /></div>
+            <div>
+              <h3>Make your story</h3>
+              <p className="ph-dim">You, your family, your siblings, your pet and your people, right here on your phone. Takes a few minutes; anything you skip gets filled in.</p>
             </div>
-            <button className="ph-btn primary block" disabled={!!busy} onClick={fromFile}>
-              {busy === "file" ? <span className="ph-spinner small" /> : <PIcon name="upload" size={17} />} Load a cast file or backup
-            </button>
-            <button className="ph-btn soft block" style={{ marginTop: 8 }} disabled={!!busy} onClick={sample}>
-              {busy === "sample" ? <span className="ph-spinner small" /> : <PIcon name="sparkle" size={17} />} Try a sample story
-            </button>
           </div>
-        ) : (
-          <div className="ph-card">
-            <div className="ph-card-row">
-              <div className="ph-icon-bubble"><PIcon name="laptop" size={22} /></div>
-              <div>
-                <h3>Set up your story on your computer</h3>
-                <p className="ph-dim">Build yourself, your family and your people in the story builder, then pick it up here.</p>
-              </div>
-            </div>
-            <a className="ph-btn primary block" href="#/story/new">Open the story builder</a>
-            <button className="ph-btn soft block" style={{ marginTop: 8 }} disabled={!!busy} onClick={fromFile}>
-              <PIcon name="upload" size={17} /> Load a cast file or backup
+          <button className="ph-btn primary block big" disabled={!!busy} onClick={() => pgo("create")}>
+            <PIcon name="sparkle" size={18} /> Create my story
+          </button>
+          <button className="ph-btn soft block" disabled={!!busy} onClick={fromFile}>
+            {busy === "file" ? <span className="ph-spinner small" /> : <PIcon name="upload" size={17} />} Load a cast file or backup
+          </button>
+          <div className="ph-welcome-more">
+            <button className="ph-link" disabled={!!busy} onClick={sample}>
+              {busy === "sample" ? <span className="ph-spinner small" /> : null} Try a sample story
             </button>
+            {!STANDALONE && <a className="ph-link" href="#/story/new">Story builder on the computer</a>}
           </div>
-        )}
+        </div>
         <div className="ph-section-t">Or play as someone already in town</div>
         <input className="ph-input" type="search" placeholder="Search by name" value={q} onChange={(e) => setQ(e.target.value)} />
         <div className="ph-list">

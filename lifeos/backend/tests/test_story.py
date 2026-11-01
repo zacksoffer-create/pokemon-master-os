@@ -68,6 +68,36 @@ def test_family_pet_can_be_none_or_named(pet, expect):
     assert (h["pet"] or {}).get("name") == expect
 
 
+def test_picked_pet_keeps_breed_and_coat_and_bad_picks_are_flagged():
+    from lifeos import pets
+    s = spec(per=6)
+    s["family"]["pet"] = {"species": "dog", "name": "Scout", "breed": "Golden Retriever", "coat": "golden"}
+    sim = Simulation(create_story(s))
+    begin(sim)
+    pet = next(iter(pets.pets(sim.w).values()))
+    assert (pet["name"], pet["breed"], pet["coat"]) == ("Scout", "Golden Retriever", "golden")
+    s["family"]["pet"] = {"species": "dog", "name": " ", "breed": "Poodle", "coat": "purple"}
+    with pytest.raises(StoryError) as e:
+        validate_story(s)
+    msg = " | ".join(e.value.errors)
+    assert "needs a name" in msg and "breed" in msg and "coat" in msg
+
+
+def test_siblings_on_auto_look_like_you_when_you_pick_your_look():
+    from lifeos import appearance
+    s = spec(per=6)
+    s["protagonist"]["look"] = {"skin": "porcelain", "hair_color": "red", "eyes": "green"}
+    s["siblings"][1]["look"] = {"hair_color": "black"}  # Ally picked her own hair color
+    w = create_story(s)
+    sibs = {c.first: appearance.look_of(c) for c in w.chars.values() if c.first in ("Mike", "Ally", "Jen") and c.last == "Soffer"}
+    assert len(sibs) == 3
+    skins = appearance.SKIN
+    for name, look in sibs.items():
+        assert abs(skins.index(look["skin"]) - skins.index("porcelain")) <= 1, name
+        assert look["hair"] not in ("afro", "locs", "braids")
+    assert sibs["Ally"]["hair_color"] == "black"
+
+
 def test_story_validation_lists_every_problem():
     bad = spec()
     bad["protagonist"] = {"first": "", "gender": "q", "grade": 14, "traits": {"swagger": 50}, "positions": {"football": "XX"}}

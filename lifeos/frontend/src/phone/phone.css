@@ -607,3 +607,5 @@ html.ph-html body { color-scheme: light; }
 
 .ph-filebtns { display: grid; gap: 8px; }
 .ph-filebtns .ph-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.ph-welcome-more { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
+.ph-root .ph-welcome-more .ph-link { display: inline-flex; align-items: center; gap: 6px; }

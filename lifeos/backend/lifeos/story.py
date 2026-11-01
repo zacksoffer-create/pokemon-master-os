@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import datetime as dt
 
+from . import appearance
 from . import calendar as calm
 from .catalogs import APTITUDES, MOTIVES, TRAITS, Catalogs
 from .history import History
@@ -157,6 +158,19 @@ def validate_story(spec: dict) -> dict:
         errors.append(f"family.style must be one of {', '.join(GUARDIAN_STYLES)}")
     if fam.get("income") and fam["income"] not in INCOMES:
         errors.append(f"family.income must be one of {', '.join(INCOMES)}")
+    pet = fam.get("pet")
+    if isinstance(pet, dict) and pet:
+        from .pets import SPECIES
+        sp = SPECIES.get(pet.get("species") or "dog")
+        if not sp:
+            errors.append(f"family.pet.species must be one of {', '.join(SPECIES)}")
+        else:
+            if not str(pet.get("name") or "").strip():
+                errors.append("family.pet.name: your pet needs a name")
+            if pet.get("breed") and pet["breed"] not in sp["breeds"]:
+                errors.append(f"family.pet.breed must be one of {', '.join(sp['breeds'])}")
+            if pet.get("coat") and pet["coat"] not in sp["coats"]:
+                errors.append(f"family.pet.coat must be one of {', '.join(sp['coats'])}")
     sibs = spec.get("siblings") or []
     if len(sibs) > 6:
         errors.append("at most 6 siblings")
@@ -358,6 +372,10 @@ def create_story(spec: dict) -> World:
         if s.get("twin_of") in keymap:
             c.birth_day = w.chars[keymap[s["twin_of"]]].birth_day
         twins_bd[k] = s.get("birthday")
+        # siblings on auto look like you when you picked your look
+        fam_look = appearance.resemble(c, me.get("look") or {})
+        if fam_look:
+            c.look = {**(c.look or {}), **fam_look}
     for cs in spec.get("cast") or []:
         if cs.get("role") == "staff":
             c = build_staff(w, rng, cs)

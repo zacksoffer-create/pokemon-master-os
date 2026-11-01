@@ -55,20 +55,20 @@ export const SPORTS = ["football", "basketball", "baseball"];
 export const GRADE_LABEL: Record<number, string> = { 9: "Freshman", 10: "Sophomore", 11: "Junior", 12: "Senior" };
 export const COLORS = ["#57d9c3", "#6bb6ff", "#9b8cff", "#c08cff", "#ff8fc7", "#ff6b81", "#ff9a62", "#ffb547", "#f4d35e", "#b5e48c", "#66d98f", "#4fc3f7"];
 
-const TRAIT_WORDS: Record<string, [string, string]> = {
+export const TRAIT_WORDS: Record<string, [string, string]> = {
   sociability: ["outgoing", "reserved"], confidence: ["confident", "self-doubting"], discipline: ["disciplined", "easily distracted"],
   ambition: ["ambitious", "easygoing about the future"], impulsivity: ["impulsive", "careful"], empathy: ["caring", "blunt"],
   competitiveness: ["competitive", "laid-back"], curiosity: ["curious", "set in their ways"], volatility: ["hot-headed", "even-keeled"],
   loyalty: ["loyal", "independent"],
 };
-const MOTIVE_WORDS: Record<string, string> = {
+export const MOTIVE_WORDS: Record<string, string> = {
   achievement: "winning and achieving", approval: "being liked and noticed", belonging: "being close to their people",
   pleasure: "having a good time", altruism: "helping other people", mastery: "getting really good at things",
 };
 const MINI: Record<string, string> = { sociability: "social", confidence: "confident", discipline: "discipline", ambition: "ambition", impulsivity: "impulsive",
   empathy: "empathy", competitiveness: "compete", curiosity: "curious", volatility: "temper", loyalty: "loyal" };
-const APT_LABEL: Record<string, string> = { athletic: "Athletic", academic: "Academic", creativity: "Creative", technical: "Technical", charisma: "Charisma" };
-const ARCH_BLURB: Record<string, string> = {
+export const APT_LABEL: Record<string, string> = { athletic: "Athletic", academic: "Academic", creativity: "Creative", technical: "Technical", charisma: "Charisma" };
+export const ARCH_BLURB: Record<string, string> = {
   athlete: "Lives for competition and the next game.", artist: "Happiest making things nobody asked for.",
   scholar: "Grades, books and getting it right.", socialite: "Knows everyone and goes everywhere.",
   loner: "Keeps a small world and likes it that way.", rebel: "Rules are more like suggestions.",
@@ -76,13 +76,13 @@ const ARCH_BLURB: Record<string, string> = {
   performer: "Stage, spotlight, applause.", caretaker: "The one everybody calls when it goes wrong.",
   drifter: "Going with the flow, figuring it out.",
 };
-const BUILD_HINT: Record<string, string> = {
+export const BUILD_HINT: Record<string, string> = {
   slight: "Quick and light. Fine at WR, DB or kicker; rough on the lines.",
   average: "No edge either way.",
   athletic: "The all-around body for skill spots: WR, RB, DB, guards.",
   strong: "Built for the lines (OL/DL); a step slower out wide.",
 };
-const SEASON: Record<string, string> = { fall: "Fall", winter: "Winter", spring: "Spring" };
+export const SEASON: Record<string, string> = { fall: "Fall", winter: "Winter", spring: "Spring" };
 export const REL_TYPES = ["best_friend", "close_friend", "friend", "acquaintance", "crush", "admirer", "mutual_crush", "dating", "ex",
   "rival", "enemy", "teammate", "neighbor", "mentor", "sibling", "twin"];
 
@@ -158,7 +158,7 @@ function shownInterest(cat: any, p: Person, k: string): number | null {
   if (SPORTS.includes(k) && a.interests?.sport) return null;
   return a.interests?.[k] ?? null;
 }
-function autoSkill(cat: any, p: Person, s: any) {
+export function autoSkill(cat: any, p: Person, s: any) {
   const a = shown(cat, p, "aptitudes", s.aptitude);
   const iv = shownInterest(cat, p, s.id) ?? 0;
   return Math.round(clamp(a * 0.3 + iv * 0.28 + ((p.grade || 9) - 9) * 2.5, 0, 70));

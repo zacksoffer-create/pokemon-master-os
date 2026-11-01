@@ -21,7 +21,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from . import calendar as calm
-from . import metrics
+from . import metrics, pets
 from .catalogs import ATTRIBUTE_DOCS, CatalogError
 from .engine import EditError, Simulation
 from .experiments import PRESETS, Runner, validate_spec
@@ -984,7 +984,9 @@ def api_story_catalog():
     return {"archetypes": cat.people["archetypes"], "relationships": [{"id": k, "label": v["label"]} for k, v in story.REL_PRESETS.items()],
             "sports": cat.sports["sports"], "builds": list(story.BUILDS), "guardian_styles": cat.people["guardian_styles"],
             "incomes": list(story.INCOMES), "skills": cat.world["skills"], "hobbies": cat.world["hobbies"], "attributes": ATTRIBUTE_DOCS,
-            "colleges": cat.colleges, "names": {k: v[:12] for k, v in cat.people["names"].items()}}
+            "colleges": cat.colleges, "names": {k: v[:12] for k, v in cat.people["names"].items()},
+            "pets": {k: {"label": v["label"], "breeds": v["breeds"], "coats": v["coats"]} for k, v in pets.SPECIES.items()},
+            "school": {k: cat.world["school"].get(k) for k in ("name", "short", "mascot")}, "town": cat.world["town"].get("name")}
 
 
 @app.post("/api/story/validate")

@@ -104,7 +104,7 @@ def ensure(sim):
         return
     h = w.households.get(c.household_id)
     if h and h.get("pet") and not household_pets(w, c.household_id) and not w.meta.get("pets_seeded"):
-        make_pet(sim, c.household_id, h["pet"]["species"], h["pet"]["name"], breed=h["pet"].get("breed"), day=w.day)
+        make_pet(sim, c.household_id, h["pet"]["species"], h["pet"]["name"], breed=h["pet"].get("breed"), coat=h["pet"].get("coat"), day=w.day)
     w.meta["pets_seeded"] = True
 
 

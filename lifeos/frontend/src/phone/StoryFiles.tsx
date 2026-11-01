@@ -1,6 +1,7 @@
 // Your story as a file: start one from a cast file, back it up, restore it, or move it to the lab on a computer.
 import React, { useState } from "react";
 import { api } from "../api";
+import { pgo } from "./api";
 import { PIcon } from "./icons";
 import { cx, errText } from "./kit";
 import { usePhone } from "./PhoneContext";
@@ -130,6 +131,11 @@ export function StoryFilesCard({ hasStory }: { hasStory: boolean }) {
         {hasStory && (
           <button className="ph-btn primary block" disabled={!!busy} onClick={() => run("backup", backupStory)}>
             {busy === "backup" ? <span className="ph-spinner small" /> : <PIcon name="download" size={17} />} Back up my story
+          </button>
+        )}
+        {hasStory && (
+          <button className="ph-btn soft block" disabled={!!busy} onClick={() => pgo("create")}>
+            <PIcon name="sparkle" size={17} /> Make a new story
           </button>
         )}
         <button className={cx("ph-btn block", hasStory ? "soft" : "primary")} disabled={!!busy} onClick={load}>
