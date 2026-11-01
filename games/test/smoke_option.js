@@ -191,6 +191,46 @@ async function passing(browser, w, h, tag) {
   await p.waitForFunction(() => OptionArcade.P.thrown || OptionArcade.P.phase === 'dead', null, { timeout: 3000 }).catch(() => {});
   check(await OA(() => OptionArcade.P.thrown && OptionArcade.P.thrown.target === 'SR'), `${tag}: the 3 key throws to the right slot`);
   await cardUp();
+  // the raised drawback layout: SNAP in the middle, 40% up from the bottom, and the QB at the same height
+  await p.click('#oa-next');
+  await p.click('#oa-passsw [data-pass="draw"]');
+  await OA(() => { OptionArcade.seed = 77; OptionArcade.newPlay(); });
+  await wait(250);
+  const padBox = await p.locator('#oa-give').boundingBox();
+  check(Math.abs((padBox.x + padBox.width / 2) / w - 0.5) < 0.03 && Math.abs((padBox.y + padBox.height / 2) / h - 0.6) < 0.04, `${tag}: drawback layout puts SNAP in the middle, 40% up`);
+  await p.mouse.click(padBox.x + padBox.width / 2, padBox.y + padBox.height / 2);
+  await p.waitForFunction(() => OptionArcade.P.phase === 'run' && FB.canThrow(OptionArcade.P), null, { timeout: 5000 });
+  await wait(900);
+  const qbs = await OA(() => { const q = OptionArcade.P.by.QB; return FBView.proj(OptionArcade.V, q.x, q.y, 0); });
+  check(Math.abs(qbs[1] / h - 0.6) < 0.06, `${tag}: and the QB sits 40% up (${(1 - qbs[1] / h).toFixed(2)} from the bottom)`);
+  await OA(({ qbs }) => {
+    const cv = document.getElementById('oa-canvas');
+    const ev = (type, x, y) => cv.dispatchEvent(new PointerEvent(type, { pointerId: 41, clientX: x, clientY: y, bubbles: true, pointerType: 'touch' }));
+    ev('pointerdown', qbs[0] + 8, qbs[1] + 8); ev('pointermove', qbs[0] + 2, qbs[1] + 60); ev('pointermove', qbs[0] - 8, qbs[1] + 110); ev('pointerup', qbs[0] - 8, qbs[1] + 110);
+  }, { qbs });
+  await p.waitForFunction(() => OptionArcade.P.thrown || OptionArcade.P.phase === 'dead', null, { timeout: 3000 }).catch(() => {});
+  check(await OA(() => !!OptionArcade.P.thrown && OptionArcade.P.ball.tx > OptionArcade.P.by.QB.x + 8), `${tag}: pulling down from the QB throws it downfield`);
+  await cardUp(); await p.click('#oa-next');
+  // flick: the QB stays low; a flick toward a receiver throws to where he's headed
+  await p.click('#oa-passsw [data-pass="flick"]');
+  await OA(() => { OptionArcade.seed = 77; OptionArcade.newPlay(); });
+  await wait(250);
+  const padF = await p.locator('#oa-give').boundingBox();
+  check(padF.x + padF.width / 2 > w * 0.7, `${tag}: flick keeps SNAP at the bottom right`);
+  await p.mouse.click(padF.x + padF.width / 2, padF.y + padF.height / 2);
+  await p.waitForFunction(() => OptionArcade.P.phase === 'run' && FB.canThrow(OptionArcade.P), null, { timeout: 5000 });
+  await wait(1100);
+  const fl = await OA(() => { const P = OptionArcade.P, L = FB.leadFor(P, 'SR'), q = P.by.QB, a = FBView.proj(OptionArcade.V, q.x, q.y, 0), t = FBView.proj(OptionArcade.V, L.x, L.y, 0); return Math.atan2(t[1] - a[1], t[0] - a[0]); });
+  await OA(({ w, h, fl }) => new Promise(res => {
+    const cv = document.getElementById('oa-canvas');
+    const ev = (type, x, y) => cv.dispatchEvent(new PointerEvent(type, { pointerId: 42, clientX: x, clientY: y, bubbles: true, pointerType: 'touch' }));
+    const sx = w * 0.72, sy = h * 0.8;
+    ev('pointerdown', sx, sy); ev('pointermove', sx + Math.cos(fl) * 45, sy + Math.sin(fl) * 45);
+    setTimeout(() => { ev('pointermove', sx + Math.cos(fl) * 95, sy + Math.sin(fl) * 95); ev('pointerup', sx + Math.cos(fl) * 95, sy + Math.sin(fl) * 95); res(); }, 60);
+  }), { w, h, fl });
+  await p.waitForFunction(() => OptionArcade.P.thrown || OptionArcade.P.phase === 'dead', null, { timeout: 3000 }).catch(() => {});
+  check(await OA(() => OptionArcade.P.thrown && OptionArcade.P.thrown.target === 'SR'), `${tag}: a flick toward the right slot throws to him`);
+  await cardUp();
   // the camera setting: sideline always puts pass plays back on the sideline view
   await OA(() => { OptionArcade.S.cam = 'side'; OptionArcade.newPlay(); });
   check(await OA(() => OptionArcade.V.mode === 'side'), `${tag}: 'Sideline always' keeps passes on the sideline camera`);
