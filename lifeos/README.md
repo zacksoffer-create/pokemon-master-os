@@ -99,6 +99,12 @@ stats, your family and your people.
 - **Invites never overrule you.** When you've made your own pick and a friend asks you to hang out in that same part of
   the day, the game doesn't answer for you: they text you to try again later ("saw you were busy. later this week?") and
   it's yours to answer. Plans you've said yes to show what and with whom: "Hanging out with Danny, next time you're free".
+- **Game day: your game comes first.** In the part of the day your game (or your show) is in, **Play in your game vs
+  Branford** sits at the top of Should. Everything else in that slot says **You'd miss your game**. A saved plan or a
+  yes to an invite waits for your next free time instead of taking the game slot. If you skip it anyway, the team plays
+  without you, and you're told: "You missed the game. Guilford Football lost to Branford, 14-21." On the Me tab, a team
+  shows its record, and yours (**you 1-0**) under it when you've missed a game or joined after the season started.
+  A game is only ever played once, even if a slot runs again after a reload.
 
 Everyone else lives their own life the whole time. Your brother graduates and leaves, your sisters
 go off to college a year later and come home for Thanksgiving, friends drift, rivals show up. Siblings

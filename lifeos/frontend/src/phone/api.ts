@@ -22,7 +22,7 @@ export type PhoneState = {
   me: any; moments: Moment[]; feed: FeedItem[]; last_event: number; unread: number; needs_reply: number;
   pets: Pet[]; pet_setup_needed: boolean; pet_approved: { species: string; day: number } | null; queued: { label: string } | null;
   family: { name: string; guardians: { id: string; name: string; full: string }[]; siblings: { id: string; first: string; year_label: string; location: string; look: Look; path: any }[]; style: string; trust: number };
-  teams: { id: string; name: string; sport: string; record: { w: number; l: number }; level: string; position: string }[];
+  teams: { id: string; name: string; sport: string; record: { w: number; l: number }; mine?: { w: number; l: number }; level: string; position: string }[];
   control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean };
   setting: { town: string; school: string; short: string; mascot: string };
 };

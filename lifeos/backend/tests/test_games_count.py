@@ -64,3 +64,78 @@ def test_one_game_day_is_one_game_varsity_and_jv():
         assert card["level"] == level and card["record"]["w"] + card["record"]["l"] == 1, (level, card)
         mine = [e for e in w.history.events.values() if e["type"] == "game" and e.get("outcome") in ("win", "loss") and me.id in e["actors"]]
         assert len(mine) == 1, [e.get("text") for e in mine]
+
+
+def _game_slot():
+    """A story on the afternoon of the first football game, with you on varsity."""
+    from lifeos import api, moments
+    from lifeos.history import Effects
+    from lifeos.storage import Store
+    from tests.test_phone import story
+    w, sim = story(pet=False)
+    me = w.chars[w.meta["protagonist"]]
+    it = next(i for i in w.calendar if i["kind"] == "game" and i["group"] == "football")
+    sim.advance_days(it["day"] - w.day)
+    if "football" not in me.memberships:
+        Effects(w, None).join(me.id, "football", "test")
+    w.groups["football"].setdefault("levels", {})[me.id] = "varsity"
+    me.flags.pop("injured_until", None)
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    api.lab.replace_world(w)
+    sim = api.lab.sim
+    while sim.current_phase() != it["slot"]:
+        for m in moments.pending(w):
+            moments.resolve(sim, m["id"], None)
+        sim.step()
+    for m in moments.pending(w):
+        moments.resolve(sim, m["id"], None)
+    return api, w, sim, me, it
+
+
+def test_on_game_day_your_game_comes_first_and_skipping_it_says_so():
+    from lifeos import phone_api
+    api, w, sim, me, it = _game_slot()
+    ch = phone_api.phone_choices()
+    assert ch["ready"], "game day, after school: your call"
+    top = ch["options"][0]
+    assert top.get("own") == "game" and top["group"] == "should" and top["text"].startswith("Play in your game vs ") and top["reason"].startswith("Your game vs ")
+    rest = ch["options"][1:]
+    assert rest and all(o["group"] == "could" and o["reason"] == "You'd miss your game" for o in rest)
+    # pick something else anyway: the team plays without you, and you hear about it
+    before = w.history.next_event
+    out = phone_api.phone_choose({"index": rest[0]["index"]})
+    missed = [e for eid, e in w.history.events.items() if eid >= before and e["type"] == "game" and e["outcome"] == "missed"]
+    assert len(missed) == 1 and me.id in missed[0]["actors"]
+    assert any(x["text"].startswith("You missed the game.") for x in out["lines"]), out["lines"]
+    card = next(t for t in phone_api.phone_state()["teams"] if t["id"] == "football")
+    assert card["record"]["w"] + card["record"]["l"] == 1 and card["mine"] == {"w": 0, "l": 0}, card
+
+
+def test_a_saved_plan_waits_until_after_your_game():
+    from lifeos import phone_api
+    api, w, sim, me, it = _game_slot()
+    w.meta["control"]["queued"] = {"action": "rest", "day": w.day}
+    before = w.history.next_event
+    sim.step()  # you didn't pick: the game slot runs on its own
+    played = [e for eid, e in w.history.events.items() if eid >= before and e["type"] == "game" and e.get("outcome") in ("win", "loss")
+              and e["data"].get("level") == "varsity"]
+    assert played and me.id in played[0]["actors"], "you play your game"
+    assert w.meta["control"].get("queued", {}).get("action") == "rest", "the plan is still waiting for your next free time"
+    card = next(t for t in phone_api.phone_state()["teams"] if t["id"] == "football")
+    assert card["mine"] == card["record"], card
+
+
+def test_a_game_is_played_once_even_if_the_slot_runs_again():
+    from lifeos import sports
+    api, w, sim, me, it = _game_slot()
+    g = w.groups["football"]
+    sim.step()  # the game slot: the game is played
+    rec = dict(g["record"])
+    st = {k: dict(v) for k, v in me.stats.items()}
+    from lifeos.engine import SlotState
+    sim.slot = SlotState(it["slot"])  # the same slot again, say after a reload: you're there, the game isn't played twice
+    sim.slot.attend[("event", it["key"])] = [me.id]
+    sports.play_game(sim.institutions, it, sim.streams.get("collective", w.day, it["slot"]))
+    sim.slot = None
+    assert g["record"] == rec and sum(rec.values()) == 1
+    assert {k: v["games"] for k, v in me.stats.items()} == {k: v["games"] for k, v in st.items()}

@@ -439,6 +439,9 @@ class Simulation:
             q = w.meta.get("control", {}).get("queued")
             if q and q.get("slot") and q.get("day") == w.day and q["slot"] != slot:
                 q = None  # saved for a later part of today
+            if q and any(cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show")
+                         for cd in dec["cands"]):
+                q = None  # your game (or your show) comes first: the plan waits for your next free time
             if q and cid == w.meta.get("protagonist") and cid not in overrides:
                 hit = None
                 for i, cd in enumerate(dec["cands"]):

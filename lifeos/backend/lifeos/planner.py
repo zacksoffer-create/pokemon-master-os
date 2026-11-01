@@ -306,6 +306,8 @@ def annotate(sim, me, opts: list) -> list:
                 if d["due"] and d["today"] == me.id and not d["done"] and d["id"] in DUTY_ACTION:
                     duty_acts[DUTY_ACTION[d["id"]]] = p["name"]
     nxt = _next_slot(sim)
+    own = next((o for o in opts if o.get("own")), None)  # your game or your show is in this part of the day
+    busy_next = nxt and any(i.get("slot") == nxt and i["kind"] in ("game", "show") and i.get("group") in me.memberships for i in sim._today)
     for o in opts:
         a, t = o["action"], o.get("target")
         r = w.rels.get((me.id, t)) if t else None
@@ -363,10 +365,15 @@ def annotate(sim, me, opts: list) -> list:
         if not why:
             why = {"social": "Friends", "romance": "Romance", "academic": "School", "leisure": "Downtime", "family": "Family",
                    "activity": "Getting better", "obligation": "Commitment", "achievement": "Big move", "risk": "Risky"}.get(o.get("category"), "")
+        if own is not None:
+            if o is own:
+                grp, why = "should", (f"Your game vs {o['opponent']}" if o.get("opponent") else "Your game today") if o["own"] == "game" else "You're in the show"
+            else:
+                grp, why = "could", "You'd miss your game" if own["own"] == "game" else "You'd miss the show"
         o["group"], o["reason"] = grp, why
-        o["later"] = f"Save for {LABEL.get(nxt, 'later').lower()}" if nxt and a in LATER_OK else None
+        o["later"] = f"Save for {LABEL.get(nxt, 'later').lower()}" if nxt and a in LATER_OK and not busy_next else None
     rank = {"should": 0, "want": 1, "could": 2}
-    return sorted(opts, key=lambda o: rank[o["group"]])
+    return sorted(opts, key=lambda o: (rank[o["group"]], o is not own))
 
 
 def save_for_later(sim, opt: dict) -> dict:

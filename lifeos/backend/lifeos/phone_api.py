@@ -124,6 +124,17 @@ def phrase(sim, opt) -> str:
     return tmpl.format(f=first, t=tname or "it")
 
 
+def team_card(w, me, gid) -> dict:
+    """A team on your Me tab: the team's record at your level, and yours (the games you played in this season)."""
+    from .sports import season_key
+    g = w.groups[gid]
+    level = g.get("levels", {}).get(me.id, "varsity")
+    st = me.stats.get(season_key(g.get("skill"), w.day, level)) or {}
+    return {"id": gid, "name": g["name"], "sport": g.get("skill"), "level": level, "position": me.positions.get(g.get("skill")),
+            "record": g.get("record_jv", {"w": 0, "l": 0}) if level == "jv" else g["record"],
+            "mine": {"w": st.get("wins", 0), "l": st.get("losses", 0)}}
+
+
 # --- state ----------------------------------------------------------------------------------
 
 @router.get("/api/phone/state")
@@ -165,10 +176,7 @@ def phone_state(since: int | None = None):
         hp = pets.household_pets(w, me.household_id or "")
         from . import planner
         q = w.meta.get("control", {}).get("queued")
-        teams = [{"id": g, "name": w.groups[g]["name"], "sport": w.groups[g].get("skill"),
-                  "record": w.groups[g].get("record_jv", {"w": 0, "l": 0}) if w.groups[g].get("levels", {}).get(me.id) == "jv" else w.groups[g]["record"],
-                  "level": w.groups[g].get("levels", {}).get(me.id, "varsity"), "position": me.positions.get(w.groups[g].get("skill"))}
-                 for g in me.memberships if w.groups[g]["kind"] == "team"]
+        teams = [team_card(w, me, g) for g in me.memberships if w.groups[g]["kind"] == "team"]
         return {
             "active": True, "day": w.day, "date": calm.label(w.day), "weekday": calm.date_of(w.day).strftime("%A"),
             "term": calm.term_label(w.day, sim.cat.world["calendar"]), "scene": scene(sim, me), "decision_ready": ready,
@@ -217,6 +225,16 @@ def phone_choices():
             o["why"] = cd.why
             if isinstance(cd.extra, dict) and cd.extra.get("pet"):
                 o["pet"] = cd.extra["pet"]
+            if cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show"):
+                o["own"] = cd.extra["kind"]  # your own game or show, not a night out
+                if cd.extra["kind"] == "game" and cd.extra.get("group") in L.w.groups:
+                    from .sports import opponent_name
+                    tail = cd.extra["key"].split(":")[-1]
+                    o["opponent"] = opponent_name(sim, L.w.groups[cd.extra["group"]], int(tail) if tail.isdigit() else 1)
+                    o["text"] = f"Play in your game vs {o['opponent']}"
+                else:
+                    o["text"] = f"Perform in {cd.extra.get('production_name') or o['target_name'] or 'the show'}"
+                o["icon"] = "ball" if cd.extra["kind"] == "game" else "star"
             opts.append(o)
         seen, uniq = set(), []
         for o in opts:

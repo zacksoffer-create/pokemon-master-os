@@ -84,7 +84,12 @@ export default function MeTab() {
                   <b>{t.name}</b>
                   <small className="ph-dim">{[t.level === "jv" ? "JV" : "Varsity", t.position].filter(Boolean).join(" · ")}</small>
                 </div>
-                <span className="ph-team-r">{t.record.w}-{t.record.l}</span>
+                <span className="ph-team-r">
+                  {t.record.w}-{t.record.l}
+                  {t.mine && (t.mine.w !== t.record.w || t.mine.l !== t.record.l) && (
+                    <small title="The games you played in this season">you {t.mine.w}-{t.mine.l}</small>
+                  )}
+                </span>
               </div>
             ))}
           </div>

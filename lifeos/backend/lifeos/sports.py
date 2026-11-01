@@ -255,6 +255,11 @@ def play_game(inst, it, rng):
     came = set(sim.slot.attend.get(("event", it["key"]), []))
     fans = sorted(set(sim.slot.attend.get(("spectate", it["key"]), [])))
     num = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
+    done = g.setdefault("played", [])
+    if it["key"] in done:
+        return  # a game is played once, whatever happens to the save or the slot
+    done.append(it["key"])
+    del done[:-60]
     for level in ("varsity", "jv"):
         squad = [m for m in g["members"] if levels.get(m, "varsity") == level]
         if not squad:
@@ -366,6 +371,13 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
             fx.rel(coach, cid, "respect", -8, "missed a game")
     sim.attach_traces(ev, players + fans)
     sim.finish(ev, fx)
+    you = w.meta.get("protagonist")
+    if you in missing:  # the team played without you: say so, or the record looks like it jumped
+        e0 = inst.event("game", "missed", [you], importance=24 if level == "varsity" else 14, group=g["id"],
+                        data={"group": label, "score": score, "opponent": oname, "level": level, "sport": sport})
+        e0["text"] = f"{w.chars[you].short} missed the game. {label} {'beat' if win else 'lost to'} {oname}, {score}."
+        e0["causes"] = [ev["id"]]
+        sim.finish(e0, Effects(w, e0))
     # first starts and standouts
     for cid in starters:
         c = w.chars[cid]
