@@ -203,9 +203,11 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
 - **Penalty kicks** (soccer) is ready. Swipe from the ball toward the goal: the angle aims, a faster swipe hits harder and
   higher (too hard sails over), and curving your swipe bends the ball. The keeper reads you more often at higher
   difficulty, and your character's skill steadies your aim.
-- **Option Arcade** (football) is the option offense played by hand: hold GIVE to snap and give it to the fullback, let
-  go to pull it, read the next man and PITCH or keep, then steer the runner, swipe to juke, tap to truck. Game day is a
-  goal-line stand in reverse: first and goal from the 10, four downs. A touchdown is a great round.
+- **Option Arcade** (football) is football played by hand. The option: hold GIVE to snap and give it to the fullback,
+  let go to pull it, read the next man and PITCH or keep. The jet sweep. The passing game: pull back to aim, let go to
+  throw, against Cover 1, 2, 3 and the blitz, and scramble when it breaks down. Then steer the runner: swipe to juke,
+  spin, hurdle, tap to truck. Game day is first and goal from the 10 with the whole playbook, four downs; a touchdown is
+  a great round.
 - **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab, Option Arcade) run inside the app with
   their mechanics untouched. Each opens to its own home screen in free play; on game day basketball and baseball open
   straight into a short clutch round. Edit them in `games/src/`, then run `python lifeos/tools/sync_games.py` and rebuild.

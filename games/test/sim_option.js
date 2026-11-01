@@ -32,8 +32,12 @@ function run(opts, policy, moves) {
     if (P.phase === 'run' && P.ctrl && (c === P.ctrl || P.ball.st === 'loose')) inp.steer = c ? steerBot(P, c) : null;
     // like a person would: the QB rides the option track at the pitch key's inside shoulder until the second read is made
     if (inp.steer && c === P.by.QB && P.give === false) {
-      if (P.play === 'triple' && !P.dec.read2) { const k = FB.key2Of(P); inp.steer = { x: k.x - c.x + 0.5, y: k.y - 1.2 * P.s - c.y }; }
-      if (P.play === 'read' && c.x < 0) inp.steer = { x: 0.55, y: 0.85 * P.s };
+      if (P.play === 'triple' && !P.dec.read2) {
+        const k = FB.key2Of(P), ol = P.by['OLB' + (P.s > 0 ? 'R' : 'L')];
+        const gone = (!P.look.scrape && P.look.key2 === 'pitch') || ol.commit === 'pitch';
+        inp.steer = gone ? { x: 1, y: 0.15 * P.s } : { x: k.x - c.x + 0.5, y: k.y - 1.2 * P.s - c.y };   // he went with the pitch man: turn it up
+      }
+      if ((P.play === 'read' || P.play === 'jet') && c.x < 0) inp.steer = { x: 0.55, y: 0.85 * P.s };
     }
     // second read
     if (P.phase === 'run' && c === P.by.QB && P.play === 'triple' && FB.canPitch(P)) {
@@ -103,6 +107,13 @@ for (const look of ['crash', 'sit', 'attack', 'mixed']) {
   console.log(line('read ' + look + ' / right', right));
   console.log(line('read ' + look + ' / wrong', wrong));
 }
+console.log('\nJet sweep');
+for (const look of ['crash', 'sit', 'attack', 'mixed']) {
+  const right = cell(look, 'right', 'jet', false), wrong = cell(look, 'wrong', 'jet', false);
+  rows['jet-' + look] = { right, wrong };
+  console.log(line('jet ' + look + ' / right', right));
+  console.log(line('jet ' + look + ' / wrong', wrong));
+}
 console.log('\nMoves (mixed look, right reads)');
 const mv = cell('mixed', 'right', 'triple', true);
 console.log(line('mixed / right + moves', mv));
@@ -112,7 +123,9 @@ console.log(line('difficulty 20', easy));
 console.log(line('difficulty 85', hard));
 
 console.log('');
-for (const [k, { right, wrong }] of Object.entries(rows)) if (k !== 'mixed' && k !== 'read-mixed') check(right.mean > wrong.mean + 1, `${k}: right read gains more (${right.mean.toFixed(1)} vs ${wrong.mean.toFixed(1)})`);
+// two reads pay off by less: the slow-play look is a late read (he picks as you get to him), and on the jet a crashing
+// end can't run the jet down from behind, so keeping is the bonus play rather than the jet getting stuffed
+for (const [k, { right, wrong }] of Object.entries(rows)) if (!k.endsWith('mixed')) check(right.mean > wrong.mean + (k === 'crash+feather' || k === 'jet-crash' ? 0.5 : 1), `${k}: right read gains more (${right.mean.toFixed(1)} vs ${wrong.mean.toFixed(1)})`);
 check(rows.mixed.right.mean > 3.5 && rows.mixed.right.mean < 9, `mixed, right reads: a believable average (${rows.mixed.right.mean.toFixed(1)} ypp)`);
 check(rows.mixed.right.big > 0.05, `mixed, right reads: big plays happen (${pct(rows.mixed.right.big)} go 15+)`);
 check(rows.mixed.right.neg < 0.25, `mixed, right reads: losses are not the norm (${pct(rows.mixed.right.neg)})`);

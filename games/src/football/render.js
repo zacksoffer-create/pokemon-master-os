@@ -24,9 +24,15 @@ const FBView = (() => {
     const visX = v.W / v.S, visY = v.H / (v.S * K);
     let x, y;
     const b = P.carrier || (P.ball.st === 'air' || P.ball.st === 'loose' ? P.ball : null);
-    if (P.phase === 'pre' || P.phase === 'cadence' || P.phase === 'mesh' || !b) {
-      x = P.play === 'triple' ? 1.2 : -0.6;
-      y = P.s * (P.play === 'triple' ? 2.6 : 1.2);
+    if (P.play === 'pass' && (P.phase === 'pre' || P.phase === 'cadence' || P.phase === 'mesh' || (P.carrier === P.by.QB && !P.scramble))) {
+      // the pocket and the routes: lean downfield so the receivers stay on screen
+      x = Math.min(P.by.QB.x + visX * 0.36, P.by.QB.x + 14);
+      y = P.carrier === P.by.QB ? P.by.QB.y * 0.5 : 0;
+    } else if (P.play === 'pass' && P.ball.st === 'pass') {
+      x = (P.ball.x + P.ball.tx) / 2 + 2; y = (P.ball.y + P.ball.ty) / 2;
+    } else if (P.phase === 'pre' || P.phase === 'cadence' || P.phase === 'mesh' || !b) {
+      x = P.play === 'triple' ? 1.2 : P.play === 'jet' ? -0.8 : -0.6;
+      y = P.s * (P.play === 'triple' ? 2.6 : P.play === 'jet' ? 2.5 : 1.2);
       if (P.phase === 'dead' && P.result) { x = P.result.x; y = (P.carrier || P.ball).y || 0; }
     } else {
       x = b.x + Math.min(6, visX * 0.17);
@@ -116,21 +122,22 @@ const FBView = (() => {
   function ell(g, x, y, rx, ry, rot, fill) { g.beginPath(); g.ellipse(x, y, Math.max(0.1, rx), Math.max(0.1, ry), rot || 0, 0, Math.PI * 2); g.fillStyle = fill; g.fill(); }
   function player(g, v, p, o) {
     const c = COL[p.team], u = v.S * FIG * 0.62;
-    const [sx, sy] = proj(v, p.x, p.y, 0);
+    const [sx, sy0] = proj(v, p.x, p.y, 0);
+    const sy = sy0 - (p.z || 0) * v.S * ZK;
     if (sx < -u * 3 || sx > v.W + u * 3 || sy < -u * 4 || sy > v.H + u * 3) return;
     const f = p.face, fx = Math.cos(f), fy = Math.sin(f) * K;
     // rings: you, and the defenders you're reading
     if (o.ctrl) {
       const pulse = 0.85 + Math.sin(o.t * 7) * 0.1;
       g.strokeStyle = '#ffd84a'; g.lineWidth = Math.max(2, u * 0.16);
-      g.beginPath(); g.ellipse(sx, sy, u * 1.05 * pulse, u * 0.45 * pulse, 0, 0, Math.PI * 2); g.stroke();
+      g.beginPath(); g.ellipse(sx, sy0, u * 1.05 * pulse, u * 0.45 * pulse, 0, 0, Math.PI * 2); g.stroke();
     }
     if (o.key) {
       g.strokeStyle = o.key === 1 ? '#5cc8ff' : '#ff9d4a'; g.lineWidth = Math.max(2, u * 0.14);
       g.setLineDash([u * 0.35, u * 0.25]);
-      g.beginPath(); g.ellipse(sx, sy, u * 1.1, u * 0.48, 0, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
+      g.beginPath(); g.ellipse(sx, sy0, u * 1.1, u * 0.48, 0, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
     }
-    ell(g, sx, sy, u * 0.62, u * 0.24, 0, 'rgba(0,0,0,0.28)');
+    ell(g, sx, sy0, u * 0.62 * (1 - (p.z || 0) * 0.3), u * 0.24 * (1 - (p.z || 0) * 0.3), 0, 'rgba(0,0,0,0.28)');
     if (p.st === 'down') {
       // on the ground, stretched out the way he was going
       const rot = Math.atan2(Math.sin(p.h) * K, Math.cos(p.h));
@@ -195,6 +202,42 @@ const FBView = (() => {
     g.beginPath(); g.moveTo(sx - Math.cos(spin) * u * 0.1, sy - Math.sin(spin) * u * 0.1); g.lineTo(sx + Math.cos(spin) * u * 0.1, sy + Math.sin(spin) * u * 0.1); g.stroke();
   }
 
+  // ------------------------------------------------------------------ pass plays: routes and the throw
+  function routes(g, v, P, alpha) {
+    const list = FB.routeArt(P);
+    g.save(); g.globalAlpha = alpha; g.lineCap = 'round'; g.lineJoin = 'round';
+    for (const r of list) {
+      g.strokeStyle = r.id === 'RB' ? '#bfe9ff' : '#ffffff'; g.lineWidth = Math.max(2, v.S * 0.13);
+      g.beginPath();
+      r.pts.forEach(([x, y], i) => { const [px, py] = proj(v, x, y, 0); if (i) g.lineTo(px, py); else g.moveTo(px, py); });
+      g.stroke();
+      // arrowhead, or a bar where he settles
+      const n = r.pts.length, [ax, ay] = proj(v, r.pts[n - 2][0], r.pts[n - 2][1], 0), [bx, by] = proj(v, r.pts[n - 1][0], r.pts[n - 1][1], 0);
+      const a = Math.atan2(by - ay, bx - ax), k = v.S * 0.55;
+      g.beginPath();
+      if (r.sit) { g.moveTo(bx - Math.sin(a) * k, by + Math.cos(a) * k); g.lineTo(bx + Math.sin(a) * k, by - Math.cos(a) * k); }
+      else { g.moveTo(bx - Math.cos(a - 0.5) * k, by - Math.sin(a - 0.5) * k); g.lineTo(bx, by); g.lineTo(bx - Math.cos(a + 0.5) * k, by - Math.sin(a + 0.5) * k); }
+      g.stroke();
+    }
+    g.restore();
+  }
+  function aim(g, v, from, to) {
+    const dd = Math.hypot(to.x - from.x, to.y - from.y), peak = 0.35 + dd * 0.075;
+    g.save();
+    g.strokeStyle = 'rgba(255,255,255,0.9)'; g.lineWidth = Math.max(2, v.S * 0.12); g.setLineDash([v.S * 0.35, v.S * 0.3]);
+    g.beginPath();
+    for (let i = 0; i <= 24; i++) {
+      const f = i / 24, [px, py] = proj(v, from.x + (to.x - from.x) * f, from.y + (to.y - from.y) * f, 1.9 + (1.3 - 1.9) * f + peak * 4 * f * (1 - f));
+      if (i) g.lineTo(px, py); else g.moveTo(px, py);
+    }
+    g.stroke(); g.setLineDash([]);
+    const [lx, ly] = proj(v, to.x, to.y, 0);
+    g.strokeStyle = '#ffd84a'; g.lineWidth = Math.max(2.5, v.S * 0.15);
+    g.beginPath(); g.ellipse(lx, ly, v.S * 0.9, v.S * 0.9 * K, 0, 0, Math.PI * 2); g.stroke();
+    g.beginPath(); g.ellipse(lx, ly, v.S * 0.25, v.S * 0.25 * K, 0, 0, Math.PI * 2); g.fillStyle = '#ffd84a'; g.fill();
+    g.restore();
+  }
+
   // ------------------------------------------------------------------ effects
   function effects(g, v, list, dt) {
     for (let i = list.length - 1; i >= 0; i--) {
@@ -230,16 +273,18 @@ const FBView = (() => {
   }
 
   // ------------------------------------------------------------------ one frame
-  const NUMS = { QB: '7', FB: '33', SL: '4', SR: '21', RB: '22', LT: '72', LG: '64', C: '55', RG: '66', RT: '78', WL: '11', WR: '81', SLOT: '1', TE: '88',
+  const NUMS = { QB: '7', FB: '33', SL: '4', SR: '21', RB: '22', LT: '72', LG: '64', C: '55', RG: '66', RT: '78', WL: '11', WR: '81', SLOT: '1', TE: '88', JET: '3',
     DTL: '94', DTR: '99', DEL: '91', DER: '97', MLB: '52', OLBL: '44', OLBR: '41', CBL: '24', CBR: '2', SSL: '31', SSR: '8' };
   function frame(g, v, P, o) {
     field(g, v, o.spot, o);
+    if (o.routes) routes(g, v, P, o.routes);
     const keys = o.keys ? FB.keys(P) : [];
     const list = P.players.slice().sort((a, b) => a.y - b.y);
     // the ball goes in front of whoever it's drawn with
     for (const p of list) player(g, v, p, { ctrl: p === P.ctrl && P.phase !== 'pre', key: keys[0] === p.id ? 1 : keys[1] === p.id ? 2 : 0, t: o.t, num: NUMS[p.id] });
     ball(g, v, P.ball, P, o.t);
+    if (o.aim) aim(g, v, P.by.QB, o.aim);
   }
 
-  return { K, view, proj, follow, frame, effects, field, COL };
+  return { K, view, proj, follow, frame, effects, field, routes, aim, COL, NUMS };
 })();

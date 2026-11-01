@@ -112,7 +112,8 @@
     <div class="oa-title">OPTION<br>ARCADE</div>
     <p class="oa-sub">Read the end. Read the next man. Then take the ball yourself and make something happen.</p>
     <button class="oa-mode main" data-mode="lab"><i>🧪</i><div><b>Option Lab</b><span>Pick the defense and run ten plays at it. Rack up yards.</span><em id="oa-best"></em></div></button>
-    <button class="oa-mode" data-mode="drive"><i>🏈</i><div><b>Drive</b><span>Your own 25, four downs at a time, option only. Go score.</span></div></button>
+    <button class="oa-mode" data-mode="pass"><i>🎯</i><div><b>Pass Lab</b><span>Pick the coverage and throw ten. Find the open man.</span><em id="oa-pbest"></em></div></button>
+    <button class="oa-mode" data-mode="drive"><i>🏈</i><div><b>Drive</b><span>Your own 25 with the whole playbook: the option, the jet, the passing game. Go score.</span></div></button>
     <button class="oa-mode" data-mode="goal"><i>🥅</i><div><b>Goal Line</b><span>First and goal from the 10. Four shots to punch it in.</span></div></button>
     <div class="oa-links">
       <button id="oa-how-btn">How to play</button>
@@ -132,7 +133,9 @@
       <span>①</span><span>Watch <b>the end</b>. Crashing in on the dive? <b>Pull it.</b> Sitting square or coming at you? <b>Give it.</b></span>
       <span>②</span><span>Pulled it? Watch <b>the next man out</b>. Coming for you? <b>PITCH.</b> Running with the pitch man? <b>Keep it.</b></span>
       <span>🕹</span><span><b>Left thumb</b> steers whoever has the ball. Let go and he runs upfield.</span>
-      <span>↕</span><span><b>Right thumb:</b> swipe up or down to <b>juke</b>. Tap to lower your shoulder and <b>truck</b>. Truck the small guys; juke the big ones.</span>
+      <span>↕</span><span><b>Right thumb:</b> swipe up or down to <b>juke</b>, back to <b>spin</b>, forward to <b>hurdle</b>. Tap to lower your shoulder and <b>truck</b>.</span>
+      <span>🧠</span><span>Truck the small guys. Juke the big ones. Spin off a man coming from the side. Hurdle a man <b>as he dives</b>, never one standing up.</span>
+      <span>🎯</span><span><b>Passing:</b> tap SNAP. Pull back on the right side of the screen to aim (the arc shows where it lands), let go to throw. Lead your man. The left thumb moves the QB; cross the line and you're a runner.</span>
     </div>
     <p style="margin-top:10px">Read help puts a ring on the two defenders you're reading and slows the exchange. Turn it off in settings when you've got it.</p>
     <button class="oa-go" id="oa-how-go">Got it</button>
@@ -218,8 +221,32 @@ const LOOK_INFO = {
   scrape: 'The end crashes and a linebacker loops outside to take you. Pull it, then pitch.',
   alley: 'A safety comes downhill into the alley. The right read still leaves a man to beat.',
 };
-const PLAYS = [['triple', 1, '↓ Triple'], ['triple', -1, '↑ Triple'], ['read', 1, '↓ Read'], ['read', -1, '↑ Read']];
-const PLAY_NAME = { triple: 'Triple option', read: 'Read option' };
+// the playbook. Arrows are where the play goes on screen (the jet's arrow is where the jet runs; its keep goes the other way)
+const BOOK = [
+  { id: 'tri-d', play: 'triple', side: 1, label: '↓ Triple', name: '↓ Triple option' },
+  { id: 'tri-u', play: 'triple', side: -1, label: '↑ Triple', name: '↑ Triple option' },
+  { id: 'read-d', play: 'read', side: 1, label: '↓ Read', name: '↓ Read option' },
+  { id: 'read-u', play: 'read', side: -1, label: '↑ Read', name: '↑ Read option' },
+  { id: 'jet-d', play: 'jet', side: -1, label: '↓ Jet', name: '↓ Jet sweep' },
+  { id: 'jet-u', play: 'jet', side: 1, label: '↑ Jet', name: '↑ Jet sweep' },
+  { id: 'slants', play: 'pass', concept: 'slants', side: 1, label: 'Slants', name: 'Slants' },
+  { id: 'smash', play: 'pass', concept: 'smash', side: 1, label: 'Smash', name: 'Smash' },
+  { id: 'verts', play: 'pass', concept: 'verts', side: -1, label: 'Verticals', name: 'Four Verticals' },
+  { id: 'mesh', play: 'pass', concept: 'mesh', side: 1, label: 'Mesh', name: 'Mesh' },
+];
+const callOf = id => BOOK.find(b => b.id === id) || BOOK[0];
+const bookFor = mode => BOOK.filter(b => mode === 'lab' ? b.play !== 'pass' : mode === 'pass' ? b.play === 'pass' : true);
+const COVER_INFO = {
+  mixed: 'Anything. Read it after the snap: one safety deep or two?',
+  cover1: 'Man on every receiver, one safety deep. Beat your man: slants, crossers, speed.',
+  cover2: 'Two safeties deep, corners sitting in the flats. Hit the hole between them, or the seams.',
+  cover3: 'Three deep, four underneath. Curls, flats and seams are there; deep outside isn\'t.',
+  blitz: 'Five come after you with man behind it. Get it out fast: slants, the back.',
+};
+const COVER_WORDS = { cover1: 'Cover 1: man across, one safety deep.', cover2: 'Cover 2: two safeties deep, corners sitting in the flats.', cover3: 'Cover 3: three deep, four underneath.', blitz: 'Blitz: five came after you, man coverage behind it.' };
+const ROUTE_NAME = { go: 'Go route', seam: 'Seam', slant: 'Slant', out: 'Out', hitch: 'Hitch', curl: 'Curl', post: 'Post', corner: 'Corner', dig: 'Dig', drag: 'Drag', drag2: 'Drag', flat: 'Flat', wheel: 'Wheel', check: 'Check-down' };
+const coverName = k => (FB.COVERS.find(c => c[0] === k) || [k, k])[1];
+const CONCEPT_NAME = k => (FB.CONCEPTS[k] || { name: k }).name;
 const DEF_NAME = { DT: 'defensive tackle', DE: 'end', LB: 'linebacker', CB: 'corner', S: 'safety' };
 const lookName = k => (FB.LOOKS.find(l => l[0] === k) || [k, String(k).split('+').map(x => (FB.LOOKS.find(l => l[0] === x) || [x, x])[1]).join(' + ')])[1];
 
@@ -291,7 +318,8 @@ window.addEventListener('resize', resize);
 resize();
 
 // ------------------------------------------------------------------ the game: modes, downs, the play
-const G = { mode: null, n: 0, max: 10, spot: 35, down: 1, toGo: 10, fdAt: 45, startSpot: 35, call: { play: 'triple', side: 1 }, look: 'mixed', total: 0, plays: [], over: false };
+const G = { mode: null, n: 0, max: 10, spot: 35, down: 1, toGo: 10, fdAt: 45, startSpot: 35, call: 'tri-d', look: 'mixed', cover: 'mixed', total: 0, plays: [], over: false };
+let nextSeed = null;
 let P = null, deadAt = null, cardUp = false, pullAt = null, fxList = [], tNow = 0;
 const LIFE = { on: false, cfg: null };
 function difficulty() { return LIFE.on ? (+LIFE.cfg.difficulty || 50) + (G.mode === 'goal' ? 6 : 0) : DIFF[S.diff] + (G.mode === 'goal' ? 6 : 0); }
@@ -300,7 +328,8 @@ function skill() { return LIFE.on ? +LIFE.cfg.skill || 55 : 55; }
 function startMode(mode) {
   Snd.unlock();
   Object.assign(G, { mode, n: 0, total: 0, plays: [], over: false, down: 1 });
-  if (mode === 'lab') { G.max = 10; G.spot = 35; }
+  if (mode === 'lab') { G.max = 10; G.spot = 35; if (callOf(G.call).play === 'pass') G.call = 'tri-d'; }
+  if (mode === 'pass') { G.max = 10; G.spot = 35; if (callOf(G.call).play !== 'pass') G.call = 'slants'; }
   if (mode === 'drive') { G.max = 99; G.spot = 25; G.toGo = 10; G.fdAt = 35; }
   if (mode === 'goal') { G.max = 4; G.spot = 90; G.toGo = 10; G.fdAt = 100; }
   G.startSpot = G.spot;
@@ -311,16 +340,19 @@ function startMode(mode) {
 function newPlay() {
   cardUp = false; deadAt = null; pullAt = null;
   $('oa-card').hidden = true;
-  const spot = G.mode === 'lab' ? 35 : G.spot;
-  P = FB.create({ play: G.call.play, side: G.call.side, look: G.mode === 'lab' ? G.look : 'mixed', difficulty: difficulty(), skill: skill(),
+  const spot = G.mode === 'lab' || G.mode === 'pass' ? 35 : G.spot;
+  const c = callOf(G.call);
+  const seed = nextSeed; nextSeed = null;
+  P = FB.create({ seed, play: c.play, side: c.side, concept: c.concept, look: G.mode === 'lab' ? G.look : G.mode === 'pass' ? G.cover : 'mixed', difficulty: difficulty(), skill: skill(),
     toGoal: 100 - spot, toOwn: spot, mesh: S.mesh, exchange: S.exch, training: S.help === 'on' });
+  aimT = null;
   P.spotAbs = spot;
   FBView.follow(V, P, 1, true);
   inp.hold = false;
   updateHud(true);
 }
 function situation() {
-  if (G.mode === 'lab') return `Play ${Math.min(G.n + 1, G.max)} of ${G.max}`;
+  if (G.mode === 'lab' || G.mode === 'pass') return `${G.mode === 'pass' ? 'Throw' : 'Play'} ${Math.min(G.n + 1, G.max)} of ${G.max}`;
   const ord = ['1st', '2nd', '3rd', '4th'][G.down - 1] || '4th';
   const dist = G.fdAt >= 100 ? 'goal' : G.toGo;
   const ball = G.spot < 50 ? `Own ${G.spot}` : G.spot === 50 ? 'Midfield' : `Opp ${100 - G.spot}`;
@@ -329,8 +361,27 @@ function situation() {
 
 // ------------------------------------------------------------------ input
 const inp = { hold: false };
-const q = { juke: 0, truck: false, pitch: false, give: false, snap: false };
-let stick = null, gest = null;
+const q = { juke: 0, truck: false, spin: false, hurdle: false, pitch: false, give: false, snap: false, throw: null };
+let stick = null, gest = null, aimT = null;
+// pull back to aim: the farther you pull, the farther it goes; the arc points the opposite way, like a slingshot
+function aimTarget() {
+  if (!aimT || !P) return null;
+  const px = aimT.ox - aimT.x, py = aimT.oy - aimT.y, pl = Math.hypot(px, py);
+  if (pl < 12) return null;
+  const k = 0.22 * 390 / Math.max(320, Math.min(W, H)), qb = P.by.QB;
+  let fx = px * k, fy = (py / FBView.K) * k;
+  const fl = Math.hypot(fx, fy), want = Math.max(3, Math.min(45, fl));
+  fx *= want / fl; fy *= want / fl;
+  return { x: qb.x + fx, y: Math.max(-FB.SIDE + 0.5, Math.min(FB.SIDE - 0.5, qb.y + fy)) };
+}
+// keyboard: throw to a receiver, leading him
+function quickThrow(id) {
+  if (!P || !FB.canThrow(P)) return;
+  const m = P.by[id], qb = P.by.QB;
+  let T = 0.6;
+  for (let i = 0; i < 3; i++) { const tx = m.x + m.vx * T, ty = m.y + m.vy * T, dd = Math.hypot(tx - qb.x, ty - qb.y); T = dd / (15 + dd * 0.2); }
+  q.throw = { x: m.x + m.vx * T, y: m.y + m.vy * T };
+}
 const keys = {};
 function steerVec() {
   if (stick && Math.hypot(stick.x - stick.ox, stick.y - stick.oy) > 9) {
@@ -347,18 +398,26 @@ cv.addEventListener('pointerdown', e => {
   if (blocked() || !P) return;
   try { cv.setPointerCapture(e.pointerId); } catch (_) {}
   if (e.clientX < W * 0.5) stick = { id: e.pointerId, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY };
+  else if (FB.canThrow(P)) aimT = { id: e.pointerId, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY };
   else gest = { id: e.pointerId, x0: e.clientX, y0: e.clientY, t0: performance.now(), done: false };
 });
 cv.addEventListener('pointermove', e => {
   if (stick && e.pointerId === stick.id) { stick.x = e.clientX; stick.y = e.clientY; }
+  if (aimT && e.pointerId === aimT.id) { aimT.x = e.clientX; aimT.y = e.clientY; }
   if (gest && e.pointerId === gest.id && !gest.done) {
     const dx = e.clientX - gest.x0, dy = e.clientY - gest.y0, el = performance.now() - gest.t0;
     if (el < 380 && Math.abs(dy) > 24 && Math.abs(dy) > Math.abs(dx) * 1.2) { q.juke = dy > 0 ? 1 : -1; gest.done = true; }
-    else if (el < 380 && Math.abs(dx) > 34 && Math.abs(dx) > Math.abs(dy) * 1.2) { gest.done = true; hintOnce('spin', 'Spin and hurdle are coming next. For now: swipe up or down to juke, tap to truck.'); }
+    else if (el < 380 && Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy) * 1.2) { if (dx > 0) q.hurdle = true; else q.spin = true; gest.done = true; }
   }
 });
 function endPointer(e) {
   if (stick && e.pointerId === stick.id) stick = null;
+  if (aimT && e.pointerId === aimT.id) {
+    aimT.x = e.clientX; aimT.y = e.clientY;
+    const t = aimTarget();
+    if (t && Math.hypot(aimT.ox - aimT.x, aimT.oy - aimT.y) > 22) q.throw = t;
+    aimT = null;
+  }
   if (gest && e.pointerId === gest.id) {
     const el = performance.now() - gest.t0, moved = Math.hypot(e.clientX - gest.x0, e.clientY - gest.y0);
     if (!gest.done && el < 280 && moved < 16) q.truck = true;
@@ -374,7 +433,8 @@ pad.addEventListener('pointerdown', e => {
   if (blocked() || !P) return;
   try { pad.setPointerCapture(e.pointerId); } catch (_) {}
   inp.hold = true;
-  if (S.mesh === 'tap') { if (P.phase === 'pre') q.snap = true; else q.give = true; }
+  if (P.play === 'pass') q.snap = true;
+  else if (S.mesh === 'tap') { if (P.phase === 'pre') q.snap = true; else q.give = true; }
 });
 const padUp = () => { inp.hold = false; };
 pad.addEventListener('pointerup', padUp);
@@ -391,6 +451,10 @@ window.addEventListener('keydown', e => {
   if (e.key === 'x' || e.key === 's') q.juke = 1;
   if (e.key === 'c' || e.key === 'd') q.truck = true;
   if (e.key === 'p' || e.key === 'Enter') q.pitch = true;
+  if (e.key === 'v') q.spin = true;
+  if (e.key === 'b') q.hurdle = true;
+  const quick = { 1: 'WL', 2: 'SL', 3: 'SR', 4: 'WR', 5: 'RB' }[e.key];
+  if (quick) quickThrow(quick);
 });
 window.addEventListener('keyup', e => { keys[e.key] = false; if (e.key === ' ') inp.hold = false; });
 
@@ -401,25 +465,26 @@ function showHint(text, secs) { $('oa-hint').textContent = text; hintTimer = sec
 let lastPad = '';
 function updateHud(force) {
   const status = $('oa-status');
-  const label = G.mode === 'lab' ? 'Option Lab' : G.mode === 'drive' ? 'Drive' : G.mode === 'goal' ? 'Goal Line' : 'Option Arcade';
+  const label = G.mode === 'lab' ? 'Option Lab' : G.mode === 'pass' ? 'Pass Lab' : G.mode === 'drive' ? 'Drive' : G.mode === 'goal' ? 'Goal Line' : 'Option Arcade';
   const html = G.mode ? `${label}<small>${situation()}</small>` : label;
   if (force || status.innerHTML !== html) status.innerHTML = html;
   if (!P) return;
   const call = $('oa-call');
   const pre = P.phase === 'pre';
-  const vs = G.mode === 'lab' ? lookName(G.look) : '';
-  call.innerHTML = pre && !cardUp && G.mode ? `${G.call.side > 0 ? '↓' : '↑'} ${PLAY_NAME[G.call.play]}${vs ? `<small>vs ${vs}</small>` : ''}` : '';
+  const vs = G.mode === 'lab' ? lookName(G.look) : G.mode === 'pass' ? coverName(G.cover) : '';
+  call.innerHTML = pre && !cardUp && G.mode ? `${callOf(G.call).name}${vs ? `<small>vs ${vs}</small>` : ''}` : '';
 }
 function updateButtons(dt) {
   if (!P) return;
   const ph = P.phase;
   let state = 'hidden';
   if (!cardUp && (ph === 'pre' || ph === 'cadence' || ph === 'mesh')) state = ph;
-  if (!G.mode) state = 'hidden';
+  if (!G.mode || (P.play === 'pass' && ph !== 'pre')) state = 'hidden';
   pad.hidden = state === 'hidden';
   if (!pad.hidden) {
     let txt;
-    if (S.mesh === 'hold') txt = ph === 'pre' ? '<b>HOLD</b><small>to snap</small>' : P.wantPull ? '<b>PULL</b><small>you kept it</small>' : '<b>GIVE</b><small>let go to pull</small>';
+    if (P.play === 'pass') txt = '<b>SNAP</b><small>tap</small>';
+    else if (S.mesh === 'hold') txt = ph === 'pre' ? '<b>HOLD</b><small>to snap</small>' : P.wantPull ? '<b>PULL</b><small>you kept it</small>' : '<b>GIVE</b><small>let go to pull</small>';
     else txt = ph === 'pre' ? '<b>SNAP</b><small>tap</small>' : P.tapAt != null ? '<b>GAVE</b><small>it\'s his</small>' : '<b>GIVE</b><small>tap to give</small>';
     if (txt !== lastPad) { pad.innerHTML = txt; lastPad = txt; }
     pad.classList.toggle('held', inp.hold && ph !== 'pre');
@@ -433,8 +498,11 @@ function updateButtons(dt) {
   else if (!cardUp && G.mode) {
     const n = film.length;
     let h = '';
-    if (ph === 'pre') h = n < 6 ? (S.mesh === 'hold' ? 'Hold GIVE to snap. Keep holding to give it, let go to pull it.' : 'Tap SNAP, then tap GIVE before the exchange ends to give it.') : '';
-    else if (ph === 'run' && P.carrier === P.ctrl && n < 6) h = 'Left thumb steers · swipe ↑↓ to juke · tap to truck';
+    const passes = film.filter(f => f.play === 'pass').length;
+    if (ph === 'pre' && P.play === 'pass') h = passes < 6 ? 'Tap SNAP. Pull back on the right side to aim, let go to throw.' : '';
+    else if (ph === 'pre') h = n < 6 ? (S.mesh === 'hold' ? 'Hold GIVE to snap. Keep holding to give it, let go to pull it.' : 'Tap SNAP, then tap GIVE before the exchange ends to give it.') : '';
+    else if (ph === 'run' && FB.canThrow(P) && passes < 6) h = aimT ? 'Let go to throw · pull farther to throw farther' : 'Pull back on the right to aim · left thumb moves the QB';
+    else if (ph === 'run' && P.carrier === P.ctrl && P.carrier && n < 8) h = 'Left thumb steers · swipe ↑↓ juke · ← spin · → hurdle · tap truck';
     if ($('oa-hint').textContent !== h) $('oa-hint').textContent = h;
   }
 }
@@ -460,6 +528,12 @@ function onFx(list) {
       case 'bounce': Snd.play('tick'); break;
       case 'scoop': Snd.play('pop'); break;
       case 'whistle': Snd.play('whistle'); break;
+      case 'throw': Snd.play('swish'); break;
+      case 'spin': Snd.play('swish'); fxList.push({ kind: 'dust', ...at, t: 0, life: 0.4, seed: 3 }); break;
+      case 'hurdle': Snd.play('swish'); break;
+      case 'cleared': Snd.play('pop'); fxList.push({ kind: 'text', ...at, text: 'Hurdled him', t: 0, life: 1, color: '#ffd84a' }); break;
+      case 'spinoff': Snd.play('swish'); fxList.push({ kind: 'text', ...at, text: 'Spun off', t: 0, life: 0.9, color: '#ffd84a' }); break;
+      case 'scramble': showHint('Past the line: you\'re a runner now', 1.8); break;
       case 'td': Snd.play('whistle'); Snd.play('cheer'); buzz([30, 40, 30]); { const c = P.carrier; fxList.push({ kind: 'confetti', x: c ? c.x : P.toGoal, y: c ? c.y : 0, t: 0, life: 1.6, seed: 2 }); } break;
     }
   }
@@ -467,12 +541,29 @@ function onFx(list) {
 
 // ------------------------------------------------------------------ after the whistle: what happened, in plain words
 function defName(id) { const d = id && P.by[id]; return d ? DEF_NAME[d.kind] || 'defender' : 'defender'; }
+const num = id => (FBView.NUMS[id] ? '#' + FBView.NUMS[id] : 'your man');
+function passWords(res) {
+  const out = [{ note: true, text: COVER_WORDS[res.look.cov] || '' }];
+  const r = res.reads.read1;
+  if (r && r.kind === 'throw') {
+    if (r.correct) out.push({ ok: true, text: r.choice === r.best ? `You found the open man: ${num(r.choice)}.` : r.sep >= 0.8 ? `${num(r.choice)} was open. ${r.best === 'RB' ? '' : `${num(r.best)} was the other good look.`}` : `Tight window to ${num(r.choice)}, but the right idea.` });
+    else out.push({ ok: false, text: `${num(r.best)} was the better throw. ${num(r.choice)} had a defender who could get there with the ball.` });
+  }
+  if (res.how === 'sack') out.push({ ok: false, text: res.look.cov === 'blitz' ? 'Five came. Against the blitz, get it out quick: the slants, the back.' : 'You held it too long. Throw on time, or move the QB away from the rush.' });
+  const log = res.log || [];
+  if (log.includes('intercepted')) out.push({ ok: false, text: 'Picked off. A defender who\'s closer to the ball than your man will take it.' });
+  else if (log.some(l => /broken up/.test(l))) out.push({ note: true, text: 'Broken up: he had a man in his hip pocket.' });
+  else if (log.some(l => /overthrown|nobody there/.test(l))) out.push({ note: true, text: 'Nobody got there. Lead him to where he\'s going, not where he is.' });
+  else if (log.some(l => /dropped/.test(l))) out.push({ note: true, text: 'Off his hands.' });
+  if (log.includes('batted at the line')) out.push({ note: true, text: 'Batted at the line: a rusher got a hand up.' });
+  return out;
+}
 function readWords(res) {
-  const out = [];
-  const r1 = res.reads.read1, r2 = res.reads.read2;
+  const out = res.play === 'pass' ? passWords(res) : [];
+  const r1 = res.play === 'pass' ? null : res.reads.read1, r2 = res.reads.read2;
   if (r1) {
-    const who = res.play === 'read' ? 'The read end' : 'The end';
-    const what = { crash: `${who} crashed down on the ${res.play === 'read' ? 'back' : 'dive'}`, sit: `${who} stayed home, eyes on you`, attack: `${who} came straight at you` }[r1.beh];
+    const who = res.play === 'triple' ? 'The end' : 'The read end';
+    const what = { crash: `${who} crashed down on the ${res.play === 'read' ? 'back' : res.play === 'jet' ? 'jet' : 'dive'}`, sit: `${who} stayed home, eyes on you`, attack: `${who} came straight at you` }[r1.beh];
     out.push({ ok: r1.correct, text: `${what}: ${r1.want === 'pull' ? 'pulling it' : 'giving it'} was right${r1.correct ? '.' : `, and you ${r1.choice === 'pull' ? 'pulled it' : 'gave it'}.`}` });
   }
   if (r2) {
@@ -490,6 +581,8 @@ function readWords(res) {
   if (st.broken) moves.push(`${st.broken} broken tackle${st.broken > 1 ? 's' : ''}`);
   if (st.truckWins) moves.push(`trucked ${st.truckWins}`);
   if (st.jukeMiss) moves.push(`${st.jukeMiss} juked`);
+  if (st.spinWins) moves.push(`spun off ${st.spinWins}`);
+  if (st.hurdleWins) moves.push(`hurdled ${st.hurdleWins}`);
   if (moves.length) out.push({ note: true, text: moves.join(' · ') });
   if (res.pitch && (res.log || []).some(l => /ground|tipped|picked/.test(l))) out.push({ note: true, text: res.pitch.err > 0.6 ? 'The pitch went out under pressure: pitch before he gets to you.' : 'The pitch got away.' });
   if ((res.log || []).includes('mesh fumble')) out.push({ no: true, text: 'You pulled it out of his belly too late: decide earlier in the exchange.' });
@@ -497,10 +590,15 @@ function readWords(res) {
 }
 function headline(res) {
   if (res.how === 'td') return ['TOUCHDOWN', 'all the way'];
-  if (res.how === 'turnover') return ['TURNOVER', (res.log || []).includes('pitch picked off') ? 'the pitch was picked off' : 'the defense fell on it'];
+  const log = res.log || [];
+  if (res.how === 'turnover') return log.includes('intercepted') ? ['INTERCEPTED', `picked off by the ${defName(res.by)}`] : ['TURNOVER', log.includes('pitch picked off') ? 'the pitch was picked off' : 'the defense fell on it'];
   if (res.how === 'safety') return ['SAFETY', 'tackled in your own end zone'];
+  if (res.how === 'incomplete') { const why = (log.find(l => l.startsWith('incomplete: ')) || 'incomplete: incomplete').slice(12); return ['Incomplete', why === 'incomplete' ? '' : why]; }
   const y = res.yards;
-  const who = { QB: 'QB keep', FB: 'Fullback dive', SB: 'Pitch', RB: 'Give to the back' }[res.carrierKind] || 'Run';
+  if (res.how === 'sack') return [`Sacked ${y}`, `brought down by the ${defName(res.by)}`];
+  let who = { QB: 'QB keep', FB: 'Fullback dive', SB: 'Pitch', RB: 'Give to the back' }[res.carrierKind] || 'Run';
+  if (res.play === 'jet') who = res.carrierKind === 'QB' ? 'QB keep' : 'Jet sweep';
+  if (res.play === 'pass') who = res.caught ? `${ROUTE_NAME[P.by[res.caught.id].rt] || 'Catch'} to ${num(res.caught.id)}${res.caught.dive ? ', diving' : ''}` : res.scramble ? 'QB scramble' : 'Run';
   const how = res.how === 'oob' ? 'pushed out of bounds' : `brought down by the ${defName(res.by)}`;
   return [y > 0 ? `+${y}` : y === 0 ? 'No gain' : `${y}`, `${who} · ${how}`];
 }
@@ -514,7 +612,7 @@ function showResult() {
   if (res.yards >= 12 || res.how === 'td') { if (res.how !== 'td') Snd.play('cheer'); } else if (res.yards < 0) Snd.play('groan');
   record(res);
   const over = advance(res);
-  $('oa-sit').textContent = over ? '' : (G.mode === 'lab' ? `${G.total} yards in ${G.n} · ${situation()}` : situation()) + ' · next call';
+  $('oa-sit').textContent = over ? '' : (G.mode === 'lab' || G.mode === 'pass' ? `${G.total} yards in ${G.n} · ${situation()}` : situation()) + ' · next call';
   renderChips(over);
   $('oa-next').textContent = over ? 'See how you did' : 'Next play';
   $('oa-next').onclick = () => { Snd.play('ui'); if (over) summary(over); else newPlay(); };
@@ -525,25 +623,31 @@ function renderChips(over) {
   const row = $('oa-plays'), lr = $('oa-lookrow');
   row.innerHTML = ''; lr.innerHTML = '';
   if (over) return;
-  for (const [play, side, label] of PLAYS) {
+  for (const c of bookFor(G.mode)) {
     const b = document.createElement('button');
-    b.textContent = label;
-    b.className = G.call.play === play && G.call.side === side ? 'on' : '';
-    b.onclick = () => { G.call = { play, side }; Snd.play('ui'); renderChips(false); };
+    b.textContent = c.label;
+    b.className = G.call === c.id ? 'on' : '';
+    b.onclick = () => { G.call = c.id; Snd.play('ui'); renderChips(false); };
     row.appendChild(b);
   }
-  if (G.mode === 'lab') {
+  if (G.mode === 'lab' || G.mode === 'pass') {
     const b = document.createElement('button');
-    b.textContent = `Defense: ${lookName(G.look)} ▾`;
+    b.textContent = `Defense: ${G.mode === 'pass' ? coverName(G.cover) : lookName(G.look)} ▾`;
     b.onclick = openLooks;
     lr.appendChild(b);
   }
 }
 function record(res) {
   const r1 = res.reads.read1, r2 = res.reads.read2;
-  film.push({ t: Date.now(), play: res.play, look: G.mode === 'lab' ? G.look : 'mixed', de: res.look.de, k2: res.look.scrape ? 'scrape' : res.look.key2, alley: res.look.alley,
-    r1: r1 ? [r1.choice, r1.correct ? 1 : 0] : null, r2: r2 ? [r2.choice, r2.correct ? 1 : 0] : null, y: res.how === 'turnover' ? 0 : res.yards, how: res.how,
-    who: res.carrierKind, brk: res.stats.broken });
+  if (res.play === 'pass') {
+    film.push({ t: Date.now(), play: 'pass', concept: res.concept, cov: res.look.cov, open: r1 ? [r1.choice, r1.correct ? 1 : 0] : null,
+      att: res.thrown ? 1 : 0, comp: res.caught ? 1 : 0, sack: res.how === 'sack' ? 1 : 0, int: (res.log || []).includes('intercepted') ? 1 : 0,
+      y: res.how === 'turnover' ? 0 : res.yards, how: res.how, who: res.carrierKind, brk: res.stats.broken });
+  } else {
+    film.push({ t: Date.now(), play: res.play, look: G.mode === 'lab' ? G.look : 'mixed', de: res.look.de, k2: res.look.scrape ? 'scrape' : res.look.key2, alley: res.look.alley,
+      r1: r1 ? [r1.choice, r1.correct ? 1 : 0] : null, r2: r2 ? [r2.choice, r2.correct ? 1 : 0] : null, y: res.how === 'turnover' ? 0 : res.yards, how: res.how,
+      who: res.carrierKind, brk: res.stats.broken });
+  }
   persist();
 }
 // downs, distance, the end of a set; returns why it's over, or null
@@ -551,8 +655,9 @@ function advance(res) {
   G.n++;
   const y = res.how === 'turnover' ? 0 : res.yards;
   G.total += y;
-  G.plays.push({ y, how: res.how, r1: res.reads.read1 && res.reads.read1.correct, r2: res.reads.read2 ? res.reads.read2.correct : null });
-  if (G.mode === 'lab') return G.n >= G.max ? 'set' : null;
+  G.plays.push({ y, how: res.how, r1: res.reads.read1 ? res.reads.read1.correct : null, r2: res.reads.read2 ? res.reads.read2.correct : null,
+    att: res.thrown ? 1 : 0, comp: res.caught ? 1 : 0 });
+  if (G.mode === 'lab' || G.mode === 'pass') return G.n >= G.max ? 'set' : null;
   if (res.how === 'td') return 'td';
   if (res.how === 'turnover') return 'turnover';
   G.spot = Math.max(0, Math.min(100, G.spot + y));
@@ -567,6 +672,10 @@ function lifeResult(why) {
   const reads = G.plays.flatMap(p => [p.r1, p.r2]).filter(v => v != null), right = reads.filter(Boolean).length;
   const readTxt = reads.length ? `, ${right} of ${reads.length} reads right` : '';
   if (G.mode === 'lab') return { score: Math.max(0, Math.min(70, G.total)), max: 70, summary: `${G.total} yards on ${G.n} option plays${readTxt}`, stats: { mode: 'lab', yards: G.total, plays: G.n, reads: right, of: reads.length } };
+  if (G.mode === 'pass') {
+    const att = G.plays.reduce((a, p) => a + p.att, 0), comp = G.plays.reduce((a, p) => a + p.comp, 0);
+    return { score: Math.max(0, Math.min(80, G.total)), max: 80, summary: `${comp} of ${att} for ${G.total} yards${reads.length ? `, found the open man ${right} of ${reads.length}` : ''}`, stats: { mode: 'pass', yards: G.total, att, comp, open: right, of: reads.length } };
+  }
   const dist = 100 - G.startSpot, gained = Math.max(0, Math.min(dist, (why === 'td' ? 100 : G.spot) - G.startSpot));
   const score = why === 'td' ? 10 : Math.max(0, Math.min(7, Math.round(7 * gained / dist)));
   const what = why === 'td' ? `Touchdown in ${G.n} play${G.n === 1 ? '' : 's'}` : why === 'turnover' ? `Turned it over after ${gained} yards` : why === 'safety' ? 'Tackled for a safety' : `Stopped on downs after ${gained} yards`;
@@ -577,10 +686,11 @@ function summary(why) {
   const res = lifeResult(why);
   const reads = G.plays.flatMap(p => [p.r1, p.r2]).filter(v => v != null), right = reads.filter(Boolean).length;
   let h, p;
-  if (G.mode === 'lab') {
-    const prev = best.lab || 0;
-    if (G.total > prev) { best.lab = G.total; persist(); }
-    h = `${G.total} yards`; p = G.total > prev && prev ? `A new best, beating ${prev}.` : G.total >= 56 ? 'That\'s moving the ball.' : G.total >= 35 ? 'Solid. Read it cleaner and the pitch opens up.' : 'Tough set. Open the film room and see which read is getting you.';
+  if (G.mode === 'lab' || G.mode === 'pass') {
+    const k = G.mode, prev = best[k] || 0;
+    if (G.total > prev) { best[k] = G.total; persist(); }
+    h = `${G.total} yards`;
+    p = G.total > prev && prev ? `A new best, beating ${prev}.` : k === 'pass' ? res.summary + '.' : G.total >= 56 ? 'That\'s moving the ball.' : G.total >= 35 ? 'Solid. Read it cleaner and the pitch opens up.' : 'Tough set. Open the film room and see which read is getting you.';
   } else {
     h = why === 'td' ? 'Touchdown' : why === 'turnover' ? 'Turnover' : why === 'safety' ? 'Safety' : 'Stopped on downs';
     p = res.summary + '.';
@@ -588,7 +698,7 @@ function summary(why) {
   }
   $('oa-sum-h').textContent = h; $('oa-sum-p').textContent = p;
   const ypp = G.n ? (G.total / G.n).toFixed(1) : '0';
-  $('oa-sum-stats').innerHTML = `<div><b>${G.n}</b><small>plays</small></div><div><b>${ypp}</b><small>yards a play</small></div><div><b>${reads.length ? Math.round(right / reads.length * 100) + '%' : '-'}</b><small>reads right</small></div>`;
+  $('oa-sum-stats').innerHTML = `<div><b>${G.n}</b><small>plays</small></div><div><b>${ypp}</b><small>yards a play</small></div><div><b>${reads.length ? Math.round(right / reads.length * 100) + '%' : '-'}</b><small>${G.mode === 'pass' ? 'open man found' : 'reads right'}</small></div>`;
   const go = $('oa-sum-go'), home = $('oa-sum-home');
   if (LIFE.on) {
     go.textContent = 'Done';
@@ -597,7 +707,7 @@ function summary(why) {
     home.textContent = 'Play something else'; home.onclick = () => goHome();
     if (LIFE.cfg.play !== 'menu') home.hidden = true;
   } else {
-    go.textContent = G.mode === 'lab' ? 'Run another set' : 'Run it again';
+    go.textContent = G.mode === 'lab' || G.mode === 'pass' ? 'Run another set' : 'Run it again';
     go.onclick = () => startMode(G.mode);
     home.hidden = false; home.textContent = 'Home'; home.onclick = () => goHome();
   }
@@ -608,6 +718,7 @@ function goHome() {
   $('oa-sum').hidden = true; $('oa-card').hidden = true; cardUp = false;
   G.mode = null;
   $('oa-best').textContent = best.lab ? `Best set: ${best.lab} yards` : '';
+  $('oa-pbest').textContent = best.pass ? `Best set: ${best.pass} yards` : '';
   $('oa-home').hidden = false;
   P = FB.create({ play: 'triple', side: 1, look: 'mixed', difficulty: 50 });
   FBView.follow(V, P, 1, true);
@@ -616,13 +727,13 @@ function goHome() {
 
 // ------------------------------------------------------------------ sheets
 function openLooks() {
-  const box = $('oa-looks');
+  const box = $('oa-looks'), pass = G.mode === 'pass';
   box.innerHTML = '';
-  for (const [k, name] of FB.LOOKS) {
+  for (const [k, name] of pass ? FB.COVERS : FB.LOOKS) {
     const b = document.createElement('button');
-    b.className = k === G.look ? 'on' : '';
-    b.innerHTML = `<b>${name}</b><span>${LOOK_INFO[k]}</span>`;
-    b.onclick = () => { G.look = k; Snd.play('ui'); $('oa-looksheet').hidden = true; renderChips(false); updateHud(true); };
+    b.className = k === (pass ? G.cover : G.look) ? 'on' : '';
+    b.innerHTML = `<b>${name}</b><span>${pass ? COVER_INFO[k] : LOOK_INFO[k]}</span>`;
+    b.onclick = () => { if (pass) G.cover = k; else G.look = k; Snd.play('ui'); $('oa-looksheet').hidden = true; renderChips(false); updateHud(true); };
     box.appendChild(b);
   }
   $('oa-looksheet').hidden = false;
@@ -650,7 +761,7 @@ $('oa-how-go').onclick = () => { $('oa-howsheet').hidden = true; seenHow = true;
 function renderFilm() {
   const n = film.length;
   const pct = (a, b) => (b ? Math.round(a / b * 100) + '%' : '-');
-  const r1 = film.filter(f => f.r1), r2 = film.filter(f => f.r2);
+  const r1 = film.filter(f => f.r1), r2 = film.filter(f => f.r2), pf = film.filter(f => f.play === 'pass');
   $('oa-f-plays').textContent = n;
   $('oa-f-ypp').textContent = n ? (film.reduce((a, f) => a + f.y, 0) / n).toFixed(1) : '-';
   $('oa-f-long').textContent = n ? Math.max(...film.map(f => f.y)) : '-';
@@ -659,17 +770,23 @@ function renderFilm() {
   $('oa-f-brk').textContent = n ? film.reduce((a, f) => a + (f.brk || 0), 0) : '-';
   const right = film.filter(f => f.r1 && f.r1[1] && (!f.r2 || f.r2[1])), wrong = film.filter(f => f.r1 && !(f.r1[1] && (!f.r2 || f.r2[1])));
   const avg = l => (l.length ? (l.reduce((a, f) => a + f.y, 0) / l.length).toFixed(1) : '-');
-  $('oa-f-split').textContent = n ? `Read it all right: ${avg(right)} yards a play (${right.length}). Missed a read: ${avg(wrong)} (${wrong.length}).${n >= 20 ? ` Your first ten: ${avg(film.slice(0, 10))} a play. Your last ten: ${avg(film.slice(-10))}.` : ''}` : 'Run some plays and they show up here.';
+  const sum = k => pf.reduce((a, f) => a + (f[k] || 0), 0), op = pf.filter(f => f.open);
+  const passLine = pf.length ? ` Passing: ${sum('comp')} of ${sum('att')}, ${(pf.reduce((a, f) => a + f.y, 0) / Math.max(1, pf.length)).toFixed(1)} yards a dropback, found the open man ${pct(op.filter(f => f.open[1]).length, op.length)}, ${sum('int')} picked, ${sum('sack')} sacked.` : '';
+  $('oa-f-split').textContent = n ? `Option reads all right: ${avg(right)} yards a play (${right.length}). Missed a read: ${avg(wrong)} (${wrong.length}).${passLine}${n >= 20 ? ` Your first ten: ${avg(film.slice(0, 10))} a play. Your last ten: ${avg(film.slice(-10))}.` : ''}` : 'Run some plays and they show up here.';
   const by = {};
   for (const f of film) {
-    const k = f.k2 === 'scrape' ? 'Scrape exchange' : f.alley ? 'Safety in the alley' : ({ crash: 'End crashes', sit: 'End sits', attack: 'End attacks' })[f.de] || f.de;
+    const k = f.play === 'pass' ? 'Passing vs ' + coverName(f.cov) : f.k2 === 'scrape' ? 'Scrape exchange' : f.alley ? 'Safety in the alley' : ({ crash: 'End crashes', sit: 'End sits', attack: 'End attacks' })[f.de] || f.de;
     const e = by[k] || (by[k] = { n: 0, y: 0, r: 0, rn: 0 });
     e.n++; e.y += f.y;
-    for (const r of [f.r1, f.r2]) if (r) { e.rn++; e.r += r[1]; }
+    for (const r of [f.r1, f.r2, f.open]) if (r) { e.rn++; e.r += r[1]; }
   }
   $('oa-f-looks').innerHTML = Object.entries(by).sort((a, b) => b[1].n - a[1].n).map(([k, e]) => `<tr><td>${k}</td><td>${e.n}</td><td>${pct(e.r, e.rn)}</td><td>${(e.y / e.n).toFixed(1)}</td></tr>`).join('') || '<tr><td colspan="4">Nothing yet.</td></tr>';
   const mark = r => (r ? (r[1] ? '✓ ' : '✗ ') + r[0] : '');
-  $('oa-f-last').innerHTML = film.slice(-12).reverse().map(f => `<tr><td>${f.play === 'read' ? 'Read' : 'Triple'}</td><td>${mark(f.r1)}</td><td>${mark(f.r2)}</td><td>${f.how === 'td' ? 'TD' : f.how === 'turnover' ? 'TO' : (f.y > 0 ? '+' : '') + f.y}</td></tr>`).join('');
+  const nm = { read: 'Read', triple: 'Triple', jet: 'Jet', pass: 'Pass' };
+  const res = f => (f.how === 'td' ? 'TD' : f.how === 'turnover' ? (f.int ? 'INT' : 'TO') : f.how === 'incomplete' ? 'inc' : f.how === 'sack' ? 'sack ' + f.y : (f.y > 0 ? '+' : '') + f.y);
+  $('oa-f-last').innerHTML = film.slice(-12).reverse().map(f => f.play === 'pass'
+    ? `<tr><td>${CONCEPT_NAME(f.concept)}</td><td>${f.open ? (f.open[1] ? '✓ ' : '✗ ') + num(f.open[0]) : ''}</td><td>${coverName(f.cov)}</td><td>${res(f)}</td></tr>`
+    : `<tr><td>${nm[f.play] || f.play}</td><td>${mark(f.r1)}</td><td>${mark(f.r2)}</td><td>${res(f)}</td></tr>`).join('');
 }
 const openFilm = () => { renderFilm(); $('oa-film').hidden = false; };
 $('oa-film-btn').onclick = openFilm; $('oa-film-btn2').onclick = openFilm;
@@ -688,7 +805,7 @@ LifeOS.onStart(cfg => {
   if (!LIFE.on) return;
   const p = String(cfg.play || 'menu').toLowerCase();
   if (p === 'clutch' || cfg.mode === 'clutch') { LIFE.cfg.play = 'clutch'; startMode('goal'); }
-  else if (p === 'lab' || p === 'drive' || p === 'goal') startMode(p);
+  else if (p === 'lab' || p === 'pass' || p === 'drive' || p === 'goal') startMode(p);
   else { LIFE.cfg.play = 'menu'; goHome(); }
   renderSettings();
 });
@@ -701,16 +818,20 @@ function loop(ts) {
   last = ts; tNow += dt;
   if (P) {
     if (G.mode && !blocked()) {
-      const i = { hold: inp.hold, steer: steerVec(), juke: q.juke, truck: q.truck, pitch: q.pitch, give: q.give, snap: q.snap };
+      const i = { hold: inp.hold, steer: steerVec(), juke: q.juke, truck: q.truck, spin: q.spin, hurdle: q.hurdle, pitch: q.pitch, give: q.give, snap: q.snap,
+        throw: q.throw, aiming: !!aimTarget() };
       FB.step(P, dt, i);
       onFx(P.fx); P.fx.length = 0;
       if (P.phase === 'dead' && deadAt == null) deadAt = tNow;
       if (deadAt != null && !cardUp && tNow - deadAt > 1.15) showResult();
     }
-    q.juke = 0; q.truck = q.pitch = q.give = q.snap = false;
+    q.juke = 0; q.truck = q.spin = q.hurdle = q.pitch = q.give = q.snap = false; q.throw = null;
+    if (aimT && !FB.canThrow(P)) aimT = null;
     FBView.follow(V, P, dt);
-    const fd = G.mode && G.mode !== 'lab' && G.fdAt < 100 ? G.fdAt - G.spot : null;
-    FBView.frame(g, V, P, { spot: P.spotAbs || 35, keys: S.help === 'on' && G.mode && !cardUp && (P.phase !== 'run' || (P.carrier === P.by.QB && P.give === false && !P.dec.read2)) && P.phase !== 'dead', t: tNow, firstDown: fd, home: 'OPTION', away: 'ARCADE' });
+    const fd = G.mode && G.mode !== 'lab' && G.mode !== 'pass' && G.fdAt < 100 ? G.fdAt - G.spot : null;
+    // route art: before the snap with read help on (always in Pass Lab), fainter while the play runs
+    const routesA = P.play !== 'pass' || !G.mode || cardUp ? 0 : P.phase === 'pre' ? (S.help === 'on' || G.mode === 'pass' ? 0.6 : 0) : S.help === 'on' && FB.canThrow(P) ? 0.18 : 0;
+    FBView.frame(g, V, P, { spot: P.spotAbs || 35, routes: routesA, aim: aimTarget(), keys: S.help === 'on' && G.mode && !cardUp && (P.phase !== 'run' || (P.carrier === P.by.QB && P.give === false && !P.dec.read2)) && P.phase !== 'dead', t: tNow, firstDown: fd, home: 'OPTION', away: 'ARCADE' });
     FBView.effects(g, V, fxList, dt);
     if (stick) {
       g.strokeStyle = 'rgba(255,255,255,0.5)'; g.lineWidth = 3;
@@ -725,6 +846,6 @@ function loop(ts) {
 }
 requestAnimationFrame(loop);
 
-window.OptionArcade = { get P() { return P; }, get G() { return G; }, get V() { return V; }, startMode, newPlay, showResult, S, q, inp, get film() { return film; } };
+window.OptionArcade = { set seed(v) { nextSeed = v; }, get P() { return P; }, get G() { return G; }, get V() { return V; }, startMode, newPlay, showResult, S, q, inp, get film() { return film; } };
 })();
 </script>

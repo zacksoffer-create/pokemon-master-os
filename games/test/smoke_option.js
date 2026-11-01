@@ -49,7 +49,7 @@ async function phone(browser, w, h, tag) {
   await p.click('#oa-next');
 
   // 2. the end crashes, the backer takes the QB: let go mid-exchange to pull, then tap PITCH
-  await OA(() => { OptionArcade.G.look = 'crash+qb'; OptionArcade.newPlay(); });
+  await OA(() => { OptionArcade.G.look = 'crash+qb'; OptionArcade.seed = 8919; OptionArcade.newPlay(); });
   [gx, gy] = await box('#oa-give');
   await p.mouse.move(gx, gy); await p.mouse.down();
   await p.waitForFunction(() => OptionArcade.P.phase === 'mesh' && OptionArcade.P.rideU > 0.4, null, { timeout: 5000 });
@@ -117,6 +117,91 @@ async function phone(browser, w, h, tag) {
   await ctx.close();
 }
 
+async function passing(browser, w, h, tag) {
+  const ctx = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 2, hasTouch: true });
+  const p = await ctx.newPage();
+  const errors = [];
+  p.on('pageerror', e => errors.push(e.message));
+  p.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  await p.setContent(page('option-arcade.html'), { waitUntil: 'load' });
+  const wait = ms => p.waitForTimeout(ms);
+  const shot = n => p.screenshot({ path: `${OUT}/${tag}-${n}.png` });
+  const OA = (f, a) => p.evaluate(f, a);
+  const box = async sel => { const b = await p.locator(sel).boundingBox(); return [b.x + b.width / 2, b.y + b.height / 2]; };
+  const cardUp = () => p.waitForFunction(() => !document.getElementById('oa-card').hidden || !document.getElementById('oa-sum').hidden, null, { timeout: 30000 });
+  await wait(300);
+  // the jet sweep: hold GIVE and the jet man takes it
+  await p.click('[data-mode="lab"]');
+  if (await OA(() => !document.getElementById('oa-howsheet').hidden)) { await shot('p01-how'); await p.click('#oa-how-go'); }
+  await OA(() => { OptionArcade.G.call = 'jet-d'; OptionArcade.G.look = 'sit'; OptionArcade.newPlay(); });
+  let [gx, gy] = await box('#oa-give');
+  await p.mouse.move(gx, gy); await p.mouse.down();
+  await p.waitForFunction(() => OptionArcade.P.phase === 'mesh', null, { timeout: 5000 });
+  await wait(150); await shot('p02-jet-mesh');
+  await p.waitForFunction(() => OptionArcade.P.phase === 'run', null, { timeout: 5000 });
+  await p.mouse.up();
+  check(await OA(() => OptionArcade.P.carrier && OptionArcade.P.carrier.id === 'JET'), `${tag}: the jet man takes the handoff`);
+  // spin and hurdle, swiped on the right half
+  const swipe = async (dx, id) => OA(({ w, h, dx, id }) => {
+    const cv = document.getElementById('oa-canvas');
+    const ev = (type, x, y) => cv.dispatchEvent(new PointerEvent(type, { pointerId: id, clientX: x, clientY: y, bubbles: true, pointerType: 'touch' }));
+    ev('pointerdown', w * 0.75, h * 0.6); ev('pointermove', w * 0.75 + dx / 3, h * 0.6); ev('pointermove', w * 0.75 + dx, h * 0.6); ev('pointerup', w * 0.75 + dx, h * 0.6);
+  }, { w, h, dx, id });
+  await swipe(-45, 21); await wait(120);
+  const sp = await OA(() => OptionArcade.P.stats.spins);
+  await wait(800);
+  if (await OA(() => OptionArcade.P.phase === 'run')) { await swipe(45, 22); await wait(150); await shot('p03-hurdle'); }
+  const hu = await OA(() => OptionArcade.P.stats.hurdles);
+  check(sp >= 1, `${tag}: a swipe back spins`);
+  check(hu >= 1 || !(await OA(() => OptionArcade.P.phase === 'run')), `${tag}: a swipe forward hurdles`);
+  await cardUp();
+  await p.click('#oa-exit');
+  // Pass Lab: tap SNAP, pull back to aim, let go to throw
+  await p.click('[data-mode="pass"]'); await wait(200);
+  await OA(() => { OptionArcade.G.cover = 'cover3'; OptionArcade.G.call = 'smash'; OptionArcade.newPlay(); });
+  await wait(250); await shot('p04-pass-presnap');
+  [gx, gy] = await box('#oa-give');
+  await p.mouse.click(gx, gy);
+  await p.waitForFunction(() => OptionArcade.P.phase === 'run' && FB.canThrow(OptionArcade.P), null, { timeout: 5000 });
+  await wait(900);
+  await OA(({ w, h }) => {
+    const cv = document.getElementById('oa-canvas');
+    const ev = (type, x, y) => cv.dispatchEvent(new PointerEvent(type, { pointerId: 31, clientX: x, clientY: y, bubbles: true, pointerType: 'touch' }));
+    ev('pointerdown', w * 0.8, h * 0.62); ev('pointermove', w * 0.8 - 40, h * 0.62 + 5); ev('pointermove', w * 0.8 - 85, h * 0.62 + 10);
+    window.__release = () => ev('pointerup', w * 0.8 - 85, h * 0.62 + 10);
+  }, { w, h });
+  await wait(120); await shot('p05-aiming');
+  check(await OA(() => OptionArcade.P.scale < 0.95), `${tag}: lining up a throw slows the world down`);
+  await OA(() => window.__release());
+  await p.waitForFunction(() => OptionArcade.P.thrown || OptionArcade.P.phase === 'dead', null, { timeout: 3000 }).catch(() => {});
+  check(await OA(() => !!OptionArcade.P.thrown), `${tag}: letting go throws it`);
+  await wait(350); await shot('p06-ball-in-air');
+  await cardUp(); await wait(200); await shot('p07-pass-card');
+  const t = await OA(() => document.getElementById('oa-reads').textContent + ' | ' + document.getElementById('oa-yds').textContent);
+  check(/Cover 3/.test(t), `${tag}: the card names the coverage ("${t.slice(0, 70)}...")`);
+  // the keyboard: 3 throws to the right slot, led
+  await p.click('#oa-next');
+  [gx, gy] = await box('#oa-give');
+  await p.mouse.click(gx, gy);
+  await p.waitForFunction(() => OptionArcade.P.phase === 'run' && FB.canThrow(OptionArcade.P), null, { timeout: 5000 });
+  await wait(1100); await p.keyboard.press('3');
+  await p.waitForFunction(() => OptionArcade.P.thrown || OptionArcade.P.phase === 'dead', null, { timeout: 3000 }).catch(() => {});
+  check(await OA(() => OptionArcade.P.thrown && OptionArcade.P.thrown.target === 'SR'), `${tag}: the 3 key throws to the right slot`);
+  await cardUp();
+  // the whole playbook in a drive
+  await p.click('#oa-exit');
+  await p.click('[data-mode="drive"]'); await wait(200);
+  await p.keyboard.press(' ');
+  await OA(() => { OptionArcade.inp.hold = true; });
+  await p.waitForFunction(() => OptionArcade.P.phase === 'run' || OptionArcade.P.phase === 'dead', null, { timeout: 6000 });
+  await OA(() => { OptionArcade.inp.hold = false; });
+  await cardUp(); await wait(150); await shot('p08-drive-card');
+  check(await OA(() => document.querySelectorAll('#oa-plays button').length === 10), `${tag}: Drive offers the whole playbook (option, jet, passes)`);
+  await p.click('#oa-film-btn'); await wait(150); await shot('p09-film');
+  check(errors.length === 0, `${tag} passing: no page errors${errors.length ? ': ' + errors.slice(0, 3).join(' | ') : ''}`);
+  await ctx.close();
+}
+
 async function lifeos(browser) {
   // a stand-in LIFE OS host: the game in an iframe with ?embed=1, game day ("clutch")
   const dir = path.join(OUT, 'host');
@@ -163,6 +248,8 @@ async function lifeos(browser) {
   await phone(browser, 390, 844, 'portrait');
   await phone(browser, 844, 390, 'landscape');
   await phone(browser, 360, 740, 'small');
+  await passing(browser, 390, 844, 'portrait');
+  await passing(browser, 844, 390, 'landscape');
   await lifeos(browser);
   await browser.close();
   console.log(fails ? `\n${fails} failed` : '\nall passed');
