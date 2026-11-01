@@ -190,6 +190,12 @@ class Institutions:
             if school == "college":
                 terms.append(("college coursework", -3.0))
             s = clamp(sum(t[1] for t in terms), 0, 100)
+            from . import classes
+            played = classes.blend_exam(c, w.day, s)
+            if played:  # you took this one yourself: your round counts, blended with your preparation
+                s, terms = played[0], terms + [("(you played it) " + t[0], t[1]) for t in played[1]]
+                qp = c.flags.get("quiz_played") or {}
+                classes.record(w, qp.get("class") or "all", qp.get("pct", 0), it["name"])
             scores[c.id] = round(s, 1)
             gp = clamp((s - 50) / 10, 0.0, 4.0)
             wt = 0.08 * it["weight"]

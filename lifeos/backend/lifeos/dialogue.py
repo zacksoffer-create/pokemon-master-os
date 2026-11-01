@@ -29,7 +29,7 @@ BUILTIN_DIR = os.path.join(DATA_DIR, "dialogue")
 USER_DIR = os.environ.get("LIFEOS_DIALOGUE") or os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "var", "dialogue")
 
-SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes")
+SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia")
 PH = re.compile(r"\{(\w+)\}")
 SLUG = re.compile(r"^[a-z][a-z0-9_]{2,40}$")
 
@@ -197,6 +197,8 @@ OPS = {
     "hang_out": (1, '["hang_out", "them"]', "Makes plans: you'll hang out with them at your next free time."),
     "remember": (1, '["remember", "covered_for_sibling"]', "Remember a fact so a later scene can depend on it."),
     "forget": (1, '["forget", "covered_for_sibling"]', "Forget a remembered fact."),
+    "minigame": (3, '["minigame", "soccer_pk", {"great": [ops], "good": [ops], "miss": [ops]}, {"base": 0.5, "athletic": 0.3}]',
+                 "You play a mini game; how you do (great 80%+, good 50%+, else miss) picks the ops. If nobody plays it, the odds roll instead. The choice only shows when the game is ready."),
     "chance": (3, '["chance", {"base": 0.5, "charisma": 0.3}, [ops if it works], [ops if it doesn\'t]]',
                "Roll against your own traits and talents. base 0..1, then +coef x (stat - 50)/100 for each stat."),
 }
@@ -401,6 +403,19 @@ def _check_ops(R, where, ops, refs, names, depth=0):
         elif name in ("remember", "forget"):
             if not isinstance(args[0], str) or not SLUG.match(args[0]):
                 R.err(w, "a remembered fact is a short lowercase name with underscores, like covered_for_sibling")
+        elif name == "minigame":
+            from .minigames import reg
+            game, tiers, spec = args
+            games = reg()["games"]
+            if game != "sport" and game not in games:
+                R.err(w, f"'{game}' isn't a mini game.{_suggest(game, games)} Games: {', '.join(games)}")
+            if not isinstance(tiers, dict) or not tiers or any(k not in ("great", "good", "miss") for k in tiers):
+                R.err(w, 'the second value maps great / good / miss to ops, like {"great": [["mood", 4]], "miss": [["need", "stress", 3]]}')
+            else:
+                for tk, tops in tiers.items():
+                    _check_ops(R, f"{w} ({tk})", tops, refs, names, depth + 1)
+            if not isinstance(spec, dict) or "base" not in spec:
+                R.err(w, 'the last value is the odds if nobody plays, like {"base": 0.5, "athletic": 0.3}')
         elif name == "chance":
             spec, ok_ops, bad_ops = args
             if not isinstance(spec, dict) or "base" not in spec:
@@ -675,6 +690,43 @@ def check(pack: dict) -> dict:
             _check_choice(R, f"{w}[{i}]", ch, moment_refs(mid), moment_names(mid))
             added["moment_choices"] += 1
 
+    tv = pack.get("trivia", {})
+    added["trivia"] = 0
+    if not isinstance(tv, dict):
+        R.err("trivia", 'is an object of subjects to questions, like {"biology": [{"q": "...", "a": "...", "w": ["...", "...", "..."], "g": 9}]}')
+        tv = {}
+    from .trivia import bank as _tbank
+    tsubs = _tbank()["subjects"]
+    have_q = {q["q"].lower() for qs in _tbank()["questions"].values() for q in qs}
+    for sub, qs in tv.items():
+        w = f"trivia.{sub}"
+        if sub not in tsubs or sub == "math":
+            R.err(w, f"'{sub}' isn't a trivia subject (math is generated).{_suggest(sub, [k for k in tsubs if k != 'math'])} Subjects: {', '.join(k for k in tsubs if k != 'math')}")
+            continue
+        if not isinstance(qs, list):
+            R.err(w, "is a list of questions")
+            continue
+        for i, q in enumerate(qs):
+            wq = f"{w}[{i}]"
+            if not isinstance(q, dict):
+                R.err(wq, 'a question looks like {"q": "...", "a": "right answer", "w": ["wrong", "wrong", "wrong"], "g": 9}')
+                continue
+            ok = _check_line(R, wq + ".q", q.get("q"), set(), 200) and _check_line(R, wq + ".a", q.get("a"), set(), 80)
+            wr = q.get("w")
+            if not isinstance(wr, list) or len(wr) != 3 or not all(isinstance(x, str) and x.strip() for x in wr):
+                R.err(wq + ".w", "needs exactly three wrong answers")
+                ok = False
+            elif ok and (len({x.strip().lower() for x in wr} | {q["a"].strip().lower()}) != 4):
+                R.err(wq + ".w", "the four answers have to be different from each other")
+                ok = False
+            if q.get("g") is not None and (isinstance(q["g"], bool) or not isinstance(q["g"], int) or not 9 <= q["g"] <= 13):
+                R.err(wq + ".g", "g is the lowest grade it fits: 9, 10, 11, 12, or 13 for college")
+                ok = False
+            if ok:
+                if q["q"].lower() in have_q:
+                    added["duplicates"] += 1
+                else:
+                    added["trivia"] += 1
     scenes = pack.get("scenes", [])
     if not isinstance(scenes, list):
         R.err("scenes", "is a list of scenes")
@@ -839,6 +891,7 @@ def _build() -> dict:
     moments = copy.deepcopy(_base("moments.json")["moments"])
     replies = {k: list(v) for k, v in _base_reply_sets().items()}
     loaded = []
+    trivia_extra: dict = {}
     for p in packs():
         if not p["enabled"]:
             continue
@@ -861,6 +914,8 @@ def _build() -> dict:
             templates[key] = templates[key] + [s for s in lines if s not in templates[key]]
         for mid, chs in (pk.get("moment_choices") or {}).items():
             moments[mid]["choices"] = moments[mid]["choices"] + [_with_needs(ch) for ch in chs]
+        for sub, qs in (pk.get("trivia") or {}).items():
+            trivia_extra.setdefault(sub, []).extend({"q": q["q"], "a": q["a"], "w": list(q["w"]), "g": q.get("g", 9)} for q in qs)
         for sc in pk.get("scenes") or []:
             if sc["id"] in moments:
                 continue  # an earlier pack already has a scene with this id
@@ -868,7 +923,7 @@ def _build() -> dict:
                                  "choices": [_with_needs(ch) for ch in sc["choices"]],
                                  "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"],
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
-    return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "loaded": loaded}
+    return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "loaded": loaded}
 
 
 def merged() -> dict:
@@ -1281,6 +1336,17 @@ def guide_markdown() -> str:
       "when they exist. Keep at least two choices that work for anybody.\n")
     a("**Choices**: `label` (what you do or say), optional `hint`, `fits` (which personalities lean this way when the game picks for "
       "you, trait: -1..1), and `ops`.\n")
+    a("## Trivia (`trivia`)\n")
+    a("Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right answer), `w` (exactly three wrong answers), "
+      "`g` (the lowest grade it fits: 9 to 12, or 13 for college). Facts must be correct; keep answers short. Math is generated, so "
+      "don't add math. Subjects: " + ", ".join(f"`{k}`" for k in __import__("lifeos.trivia", fromlist=["x"]).subjects() if k != "math") + ".\n")
+    a('```json\n"trivia": {"biology": [{"q": "What do red blood cells carry?", "a": "Oxygen", "w": ["Insulin", "Bile", "Calcium"], "g": 9}]}\n```\n')
+    a("## Mini games (the `minigame` op)\n")
+    from .minigames import reg as _mreg
+    a("A choice can be played: `[\"minigame\", game, {\"great\": [ops], \"good\": [ops], \"miss\": [ops]}, odds if nobody plays]`. "
+      "Use `\"sport\"` for the player's own sport in a sports scene. Games: " +
+      ", ".join(f"`{k}` ({g['title']}{'' if g.get('status') == 'ready' else ', coming soon'})" for k, g in _mreg()["games"].items()) +
+      ". A choice with a game that isn't ready yet stays hidden, so always keep two other choices.\n")
     a("## Ops\n")
     a("| op | how to write it | what it does |")
     a("|---|---|---|")

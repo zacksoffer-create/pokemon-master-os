@@ -63,6 +63,13 @@ def main():
     os.makedirs(os.path.join(OUT, "pyodide"), exist_ok=True)
     for f in PYODIDE_FILES:
         shutil.copy2(os.path.join(pyo_src, f), os.path.join(OUT, "pyodide", f))
+    # the mini games (standalone HTML pages) live in the lab's public folder; the phone app gets the same files
+    mg_src = os.path.join(FRONT, "public", "minigames")
+    if os.path.isdir(mg_src):
+        os.makedirs(os.path.join(OUT, "minigames"), exist_ok=True)
+        for f in sorted(os.listdir(mg_src)):
+            if f.endswith((".html", ".js")):
+                shutil.copy2(os.path.join(mg_src, f), os.path.join(OUT, "minigames", f))
     data = engine_zip()
     with open(os.path.join(OUT, "engine.zip"), "wb") as f:
         f.write(data)

@@ -1,7 +1,8 @@
 // Story: where you are, what's happening, and what you do next. The heart of the phone app.
 import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "../store";
-import { Chip, Choice, FeedItem, Line, Moment, phoneApi, pgo } from "./api";
+import MiniGame, { MGConfig, MGResult } from "../minigames/MiniGame";
+import { Chip, Choice, FeedItem, Line, MiniGameRow, Moment, phoneApi, pgo } from "./api";
 import { Portrait, Scene } from "./art";
 import { PIcon } from "./icons";
 import { buzz, cx, errText, Face, Lines, money, Sheet, StatChips, useWho } from "./kit";
@@ -11,7 +12,7 @@ const KICKER: Record<string, string> = {
   first_day: "New chapter", cut: "Tryouts", injury: "Injury", benched: "Playing time", offer: "Recruiting", college_decision: "The big decision",
   game_day: "Game day", sibling_leaves: "Family", rumor: "People are talking", heartbreak: "Heartbreak", summer: "Summer", graduation: "Graduation",
   college_arrival: "New chapter", year_review: "Looking back", asked_out: "Romance", asked_to_dance: "Romance", mlb_draft: "MLB Draft",
-  draft_passed: "MLB Draft", story_end: "The end of the beginning",
+  draft_passed: "MLB Draft", story_end: "The end of the beginning", class_quiz: "Class",
 };
 const CAT: Record<string, string> = {
   social: "Friends", romance: "Romance", academic: "School", conflict: "Drama", leisure: "Downtime", family: "Family", activity: "Getting better",
@@ -27,7 +28,8 @@ const CAT_ICON: Record<string, string> = { social: "people", romance: "heart", a
   activity: "ball", obligation: "clock", achievement: "star", risk: "warn", staff: "people" };
 const PERSON_KEYS = ["other", "sibling", "roommate", "coach", "origin", "best_friend"];
 
-type Outcome = { lines: Line[]; chips: Chip[]; title?: string };
+type Outcome = { lines: Line[]; chips: Chip[]; title?: string; mg?: { tier: string; score: number; max: number } };
+type Playing = { cfg: MGConfig; m?: Moment; index?: number };
 
 export default function StoryTab() {
   const { state, refresh, toast, setBusy: setGlobalBusy } = usePhone();
@@ -40,6 +42,8 @@ export default function StoryTab() {
   const [skip, setSkip] = useState<{ done: number; days: number } | null>(null);
   const [busy, setBusy] = useState(false);
   const [showToday, setShowToday] = useState(false);
+  const [playing, setPlaying] = useState<Playing | null>(null);
+  const [games, setGames] = useState<MiniGameRow[] | null>(null);
   const alive = useRef(true);
   useEffect(() => {
     alive.current = true;
@@ -60,6 +64,11 @@ export default function StoryTab() {
     }).catch((e) => !off && toast(errText(e), "bad"));
     return () => { off = true; };
   }, [wantChoices, key]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!wantChoices) return;
+    phoneApi.minigames().then((r) => setGames(r.games)).catch(() => setGames(null));
+  }, [wantChoices, key]);
 
   if (!state) return null;
   const s = state;
@@ -89,9 +98,51 @@ export default function StoryTab() {
   const pickMoment = (m: Moment, index: number | null) => run(async () => {
     buzz();
     const r = await phoneApi.moment(m.id, index);
+    if (r.minigame) {  // you play this one yourself
+      setPlaying({ cfg: r.minigame, m, index: index ?? undefined });
+      return;
+    }
     setOutcome({ lines: r.lines, chips: r.chips, title: m.title });
     await refresh();
   });
+
+  const playFree = (g: MiniGameRow) => run(async () => {
+    buzz();
+    setPlaying({ cfg: await phoneApi.minigameStart(g.id) });
+  });
+
+  const finishPlay = (res: MGResult) => {
+    const p = playing;
+    setPlaying(null);
+    if (!p) return;
+    run(async () => {
+      if (p.m) {
+        const r = await phoneApi.moment(p.m.id, p.index ?? null, { session: p.cfg.session, score: res.score, max: res.max, stats: res.stats });
+        setOutcome({ lines: r.lines, chips: r.chips, title: p.m.title, mg: r.minigame });
+      } else {
+        const r = await phoneApi.minigameFinish(p.cfg.session, res.score, res.max, res.stats);
+        const lines = r.rewarded ? r.lines : [...r.lines, { id: -2, type: "note", text: "You already got your practice in today. This one was just for fun." }];
+        setOutcome({ lines, chips: r.chips, title: p.cfg.title, mg: r.result });
+        phoneApi.minigames().then((x) => setGames(x.games)).catch(() => undefined);
+      }
+      await refresh();
+    });
+  };
+
+  const quitPlay = () => {
+    const p = playing;
+    setPlaying(null);
+    if (!p) return;
+    if (p.m) {
+      if (window.confirm("Stop here and let the game decide how it went?")) {
+        run(async () => {
+          const r = await phoneApi.moment(p.m!.id, p.index ?? null, { auto: true });
+          setOutcome({ lines: r.lines, chips: r.chips, title: p.m!.title });
+          await refresh();
+        });
+      }
+    } else phoneApi.minigameQuit().catch(() => undefined);
+  };
 
   const next = () => run(async () => {
     const j = await phoneApi.advance("decision");
@@ -158,6 +209,20 @@ export default function StoryTab() {
                 <button className="ph-link center" onClick={next} disabled={busy}>Let it play out</button>
               </>
             )}
+            {games && games.some((g) => g.available) && (
+              <div className="ph-play">
+                <div className="ph-play-t">Or play something</div>
+                <div className="ph-play-row">
+                  {games.filter((g) => g.available).map((g) => (
+                    <button key={g.id} className="ph-play-c" disabled={busy} onClick={() => playFree(g)}>
+                      <span className="ph-icon-bubble"><PIcon name={g.icon} size={20} /></span>
+                      <b>{g.label}</b>
+                      <small>{g.rewarded_today ? "played today" : g.best ? `best ${Math.round(g.best * 100)}%` : g.title}</small>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="ph-next">
@@ -191,12 +256,20 @@ export default function StoryTab() {
       <Sheet open={!!outcome} onClose={() => setOutcome(null)} title={outcome?.title} className="ph-outcome">
         {outcome && (
           <>
+            {outcome.mg && (
+              <div className={cx("ph-mg-result", outcome.mg.tier)}>
+                <b>{outcome.mg.tier === "great" ? "Clutch." : outcome.mg.tier === "good" ? "Solid." : "Not your day."}</b>
+                <span>{outcome.mg.score % 1 === 0 && outcome.mg.max <= 20 ? `${outcome.mg.score} of ${outcome.mg.max}` : `${Math.round((outcome.mg.score / outcome.mg.max) * 100)}%`}</span>
+              </div>
+            )}
             <Lines lines={outcome.lines} />
             <StatChips chips={outcome.chips} />
             <button className="ph-btn primary block" onClick={() => setOutcome(null)}>Continue</button>
           </>
         )}
       </Sheet>
+
+      {playing && <MiniGame config={playing.cfg} onDone={finishPlay} onQuit={quitPlay} />}
 
       <Sheet open={!!recap} onClose={() => setRecap(null)} title="While you were living it" className="ph-recap">
         {recap && (

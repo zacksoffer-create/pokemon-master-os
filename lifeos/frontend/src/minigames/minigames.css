@@ -1,0 +1,42 @@
+/* Mini game host and the quiz. Full screen inside the phone frame. */
+.mg-wrap { position: absolute; inset: 0; z-index: 80; display: flex; flex-direction: column; background: #10261a; animation: ph-fade 0.2s ease both; }
+.mg-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: calc(10px + env(safe-area-inset-top)) 14px 10px; background: rgba(8, 20, 14, 0.92); color: #fff; z-index: 2; }
+.mg-title { display: flex; flex-direction: column; min-width: 0; }
+.mg-title b { font-family: var(--ph-head, system-ui); font-weight: 600; font-size: 18px; }
+.mg-title span { font-size: 12.5px; font-weight: 700; color: #a9d8bd; }
+.ph-root .mg-x { --btn-bg: rgba(255, 255, 255, 0.12); width: 36px; height: 36px; border-radius: 50%; color: #fff; font-size: 16px; display: grid; place-items: center; }
+.mg-stage { flex: 1; position: relative; min-height: 0; }
+.mg-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #10261a; }
+.mg-loading { position: absolute; inset: 0; display: grid; place-items: center; color: #cfe9da; font-weight: 700; }
+
+/* the quiz */
+.tv { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 14px; padding: 18px 16px calc(22px + env(safe-area-inset-bottom));
+  background: radial-gradient(500px 360px at 20% 0%, #2a5b44 0%, transparent 70%), linear-gradient(#173a29, #10261a); color: #fff; overflow-y: auto; }
+.tv-head { display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: #b9e2cb; letter-spacing: 0.02em; }
+.tv-timer { height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); overflow: hidden; }
+.tv-timer i { display: block; height: 100%; background: linear-gradient(90deg, #6fe0a8, #c9f27a); border-radius: 999px; transition: width 0.1s linear; }
+.tv-timer i.low { background: linear-gradient(90deg, #ff6a5a, #ffb36b); }
+.tv-q { font-family: var(--ph-head, system-ui); font-weight: 600; font-size: 23px; line-height: 1.25; padding: 10px 2px 4px; animation: ph-rise 0.3s ease both; }
+.tv-opts { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+.ph-root .tv-opt { --btn-bg: #fff; color: #1c2b23; display: flex; align-items: center; gap: 12px; text-align: left; padding: 15px 14px; border-radius: 18px;
+  font-weight: 700; font-size: 16px; box-shadow: 0 10px 20px -14px rgba(0, 0, 0, 0.7); }
+.tv-l { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #e7f2ec; color: #2c6b4b; font-weight: 800; font-size: 13px; flex-shrink: 0; }
+.ph-root .tv-opt.right { --btn-bg: #2fbf7d; color: #fff; }
+.ph-root .tv-opt.right .tv-l { background: rgba(255, 255, 255, 0.25); color: #fff; }
+.ph-root .tv-opt.wrong { --btn-bg: #ff6650; color: #fff; }
+.ph-root .tv-opt.wrong .tv-l { background: rgba(255, 255, 255, 0.25); color: #fff; }
+.ph-root .tv-opt.dim { opacity: 0.45; }
+.ph-root .tv-opt:disabled { opacity: 1; }
+.ph-root .tv-opt.dim:disabled { opacity: 0.45; }
+.tv-late { text-align: center; font-weight: 800; color: #ffb3a6; }
+.tv-intro { align-items: center; justify-content: center; text-align: center; gap: 10px; }
+.tv-intro h2 { color: #fff; font-size: 28px; }
+.tv-intro p { color: #cfe9da; font-weight: 600; max-width: 280px; }
+.tv-badge { padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: #c9f27a; }
+.ph-root .tv-go { --btn-bg: linear-gradient(135deg, #ff6650, #ff9459); color: #fff; font-weight: 800; font-size: 17px; padding: 15px 34px; border-radius: 18px; margin-top: 14px;
+  box-shadow: 0 14px 26px -14px rgba(255, 92, 66, 0.9); }
+.tv-score { font-family: var(--ph-head, system-ui); font-weight: 600; font-size: 76px; line-height: 1; }
+.tv-score small { font-size: 32px; opacity: 0.7; }
+.tv-score.great { color: #8ff0b9; }
+.tv-score.good { color: #ffd66b; }
+.tv-score.miss { color: #ff9a8a; }

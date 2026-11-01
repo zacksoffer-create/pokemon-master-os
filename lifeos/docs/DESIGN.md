@@ -476,3 +476,38 @@ Differences from the server:
 - **API:** `/api/dialogue/packs` (list, add), `/packs/{id}/enabled`, `/packs/{id}/remove`, `/check`, `/guide.md`, `/prompt`,
   `/current`, `/try/{scene}`. The same handlers answer on the phone through `local_api`.
 
+## 15. Classes, quizzes and mini games
+
+- **`classes.py`:**
+  - `schedule()` builds the year's classes from `data/classes.json`: standard or honors/AP by academic aptitude or GPA,
+    plus an elective from interests, each with a teacher. It's made once per school year and kept in
+    `w.meta.classes.sched`.
+  - `quiz_context()` turns a calendar exam into a class quiz (rotating through the schedule by quiz number) or a test
+    across every class (midterms and finals: more questions).
+  - `grades()`: per-class percent = GPA-based baseline + subject fit (aptitudes) + played quiz average (30%).
+- **Playable exams:** `engine._story_dawn` triggers the `class_quiz` moment on exam days. Choice 1 is a
+  `["minigame", "trivia", ...]` op. When you play it, `minigames.finish` sets `c.flags.quiz_played`, and
+  `institutions.exam` blends that score (55%) with the modeled score (45%). The calc shows both terms, and
+  `classes.record` stores it.
+- **`trivia.py`:**
+  - The bank is `data/trivia.json`: q, a, three wrong answers, grade, by subject. Dialogue packs can add a `trivia`
+    section.
+  - Math is generated per course (algebra1, geometry, algebra2, precalc, calculus, statistics) with computed answers.
+  - `round_for()` mixes subjects for tests and avoids repeats via `w.meta.trivia_seen`.
+- **`minigames.py`:** registry `data/minigames.json` (games, status, skill and aptitude, free-play rules, practice rewards,
+  tiers, `sport_games`).
+  - Sessions: `start` → config (skill, difficulty, seed, questions...) → the client plays → `finish(score, max)` → tier
+    (great ≥ 0.8, good ≥ 0.5, else miss).
+  - Free play rewards once a day per game.
+  - Moment rounds set `ctx._mg` and resolve the moment. The `minigame` op runs that tier's ops; unplayed, it rolls its
+    fallback odds against the character.
+  - `choice_ok` hides choices whose game isn't ready.
+  - The `clutch` op adds to game performance in `sports._game`.
+- **Phone:**
+  - `/api/phone/moment/{mid}` returns `{"minigame": config}` for a played choice, and the second call finishes it.
+  - Other endpoints: `/api/phone/minigames`, `/minigame/start|finish|quit`, `/classes`.
+  - `src/minigames/MiniGame.tsx` hosts HTML games in an iframe over a postMessage bridge (`lifeos:init` →
+    `lifeos:minigame` ready/finish/quit). `Trivia.tsx` is the built-in quiz.
+- **Games:** `frontend/public/minigames/*.html` (the lab serves them; `build_phone_app.py` copies them into
+  `docs/play/minigames/`). The contract is in that folder's README.
+

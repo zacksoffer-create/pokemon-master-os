@@ -214,6 +214,10 @@ class Simulation:
                 n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
                 from .sports import opponent_name
                 self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": opponent_name(self, w.groups[it["group"]], n)})
+        for it in self._today:
+            if it["kind"] == "exam" and it.get("slot") == "classes" and it.get("school", "hchs") == pc.school and pc.location != "away":
+                from . import classes
+                self.moment_trigger("class_quiz", prot, classes.quiz_context(self, pc, it))
         cal = self.cat.world["calendar"]
         st = w.meta.get("story") or {}
         if calm.break_name(w.day, cal) == "Summer" and calm.break_name(w.day - 1, cal) != "Summer":

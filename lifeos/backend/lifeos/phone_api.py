@@ -281,16 +281,38 @@ def _chips(L, me, needs0, mood0, rels0):
 
 @router.post("/api/phone/moment/{mid}")
 def phone_moment(mid: str, body: dict = Body(default={})):
+    """Answer a moment. A choice you play yourself (a mini game) comes back as {"minigame": config} first; post again with
+    the round's {session, score, max} to finish it. {"auto": true} lets the dice decide instead."""
     A, L = _lab()
     L.guard()
-    from . import moments
+    from . import minigames, moments
     with L.lock:
         me = _me(L)
         idx = body.get("index")
+        m = next((x for x in L.w.meta.get("moments", []) if x["id"] == mid), None)
+        if m is None or m["status"] != "pending":
+            raise HTTPException(409, "that moment is no longer waiting for a choice")
+        if idx is not None and not body.get("auto") and not body.get("session"):
+            i = int(idx)
+            if not 0 <= i < len(m["_choices"]):
+                raise HTTPException(409, "no such choice")
+            op = minigames.top_op(m["_choices"][i]["ops"])
+            if op and minigames.ready(minigames.resolve_game(op[1], m["ctx"])):
+                try:
+                    cfg = minigames.start(L.sim, op[1], kind="moment", mid=mid, index=i, ctx=m["ctx"])
+                except ValueError as e:
+                    raise HTTPException(409, str(e))
+                L.autosave()
+                return {"minigame": cfg}
         needs0, mood0 = dict(me.needs), me.mood
         rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
+        played = None
         try:
-            ev = moments.resolve(L.sim, mid, None if idx is None else int(idx))
+            if body.get("session"):
+                played = minigames.finish(L.sim, body["session"], body.get("score"), body.get("max"), body.get("stats"))
+                ev = played["event"]
+            else:
+                ev = moments.resolve(L.sim, mid, None if idx is None else int(idx))
         except ValueError as e:
             raise HTTPException(409, str(e))
         follow = [L.w.history.events[i] for i in range(ev["id"] + 1, L.w.history.next_event) if i in L.w.history.events
@@ -298,7 +320,84 @@ def phone_moment(mid: str, body: dict = Body(default={})):
         L.autosave()
         says = [{"id": f"say{ev['id']}-{i}", "type": "say", "text": t} for i, t in enumerate(ev["data"].get("say", []))]
         lines = [{"id": ev["id"], "type": "moment", "text": pov.event_line(L.w, ev, me.id), "calc": ev.get("calc")}] + says + _lines(L, follow, me)
-        return {"lines": lines, "chips": _chips(L, me, needs0, mood0, rels0)}
+        out = {"lines": lines, "chips": _chips(L, me, needs0, mood0, rels0)}
+        if played:
+            out["minigame"] = {k: played[k] for k in ("tier", "pct", "score", "max", "game")}
+        return out
+
+
+# --- mini games and classes --------------------------------------------------------------------
+
+@router.get("/api/phone/minigames")
+def phone_minigames():
+    A, L = _lab()
+    from . import minigames
+    with L.lock:
+        _me(L)
+        st = minigames.state(L.w)
+        return {"games": minigames.free_list(L.sim), "recent": st["history"][-10:][::-1]}
+
+
+@router.post("/api/phone/minigame/start")
+def phone_minigame_start(body: dict = Body(...)):
+    A, L = _lab()
+    L.guard()
+    from . import minigames
+    with L.lock:
+        _me(L)
+        try:
+            cfg = minigames.start(L.sim, str(body.get("game", "")), kind="free")
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        return cfg
+
+
+@router.post("/api/phone/minigame/finish")
+def phone_minigame_finish(body: dict = Body(...)):
+    """Finish a free-play round. (Rounds started from a moment finish through /api/phone/moment/{mid}.)"""
+    A, L = _lab()
+    L.guard()
+    from . import minigames
+    with L.lock:
+        me = _me(L)
+        sess = minigames.state(L.w).get("session") or {}
+        if sess.get("kind") == "moment":
+            raise HTTPException(409, "finish this round through its moment")
+        needs0, mood0 = dict(me.needs), me.mood
+        rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
+        try:
+            r = minigames.finish(L.sim, body.get("session"), body.get("score"), body.get("max"), body.get("stats"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        ev = r["event"]
+        return {"result": {k: r[k] for k in ("tier", "pct", "score", "max", "game")}, "rewarded": ev["data"].get("rewarded"),
+                "lines": [{"id": ev["id"], "type": "minigame", "text": pov.event_line(L.w, ev, me.id)}],
+                "chips": _chips(L, me, needs0, mood0, rels0)}
+
+
+@router.post("/api/phone/minigame/quit")
+def phone_minigame_quit():
+    A, L = _lab()
+    from . import minigames
+    with L.lock:
+        minigames.state(L.w).pop("session", None)
+        return {"ok": True}
+
+
+@router.get("/api/phone/classes")
+def phone_classes():
+    A, L = _lab()
+    from . import classes
+    with L.lock:
+        me = _me(L)
+        w = L.w
+        upcoming = [i for i in w.calendar if i["kind"] == "exam" and i["day"] >= w.day and i.get("school", "hchs") == me.school][:3]
+        tests = classes.store(w)["quizzes"].get("_tests", [])
+        return {"gpa": round(me.gpa, 2), "year": me.year_label, "classes": classes.grades(L.sim, me),
+                "upcoming": [{"name": i["name"], "date": calm.label(i["day"]), "in_days": i["day"] - w.day,
+                              "weight": i.get("weight", 1)} for i in upcoming],
+                "tests_played": len(tests)}
 
 
 # --- messages -------------------------------------------------------------------------------

@@ -43,11 +43,21 @@ export type Contact = ContactRow & {
   shared: { id: number; date: string; text: string }[]; text_options: { kind: string; label: string }[]; partner_of: string | null;
 };
 
+export type MiniGameRow = { id: string; title: string; label: string; blurb: string; icon: string; ready: boolean; available: boolean; why: string; rewarded_today: boolean; best: number | null };
+export type ClassRow = { id: string; name: string; subject: string; teacher: string; honors: boolean; pct: number; letter: string; quizzes: number; quiz_avg: number | null };
+export type ClassesView = { gpa: number; year: string; classes: ClassRow[]; upcoming: { name: string; date: string; in_days: number; weight: number }[]; tests_played: number };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[] }> => api.get("/api/phone/choices"),
   choose: (index: number): Promise<{ lines: Line[]; chips: Chip[] }> => api.post("/api/phone/choose", { index }),
-  moment: (id: string, index: number | null): Promise<{ lines: Line[]; chips: Chip[] }> => api.post(`/api/phone/moment/${id}`, index === null ? {} : { index }),
+  moment: (id: string, index: number | null, extra: Record<string, any> = {}): Promise<{ lines: Line[]; chips: Chip[]; minigame?: any }> =>
+    api.post(`/api/phone/moment/${id}`, index === null ? { ...extra } : { index, ...extra }),
+  minigames: (): Promise<{ games: MiniGameRow[]; recent: any[] }> => api.get("/api/phone/minigames"),
+  minigameStart: (game: string): Promise<any> => api.post("/api/phone/minigame/start", { game }),
+  minigameFinish: (session: string, score: number, max: number, stats?: any): Promise<{ result: any; rewarded: boolean; lines: Line[]; chips: Chip[] }> =>
+    api.post("/api/phone/minigame/finish", { session, score, max, stats }),
+  minigameQuit: () => api.post("/api/phone/minigame/quit", {}),
+  classes: (): Promise<ClassesView> => api.get("/api/phone/classes"),
   // time: until = "decision" (next choice), "moment" (live until something happens), "day" | "week"
   advance: (until: string): Promise<any> => api.post("/api/story/advance", { until }),
   job: (): Promise<any> => api.get("/api/sim/job"),

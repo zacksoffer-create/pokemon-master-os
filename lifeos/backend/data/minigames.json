@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "notes": "Mini games: what exists, where each one shows up, and what playing it does. 'html' games are standalone pages in frontend/public/minigames/ that talk to the game through the LifeOS bridge (see minigames/README.md); 'builtin' games are part of the app. status 'ready' games can be played; 'coming' games are listed but hidden from story choices until their page exists. A round is scored as score/max; tiers turn that into great / good / miss.",
+  "tiers": {"great": 0.8, "good": 0.5},
+  "sport_games": {"basketball": "basketball", "football": "football", "baseball": "baseball", "soccer": "soccer_pk"},
+  "games": {
+    "trivia": {
+      "title": "Quiz", "kind": "builtin", "status": "ready", "icon": "book",
+      "blurb": "Answer before the timer runs out.",
+      "skill": "academics", "aptitude": "academic"
+    },
+    "soccer_pk": {
+      "title": "Penalty kicks", "kind": "html", "file": "soccer.html", "status": "ready", "icon": "ball",
+      "blurb": "Five shots from the spot. Swipe to shoot, curve your swipe to bend it.",
+      "skill": "fitness", "aptitude": "athletic",
+      "free": {"label": "Pickup soccer at the park", "phases": ["after_school", "day", "evening"]},
+      "practice": {"skill": "fitness", "gain": 0.6, "fun": 8, "energy": -6}
+    },
+    "basketball": {
+      "title": "Basketball", "kind": "html", "file": "basketball.html", "status": "coming", "icon": "ballplay",
+      "blurb": "Shoot around in the driveway.",
+      "skill": "basketball", "aptitude": "athletic",
+      "free": {"label": "Shoot around in the driveway", "phases": ["after_school", "day", "evening"]},
+      "practice": {"skill": "basketball", "gain": 0.8, "fun": 6, "energy": -5}
+    },
+    "football": {
+      "title": "Football", "kind": "html", "file": "football.html", "status": "coming", "icon": "ball",
+      "blurb": "In the works.", "skill": "football", "aptitude": "athletic",
+      "free": {"label": "Throw the football around", "phases": ["after_school", "day", "evening"]},
+      "practice": {"skill": "football", "gain": 0.8, "fun": 6, "energy": -6}
+    },
+    "baseball": {
+      "title": "Baseball", "kind": "html", "file": "baseball.html", "status": "coming", "icon": "ball",
+      "blurb": "In the works.", "skill": "baseball", "aptitude": "athletic",
+      "free": {"label": "Hit at the batting cages", "phases": ["after_school", "day", "evening"]},
+      "practice": {"skill": "baseball", "gain": 0.8, "fun": 6, "energy": -5}
+    },
+    "paper_toss": {
+      "title": "Paper toss", "kind": "html", "file": "paper_toss.html", "status": "coming", "icon": "sparkle",
+      "blurb": "Ball up a worksheet. Mind the fan.", "skill": "fitness", "aptitude": "athletic",
+      "free": {"label": "Paper toss in your room", "phases": ["after_school", "day", "evening", "night"]},
+      "practice": {"fun": 6}
+    },
+    "cup_pong": {
+      "title": "Cup pong", "college_title": "Beer pong", "kind": "html", "file": "cup_pong.html", "status": "coming", "icon": "people",
+      "blurb": "Ten cups. Arc it in.", "skill": "fitness", "aptitude": "athletic",
+      "free": {"label": "Cup pong in the basement", "phases": ["evening", "night"], "weekend": true},
+      "practice": {"fun": 10, "social": 6}
+    },
+    "golf": {
+      "title": "Golf", "kind": "html", "file": "golf.html", "status": "coming", "icon": "leaf",
+      "blurb": "Nine holes. Read the green.", "skill": "fitness", "aptitude": "athletic",
+      "free": {"label": "Mini golf on Route 1", "phases": ["day", "evening"], "weekend": true},
+      "practice": {"fun": 8}
+    }
+  }
+}

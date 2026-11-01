@@ -263,6 +263,8 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
         approach = c.flags.get("game_approach") if c.flags.get("game_approach_day") == w.day else None
         appr[cid] = approach
         bonus = {"all_out": 4.0, "smart": 0.0, "team": -1.0}.get(approach, 0.0)
+        if c.flags.get("game_clutch_day") == w.day:  # you played the big moment yourself
+            bonus += float(c.flags.get("game_clutch", 0))
         perf[cid] = pre[cid] + rng.gauss(0, 7) + bonus + (c.mood - 55) * 0.05
     college = w.meta.get("college") if g.get("school") == "college" else None
     clevel = college_level(college, sport) if college else None

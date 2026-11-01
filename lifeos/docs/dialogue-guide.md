@@ -438,6 +438,7 @@ Add up to 5 choices in all to an existing moment. Choices use the same ops as sc
 | `mlb_draft` | Draft day: the {team} took you | {best_friend}, {bonus}, {college_name}, {level}, {pick}, {return_line}, {round}, {school}, {team}, {town} | best_friend |
 | `draft_passed` | The draft came and went | {best_friend}, {college_name}, {school}, {town}, {udfa_line} | best_friend |
 | `story_end` | Seven years | {best_friend}, {review}, {school}, {town} | best_friend |
+| `class_quiz` | {exam}: {class_name} | {best_friend}, {class_name}, {exam}, {quiz_line}, {school}, {teacher_line}, {town} | best_friend |
 
 ## Scenes (`scenes`)
 
@@ -580,6 +581,18 @@ A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each 
 
 **Choices**: `label` (what you do or say), optional `hint`, `fits` (which personalities lean this way when the game picks for you, trait: -1..1), and `ops`.
 
+## Trivia (`trivia`)
+
+Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right answer), `w` (exactly three wrong answers), `g` (the lowest grade it fits: 9 to 12, or 13 for college). Facts must be correct; keep answers short. Math is generated, so don't add math. Subjects: `english`, `biology`, `chemistry`, `physics`, `us_history`, `world_history`, `government`, `spanish`, `health`, `art`, `music`, `tech`, `psychology`, `economics`, `general`.
+
+```json
+"trivia": {"biology": [{"q": "What do red blood cells carry?", "a": "Oxygen", "w": ["Insulin", "Bile", "Calcium"], "g": 9}]}
+```
+
+## Mini games (the `minigame` op)
+
+A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "miss": [ops]}, odds if nobody plays]`. Use `"sport"` for the player's own sport in a sports scene. Games: `trivia` (Quiz), `soccer_pk` (Penalty kicks), `basketball` (Basketball, coming soon), `football` (Football, coming soon), `baseball` (Baseball, coming soon), `paper_toss` (Paper toss, coming soon), `cup_pong` (Cup pong, coming soon), `golf` (Golf, coming soon). A choice with a game that isn't ready yet stays hidden, so always keep two other choices.
+
 ## Ops
 
 | op | how to write it | what it does |
@@ -600,6 +613,7 @@ A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each 
 | `hang_out` | `["hang_out", "them"]` | Makes plans: you'll hang out with them at your next free time. |
 | `remember` | `["remember", "covered_for_sibling"]` | Remember a fact so a later scene can depend on it. |
 | `forget` | `["forget", "covered_for_sibling"]` | Forget a remembered fact. |
+| `minigame` | `["minigame", "soccer_pk", {"great": [ops], "good": [ops], "miss": [ops]}, {"base": 0.5, "athletic": 0.3}]` | You play a mini game; how you do (great 80%+, good 50%+, else miss) picks the ops. If nobody plays it, the odds roll instead. The choice only shows when the game is ready. |
 | `chance` | `["chance", {"base": 0.5, "charisma": 0.3}, [ops if it works], [ops if it doesn't]]` | Roll against your own traits and talents. base 0..1, then +coef x (stat - 50)/100 for each stat. |
 
 Traits: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty.  Talents: athletic, academic, creativity, technical, charisma.  Skills: academics, art, baseball, basketball, drama, fitness, football, music, tech, writing.

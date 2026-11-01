@@ -5,6 +5,7 @@ import { Portrait } from "./art";
 import { PIcon } from "./icons";
 import { Bar, cx, errText, money } from "./kit";
 import { usePhone } from "./PhoneContext";
+import ClassesCard from "./ClassesCard";
 import DialogueCard from "./DialogueCard";
 import { STANDALONE, StoryFilesCard } from "./StoryFiles";
 
@@ -109,6 +110,8 @@ export default function MeTab() {
             </button>
           ))}
         </div>
+
+        <ClassesCard />
 
         <div className="ph-section-t">When should the story stop?</div>
         <div className="ph-card ph-toggles">

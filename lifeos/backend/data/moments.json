@@ -466,6 +466,54 @@
        "team"
       ]
      ]
+    },
+    {
+     "label": "Take over late. Play the big moment yourself.",
+     "hint": "you play it",
+     "fits": {
+      "confidence": 1,
+      "competitiveness": 0.5
+     },
+     "ops": [
+      [
+       "minigame",
+       "sport",
+       {
+        "great": [
+         [
+          "clutch",
+          7
+         ],
+         [
+          "mood",
+          4
+         ]
+        ],
+        "good": [
+         [
+          "clutch",
+          3
+         ]
+        ],
+        "miss": [
+         [
+          "clutch",
+          -2
+         ],
+         [
+          "need",
+          "stress",
+          3
+         ]
+        ]
+       },
+       {
+        "base": 0.5,
+        "confidence": 0.2,
+        "athletic": 0.3
+       }
+      ]
+     ]
     }
    ]
   },
@@ -1135,6 +1183,73 @@
      "label": "Keep living.",
      "hint": "The world keeps going if you do.",
      "fits": {},
+     "ops": []
+    }
+   ]
+  },
+  "class_quiz": {
+   "title": "{exam}: {class_name}",
+   "text": "{exam} today in {class_name}{teacher_line}. {quiz_line}",
+   "choices": [
+    {
+     "label": "Take it yourself.",
+     "hint": "you answer the questions",
+     "fits": {
+      "discipline": 1,
+      "ambition": 0.5
+     },
+     "ops": [
+      [
+       "minigame",
+       "trivia",
+       {
+        "great": [
+         [
+          "mood",
+          3
+         ],
+         [
+          "need",
+          "stress",
+          -3
+         ],
+         [
+          "say",
+          "You walk out knowing you nailed it."
+         ]
+        ],
+        "good": [
+         [
+          "say",
+          "Not perfect, but you'll take it."
+         ]
+        ],
+        "miss": [
+         [
+          "need",
+          "stress",
+          4
+         ],
+         [
+          "say",
+          "You stare at the last question until the bell. Rough one."
+         ]
+        ]
+       },
+       {
+        "base": 0.55,
+        "academic": 0.4,
+        "discipline": 0.2
+       }
+      ]
+     ]
+    },
+    {
+     "label": "Let it ride.",
+     "hint": "your studying decides it",
+     "fits": {
+      "impulsivity": 0.5
+     },
      "ops": []
     }
    ]

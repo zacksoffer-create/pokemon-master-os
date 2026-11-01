@@ -14,7 +14,7 @@ from .history import Effects
 from .rng import clamp, softmax_pick
 
 DEDUPE = {"first_day", "college_decision", "summer", "graduation", "college_arrival", "year_review", "game_day", "benched",
-          "mlb_draft", "draft_passed", "story_end"}
+          "mlb_draft", "draft_passed", "story_end", "class_quiz"}
 
 
 class _Safe(dict):
@@ -85,6 +85,9 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
             req = ch.get("requires")
             if req and any(not ctx.get(r) for r in (req if isinstance(req, list) else [req])):
                 continue
+            from . import minigames
+            if not minigames.choice_ok(ch.get("ops"), ctx):
+                continue  # that mini game isn't ready yet
             choices.append({"label": _render(ch["label"], names), "hint": _render(ch.get("hint", ""), names), "ops": ch["ops"], "fits": ch.get("fits", {})})
     m = {"id": f"mo{w.next_id('moment')}", "kind": kind, "day": w.day, "status": "pending", "ctx": ctx,
          "title": _render(spec["title"], names), "text": _render(spec["text"], names),
@@ -108,6 +111,10 @@ def _enrich(sim, c, kind, ctx):
         ctx["group"] = g["name"]
     if "days" in ctx:
         ctx["weeks"] = max(1, round(ctx["days"] / 7))
+    if kind == "class_quiz":
+        ctx["teacher_line"] = f" with {ctx['teacher']}" if ctx.get("teacher") else ""
+    if ctx.get("sport"):
+        ctx.setdefault("sport_id", ctx["sport"])
     best = sorted(((r.affection, o) for o, r in w.out.get(c.id, {}).items() if o in w.chars and w.chars[o].role != "staff"
                    and w.chars[o].status == "active"), reverse=True)
     if best:
@@ -348,6 +355,28 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
             w.meta.setdefault("remembered", {})[op[1]] = {"day": w.day, "them": ctx.get("them")}
         elif kind == "forget":
             w.meta.setdefault("remembered", {}).pop(op[1], None)
+        elif kind == "minigame":
+            from . import minigames
+            tiers = op[2] if len(op) > 2 and isinstance(op[2], dict) else {}
+            spec = op[3] if len(op) > 3 and isinstance(op[3], dict) else {"base": 0.5}
+            played = ctx.get("_mg")
+            if played:
+                tier = played["tier"]
+                calc = {"step": "you played it", "terms": [["your score", f"{played['score']:g} of {played['max']:g}"]], "p": played["pct"],
+                        "outcome": tier, "rule": "great at 80%+, good at 50%+"}
+            else:
+                tier, p, roll = minigames.fallback(c, spec, rng)
+                calc = {"step": "how it went (not played)", "terms": [["odds", p]], "p": p, "roll": roll, "outcome": tier,
+                        "rule": "nobody played it, so it rolls against your own stats"}
+            if ev.get("calc") is not None:
+                ev["calc"].append(calc)
+            ev["data"]["minigame"] = {"game": minigames.resolve_game(op[1], ctx), "tier": tier, "played": bool(played),
+                                      "score": played and played["score"], "max": played and played["max"]}
+            ev["data"]["outcome"] = {"great": "success", "good": "success", "miss": "setback"}[tier]
+            run_ops(sim, c, tiers.get(tier) or [], ctx, fx, ev, rng, m)
+        elif kind == "clutch":
+            fx.flag(c.id, "game_clutch", op[1], m["title"])
+            fx.flag(c.id, "game_clutch_day", w.day, m["title"])
         elif kind == "chance":
             spec, ok_ops, bad_ops = op[1], op[2], op[3]
             terms = [["baseline", spec.get("base", 0.5)]]
