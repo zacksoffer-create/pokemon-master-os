@@ -660,6 +660,7 @@ Add up to 5 choices in all to an existing moment. Choices use the same ops as sc
 | `draft_passed` | The draft came and went | {best_friend}, {college_name}, {school}, {town}, {udfa_line} | best_friend |
 | `story_end` | Seven years | {best_friend}, {review}, {school}, {town} | best_friend |
 | `class_quiz` | {exam}: {class_name} | {best_friend}, {class_name}, {exam}, {quiz_line}, {school}, {teacher_line}, {town} | best_friend |
+| `class_game` | {cg_title} | {best_friend}, {cg_go}, {cg_good}, {cg_great}, {cg_hint}, {cg_miss}, {cg_pass}, {cg_pass_label}, {cg_sit}, {cg_sit_label}, {cg_text}, {cg_title}, {school}, {town} | best_friend, them |
 
 ## Scenes (`scenes`)
 
@@ -848,7 +849,7 @@ Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right
 
 ## Mini games (the `minigame` op)
 
-A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "miss": [ops]}, odds if nobody plays]`. The player plays the game right there; great is 80% or better, good 50% or better, anything else a miss, and each picks its own ops (write a different `say` for each). If they skip it, the odds roll instead. Use `"sport"` for the player's own sport in a sports scene. A choice with a game that isn't ready stays hidden, so always keep two other choices. Use them: a scene that turns into a game is the best kind.
+A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "miss": [ops]}, odds if nobody plays]`. The player plays the game right there; great is 80% or better, good 50% or better, anything else a miss, and each picks its own ops (write a different `say` for each). If they skip it, the odds roll instead. Use `"sport"` for the player's own sport in a sports scene. A choice with a game that isn't ready stays hidden, so always keep two other choices. Use them: a scene that turns into a game is the best kind. The quick ones (`hold`, `sweep`, `mathdash`, `flash`, `oddone`, `lineup`, `reflex`) take a few seconds, so they fit anywhere: a bet, a dare, a dumb contest with a friend. (Class already has its own quick games most school days, so your scenes don't need to make class challenges.)
 
 | game | what it is | scenes it fits |
 |---|---|---|
@@ -862,6 +863,13 @@ A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "mis
 | `golf` | Fairway: Nine holes, closest to the pin, the putting green. | a round with a parent, a golf outing, a bet on one hole |
 | `playmaker` | Playmaker: Five on five, and you're passing. Break your man down, find the open man. | running the offense at the park, a pickup run where you have to find the open man |
 | `swing_lab` | Swing Lab: Batting prototype: track the ball, swipe through it as it arrives. | the batting cages, a hitting lesson |
+| `hold` | Hold it: Press and hold. Let go on the line. | a steady pour in chem lab, one brushstroke, a power throw in gym, holding a note (press, hold, let go on the line) |
+| `sweep` | Stop it: Tap to stop the needle in the zone. | stopping a pendulum, hitting the beat, timing a jump rope, any "tap at the right moment" |
+| `mathdash` | Quick math: Five problems, a few seconds each. | mental math with a friend, splitting a check, making change at a register job, counting atoms |
+| `flash` | Flash: Watch the pattern, tap it back. | remembering a pattern, ear training in band, a memory bet |
+| `oddone` | Odd one out: Find the one that's different. | proofreading a friend's essay, spot the difference, a typo on a sign |
+| `lineup` | In order: Tap the cards in the right order. | a timeline review, ranking things with friends, putting cards in order |
+| `reflex` | Quick hands: Wait for it. Tap the instant it goes. | catching something falling, a reaction test, first hand up, a quick-draw bet |
 
 ## Ops
 

@@ -14,7 +14,7 @@ from .history import Effects
 from .rng import clamp, softmax_pick
 
 DEDUPE = {"first_day", "college_decision", "summer", "graduation", "college_arrival", "year_review", "game_day", "benched",
-          "mlb_draft", "draft_passed", "story_end", "class_quiz"}
+          "mlb_draft", "draft_passed", "story_end", "class_quiz", "class_game"}
 
 
 class _Safe(dict):
@@ -33,6 +33,7 @@ def control(w) -> dict:
         c["auto_lunch"] = False  # lunch is one of your free times now (practice takes after school): you pick it
         c["_free_time"] = 1
     c.setdefault("auto_lunch", False)
+    c.setdefault("class_games", True)  # quick games in class most school days
     return c
 
 
@@ -92,12 +93,14 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
             from . import minigames
             if not minigames.choice_ok(ch.get("ops"), ctx):
                 continue  # that mini game isn't ready yet
-            choices.append({"label": _render(ch["label"], names), "hint": _render(ch.get("hint", ""), names), "ops": ch["ops"], "fits": ch.get("fits", {})})
+            choices.append({"label": _render(ch["label"], names), "hint": _render(ch.get("hint", ""), names), "ops": ch["ops"], "fits": ch.get("fits", {}),
+                            "game": minigames.badge(ch.get("ops"), ctx)})
     from . import lines
     text = lines.variant(sim, f"scene:{kind}", spec["text"], f"{w.day}:{kind}")
     m = {"id": f"mo{w.next_id('moment')}", "kind": kind, "day": w.day, "status": "pending", "ctx": ctx,
          "title": _render(spec["title"], names), "text": _render(text, names),
-         "choices": [{"label": ch["label"], "hint": ch["hint"]} for ch in choices], "_choices": choices}
+         "choices": [{"label": ch["label"], "hint": ch["hint"], **({"game": ch["game"]} if ch.get("game") else {})} for ch in choices],
+         "_choices": choices}
     # a scene written both ways can happen in person or by text: by text more on days off, rarely with family
     by = (spec.get("scene") or {}).get("by_text")
     them = ctx.get("them")
@@ -245,6 +248,9 @@ def resolve(sim, mid: str, index: int | None, by: str = "player"):
     fx = Effects(w, ev)
     rng = sim.streams.get("moment-resolve", m["id"])
     run_ops(sim, c, ch["ops"], ctx, fx, ev, rng, m)
+    if m["kind"] == "class_game":
+        from . import classgames
+        classgames.after(sim, m, ev, index)  # it counts a little toward that class
     from . import episodes
     episodes.on_resolve(sim, m, ch, ev)
     m["status"] = "resolved"

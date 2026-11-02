@@ -2,7 +2,7 @@
 
 Every school year is a season. Every big thing that happens to you is an episode, numbered in the order it aired: the chapters
 of your storylines (dialogue packs) and the game's own big moments (tryouts, getting asked out, the college decision...).
-Hangouts, quizzes and game-day calls aren't episodes; they're the days in between. When a storyline picks back up, its episode
+Hangouts, quizzes, class games and game-day calls aren't episodes; they're the days in between. When a storyline picks back up, its episode
 starts with what happened last time ("Previously..."). The episode guide on the phone lists every season, every episode and
 what you chose, and what's coming up next in each storyline.
 """
@@ -11,7 +11,7 @@ from __future__ import annotations
 from . import calendar as calm
 
 SKIP_PREFIX = ("hang_",)
-SKIP = {"class_quiz", "game_day", "pet_setup"}
+SKIP = {"class_quiz", "class_game", "game_day", "pet_setup"}
 YEAR_LABEL = {9: "Freshman year", 10: "Sophomore year", 11: "Junior year", 12: "Senior year", 13: "College, year one",
               14: "College, year two", 15: "College, year three", 16: "College, year four"}
 

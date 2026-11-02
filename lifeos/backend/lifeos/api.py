@@ -21,7 +21,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from . import calendar as calm
-from . import metrics, pets
+from . import classgames, metrics, pets
 from .catalogs import ATTRIBUTE_DOCS, CatalogError, Catalogs
 from .engine import EditError, Simulation
 from .experiments import PRESETS, Runner, validate_spec
@@ -180,7 +180,12 @@ class Lab:
                 ctl = moments.control(w)
                 while True:
                     with self.lock:
-                        if moments.pending(w):
+                        pend = moments.pending(w)
+                        if pend and until != "decision" and all(m["kind"] in classgames.LIGHT for m in pend):
+                            for m in pend:  # skipping ahead: your character takes the quick class game themselves
+                                moments.resolve(sim, m["id"], None)
+                            pend = []
+                        if pend:
                             reason = "moment"
                             break
                         ph = sim.current_phase()
@@ -1038,7 +1043,7 @@ def api_story_control(body: dict = Body(...)):
             if body["focus"] not in list(FOCUS) + ["balanced"]:
                 raise HTTPException(422, f"focus must be one of balanced, {', '.join(FOCUS)}")
             ctl["focus"] = body["focus"]
-        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch"):
+        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games"):
             if k in body:
                 ctl[k] = bool(body[k])
         return ctl

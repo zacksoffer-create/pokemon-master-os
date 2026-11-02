@@ -329,6 +329,35 @@ and every class has a teacher. **Me → Classes** shows each class's grade, your
 - Your score counts: the test grade blends your answers (55%) with your character's preparation (45%: studying, academic
   skill, mood, stress), and the class's grade remembers how you did.
 
+**Class games (most school days):** a teacher throws something quick at the class, and it shows up before school as a
+card like "Second period · Chemistry: Fill it to the line". Three choices: **go for it** (you play it, a few seconds),
+**let the classmate next to you take it**, or **sit it out**. The choice you play has a green **Play** tag.
+- The games, all built into the phone:
+  - **Hold it**: press and hold, the level rises (faster the longer you hold), let go on the line. It's a beaker in chem,
+    one brushstroke in art, a power throw in gym, a held note in band.
+  - **Stop it**: a needle swings back and forth; tap to stop it in the zone. It's a real pendulum in physics (stop it at the
+    bottom), the beat in band, jumping in on the rope in gym.
+  - **Quick math**: five problems, three answers, a few seconds each. Making change in economics, counting atoms in chemistry.
+  - **Flash**: squares light up in a pattern; tap it back. Ear training in band, memory span in psychology.
+  - **Odd one out**: find the typo in English, the missing accent in Spanish, the mutation in a strand of DNA, the shade
+    that's off in art.
+  - **In order**: tap the cards in order. Events oldest first in history (with the years shown after), elements by atomic
+    number, the planets, the number line, binary, the rainbow, tempos, ABC order with words that all start the same.
+  - **Quick hands**: wait for it, then tap. Catch the falling ruler in physics (it tells you how many centimeters it fell),
+    first hand up in history, a reaction test in psychology. Jump early and it's a miss.
+  - **Lightning round**: three trivia questions from that class, ten seconds each.
+- Three tries (or rounds) each, a little harder as you go. Each one gets a call right away ("Perfect!", "A bit over",
+  "Too early!"), and the end screen gives your percent. Great is 80%+, good 50%+, like every mini game.
+- Difficulty goes up with your grade (college is the hardest). Your academics and talent widen the window a little.
+- What it does: a great round is a better mood, less stress, a bit of academics, and the classmate who watched likes you a
+  little more. A miss is a laugh (fun goes up). Going for it counts toward that class's grade (a nudge, up to +3 or -2),
+  and **Me → Classes** shows your class games won per class.
+- Quiz and test days stay quizzes. Skipping ahead lets your character decide, so a week skip doesn't stop for these.
+- Don't want them? **Me → Class challenges** turns them off.
+- Writers: the setups (what each teacher says, how it lands) are in `backend/data/class_games.json`, and the order and
+  odd-one-out cards are in its `banks`. Dialogue packs can use the quick games in any scene too (`hold`, `sweep`,
+  `mathdash`, `flash`, `oddone`, `lineup`, `reflex`).
+
 **Mini games:** short rounds whose results feed the story.
 - **Free play:** in free time, the Story tab shows **Or play something**: pickup soccer (penalty kicks or an 11 v 11 match), shooting around in the driveway,
   running the offense at the park (Playmaker), running the option at practice (Option Arcade), hitting at the batting cages

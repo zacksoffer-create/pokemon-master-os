@@ -1,8 +1,9 @@
 // The mini game host: plays a round full screen inside the phone, then hands the score back.
 // HTML games (frontend/public/minigames/*.html) run in a frame and talk through the LifeOS bridge (see README there).
-// Built-in games (the quiz) are React components.
+// Built-in games (the quiz, and the quick class games in ./micro) are React components.
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import Micro, { MICRO } from "./micro/Micro";
 import Trivia from "./Trivia";
 import "./minigames.css";
 
@@ -10,6 +11,7 @@ export type MGConfig = {
   session: string; game: string; title: string; kind: "html" | "builtin"; file?: string; mode: string; skill: number; difficulty: number;
   seed: number; me: string; them?: string | null; college?: boolean; sport?: string; opponent?: string; label?: string;
   questions?: { q: string; choices: string[]; answer: number; subject: string }[]; subject?: string; seconds?: number;
+  round?: any; skin?: { id: string; title: string; how: string; badge: string }; how?: string;
 };
 export type MGResult = { score: number; max: number; stats?: any; summary?: string };
 
@@ -51,7 +53,7 @@ export default function MiniGame({ config, onDone, onQuit }: { config: MGConfig;
       <div className="mg-top">
         <div className="mg-title">
           <b>{config.title}</b>
-          <span>{config.mode === "clutch" ? `Game on the line${config.opponent ? ` vs ${config.opponent}` : ""}` : config.mode === "quiz" ? config.subject : config.label || "Just for fun"}</span>
+          <span>{config.mode === "clutch" ? `Game on the line${config.opponent ? ` vs ${config.opponent}` : ""}` : config.mode === "quiz" || config.mode === "class" ? config.subject : config.label || "Just for fun"}</span>
         </div>
         <button className="mg-x" onClick={onQuit} aria-label="Stop">✕</button>
       </div>
@@ -63,6 +65,8 @@ export default function MiniGame({ config, onDone, onQuit }: { config: MGConfig;
           </>
         ) : config.game === "trivia" ? (
           <Trivia config={config} onDone={(r) => { if (!done.current) { done.current = true; onDone(r); } }} />
+        ) : MICRO[config.game] ? (
+          <Micro config={config} onDone={(r) => { if (!done.current) { done.current = true; onDone(r); } }} />
         ) : (
           <div className="mg-loading">This game isn't built yet.</div>
         )}

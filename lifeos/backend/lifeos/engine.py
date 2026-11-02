@@ -221,6 +221,8 @@ class Simulation:
             if it["kind"] == "exam" and it.get("slot") == "classes" and it.get("school", "hchs") == pc.school and pc.location != "away":
                 from . import classes
                 self.moment_trigger("class_quiz", prot, classes.quiz_context(self, pc, it))
+        from . import classgames
+        classgames.maybe(self, pc)  # most school days: something quick in one of your classes
         cal = self.cat.world["calendar"]
         st = w.meta.get("story") or {}
         if calm.break_name(w.day, cal) == "Summer" and calm.break_name(w.day - 1, cal) != "Summer":
@@ -234,7 +236,7 @@ class Simulation:
             if after_draft and not waiting:
                 self.moment_trigger("story_end", prot, {})
         for m in moments.pending(w):
-            if w.day - m["day"] >= (1 if m["kind"] == "game_day" else 3):
+            if w.day - m["day"] >= (1 if m["kind"] in ("game_day", "class_game") else 3):
                 moments.resolve(self, m["id"], None)
         from . import dialogue
         dialogue.maybe_scene(self)  # scenes from dialogue packs

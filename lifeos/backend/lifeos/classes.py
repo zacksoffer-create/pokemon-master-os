@@ -117,9 +117,11 @@ def record(w, class_id, pct, exam=None):
 
 
 def grades(sim, c) -> list:
-    """Each class's grade: your GPA, how well your talents fit the subject, and the quizzes you played in it."""
+    """Each class's grade: your GPA, how well your talents fit the subject, the quizzes you played in it, and its class games."""
     w = sim.w
     q = store(w)["quizzes"]
+    games = store(w).get("games", {})
+    yk = _year_key(sim, c)
     base = 55 + c.gpa * 10.5
     fit = {"math": ("academic", "technical"), "biology": ("academic",), "chemistry": ("academic", "technical"),
            "physics": ("academic", "technical"), "english": ("academic", "creativity"), "us_history": ("academic",),
@@ -136,11 +138,15 @@ def grades(sim, c) -> list:
         if played:
             avg = sum(played) / len(played) * 100
             pct = pct * 0.7 + avg * 0.3
+        cg = games.get(f"{yk}|{cls['id']}", [])
+        if cg:  # the quick class games you went for: a small nudge, up to +3 or -2
+            pct += max(-2.0, min(3.0, (sum(cg) / len(cg) - 0.5) * 8))
         if cls["subject"] == "health":
             pct = max(pct, 85 + (c.aptitudes.get("athletic", 50) - 50) * 0.2)
         pct = round(max(40, min(100, pct)), 1)
         out.append({**cls, "pct": pct, "letter": letter(pct), "quizzes": len(played),
-                    "quiz_avg": round(sum(played) / len(played) * 100) if played else None})
+                    "quiz_avg": round(sum(played) / len(played) * 100) if played else None,
+                    "games": len(cg), "games_won": sum(1 for x in cg if x >= 0.8)})
     return out
 
 

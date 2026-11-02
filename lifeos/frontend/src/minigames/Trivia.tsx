@@ -55,8 +55,8 @@ export default function Trivia({ config, onDone }: { config: MGConfig; onDone: (
     return (
       <div className="tv tv-intro">
         <div className="tv-badge">{config.subject || "Quiz"}</div>
-        <h2>{qs.length} questions</h2>
-        <p>{secs} seconds each. Tap the right answer before the bar runs out.</p>
+        <h2>{config.mode === "class" ? config.title : `${qs.length} questions`}</h2>
+        <p>{config.mode === "class" ? `${qs.length} quick questions, ${secs} seconds each.` : `${secs} seconds each. Tap the right answer before the bar runs out.`}</p>
         <button className="tv-go" onClick={() => setI(0)}>Start</button>
       </div>
     );
@@ -69,7 +69,7 @@ export default function Trivia({ config, onDone }: { config: MGConfig; onDone: (
         <h2>{pct >= 0.8 ? "Nailed it." : pct >= 0.5 ? "Not bad." : "Rough one."}</h2>
         <p>{pct >= 0.8 ? "That one's going on the fridge." : pct >= 0.5 ? "You'll take it." : "There's always the next one."}</p>
         <button className="tv-go" onClick={() => onDone({ score: right, max: qs.length, stats: { times: times.current }, summary: `${right} of ${qs.length}` })}>
-          Hand it in
+          {config.mode === "class" ? "Back to class" : "Hand it in"}
         </button>
       </div>
     );

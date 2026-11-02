@@ -4,7 +4,9 @@ A round is a *session*. It starts from one of three places:
   - free play from the phone's Games list ("Pickup soccer at the park"): rewards once a day per game (practice, fun);
   - a story moment choice with a ["minigame", game, {tier: ops}, fallback odds] op ("Take over late. Play it yourself."):
     the tier you earn picks which ops run; if the moment resolves without you playing, the fallback odds roll instead;
-  - a quiz day: the class quiz moment hands the trivia round to the exam, so your score counts toward that test.
+  - a quiz day: the class quiz moment hands the trivia round to the exam, so your score counts toward that test;
+  - a class game: most school days a teacher throws a quick one at the class (classgames.py): hold it to the line, stop the
+    needle, quick math, flash, odd one out, in order, quick hands, or a three-question lightning round. A few seconds each.
 
 The client plays the round and reports score/max. Tiers come from data/minigames.json (great >= 0.8, good >= 0.5, else miss).
 Standalone HTML games talk to the app through a tiny postMessage bridge (frontend/public/minigames/README.md).
@@ -39,9 +41,11 @@ def state(w) -> dict:
 
 
 def resolve_game(gid: str, ctx: dict | None = None) -> str | None:
-    """'sport' means the mini game for the moment's sport."""
+    """'sport' means the mini game for the moment's sport; 'class' means today's class game."""
     if gid == "sport":
         return reg()["sport_games"].get((ctx or {}).get("sport_id") or (ctx or {}).get("sport"))
+    if gid == "class":
+        return (ctx or {}).get("cg_game")
     return gid
 
 
@@ -69,6 +73,16 @@ def top_op(ops):
         if isinstance(op, list) and op and op[0] == "minigame":
             return op
     return None
+
+
+def badge(ops, ctx) -> dict | None:
+    """What a played choice shows on its button: which game, about how long."""
+    op = top_op(ops)
+    gid = op and resolve_game(op[1], ctx)
+    if not gid or not ready(gid):
+        return None
+    g = reg()["games"][gid]
+    return {"id": gid, "title": g["title"], "secs": g.get("secs"), "icon": g.get("icon", "ball")}
 
 
 def choice_ok(ops, ctx) -> bool:
@@ -157,6 +171,9 @@ def start(sim, gid, kind="free", mid=None, index=None, ctx=None) -> dict:
     if gid == "trivia":
         from . import trivia
         sess["questions"] = trivia.round_for(sim, c, sess["ctx"], sess["seed"])
+    if g.get("class"):
+        from . import classgames
+        sess["round"] = classgames.round_for(sim, c, gid, sess["ctx"], sess["seed"], sess["difficulty"], skill)
     st["session"] = sess
     return config(sim, sess)
 
@@ -168,7 +185,8 @@ def config(sim, sess) -> dict:
     ctx = sess.get("ctx") or {}
     them = ctx.get("them") or ctx.get("other")
     cfg = {"session": sess["id"], "game": sess["game"], "title": title(sim, sess["game"], c), "kind": g["kind"], "file": g.get("file"),
-           "mode": "clutch" if sess["kind"] == "moment" and ctx.get("group") else "quiz" if sess["game"] == "trivia" else sess["kind"],
+           "mode": "clutch" if sess["kind"] == "moment" and ctx.get("group") else "class" if ctx.get("cg") else "quiz" if sess["game"] == "trivia"
+           else sess["kind"],
            "skill": sess["skill"], "difficulty": sess["difficulty"], "seed": sess["seed"], "me": c.first,
            "them": w.chars[them].first if them in w.chars else None, "college": (c.grade or 0) >= 13,
            "sport": ctx.get("sport_id") or ctx.get("sport"), "opponent": ctx.get("opponent"), "label": ctx.get("mg_label")}
@@ -178,7 +196,15 @@ def config(sim, sess) -> dict:
     if sess["game"] == "trivia":
         cfg["questions"] = sess["questions"]
         cfg["subject"] = ctx.get("class_name") or "Trivia"
-        cfg["seconds"] = 15
+        cfg["seconds"] = int(ctx.get("seconds") or 15)
+    if ctx.get("cg"):
+        cfg["title"] = ctx.get("cg_title") or cfg["title"]
+        cfg["subject"] = ctx.get("class_name")
+        cfg["how"] = ctx.get("cg_how")
+    if g.get("class"):
+        from . import classgames
+        cfg["round"] = sess.get("round")
+        cfg["skin"] = classgames.skin_for(sess["game"], ctx, title(sim, sess["game"], c))
     return cfg
 
 

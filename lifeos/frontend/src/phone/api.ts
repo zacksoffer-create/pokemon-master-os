@@ -8,7 +8,8 @@ export type Mood = "happy" | "neutral" | "sad" | "angry" | "flirty" | "surprised
 
 export type Scene = { art: string; title: string; line: string; phase: string; season: string; weekend: boolean; break: string | null; time: string };
 export type FeedItem = { id: number; date: string; slot: string; type: string; outcome: string; text: string; with: string[]; importance: number };
-export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string }[]; storyline?: string | null;
+export type MomentGame = { id: string; title: string; secs?: number | null; icon: string };
+export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string; game?: MomentGame }[]; storyline?: string | null;
   episode_label?: string | null; previously?: string | null };
 export type PetDuty = { id: string; label: string; hint: string; when: string; owner: string; today: string; due: boolean; done: boolean; done_by: string | null };
 export type Pet = {
@@ -28,7 +29,7 @@ export type PhoneState = {
   teams: { id: string; name: string; sport: string; record: { w: number; l: number }; mine?: { w: number; l: number }; level: string; position: string }[];
   squad?: { name: string; members: { id: string; first: string; look: Look }[]; cohesion: number; last: string | null;
     plan: { label: string; when: string; joined: boolean } | null; jokes: string[] } | null;
-  control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean };
+  control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean };
   setting: { town: string; school: string; short: string; mascot: string };
 };
 export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string;
@@ -62,7 +63,8 @@ export type Contact = ContactRow & {
 };
 
 export type MiniGameRow = { id: string; title: string; label: string; blurb: string; icon: string; ready: boolean; available: boolean; why: string; rewarded_today: boolean; best: number | null };
-export type ClassRow = { id: string; name: string; subject: string; teacher: string; honors: boolean; pct: number; letter: string; quizzes: number; quiz_avg: number | null };
+export type ClassRow = { id: string; name: string; subject: string; teacher: string; honors: boolean; pct: number; letter: string; quizzes: number; quiz_avg: number | null;
+  games: number; games_won: number };
 export type ClassesView = { gpa: number; year: string; classes: ClassRow[]; upcoming: { name: string; date: string; in_days: number; weight: number }[]; tests_played: number };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),

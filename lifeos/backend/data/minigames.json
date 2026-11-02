@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "notes": "Mini games: what exists, where each one shows up, and what playing it does. 'html' games are standalone pages in frontend/public/minigames/ that talk to the game through the LifeOS bridge (see minigames/README.md); 'builtin' games are part of the app. status 'ready' games can be played; 'coming' games are listed but hidden from story choices until their page exists. A round is scored as score/max; tiers turn that into great / good / miss. 'play' says what each game launches in each context: free play (menu = the game's own home screen), clutch (game day), scene.",
+  "notes": "Mini games: what exists, where each one shows up, and what playing it does. 'html' games are standalone pages in frontend/public/minigames/ that talk to the game through the LifeOS bridge (see minigames/README.md); 'builtin' games are part of the app. status 'ready' games can be played; 'coming' games are listed but hidden from story choices until their page exists. A round is scored as score/max; tiers turn that into great / good / miss. 'play' says what each game launches in each context: free play (menu = the game's own home screen), clutch (game day), scene. Class games ('class': true) are quick builtin rounds of a few seconds that teachers throw at the class (see data/class_games.json and lifeos/classgames.py); 'secs' is about how long one takes.",
   "tiers": {
     "great": 0.8,
     "good": 0.5
@@ -19,7 +19,8 @@
       "icon": "book",
       "blurb": "Answer before the timer runs out.",
       "skill": "academics",
-      "aptitude": "academic"
+      "aptitude": "academic",
+      "secs": 30
     },
     "soccer_pk": {
       "title": "Penalty kicks",
@@ -297,6 +298,83 @@
         "clutch": "clutch",
         "scene": "menu"
       }
+    },
+    "hold": {
+      "title": "Hold it",
+      "kind": "builtin",
+      "status": "ready",
+      "icon": "clock",
+      "blurb": "Press and hold. Let go on the line.",
+      "secs": 8,
+      "skill": "academics",
+      "aptitude": "academic",
+      "class": true
+    },
+    "sweep": {
+      "title": "Stop it",
+      "kind": "builtin",
+      "status": "ready",
+      "icon": "bolt",
+      "blurb": "Tap to stop the needle in the zone.",
+      "secs": 8,
+      "skill": "academics",
+      "aptitude": "academic",
+      "class": true
+    },
+    "mathdash": {
+      "title": "Quick math",
+      "kind": "builtin",
+      "status": "ready",
+      "icon": "sparkle",
+      "blurb": "Five problems, a few seconds each.",
+      "secs": 12,
+      "skill": "academics",
+      "aptitude": "academic",
+      "class": true
+    },
+    "flash": {
+      "title": "Flash",
+      "kind": "builtin",
+      "status": "ready",
+      "icon": "star",
+      "blurb": "Watch the pattern, tap it back.",
+      "secs": 10,
+      "skill": "academics",
+      "aptitude": "academic",
+      "class": true
+    },
+    "oddone": {
+      "title": "Odd one out",
+      "kind": "builtin",
+      "status": "ready",
+      "icon": "check",
+      "blurb": "Find the one that's different.",
+      "secs": 10,
+      "skill": "academics",
+      "aptitude": "academic",
+      "class": true
+    },
+    "lineup": {
+      "title": "In order",
+      "kind": "builtin",
+      "status": "ready",
+      "icon": "story",
+      "blurb": "Tap the cards in the right order.",
+      "secs": 12,
+      "skill": "academics",
+      "aptitude": "academic",
+      "class": true
+    },
+    "reflex": {
+      "title": "Quick hands",
+      "kind": "builtin",
+      "status": "ready",
+      "icon": "flame",
+      "blurb": "Wait for it. Tap the instant it goes.",
+      "secs": 8,
+      "skill": "fitness",
+      "aptitude": "athletic",
+      "class": true
     }
   }
 }

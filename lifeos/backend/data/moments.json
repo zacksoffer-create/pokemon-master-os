@@ -1253,6 +1253,134 @@
      "ops": []
     }
    ]
+  },
+  "class_game": {
+   "title": "{cg_title}",
+   "text": "{cg_text}",
+   "choices": [
+    {
+     "label": "{cg_go}",
+     "hint": "{cg_hint}",
+     "fits": {
+      "confidence": 0.6,
+      "competitiveness": 0.5
+     },
+     "ops": [
+      [
+       "minigame",
+       "class",
+       {
+        "great": [
+         [
+          "mood",
+          3
+         ],
+         [
+          "need",
+          "stress",
+          -2
+         ],
+         [
+          "skill",
+          "academics",
+          0.3
+         ],
+         [
+          "rel_back",
+          "them",
+          "affection",
+          2
+         ],
+         [
+          "say",
+          "{cg_great}"
+         ]
+        ],
+        "good": [
+         [
+          "mood",
+          1
+         ],
+         [
+          "skill",
+          "academics",
+          0.15
+         ],
+         [
+          "say",
+          "{cg_good}"
+         ]
+        ],
+        "miss": [
+         [
+          "need",
+          "fun",
+          3
+         ],
+         [
+          "mood",
+          -1
+         ],
+         [
+          "say",
+          "{cg_miss}"
+         ]
+        ]
+       },
+       {
+        "base": 0.5,
+        "academic": 0.3,
+        "academics": 0.2
+       }
+      ]
+     ]
+    },
+    {
+     "label": "{cg_pass_label}",
+     "hint": "",
+     "fits": {
+      "empathy": 0.5,
+      "sociability": 0.3
+     },
+     "ops": [
+      [
+       "rel",
+       "them",
+       "affection",
+       1
+      ],
+      [
+       "rel_back",
+       "them",
+       "affection",
+       1
+      ],
+      [
+       "say",
+       "{cg_pass}"
+      ]
+     ]
+    },
+    {
+     "label": "{cg_sit_label}",
+     "hint": "",
+     "fits": {
+      "sociability": -0.5,
+      "discipline": -0.3
+     },
+     "ops": [
+      [
+       "need",
+       "fun",
+       1
+      ],
+      [
+       "say",
+       "{cg_sit}"
+      ]
+     ]
+    }
+   ]
   }
  }
 }

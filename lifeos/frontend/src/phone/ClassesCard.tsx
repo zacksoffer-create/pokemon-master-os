@@ -29,7 +29,10 @@ export default function ClassesCard() {
             <div key={c.id} className="cl-row">
               <div className="cl-m">
                 <b>{c.name}</b>
-                <span>{c.teacher}{c.quizzes ? ` · ${c.quizzes} quiz${c.quizzes === 1 ? "" : "zes"} played (${c.quiz_avg}%)` : ""}</span>
+                <span>
+                  {c.teacher}{c.quizzes ? ` · ${c.quizzes} quiz${c.quizzes === 1 ? "" : "zes"} played (${c.quiz_avg}%)` : ""}
+                  {c.games ? ` · class games ${c.games_won}/${c.games}` : ""}
+                </span>
               </div>
               <span className={cx("cl-grade", c.letter[0] === "A" ? "a" : c.letter[0] === "B" ? "b" : c.letter[0] === "C" ? "c" : "d")}>{c.letter}</span>
             </div>
@@ -37,6 +40,7 @@ export default function ClassesCard() {
         </div>
         <p className="ph-dim small" style={{ margin: "10px 0 0" }}>
           On quiz and test days you can take it yourself. Your answers count toward the grade, along with how much you've studied.
+          Most other days a teacher throws something quick at the class. Going for it nudges that grade a little.
         </p>
       </div>
     </>

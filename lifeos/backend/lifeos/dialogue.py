@@ -227,6 +227,13 @@ MG_FITS = {
     "golf": "a round with a parent, a golf outing, a bet on one hole",
     "cup_pong": "a friend's basement, a party (beer pong in college)",
     "paper_toss": "bored in class, the trash can across the room",
+    "hold": "a steady pour in chem lab, one brushstroke, a power throw in gym, holding a note (press, hold, let go on the line)",
+    "sweep": "stopping a pendulum, hitting the beat, timing a jump rope, any \"tap at the right moment\"",
+    "mathdash": "mental math with a friend, splitting a check, making change at a register job, counting atoms",
+    "flash": "remembering a pattern, ear training in band, a memory bet",
+    "oddone": "proofreading a friend's essay, spot the difference, a typo on a sign",
+    "lineup": "a timeline review, ranking things with friends, putting cards in order",
+    "reflex": "catching something falling, a reaction test, first hand up, a quick-draw bet",
 }
 
 # ops a pack can use: name -> (arg count, how to write it, what it does)
@@ -1981,7 +1988,9 @@ def guide_markdown() -> str:
       "The player plays the game right there; great is 80% or better, good 50% or better, anything else a miss, and each "
       "picks its own ops (write a different `say` for each). If they skip it, the odds roll instead. Use `\"sport\"` for the "
       "player's own sport in a sports scene. A choice with a game that isn't ready stays hidden, so always keep two other "
-      "choices. Use them: a scene that turns into a game is the best kind.\n")
+      "choices. Use them: a scene that turns into a game is the best kind. The quick ones (`hold`, `sweep`, `mathdash`, `flash`, "
+      "`oddone`, `lineup`, `reflex`) take a few seconds, so they fit anywhere: a bet, a dare, a dumb contest with a friend. "
+      "(Class already has its own quick games most school days, so your scenes don't need to make class challenges.)\n")
     a("| game | what it is | scenes it fits |")
     a("|---|---|---|")
     for k, g in _mreg()["games"].items():

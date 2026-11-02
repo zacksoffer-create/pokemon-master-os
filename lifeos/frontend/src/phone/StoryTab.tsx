@@ -12,8 +12,12 @@ const KICKER: Record<string, string> = {
   first_day: "New chapter", cut: "Tryouts", injury: "Injury", benched: "Playing time", offer: "Recruiting", college_decision: "The big decision",
   game_day: "Game day", sibling_leaves: "Family", rumor: "People are talking", heartbreak: "Heartbreak", summer: "Summer", graduation: "Graduation",
   college_arrival: "New chapter", year_review: "Looking back", asked_out: "Romance", asked_to_dance: "Romance", mlb_draft: "MLB Draft",
-  draft_passed: "MLB Draft", story_end: "The end of the beginning", class_quiz: "Class",
+  draft_passed: "MLB Draft", story_end: "The end of the beginning", class_quiz: "Class", class_game: "In class",
 };
+// the result banner: class games read like class, sports like sports
+const CLASS_GAMES = new Set(["trivia", "hold", "sweep", "mathdash", "flash", "oddone", "lineup", "reflex"]);
+const mgHead = (game: string, tier: string) =>
+  CLASS_GAMES.has(game) ? (tier === "great" ? "Nailed it." : tier === "good" ? "Not bad." : "Rough one.") : tier === "great" ? "Clutch." : tier === "good" ? "Solid." : "Not your day.";
 const CAT: Record<string, string> = {
   social: "Friends", romance: "Romance", academic: "School", conflict: "Drama", leisure: "Downtime", family: "Family", activity: "Getting better",
   obligation: "Commitments", achievement: "Big moves", risk: "Risky", staff: "Mentoring",
@@ -28,7 +32,7 @@ const CAT_ICON: Record<string, string> = { social: "people", romance: "heart", a
   activity: "ball", obligation: "clock", achievement: "star", risk: "warn", staff: "people" };
 const PERSON_KEYS = ["them", "other", "sibling", "roommate", "coach", "origin", "best_friend"];
 
-type Outcome = { lines: Line[]; chips: Chip[]; title?: string; mg?: { tier: string; score: number; max: number } };
+type Outcome = { lines: Line[]; chips: Chip[]; title?: string; mg?: { tier: string; score: number; max: number; game?: string; summary?: string } };
 type Playing = { cfg: MGConfig; m?: Moment; index?: number };
 
 export default function StoryTab() {
@@ -133,11 +137,11 @@ export default function StoryTab() {
     run(async () => {
       if (p.m) {
         const r = await phoneApi.moment(p.m.id, p.index ?? null, { session: p.cfg.session, score: res.score, max: res.max, stats: res.stats });
-        setOutcome({ lines: r.lines, chips: r.chips, title: p.m.title, mg: r.minigame });
+        setOutcome({ lines: r.lines, chips: r.chips, title: p.m.title, mg: r.minigame && { ...r.minigame, summary: res.summary } });
       } else {
         const r = await phoneApi.minigameFinish(p.cfg.session, res.score, res.max, res.stats);
         const lines = r.rewarded ? r.lines : [...r.lines, { id: -2, type: "note", text: "You already got your practice in today. This one was just for fun." }];
-        setOutcome({ lines, chips: r.chips, title: p.cfg.title, mg: r.result });
+        setOutcome({ lines, chips: r.chips, title: p.cfg.title, mg: r.result && { ...r.result, summary: res.summary } });
         phoneApi.minigames().then((x) => setGames(x.games)).catch(() => undefined);
       }
       await refresh();
@@ -295,8 +299,9 @@ export default function StoryTab() {
           <>
             {outcome.mg && (
               <div className={cx("ph-mg-result", outcome.mg.tier)}>
-                <b>{outcome.mg.tier === "great" ? "Clutch." : outcome.mg.tier === "good" ? "Solid." : "Not your day."}</b>
-                <span>{outcome.mg.score % 1 === 0 && outcome.mg.max <= 20 ? `${outcome.mg.score} of ${outcome.mg.max}` : `${Math.round((outcome.mg.score / outcome.mg.max) * 100)}%`}</span>
+                <b>{mgHead(outcome.mg.game || "", outcome.mg.tier)}</b>
+                <span>{CLASS_GAMES.has(outcome.mg.game || "") && outcome.mg.summary ? outcome.mg.summary
+                  : outcome.mg.score % 1 === 0 && outcome.mg.max <= 20 ? `${outcome.mg.score} of ${outcome.mg.max}` : `${Math.round((outcome.mg.score / outcome.mg.max) * 100)}%`}</span>
               </div>
             )}
             <Lines lines={outcome.lines} />
@@ -466,7 +471,10 @@ function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: 
   const mood = m.kind === "asked_out" || m.kind === "asked_to_dance" ? "flirty" : m.kind === "heartbreak" || m.kind === "cut" ? "sad" : m.kind === "rumor" ? "surprised" : "neutral";
   return (
     <div className={cx("ph-moment", "k-" + m.kind)}>
-      <div className="ph-moment-k">{m.episode_label || m.storyline || KICKER[m.kind] || "A moment"}{more > 0 && <span> · {more} more after this</span>}</div>
+      <div className="ph-moment-k">
+        {m.episode_label || m.storyline || (m.kind === "class_game" && m.ctx?.class_name ? `${m.ctx.period} · ${m.ctx.class_name}` : KICKER[m.kind]) || "A moment"}
+        {more > 0 && <span> · {more} more after this</span>}
+      </div>
       {m.episode_label && m.storyline && <div className="ph-moment-series">{m.storyline}</div>}
       {person && (
         <div className="ph-moment-who">
@@ -479,7 +487,10 @@ function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: 
       <p className="ph-moment-t">{m.text}</p>
       <div className="ph-moment-c">
         {m.choices.map((c, i) => (
-          <button key={i} className="ph-mchoice" disabled={busy} onClick={() => onPick(m, i)} style={{ animationDelay: `${i * 70}ms` }}>
+          <button key={i} className={cx("ph-mchoice", c.game && "is-game")} disabled={busy} onClick={() => onPick(m, i)} style={{ animationDelay: `${i * 70}ms` }}>
+            {c.game && (
+              <span className="ph-mgame"><PIcon name="skip" size={12} /> Play · {c.game.title}</span>
+            )}
             <b>{c.label}</b>
             {c.hint && <span>{c.hint}</span>}
           </button>
