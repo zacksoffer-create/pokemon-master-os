@@ -732,3 +732,8 @@ html.ph-html body { color-scheme: light; }
   border-radius: 999px; font-size: 12px; font-weight: 800; color: var(--ph-ink-2); }
 
 .ph-line.why p { font-size: 13px; color: var(--ph-dim); font-style: italic; }
+
+.ph-choice-i.crew { width: auto; }
+.ph-crew-faces { display: inline-flex; }
+.ph-crew-faces > * { margin-left: -10px; border-radius: 50%; box-shadow: 0 0 0 2px #fff; }
+.ph-crew-faces > *:first-child { margin-left: 0; }

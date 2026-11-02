@@ -172,6 +172,13 @@ def r_interact(sim, c, cand, ev, fx, rng, ctx):
         sim.engage(b, c.id)
     elif p.get("needs_acceptance"):
         resp = sim.respond(b, c.id, cand, rng, ev)
+        if resp in ("busy", "declined") and kind == "hang_out" and c.id == w.meta.get("protagonist"):
+            alt = _backup_friend(sim, c, b, cand, rng, ev)  # your pick was busy: you text someone else instead of wasting the afternoon
+            if alt:
+                ev["data"]["swap"] = (f"{w.chars[b].first} {'already had plans' if resp == 'busy' else 'passed'}, "
+                                      f"so you hung out with {w.chars[alt].first} instead.")
+                b, resp = alt, "accepted"
+                ev["targets"] = [alt]
         if resp == "invited":
             ev["outcome"] = "invited"
             ev["importance"] = 16
@@ -201,15 +208,72 @@ def r_interact(sim, c, cand, ev, fx, rng, ctx):
     sim.expect(c.id, a["id"], clamp(res["qa"], -1, 1))
     if res["outcome"] == "great":
         ev["importance"] = a["importance"] + 6
+    crew = []
+    if kind == "hang_out" and c.id == w.meta.get("protagonist"):
+        crew = _bring_crew(sim, c, b, p, ev, fx, rng)
     if kind in ("flirt", "date", "hang_out") and c.id == w.meta.get("protagonist"):
         from .chat import why_interact
         why = why_interact(res["terms"], True)  # say why it went the way it did, in words
         if why:
             ev["data"]["why"] = why
+        # a hangout you picked plays out: a quick scene with one choice
+        if kind in ("date", "hang_out") and res["outcome"] != "bad" and sim.slot.planned.get(c.id, {}).get("player"):
+            from . import hangouts
+            hangouts.maybe_scene(sim, c.id, b, hangouts.kind_for(sim, c.id, b, kind, crew), crew, ev["data"].get("place"))
     if kind == "flirt":
         _flirt_side_effects(sim, c, b, res, ev, fx, rng, ctx)
     if kind == "support":
         fx.rep(c.id, "kind", 2.5, "helped a friend")
+
+
+def _backup_friend(sim, c, b, cand, rng, ev):
+    """Someone else you're close with who's around and says yes."""
+    w = sim.w
+    crew = (w.meta.get("control", {}).get("crew") or {}).get("ids", [])
+    cands = []
+    for o, r in w.out.get(c.id, {}).items():
+        x = w.chars.get(o)
+        if (o == b or not x or x.status != "active" or x.role not in ("student", "alumni") or x.location != c.location
+                or r.affection < 25 or o in sim.slot.engaged or o in sim.slot.done or o in sim.siblings(c.id)):
+            continue
+        cands.append((0 if o in crew else 1, -r.affection, o))  # the crew you asked steps up first
+    for _, _, o in sorted(cands)[:3]:
+        if sim.respond(o, c.id, cand, rng, ev) == "accepted":
+            return o
+    return None
+
+
+def _bring_crew(sim, c, b, p, ev, fx, rng):
+    """You asked the crew: the friends you picked come too (if they're free), and everyone gets closer."""
+    from .institutions import ambient
+    w = sim.w
+    ask = w.meta.get("control", {}).get("crew") or {}
+    if ask.get("day") != w.day or ask.get("slot") != sim.slot.slot:
+        return []
+    w.meta["control"].pop("crew", None)
+    came = []
+    for o in ask.get("ids", []):
+        x = w.chars.get(o)
+        if o in (b, c.id) or not x or x.status != "active" or x.location != c.location or o in sim.slot.engaged:
+            continue
+        if o not in sim.slot.done and sim.slot.planned.get(o):
+            sim.cancel_plan(o, f"went with {c.short} and the crew")
+        sim.slot.done.add(o)
+        sim.engage(o, c.id)
+        social.interact(sim, fx, ev, c.id, o, dict(p, affection=p.get("affection", 5) * 0.6, familiarity=p.get("familiarity", 4) * 0.7,
+                                                   place=False), rng, None)
+        came.append(o)
+    for i, x in enumerate([b] + came):
+        for y in came[i:]:
+            if x != y:
+                ambient(sim, fx, x, y, 0.4, "hung out with the crew")
+    if came:
+        ev["involved"] = list(dict.fromkeys((ev.get("involved") or []) + came))
+        ev["data"]["crew"] = came
+        firsts = [w.chars[x].first for x in came]
+        ev["data"]["crew_line"] = (" and ".join(firsts) if len(firsts) <= 2 else ", ".join(firsts[:-1]) + " and " + firsts[-1]) + \
+            (" came too." if len(firsts) > 1 else " came too.")
+    return came
 
 
 def _flirt_side_effects(sim, c, b, res, ev, fx, rng, ctx):

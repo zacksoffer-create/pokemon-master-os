@@ -477,6 +477,10 @@ class Simulation:
                 self.slot.traces[cid] = w.history.add_trace(dec["trace"])
         order = sorted(self.slot.planned)
         self.streams.get("order", w.day, slot).shuffle(order)
+        prot = w.meta.get("protagonist")
+        if prot in order and self.slot.planned[prot].get("player"):
+            order.remove(prot)  # you made a plan: you texted first, so your friends aren't booked yet
+            order.insert(0, prot)
         for cid in order:
             if cid in self.slot.done:
                 continue

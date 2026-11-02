@@ -24,6 +24,7 @@ const TOGGLES: [string, string, string][] = [
   ["ask_romance", "Ask me when someone asks me out", "Romance is your call, not the dice."],
   ["stop_before_games", "Stop before my games", "Pick how you play on game day."],
   ["stop_on_big", "Stop for big moments", "Tryout results, offers, injuries, the big stuff."],
+  ["auto_lunch", "Lunch on autopilot", "Sit with your usual table without stopping. Turn it off to pick every lunch."],
 ];
 const CHAPTERS = ["Fr", "So", "Jr", "Sr", "C1", "C2", "C3"];
 

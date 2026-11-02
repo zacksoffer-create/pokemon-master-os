@@ -184,7 +184,8 @@ class Lab:
                             reason = "moment"
                             break
                         ph = sim.current_phase()
-                        if until == "decision" and stepped and ph in DECISION_SLOTS and prot in sim.slot_actors(ph):
+                        if until == "decision" and stepped and ph in DECISION_SLOTS and prot in sim.slot_actors(ph) \
+                                and not (ph == "lunch" and ctl.get("auto_lunch", True)):
                             reason = "decision"
                             break
                         if w.day >= start + limits[until] and (until != "decision" or stepped):
@@ -1037,7 +1038,7 @@ def api_story_control(body: dict = Body(...)):
             if body["focus"] not in list(FOCUS) + ["balanced"]:
                 raise HTTPException(422, f"focus must be one of balanced, {', '.join(FOCUS)}")
             ctl["focus"] = body["focus"]
-        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big"):
+        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch"):
             if k in body:
                 ctl[k] = bool(body[k])
         return ctl

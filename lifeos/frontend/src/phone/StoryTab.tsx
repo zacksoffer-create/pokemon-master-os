@@ -26,7 +26,7 @@ const ACTION_ICON: Record<string, string> = {
 };
 const CAT_ICON: Record<string, string> = { social: "people", romance: "heart", academic: "book", conflict: "bolt", leisure: "moon", family: "home",
   activity: "ball", obligation: "clock", achievement: "star", risk: "warn", staff: "people" };
-const PERSON_KEYS = ["other", "sibling", "roommate", "coach", "origin", "best_friend"];
+const PERSON_KEYS = ["them", "other", "sibling", "roommate", "coach", "origin", "best_friend"];
 
 type Outcome = { lines: Line[]; chips: Chip[]; title?: string; mg?: { tier: string; score: number; max: number } };
 type Playing = { cfg: MGConfig; m?: Moment; index?: number };
@@ -104,7 +104,7 @@ export default function StoryTab() {
 
   const choose = (c: Choice) => run(async () => {
     buzz();
-    const r = await phoneApi.choose(c.index);
+    const r = await phoneApi.choose(c.index, c.crew);
     setChoices(null);
     setOutcome({ lines: r.lines.length ? r.lines : [{ id: -1, type: "none", text: "The time slips by. Nothing much to report." }], chips: r.chips, title: c.text });
     await refresh();
@@ -185,7 +185,7 @@ export default function StoryTab() {
   const todayFeed = s.feed.filter((f) => f.date === s.date);
   // choices sorted into should / want to / could: the first few of each up front, the rest behind "More options"
   const groups = (["should", "want", "could"] as const).map((g) => ({ g, list: (choices || []).filter((c) => (c.group || "could") === g) }));
-  const shown = groups.map(({ g, list }) => ({ g, list: more ? list : list.slice(0, g === "could" ? 2 : 3) }));
+  const shown = groups.map(({ g, list }) => ({ g, list: more ? list : varied(list, g === "could" ? 2 : 3) }));
   const hidden = groups.reduce((n, { list }, i) => n + list.length - shown[i].list.length, 0);
 
   return (
@@ -225,7 +225,7 @@ export default function StoryTab() {
                 {shown.map(({ g, list }) => list.length > 0 && (
                   <div key={g} className={cx("ph-cgroup", "g-" + g)}>
                     <div className="ph-cgroup-t">{g === "should" ? "Should" : g === "want" ? "Want to" : "Could"}</div>
-                    {list.map((c, i) => <ChoiceCard key={c.index} c={c} gut={!!c.gut} busy={busy} onPick={choose} onLater={later} delay={i} />)}
+                    {list.map((c, i) => <ChoiceCard key={c.key || c.index} c={c} gut={!!c.gut} busy={busy} onPick={choose} onLater={later} delay={i} />)}
                   </div>
                 ))}
                 {hidden > 0 && !more && (
@@ -337,13 +337,30 @@ function TopBar() {
   );
 }
 
+/** The first few choices of a group, mixed: one of each kind before a second "Sit with someone". */
+function varied(list: Choice[], n: number): Choice[] {
+  const out: Choice[] = [];
+  const seen = new Set<string>();
+  for (const c of list) {
+    if (out.length >= n) break;
+    if (!seen.has(c.action)) { out.push(c); seen.add(c.action); }
+  }
+  for (const c of list) {
+    if (out.length >= n) break;
+    if (!out.includes(c)) out.push(c);
+  }
+  return list.filter((c) => out.includes(c));
+}
+
 function ChoiceCard({ c, gut, busy, onPick, onLater, delay = 0, small }: { c: Choice; gut?: boolean; busy: boolean; onPick: (c: Choice) => void;
   onLater?: (c: Choice) => void; delay?: number; small?: boolean }) {
   return (
     <div className="ph-choice-wrap">
     <button className={cx("ph-choice", small && "compact", "cat-" + c.category)} disabled={busy} onClick={() => onPick(c)} style={{ animationDelay: `${delay * 60}ms` }}>
-      <span className="ph-choice-i">
-        {c.target ? <Face id={c.target} size={small ? 34 : 42} /> : <span className="ph-icon-bubble"><PIcon name={ACTION_ICON[c.action] || CAT_ICON[c.category] || "star"} size={small ? 18 : 21} /></span>}
+      <span className={cx("ph-choice-i", c.crew && "crew")}>
+        {c.crew && c.target ? (
+          <span className="ph-crew-faces">{[c.target, ...c.crew].slice(0, 3).map((id) => <Face key={id} id={id} size={small ? 26 : 30} />)}</span>
+        ) : c.target ? <Face id={c.target} size={small ? 34 : 42} /> : <span className="ph-icon-bubble"><PIcon name={ACTION_ICON[c.action] || CAT_ICON[c.category] || "star"} size={small ? 18 : 21} /></span>}
       </span>
       <span className="ph-choice-m">
         <b>{c.text}</b>

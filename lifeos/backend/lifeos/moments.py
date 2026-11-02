@@ -29,6 +29,7 @@ def control(w) -> dict:
     c.setdefault("ask_romance", True)
     c.setdefault("stop_before_games", True)
     c.setdefault("stop_on_big", True)
+    c.setdefault("auto_lunch", True)  # lunch with your usual table, without stopping to ask
     return c
 
 
@@ -349,6 +350,9 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                     class _Ctx(dict):
                         pass
                     _rejected(sim, w.chars[other], c.id, ev, fx, rng, {"slot": "after_school"}, dance=bool(ctx.get("dance_key")))
+        elif kind == "vibe":
+            from . import hangouts
+            hangouts.vibe(sim, c, op, ctx, fx, ev, rng, m, lambda s: _render(s, names))
         elif kind == "say":
             from . import lines
             ev["data"].setdefault("say", []).append(_render(lines.variant(sim, f"say:{m['kind']}", op[1], f"{m['id']}:{len(ev['data'].get('say', []))}"), names))

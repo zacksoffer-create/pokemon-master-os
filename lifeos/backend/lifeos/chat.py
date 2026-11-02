@@ -434,10 +434,17 @@ def why_interact(terms, me_first: bool) -> str | None:
     parts = [(names[i], v) for i, v in enumerate(vals) if i < len(names)]
     pos = sorted([(n, v) for n, v in parts if v > 0.04 and n[1]], key=lambda x: -x[1])
     neg = sorted([(n, v) for n, v in parts if v < -0.04 and n[2]], key=lambda x: x[1])
-    bits = [n[1] for n, _ in pos[:2]] + [n[2] for n, _ in neg[:1]] if sum(vals) >= 0.15 else [n[2] for n, _ in neg[:2]] + [n[1] for n, _ in pos[:1]]
-    if not bits:
+    good = sum(vals) >= 0.15
+    lead = [n[1] for n, _ in pos[:2]] if good else [n[2] for n, _ in neg[:2]]
+    other = [n[2] for n, _ in neg[:1]] if good else [n[1] for n, _ in pos[:1]]
+    if not lead and not other:
         return None
-    return "Why: " + ", ".join(bits[:-1]) + (" and " if len(bits) > 1 else "") + bits[-1] + "."
+    if not lead:
+        lead, other = other, []
+    s = " and ".join(lead)
+    if other:
+        s += (", despite " if good else ", even though ") + ("some " + other[0] if other[0] == "bad luck" and good else other[0])
+    return "Why: " + s + "."
 
 
 def why_ask_out(terms, yes: bool) -> str:

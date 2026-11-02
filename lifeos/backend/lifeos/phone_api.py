@@ -256,7 +256,34 @@ def phone_choices():
         if uniq:
             uniq[0]["gut"] = True
         from . import planner
-        return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": planner.annotate(sim, me, uniq)}
+        opts = planner.annotate(sim, me, uniq)
+        crew = crew_option(L, me, opts)
+        if crew:
+            opts.insert(next((i for i, o in enumerate(opts) if o["group"] != "should"), len(opts)), crew)
+        return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": opts}
+
+
+def crew_option(L, me, opts):
+    """Hang out with the crew: your closest friends at once, one choice instead of one friend at a time."""
+    w = L.w
+    hang = sorted([o for o in opts if o["action"] == "hang_out" and o.get("target")],
+                  key=lambda o: -(w.rels[(me.id, o["target"])].affection if (me.id, o["target"]) in w.rels else 0))
+    family = set(L.sim.siblings(me.id))
+    ok = lambda o: (o in w.chars and w.chars[o].status == "active" and w.chars[o].role in ("student", "alumni")  # noqa: E731
+                    and w.chars[o].location == me.location and o != me.flags.get("partner") and o not in family
+                    and (me.id, o) in w.rels and w.rels[(me.id, o)].affection >= 30)
+    mains = [o for o in hang if ok(o["target"])]
+    if not mains:
+        return None
+    main = mains[0]
+    pals = sorted((o for o in w.out.get(me.id, {}) if ok(o) and o != main["target"]), key=lambda o: (-w.rels[(me.id, o)].affection, o))
+    extra = pals[:2]
+    if not extra:
+        return None
+    firsts = [w.chars[main["target"]].first] + [w.chars[x].first for x in extra]
+    label = ", ".join(firsts[:-1]) + " and " + firsts[-1]
+    return dict(main, key=f"crew{main['index']}", action="hang_group", crew=extra, text=f"Hang out with {label}",
+                group="want", reason="The crew, all at once", later=None, gut=False, icon="people")
 
 
 @router.get("/api/phone/today")
@@ -284,7 +311,7 @@ def phone_later(body: dict = Body(...)):
             idx = int(body["index"])
         except (KeyError, TypeError, ValueError):
             raise HTTPException(422, "index must be a whole number")
-        opt = next((o for o in res["options"] if o["index"] == idx), None)
+        opt = next((o for o in res["options"] if o["index"] == idx and o["action"] != "hang_group"), None)
         if opt is None or not opt.get("later"):
             raise HTTPException(409, "that one can't wait")
         from . import planner
@@ -307,6 +334,9 @@ def phone_choose(body: dict = Body(...)):
             idx = int(body["index"])
         except (KeyError, TypeError, ValueError):
             raise HTTPException(422, "index must be a whole number")
+        if body.get("crew"):  # bring the crew along on this hangout
+            L.w.meta.setdefault("control", {})["crew"] = {"day": L.w.day, "slot": sim.current_phase(),
+                                                          "ids": [x for x in body["crew"] if x in L.w.chars][:3]}
         needs0 = dict(me.needs)
         mood0 = me.mood
         rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
@@ -329,10 +359,16 @@ def _lines(L, evs, me):
     for e in evs:
         if private(e, me.id):
             continue
+        if e.get("outcome") == "invited" and me.id in e["targets"] and me.id not in e["actors"]:
+            continue  # someone else's invite arrives as a text, it isn't part of what you just did
+        if (e.get("data") or {}).get("swap") and me.id in e["actors"]:
+            out.append({"id": f"swap{e['id']}", "type": "swap", "text": e["data"]["swap"]})
         if e.get("importance", 0) < 3 and e["type"] in ("practice", "exam"):
             continue
         out.append({"id": e["id"], "type": e["type"], "outcome": e.get("outcome"), "text": pov.event_line(w, e, me.id),
                     "with": [x for x in e["actors"] + e["targets"] if x != me.id][:3]})
+        if (e.get("data") or {}).get("crew_line") and me.id in e["actors"]:
+            out.append({"id": f"crew{e['id']}", "type": "crew", "text": e["data"]["crew_line"], "with": e["data"].get("crew", [])[:3]})
         if (e.get("data") or {}).get("why") and me.id in e["actors"]:
             out.append({"id": f"why{e['id']}", "type": "why", "text": e["data"]["why"]})
     return out[:8]
@@ -395,6 +431,8 @@ def phone_moment(mid: str, body: dict = Body(default={})):
         L.autosave()
         says = [{"id": f"say{ev['id']}-{i}", "type": "say", "text": t} for i, t in enumerate(ev["data"].get("say", []))]
         lines = [{"id": ev["id"], "type": "moment", "text": pov.event_line(L.w, ev, me.id), "calc": ev.get("calc")}] + says + _lines(L, follow, me)
+        if ev["data"].get("why") and m["kind"].startswith("hang_"):
+            lines.insert(1 + len(says), {"id": f"why{ev['id']}", "type": "why", "text": ev["data"]["why"]})
         out = {"lines": lines, "chips": _chips(L, me, needs0, mood0, rels0)}
         if played:
             out["minigame"] = {k: played[k] for k in ("tier", "pct", "score", "max", "game")}

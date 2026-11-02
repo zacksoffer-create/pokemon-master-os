@@ -226,6 +226,22 @@ What's in it:
   ("Asking Sophie out, next time you see them"), and they meant it: they'll say yes when you do.
 - **Dating takes showing up.** Go a few days without talking to your partner and it shows: "Feeling distant: 5 days since
   you talked" on their page, "Sophie misses you" on your plate, and they text you about it.
+- **Hanging out plays out.** When you pick a hangout, a date or the crew, a quick scene comes up with one choice: Danny
+  dares you to jump off the dock, the diner's empty and Kira wants you to rate her placemat art, it starts pouring on the
+  walk home, an inside joke is born. Each choice is a style (teasing, sweet, being direct, funny, cheesy, or play it safe),
+  and how it goes depends on what that person likes, the same tastes you learn by texting. The choices show what you already
+  know ("Teasing · Kira is not into it"), and the result says why ("Kira loves you being direct."). 16 scenes for friends,
+  dates and the crew, never the same one twice in three weeks, at most one a day.
+- **Hang out with the crew.** One choice, your two or three closest friends at once ("Hang out with Danny, Kira and Theo"):
+  everyone gets closer, to you and to each other.
+- **No wasted afternoons.** When you make a plan you ask first, so your friends aren't already booked. If your pick passes
+  anyway, you hang out with someone else who's free ("Danny passed, so you hung out with Kira instead"); with the crew, the
+  rest of the crew steps up. Other people's invites go to your texts instead of cluttering what just happened.
+- **Lunch on autopilot.** Lunch with your usual table happens without stopping to ask (the day strip says "usual table"),
+  so you only decide the parts of the day that matter. Turn it off on the Me tab to pick every lunch. Saved plans still
+  happen at lunch.
+- **A mix up front.** The first choices you see are one of each kind (the crew, a hangout, a text) before a second "Sit
+  with someone"; the rest are under More options.
 - **Packs can add texting lines.** A dialogue pack's `chat` section adds to how people answer, what they ask back,
   follow-ups and flirt lines by style. The pack prompts ask for them, and the checker explains any mistakes.
   People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).

@@ -162,6 +162,8 @@ def strip(sim, me) -> list:
                 s["note"] = "sleep"
             elif q and q.get("day") == w.day and q.get("slot") == ph:
                 s.update(note="planned", kind="planned", plan=plan_label(sim, q))
+            elif s["decide"] and ph == "lunch" and i != now and w.meta.get("control", {}).get("auto_lunch", True):
+                s["note"] = "usual table"  # lunch runs on autopilot
             elif s["decide"]:
                 s["note"] = "now" if i == now else "open"
             if i == now and s["note"] in ("open", ""):

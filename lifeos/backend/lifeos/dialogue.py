@@ -1035,6 +1035,8 @@ def _build() -> dict:
     texts = copy.deepcopy(_texts_base())
     templates = copy.deepcopy(_base("templates.json")["templates"])
     moments = copy.deepcopy(_base("moments.json")["moments"])
+    from . import hangouts
+    hangouts.register(moments)
     replies = {k: list(v) for k, v in _base_reply_sets().items()}
     mods = {k: copy.deepcopy(v) for k, v in _base("mods.json").items() if k in MOD_KINDS}
     loaded = []
