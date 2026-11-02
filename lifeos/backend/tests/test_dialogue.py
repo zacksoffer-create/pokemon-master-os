@@ -255,3 +255,66 @@ def test_long_descriptive_ids_and_texted_versions_from_a_coach_load():
     bad = dialogue.check({"name": "x", "scenes": [sc("big game", None), sc("x" * 90, None)]})
     msg = " ".join(bad["errors"])
     assert "lowercase letters, digits and underscores" in msg and "keep it under 80" in msg
+
+
+def _hoops_pack():
+    return {"name": "Hoops with my brother", "scenes": [
+        {"id": "driveway_one_on_one", "title": "One on one in the driveway", "who": "older_sibling",
+         "text": "{them_first} tosses you the basketball. \"First to eleven. He who loses does the dishes,\" he says, already backing you down.",
+         "choices": [{"label": "Take him to the hoop", "ops": [["say", "\"Not bad,\" {them_first} says. His jumper is still better."]]},
+                     {"label": "Tell him you're tired", "ops": [["mood", -1]]}]}],
+        "chat": {"people": {"older_sibling": {"reply": {"greet": {"warm": ["what do you want, rook", "you shooting later or what", "driveway, 5 min",
+                                                                           "if you're asking for a ride, no", "speak", "yo"]}}}}}}
+
+
+def test_a_storyline_picks_the_person_it_is_about_and_keeps_them():
+    from lifeos import chat, messages
+    sim = story()
+    w = sim.w
+    me = w.chars[w.meta["protagonist"]]
+    olds = dialogue.candidates(sim, me, "older_sibling")
+    bros = dialogue.candidates(sim, me, "older_brother")
+    sis = dialogue.candidates(sim, me, "older_sister")
+    assert set(olds) == set(bros) | set(sis) and bros and sis
+    assert all(w.chars[b].gender == "m" for b in bros) and all(w.chars[x].gender == "f" for x in sis)
+    r = dialogue.add_pack(_hoops_pack())
+    dialogue.reload()
+    sim = Simulation(w)
+    pid = next(p["id"] for p in dialogue.packs() if p["pack"]["name"] == "Hoops with my brother")
+    assert dialogue.pack_kinds(pid) == ["older_sibling"]
+    picks = {dialogue._context(sim, me, "older_sibling", {}, sim.streams.get("t", i), pack=pid)["them"] for i in range(6)}
+    assert len(picks) == 1, "the same person every time"
+    them = picks.pop()
+    assert w.chars[them].gender == "m", "a basketball story that says 'he' and 'his' is about your brother"
+    assert dialogue.cast_of(w, pid, "older_sibling") == them
+    # texting lines from that storyline: only the person it's about uses them
+    other = next(x for x in sis if x != them)
+    for cid in (them, other):
+        messages.add_contact(sim, cid)
+    own = set(_hoops_pack()["chat"]["people"]["older_sibling"]["reply"]["greet"]["warm"])
+    assert own & set(chat._pool(sim, them, "reply", "greet", "warm"))
+    assert not own & set(chat._pool(sim, other, "reply", "greet", "warm")), "your sister doesn't text with your brother's lines"
+    # you can change who it's about
+    dialogue.set_cast(w, pid, "older_sibling", other)
+    assert dialogue._context(sim, me, "older_sibling", {}, sim.streams.get("t", 9), pack=pid)["them"] == other
+
+
+def test_the_cast_routes():
+    from fastapi.testclient import TestClient
+    from lifeos import api
+    from lifeos.storage import Store
+    from tests.test_story import spec
+    dialogue.add_pack(_hoops_pack())
+    dialogue.reload()
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
+    pid = next(p["id"] for p in dialogue.packs() if p["pack"]["name"] == "Hoops with my brother")
+    k = c.get(f"/api/dialogue/cast?pack={pid}").json()["kinds"]
+    assert k and k[0]["who"] == "older_sibling" and len(k[0]["options"]) >= 2
+    pick = k[0]["options"][-1]["id"]
+    r = c.post("/api/dialogue/cast", json={"pack": pid, "who": "older_sibling", "char": pick}).json()
+    assert r["kinds"][0]["current"]["id"] == pick
+    assert c.post("/api/dialogue/cast", json={"pack": pid, "who": "older_sibling", "char": "nobody"}).status_code == 409
+    r = c.post("/api/dialogue/cast", json={"pack": pid, "who": "older_sibling", "char": None}).json()
+    assert r["kinds"][0]["current"] is None

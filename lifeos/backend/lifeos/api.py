@@ -1204,6 +1204,48 @@ def api_dialogue_prompt():
     return {"prompt": dialogue.prompt_for_ai()}
 
 
+@app.get("/api/dialogue/cast")
+def api_dialogue_cast(pack: str):
+    """Who a storyline is about in your story: for each kind of person it uses, who it picked and who else fits."""
+    from . import dialogue
+    L = get_lab()
+    w = L.w
+    me = w.chars.get(w.meta.get("protagonist") or "")
+    if not me:
+        return {"kinds": []}
+    out = []
+    with L.lock:
+        for k in dialogue.pack_kinds(pack):
+            cands = dialogue.candidates(L.sim, me, k)
+            cur = dialogue.cast_of(w, pack, k)
+            cur = cur if cur in cands else None
+            out.append({"who": k, "label": dialogue.WHO[k][:-1], "current": cur and {"id": cur, "name": w.chars[cur].name},
+                        "options": [{"id": o, "name": w.chars[o].name, "first": w.chars[o].first} for o in cands]})
+    return {"kinds": out}
+
+
+@app.post("/api/dialogue/cast")
+def api_dialogue_set_cast(body: dict = Body(...)):
+    """Pick who a storyline is about: {pack, who, char}. char null goes back to the game's pick."""
+    from . import dialogue
+    L = get_lab()
+    L.guard()
+    with L.lock:
+        w = L.w
+        me = w.chars.get(w.meta.get("protagonist") or "")
+        pack, who, cid = body.get("pack"), body.get("who"), body.get("char")
+        if not me or who not in dialogue.WHO:
+            raise HTTPException(422, "pick a kind of person")
+        if cid is None:
+            (w.meta.get("pack_cast", {}).get(pack) or {}).pop(who, None)
+        elif cid not in dialogue.candidates(L.sim, me, who):
+            raise HTTPException(409, "they aren't that to you in this story")
+        else:
+            dialogue.set_cast(w, pack, who, cid)
+        L.autosave()
+    return api_dialogue_cast(pack)
+
+
 @app.get("/api/dialogue/texting-prompt")
 def api_dialogue_texting_prompt(pack: str = ""):
     """The prompt that gives one of your storylines' people their own way of texting (?pack=<id> includes that pack)."""

@@ -171,10 +171,19 @@ WHO = {
     "sibling": "A random brother or sister.",
     "older_sibling": "An older brother or sister.",
     "younger_sibling": "A younger brother or sister.",
+    "brother": "A brother.",
+    "sister": "A sister.",
+    "older_brother": "An older brother.",
+    "older_sister": "An older sister.",
+    "younger_brother": "A younger brother.",
+    "younger_sister": "A younger sister.",
     "twin": "Your twin.",
     "coach": "A coach of one of your teams.",
 }
 
+SIBLING_KINDS = ("sibling", "older_sibling", "younger_sibling", "twin", "brother", "sister", "older_brother", "older_sister",
+                 "younger_brother", "younger_sister")
+CASTABLE = SIBLING_KINDS + ("friend", "teammate", "classmate", "ex", "coach")  # kinds with more than one person who fits: a storyline keeps its pick
 YEARS = {"freshman": (9,), "sophomore": (10,), "junior": (11,), "senior": (12,), "high_school": (9, 10, 11, 12),
          "college_freshman": (13,), "college_sophomore": (14,), "college_junior": (15,), "college_senior": (16,),
          "college": (13, 14, 15, 16)}
@@ -1053,6 +1062,7 @@ def _build() -> dict:
     loaded = []
     trivia_extra: dict = {}
     chat_lines = copy.deepcopy(_base("chat.json"))
+    chat_people = []  # (pack, {kind: lines}): a storyline's own people text with these
     for p in packs():
         if not p["enabled"]:
             continue
@@ -1080,7 +1090,9 @@ def _build() -> dict:
             templates[key] = templates[key] + [s for s in lines if s not in templates[key]]
         for mid, chs in (pk.get("moment_choices") or {}).items():
             moments[mid]["choices"] = moments[mid]["choices"] + [_with_needs(ch) for ch in chs]
-        _merge_chat(chat_lines, pk.get("chat") or {})
+        _merge_chat(chat_lines, {k: v for k, v in (pk.get("chat") or {}).items() if k != "people"})
+        if (pk.get("chat") or {}).get("people"):
+            chat_people.append((p["id"], pk["chat"]["people"]))
         for sub, qs in (pk.get("trivia") or {}).items():
             trivia_extra.setdefault(sub, []).extend({"q": q["q"], "a": q["a"], "w": list(q["w"]), "g": q.get("g", 9)} for q in qs)
         for sc in pk.get("scenes") or []:
@@ -1091,7 +1103,7 @@ def _build() -> dict:
                                  "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"),
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
-            "chat": chat_lines, "loaded": loaded}
+            "chat": chat_lines, "chat_people": chat_people, "loaded": loaded}
 
 
 def _merge_chat(into: dict, add: dict):
@@ -1123,6 +1135,20 @@ def _merge_people(into: dict, add: dict):
             cur = into.setdefault(k, [])
             have = {(x["q"] if isinstance(x, dict) else x).lower() for x in cur}
             cur.extend(x for x in v if (x["q"] if isinstance(x, dict) else x).lower() not in have)
+
+
+def chat_people() -> list:
+    return merged()["chat_people"]
+
+
+def pack_kinds(pack: str) -> list:
+    """The kinds of people a storyline is about (from its scenes and its texting lines)."""
+    m = merged()
+    kinds = {(v.get("scene") or {}).get("who") for v in m["moments"].values() if (v.get("scene") or {}).get("pack") == pack}
+    for pid, people in m["chat_people"]:
+        if pid == pack:
+            kinds |= set(people)
+    return [k for k in WHO if k in kinds and k in CASTABLE]
 
 
 def chat_lines() -> dict:
@@ -1200,13 +1226,17 @@ def candidates(sim, me, who) -> list:
     if who == "classmate":
         return sorted(c.id for c in w.students() if ok(c.id) and c.grade == me.grade and c.school == me.school
                       and c.id not in fam and _rel(w, me.id, c.id, "familiarity") < 30)
-    if who in ("sibling", "older_sibling", "younger_sibling", "twin"):
+    if who in SIBLING_KINDS:
         sibs = [s for s in sim.siblings(me.id) if ok(s)]
         g = me.grade or 9
-        if who == "older_sibling":
+        if who.startswith("older_"):
             sibs = [s for s in sibs if (w.chars[s].grade or 99) > g]
-        elif who == "younger_sibling":
+        elif who.startswith("younger_"):
             sibs = [s for s in sibs if (w.chars[s].grade or 0) < g]
+        if who.endswith("brother"):
+            sibs = [s for s in sibs if w.chars[s].gender == "m"]
+        elif who.endswith("sister"):
+            sibs = [s for s in sibs if w.chars[s].gender == "f"]
         elif who == "twin":
             sibs = [s for s in sibs if w.has_role(me.id, s, "twin")]
         return sibs
@@ -1289,7 +1319,64 @@ def _when_ok(sim, me, sid, when, ignore_time=False) -> bool:
     return True
 
 
-def _context(sim, me, who, when, rng) -> dict | None:
+def cast_of(w, pack, who):
+    return (w.meta.get("pack_cast", {}).get(pack) or {}).get(who)
+
+
+def set_cast(w, pack, who, cid):
+    w.meta.setdefault("pack_cast", {}).setdefault(pack, {})[who] = cid
+
+
+MALE = r"\b(he|him|his|himself|brother|bro|son|guy)\b"
+FEMALE = r"\b(she|her|hers|herself|sister|sis|daughter|girl)\b"
+SPORT_WORDS = {"basketball": r"\b(basketball|hoops?|court|dunk|layup|jumper|three[- ]pointer|free throws?|point guard)\b",
+               "football": r"\b(football|touchdown|quarterback|qb|end zone|gridiron|huddle)\b",
+               "baseball": r"\b(baseball|batting|pitcher|inning|home run|dugout|shortstop|bullpen)\b"}
+
+
+def _story_words(sim, pack) -> str:
+    """Everything a storyline says (its scenes' titles, text and lines), to tell who it's about."""
+    out = []
+    for sid, m in sim.cat.moments.items():
+        if (m.get("scene") or {}).get("pack") == pack:
+            out.append(json.dumps([m.get("title"), m.get("text"), m.get("scene", {}).get("by_text"),
+                                   [(c.get("label"), c.get("ops")) for c in m.get("choices", [])]], ensure_ascii=False))
+    return " ".join(out).lower()
+
+
+def _fit(sim, cid, words) -> float:
+    """How well someone fits what a storyline says: the right brother or sister, the one who plays the sport it's about."""
+    w = sim.w
+    c = w.chars[cid]
+    he, she = len(re.findall(MALE, words)), len(re.findall(FEMALE, words))
+    score = 0.0
+    if he + she:
+        score += 2.0 * (he - she) / (he + she) * (1 if c.gender == "m" else -1 if c.gender == "f" else 0)
+    for sport, rx in SPORT_WORDS.items():
+        n = len(re.findall(rx, words))
+        if n:
+            plays = any(w.groups.get(g, {}).get("skill") == sport for g in c.memberships) or (c.path or {}).get("sport") == sport
+            score += min(3.0, n * 0.5) * ((1.0 if plays else 0.0) + c.interests.get(sport, 0) / 100)
+    return score
+
+
+def pick_cast(sim, me, pack, who, cands):
+    """The person a storyline is about: the one you picked, else the one it keeps using, else the best fit (and keep them)."""
+    w = sim.w
+    if not cands:
+        return None
+    kept = cast_of(w, pack, who) if pack else None
+    if kept in cands:
+        return kept
+    if len(cands) == 1 or not pack:
+        return cands[0]
+    words = _story_words(sim, pack)
+    best = sorted(cands, key=lambda o: (-_fit(sim, o, words), o))[0]
+    set_cast(w, pack, who, best)
+    return best
+
+
+def _context(sim, me, who, when, rng, pack=None) -> dict | None:
     """Who the scene is about and everything its text can say. None if nobody fits."""
     w = sim.w
     ctx = {"me_first": me.first}
@@ -1304,7 +1391,12 @@ def _context(sim, me, who, when, rng) -> dict | None:
                  and all(_in(_rel(w, o, me.id, f), r) for f, r in (when.get("they_feel") or {}).items())]
         if not cands:
             return None
-        them = cands[0] if who in ("best_friend", "crush", "rival", "partner") else cands[int(rng.random() * len(cands))]
+        if who in ("best_friend", "crush", "rival", "partner"):
+            them = cands[0]
+        elif pack and who in CASTABLE:
+            them = pick_cast(sim, me, pack, who, cands)  # the storyline's person: the same one every time
+        else:
+            them = cands[int(rng.random() * len(cands))]
         ctx["them"] = them
         ctx["them_first"] = w.chars[them].first
     best = candidates(sim, me, "best_friend")
@@ -1370,7 +1462,7 @@ def maybe_scene(sim):
         chance = when.get("chance", 1.0 if when.get("dates") else DEFAULT_CHANCE)
         if rng.random() >= chance:
             continue
-        ctx = _context(sim, me, spec["scene"].get("who"), when, rng)
+        ctx = _context(sim, me, spec["scene"].get("who"), when, rng, pack=spec["scene"].get("pack"))
         if ctx is None or not _playable(spec, ctx):
             continue
         return fire(sim, sid, ctx)
@@ -1399,7 +1491,7 @@ def try_scene(sim, sid):
         raise ValueError("start a story first")
     when = spec["scene"].get("when") or {}
     who = spec["scene"].get("who")
-    ctx = _context(sim, me, who, when, sim.streams.get("scene-try", w.day, sid))
+    ctx = _context(sim, me, who, when, sim.streams.get("scene-try", w.day, sid), pack=spec["scene"].get("pack"))
     if ctx is None:
         raise ValueError(f"nobody fits '{who}' in your story right now ({WHO.get(who, '')[:-1].lower()})")
     if not _playable(spec, ctx):
@@ -1508,6 +1600,8 @@ Do all of this:
 5. Mini games: wherever a scene fits one, give it a choice that plays it, with "great", "good" and "miss" outcomes. Then add
    3 new scenes built around mini games that fit this pack's people.
 6. Add 2 new scenes that follow up on things the old scenes "remember".
+6b. If a scene's "who" is a general kind (sibling, older_sibling, younger_sibling) but it's clearly about one person (my brother,
+   my sister), change it to the specific kind: older_brother, older_sister, younger_brother, younger_sister, brother or sister.
 7. Add a "chat" section with texting lines that fit this pack's people: topic answers, questions they'd ask back (with the
    kind of answer), follow-ups, and flirt suggestions by style. At least 8 lines in every list you add.
 
@@ -1709,7 +1803,9 @@ How texting works now:
 Do all of this:
 1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep everything already in the pack.
 2. Add a "chat" section. For every person this storyline is about, add their own lines under "chat": {"people": {"<kind>": {...}}},
-   using the kinds of people listed below. Write them so you could tell who's texting without a name.
+   using the kinds of people listed below, the most specific one that fits (older_brother, not older_sibling, when it's about
+   my brother). If the pack's scenes use a general kind for someone specific, change their "who" to the specific kind too.
+   Write the lines so you could tell who's texting without a name.
 3. For each of those people, fill at least:
    - reply.greet (warm, ok, cold), reply.chat (warm, ok, cold), reply.ask (warm, ok, cold), reply.joke (laugh, meh),
      reply.compliment (warm, weird), reply.vent (comfort, meh), reply.news (hype, meh), reply.plans (yes, no, already),

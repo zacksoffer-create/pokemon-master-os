@@ -753,3 +753,7 @@ html.ph-html body { color-scheme: light; }
 .ph-squad-faces > span { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .ph-squad-faces small { font-size: 11.5px; font-weight: 700; color: var(--ph-dim); }
 .ph-squad-plan { margin: 10px 0 4px; font-weight: 700; font-size: 14px; }
+
+.dl-cast { margin: 6px 0 10px; }
+.dl-cast-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 0; font-size: 13.5px; font-weight: 700; }
+.dl-cast-row select { max-width: 60%; height: 36px; padding: 0 10px; font-size: 14px; }

@@ -763,6 +763,12 @@ A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each 
 - `sibling`: A random brother or sister.
 - `older_sibling`: An older brother or sister.
 - `younger_sibling`: A younger brother or sister.
+- `brother`: A brother.
+- `sister`: A sister.
+- `older_brother`: An older brother.
+- `older_sister`: An older sister.
+- `younger_brother`: A younger brother.
+- `younger_sister`: A younger sister.
 - `twin`: Your twin.
 - `coach`: A coach of one of your teams.
 

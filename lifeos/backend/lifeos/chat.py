@@ -22,8 +22,9 @@ import re
 from .history import Effects
 from .rng import clamp
 
-PEOPLE_ORDER = ("twin", "older_sibling", "younger_sibling", "sibling", "partner", "crush", "ex", "rival", "coach", "best_friend",
-                "teammate", "friend", "classmate")  # most specific first: whose own lines get used
+PEOPLE_ORDER = ("twin", "older_brother", "older_sister", "younger_brother", "younger_sister", "older_sibling", "younger_sibling",
+                "brother", "sister", "sibling", "partner", "crush", "ex", "rival", "coach", "best_friend", "teammate", "friend",
+                "classmate")  # most specific first: whose own lines get used
 STAGES = ["Strangers", "Know each other", "Friendly", "Flirty", "Talking stage", "Dating"]
 GUIDE = [
     {"t": "They have to know you a little", "d": "Flirting with someone who barely knows you is a gamble. Say hi, talk, hang out first."},
@@ -561,11 +562,20 @@ def _get(d, path):
 def _pool(sim, cid, *path) -> list:
     """Lines for this spot: theirs (from what kind of person they are to you) most of the time, everyone's otherwise."""
     from .messages import _h
+    from . import dialogue
     base = _get(D(), path) or []
-    people = D().get("people") or {}
     own = []
-    for k in kinds_of(sim, cid) if people else []:
-        own += _get(people.get(k) or {}, path) or []
+    kinds = None
+    for pack, people in dialogue.chat_people():
+        kinds = kinds if kinds is not None else kinds_of(sim, cid)
+        for k in kinds:
+            if k not in people:
+                continue
+            if k in dialogue.CASTABLE:  # that storyline is about one person: theirs only
+                me = _me(sim)
+                if dialogue.pick_cast(sim, me, pack, k, dialogue.candidates(sim, me, k)) != cid:
+                    continue
+            own += _get(people[k], path) or []
     if own and (not base or _h(sim.w.day, cid, *path, len(_thread(sim, cid)["msgs"])) % 10 < 7):
         return own
     return base or own

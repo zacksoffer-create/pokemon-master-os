@@ -48,6 +48,43 @@ export function addsLine(s: Record<string, number>) {
   return parts.join(" · ") || "nothing yet";
 }
 
+type CastKind = { who: string; label: string; current: { id: string; name: string } | null; options: { id: string; name: string; first: string }[] };
+
+/** Who a storyline is about in your story: the game picks the best fit and keeps them; you can change it. */
+function WhoItsAbout({ pack }: { pack: string }) {
+  const { toast } = usePhone();
+  const [kinds, setKinds] = useState<CastKind[] | null>(null);
+  useEffect(() => {
+    api.get(`/api/dialogue/cast?pack=${encodeURIComponent(pack)}`).then((r) => setKinds(r.kinds)).catch(() => setKinds([]));
+  }, [pack]);
+  const pick = async (who: string, char: string) => {
+    try {
+      const r = await api.post("/api/dialogue/cast", { pack, who, char: char || null });
+      setKinds(r.kinds);
+      toast("Got it. This storyline is about them from now on.", "good");
+    } catch (e) {
+      toast(errText(e), "bad");
+    }
+  };
+  const many = (kinds || []).filter((k) => k.options.length > 1 || k.current);
+  if (!many.length) return null;
+  return (
+    <div className="dl-cast">
+      <div className="dl-sub">Who it's about</div>
+      {many.map((k) => (
+        <label key={k.who} className="dl-cast-row">
+          <span>{k.label}</span>
+          <select className="ph-input" value={k.current?.id || ""} onChange={(e) => pick(k.who, e.target.value)}>
+            {!k.current && <option value="">Game picks (best fit)</option>}
+            {k.options.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
+          </select>
+        </label>
+      ))}
+      <p className="ph-dim small">The same person every time this storyline comes up, in its scenes and its texts.</p>
+    </div>
+  );
+}
+
 export default function DialogueCard() {
   const { refresh, toast } = usePhone();
   const [data, setData] = useState<Packs | null>(null);
@@ -162,6 +199,7 @@ export default function DialogueCard() {
                 <div className="dl-pack-b">
                   {p.notes && <p className="ph-dim small">{p.notes}</p>}
                   {!p.ok && <Problems errors={p.errors} warnings={[]} />}
+                  {p.ok && <WhoItsAbout pack={p.id} />}
                   {p.scenes.length > 0 && (
                     <>
                       <div className="dl-sub">Scenes</div>

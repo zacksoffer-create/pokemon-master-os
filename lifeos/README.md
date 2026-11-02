@@ -271,6 +271,11 @@ What's in it:
   your coach like a coach. Every pack you made has an **Upgrade its texting** button (phone and lab) that copies a prompt
   with the pack in it: ChatGPT gives that storyline's people their own replies, questions, follow-ups, flirts by style and
   more, and the answer replaces the old pack. The prompt is also in `docs/dialogue-texting-prompt.md`.
+- **Storylines keep their people.** When a storyline is about "an older sibling" and you have more than one, it picks the
+  one it's clearly about (a basketball story that says "he" and "his" gets your brother who plays basketball) and keeps
+  them for every scene and every text after that. Open a storyline in your dialogue packs and **Who it's about** shows who
+  it picked; change it anytime. Packs can also name `brother`, `sister`, `older_brother`, `older_sister`, `younger_brother`
+  and `younger_sister`, and the upgrade prompts tell ChatGPT to use those.
 - **Packs can add texting lines.** A dialogue pack's `chat` section adds to how people answer, what they ask back,
   follow-ups and flirt lines by style. The pack prompts ask for them, and the checker explains any mistakes.
   People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).

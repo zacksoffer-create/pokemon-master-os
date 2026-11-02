@@ -18,7 +18,9 @@ How texting works now:
 Do all of this:
 1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep everything already in the pack.
 2. Add a "chat" section. For every person this storyline is about, add their own lines under "chat": {"people": {"<kind>": {...}}},
-   using the kinds of people listed below. Write them so you could tell who's texting without a name.
+   using the kinds of people listed below, the most specific one that fits (older_brother, not older_sibling, when it's about
+   my brother). If the pack's scenes use a general kind for someone specific, change their "who" to the specific kind too.
+   Write the lines so you could tell who's texting without a name.
 3. For each of those people, fill at least:
    - reply.greet (warm, ok, cold), reply.chat (warm, ok, cold), reply.ask (warm, ok, cold), reply.joke (laugh, meh),
      reply.compliment (warm, weird), reply.vent (comfort, meh), reply.news (hype, meh), reply.plans (yes, no, already),
@@ -91,6 +93,12 @@ Things I'd text them, `suggest.<kind>`: greet, ask, answer, joke, compliment, fl
 - `sibling`: A random brother or sister.
 - `older_sibling`: An older brother or sister.
 - `younger_sibling`: A younger brother or sister.
+- `brother`: A brother.
+- `sister`: A sister.
+- `older_brother`: An older brother.
+- `older_sister`: An older sister.
+- `younger_brother`: A younger brother.
+- `younger_sister`: A younger sister.
 - `twin`: Your twin.
 - `coach`: A coach of one of your teams.
 

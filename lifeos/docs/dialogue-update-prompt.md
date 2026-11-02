@@ -13,6 +13,8 @@ Do all of this:
 5. Mini games: wherever a scene fits one, give it a choice that plays it, with "great", "good" and "miss" outcomes. Then add
    3 new scenes built around mini games that fit this pack's people.
 6. Add 2 new scenes that follow up on things the old scenes "remember".
+6b. If a scene's "who" is a general kind (sibling, older_sibling, younger_sibling) but it's clearly about one person (my brother,
+   my sister), change it to the specific kind: older_brother, older_sister, younger_brother, younger_sister, brother or sister.
 7. Add a "chat" section with texting lines that fit this pack's people: topic answers, questions they'd ask back (with the
    kind of answer), follow-ups, and flirt suggestions by style. At least 8 lines in every list you add.
 
@@ -762,6 +764,12 @@ A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each 
 - `sibling`: A random brother or sister.
 - `older_sibling`: An older brother or sister.
 - `younger_sibling`: A younger brother or sister.
+- `brother`: A brother.
+- `sister`: A sister.
+- `older_brother`: An older brother.
+- `older_sister`: An older sister.
+- `younger_brother`: A younger brother.
+- `younger_sister`: A younger sister.
 - `twin`: Your twin.
 - `coach`: A coach of one of your teams.
 
