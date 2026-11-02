@@ -31,6 +31,28 @@ const STEPS: [string, string, string][] = [
 const INCOME: [string, string][] = [["low", "Tight budget"], ["middle", "Comfortable"], ["high", "Well-off"]];
 const GENDERS: [string, string][] = [["m", "Guy"], ["f", "Girl"], ["nb", "Nonbinary"]];
 const GRADES: [number, string][] = [[9, "Freshman"], [10, "Sophomore"], [11, "Junior"], [12, "Senior"]];
+// younger kids you make: still in middle school, they start high school with a later freshman class
+const LATER: [number, string][] = [[8, "Next year"], [7, "In 2 years"], [6, "In 3 years"]];
+const YEAR_OF = ["freshman", "sophomore", "junior", "senior"];
+function startsLine(g: number, myGrade: number, school: string) {
+  const n = 9 - g;
+  const you = myGrade + n <= 12 ? `your ${YEAR_OF[myGrade + n - 9]} year` : "after you graduate";
+  return `In ${g}th grade now. Starts at ${school} as a freshman ${n === 1 ? "next fall" : `in ${n} years`}, ${you}.`;
+}
+function GradePick({ p, set, myGrade, cat, twin }: { p: Person; set: (x: Partial<Person>) => void; myGrade: number; cat: any; twin?: boolean }) {
+  const g = p.grade || 9;
+  return (
+    <>
+      <Field label="Grade" hint={twin ? "Twins share a grade." : undefined}>
+        <Seg value={g} options={GRADES.map(([x, l]) => [x, x === myGrade ? `${l} (you)` : l] as [number, string])} onChange={(v) => set({ grade: v })} />
+      </Field>
+      <Field label="Or starts high school later" hint={g < 9 ? startsLine(g, myGrade, cat.school?.short || "school") : "Younger? They show up with that year's freshman class."}>
+        <Seg value={g} options={LATER} onChange={(v) => set({ grade: v })} />
+      </Field>
+    </>
+  );
+}
+const gradeWord = (g?: number) => (g && g < 9 ? `${GRADE_LABEL[g]} · starts ${g === 8 ? "next year" : `in ${9 - g} years`}` : GRADE_LABEL[g || 9]);
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const MONTH_DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 // relationships are stored from THEIR point of view ("crush" = they have a crush on you)
@@ -664,6 +686,8 @@ function FamilyStep({ d, setD, cat, add, edit }: { d: Draft; setD: React.Dispatc
     ["Twin sisters", () => add([{ gender: "f", grade: 10 }, { gender: "f", grade: 10 }], true)],
     ["Twin brothers", () => add([{ gender: "m", grade: 10 }, { gender: "m", grade: 10 }], true)],
     ["My twin", () => add([{ gender: me.gender || "m", grade: myGrade, twin_of: "me" }])],
+    ["Younger brother", () => add([{ gender: "m", grade: 8 }])],
+    ["Younger sister", () => add([{ gender: "f", grade: 7 }])],
   ];
   return (
     <>
@@ -733,7 +757,7 @@ function FamilyStep({ d, setD, cat, add, edit }: { d: Draft; setD: React.Dispatc
               <div className="ph-row-main">
                 <b>{displayName(s, `Unnamed ${sibWord(s)}`)}</b>
                 <span className="ph-dim">
-                  {GRADE_LABEL[s.grade || 10]} {sibWord(s)}{twin ? ` · ${twin}` : ""}{s.path?.college ? ` · then ${cat.colleges.find((c: any) => c.id === s.path!.college)?.short || s.path.college}${s.path.sport ? ` ${s.path.sport}` : ""}` : ""}
+                  {(s.grade || 10) < 9 ? `Younger ${sibWord(s)} · ${gradeWord(s.grade)}` : `${GRADE_LABEL[s.grade || 10]} ${sibWord(s)}`}{twin ? ` · ${twin}` : ""}{s.path?.college ? ` · then ${cat.colleges.find((c: any) => c.id === s.path!.college)?.short || s.path.college}${s.path.sport ? ` ${s.path.sport}` : ""}` : ""}
                 </span>
               </div>
               <PIcon name="chevron" size={18} />
@@ -746,7 +770,7 @@ function FamilyStep({ d, setD, cat, add, edit }: { d: Draft; setD: React.Dispatc
           {quick.map(([label, fn]) => <button key={label} type="button" onClick={fn}>+ {label}</button>)}
         </div>
       )}
-      <div className="cs-hint">Siblings are in high school with you (grades 9 to 12). Twins share a grade and a birthday.</div>
+      <div className="cs-hint">Older siblings and twins are in high school with you. Younger ones are in middle school and start high school as freshmen in a later year, with that year's class. Twins share a grade and a birthday.</div>
     </>
   );
 }
@@ -771,7 +795,7 @@ function PeopleStep({ d, add, edit }: { d: Draft; add: (tid: string) => void; ed
               <Portrait look={lookOf(c)} size={46} color={c.color} name={c.first || "someone"} />
               <div className="ph-row-main">
                 <b>{displayName(c, c.template ? `Your ${c.template.toLowerCase()}` : "New person")}</b>
-                <span className="ph-dim">{c.role === "staff" ? `${cap(c.coach_of || "")} coach` : `${GRADE_LABEL[c.grade || 9]} · ${relLabel(rel?.type)}`}</span>
+                <span className="ph-dim">{c.role === "staff" ? `${cap(c.coach_of || "")} coach` : `${gradeWord(c.grade)} · ${relLabel(rel?.type)}`}</span>
               </div>
               <PIcon name="chevron" size={18} />
             </button>
@@ -779,7 +803,7 @@ function PeopleStep({ d, add, edit }: { d: Draft; add: (tid: string) => void; ed
         })}
       </div>
       {d.cast.length === 0 && <div className="cs-empty">Nobody yet. Add the people you want in your story, or skip this and meet everyone fresh.</div>}
-      <div className="cs-hint">Everyone else in town is generated, with their own families, friends and plans.</div>
+      <div className="cs-hint">Everyone else in town is generated, with their own families, friends and plans. Someone younger? Add a <b>Future freshman</b>: they show up with that year's freshman class.</div>
     </>
   );
 }
@@ -832,8 +856,8 @@ function StartStep({ d, setD, cat, problems, onFix, onSave, edit }: {
         <input className="ph-input" type="text" value={d.title} maxLength={60} placeholder={last ? `The ${last} Years` : "My Story"} onChange={(e) => setD((x) => ({ ...x, title: e.target.value }))} />
       </Field>
       <div className="cs-card">
-        <Slider label="Kids per grade" value={d.students_per_grade} min={6} max={20} onChange={(x) => setD((y) => ({ ...y, students_per_grade: x }))} left="small, quick" rightWord="big, slower" />
-        <div className="cs-hint">How many classmates the town starts with in each grade. 10 to 12 plays smoothly on a phone.</div>
+        <Slider label="Kids per grade" value={d.students_per_grade} min={6} max={40} onChange={(x) => setD((y) => ({ ...y, students_per_grade: x }))} left="small, quick" rightWord="big, slower" />
+        <div className="cs-hint">How many classmates the town starts with in each grade, plus everyone you made. Teams get bigger with the school. 12 to 20 plays smoothly on a phone; past 30, days take a few seconds. Every fall a new freshman class comes in, about the size of the class that graduated.</div>
       </div>
       <div className="cs-card cs-what">
         <b>What happens next</b>
@@ -941,9 +965,7 @@ function SiblingEditor({ p, d, cat, set, used, problems, onRemove, onDone }: {
       <Field label="They're your">
         <Seg value={p.gender || undefined} options={[["m", "Brother"], ["f", "Sister"], ["nb", "Sibling"]]} onChange={(v) => set({ gender: v as any })} />
       </Field>
-      <Field label="Grade" hint={p.twin_of ? "Twins share a grade." : undefined}>
-        <Seg value={p.grade || 10} options={GRADES.map(([g, l]) => [g, g === myGrade ? `${l} (you)` : l] as [number, string])} onChange={(v) => set({ grade: v })} />
-      </Field>
+      <GradePick p={{ ...p, grade: p.grade || 10 }} set={set} myGrade={myGrade} cat={cat} twin={!!p.twin_of} />
       {twinOpts.length > 1 && (
         <Field label="Twin">
           <Seg wrap value={p.twin_of || ""} options={twinOpts} onChange={(v) => set({ twin_of: v || undefined })} />
@@ -1018,9 +1040,7 @@ function PersonEditor({ p, d, cat, set, used, problems, onRemove, onDone }: {
         </>
       ) : (
         <>
-          <Field label="Grade">
-            <Seg value={p.grade || 9} options={GRADES.map(([g, l]) => [g, l] as [number, string])} onChange={(v) => set({ grade: v })} />
-          </Field>
+          <GradePick p={p} set={set} myGrade={me.grade || 9} cat={cat} />
           <Field label="Who they are to you">
             <div className="cs-rels">
               {REL_TO_YOU.map(([k, label]) => (

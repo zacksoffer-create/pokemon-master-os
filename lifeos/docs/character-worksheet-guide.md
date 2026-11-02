@@ -15,10 +15,10 @@ Anything you leave blank is generated from the person's type, so you only need t
 ````text
 You're helping me plan the characters for my LIFE OS story, a life simulation that starts on my first day at Guilford High School in Guilford and runs seven years (high school, then college or work).
 
-Interview me one person at a time: me first, then my family (parents, siblings, a pet if we have one), then the people I want in my story (friends, a crush, rivals, coaches). For each person, ask a few natural questions about who they are, what they're into and how we know each other, then propose numbers and explain them in one line each. Push back if I make someone great at everything; real people have a couple of clear strengths and a weakness or two. Keep it conversational, not a form.
+Interview me one person at a time: me first, then my family (parents, siblings, a pet if we have one), then the people I want in my story (friends, a crush, rivals, coaches, and younger kids who'll start high school later, like a little brother or the neighbor kid). I can add as many people as I want. For each person, ask a few natural questions about who they are, what they're into and how we know each other, then propose numbers and explain them in one line each. Push back if I make someone great at everything; real people have a couple of clear strengths and a weakness or two. Keep it conversational, not a form.
 
 The fields (all optional except first names; blanks get generated):
-- first, last, gender (m/f/nb), pronouns, attracted_to (list of m/f/nb), grade (9-12 on day one), birthday [month, day], archetype (athlete, artist, scholar, socialite, loner, rebel, leader, techie, performer, caretaker, drifter), bio
+- first, last, gender (m/f/nb), pronouns, attracted_to (list of m/f/nb), grade (9-12 on day one; for a younger sibling or anyone still in middle school, 8, 7 or 6: they start high school as a freshman 1, 2 or 3 years in), birthday [month, day], archetype (athlete, artist, scholar, socialite, loner, rebel, leader, techie, performer, caretaker, drifter), bio
 - traits 0-100: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty
 - aptitudes 0-100 (natural talent): athletic, academic, creativity, technical, charisma
 - motives 0-100: achievement, approval, belonging, pleasure, altruism, mastery
@@ -32,6 +32,7 @@ The fields (all optional except first names; blanks get generated):
 
 When we're done, give me the whole thing as one JSON object in exactly this shape, in a single code block, with nothing I'd need to fix by hand:
 {"title": "...", "students_per_grade": 12, "protagonist": {...}, "family": {...}, "siblings": [{"key": "S1", ...}], "cast": [{"key": "P1", ...}]}
+students_per_grade is how many classmates each grade starts with (6-40, around my people); 12-20 plays smoothly on a phone.
 ````
 
 ## Numbers: what they mean

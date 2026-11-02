@@ -464,7 +464,7 @@ function FamilyStep({ d, setD, cat, errsFor, nextKey, pickColor, onEdit, onRemov
           <div className="sn-empty">
             <div style={{ fontSize: 28 }}>👨‍👩‍👧‍👦</div>
             <div>No siblings yet. Only child is a perfectly good story too.</div>
-            <div className="hint">Use the buttons above. Siblings have to be in high school (grades 9-12) when the story starts.</div>
+            <div className="hint">Use the buttons above. Older siblings are in high school (grades 9-12); younger ones (6-8) start high school as freshmen in a later year.</div>
           </div>
         ) : (
           <>
@@ -492,7 +492,7 @@ function FamilyStep({ d, setD, cat, errsFor, nextKey, pickColor, onEdit, onRemov
                       <Seg small value={s.gender} options={[["m", "Brother"], ["f", "Sister"], ["nb", "Sibling (nb)"]]} onChange={(v) => setSib(s.key!, { gender: v })} />
                     </div>
                     <div className="sn-sib-row">
-                      <Seg small value={s.grade || 9} options={[9, 10, 11, 12].map((g) => [g, GRADE_LABEL[g]])} onChange={(v) => setSib(s.key!, { grade: v })} />
+                      <Seg small value={s.grade || 9} options={[9, 10, 11, 12, 8, 7, 6].map((g) => [g, GRADE_LABEL[g]])} onChange={(v) => setSib(s.key!, { grade: v })} />
                     </div>
                     <div className="sn-sib-row two">
                       <select value={s.archetype || ""} onChange={(e) => setSib(s.key!, { archetype: e.target.value || undefined })}>
@@ -630,8 +630,8 @@ function TownStep({ d, update, errs }: { d: Draft; update: (p: Partial<Draft>) =
     <div className="grid g2">
       <Panel title={PLACE.school} sub="Generated students fill out each grade around the people you made.">
         <div className="sn-town-big"><b>{per}</b><span>students per grade</span></div>
-        <input type="range" className="slider" min={6} max={20} value={per} onChange={(e) => update({ students_per_grade: Number(e.target.value) })} />
-        <div className="row between hint"><span>6 · small and tight-knit</span><span>20 · big and busy</span></div>
+        <input type="range" className="slider" min={6} max={40} value={per} onChange={(e) => update({ students_per_grade: Number(e.target.value) })} />
+        <div className="row between hint"><span>6 · small and tight-knit</span><span>40 · big and busy (slower)</span></div>
         <div className="sn-town-grades">
           {[9, 10, 11, 12].map((g) => {
             const mine = custom[g];

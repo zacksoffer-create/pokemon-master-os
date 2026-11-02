@@ -124,6 +124,11 @@ def phrase(sim, opt) -> str:
     return tmpl.format(f=first, t=tname or "it")
 
 
+def incoming_view(w):
+    from .story import incoming_view as iv
+    return iv(w)
+
+
 def team_card(w, me, gid) -> dict:
     """A team on your Me tab: the team's record at your level, and yours (the games you played in this season)."""
     from .sports import season_key
@@ -190,7 +195,8 @@ def phone_state(since: int | None = None):
             "pet_approved": w.meta.get("pet_approved"), "queued": q and {"label": planner.plan_label(sim, q) or "Saying yes to an invite"},
             "family": {"name": h.get("name"), "guardians": messages.parent_names(sim), "siblings": [
                 {"id": s, "first": w.chars[s].first, "year_label": w.chars[s].year_label, "location": w.chars[s].location,
-                 "look": look_of(w.chars[s]), "path": w.chars[s].path} for s in sim.siblings(me.id)], "style": h.get("style_label"),
+                 "look": look_of(w.chars[s]), "path": w.chars[s].path} for s in sim.siblings(me.id)],
+                "younger": [x for x in incoming_view(w) if x["kind"] == "sibling"], "style": h.get("style_label"),
                 "trust": round(messages.phone(w)["parent_trust"])},
             "teams": teams, "control": moments.control(w),
             "setting": {"town": sim.cat.world["town"]["name"], "school": sim.cat.world["school"]["name"],

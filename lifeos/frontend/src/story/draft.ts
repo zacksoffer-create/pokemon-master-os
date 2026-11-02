@@ -161,6 +161,7 @@ export const TEMPLATES: { id: string; label: string; icon: string; make: (me: Pe
     },
   },
   { id: "custom", label: "Someone else", icon: "✨", make: (me) => ({ gender: me.gender || "m", grade: me.grade }) },
+  { id: "future", label: "Future freshman", icon: "🎒", make: (me) => ({ gender: me.gender || "m", grade: 8, relationships: [{ to: "me", type: "neighbor" }] }) },
 ];
 
 export function saveDraft(d: Draft, key: string = DRAFT_KEY) {

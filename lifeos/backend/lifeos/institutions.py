@@ -1136,6 +1136,30 @@ class Institutions:
                 sim.moment_trigger("graduation", cid, {"path_line": line})
         w.meta["graduated_last"] = len(seniors)
 
+    def welcome(self, yours):
+        """Someone you made starts high school: it's in your feed, and if they're family or a friend, they text you."""
+        sim = self.sim
+        w = sim.w
+        prot = w.meta.get("protagonist")
+        pc = w.chars.get(prot or "")
+        school = sim.cat.world["school"]["name"]
+        for c in yours:
+            r = w.rels.get((c.id, prot)) if pc else None
+            fam = pc is not None and c.household_id == pc.household_id
+            word = {"m": "brother", "f": "sister"}.get(c.gender, "sibling")
+            ev = self.event("new_year", "arrived", [c.id], importance=34 if (fam or r) else 22, involved=[prot] if pc else None,
+                            data={"yours": True, "family": fam})
+            ev["text"] = (f"{pc.short}'s little {word} {c.first} starts at {school} as a freshman." if fam
+                          else f"{c.short} starts at {school} as a freshman.")
+            sim.finish(ev, Effects(w, ev))
+            sim.review_goals_for(c)
+            if pc and "phone" in w.meta and pc.location != "away" and (fam or (r and r.affection >= 30)):
+                from . import messages
+                messages.add_contact(sim, c.id, "new_year")
+                line = ("ok i'm officially in high school. don't act like you don't know me" if fam
+                        else "first day at " + sim.cat.world["school"]["short"] + " tomorrow. save me a seat at lunch?")
+                messages.later(sim, c.id, "scene", delay_phases=1, text=line)
+
     def new_year(self):
         """Sept 1: everyone moves up a grade, new freshmen arrive, the calendar rebuilds."""
         from .worldgen import new_freshmen
@@ -1151,11 +1175,15 @@ class Institutions:
         college.depart(sim, sim.streams.get("depart", w.day))
         n = w.meta.get("graduated_last", 0) or 0
         n = n if n else w.meta.get("generated", {}).get("students", 36) // 4
-        fresh = new_freshmen(w, y, n, w.day)
+        from .story import arrive
+        yours = arrive(sim, y)  # the younger kids you made: this is their freshman year
+        fresh = new_freshmen(w, y, max(0, n - len(yours)), w.day)
         for c in fresh:
             ev = self.event("new_year", "arrived", [c.id], importance=22)
             sim.finish(ev, Effects(w, ev))
             sim.review_goals_for(c)
+        self.welcome(yours)
+        fresh = yours + fresh
         for g in w.groups.values():
             if g["kind"] == "council":
                 for m in list(g["members"]):

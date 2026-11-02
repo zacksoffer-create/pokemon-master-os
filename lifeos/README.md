@@ -64,11 +64,23 @@ Open **My Story** in the sidebar and click **Start your story**. The setup has s
 3. **Family.** Your last name, guardians, how they parent, income and a pet (or no pet). Add siblings
    with a grade each; set "twin of" to make twins (same birthday, a twin bond).
    There are one-click buttons for an older brother who's a senior and twin sisters a year older than you.
-4. **Your people.** Friends, a crush, a rival, a coach, anyone. Each one gets the same builder, plus
-   how they feel about you (best friend, crush, rival, teammate...).
+   **Younger siblings** (6th, 7th or 8th grade) live at home in middle school and start high school as freshmen
+   1, 2 or 3 years in.
+4. **Your people.** Friends, a crush, a rival, a coach, anyone (up to 120). Each one gets the same builder, plus
+   how they feel about you (best friend, crush, rival, teammate...). **Future freshman** makes someone younger,
+   like the neighbor kid: pick **Next year**, **In 2 years** or **In 3 years** and they show up with that year's
+   freshman class, taking one of its spots.
    Anyone besides you can also get a set path for after high school, like "play basketball at UConn":
    the offer shows up senior spring and they take it. Siblings have a quick dropdown for this on their card.
-5. **The town.** How many students per grade (6–20). Generated classmates fill each grade around your people.
+5. **The town.** How many students per grade (6–40). Generated classmates fill each grade around your people.
+   Teams and casts grow with the school (past 12 a grade), so making varsity is about as hard at any size.
+   12–20 plays smoothly on a phone; past 30, a day takes a few seconds there.
+
+**Every fall, a new freshman class.** On Sept 1 everyone moves up a grade, the seniors are gone, and a freshman
+class about the size of the one that graduated comes in. The people you made for that year come in with it: it's in
+your feed ("Your little brother Sam starts at Guilford High School as a freshman."), your family and friends among
+them text you, and every relationship you set up for them (your best friend's best friend, your neighbor) starts
+that day. Until then, younger siblings show on the Home tab with their grade.
 6. **Review & start.** Check catches every problem at once. You can also download your cast as a file
    and load it again later, so you don't have to rebuild your people.
 

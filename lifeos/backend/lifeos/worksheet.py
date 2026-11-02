@@ -27,7 +27,7 @@ SECTION = PatternFill("solid", fgColor="DDEFE3")
 INPUT = PatternFill("solid", fgColor="FFFDF4")
 THIN = Side(style="thin", color="C9D6CC")
 BOX = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
-N_SIBS, N_PEOPLE = 4, 12
+N_SIBS, N_PEOPLE = 4, 30
 
 
 def _people_fields(cat: Catalogs, kind: str) -> list:
@@ -41,7 +41,11 @@ def _people_fields(cat: Catalogs, kind: str) -> list:
             ("pronouns", "Pronouns", "Optional, e.g. she/her", None),
             ("attracted_to", "Attracted to", "Any of m, f, nb, comma separated (e.g. f or m,f). Blank = generated.", None)]
     if kind != "staff":
-        rows.append(("grade", "Grade on day one", "9, 10, 11 or 12" + (" (you usually start as a freshman)" if kind == "you" else ""), ("list", ["9", "10", "11", "12"])))
+        if kind == "you":
+            rows.append(("grade", "Grade on day one", "9, 10, 11 or 12 (you usually start as a freshman)", ("list", ["9", "10", "11", "12"])))
+        else:
+            rows.append(("grade", "Grade on day one", "9, 10, 11 or 12. Younger? 8, 7 or 6: still in middle school, they start high school "
+                         "as a freshman 1, 2 or 3 years in, with that year's class.", ("list", ["9", "10", "11", "12", "8", "7", "6"])))
     rows += [("birthday", "Birthday", "Month/day, e.g. 4/12", None),
              ("archetype", "Starting type", "Fills every blank number with that type's typical values. See Reference.", ("ref", "archetypes")),
              ("bio", "A line about them", "Optional. Up to 500 characters.", None)]
@@ -116,7 +120,7 @@ def _start_sheet(ws, cat):
         ("", False),
         ("How to use it", True),
         ("1. Fill in what you know. Every blank is generated from the person's type, so a first name and a type is enough.", False),
-        ("2. 'You' is your character. 'Siblings' has a column per brother or sister (S1-S4). 'Your People' has 12 columns (P1-P12).", False),
+        ("2. 'You' is your character. 'Siblings' has a column per brother or sister (S1-S4). 'Your People' has 30 columns (P1-P30).", False),
         ("3. Dropdowns and number limits show what's allowed. The Reference tab explains every type, trait, position and college.", False),
         ("4. In the app: My Story, then Start your story, then 'Load a cast file', and pick this .xlsx. Everything lands in the builder,", False),
         ("   where you can still change anything before you start.", False),
@@ -144,7 +148,7 @@ def _story_sheet(ws, cat):
     styles = cat.people["guardian_styles"]
     rows = [("#", "STORY", "", None),
             ("title", "Story title", "e.g. The Soffer Years", None),
-            ("students_per_grade", "Students per grade", "6-20. Generated classmates fill each grade around your people.", ("num", 6, 20)),
+            ("students_per_grade", "Students per grade", "6-40. Generated classmates fill each grade around your people. 12-20 plays smoothly on a phone.", ("num", 6, 40)),
             ("gen_seed", "World seed", "Optional number. Same setup + same seed = the same town.", None),
             ("#", "YOUR FAMILY", "", None),
             ("family_last", "Family last name", "Blank = your last name", None),
@@ -210,7 +214,7 @@ def _people_sheet(ws, cat, kind, cols, ranges):
 
 
 def _extra_sheet(ws, cat, ranges):
-    ws.cell(row=1, column=1, value="Extra relationships between people in your story (not you). Use column codes: S1-S4, P1-P12.").font = Font(bold=True, color=GREEN)
+    ws.cell(row=1, column=1, value="Extra relationships between people in your story (not you). Use column codes: S1-S4, P1-P30.").font = Font(bold=True, color=GREEN)
     heads = ["From (code)", "To (code)", "Type (from 'From's side)", "Strength -40..40"]
     for j, h in enumerate(heads, 1):
         c = ws.cell(row=2, column=j, value=h)
@@ -315,7 +319,7 @@ def _person(d: dict, errors: list, where: str) -> dict | None:
         try:
             p["grade"] = int(d["grade"])
         except ValueError:
-            errors.append(f"{where}: grade should be 9-12")
+            errors.append(f"{where}: grade should be 9-12 (or 6-8 for someone who starts high school later)")
     if d.get("birthday"):
         m = re.match(r"^\s*(\d{1,2})\s*[/\-.]\s*(\d{1,2})", str(d["birthday"]))
         if hasattr(d["birthday"], "month"):
@@ -504,10 +508,10 @@ def guide_markdown(cat: Catalogs | None = None) -> str:
 PROMPT = """
 You're helping me plan the characters for my LIFE OS story, a life simulation that starts on my first day at {school} in {town} and runs seven years (high school, then college or work).
 
-Interview me one person at a time: me first, then my family (parents, siblings, a pet if we have one), then the people I want in my story (friends, a crush, rivals, coaches). For each person, ask a few natural questions about who they are, what they're into and how we know each other, then propose numbers and explain them in one line each. Push back if I make someone great at everything; real people have a couple of clear strengths and a weakness or two. Keep it conversational, not a form.
+Interview me one person at a time: me first, then my family (parents, siblings, a pet if we have one), then the people I want in my story (friends, a crush, rivals, coaches, and younger kids who'll start high school later, like a little brother or the neighbor kid). I can add as many people as I want. For each person, ask a few natural questions about who they are, what they're into and how we know each other, then propose numbers and explain them in one line each. Push back if I make someone great at everything; real people have a couple of clear strengths and a weakness or two. Keep it conversational, not a form.
 
 The fields (all optional except first names; blanks get generated):
-- first, last, gender (m/f/nb), pronouns, attracted_to (list of m/f/nb), grade (9-12 on day one), birthday [month, day], archetype (athlete, artist, scholar, socialite, loner, rebel, leader, techie, performer, caretaker, drifter), bio
+- first, last, gender (m/f/nb), pronouns, attracted_to (list of m/f/nb), grade (9-12 on day one; for a younger sibling or anyone still in middle school, 8, 7 or 6: they start high school as a freshman 1, 2 or 3 years in), birthday [month, day], archetype (athlete, artist, scholar, socialite, loner, rebel, leader, techie, performer, caretaker, drifter), bio
 - traits 0-100: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty
 - aptitudes 0-100 (natural talent): athletic, academic, creativity, technical, charisma
 - motives 0-100: achievement, approval, belonging, pleasure, altruism, mastery
@@ -521,6 +525,7 @@ The fields (all optional except first names; blanks get generated):
 
 When we're done, give me the whole thing as one JSON object in exactly this shape, in a single code block, with nothing I'd need to fix by hand:
 {"title": "...", "students_per_grade": 12, "protagonist": {...}, "family": {...}, "siblings": [{"key": "S1", ...}], "cast": [{"key": "P1", ...}]}
+students_per_grade is how many classmates each grade starts with (6-40, around my people); 12-20 plays smoothly on a phone.
 """
 
 EXAMPLE = {

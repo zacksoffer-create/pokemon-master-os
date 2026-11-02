@@ -113,6 +113,13 @@ export default function HomeTab() {
               <span className="ph-dim">{where(sib)}</span>
             </button>
           ))}
+          {(s.family.younger || []).map((y) => (
+            <div key={y.key} className="ph-fam later" title={y.starts}>
+              <Portrait look={y.look} size={58} name={y.first} />
+              <b>{y.first}</b>
+              <span className="ph-dim">{y.year_label}</span>
+            </div>
+          ))}
         </div>
         <div className="ph-card ph-trust">
           <Bar label={`How much ${parentsLabel} trust you`} value={s.family.trust} />

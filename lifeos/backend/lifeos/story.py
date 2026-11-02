@@ -18,6 +18,16 @@ from .rng import clamp, derive_seed
 from .rules import schema
 from .worldgen import Generator, _groups, _staff, initial_relationships, pronouns_for, start_gpa
 
+MAX_PER_GRADE = 40   # kids per grade the town starts with (a big school plays slower, more so on a phone)
+MAX_CAST = 120       # people you make yourself
+FUTURE_GRADES = (6, 7, 8)  # younger kids you make: they start high school as freshmen 1 to 3 years in
+
+
+def future(p: dict) -> bool:
+    """Someone you made who's still in middle school when the story starts."""
+    return p.get("role", "student") == "student" and int(p.get("grade", 9) or 9) in FUTURE_GRADES
+
+
 REL_PRESETS = {
     "twin": {"label": "Twin", "both": {"familiarity": 100, "affection": 60, "trust": 75}, "bond": "twin"},
     "sibling": {"label": "Sibling", "both": {"familiarity": 95, "affection": 42, "trust": 60}, "bond": "sibling"},
@@ -65,7 +75,7 @@ def _num(v, lo, hi, path, errors):
     return x
 
 
-def validate_person(p: dict, path: str, cat: Catalogs, errors: list, allow_staff=False):
+def validate_person(p: dict, path: str, cat: Catalogs, errors: list, allow_staff=False, allow_future=False):
     if not isinstance(p, dict):
         errors.append(f"{path} must be an object")
         return
@@ -78,8 +88,10 @@ def validate_person(p: dict, path: str, cat: Catalogs, errors: list, allow_staff
         errors.append(f"{path}: only cast members can be staff")
     if role == "student":
         g = p.get("grade", 9)
-        if g not in (9, 10, 11, 12):
-            errors.append(f"{path}: grade must be 9, 10, 11 or 12")
+        if allow_future and g in FUTURE_GRADES:
+            pass  # still in middle school: starts at the high school with a later freshman class
+        elif g not in (9, 10, 11, 12):
+            errors.append(f"{path}: grade must be 9, 10, 11 or 12" + (" (or 6, 7 or 8 for someone who starts high school later)" if allow_future else ""))
     elif role != "staff":
         errors.append(f"{path}: role must be student or staff")
     arch = p.get("archetype")
@@ -175,20 +187,20 @@ def validate_story(spec: dict) -> dict:
     if len(sibs) > 6:
         errors.append("at most 6 siblings")
     for i, s in enumerate(sibs):
-        validate_person(s, f"siblings[{i}]", cat, errors)
+        validate_person(s, f"siblings[{i}]", cat, errors, allow_future=True)
     cast = spec.get("cast") or []
-    if len(cast) > 40:
-        errors.append("at most 40 custom characters")
+    if len(cast) > MAX_CAST:
+        errors.append(f"at most {MAX_CAST} custom characters")
     keys = {"me"} | {s.get("key") for s in sibs if s.get("key")} | {c.get("key") for c in cast if c.get("key")}
     for i, c in enumerate(cast):
-        validate_person(c, f"cast[{i}]", cat, errors, allow_staff=True)
+        validate_person(c, f"cast[{i}]", cat, errors, allow_staff=True, allow_future=True)
         if c.get("role") == "staff" and c.get("coach_of") and c["coach_of"] not in ("football", "basketball", "baseball"):
             errors.append(f"cast[{i}].coach_of must be football, basketball or baseball")
         for r in c.get("relationships") or []:
             if r.get("to") not in keys:
                 errors.append(f"cast[{i}].relationships: '{r.get('to')}' isn't anyone in the story (use 'me' for you)")
     n = spec.get("students_per_grade", 12)
-    _num(n, 6, 20, "students_per_grade", errors)
+    _num(n, 6, MAX_PER_GRADE, "students_per_grade", errors)
     if errors:
         raise StoryError(errors)
     return spec
@@ -362,8 +374,13 @@ def create_story(spec: dict) -> World:
     keymap["me"] = pc.id
     sib_specs = spec.get("siblings") or []
     twins_bd = {}
+    incoming = []  # younger siblings and people you made who start high school in a later year
     for i, s in enumerate(sib_specs):
         s = dict(s)
+        if future(s):
+            incoming.append({"key": s.get("key") or f"sib{i}", "kind": "sibling", "first": s["first"].strip(), "grade": int(s["grade"]),
+                             "year": 9 - int(s["grade"]), "spec": s})
+            continue
         if s.get("twin_of") and s["twin_of"] in twins_bd and not s.get("birthday"):
             s["birthday"] = twins_bd[s["twin_of"]]
         c = build_person(w, gen, rng, s, hh)
@@ -376,7 +393,11 @@ def create_story(spec: dict) -> World:
         fam_look = appearance.resemble(c, me.get("look") or {})
         if fam_look:
             c.look = {**(c.look or {}), **fam_look}
-    for cs in spec.get("cast") or []:
+    for i, cs in enumerate(spec.get("cast") or []):
+        if future(cs):
+            incoming.append({"key": cs.get("key") or f"cast{i}", "kind": "cast", "first": cs["first"].strip(), "grade": int(cs["grade"]),
+                             "year": 9 - int(cs["grade"]), "spec": cs})
+            continue
         if cs.get("role") == "staff":
             c = build_staff(w, rng, cs)
         else:
@@ -409,6 +430,8 @@ def create_story(spec: dict) -> World:
     # the relationships the user described
     for i, s in enumerate(sib_specs):
         k = s.get("key") or f"sib{i}"
+        if k not in keymap:
+            continue  # not in high school yet: that comes when they arrive
         rtype = "twin" if s.get("twin_of") == "me" else "sibling"
         apply_relationship(w, pc.id, keymap[k], s.get("relationship", rtype) if s.get("relationship") in REL_PRESETS else rtype,
                            float(s.get("strength", 0) or 0))
@@ -448,8 +471,95 @@ def create_story(spec: dict) -> World:
     w.meta = {"generated": {"gen_seed": seed, "students": per * 4, "featured": False},
               "protagonist": pc.id, "story": {"title": spec.get("title") or f"The {last} Years", "start_day": 0, "years": 7,
                                               "spec": spec, "keys": keymap},
-              "control": {"focus": "balanced", "ask_invites": False, "ask_romance": True, "stop_before_games": True, "stop_on_big": True}}
+              "control": {"focus": "balanced", "ask_invites": False, "ask_romance": True, "stop_before_games": True, "stop_on_big": True},
+              "incoming": incoming}
+    _scale_rosters(w, per)
     return w
+
+
+def _scale_rosters(w, per: int):
+    """A bigger school has bigger teams and casts, so making the team is about as hard as it is at 12 kids a grade."""
+    k = max(1.0, per / 12)
+    if k == 1.0:
+        return
+    for g in w.groups.values():
+        if g.get("school") == "hchs" and g["kind"] in ("team", "production"):
+            g["capacity"] = round(g["capacity"] * k)
+            if g.get("jv_capacity"):
+                g["jv_capacity"] = round(g["jv_capacity"] * k)
+
+
+def incoming_view(w) -> list:
+    """The people you made who aren't in high school yet, for the phone and the lab."""
+    from . import calendar as calm
+    y = calm.school_year_of(w.day)
+    out = []
+    for x in w.meta.get("incoming", []):
+        if x.get("arrived") is not None:
+            continue
+        n = x["year"] - y
+        grade = 9 - n if n > 0 else 8
+        out.append({"key": x["key"], "kind": x["kind"], "first": x["first"], "gender": x["spec"].get("gender"),
+                    "grade": grade, "year_label": f"{grade}th grade", "years": n,
+                    "starts": "Starts high school next fall" if n <= 1 else f"Starts high school in {n} years",
+                    "look": x["spec"].get("look") or {}, "color": x["spec"].get("color")})
+    return out
+
+
+def arrive(sim, year: int) -> list:
+    """Sept 1: the people you made who were still in middle school start high school with this freshman class."""
+    from .worldgen import Generator, initial_relationships
+    w = sim.w
+    due = [x for x in w.meta.get("incoming", []) if x["year"] <= year and x.get("arrived") is None]
+    if not due:
+        return []
+    gen = Generator(w.gen_seed)
+    gen.used_names = {(c.first, c.last) for c in w.chars.values()}
+    gen.used_last = {h["last"] for h in w.households.values()}
+    rng = gen.streams.get("gen", "arrivals", year)
+    st = w.meta.setdefault("story", {})
+    keys = st.setdefault("keys", {})
+    spec = st.get("spec") or {}
+    pc = w.chars.get(w.meta.get("protagonist") or "")
+    built = []
+    for x in due:
+        s = dict(x["spec"])
+        hk = s.get("household")
+        if x["kind"] == "sibling" and pc and pc.household_id in w.households:
+            h = w.households[pc.household_id]
+        elif hk in keys and w.chars[keys[hk]].household_id in w.households:
+            h = w.households[w.chars[keys[hk]].household_id]
+        else:
+            h = gen.household(w, rng, last=(s.get("last") or None))
+        c = build_person(w, gen, rng, dict(s, grade=9), h, day=w.day)
+        c.birth_day = _birth_day(int(s["grade"]), s.get("birthday"), rng)
+        if s.get("twin_of") in keys and s["twin_of"] != "me":
+            c.birth_day = w.chars[keys[s["twin_of"]]].birth_day
+        if x["kind"] == "sibling":
+            fam_look = appearance.resemble(c, (spec.get("protagonist") or {}).get("look") or {})
+            if fam_look:
+                c.look = {**(c.look or {}), **fam_look}
+        keys[x["key"]] = c.id
+        x["arrived"], x["id"] = w.day, c.id
+        built.append((x, c))
+    initial_relationships(gen, w, gen.streams.get("gen", "arrival-rels", year), day=w.day, only={c.id for _, c in built})
+    new = {x["key"] for x, _ in built}
+    for x, c in built:
+        s = x["spec"]
+        if x["kind"] == "sibling" and pc:
+            apply_relationship(w, pc.id, c.id, s["relationship"] if s.get("relationship") in REL_PRESETS else "sibling",
+                               float(s.get("strength", 0) or 0), day=w.day)
+        if s.get("twin_of") in keys and s["twin_of"] != "me":
+            apply_relationship(w, c.id, keys[s["twin_of"]], "twin", day=w.day)
+    # the relationships you described that involve someone who just arrived, in either direction
+    people = [("me", spec.get("protagonist") or {})] + [(s.get("key") or f"sib{i}", s) for i, s in enumerate(spec.get("siblings") or [])] \
+        + [(s.get("key") or f"cast{i}", s) for i, s in enumerate(spec.get("cast") or [])]
+    for k, s in people:
+        for r in s.get("relationships") or []:
+            a, b = keys.get(k), keys.get(r.get("to"))
+            if a and b and a != b and (k in new or r.get("to") in new) and r.get("type") in REL_PRESETS:
+                apply_relationship(w, a, b, r["type"], float(r.get("strength", 0) or 0), day=w.day)
+    return [c for _, c in built]
 
 
 def begin(sim):
@@ -577,7 +687,7 @@ def summary(sim, char_summary, rel_view, ev_out) -> dict:
         "date": calm.label(w.day), "term": calm.term_label(w.day, cal),
         "household": h and {k: h.get(k) for k in ("name", "guardians", "style_label", "income", "pet")},
         "family": fam, "people": [x for _, x in people[:16]],
-        "teams": teams, "seasons": seasons, "career": career(c), "awards": c.awards[::-1],
+        "teams": teams, "seasons": seasons, "career": career(c), "awards": c.awards[::-1], "incoming": incoming_view(w),
         "recruiting": {"offers": c.recruiting.get("offers", []), "admits": c.recruiting.get("admits", []),
                        "score": c.recruiting.get("score", {}),
                        "lost_offers": c.recruiting.get("lost_offers", []),

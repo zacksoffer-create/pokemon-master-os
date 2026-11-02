@@ -419,6 +419,7 @@ html.ph-html body { color-scheme: light; }
 }
 .ph-fam b { font-size: 14px; }
 .ph-fam .ph-dim { font-size: 11.5px; font-weight: 700; line-height: 1.2; }
+.ph-fam.later { opacity: 0.8; }
 .ph-fam-parent {
   width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-family: var(--ph-head); font-weight: 600; font-size: 24px;
   color: #fff; background: linear-gradient(135deg, #f0a35e, #e0725b); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.1);

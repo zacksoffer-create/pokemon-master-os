@@ -52,7 +52,7 @@ export const TRAITS = ["sociability", "confidence", "discipline", "ambition", "i
 export const APTS = ["athletic", "academic", "creativity", "technical", "charisma"];
 export const MOTIVES = ["achievement", "approval", "belonging", "pleasure", "altruism", "mastery"];
 export const SPORTS = ["football", "basketball", "baseball"];
-export const GRADE_LABEL: Record<number, string> = { 9: "Freshman", 10: "Sophomore", 11: "Junior", 12: "Senior" };
+export const GRADE_LABEL: Record<number, string> = { 6: "6th grade", 7: "7th grade", 8: "8th grade", 9: "Freshman", 10: "Sophomore", 11: "Junior", 12: "Senior" };
 export const COLORS = ["#57d9c3", "#6bb6ff", "#9b8cff", "#c08cff", "#ff8fc7", "#ff6b81", "#ff9a62", "#ffb547", "#f4d35e", "#b5e48c", "#66d98f", "#4fc3f7"];
 
 export const TRAIT_WORDS: Record<string, [string, string]> = {
@@ -626,7 +626,7 @@ function Basics({ p, set, cat, mode }: { p: Person; set: (x: Partial<Person>) =>
       </Field>
       {!staff && (
         <Field label={mode === "protagonist" ? "Grade on the first day" : "Grade"} wide hint={mode === "protagonist" ? "The story starts on the first day of the school year. Freshman gives you all four years." : undefined}>
-          <Seg value={p.grade || 9} options={[9, 10, 11, 12].map((g) => [g, <span key={g}><b>{g}</b> {GRADE_LABEL[g]}</span>])} onChange={(v) => set({ grade: v })} />
+          <Seg value={p.grade || 9} options={(mode === "protagonist" ? [9, 10, 11, 12] : [9, 10, 11, 12, 8, 7, 6]).map((g) => [g, <span key={g}><b>{g}</b> {g < 9 ? `starts in ${9 - g}y` : GRADE_LABEL[g]}</span>])} onChange={(v) => set({ grade: v })} />
         </Field>
       )}
       {staff && (
