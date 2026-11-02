@@ -21,7 +21,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from . import calendar as calm
-from . import classgames, metrics, pets
+from . import metrics, pets
 from .catalogs import ATTRIBUTE_DOCS, CatalogError, Catalogs
 from .engine import EditError, Simulation
 from .experiments import PRESETS, Runner, validate_spec
@@ -181,8 +181,8 @@ class Lab:
                 while True:
                     with self.lock:
                         pend = moments.pending(w)
-                        if pend and until != "decision" and all(m["kind"] in classgames.LIGHT for m in pend):
-                            for m in pend:  # skipping ahead: your character takes the quick class game themselves
+                        if pend and until != "decision" and all(moments.light(m["kind"]) for m in pend):
+                            for m in pend:  # skipping ahead: your character plays the class game or the night themselves
                                 moments.resolve(sim, m["id"], None)
                             pend = []
                         if pend:

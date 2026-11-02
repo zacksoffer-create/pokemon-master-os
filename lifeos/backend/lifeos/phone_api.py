@@ -176,8 +176,10 @@ def phone_state(since: int | None = None):
             if m["kind"] in sim.cat.moments and (sim.cat.moments[m["kind"]].get("scene") or sim.cat.moments[m["kind"]].get("beat_of")):
                 from . import dialogue
                 mm["storyline"] = dialogue.chapter_label(sim, m["kind"])  # "Hoops with my brother · Chapter 2 of 5"
-            from . import episodes
+            from . import episodes, nights
             mm["episode_label"] = episodes.label(m)  # "Season 2 · Episode 6"
+            if nights.is_night(m["kind"]):
+                mm["storyline"] = nights.label(m)  # "Mike's party · 2 of 4"
             pend.append(mm)
         evs = w.history.by_char.get(me.id, [])
         feed = []

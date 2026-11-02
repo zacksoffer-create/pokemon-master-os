@@ -306,6 +306,35 @@ What's in it:
   Their answer depends on how they parent, money at home, your grades and how much they trust you.
 - **Me.** Your stats, grades, teams, the seven-year timeline, your focus and when the story should stop to ask you.
 
+## Big nights (parties and dances)
+
+Going to a party, throwing one, or going to Homecoming, the Snow Ball or prom isn't one tap anymore. The night plays out as
+four short scenes on the Story tab ("Mike's party · 2 of 4"), built around who actually showed up:
+
+- **The opening:** walking in (find your friend, work the room and meet people, go looking for your crush, people-watch),
+  hosting your own (play host, let your friend run the door, guard the furniture), or getting ready for a dance (photos
+  with your date and your family, or the whole group crammed into one room).
+- **Two things in the middle**, picked from who's there:
+  - **Who do you end up with?** your crush, your partner or date, your friend, your rival, or someone new;
+  - **Cups on the table** (you play cup pong; beer pong in college);
+  - **Your crush alone on the porch** (talk, and maybe kiss, and maybe it turns into dating);
+  - **Your rival** looking for trouble (laugh it off, get in their face, walk away);
+  - **Two people about to fight** (step in, film it, stay out of it);
+  - **A secret:** someone pulls you into the hallway with a real crush ("Jordan has a thing for you. Like, a real
+    thing."); keep it, spread it, or dig;
+  - **Your partner** talking to someone else a little too long (join them, trust it, pull them aside).
+  - At a dance it's always **the dance-off** (you play it: tap on the beat), and with a date or your crush there,
+    **the slow song**.
+- **The end of the night:** the after-party (sometimes the kitchen light is on when you sneak in), a ride home with your
+  friend, walking your crush or your date home. If the cops show up, that's how it ends: run, act normal, or help the host
+  hide everything.
+- **It does real things:** people you meet get your number, friendships and crushes move, a great moment can become a
+  kiss and a kiss can become dating (and a rumor), a bust or a missed curfew means your parents find out.
+- **The recap:** "Your night: stuck with Danny, won at cups, laughed off Cole, and hit the after-party." It's saved as a
+  memory, and the night is one episode in your episode guide.
+- Skipping ahead? Your character plays the night for you.
+- Writers: every scene, choice and line is in `backend/data/nights.json`.
+
 ## The editor (change anyone, anything)
 
 For setting your world up exactly how you want it, or fixing something later. It's **on when a story starts**, and

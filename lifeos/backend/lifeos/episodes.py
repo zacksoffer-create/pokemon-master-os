@@ -52,7 +52,7 @@ def on_trigger(sim, m):
     """A moment just started: if it's an episode (or the next beat of one), number it, and say what happened last time."""
     w = sim.w
     kind = m["kind"]
-    if not counts(kind):
+    if not counts(kind) or (sim.cat.moments.get(kind) or {}).get("no_episode"):
         return
     root = _root(sim, kind)
     eps = log(w)
@@ -81,6 +81,11 @@ def on_resolve(sim, m, ch, ev):
     """You made a call in an episode: remember it for the guide and for next time's 'Previously'."""
     w = sim.w
     if not counts(m["kind"]):
+        return
+    if (sim.cat.moments.get(m["kind"]) or {}).get("no_episode"):  # the rest of a night out: still that episode
+        e = next((x for x in reversed(log(w)) if x["kind"].startswith("night_") and x["day"] >= w.day - 1), None)
+        if e:
+            e["choices"].append(ch["label"])
         return
     root = _root(sim, m["kind"])
     e = next((x for x in reversed(log(w)) if x["kind"] == root), None)

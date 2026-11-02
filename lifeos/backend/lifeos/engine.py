@@ -236,7 +236,7 @@ class Simulation:
             if after_draft and not waiting:
                 self.moment_trigger("story_end", prot, {})
         for m in moments.pending(w):
-            if w.day - m["day"] >= (1 if m["kind"] in ("game_day", "class_game") else 3):
+            if w.day - m["day"] >= (1 if m["kind"] in ("game_day", "class_game") or m["kind"].startswith("night_") else 3):
                 moments.resolve(self, m["id"], None)
         from . import dialogue
         dialogue.maybe_scene(self)  # scenes from dialogue packs

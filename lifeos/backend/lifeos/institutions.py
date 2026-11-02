@@ -833,8 +833,11 @@ class Institutions:
         sim.attach_traces(ev, came)
         sim.finish(ev, fx)
         done = set()
+        prot = w.meta.get("protagonist")
         for a in came:
             b = dates.get(a)
+            if prot in (a, b):
+                continue  # you play your own night (nights.py)
             if b and b in came and (b, a) not in done and a < b:
                 done.add((a, b))
                 e2 = self.event("dance", "moment", [a], [b], importance=24, data={"event": it["name"]})
@@ -861,11 +864,14 @@ class Institutions:
             ambient(sim, fx3, a, b, q, it["name"])
         for cid in singles:
             c = w.chars[cid]
-            if c.traits["sociability"] < 35 and rng.random() < 0.5:
+            if c.traits["sociability"] < 35 and rng.random() < 0.5 and cid != prot:
                 e4 = self.event("dance", "alone", [cid], importance=10, data={"event": it["name"]})
                 f4 = Effects(w, e4)
                 f4.mood(cid, -4, "wallflower")
                 sim.finish(e4, f4)
+        if prot in came:
+            from . import nights
+            nights.start(sim, "dance", it["key"], it["name"], came, date=dates.get(prot))
 
     def party(self, key, rng):
         sim = self.sim
@@ -902,9 +908,12 @@ class Institutions:
         sim.finish(ev, fx)
         # incidents
         incidents = 0
+        prot = w.meta.get("protagonist")
         for a, b in pairs:
             if incidents >= 2:
                 break
+            if prot in (a, b):
+                continue  # your night is yours to play (nights.py)
             ra, rb = w.rels.get((a, b)), w.rels.get((b, a))
             if not ra or not rb:
                 continue
@@ -939,6 +948,9 @@ class Institutions:
                 sim.finish(e3, f3)
         pb = clamp(0.06 + 0.02 * (len(came) - 6), 0.02, 0.4)
         roll = rng.random()
+        if prot in came:
+            from . import nights
+            nights.start(sim, "party", key, "Your party" if prot == host else f"{H.first}'s party", came, host=host, busted=roll < pb)
         if roll < pb:
             e5 = self.event("party", "busted", [host], came, importance=36, data={})
             e5["causes"] = [ev["id"]] if ev.get("id") else []
@@ -946,7 +958,7 @@ class Institutions:
             f5 = Effects(w, e5)
             sim.schedule(w.day + 1, "parents_find_out", {"char": host, "what": "throwing a party that got busted"}, e5.get("id"))
             for cid in came:
-                if cid != host and rng.random() < 0.3:
+                if cid != host and rng.random() < 0.3 and cid != prot:  # (yours plays out in your night)
                     sim.schedule(w.day + 1, "parents_find_out", {"char": cid, "what": "being at a busted party"}, e5.get("id"))
             f5.rep(host, "troublemaker", 5, "busted party")
             sim.finish(e5, f5)

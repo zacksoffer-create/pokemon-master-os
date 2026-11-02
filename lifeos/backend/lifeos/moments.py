@@ -38,6 +38,11 @@ def control(w) -> dict:
     return c
 
 
+def light(kind: str) -> bool:
+    """Moments a skip-ahead doesn't stop for: your character just plays them (class games, a night out)."""
+    return kind == "class_game" or kind.startswith("night_")
+
+
 def pending(w) -> list:
     return [m for m in w.meta.get("moments", []) if m["status"] == "pending"]
 
@@ -86,6 +91,9 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
         ctx["paths"] = opts
         for i, o in enumerate(opts):
             choices.append({"label": o["label"], "hint": "", "ops": [["path", i]], "fits": {}})
+    elif spec.get("dynamic") == "night_people":  # tonight: the people here who matter to you, and someone new
+        from . import nights
+        choices = nights.people_choices(sim, c, ctx)
     else:
         for ch in spec["choices"]:
             req = ch.get("requires")
@@ -366,6 +374,9 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                     _rejected(sim, w.chars[other], c.id, ev, fx, rng, {"slot": "after_school"}, dance=bool(ctx.get("dance_key")))
         elif kind == "beat":
             sim.moment_trigger(op[1], c.id, {k: v for k, v in ctx.items() if not k.startswith("_")})  # the scene keeps going
+        elif kind == "night":
+            from . import nights
+            nights.op(sim, c, op, ctx, fx, ev, rng, m, lambda s: _render(s, names))
         elif kind == "vibe":
             from . import hangouts
             hangouts.vibe(sim, c, op, ctx, fx, ev, rng, m, lambda s: _render(s, names))
