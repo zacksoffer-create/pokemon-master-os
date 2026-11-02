@@ -25,12 +25,14 @@ export type PhoneState = {
   family: { name: string; guardians: { id: string; name: string; full: string }[]; siblings: { id: string; first: string; year_label: string; location: string; look: Look; path: any }[];
     younger?: { key: string; first: string; year_label: string; starts: string; look: Look }[]; style: string; trust: number };
   teams: { id: string; name: string; sport: string; record: { w: number; l: number }; mine?: { w: number; l: number }; level: string; position: string }[];
+  squad?: { name: string; members: { id: string; first: string; look: Look }[]; cohesion: number; last: string | null;
+    plan: { label: string; when: string; joined: boolean } | null; jokes: string[] } | null;
   control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean };
   setting: { town: string; school: string; short: string; mascot: string };
 };
 export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string;
   group?: "should" | "want" | "could"; reason?: string; later?: string | null; gut?: boolean; key?: string; crew?: string[];
-  section?: "people" | "solo" | "out" | "trouble" };
+  section?: "people" | "solo" | "out" | "trouble"; act?: string; who?: string };
 export type DaySlot = { phase: string; label: string; icon: string; state: "done" | "now" | "later"; note: string; decide: boolean; kind?: string; plan?: string };
 export type PlateItem = { id: string; kind: string; icon: string; title: string; sub: string; go?: string; cta?: string };
 export type WeekDay = { n: number; dow: string; num: number; date: string; school: boolean; items: { icon: string; label: string; kind: string }[] };
@@ -61,7 +63,8 @@ export type ClassesView = { gpa: number; year: string; classes: ClassRow[]; upco
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[] }> => api.get("/api/phone/choices"),
-  choose: (index: number, crew?: string[]): Promise<{ lines: Line[]; chips: Chip[] }> => api.post("/api/phone/choose", crew ? { index, crew } : { index }),
+  choose: (index: number, crew?: string[], act?: string): Promise<{ lines: Line[]; chips: Chip[] }> =>
+    api.post("/api/phone/choose", crew ? { index, crew, act } : { index }),
   today: (): Promise<Today> => api.get("/api/phone/today"),
   later: (index: number): Promise<{ queued: string; note: string }> => api.post("/api/phone/later", { index }),
   moment: (id: string, index: number | null, extra: Record<string, any> = {}): Promise<{ lines: Line[]; chips: Chip[]; minigame?: any }> =>

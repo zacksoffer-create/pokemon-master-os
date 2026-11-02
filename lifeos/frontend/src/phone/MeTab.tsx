@@ -75,6 +75,26 @@ export default function MeTab() {
           <Bar label="Fun" value={me.needs?.fun ?? 0} tone="sun" />
         </div>
 
+        {s.squad && (
+          <div className="ph-card ph-squad">
+            <div className="ph-card-t row">
+              <span>{s.squad.name[0].toUpperCase() + s.squad.name.slice(1)}</span>
+              <span className="ph-dim">{s.squad.last ? `together ${s.squad.last}` : "your group"}</span>
+            </div>
+            <div className="ph-squad-faces">
+              {s.squad.members.map((m) => (
+                <span key={m.id}><Portrait look={m.look} size={46} name={m.first} /><small>{m.first}</small></span>
+              ))}
+            </div>
+            <Bar label="How tight you are" value={s.squad.cohesion} tone="grape" />
+            {s.squad.plan && (
+              <p className="ph-squad-plan">{s.squad.plan.joined ? "You went: " : "Today: "}{s.squad.plan.label.toLowerCase()} {s.squad.plan.when}</p>
+            )}
+            {s.squad.jokes.length > 0 && <p className="ph-dim small">Inside jokes: {s.squad.jokes.join(" · ")}</p>}
+            <p className="ph-dim small">Nothing to manage. They show up in your free time, and their group chat never needs an answer.</p>
+          </div>
+        )}
+
         {s.teams.length > 0 && (
           <div className="ph-card">
             <div className="ph-card-t">Your teams</div>

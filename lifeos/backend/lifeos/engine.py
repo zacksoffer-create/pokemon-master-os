@@ -160,6 +160,9 @@ class Simulation:
         from . import college, pets
         college.daily(self)
         pets.dawn(self)
+        if w.meta.get("protagonist"):
+            from . import squad
+            squad.dawn(self)  # your group might make plans for later
         rng = self.streams.get("dawn", w.day)
         due = [s for s in w.schedule if s["day"] <= w.day]
         w.schedule = [s for s in w.schedule if s["day"] > w.day]
@@ -323,6 +326,9 @@ class Simulation:
                 self.institutions.graduation(it)
         from . import pets
         pets.night(self)
+        if self.w.meta.get("protagonist"):
+            from . import squad
+            squad.night(self)
         if "phone" in w.meta:
             from . import messages
             messages.pregame(self)

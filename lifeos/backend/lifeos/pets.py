@@ -40,17 +40,19 @@ TRICKS = {"dog": ["sit", "shake", "lie down", "roll over", "high five", "play de
           "cat": ["come when called", "high five", "sit"],
           "rabbit": ["come when called", "spin"]}
 ACTIVITIES = {
-    # quick: happen right away, limited per day
+    # everything with your pet is a quick tap: it happens right away, a few times a day, and never uses up your free time
+    # ("action" is what everyone else in the house does with a free part of their day)
+    "feed": {"label": "Feed", "quick": True, "per_day": 2},
+    "walk": {"label": "Go for a walk", "quick": True, "per_day": 2, "action": "pet_walk", "species": ["dog"]},
+    "play": {"label": "Play", "quick": True, "per_day": 2, "action": "pet_play"},
     "cuddle": {"label": "Cuddle", "quick": True, "per_day": 3},
     "treat": {"label": "Give a treat", "quick": True, "per_day": 3},
-    "feed": {"label": "Feed", "quick": True, "per_day": 2},
+    "park": {"label": "Take to the park", "quick": True, "per_day": 1, "action": "pet_park", "species": ["dog"]},
+    "train": {"label": "Teach a trick", "quick": True, "per_day": 1, "action": "pet_train"},
     "brush": {"label": "Brush", "quick": True, "per_day": 1},
-    # timed: use a free part of the day (a real action in the simulation)
-    "walk": {"label": "Go for a walk", "action": "pet_walk", "species": ["dog"]},
-    "park": {"label": "Take to the park", "action": "pet_park", "species": ["dog"]},
-    "play": {"label": "Play", "action": "pet_play"},
-    "train": {"label": "Teach a trick", "action": "pet_train"},
+    "clean": {"label": "Clean up", "quick": True, "per_day": 1},
 }
+CLEAN = {"dog": ("bath", "Give a bath"), "cat": ("litter", "Clean the litter box"), "rabbit": ("cage", "Clean the cage")}
 OWNERS = ("me", "parents", "rotate")
 
 
@@ -365,9 +367,13 @@ def quick(sim, pid, activity):
     if not spec or not spec.get("quick"):
         raise ValueError("that isn't a quick thing to do")
     used = pet["today"].get(f"q:{activity}", 0)
+    if spec.get("species") and pet["species"] not in spec["species"]:
+        raise ValueError(f"You can't really {spec['label'].lower()} with a {pet['species']}.")
     if used >= spec["per_day"]:
         raise ValueError({"treat": f"{pet['name']} has had enough treats today.", "cuddle": f"{pet['name']} has been cuddled plenty today.",
-                          "feed": f"{pet['name']} has eaten.", "brush": "Already brushed today."}[activity])
+                          "feed": f"{pet['name']} has eaten.", "brush": "Already brushed today.", "walk": f"{pet['name']} is walked out for today.",
+                          "park": "One park trip a day is plenty.", "play": f"{pet['name']} is tired out. Tomorrow.",
+                          "train": f"{pet['name']} has learned enough for one day.", "clean": "Already done today."}[activity])
     pet["today"][f"q:{activity}"] = used + 1
     he, his = pronoun(pet)
     ev = sim.new_event("pet", activity, [prot], [], 6, {"label": pet["name"]})
@@ -401,6 +407,19 @@ def quick(sim, pid, activity):
         if "brush" in SPECIES[pet["species"]]["duties"] and not pet["today"].get("brush"):
             pet["today"]["brush"] = prot
         ev["text"] = f"You brushed {pet['name']}. There is now enough fur on the floor to build a second {pet['species']}."
+    elif activity == "clean":
+        duty, label = CLEAN[pet["species"]]
+        if duty in SPECIES[pet["species"]]["duties"] and pet["today"].get(duty):
+            pet["today"][f"q:{activity}"] = used
+            raise ValueError("Already done today.")
+        _do_duty(sim, pet, duty, prot)
+        ev["text"] = {"bath": f"You gave {pet['name']} a bath. You are now wetter than {he} is.",
+                      "litter": "You cleaned the litter box. Nobody thanked you. Somebody should.",
+                      "cage": f"You cleaned {pet['name']}'s cage. {he.capitalize()} immediately kicked hay everywhere."}[duty]
+    else:  # walks, the park, playing, training: quick now, the same as when they took up your afternoon
+        rng = sim.streams.get("pet-quick", w.day, pid, activity, used)
+        ev["type"] = "pet_" + activity
+        _timed(sim, c, pet, activity, ev, fx, rng)
     sim.finish(ev, fx)
     return {"text": ev["text"], "pet": view(sim, pet)}
 
@@ -414,6 +433,11 @@ def timed_resolve(sim, c, cand, ev, fx, rng, ctx):
     if pet is None:
         ev["outcome"] = "no_pet"
         return
+    _timed(sim, c, pet, kind, ev, fx, rng, (cand.extra or {}).get("trick"))
+
+
+def _timed(sim, c, pet, kind, ev, fx, rng, trick=None):
+    w = sim.w
     he, his = pronoun(pet)
     you = c.id == w.meta.get("protagonist")
     name = "You" if you else c.short
@@ -449,7 +473,7 @@ def timed_resolve(sim, c, cand, ev, fx, rng, ctx):
                       "rabbit": f"{name} built {pet['name']} an obstacle course out of shoe boxes."}[pet["species"]]
     elif kind == "train":
         tricks = TRICKS[pet["species"]]
-        target = (cand.extra or {}).get("trick")
+        target = trick
         learning = [t for t in tricks if pet["tricks"].get(t, 0) < 100]
         if target not in learning:
             target = learning[0] if learning else tricks[-1]
@@ -479,13 +503,15 @@ def _park_meeting(sim, c, pet, place, ev, fx, rng):
     w = sim.w
     if rng.random() > 0.45:
         return
+    busy = sim.slot.engaged if sim.slot is not None else {}
     pool = [o for o in w.chars.values() if o.id != c.id and o.status == "active" and o.role == "student" and o.location == c.location
-            and o.id not in sim.slot.engaged and o.id not in (w.households.get(c.household_id) or {}).get("members", [])]
+            and o.id not in busy and o.id not in (w.households.get(c.household_id) or {}).get("members", [])]
     if not pool:
         return
     pool.sort(key=lambda o: o.id)
     o = pool[int(rng.random() * len(pool))]
-    sim.engage(o.id, c.id) if hasattr(sim, "engage") else None
+    if sim.slot is not None:
+        sim.engage(o.id, c.id)
     r = w.ensure_rel(c.id, o.id, w.day)
     met = r.familiarity > 5
     ev["targets"] = [o.id]
@@ -537,8 +563,8 @@ def view(sim, pet) -> dict:
             "tricks": [{"name": t, "progress": round(pet["tricks"].get(t, 0))} for t in TRICKS[pet["species"]]],
             "duties": duties, "setup_needed": setup_needed(w, pet["id"]), "streak": pet["streaks"].get("me", 0),
             "quick_left": {a: ACTIVITIES[a]["per_day"] - pet["today"].get(f"q:{a}", 0) for a, s in ACTIVITIES.items() if s.get("quick")},
-            "activities": [{"id": a, "label": s["label"], "quick": bool(s.get("quick"))} for a, s in ACTIVITIES.items()
-                           if not s.get("species") or pet["species"] in s["species"]],
+            "activities": [{"id": a, "label": CLEAN[pet["species"]][1] if a == "clean" else s["label"], "quick": True}
+                           for a, s in ACTIVITIES.items() if not s.get("species") or pet["species"] in s["species"]],
             "adopted": calm.label(pet["adopted"])}
 
 

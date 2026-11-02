@@ -195,8 +195,13 @@ def r_interact(sim, c, cand, ev, fx, rng, ctx):
             return
         sim.engage(b, c.id)
     sim.engage(c.id, b)
+    act = None
+    if kind == "hang_out" and c.id == w.meta.get("protagonist"):
+        from . import squad
+        act = squad.pending_act(sim)  # the group thing you picked: the boys on the game, the park, a food run
     if p.get("place"):
-        place = pick_place(sim, c.id, b, rng)
+        from . import squad
+        place = squad.place_for(sim, act, b) if act else pick_place(sim, c.id, b, rng)
         ev["data"]["place"] = place["name"]
         if place["cost"]:
             fx.money(c.id, -place["cost"], place["name"])
@@ -211,6 +216,9 @@ def r_interact(sim, c, cand, ev, fx, rng, ctx):
     crew = []
     if kind == "hang_out" and c.id == w.meta.get("protagonist"):
         crew = _bring_crew(sim, c, b, p, ev, fx, rng)
+        if act:
+            from . import squad
+            squad.after(sim, c, b, crew, act, ev, fx, rng)
     if kind in ("flirt", "date", "hang_out") and c.id == w.meta.get("protagonist"):
         from .chat import why_interact
         why = why_interact(res["terms"], True)  # say why it went the way it did, in words
@@ -219,7 +227,7 @@ def r_interact(sim, c, cand, ev, fx, rng, ctx):
         # a hangout you picked plays out: a quick scene with one choice
         if kind in ("date", "hang_out") and res["outcome"] != "bad" and sim.slot.planned.get(c.id, {}).get("player"):
             from . import hangouts
-            hangouts.maybe_scene(sim, c.id, b, hangouts.kind_for(sim, c.id, b, kind, crew), crew, ev["data"].get("place"))
+            hangouts.maybe_scene(sim, c.id, b, hangouts.kind_for(sim, c.id, b, kind, crew), crew, ev["data"].get("place"), act=act)
     if kind == "flirt":
         _flirt_side_effects(sim, c, b, res, ev, fx, rng, ctx)
     if kind == "support":
@@ -234,7 +242,8 @@ def _backup_friend(sim, c, b, cand, rng, ev):
     for o, r in w.out.get(c.id, {}).items():
         x = w.chars.get(o)
         if (o == b or not x or x.status != "active" or x.role not in ("student", "alumni") or x.location != c.location
-                or r.affection < 25 or o in sim.slot.engaged or o in sim.slot.done or o in sim.siblings(c.id)):
+                or r.affection < 25 or o in sim.slot.engaged or o in sim.slot.done or o in sim.siblings(c.id)
+                or sim.committed(o, sim.slot.slot)):
             continue
         cands.append((0 if o in crew else 1, -r.affection, o))  # the crew you asked steps up first
     for _, _, o in sorted(cands)[:3]:
@@ -254,7 +263,8 @@ def _bring_crew(sim, c, b, p, ev, fx, rng):
     came = []
     for o in ask.get("ids", []):
         x = w.chars.get(o)
-        if o in (b, c.id) or not x or x.status != "active" or x.location != c.location or o in sim.slot.engaged:
+        if o in (b, c.id) or not x or x.status != "active" or x.location != c.location or o in sim.slot.engaged \
+                or sim.committed(o, sim.slot.slot):  # they're at practice
             continue
         if o not in sim.slot.done and sim.slot.planned.get(o):
             sim.cancel_plan(o, f"went with {c.short} and the crew")

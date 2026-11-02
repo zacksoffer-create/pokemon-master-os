@@ -198,7 +198,16 @@ def plate(sim, me) -> list:
         for d in v["duties"]:
             if d["due"] and d["today"] == me.id and not d["done"]:
                 items.append({"id": f"pet:{p['id']}:{d['id']}", "kind": "pet", "icon": "paw", "title": CHORE.get(d["id"], "{pet}: " + d["label"].lower()).format(pet=p["name"]),
-                              "sub": f"Your chore today{(' · ' + d['when']) if d.get('when') else ''}", "go": "home", "cta": "Go", "rank": 1})
+                              "sub": f"Your chore today. A quick tap on Home, it doesn't use up your time", "go": "home", "cta": "Do it", "rank": 1})
+    # your group's plans for later today (yours to join or skip)
+    from . import squad
+    sp = squad.plan(sim)
+    if sp and not sp.get("joined"):
+        sq = squad.state(sim)
+        when = {"evening": "tonight", "after_school": "after school", "day": "today"}.get(sp["slot"], "later")
+        items.append({"id": f"squad:{w.day}", "kind": "people", "icon": "people",
+                      "title": f"{sq['name'].capitalize()}: {squad.label(sim, sp['act'], sq).split(' with ')[0].lower()} {when}",
+                      "sub": "It'll be in your choices then. Join or skip, no pressure", "rank": 3})
     # tests, games, tryouts and dances coming right up
     for c in _calendar(sim, me, 0, 3, upcoming=True):
         when = _when(c["n"], w.day)

@@ -43,7 +43,7 @@ def test_family_dog_is_a_real_pet_with_a_one_time_chore_setup():
     assert "family" in messages.phone(w)["threads"]
 
 
-def test_pet_menu_quick_and_timed_activities():
+def test_pet_menu_everything_is_a_quick_tap():
     w, sim = story()
     pid = next(iter(pets.pets(w)))
     out = pets.quick(sim, pid, "treat")
@@ -52,14 +52,14 @@ def test_pet_menu_quick_and_timed_activities():
         pets.quick(sim, pid, "treat")
     with pytest.raises(ValueError):
         pets.quick(sim, pid, "treat")
-    q = pets.queue(sim, pid, "park")
-    assert w.meta["control"]["queued"]["action"] == "pet_park"
+    # the park (and walks, play, training) are quick taps now: they happen right away and never use up your free time
     p = w.meta["protagonist"]
-    for _ in range(40):
-        if "queued" not in w.meta.get("control", {}):
-            break
-        sim.step()
+    day, phase = w.day, w.phase
+    out = pets.quick(sim, pid, "park")
+    assert out["text"] and (w.day, w.phase) == (day, phase)
     assert any(e["type"] == "pet_park" and p in e["actors"] for e in w.history.events.values())
+    with pytest.raises(ValueError):
+        pets.queue(sim, pid, "park")  # nothing to plan for later anymore
 
 
 def test_asking_for_a_pet_and_adopting_one():

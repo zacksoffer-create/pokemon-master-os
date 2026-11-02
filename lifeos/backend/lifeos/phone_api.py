@@ -124,6 +124,11 @@ def phrase(sim, opt) -> str:
     return tmpl.format(f=first, t=tname or "it")
 
 
+def squad_view(sim):
+    from . import squad
+    return squad.view(sim)
+
+
 def chat_vibe(sim, cid):
     from . import chat
     return chat.vibe(sim, cid)
@@ -195,7 +200,7 @@ def phone_state(since: int | None = None):
             "me": dict(A.char_summary(L, me), age=me.age(w.day), needs={k: round(v) for k, v in me.needs.items()}, money=round(me.money),
                        gpa=round(me.gpa, 2), injured=me.flags.get("injured_until", -1) >= w.day, path=me.path, body=me.body,
                        positions=me.positions, jersey=me.jersey),
-            "moments": pend, "feed": feed, "last_event": w.history.next_event - 1, "committed": busy_with,
+            "moments": pend, "feed": feed, "last_event": w.history.next_event - 1, "committed": busy_with, "squad": squad_view(sim),
             "unread": sum(t["unread"] for t in threads), "needs_reply": sum(1 for t in threads if t["needs_reply"]),
             "pets": [pets.view(sim, p) for p in hp], "pet_setup_needed": any(pets.setup_needed(w, p["id"]) for p in hp),
             "pet_approved": w.meta.get("pet_approved"), "queued": q and {"label": planner.plan_label(sim, q) or "Saying yes to an invite"},
@@ -235,8 +240,8 @@ def phone_choices():
             o = {"index": i, "action": cd.a["id"], "label": cd.a["label"], "category": cd.a["category"],
                  "target": cd.target if isinstance(cd.target, str) and cd.target in L.w.chars else None,
                  "target_name": sim.target_name(cd), "prob": round(cd.prob, 4), "risk": cd.a["risk"]}
-            if cd.a["id"] == "chat_online":
-                continue  # texting doesn't use up your time: text anyone, anytime, from the Phone tab
+            if cd.a["id"] == "chat_online" or cd.a["id"].startswith("pet_"):
+                continue  # texting and your pet don't use up your time: those are quick, anytime, from the Phone and Home tabs
             o["text"] = phrase(sim, o)
             o["icon"] = ICON.get(cd.a["category"], "star")
             o["why"] = cd.why
@@ -263,9 +268,11 @@ def phone_choices():
             uniq[0]["gut"] = True
         from . import planner
         opts = planner.annotate(sim, me, uniq)
-        crew = crew_option(L, me, opts)
-        if crew:
-            opts.insert(next((i for i, o in enumerate(opts) if o["group"] != "should"), len(opts)), crew)
+        from . import squad
+        group = squad.option(sim, opts, slot)  # your group: the boys on the game, the park, a food run
+        crew = [] if group or squad.state(sim) else [x for x in [crew_option(L, me, opts)] if x]
+        at = next((i for i, o in enumerate(opts) if o["group"] != "should"), len(opts))
+        opts[at:at] = group + crew
         return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": opts}
 
 
@@ -317,7 +324,7 @@ def phone_later(body: dict = Body(...)):
             idx = int(body["index"])
         except (KeyError, TypeError, ValueError):
             raise HTTPException(422, "index must be a whole number")
-        opt = next((o for o in res["options"] if o["index"] == idx and o["action"] != "hang_group"), None)
+        opt = next((o for o in res["options"] if o["index"] == idx and o["action"] not in ("hang_group", "squad")), None)
         if opt is None or not opt.get("later"):
             raise HTTPException(409, "that one can't wait")
         from . import planner
@@ -340,9 +347,10 @@ def phone_choose(body: dict = Body(...)):
             idx = int(body["index"])
         except (KeyError, TypeError, ValueError):
             raise HTTPException(422, "index must be a whole number")
-        if body.get("crew"):  # bring the crew along on this hangout
+        if body.get("crew"):  # bring the crew (or your group, doing something) along on this hangout
             L.w.meta.setdefault("control", {})["crew"] = {"day": L.w.day, "slot": sim.current_phase(),
-                                                          "ids": [x for x in body["crew"] if x in L.w.chars][:3]}
+                                                          "ids": [x for x in body["crew"] if x in L.w.chars][:3],
+                                                          "act": body.get("act") if body.get("act") else None}
         needs0 = dict(me.needs)
         mood0 = me.mood
         rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}

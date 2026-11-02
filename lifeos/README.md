@@ -246,6 +246,19 @@ What's in it:
   has a **needs you** tag. **Texting doesn't use up your time**: text anyone, anytime, from the Phone tab, so "Message
   someone" isn't one of your choices anymore. Plans made by text fill your next free time and show at the top.
   Prefer not to pick every lunch? Turn on **Lunch on autopilot** on the Me tab (you sit with your usual table).
+- **Your group.** The friends you actually spend your time with become your group on their own: **the boys**, **the
+  girls** or **the crew**, from your closest friends, changing as friendships do (it's on the Me tab, with how tight you
+  are and when you last hung out). In your free time it's one choice for what you'd really do: **Hop on the game with
+  the boys**, **Park with the boys**, **Shoot around**, **Food run**, **Movie night at Danny's**, **Beach day** in the
+  summer, **Homework on FaceTime** on school nights. Whoever's free comes (not whoever's at practice), it reads like
+  what it was ("Three hours online with the boys. You lost more than you won and it didn't matter at all."), and a scene
+  that fits often follows (game nights get their own: the hot mic, the last one alive, the rage quit, the little brother
+  who grabs the controller). Some days they make plans themselves ("on at 8?" / "bet"): it's on your plate and first in
+  your choices then. Join or skip; skipping now and then costs almost nothing, you just hear what you missed. **Zero
+  maintenance:** their group chat is there to read, never needs an answer and never shows as unread.
+- **Pets don't use up your time.** Feeding, walks, the park, playing, training, cuddles, treats, brushing and the bath
+  (or the litter box, or the cage) are all quick taps on the Home tab, anytime. They're not in your free-time choices
+  anymore. Your chores show on your plate with **Do it**; skip one and it usually still gets done (you mostly remember).
 - **A mix up front.** The first choices in each section are one of each kind before a second "Sit with someone"; the rest
   are under More options.
 - **Packs can add texting lines.** A dialogue pack's `chat` section adds to how people answer, what they ask back,

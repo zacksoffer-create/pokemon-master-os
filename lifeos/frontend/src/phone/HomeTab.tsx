@@ -14,7 +14,7 @@ const COAT: Record<string, string> = {
   calico: "linear-gradient(135deg,#f7f4ef 0 33%,#e98b3a 33% 60%,#2c2a2e 60%)", tabby: "repeating-linear-gradient(90deg,#b07a45 0 5px,#7a5230 5px 9px)",
   brown: "#8a5a3b", spotted: "radial-gradient(circle at 30% 35%,#5a4636 0 18%,transparent 19%),radial-gradient(circle at 70% 70%,#5a4636 0 16%,transparent 17%),#f7f4ef",
 };
-const QUICK_ICON: Record<string, string> = { cuddle: "heart", treat: "bone", feed: "bowl", brush: "brush" };
+const QUICK_ICON: Record<string, string> = { cuddle: "heart", treat: "bone", feed: "bowl", brush: "brush", walk: "walk", park: "tree", play: "ballplay", train: "wand", clean: "sparkle" };
 const TIMED_ICON: Record<string, string> = { walk: "walk", park: "tree", play: "ballplay", train: "wand" };
 const DUTY_ICON: Record<string, string> = { feed_am: "bowl", feed_pm: "bowl", walk: "walk", bath: "sparkle", litter: "sparkle", brush: "brush", cage: "home" };
 // when each longer activity is possible (the same windows the simulation uses)
@@ -239,13 +239,14 @@ function PetCard({ pet, nameOf, bubble, busy, phase, home, decisionReady, onQuic
       </div>
 
       <div className="ph-subt">Spend time with {pet.name}</div>
+      <p className="ph-dim small ph-pet-free">Quick taps, anytime. Nothing here uses up your free time.</p>
       <div className="ph-pet-quick">
         {quick.map((a) => {
           const left = pet.quick_left[a.id] ?? 0;
           return (
             <button key={a.id} className="ph-qbtn" disabled={busy || left <= 0} onClick={() => onQuick(a.id)}>
               <PIcon name={QUICK_ICON[a.id] || "heart"} size={22} />
-              <b>{a.label.replace("Give a ", "")}</b>
+              <b>{a.label.replace(/^(Give a |Go for a |Take to the |Teach a |Clean the )/, "")}</b>
               <small>{left > 0 ? `${left} left today` : "done for today"}</small>
             </button>
           );

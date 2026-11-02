@@ -57,7 +57,7 @@ def kind_for(sim, me_id, them, action, crew) -> str:
     return "hang"
 
 
-def maybe_scene(sim, me_id, them, kind, crew=None, place=None):
+def maybe_scene(sim, me_id, them, kind, crew=None, place=None, act=None):
     """Bring up a hangout scene with them (one a day, not one you've had lately)."""
     w = sim.w
     if them not in w.chars or me_id != w.meta.get("protagonist") or them in sim.siblings(me_id):
@@ -67,13 +67,20 @@ def maybe_scene(sim, me_id, them, kind, crew=None, place=None):
     me, o = w.chars[me_id], w.chars[them]
     seen = w.meta.setdefault("hang_seen", {})
     every = [sc for sc in scenes() if kind in sc["kind"]]
+    if act:  # a group thing: scenes that fit what you're doing (no dock dares over voice chat)
+        every = [sc for sc in every if act in sc.get("acts", [])]
+    elif kind == "group":
+        every = [sc for sc in every if sc.get("acts") != ["game"]]
     pool = [sc for sc in every if w.day - seen.get(sc["id"], -999) > 20 and _fits(sim, sc, me, o)] or every
     if not pool:
         return None
     rng = sim.streams.get("hangout", w.day, them)
     sc = pool[int(rng.random() * len(pool))]
+    from . import squad
+    sq = squad.state(sim)
     ctx = {"them": them, "them_first": o.first, "place": place or "", "kind": kind, "crew": list(crew or []),
-           "crew_first": names(w, crew or [])}
+           "crew_first": names(w, crew or []), "other_first": w.chars[crew[0]].first if crew else o.first,
+           "group": sq["name"] if sq and kind == "group" else "everyone"}
     before = len(w.meta.get("moments", []))
     sim.moment_trigger(f"hang_{sc['id']}", me_id, ctx)
     if len(w.meta.get("moments", [])) == before:

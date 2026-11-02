@@ -104,7 +104,7 @@ export default function StoryTab() {
 
   const choose = (c: Choice) => run(async () => {
     buzz();
-    const r = await phoneApi.choose(c.index, c.crew);
+    const r = await phoneApi.choose(c.index, c.crew, c.act);
     setChoices(null);
     setOutcome({ lines: r.lines.length ? r.lines : [{ id: -1, type: "none", text: "The time slips by. Nothing much to report." }], chips: r.chips, title: c.text });
     await refresh();
@@ -378,7 +378,7 @@ function ChoiceCard({ c, gut, busy, onPick, onLater, delay = 0, small }: { c: Ch
         <b>{c.text}</b>
         <span className="ph-choice-s">
           {c.group === "should" && <em className="needs">needs you</em>}
-          {c.reason || CAT[c.category] || c.category}
+          {c.who ? `${c.reason} · ${c.who}` : c.reason || CAT[c.category] || c.category}
           {c.risk >= 0.3 && c.reason !== "Risky" && <em className="risky">risky</em>}
           {gut && <em className="gut"><PIcon name="sparkle" size={11} /> your gut</em>}
         </span>
