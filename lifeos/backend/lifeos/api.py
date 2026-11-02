@@ -1204,6 +1204,16 @@ def api_dialogue_prompt():
     return {"prompt": dialogue.prompt_for_ai()}
 
 
+@app.get("/api/dialogue/texting-prompt")
+def api_dialogue_texting_prompt(pack: str = ""):
+    """The prompt that gives one of your storylines' people their own way of texting (?pack=<id> includes that pack)."""
+    from . import dialogue
+    try:
+        return {"prompt": dialogue.prompt_for_texting(pack or None)}
+    except KeyError:
+        raise HTTPException(404, "no such pack")
+
+
 @app.get("/api/dialogue/update-prompt")
 def api_dialogue_update_prompt(pack: str = ""):
     """The prompt that upgrades a pack you already made: with ?pack=<id> it includes that pack's JSON."""

@@ -206,3 +206,81 @@ def test_packs_can_add_texting_lines():
     assert ok["ok"] and ok["summary"]["chat"] == 2
     bad = dialogue.check({"name": "Chat test", "chat": {"topic": {"homework": ["x"]}, "ask": {"general": ["no kind"]}}})
     assert not bad["ok"] and len(bad["errors"]) == 2
+
+
+def test_venting_good_news_gossip_and_thanks():
+    assert chat.classify("my day honestly sucked")["intent"] == "vent"
+    assert chat.classify("i'm so stressed about everything rn")["intent"] == "vent"
+    assert chat.classify("guess what. i aced the test")["intent"] == "news"
+    assert chat.classify("i made varsity!!")["intent"] == "news"
+    assert chat.classify("did you hear about cole and paige")["intent"] == "gossip"
+    assert chat.classify("thanks for today, seriously")["intent"] == "thanks"
+    w, sim, me, g = _setup(20, 60, 60)
+    me.needs["stress"] = 70
+    chat.send(sim, g, "hey")
+    res = chat.send(sim, g, "my day honestly sucked")
+    assert me.needs["stress"] < 70 and "had your back" in (res["why"] or "")
+    th = messages.phone(w)["threads"][f"dm:{g}"]["msgs"]
+    assert any(m["kind"] == "chat_comfort" for m in th)
+    sug = chat.suggestions(sim, g)
+    assert any(s["intent"] == "thanks" for s in sug), "they had your back: you can say thanks"
+    res = chat.send(sim, g, "i'm so stressed about everything rn")
+    assert "wear on people" in (res["why"] or ""), "once a day is support"
+    chat.send(sim, g, "guess what. i aced the test")
+    assert any(m["kind"] == "chat_hype" for m in messages.phone(w)["threads"][f"dm:{g}"]["msgs"])
+
+
+def test_they_bring_up_what_you_just_did_together_once():
+    w, sim, me, g = _setup(20, 60, 60)
+    ev = sim.new_event("interact.hang_out", "great", [me.id], [g], 10, {"place": "the diner"})
+    ev["text"] = "You and them hung out."
+    from lifeos.history import Effects
+    sim.finish(ev, Effects(w, ev))
+    chat.send(sim, g, "heyy")
+    th = messages.phone(w)["threads"][f"dm:{g}"]["msgs"]
+    rec = [m for m in th if m["kind"] == "chat_recent"]
+    assert len(rec) == 1, [m["text"] for m in th]
+    assert chat._recent(sim, g) is None, "it comes up once"
+
+
+def test_storyline_people_text_like_themselves(tmp_path, monkeypatch):
+    from lifeos import dialogue
+    monkeypatch.setattr(dialogue, "USER_DIR", str(tmp_path / "dialogue"))
+    dialogue.reload()
+    pack = {"name": "Big brother texts", "chat": {"people": {"older_sibling": {
+        "reply": {"greet": {"warm": ["what do you want, gremlin", "oh look who remembered i exist", "make it quick",
+                                     "if this is about the car the answer is no", "speak", "yo what"],
+                            "ok": ["what", "yeah?", "sup gremlin", "mhm", "what now", "talk"],
+                            "cold": ["busy", "later", "not now", "what", "ok", "k"]}},
+        "suggest": {"greet": ["can you drive me later", "is mom mad at me or", "what's for dinner", "you home?"]}}}}}
+    r = dialogue.check(pack)
+    assert r["ok"], r["errors"]
+    dialogue.add_pack(pack)
+    dialogue.reload()
+    w, sim, me, g = _setup(20, 60, 60)
+    sib = next(s for s in sim.siblings(me.id) if (w.chars[s].grade or 0) > (me.grade or 9))
+    assert "older_sibling" in chat.kinds_of(sim, sib)
+    own = set(x.lower() for x in pack["chat"]["people"]["older_sibling"]["reply"]["greet"]["warm"]
+              + pack["chat"]["people"]["older_sibling"]["reply"]["greet"]["ok"] + pack["chat"]["people"]["older_sibling"]["reply"]["greet"]["cold"])
+    hits = 0
+    for i in range(6):
+        t = messages.phone(w)["threads"].get(f"dm:{sib}")
+        if t:
+            t.pop("convo", None)  # a new conversation each time
+        chat.send(sim, sib, "hey")
+        last = next(m for m in reversed(messages.phone(w)["threads"][f"dm:{sib}"]["msgs"]) if m["from"] == sib and m["kind"] == "chat_react")
+        hits += last["text"].lower().rstrip(".!") in {x.rstrip(".!") for x in own}
+    assert hits >= 2, "your brother uses his own lines most of the time"
+    bad = dialogue.check({"name": "x", "chat": {"people": {"big_bro": {"reply": {}}}}})
+    assert not bad["ok"] and "isn't a kind of person" in bad["errors"][0]
+
+
+def test_the_texting_prompt_is_complete_and_its_example_passes():
+    import json
+    import re
+    from lifeos import dialogue
+    p = dialogue.prompt_for_texting()
+    for must in ("chat", "people", "reply.vent", "recent", "ask.general", "flirt_tease", "older_sibling", "ONE JSON code block"):
+        assert must in p, must
+    example = json.loads(re.search(r"## Example\n\n```json\n(.*?)\n```", p, re.S).group(1))
+    assert dialogue.check(example)["ok"], dialogue.check(example)["errors"]

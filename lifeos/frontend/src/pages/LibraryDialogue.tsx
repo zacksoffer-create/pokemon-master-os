@@ -62,6 +62,11 @@ export default function Dialogue() {
     toast((await copyText(r.prompt)) ? (pid ? "Upgrade prompt copied, with the pack in it. Paste it into ChatGPT or Claude; the answer replaces the old pack."
       : "Upgrade prompt copied. Paste your pack where it says.") : "Couldn't copy.", "good");
   });
+  const copyTexting = (pid?: string) => run(pid ? `tx:${pid}` : "tx", async () => {
+    const r = await api.get(`/api/dialogue/texting-prompt${pid ? `?pack=${encodeURIComponent(pid)}` : ""}`);
+    toast((await copyText(r.prompt)) ? (pid ? "Texting prompt copied, with the pack in it. The answer gives its people their own way of texting."
+      : "Texting prompt copied. Paste your pack where it says.") : "Couldn't copy.", "good");
+  });
   const toggle = (p: PackRow) => run(p.id, async () => setData(await api.post(`/api/dialogue/packs/${encodeURIComponent(p.id)}/enabled`, { enabled: !p.enabled })));
   const remove = (p: PackRow) => {
     if (!window.confirm(`Remove "${p.name}"?`)) return;
@@ -80,6 +85,7 @@ export default function Dialogue() {
         <div className="row" style={{ gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
           <button className="primary" disabled={!!busy} onClick={copyPrompt}>Copy the ChatGPT prompt</button>
           <button disabled={!!busy} onClick={() => copyUpdate()}>Copy the upgrade prompt (for a pack you already made)</button>
+          <button disabled={!!busy} onClick={() => copyTexting()}>Copy the texting prompt (its people text like themselves)</button>
           <a className="btn" href="/api/dialogue/guide.md?download=1">Download the guide (.md)</a>
           <a className="btn" href="/api/dialogue/current?download=1">Download all current dialogue (.json)</a>
         </div>
@@ -132,6 +138,7 @@ export default function Dialogue() {
                 <div className="row" style={{ gap: 6 }}>
                   <button className="small" disabled={!p.ok || busy === p.id} onClick={() => toggle(p)}>{p.enabled ? "Turn off" : "Turn on"}</button>
                   {p.source === "yours" && p.ok && <button className="small" disabled={!!busy} onClick={() => copyUpdate(p.id)}>Upgrade it (copy prompt)</button>}
+                  {p.source === "yours" && p.ok && <button className="small" disabled={!!busy} onClick={() => copyTexting(p.id)}>Upgrade its texting</button>}
                   {p.source === "yours" && <button className="small ghost" onClick={() => remove(p)}>Remove</button>}
                 </div>
               </div>

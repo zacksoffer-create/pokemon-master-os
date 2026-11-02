@@ -869,7 +869,7 @@ def _check_chat(R, chat) -> int:
             R.err(where, "is a list of lines")
             return
         for i, x in enumerate(v):
-            if where.startswith("chat.ask."):
+            if re.search(r"\.ask\.(general|flirty)$", where):
                 kinds = ("yesno", "doing", "day", "weekend", "open", "flirty")
                 if not isinstance(x, dict) or "q" not in x or x.get("a") not in kinds:
                     R.err(f"{where}[{i}]", f'is a question like {{"q": "you going friday?", "a": "yesno"}}; "a" is one of {", ".join(kinds)}')
@@ -878,9 +878,20 @@ def _check_chat(R, chat) -> int:
                     n += 1
             elif _check_line(R, f"{where}[{i}]", x, {"me"}, 200):
                 n += 1
+    shape = {k: v for k, v in base.items() if not k.startswith("_")}
     for k, v in chat.items():
+        if k == "people":  # lines for one kind of person: the same shape, used first for them
+            if not isinstance(v, dict):
+                R.err("chat.people", 'is an object of kinds of people to lines, like {"older_sibling": {"reply": {"greet": {"warm": ["what do you want"]}}}}')
+                continue
+            for kind, sub in v.items():
+                if kind not in WHO:
+                    R.err(f"chat.people.{kind}", f"isn't a kind of person.{_suggest(kind, WHO)} Use: {', '.join(WHO)}")
+                    continue
+                walk(sub, shape, f"chat.people.{kind}")
+            continue
         if k not in base or k.startswith("_"):
-            R.err(f"chat.{k}", f"isn't part of chat lines.{_suggest(k, [x for x in base if not x.startswith('_')])}")
+            R.err(f"chat.{k}", f"isn't part of chat lines.{_suggest(k, list(shape) + ['people'])}")
             continue
         walk(v, base[k], f"chat.{k}")
     return n
@@ -1088,7 +1099,12 @@ def _merge_chat(into: dict, add: dict):
     for k, v in add.items():
         if k.startswith("_"):
             continue
-        if isinstance(v, dict) and isinstance(into.get(k), dict):
+        if k == "people" and isinstance(v, dict):
+            into.setdefault("people", {})
+            for kind, sub in v.items():
+                into["people"].setdefault(kind, {})
+                _merge_people(into["people"][kind], sub)
+        elif isinstance(v, dict) and isinstance(into.get(k), dict):
             _merge_chat(into[k], v)
         elif isinstance(v, list) and isinstance(into.get(k), list):
             have = {(x["q"] if isinstance(x, dict) else x).lower() for x in into[k]}
@@ -1097,6 +1113,16 @@ def _merge_chat(into: dict, add: dict):
                 if key not in have:
                     into[k].append(x)
                     have.add(key)
+
+
+def _merge_people(into: dict, add: dict):
+    for k, v in add.items():
+        if isinstance(v, dict):
+            _merge_people(into.setdefault(k, {}), v)
+        elif isinstance(v, list):
+            cur = into.setdefault(k, [])
+            have = {(x["q"] if isinstance(x, dict) else x).lower() for x in cur}
+            cur.extend(x for x in v if (x["q"] if isinstance(x, dict) else x).lower() not in have)
 
 
 def chat_lines() -> dict:
@@ -1518,8 +1544,12 @@ def guide_markdown() -> str:
     a("When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a "
       "`chat` section. Every list is short lines; `{me}` is your first name.\n")
     a("- `reply.<what you did>.<how it went>`: their answer. What you did: greet, chat, ask, joke, compliment, flirt, plans, support, "
-      "apology, dry, rude, love, ask_out, answered, style, family. How it went, for flirt: landed, playful, awkward, shut; for "
-      "jokes: laugh, meh; for chat: warm, ok, cold; style: loves, hates (when you hit or miss their taste).")
+      "apology, vent, news, gossip, thanks, dry, rude, love, ask_out, answered, style, family. How it went, for flirt: landed, playful, "
+      "awkward, shut; for jokes: laugh, meh; for chat: warm, ok, cold; vent: comfort, meh; news: hype, meh; gossip: spill, shut; "
+      "style: loves, hates (when you hit or miss their taste).")
+    a("- `recent.<kind>`: how they bring up something you just did together: hangout, date, group, game_win, game_loss.")
+    a("- `people.<kind>`: lines for one kind of person (older_sibling, crush, coach...) in the same shape. They use those first, "
+      "so a brother texts like a brother.")
     a("- `topic.<topic>`: their answer when you bring something up: game, school, music, weekend, food.")
     a("- `ask.general` / `ask.flirty`: questions they send back, as {\"q\": \"you going friday?\", \"a\": \"yesno\"}. `a` is the "
       "kind of answer: yesno, doing, day, weekend, open, flirty. The game offers you fitting answers.")
@@ -1657,6 +1687,92 @@ def guide_markdown() -> str:
 
 def prompt_for_ai() -> str:
     return PROMPT + guide_markdown()
+
+
+TEXTING_PROMPT = """You're upgrading a dialogue pack (one of my storylines) for LIFE OS, a life-simulation game: you play one person from
+the first day of high school (Guilford High School in Guilford, Connecticut) through college. Texting in the game just got a
+lot deeper, and I want the people in this storyline to text like themselves. Add a big "chat" section to the pack.
+
+How texting works now:
+- I can type anything to anyone, or tap a suggestion. The game reads what I did: say hi, ask something, chat, joke, compliment,
+  flirt (in a style: tease, sweet, bold, funny or cheesy), make plans, check on them, apologize, vent about my day, share good
+  news, gossip, say thanks, go dry, be rude, say bye, or ask them out.
+- They answer from lines picked by what I did and how it went (a joke can land or not, a flirt can land, be playful, get
+  awkward or get shut down, venting gets comfort or a shrug). They often ask me something back, and the game offers fitting
+  answers. A conversation runs until they wrap it up. Someone into me answers fast and sometimes double-texts.
+- Everyone has a taste: some love teasing, some love sweet stuff, some hate cheesy lines. Each style can land or miss.
+- They remember: if I mention a test or a game they follow up later, and when we just did something together (a hangout, a
+  date, the boys, a game we won or lost) they bring it up when we start talking.
+- Lines can belong to a kind of person (older_sibling, crush, coach...): those people use their own lines first, so a brother
+  texts like a brother and a coach like a coach.
+
+Do all of this:
+1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep everything already in the pack.
+2. Add a "chat" section. For every person this storyline is about, add their own lines under "chat": {"people": {"<kind>": {...}}},
+   using the kinds of people listed below. Write them so you could tell who's texting without a name.
+3. For each of those people, fill at least:
+   - reply.greet (warm, ok, cold), reply.chat (warm, ok, cold), reply.ask (warm, ok, cold), reply.joke (laugh, meh),
+     reply.compliment (warm, weird), reply.vent (comfort, meh), reply.news (hype, meh), reply.plans (yes, no, already),
+     reply.apology (accept, cold), reply.support (thanks, fine), reply.thanks (warm, ok), reply.dry (dry, check)
+   - ask.general: questions they'd text back, each {"q": "...", "a": "yesno" | "doing" | "day" | "weekend" | "open" | "flirty"}
+   - topic (game, school, music, weekend, food), follow (school, game, weekend), recent (hangout, date, group, game_win, game_loss)
+   - close (nice, tired, cold)
+   - suggest: things I'd text THEM (greet, ask, joke, plans, support, apology, vent, news, thanks, bye)
+   For a crush, partner or ex, also: reply.flirt (landed, playful, awkward, shut), reply.style (loves, hates), reply.ask_out
+   (yes, no), reply.love (back), ask.flirty, double, and suggest.flirt_tease, flirt_sweet, flirt_bold, flirt_funny, flirt_cheesy.
+   For a sibling, also reply.family (sib_flirt, sib_ok, sib_warm) and reply.love (fam).
+4. At least 6 lines in every list, more for the ones that come up most (greet, chat, ask, close). Short, like real texts (under
+   120 characters). Vary them: openers, lengths, moods. Don't repeat an idea.
+5. Add general lines too (top level of "chat", same shape) for anyone in the storyline's world: at least 6 more for each of
+   reply.vent, reply.news, reply.gossip (spill, shut), reply.thanks and recent.
+6. Use {me} for my first name if you need it; no other names or placeholders in chat lines. Keep it PG-13.
+
+Reply with the COMPLETE upgraded pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
+The game checks every line and will tell me exactly what to fix.
+
+"""
+
+
+def texting_guide() -> str:
+    """Everything a texting upgrade needs: the shape of "chat", every place a line can go, and the kinds of people."""
+    base = _base("chat.json")
+    L = ["## The \"chat\" section\n",
+         "Every list is short text lines. The same shape works at the top level (anyone) and under people.<kind> (just them).\n"]
+    L.append("Their answers, `reply.<what you did>.<how it went>`:")
+    for k, v in base["reply"].items():
+        L.append(f"- reply.{k}: {', '.join(v)}")
+    L.append("\nQuestions they ask back, `ask.general` / `ask.flirty`: each {\"q\": \"...\", \"a\": kind}; a is one of yesno, doing, day, "
+             "weekend, open, flirty.")
+    L.append(f"Answers I can tap, `answer.<kind>`: {', '.join(base['answer'])}.")
+    L.append(f"What I brought up, `topic.<topic>`: {', '.join(base['topic'])}.")
+    L.append(f"Following up later, `follow.<topic>`: {', '.join(base['follow'])}.")
+    L.append(f"Something we just did together, `recent.<kind>`: {', '.join(base['recent'])}.")
+    L.append(f"Wrapping up, `close.<tone>`: {', '.join(base['close'])}. Extra texts from someone into me: `double`.")
+    L.append(f"Things I'd text them, `suggest.<kind>`: {', '.join(base['suggest'])}.\n")
+    L.append("## Kinds of people (for chat.people)\n")
+    for k, v in WHO.items():
+        L.append(f"- `{k}`: {v}")
+    L.append("\n## Example\n")
+    L.append("```json\n" + json.dumps({"name": "My storyline", "chat": {
+        "people": {"older_sibling": {"reply": {"greet": {"warm": ["what do you want", "oh look who remembered i exist"]},
+                                               "vent": {"comfort": ["who do i need to fight", "come to my room, we'll figure it out"]}},
+                                     "ask": {"general": [{"q": "did you take my charger", "a": "yesno"}]},
+                                     "suggest": {"ask": ["can you drive me later", "is mom mad at me or"]}},
+                   "coach": {"reply": {"greet": {"warm": ["Hey. What's up.", "Talk to me."]}},
+                             "recent": {"game_win": ["Good game tonight. Film at 3.", "Proud of that effort. Don't get comfortable."]}}},
+        "reply": {"gossip": {"spill": ["no WAY. who told you"]}}}}, indent=1, ensure_ascii=False) + "\n```\n")
+    return "\n".join(L) + "\n"
+
+
+def prompt_for_texting(pid: str | None = None) -> str:
+    """The prompt that gives a storyline's people their own way of texting (the pack itself, when it's loaded here)."""
+    body = "Here's my pack:\n\n[paste your pack's JSON here]\n\n"
+    if pid:
+        p = next((x for x in packs() if x["id"] == pid), None)
+        if p is None:
+            raise KeyError(pid)
+        body = "Here's my pack:\n\n```json\n" + json.dumps(p["pack"], indent=1, ensure_ascii=False) + "\n```\n\n"
+    return TEXTING_PROMPT + body + texting_guide()
 
 
 def prompt_for_update(pid: str | None = None) -> str:

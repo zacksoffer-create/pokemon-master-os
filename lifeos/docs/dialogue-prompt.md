@@ -225,7 +225,9 @@ Every section is optional; use the ones you need.
 
 When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a `chat` section. Every list is short lines; `{me}` is your first name.
 
-- `reply.<what you did>.<how it went>`: their answer. What you did: greet, chat, ask, joke, compliment, flirt, plans, support, apology, dry, rude, love, ask_out, answered, style, family. How it went, for flirt: landed, playful, awkward, shut; for jokes: laugh, meh; for chat: warm, ok, cold; style: loves, hates (when you hit or miss their taste).
+- `reply.<what you did>.<how it went>`: their answer. What you did: greet, chat, ask, joke, compliment, flirt, plans, support, apology, vent, news, gossip, thanks, dry, rude, love, ask_out, answered, style, family. How it went, for flirt: landed, playful, awkward, shut; for jokes: laugh, meh; for chat: warm, ok, cold; vent: comfort, meh; news: hype, meh; gossip: spill, shut; style: loves, hates (when you hit or miss their taste).
+- `recent.<kind>`: how they bring up something you just did together: hangout, date, group, game_win, game_loss.
+- `people.<kind>`: lines for one kind of person (older_sibling, crush, coach...) in the same shape. They use those first, so a brother texts like a brother.
 - `topic.<topic>`: their answer when you bring something up: game, school, music, weekend, food.
 - `ask.general` / `ask.flirty`: questions they send back, as {"q": "you going friday?", "a": "yesno"}. `a` is the kind of answer: yesno, doing, day, weekend, open, flirty. The game offers you fitting answers.
 - `answer.<kind>`: answers you can tap (`yes`, `no`, doing, day, weekend, open, flirty).
@@ -454,7 +456,7 @@ Story-feed lines, keyed `event.outcome`. `{a}` is the person doing it (you, on t
 - `interact.hang_out.good`: {a}, {b}, {place}
 - `interact.hang_out.awkward`: {a}, {b}, {place}
 - `interact.hang_out.bad`: {a}, {b}, {place}
-- `interact.hang_out.declined`: {a}, {b}, {place}
+- `interact.hang_out.declined`: {a}, {b}
 - `interact.hang_out.busy`: {a}, {b}
 - `interact.support.great`: {a}, {b}
 - `interact.support.good`: {a}, {b}

@@ -1,5 +1,5 @@
 {
-  "_about": "Lines for texting that goes back and forth (chat.py). reply[intent][outcome] are their answers; topic[topic] are answers to something you brought up; ask are questions they send back (a = the kind of answer it wants); answer[a] are answers you can tap; follow[topic] is them following up later; double are extra texts from someone into you; suggest are messages you can tap to send, flirt_<style> by style; close is how a conversation winds down. {me} is your first name.",
+  "_about": "Lines for texting that goes back and forth (chat.py). reply[intent][outcome] are their answers; topic[topic] are answers to something you brought up; ask are questions they send back (a = the kind of answer it wants); answer[a] are answers you can tap; follow[topic] is them following up later; double are extra texts from someone into you; suggest are messages you can tap to send, flirt_<style> by style; close is how a conversation winds down. {me} is your first name. recent[kind] is how they bring up something you just did together (hangout, date, group, game_win, game_loss). people[who] holds lines for one kind of person (sibling, crush, coach...) in the same shape: they use those first.",
   "reply": {
     "greet": {
       "warm": [
@@ -333,6 +333,74 @@
         "you've been quiet lately",
         "i feel like i never see you anymore"
       ]
+    },
+    "vent": {
+      "comfort": [
+        "that's so not fair. i'm sorry",
+        "ugh. want to talk about it?",
+        "ok that's actually awful. i'm here",
+        "do you want advice or do you want me to just be mad with you",
+        "sending you a hug through the phone",
+        "that sucks so bad. tomorrow's gonna be better, i promise",
+        "come over, we'll get food and forget about it",
+        "you don't deserve that. seriously"
+      ],
+      "meh": [
+        "that sucks",
+        "oof",
+        "rough",
+        "dang",
+        "that's annoying"
+      ]
+    },
+    "news": {
+      "hype": [
+        "WAIT WHAT",
+        "LET'S GOOO",
+        "no way!! that's huge",
+        "i KNEW you would",
+        "ok we're celebrating",
+        "so proud of you honestly",
+        "you deserve that so much",
+        "screaming. congrats!!"
+      ],
+      "meh": [
+        "oh nice",
+        "cool, congrats",
+        "nice!",
+        "ok good for you lol"
+      ]
+    },
+    "gossip": {
+      "spill": [
+        "WAIT. tell me everything",
+        "no way. who told you",
+        "i KNEW something was going on",
+        "stop. are you serious",
+        "ok now i need details",
+        "this is the best thing i've heard all week"
+      ],
+      "shut": [
+        "eh i don't really care about that stuff",
+        "lol that's not my business",
+        "idk, sounds like a rumor",
+        "i'd rather not get into it"
+      ]
+    },
+    "thanks": {
+      "warm": [
+        "of course!",
+        "anytime",
+        "duh. that's what friends are for",
+        "you'd do the same",
+        "always"
+      ],
+      "ok": [
+        "np",
+        "yeah no problem",
+        "👍",
+        "sure"
+      ]
     }
   },
   "ask": {
@@ -547,6 +615,21 @@
     "ask_out": [
       "ok real question. would you go out with me?",
       "wanna go out sometime? like a date"
+    ],
+    "vent": [
+      "my day honestly sucked",
+      "i'm so stressed about everything rn",
+      "worst day ever. no joke"
+    ],
+    "news": [
+      "guess what. i aced the test",
+      "i made the team!!",
+      "we won tonight!!"
+    ],
+    "thanks": [
+      "thanks for today, seriously",
+      "appreciate you",
+      "thank you for listening"
     ]
   },
   "answer": {
@@ -663,5 +746,37 @@
     "also hi",
     "ok i'm done lol",
     "😂"
-  ]
+  ],
+  "recent": {
+    "hangout": [
+      "today was actually so fun",
+      "ok we need to do that again soon",
+      "i'm still laughing about earlier",
+      "that was a good day"
+    ],
+    "date": [
+      "i had a really good time today",
+      "still smiling about today ngl",
+      "so when's the next one 👀",
+      "today was perfect honestly"
+    ],
+    "group": [
+      "last night was ridiculous",
+      "we have to run it back",
+      "the boys were in rare form",
+      "best night in a while"
+    ],
+    "game_win": [
+      "WE WON. still not over it",
+      "that game though!!",
+      "you were so good tonight",
+      "best win of the season"
+    ],
+    "game_loss": [
+      "still mad about that game",
+      "we'll get them next time",
+      "tough one tonight. you played good though",
+      "can't stop thinking about that last play"
+    ]
+  }
 }

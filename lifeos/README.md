@@ -261,6 +261,16 @@ What's in it:
   anymore. Your chores show on your plate with **Do it**; skip one and it usually still gets done (you mostly remember).
 - **A mix up front.** The first choices in each section are one of each kind before a second "Sit with someone"; the rest
   are under More options.
+- **More to text about.** Vent ("my day honestly sucked") and someone close has your back: your stress comes down, and you
+  can thank them (once a day is support; more than that wears on people). Share good news ("i made varsity!!") and friends
+  hype you up. Gossip ("did you hear about...") and some people want every detail while others aren't into it. And when
+  you two just did something together (a hangout, a date, the boys, a game you won or lost), they bring it up when you
+  start talking ("today was actually so fun"), once.
+- **Your storylines' people text like themselves.** A pack's chat lines can belong to a kind of person (`older_sibling`,
+  `crush`, `coach`, `best_friend`...): those people use their own lines first, so your brother texts like a brother and
+  your coach like a coach. Every pack you made has an **Upgrade its texting** button (phone and lab) that copies a prompt
+  with the pack in it: ChatGPT gives that storyline's people their own replies, questions, follow-ups, flirts by style and
+  more, and the answer replaces the old pack. The prompt is also in `docs/dialogue-texting-prompt.md`.
 - **Packs can add texting lines.** A dialogue pack's `chat` section adds to how people answer, what they ask back,
   follow-ups and flirt lines by style. The pack prompts ask for them, and the checker explains any mistakes.
   People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).

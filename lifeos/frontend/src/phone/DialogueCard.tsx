@@ -71,11 +71,11 @@ export default function DialogueCard() {
       setBusy(null);
     }
   };
-  // the prompt that upgrades a pack you already have (with ?pack= it carries the pack itself)
-  const copyUpdate = async (pid?: string) => {
-    setBusy(pid ? `up:${pid}` : "up");
+  // the prompt that upgrades a pack you already have (with ?pack= it carries the pack itself); texting: just its people's texting
+  const copyUpdate = async (pid?: string, kind: "update" | "texting" = "update") => {
+    setBusy(pid ? `${kind === "texting" ? "tx" : "up"}:${pid}` : kind === "texting" ? "tx" : "up");
     try {
-      const r = await api.get(`/api/dialogue/update-prompt${pid ? `?pack=${encodeURIComponent(pid)}` : ""}`);
+      const r = await api.get(`/api/dialogue/${kind === "texting" ? "texting" : "update"}-prompt${pid ? `?pack=${encodeURIComponent(pid)}` : ""}`);
       const ok = await copyText(r.prompt);
       toast(ok ? (pid ? "Copied, with your pack in it. Paste it into ChatGPT, then paste its answer back here: it replaces the old one."
         : "Copied. Paste it into ChatGPT, add your pack where it says, then paste the answer back here.") : "Couldn't copy on this phone. Try again.", ok ? "good" : "bad");
@@ -145,6 +145,7 @@ export default function DialogueCard() {
         <p className="ph-dim small">
           Made packs before? Open one below and tap <b>Upgrade it</b>: ChatGPT makes it bigger and adds in-person lines, versions
           that don't repeat, and mini games. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate()}>Pack not on this phone? Copy the upgrade prompt</button>
+          {" "}Or tap <b>Upgrade its texting</b> so its people text like themselves. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate(undefined, "texting")}>Copy the texting prompt</button>
         </p>
         <div className="dl-list">
           {data?.packs.map((p) => (
@@ -178,6 +179,11 @@ export default function DialogueCard() {
                   {p.source === "yours" && p.ok && (
                     <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id)}>
                       {busy === `up:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Upgrade it: copy the prompt for ChatGPT
+                    </button>
+                  )}
+                  {p.source === "yours" && p.ok && (
+                    <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id, "texting")}>
+                      {busy === `tx:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Upgrade its texting: copy the prompt
                     </button>
                   )}
                   {p.source === "yours" && <button className="ph-link dl-remove" onClick={() => remove(p)}>Remove this pack</button>}

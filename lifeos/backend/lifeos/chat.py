@@ -22,6 +22,8 @@ import re
 from .history import Effects
 from .rng import clamp
 
+PEOPLE_ORDER = ("twin", "older_sibling", "younger_sibling", "sibling", "partner", "crush", "ex", "rival", "coach", "best_friend",
+                "teammate", "friend", "classmate")  # most specific first: whose own lines get used
 STAGES = ["Strangers", "Know each other", "Friendly", "Flirty", "Talking stage", "Dating"]
 GUIDE = [
     {"t": "They have to know you a little", "d": "Flirting with someone who barely knows you is a gamble. Say hi, talk, hang out first."},
@@ -32,7 +34,7 @@ GUIDE = [
     {"t": "Confidence helps, effort counts", "d": "Charm and a real message go a long way. They can't make someone into you who isn't."},
     {"t": "Ask out in person", "d": "Once they're flirting back, ask them out when you see them. Over text they'll tell you to say it to their face."},
 ]
-TONE = {"greet": "👋", "ask": "💬", "answer": "↩", "joke": "😂", "compliment": "✨", "flirt": "😏", "flirt_strong": "😏",
+TONE = {"vent": "😮‍💨", "news": "🎉", "thanks": "🙏", "gossip": "👀", "greet": "👋", "ask": "💬", "answer": "↩", "joke": "😂", "compliment": "✨", "flirt": "😏", "flirt_strong": "😏",
         "plans": "📅", "support": "🤝", "good_luck": "💪", "congrats": "🎉", "apology": "🙏", "love": "❤️", "bye": "👋"}
 CAP = {"affection": 6.0, "familiarity": 5.0, "attraction": 8.0}  # most a day of texting one person can move things
 _DATA = None
@@ -53,9 +55,13 @@ RX = [
     ("ask_out", r"(go out with me|be my (gf|bf|girlfriend|boyfriend)|wanna go out|want to go out|go on a date|like a date|ask(ing)? you out)"),
     ("love", r"\b(love you|love u|ily|ilysm)\b"),
     ("bye", r"^(ok+ |okay |alright |anyway |well )?(gtg|g2g|gotta go|got to go|good ?night|gn|nighty?|bye+|ttyl|talk (to you )?(later|tomorrow|tmrw)|cya|see ya|later)\b"),
+    ("vent", r"(\b(day|today|week|school|life|everything|practice)\b.{0,20}\b(sucked|sucks|was (so )?(awful|terrible|bad|rough|the worst)|is (so )?(awful|terrible|the worst))|i'?m (so |really |kinda |lowkey |honestly )?(stressed|sad|upset|exhausted|overwhelmed|done with|over it)|worst day|i hate (school|my life|this|everything)|can'?t do this anymore|feel(ing)? (so )?(bad|down|awful|terrible)|having a (bad|rough) (day|week))"),
+    ("news", r"(\bi made (the|varsity|jv)|\bi got (in|into|an a|accepted|the part|my license|a job|asked)|guess what|\bwe won\b|\bi won\b|\bi passed\b|\bi aced\b|i'?m starting|i'?m (going|in) to|big news)"),
     ("plans", r"\b(wanna|want to|down to|u down|you down|hang ?out|hang|come over|get food|grab food|get pizza|movie|tonight\?|this weekend|after school|let'?s go|let'?s|chill (later|tomorrow|this))\b"),
     ("flirt", r"\b(cute|pretty|hot|handsome|beautiful|gorgeous|miss (you|u)|thinking (about|of) (you|u)|crush|kiss|babe|flirt|you look good|u look good|your smile|ur smile|your eyes|ur eyes|like you|like u|into you|into u)\b"),
     ("support", r"\b(you ok|u ok|you good\?|u good\?|are you okay|here for you|here if you|that sucks|feel better|hope you'?re ok|how are you holding up|wanna talk)\b"),
+    ("gossip", r"(did you hear|guess who|apparently|i heard (that|about)|there'?s a rumor|everyone'?s saying|you won'?t believe what)"),
+    ("thanks", r"\b(thanks|thank you|thx|ty|appreciate (it|you))\b"),
     ("compliment", r"\b(nice|great job|good job|congrats|congratulations|you killed it|killed it|amazing|awesome|so good|proud of you|smart|funny|talented|clutch|you'?re the best|ur the best)\b"),
     ("greet", r"^(hey+|hi+|hello|yo+|sup|wassup|what'?s up|whats good|heyo|howdy)\b"),
 ]
@@ -530,6 +536,41 @@ def _pick(sim, pool: list, salt: str, avoid: set) -> str:
     return pool[i0]
 
 
+def kinds_of(sim, cid) -> list:
+    """What kinds of person they are to you (older sibling, crush, coach...), most specific first."""
+    from . import dialogue
+    me = _me(sim)
+    if not me:
+        return []
+    cache = sim.__dict__.setdefault("_kinds_cache", {})
+    key = (sim.w.day, sim.w.phase, cid)
+    if key not in cache:
+        cache.clear()
+        cache[key] = [k for k in PEOPLE_ORDER if cid in dialogue.candidates(sim, me, k)]
+    return cache[key]
+
+
+def _get(d, path):
+    for k in path:
+        if not isinstance(d, dict):
+            return None
+        d = d.get(k)
+    return d
+
+
+def _pool(sim, cid, *path) -> list:
+    """Lines for this spot: theirs (from what kind of person they are to you) most of the time, everyone's otherwise."""
+    from .messages import _h
+    base = _get(D(), path) or []
+    people = D().get("people") or {}
+    own = []
+    for k in kinds_of(sim, cid) if people else []:
+        own += _get(people.get(k) or {}, path) or []
+    if own and (not base or _h(sim.w.day, cid, *path, len(_thread(sim, cid)["msgs"])) % 10 < 7):
+        return own
+    return base or own
+
+
 def _keen(sim, cid) -> bool:
     """Someone into you (or very close to you) answers fast."""
     w = sim.w
@@ -540,7 +581,7 @@ def _keen(sim, cid) -> bool:
 
 def _say(sim, cid, key, outcome, salt, kind, avoid, pool=None):
     from .messages import post, _fill
-    pool = pool if pool is not None else (D()["reply"].get(key, {}).get(outcome) or [])
+    pool = pool if pool is not None else _pool(sim, cid, "reply", key, outcome)
     me = _me(sim)
     return post(sim, f"dm:{cid}", cid, _fill(_pick(sim, pool, salt, avoid), {"me": me.first}), kind=kind, unread=False,
                 ctx={"fast": True} if _keen(sim, cid) else None)
@@ -647,6 +688,12 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
     plans = False
     if sib and intent in ("flirt", "ask_out"):
         _say(sim, cid, "family", "sib_flirt", salt, "chat_react", avoid)
+    elif intent in ("greet", "chat", "ask") and c["turns"] == 0 and ok != "cold" and _recent(sim, cid):
+        rk = _recent(sim, cid)
+        _say(sim, cid, None, None, salt, "chat_recent", avoid, pool=_pool(sim, cid, "recent", rk.split(":")[0]))  # "today was so fun"
+        _thread(sim, cid)["recent_said"] = rk
+        _gain(sim, cid, fx, cid, "affection", 1.0, "remembering a good time")
+        ask = _h(salt, "rq") % 2 == 0
     elif intent == "greet":
         _say(sim, cid, "greet", ok, salt, "chat_react", avoid)
         ask = ok != "cold"
@@ -660,7 +707,7 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
     elif intent in ("chat", "ask"):
         topic = f["topic"]
         if topic and ok != "cold" and topic in D().get("topic", {}) and _h(salt, "tp") % 5 < 3:
-            _say(sim, cid, None, None, salt, "chat_react", avoid, pool=D()["topic"][topic])  # they answer what you brought up
+            _say(sim, cid, None, None, salt, "chat_react", avoid, pool=_pool(sim, cid, "topic", topic))  # they answer what you brought up
         else:
             _say(sim, cid, "ask" if f["question"] else "chat", ok, salt, "chat_react", avoid)
         if topic in ("school", "game", "weekend"):
@@ -689,6 +736,49 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         else:
             _say(sim, cid, "joke", "meh", salt, "chat_react", avoid)
             c["momentum"] -= 0.1
+    elif intent == "vent":
+        today = sum(1 for m in _thread(sim, cid)["msgs"] if m["from"] == "me" and m["day"] == w.day and m.get("kind") == "vent")
+        mine["kind"] = "vent"
+        close = rt.affection >= 30 or o.traits["empathy"] >= 65
+        if close and today == 0:
+            _say(sim, cid, "vent", "comfort", salt, "chat_comfort", avoid)
+            fx.need(me.id, "stress", -7, f"venting to {o.first}")
+            fx.mood(me.id, 2, f"{o.first} had your back")
+            _gain(sim, cid, fx, cid, "affection", 1.5, "you trusted them with it")
+            fx.rel(cid, me.id, "trust", 2, "you opened up")
+            fx.rel(me.id, cid, "trust", 2, "they had your back")
+            why = f"{o.first} had your back. Venting to someone close takes the edge off." if today == 0 else None
+        else:
+            _say(sim, cid, "vent", "meh", salt, "chat_react", avoid)
+            fx.need(me.id, "stress", -2, "venting")
+            why = (f"You two aren't that close yet. Venting lands better with a close friend." if not close
+                   else "Once a day is support. More than that and it starts to wear on people.")
+        if f["topic"] in ("school", "game", "weekend"):
+            _thread(sim, cid)["mentioned"] = {"topic": f["topic"], "day": w.day}
+        cost = 0.7
+    elif intent == "news":
+        if rt.affection >= 20:
+            _say(sim, cid, "news", "hype", salt, "chat_hype", avoid)
+            fx.mood(me.id, 3, f"{o.first} hyped you up")
+            _gain(sim, cid, fx, cid, "affection", 1.0, "you shared good news")
+            c["momentum"] = min(0.3, c["momentum"] + 0.1)
+        else:
+            _say(sim, cid, "news", "meh", salt, "chat_react", avoid)
+        cost = 0.7
+    elif intent == "gossip":
+        if o.traits["sociability"] + o.traits["impulsivity"] >= 105 or rt.affection >= 55:
+            _say(sim, cid, "gossip", "spill", salt, "chat_gossip", avoid)
+            fx.need(me.id, "fun", 3, "gossip")
+            _gain(sim, cid, fx, cid, "familiarity", 1.5, "gossiping")
+            _gain(sim, cid, fx, cid, "affection", 0.8, "gossiping")
+        else:
+            _say(sim, cid, "gossip", "shut", salt, "chat_react", avoid)
+            _gain(sim, cid, fx, cid, "perceived", -1.0, "not into gossip")
+            why = f"{o.first} isn't into gossip."
+    elif intent == "thanks":
+        _say(sim, cid, "thanks", "warm" if ok == "warm" else "ok", salt, "chat_react", avoid)
+        _gain(sim, cid, fx, cid, "affection", 1.0, "you said thanks")
+        cost = 0.6
     elif intent == "compliment":
         _learn(sim, cid, "sweet")
         if tastes(o)["sweet"] < 0 and rt.affection < 50:
@@ -736,7 +826,7 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         c["energy"] = 0
         result = "rude"
     elif intent == "bye":
-        post(sim, tid, cid, _pick(sim, D()["close"]["nice" if ok != "cold" else "tired"], salt, avoid), kind="chat_close", unread=False)
+        post(sim, tid, cid, _pick(sim, _pool(sim, cid, "close", "nice" if ok != "cold" else "tired"), salt, avoid), kind="chat_close", unread=False)
         _gain(sim, cid, fx, cid, "perceived", 0.5, "ended on a good note")
         if c["turns"] >= 4:
             post(sim, tid, "note", "Nice. Ending on a good note leaves them wanting more.", kind="note", unread=False)
@@ -822,13 +912,13 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
     c["energy"] -= cost
     good = result not in ("rude", "flirt_awkward", "flirt_shut") and intent not in ("dry", "bye")
     if good and not c["closed"] and _keen(sim, cid) and not sib and rng.random() < 0.35:
-        post(sim, tid, cid, _pick(sim, D()["double"], salt + ":dbl", avoid), kind="chat_double", unread=False, ctx={"fast": True})
+        post(sim, tid, cid, _pick(sim, _pool(sim, cid, "double"), salt + ":dbl", avoid), kind="chat_double", unread=False, ctx={"fast": True})
     if c["energy"] <= 0 and not c["closed"]:
         tone = "cold" if result == "rude" or c["momentum"] < -0.3 else "nice" if ok == "warm" else "tired"
-        post(sim, tid, cid, _pick(sim, D()["close"][tone], salt + ":close", avoid), kind="chat_close" if tone != "cold" else "chat_close_cold", unread=False)
+        post(sim, tid, cid, _pick(sim, _pool(sim, cid, "close", tone), salt + ":close", avoid), kind="chat_close" if tone != "cold" else "chat_close_cold", unread=False)
         c["closed"] = True
     elif ask and not c["closed"]:
-        pool = D()["ask"]["flirty" if result == "flirt_landed" else "general"]
+        pool = _pool(sim, cid, "ask", "flirty" if result == "flirt_landed" else "general")
         qs = [x if isinstance(x, dict) else {"q": x, "a": "open"} for x in pool]
         text_q = _pick(sim, [x["q"] for x in qs], salt + ":ask", avoid)
         kind_a = next((x["a"] for x in qs if x["q"] == text_q), "open")
@@ -889,6 +979,13 @@ def suggestions(sim, cid) -> list:
         add(3, 1, "support", "support")
     add(5, 2, "ask", "ask")
     add(5, 2, "joke", "joke")
+    if me.needs.get("stress", 40) >= 60 and (r_me := w.rels.get((me.id, cid))) and r_me.affection >= 30:
+        add(3, 1, "vent", "vent", "😮‍💨")
+    recent_win = any(x["day"] >= w.day - 1 for x in me.achievements)
+    if recent_win:
+        add(3, 1, "news", "news", "🎉")
+    if last is not None and last["from"] == cid and last.get("kind") == "chat_comfort":
+        add(2, 1, "thanks", "thanks", "🙏")
     if partner:
         add(2, 3, "love", "love")
         add(4, 4, "plans", "plans")
@@ -921,7 +1018,7 @@ def suggestions(sim, cid) -> list:
     avoid = _avoid(sim, f"dm:{cid}")
     out = []
     for show, sug in sorted(picked, key=lambda x: x[0]):
-        pool = D()["answer"].get(sug["pool"]) if sug["intent"] == "answer" else D()["suggest"].get(sug["pool"])
+        pool = _pool(sim, cid, "answer", sug["pool"]) if sug["intent"] == "answer" else _pool(sim, cid, "suggest", sug["pool"])
         if not pool:
             continue
         item = {"text": _pick(sim, pool, f"{salt}:{sug['pool']}", avoid), "intent": sug["intent"], "tone": sug["tone"]}
@@ -960,6 +1057,30 @@ def vibe_relevant(sim, cid) -> bool:
     return bool(maybe) and _open_to_you(sim, cid) not in ("family", "staff")
 
 
+def _recent(sim, cid) -> str | None:
+    """Something you two just did together (today or yesterday) that they'd bring up, if they haven't already."""
+    w = sim.w
+    me = _me(sim)
+    said = _thread(sim, cid).get("recent_said", "")
+    for eid in reversed(w.history.by_char.get(me.id, [])[-80:]):
+        e = w.history.events.get(eid)
+        if not e or w.day - e["day"] > 1:
+            continue
+        both = me.id in e["actors"] + e["targets"] + e.get("involved", []) and cid in e["actors"] + e["targets"] + e.get("involved", [])
+        if not both:
+            continue
+        k = None
+        if e["type"] == "interact.hang_out" and e.get("outcome") in ("good", "great", "accepted", "ok"):
+            k = "group" if (e.get("data") or {}).get("act") or (e.get("data") or {}).get("crew") else "hangout"
+        elif e["type"] == "interact.date" and e.get("outcome") in ("good", "great"):
+            k = "date"
+        elif e["type"] == "game" and e.get("outcome") in ("win", "loss"):
+            k = "game_" + e["outcome"]
+        if k:
+            return None if said == f"{k}:{eid}" else f"{k}:{eid}"  # each shared moment comes up once
+    return None
+
+
 def follow_ups(sim):
     """Mornings: friends follow up on what you told them ("how'd the test go??")."""
     from .messages import _h, later, phone
@@ -974,7 +1095,7 @@ def follow_ups(sim):
         cid = tid[3:]
         r = w.rels.get((cid, me.id))
         if 1 <= w.day - m["day"] <= 2 and cid in w.chars and r and r.affection >= 25:
-            pool = D().get("follow", {}).get(m["topic"]) or []
+            pool = _pool(sim, cid, "follow", m["topic"])
             if pool:
                 later(sim, cid, "chat_follow", delay_phases=2 + _h(w.day, cid) % 3, text=pool[_h(w.day, cid, "f") % len(pool)],
                       ctx={"a": "day"})
