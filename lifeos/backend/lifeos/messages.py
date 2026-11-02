@@ -628,6 +628,12 @@ def reply(sim, tid, mid, index) -> dict:
         scene = next((x for x in w.meta.get("moments", []) if x["id"] == mo), {}).get("by_text")
         moments.resolve(sim, mo, int(i))
         answer = None if scene else "react_flirt_yes" if int(i) == 0 else "react_dry"
+    elif fx_key.startswith("group:"):
+        _, gid, yn = fx_key.split(":")
+        from . import squad
+        answer = squad.answer_invite(sim, gid, yn == "yes")
+        if yn != "yes" and sender in w.chars:
+            answer = None
     elif fx_key.startswith("invite:"):
         _, iid, yn = fx_key.split(":")
         inv = next(i for i in w.meta.get("inbox", []) if i["id"] == iid)

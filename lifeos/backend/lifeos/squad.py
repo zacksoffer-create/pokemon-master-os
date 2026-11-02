@@ -78,10 +78,17 @@ def names(sim, ids) -> tuple[str, str]:
 
 def acts_now(sim, slot) -> list:
     """Group things that fit this part of today (the season, the day, the weather in your town)."""
+    s = state(sim)
+    if not s:
+        return []
+    return acts_for(sim, slot, s["ids"])
+
+
+def acts_for(sim, slot, ids) -> list:
+    """Group things these people could do in this part of today."""
     w = sim.w
     me = _me(sim)
-    s = state(sim)
-    if not s or not me:
+    if not me:
         return []
     d = calm.date_of(w.day)
     cal = sim.cat.world["calendar"]
@@ -99,7 +106,7 @@ def acts_now(sim, slot) -> list:
             continue
         if a.get("school_night") and not (school and calm.is_school_day(w.day + 1, cal)):
             continue
-        if a.get("likes") and max([me.interests.get(a["likes"], 0)] + [w.chars[i].interests.get(a["likes"], 0) for i in s["ids"]]) < 50:
+        if a.get("likes") and max([me.interests.get(a["likes"], 0)] + [w.chars[i].interests.get(a["likes"], 0) for i in ids if i in w.chars]) < 50:
             continue
         if a.get("cost", 0) and me.money < a["cost"]:
             continue
@@ -274,3 +281,166 @@ def view(sim) -> dict | None:
             "plan": p and {"label": label(sim, p["act"], s), "when": {"evening": "tonight", "after_school": "after school", "day": "today"}.get(p["slot"], p["slot"]),
                            "joined": bool(p.get("joined"))},
             "jokes": s.get("jokes", [])[-3:]}
+
+
+# ------------------------------------------------------------------------------------------------ how hanging out really works
+# Mostly in small groups. One on one is for the people you're actually close to, and it doesn't happen every day.
+# Nobody asks while they have practice, or while you do.
+
+VERB = {"game": "hopping on the game", "park": "going to the park", "hoops": "shooting around", "food": "getting food",
+        "movie": "catching a movie", "beach": "going to the beach", "study": "doing homework together"}
+WHEN = {"after_school": "after school", "evening": "tonight", "day": "today"}
+MAX_ASKS = 2  # one-on-one invites to you in a week (your partner doesn't count)
+
+
+def can_ask(sim, asker, slot) -> bool:
+    """Would this person really ask you to hang out, just the two of you, right now?"""
+    w = sim.w
+    me = w.meta.get("protagonist")
+    if not me or asker == me or me not in w.chars:
+        return False
+    if sim.committed(me, slot) or sim.committed(asker, slot):
+        return False  # one of you has practice (or a game, or a show)
+    a, b = w.rels.get((asker, me)), w.rels.get((me, asker))
+    if not a or not b:
+        return False
+    if w.chars[me].flags.get("partner") == asker:
+        return True
+    thr = w.rules["rel.friend_threshold"]
+    close = a.familiarity >= 40 and a.affection >= thr and b.familiarity >= 30
+    keen = a.attraction >= 55 and a.familiarity >= 30
+    family = asker in sim.siblings(me)
+    if not (close or keen or family):
+        return False  # they barely know you: they'd ask you along with the group, not alone
+    return sum(1 for d in w.meta.get("asks", []) if w.day - d < 7) < MAX_ASKS
+
+
+def note_ask(w):
+    w.meta["asks"] = (w.meta.get("asks", []) + [w.day])[-10:]
+
+
+def close_to(sim, me, o) -> bool:
+    """People you'd hang out with one on one."""
+    w = sim.w
+    r = w.rels.get((me.id, o))
+    if not r:
+        return False
+    return (o == me.flags.get("partner") or o in sim.siblings(me.id) or r.affection >= w.rules["rel.close_threshold"]
+            or r.attraction >= 45)
+
+
+def busy_friends(sim, slot) -> list:
+    """Your friends who are at practice, a game or a show right now."""
+    w = sim.w
+    me = _me(sim)
+    out = []
+    for o, r in w.out.get(me.id, {}).items():
+        if o in w.chars and r.affection >= w.rules["rel.friend_threshold"] and w.chars[o].status == "active":
+            k = sim.committed(o, slot)
+            if k:
+                out.append({"id": o, "first": w.chars[o].first, "what": k["kind"]})
+    return sorted(out, key=lambda x: x["first"])[:6]
+
+
+def invite(sim) -> dict | None:
+    gi = sim.w.meta.get("group_invite")
+    return gi if gi and gi.get("day") == sim.w.day else None
+
+
+def invite_dawn(sim):
+    """Some mornings a friend asks you along with a few of their people ("me, Cole and Kai are getting food after
+    school. you in?"). It's how you end up hanging out with friends of friends."""
+    w = sim.w
+    me = _me(sim)
+    if not me or "phone" not in w.meta or plan(sim):
+        return
+    cal = sim.cat.world["calendar"]
+    school = calm.is_school_day(w.day, cal)
+    if _h(w.day, "group-invite") % 1000 / 1000 >= (0.3 if school else 0.45):
+        return
+    slot = "after_school" if school and _h(w.day, "gi-slot") % 2 else "evening" if school else "day"
+    if sim.committed(me.id, slot):
+        slot = "evening"
+        if sim.committed(me.id, slot):
+            return
+    thr = w.rules["rel.friend_threshold"]
+    s = state(sim)
+    hosts = sorted((o for o, r in w.out.get(me.id, {}).items() if o in w.chars and w.chars[o].status == "active"
+                    and w.chars[o].role in ("student", "alumni") and w.chars[o].location == me.location and r.affection >= thr
+                    and w.rels.get((o, me.id)) and w.rels[(o, me.id)].affection >= thr - 5 and w.rels[(o, me.id)].familiarity >= 30
+                    and o not in sim.siblings(me.id) and not sim.committed(o, slot)), key=lambda o: o)
+    if not hosts:
+        return
+    host = hosts[_h(w.day, "gi-host") % len(hosts)]
+    pals = sorted((x for x, r in w.out.get(host, {}).items() if x != me.id and x in w.chars and w.chars[x].status == "active"
+                   and w.chars[x].role in ("student", "alumni") and w.chars[x].location == me.location and r.affection >= thr
+                   and not sim.committed(x, slot) and x not in sim.siblings(me.id)),
+                  key=lambda x: (-w.rels[(host, x)].affection, x))
+    if not pals:
+        return
+    crew = pals[:1 + _h(w.day, "gi-n") % 2]
+    acts = acts_for(sim, slot, [host] + crew)
+    if not acts:
+        return
+    act = acts[_h(w.day, "gi-act") % len(acts)]
+    gi = {"day": w.day, "slot": slot, "host": host, "crew": crew, "act": act, "id": f"gi{w.day}", "answer": None}
+    w.meta["group_invite"] = gi
+    names = [w.chars[x].first for x in crew]
+    who = f"me and {names[0]}" if len(names) == 1 else f"me, {names[0]} and {names[1]}"
+    from .messages import post
+    post(sim, f"dm:{host}", host, f"{who} are {VERB.get(act, 'hanging out')} {WHEN.get(slot, 'later')}. you in?", kind="invite",
+         replies=[{"label": "i'm in", "fx": f"group:{gi['id']}:yes"}, {"label": "can't today", "fx": f"group:{gi['id']}:no"}],
+         ctx={"group_invite": gi["id"]})
+
+
+def answer_invite(sim, gid, yes: bool) -> str | None:
+    """You answered a group invite by text: it's a plan (or it isn't)."""
+    from .moments import control
+    w = sim.w
+    gi = invite(sim)
+    if not gi or gi["id"] != gid:
+        return None
+    gi["answer"] = "yes" if yes else "no"
+    if yes:
+        control(w)["queued"] = {"action": "hang_out", "target": gi["host"], "agreed": True, "day": w.day, "slot": gi["slot"],
+                                "label": label_for_invite(sim, gi)}
+        control(w)["crew"] = {"day": w.day, "slot": gi["slot"], "ids": list(gi["crew"]), "act": gi["act"]}
+    return "react_plans_yes" if yes else None
+
+
+def label_for_invite(sim, gi) -> str:
+    w = sim.w
+    names = [w.chars[x].first for x in [gi["host"]] + gi["crew"] if x in w.chars]
+    who = ", ".join(names[:-1]) + " and " + names[-1] if len(names) > 1 else names[0]
+    act = D()["acts"].get(gi["act"], {})
+    thing = {"game": "On the game", "park": "Park", "hoops": "Hoops", "food": "Food", "movie": "Movie", "beach": "Beach",
+             "study": "Homework"}.get(gi["act"], "Hanging out")
+    return f"{thing} with {who}"
+
+
+def invite_option(sim, opts, slot) -> list:
+    """The group invite, as a choice for right now (if it's for now and you haven't said no)."""
+    w = sim.w
+    gi = invite(sim)
+    if not gi or gi["slot"] != slot or gi.get("answer") == "no":
+        return []
+    hang = {o["target"]: o for o in opts if o["action"] == "hang_out" and o.get("target")}
+    base = hang.get(gi["host"])
+    if not base:
+        return []
+    crew = [x for x in gi["crew"] if not sim.committed(x, slot)]
+    names = [w.chars[x].first for x in [gi["host"]] + crew]
+    return [dict(base, key=f"invite:{gi['id']}", action="squad", act=gi["act"], crew=crew, text=label_for_invite(sim, dict(gi, crew=crew)),
+                 reason=f"{w.chars[gi['host']].first} asked you", who=", ".join(names), group="want", section="people", later=None,
+                 gut=False, icon="people")]
+
+
+def must_list(sim, slot) -> list:
+    """People who should be in your choices right now: your group, and whoever invited you."""
+    w = sim.w
+    s = state(sim)
+    ids = list(s["ids"]) if s else []
+    gi = invite(sim)
+    if gi and gi["slot"] == slot:
+        ids.append(gi["host"])
+    return [i for i in ids if i in w.chars and not sim.committed(i, slot)]

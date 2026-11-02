@@ -256,6 +256,18 @@ What's in it:
   who grabs the controller). Some days they make plans themselves ("on at 8?" / "bet"): it's on your plate and first in
   your choices then. Join or skip; skipping now and then costs almost nothing, you just hear what you missed. **Zero
   maintenance:** their group chat is there to read, never needs an answer and never shows as unread.
+- **Hanging out works like real life: mostly in small groups.**
+  - **One on one is for people you're close to.** Someone only asks you to hang out, just the two of you, once you
+    actually know each other (real friends, your partner, family, or someone who's into you), and it's rare: about one
+    or two a week, not every day. People you barely know ask you along with the group instead.
+  - **Small-group invites.** Some mornings a friend texts you about a few of their people: "me, Cole and Theo r getting
+    food tn. u in?" Tap **i'm in** right in the thread and it's your plan (they all come), or it's the top choice in
+    your free time ("Food with Danny, Cole and Theo · Danny asked you"). It's how you end up hanging out with friends
+    of friends.
+  - **Everyone has a schedule.** Nobody asks you while they have practice, a game or a show, or while you do. Friends
+    who are busy aren't in your choices, and the With friends section says why: "Danny and Cole have practice."
+  - **Groups first.** In your choices, your group and the small-group stuff come first, then one on one with people
+    you're close to; one on one with people you barely know is still there, just further down.
 - **Pets don't use up your time.** Feeding, walks, the park, playing, training, cuddles, treats, brushing and the bath
   (or the litter box, or the cage) are all quick taps on the Home tab, anytime. They're not in your free-time choices
   anymore. Your chores show on your plate with **Do it**; skip one and it usually still gets done (you mostly remember).

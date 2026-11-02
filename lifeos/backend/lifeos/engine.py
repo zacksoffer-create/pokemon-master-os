@@ -166,6 +166,7 @@ class Simulation:
             from . import drama, nights
             drama.dawn(self)  # gossip reaches you; sometimes drama does too
             nights.dawn(self)  # most Fridays and Saturdays, somebody has people over
+            squad.invite_dawn(self)  # some mornings a friend asks you along with a few of their people
         rng = self.streams.get("dawn", w.day)
         due = [s for s in w.schedule if s["day"] <= w.day]
         w.schedule = [s for s in w.schedule if s["day"] > w.day]
@@ -611,6 +612,9 @@ class Simulation:
             inv = {"id": f"in{w.next_id('invite')}", "day": w.day, "slot": self.slot.slot, "from": inviter, "to": target,
                    "action": cand.a["id"], "status": "pending", "event": ev.get("id"), "later": bool(mine)}
             w.meta.setdefault("inbox", []).append(inv)
+            if cand.a["id"] == "hang_out":
+                from .squad import note_ask
+                note_ask(w)
             if "phone" in w.meta:
                 from . import messages
                 messages.invite_text(self, inv)

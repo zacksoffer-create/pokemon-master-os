@@ -276,11 +276,19 @@ def phone_choices():
         from . import planner
         opts = planner.annotate(sim, me, uniq)
         from . import squad
+        # nobody's free while they're at practice: they're not an option right now
+        opts = [o for o in opts if not (o["action"] in ("hang_out", "date", "help_friend") and o.get("target") and sim.committed(o["target"], slot))]
         group = squad.option(sim, opts, slot)  # your group: the boys on the game, the park, a food run
+        asked = squad.invite_option(sim, opts, slot)  # a friend asked you along with a few of their people
         crew = [] if group or squad.state(sim) else [x for x in [crew_option(L, me, opts)] if x]
+        # one on one is for the people you're close to; everyone else comes after the group stuff
+        solo = [o for o in opts if o["action"] == "hang_out" and o.get("target") and not squad.close_to(sim, me, o["target"])]
+        for o in solo:
+            o["minor"] = True
+        opts = [o for o in opts if o not in solo] + solo
         at = next((i for i, o in enumerate(opts) if o["group"] != "should"), len(opts))
-        opts[at:at] = group + crew
-        return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": opts}
+        opts[at:at] = asked + group + crew
+        return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": opts, "busy": squad.busy_friends(sim, slot)}
 
 
 def crew_option(L, me, opts):

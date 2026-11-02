@@ -40,6 +40,7 @@ export default function StoryTab() {
   const { state, refresh, toast, setBusy: setGlobalBusy } = usePhone();
   const lab = useStore();
   const [choices, setChoices] = useState<Choice[] | null>(null);
+  const [atPractice, setAtPractice] = useState<{ first: string; what: string }[]>([]);
   const [choiceKey, setChoiceKey] = useState("");
   const [more, setMore] = useState(false);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
@@ -67,6 +68,7 @@ export default function StoryTab() {
     setMore(false);
     phoneApi.choices().then((r) => {
       if (!off) setChoices(r.ready ? r.options || [] : []);
+      if (!off) setAtPractice(r.busy || []);
     }).catch((e) => !off && toast(errText(e), "bad"));
     return () => { off = true; };
   }, [wantChoices, key]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -236,6 +238,7 @@ export default function StoryTab() {
                 {shown.map(({ g, list }) => list.length > 0 && (
                   <div key={g} className={cx("ph-cgroup", "g-" + g)}>
                     <div className="ph-cgroup-t">{{ people: "With friends", solo: "On your own", out: "Go somewhere", trouble: "Stir things up" }[g]}</div>
+                    {g === "people" && atPractice.length > 0 && <div className="ph-busy-line">{busyLine(atPractice)}</div>}
                     {list.map((c, i) => <ChoiceCard key={c.key || c.index} c={c} gut={!!c.gut} busy={busy} onPick={choose} onLater={later} delay={i} />)}
                   </div>
                 ))}
@@ -357,6 +360,14 @@ function TopBar() {
 }
 
 /** The first few choices of a group, mixed: one of each kind before a second "Sit with someone". */
+/** "Danny and Cole have practice." Who's not around right now, so it makes sense why they're not options. */
+function busyLine(b: { first: string; what: string }[]) {
+  const names = b.map((x) => x.first);
+  const who = names.length > 2 ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}` : names.join(" and ");
+  const what = b.every((x) => x.what === "game") ? "a game" : b.every((x) => x.what === "show") ? "a show" : "practice";
+  return `${who} ${names.length === 1 ? "has" : "have"} ${what}.`;
+}
+
 function varied(list: Choice[], n: number): Choice[] {
   const out: Choice[] = [];
   const seen = new Set<string>();

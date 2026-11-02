@@ -137,6 +137,11 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
     if sel in ("known", "listener", "tease_target", "colleague"):
         pool = ctx["known_remote"] if a["id"] == "chat_online" else known
         cand = [r for oid, r in pool if r.familiarity >= 10]
+        prot = w.meta.get("protagonist")
+        if a["id"] == "hang_out" and prot and c.id != prot and any(r.dst == prot for r in cand):
+            from .squad import can_ask  # one on one is for people you're close to, when neither of you is busy
+            if not can_ask(sim, c.id, slot):
+                cand = [r for r in cand if r.dst != prot]
         if sel == "colleague":
             cand = [r for r in cand if w.chars[r.dst].role == "staff"]
         if sel == "listener":
@@ -154,6 +159,10 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
         if sel == "tease_target":
             key = lambda r: (c.popularity - w.chars[r.dst].popularity) + ctx["grudge"].get(r.dst, 0)
         top = _shortlist(sim, c, cand, key, K, rng)
+        if a["id"] == "hang_out" and c.id == prot:
+            from .squad import must_list  # your group (and whoever invited you) are always an option
+            must = set(must_list(sim, slot))
+            top += [r for r in cand if r.dst in must and r not in top]
         for r in top:
             o = w.chars[r.dst]
             why = f"knows {o.short} ({r.label}, affection {r.affection:.0f})"

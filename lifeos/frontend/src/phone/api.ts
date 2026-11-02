@@ -95,7 +95,8 @@ export type ClassRow = { id: string; name: string; subject: string; teacher: str
 export type ClassesView = { gpa: number; year: string; classes: ClassRow[]; upcoming: { name: string; date: string; in_days: number; weight: number }[]; tests_played: number };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
-  choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[] }> => api.get("/api/phone/choices"),
+  choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
+    api.get("/api/phone/choices"),
   choose: (index: number, crew?: string[], act?: string): Promise<{ lines: Line[]; chips: Chip[] }> =>
     api.post("/api/phone/choose", crew ? { index, crew, act } : { index }),
   today: (): Promise<Today> => api.get("/api/phone/today"),
