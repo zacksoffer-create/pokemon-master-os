@@ -216,12 +216,19 @@ def plate(sim, me) -> list:
     if dance and (me.grade or 0) <= 12 and not (w.dance_dates.get(dance.get("key"), {}) or {}).get(me.id):
         items.append({"id": f"dance:{dance['day']}", "kind": "people", "icon": "heart", "title": f"{dance['name']} {_when(dance['day'] - w.day, w.day)}",
                       "sub": "You don't have a date yet", "rank": 3})
+    # the person you're with, when it's been a few days
+    partner = me.flags.get("partner")
+    pr = w.rels.get((me.id, partner)) if partner in w.chars else None
+    if pr and pr.last_day >= 0 and w.day - pr.last_day >= 3:
+        gap = w.day - pr.last_day
+        items.append({"id": f"partner:{partner}", "kind": "people", "icon": "heart", "title": f"{w.chars[partner].first} misses you",
+                      "sub": f"{gap} days since you two talked", "go": f"phone/thread/dm:{partner}", "cta": "Text", "rank": 2})
     # friends you've lost touch with
     drift = []
     fam = set(sim.siblings(me.id))
     for o, r in w.out.get(me.id, {}).items():
         c = w.chars.get(o)
-        if not c or c.status != "active" or c.role == "staff" or o in fam or r.affection < 45 or r.last_day < 0:
+        if not c or c.status != "active" or c.role == "staff" or o in fam or o == partner or r.affection < 45 or r.last_day < 0:
             continue
         gap = w.day - r.last_day
         if gap >= 7:
@@ -274,6 +281,8 @@ def plan_label(sim, q) -> str | None:
         when = "next time you're free"
     if who in w.chars and act in verb:
         return f"{verb[act]} with {w.chars[who].first}, {when}"
+    if who in w.chars and act == "ask_out":
+        return f"Asking {w.chars[who].first} out, next time you see them"
     if q.get("label"):
         return q["label"] if q.get("slot") else f"{q['label']}, {when}"
     if who in w.chars:

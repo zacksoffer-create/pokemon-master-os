@@ -460,7 +460,7 @@ class Simulation:
                         dec["cands"][hit].extra = dict(dec["cands"][hit].extra or {}, trick=q["trick"])
                     if q.get("agreed") and q.get("target"):
                         self.slot.agreed.add((cid, q["target"]))
-                if hit is not None or q.get("invite") or w.day - q.get("day", w.day) > 2:
+                if hit is not None or q.get("invite") or w.day > q.get("expires", q.get("day", w.day) + 2):
                     w.meta["control"].pop("queued", None)
             if cid in overrides:
                 i = overrides[cid]

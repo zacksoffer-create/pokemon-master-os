@@ -331,3 +331,16 @@
 .pm-guide li { font-size: 13.5px; }
 .pm-guide li b { display: block; }
 .pm-guide li span { color: var(--pm-muted); }
+
+.pm-tastes { margin-top: 12px; }
+.pm-tastes-h { font-size: 12px; font-weight: 800; color: var(--pm-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 7px; }
+.pm-tastes-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.pm-taste { display: flex; flex-direction: column; padding: 6px 10px; border-radius: 12px; background: #f6f5fb; min-width: 0; }
+.pm-taste b { font-size: 12.5px; }
+.pm-taste small { font-size: 11px; color: var(--pm-muted); font-weight: 600; }
+.pm-taste.good { background: #e4f6ed; }
+.pm-taste.good small { color: #1d8a63; }
+.pm-taste.bad { background: #fdebe7; }
+.pm-taste.bad small { color: #c4492c; }
+.pm-taste.unknown { background: transparent; box-shadow: inset 0 0 0 1.5px var(--pm-line); }
+.pm-taste.unknown b { color: var(--pm-muted); }

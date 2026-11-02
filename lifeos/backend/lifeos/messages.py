@@ -393,11 +393,14 @@ def tick(sim):
         kw = dict(x["kw"])
         rk = kw.pop("replies", None)
         salt = f"{w.day}:{x['key']}:{cid}:{ph['next']}"
-        if x["key"] == "scene":  # a line written in a dialogue pack scene
+        ctx = kw.pop("ctx", None)
+        if x["key"] == "scene" or x["key"].startswith("chat_"):  # a line written for this moment (a pack scene, a follow-up)
             text = kw.pop("text", "")
         else:
             text = pick(x["key"], salt, avoid=_avoid(sim, f"dm:{cid}"), sim=sim, frm=cid, me=w.chars[w.meta["protagonist"]].first, **kw)
-        post(sim, f"dm:{cid}", cid, text, kind=x["key"], replies=_replies(rk, salt) if rk else _replies("generic", salt))
+        chat_line = x["key"].startswith("chat_")  # part of a conversation you keep going yourself: no canned replies
+        post(sim, f"dm:{cid}", cid, text, kind=x["key"], ctx=ctx,
+             replies=None if chat_line else _replies(rk, salt) if rk else _replies("generic", salt))
 
 
 def daily(sim):
@@ -409,7 +412,14 @@ def daily(sim):
     rng_base = _h(w.day, "chatter")
     partner = me.flags.get("partner")
     sent = 0
-    if partner in w.chars and rng_base % 100 < 30:
+    from . import chat
+    chat.follow_ups(sim)  # "how'd the test go??"
+    pr = w.rels.get((me.id, partner)) if partner in w.chars else None
+    if pr and pr.last_day >= 0 and w.day - pr.last_day >= 3 and rng_base % 100 < 60:
+        pool = chat.D()["reply"]["partner"]["miss"]
+        later(sim, partner, "chat_miss", delay_phases=3 + rng_base % 3, text=pool[rng_base % len(pool)])
+        sent += 1
+    elif partner in w.chars and rng_base % 100 < 30:
         later(sim, partner, "chatter_partner", delay_phases=4 + rng_base % 3, replies="partner")
         sent += 1
     friends = sorted([(r.affection, o) for o, r in w.out.get(me.id, {}).items()
@@ -764,7 +774,7 @@ def thread_view(sim, tid, mark_read=False) -> dict:
         msgs.append({"id": m["id"], "from": m["from"], "from_name": sender_name(sim, m["from"]), "text": m["text"], "at": m["at"],
                      "day": m["day"], "date": calm.label(m["day"]), "kind": m["kind"], "read": m.get("read", False),
                      "replies": [r["label"] for r in m["replies"]] if _reply_open(sim, m) else None,
-                     "chosen": m.get("chosen")})
+                     "chosen": m.get("chosen"), "fast": bool((m.get("ctx") or {}).get("fast"))})
     out = {"id": tid, "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"], "msgs": msgs,
            "can_text": t["kind"] == "dm" and bool(text_options(sim, t["members"][0])) if t["members"] else False,
            "text_options": text_options(sim, t["members"][0]) if t["kind"] == "dm" and t["members"] else []}

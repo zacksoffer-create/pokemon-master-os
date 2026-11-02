@@ -1,93 +1,667 @@
 {
-  "_about": "Lines for texting that goes back and forth (chat.py). reply[intent][outcome] are their answers; ask are questions they send back; suggest are messages you can tap to send; close is how a conversation winds down. {me} is your first name, {topic} what you brought up.",
+  "_about": "Lines for texting that goes back and forth (chat.py). reply[intent][outcome] are their answers; topic[topic] are answers to something you brought up; ask are questions they send back (a = the kind of answer it wants); answer[a] are answers you can tap; follow[topic] is them following up later; double are extra texts from someone into you; suggest are messages you can tap to send, flirt_<style> by style; close is how a conversation winds down. {me} is your first name.",
   "reply": {
     "greet": {
-      "warm": ["heyy", "hey!! what's up", "hiii", "omg hey", "yo what's good", "heyyy i was literally just about to text you", "hey you", "hey! perfect timing i'm so bored"],
-      "ok": ["hey", "hey what's up", "sup", "hi", "yo", "hey hey"],
-      "cold": ["hey", "hi?", "oh hey", "k hi"]
+      "warm": [
+        "heyy",
+        "hey!! what's up",
+        "hiii",
+        "omg hey",
+        "yo what's good",
+        "heyyy i was literally just about to text you",
+        "hey you",
+        "hey! perfect timing i'm so bored"
+      ],
+      "ok": [
+        "hey",
+        "hey what's up",
+        "sup",
+        "hi",
+        "yo",
+        "hey hey"
+      ],
+      "cold": [
+        "hey",
+        "hi?",
+        "oh hey",
+        "k hi"
+      ]
     },
     "chat": {
-      "warm": ["lol same honestly", "wait that's so funny", "omg right", "ok i love that", "haha yeah i was thinking the same thing", "no way. tell me more", "that's actually so real", "ngl that made my day", "stoppp lol", "ok that's kind of amazing"],
-      "ok": ["oh nice", "fair", "yeah", "lol ok", "true", "haha nice", "makes sense", "oh word"],
-      "cold": ["ok", "cool", "lol", "mhm", "k"]
+      "warm": [
+        "lol same honestly",
+        "wait that's so funny",
+        "omg right",
+        "ok i love that",
+        "haha yeah i was thinking the same thing",
+        "no way. tell me more",
+        "that's actually so real",
+        "ngl that made my day",
+        "stoppp lol",
+        "ok that's kind of amazing"
+      ],
+      "ok": [
+        "oh nice",
+        "fair",
+        "yeah",
+        "lol ok",
+        "true",
+        "haha nice",
+        "makes sense",
+        "oh word"
+      ],
+      "cold": [
+        "ok",
+        "cool",
+        "lol",
+        "mhm",
+        "k"
+      ]
     },
     "ask": {
-      "warm": ["honestly not much, just thinking about stuff lol", "just got home, finally", "chilling, avoiding homework like always", "lying in bed watching videos lol", "eating everything in the kitchen", "listening to music and pretending to study", "just finished practice, i'm dead", "good! better now lol"],
-      "ok": ["not much", "nothing really", "homework", "eh it was fine", "same old", "just chilling"],
-      "cold": ["nm", "nothing", "busy", "idk"]
+      "warm": [
+        "honestly not much, just thinking about stuff lol",
+        "just got home, finally",
+        "chilling, avoiding homework like always",
+        "lying in bed watching videos lol",
+        "eating everything in the kitchen",
+        "listening to music and pretending to study",
+        "just finished practice, i'm dead",
+        "good! better now lol"
+      ],
+      "ok": [
+        "not much",
+        "nothing really",
+        "homework",
+        "eh it was fine",
+        "same old",
+        "just chilling"
+      ],
+      "cold": [
+        "nm",
+        "nothing",
+        "busy",
+        "idk"
+      ]
     },
     "joke": {
-      "laugh": ["LMAO", "i'm crying 😂", "stop i can't breathe", "😭😭", "ok that's actually funny", "why are you like this lmao", "dead 💀", "HAHA no way", "you're so dumb i love it"],
-      "meh": ["lol", "haha ok", "...lol", "i don't get it", "😐", "ok?"]
+      "laugh": [
+        "LMAO",
+        "i'm crying 😂",
+        "stop i can't breathe",
+        "😭😭",
+        "ok that's actually funny",
+        "why are you like this lmao",
+        "dead 💀",
+        "HAHA no way",
+        "you're so dumb i love it"
+      ],
+      "meh": [
+        "lol",
+        "haha ok",
+        "...lol",
+        "i don't get it",
+        "😐",
+        "ok?"
+      ]
     },
     "compliment": {
-      "warm": ["stoppp 🥹", "aw thank you!!", "wait that's so nice", "you're sweet", "ok you just made my day", "that means a lot honestly", "lol thanks, you too"],
-      "weird": ["lol thanks?", "oh. thanks", "haha ok", "uh thanks lol"]
+      "warm": [
+        "stoppp 🥹",
+        "aw thank you!!",
+        "wait that's so nice",
+        "you're sweet",
+        "ok you just made my day",
+        "that means a lot honestly",
+        "lol thanks, you too"
+      ],
+      "weird": [
+        "lol thanks?",
+        "oh. thanks",
+        "haha ok",
+        "uh thanks lol"
+      ]
     },
     "flirt": {
-      "landed": ["😏 oh yeah?", "ok you can't just say that", "stop i'm blushing", "wait 😳", "maybe i was hoping you'd text too", "you're trouble you know that", "ok that was smooth", "hmm keep talking 😏", "lol you're cute when you try", "i mean... same 👀"],
-      "playful": ["lol okayyy", "haha smooth", "is that supposed to work on me lol", "😂 ok", "hmm we'll see", "lol you're funny", "nice try 😂"],
-      "awkward": ["lol", "haha... anyway", "um ok lol", "that's random", "lol what", "uh. ok", "oh lol"],
-      "shut": ["lol we're friends", "haha i don't really see you like that", "uh i'm talking to someone", "i think you got the wrong idea lol", "lol no", "i'm good lol"]
+      "landed": [
+        "😏 oh yeah?",
+        "ok you can't just say that",
+        "stop i'm blushing",
+        "wait 😳",
+        "maybe i was hoping you'd text too",
+        "you're trouble you know that",
+        "ok that was smooth",
+        "hmm keep talking 😏",
+        "lol you're cute when you try",
+        "i mean... same 👀"
+      ],
+      "playful": [
+        "lol okayyy",
+        "haha smooth",
+        "is that supposed to work on me lol",
+        "😂 ok",
+        "hmm we'll see",
+        "lol you're funny",
+        "nice try 😂"
+      ],
+      "awkward": [
+        "lol",
+        "haha... anyway",
+        "um ok lol",
+        "that's random",
+        "lol what",
+        "uh. ok",
+        "oh lol"
+      ],
+      "shut": [
+        "lol we're friends",
+        "haha i don't really see you like that",
+        "uh i'm talking to someone",
+        "i think you got the wrong idea lol",
+        "lol no",
+        "i'm good lol"
+      ]
     },
     "plans": {
-      "yes": ["yes!! when", "i'm down", "omg yes", "sure! where", "bet", "yeah let's do it", "down. text me when", "ok yes i need to get out of the house"],
-      "no": ["can't today sorry", "ugh i wish, busy", "maybe another time?", "not today, rain check?", "i'm so tired lol another day"],
-      "cold": ["nah i'm good", "i'm busy", "maybe"],
-      "already": ["lol we already have plans", "yes we literally just said that 😂", "already planned, silly", "bro we're already hanging lol"]
+      "yes": [
+        "yes!! when",
+        "i'm down",
+        "omg yes",
+        "sure! where",
+        "bet",
+        "yeah let's do it",
+        "down. text me when",
+        "ok yes i need to get out of the house"
+      ],
+      "no": [
+        "can't today sorry",
+        "ugh i wish, busy",
+        "maybe another time?",
+        "not today, rain check?",
+        "i'm so tired lol another day"
+      ],
+      "cold": [
+        "nah i'm good",
+        "i'm busy",
+        "maybe"
+      ],
+      "already": [
+        "lol we already have plans",
+        "yes we literally just said that 😂",
+        "already planned, silly",
+        "bro we're already hanging lol"
+      ]
     },
     "support": {
-      "thanks": ["thank you. honestly needed that", "that means a lot", "yeah... it's been a lot. thanks for asking", "you're a good friend you know that", "🥹 thank you", "i'm ok, better now that you asked"],
-      "fine": ["lol i'm good! but thanks", "i'm fine haha why", "all good!", "yeah i'm good"]
+      "thanks": [
+        "thank you. honestly needed that",
+        "that means a lot",
+        "yeah... it's been a lot. thanks for asking",
+        "you're a good friend you know that",
+        "🥹 thank you",
+        "i'm ok, better now that you asked"
+      ],
+      "fine": [
+        "lol i'm good! but thanks",
+        "i'm fine haha why",
+        "all good!",
+        "yeah i'm good"
+      ]
     },
     "apology": {
-      "accept": ["it's ok. thanks for saying that", "we're good", "ok. i appreciate it", "thanks. i was kinda upset ngl", "all good, really"],
-      "cold": ["ok", "whatever", "sure", "k"]
+      "accept": [
+        "it's ok. thanks for saying that",
+        "we're good",
+        "ok. i appreciate it",
+        "thanks. i was kinda upset ngl",
+        "all good, really"
+      ],
+      "cold": [
+        "ok",
+        "whatever",
+        "sure",
+        "k"
+      ]
     },
     "dry": {
-      "dry": ["ok", "lol", "k", "cool", "mhm", "anyway"],
-      "check": ["you good?", "lol why are you being so dry", "ok...", "did i do something?"]
+      "dry": [
+        "ok",
+        "lol",
+        "k",
+        "cool",
+        "mhm",
+        "anyway"
+      ],
+      "check": [
+        "you good?",
+        "lol why are you being so dry",
+        "ok...",
+        "did i do something?"
+      ]
     },
     "rude": {
-      "hurt": ["wow ok", "what's your problem", "ok bye", "that's kinda messed up", "lol ok. noted", "seriously?"]
+      "hurt": [
+        "wow ok",
+        "what's your problem",
+        "ok bye",
+        "that's kinda messed up",
+        "lol ok. noted",
+        "seriously?"
+      ]
     },
     "love": {
-      "back": ["love you too ❤️", "ily too", "❤️❤️", "love you more", "🥰 love you"],
-      "fam": ["love you too weirdo", "ew. love you too", "lol ok love you"]
+      "back": [
+        "love you too ❤️",
+        "ily too",
+        "❤️❤️",
+        "love you more",
+        "🥰 love you"
+      ],
+      "fam": [
+        "love you too weirdo",
+        "ew. love you too",
+        "lol ok love you"
+      ]
     },
     "ask_out": {
-      "yes": ["wait are you asking me out?? 😳 ask me in person", "omg. ask me for real tomorrow 😳", "are you serious?? say it to my face lol 😳", "ok i'm smiling. ask me in person"],
-      "no": ["oh... i don't think of you like that, sorry", "um i think we're better as friends", "i'm kinda talking to someone sorry", "lol no but thanks"]
+      "yes": [
+        "wait are you asking me out?? 😳 ask me in person",
+        "omg. ask me for real tomorrow 😳",
+        "are you serious?? say it to my face lol 😳",
+        "ok i'm smiling. ask me in person"
+      ],
+      "no": [
+        "oh... i don't think of you like that, sorry",
+        "um i think we're better as friends",
+        "i'm kinda talking to someone sorry",
+        "lol no but thanks"
+      ]
     },
     "family": {
-      "sib_flirt": ["ew???", "why would you text me that", "wrong chat?? 💀", "i'm telling mom"],
-      "sib_ok": ["lol what do you want", "hey loser", "ok?", "what", "yeah?"],
-      "sib_warm": ["lol ok that's actually nice", "stop being nice it's weird", "ok fine you're not the worst"]
+      "sib_flirt": [
+        "ew???",
+        "why would you text me that",
+        "wrong chat?? 💀",
+        "i'm telling mom"
+      ],
+      "sib_ok": [
+        "lol what do you want",
+        "hey loser",
+        "ok?",
+        "what",
+        "yeah?"
+      ],
+      "sib_warm": [
+        "lol ok that's actually nice",
+        "stop being nice it's weird",
+        "ok fine you're not the worst"
+      ]
+    },
+    "answered": {
+      "yes": [
+        "yay ok see you there",
+        "ok good lol",
+        "nice!!",
+        "perfect",
+        "ok bet"
+      ],
+      "no": [
+        "aw nooo",
+        "boo lol",
+        "next time then",
+        "ugh fine"
+      ]
+    },
+    "style": {
+      "loves": [
+        "lmao ok i like that",
+        "stoppp 😂",
+        "ok you're good at this",
+        "see this is why i text you"
+      ],
+      "hates": [
+        "ew lol",
+        "ok that was a lot",
+        "cringe 😭",
+        "please never say that again lol"
+      ]
+    },
+    "partner": {
+      "miss": [
+        "miss you",
+        "when are we hanging out",
+        "you've been quiet lately",
+        "i feel like i never see you anymore"
+      ]
     }
   },
   "ask": {
-    "general": ["wbu?", "what are you up to?", "how was your day?", "what are you doing this weekend?", "you watching anything good?", "did you do the homework?", "what's new with you?", "you going to the game friday?", "how's practice been?", "what are you listening to rn?"],
-    "flirty": ["so why'd you really text me 😏", "what are you doing later?", "were you thinking about me or something?", "so are we hanging out or what 👀"]
+    "general": [
+      {
+        "q": "wbu?",
+        "a": "doing"
+      },
+      {
+        "q": "what are you up to?",
+        "a": "doing"
+      },
+      {
+        "q": "how was your day?",
+        "a": "day"
+      },
+      {
+        "q": "what are you doing this weekend?",
+        "a": "weekend"
+      },
+      {
+        "q": "you watching anything good?",
+        "a": "open"
+      },
+      {
+        "q": "did you do the homework?",
+        "a": "yesno"
+      },
+      {
+        "q": "what's new with you?",
+        "a": "open"
+      },
+      {
+        "q": "you going to the game friday?",
+        "a": "yesno"
+      },
+      {
+        "q": "how's practice been?",
+        "a": "day"
+      },
+      {
+        "q": "what are you listening to rn?",
+        "a": "open"
+      },
+      {
+        "q": "are you ready for the test?",
+        "a": "yesno"
+      },
+      {
+        "q": "ok but how are you actually",
+        "a": "day"
+      },
+      {
+        "q": "you coming to lunch tomorrow?",
+        "a": "yesno"
+      }
+    ],
+    "flirty": [
+      {
+        "q": "so why'd you really text me 😏",
+        "a": "flirty"
+      },
+      {
+        "q": "what are you doing later?",
+        "a": "weekend"
+      },
+      {
+        "q": "were you thinking about me or something?",
+        "a": "flirty"
+      },
+      {
+        "q": "so are we hanging out or what 👀",
+        "a": "yesno"
+      },
+      {
+        "q": "do you text everyone like this or just me",
+        "a": "flirty"
+      }
+    ]
   },
   "close": {
-    "nice": ["ok i gotta go, ttyl!", "my mom's calling me, talk later 👋", "gonna sleep, night!", "ok i have to do homework ugh. text me later", "gtg! this was fun", "ok bye for real lol"],
-    "tired": ["ok i'm gonna go", "gtg", "ttyl", "k bye"],
-    "cold": ["ok bye", "whatever. bye", "i'm going"]
+    "nice": [
+      "ok i gotta go, ttyl!",
+      "my mom's calling me, talk later 👋",
+      "gonna sleep, night!",
+      "ok i have to do homework ugh. text me later",
+      "gtg! this was fun",
+      "ok bye for real lol"
+    ],
+    "tired": [
+      "ok i'm gonna go",
+      "gtg",
+      "ttyl",
+      "k bye"
+    ],
+    "cold": [
+      "ok bye",
+      "whatever. bye",
+      "i'm going"
+    ]
   },
   "suggest": {
-    "greet": ["hey!", "heyy what's up", "hey stranger", "yo"],
-    "ask": ["what are you up to?", "how was your day?", "what are you doing this weekend?", "ok random question: favorite movie?", "did you understand the homework at all", "what are you listening to rn?", "how was practice?"],
-    "answer": ["not much, just chilling. wbu?", "homework 😩 you?", "just got back from practice, dead", "nothing really, kinda bored", "same honestly lol", "yeah i'm going! you?"],
-    "joke": ["ok today was so weird lmao", "i'm convinced the cafeteria pizza is plastic", "why does every teacher assign homework on the same night 😂", "i almost fell asleep in class and did the head drop 💀"],
-    "compliment": ["you were really good today", "ngl you're funny", "you always make class less boring", "you killed it today"],
-    "flirt": ["ngl i was hoping you'd text 😏", "you're kinda distracting in class you know that", "ok you're cute when you're annoyed", "so are you always this fun or just with me 😏", "i might have been thinking about you a little"],
-    "flirt_strong": ["i really like talking to you", "can't stop thinking about earlier 😳", "so when are we hanging out, just us 😏", "ok i'll just say it. i like you"],
-    "plans": ["wanna get food this weekend?", "you should come hang after school", "wanna hang out sometime?", "we should go to the game together"],
-    "support": ["you ok? you seemed off today", "hey, how are you holding up?", "here if you wanna talk"],
-    "good_luck": ["good luck tonight!! 💪", "you're gonna kill it today"],
-    "congrats": ["congrats!! that's huge", "yo congrats, you deserve it"],
-    "apology": ["hey i'm sorry about the other day", "my bad for earlier. i was being dumb"],
-    "love": ["love you ❤️", "miss you"],
-    "bye": ["ok i gotta go, night!", "ttyl!", "gonna sleep, talk tomorrow?"]
-  }
+    "greet": [
+      "hey!",
+      "heyy what's up",
+      "hey stranger",
+      "yo"
+    ],
+    "ask": [
+      "what are you up to?",
+      "how was your day?",
+      "what are you doing this weekend?",
+      "ok random question: favorite movie?",
+      "did you understand the homework at all",
+      "what are you listening to rn?",
+      "how was practice?"
+    ],
+    "answer": [
+      "not much, just chilling. wbu?",
+      "homework 😩 you?",
+      "just got back from practice, dead",
+      "nothing really, kinda bored",
+      "same honestly lol",
+      "yeah i'm going! you?"
+    ],
+    "joke": [
+      "ok today was so weird lmao",
+      "i'm convinced the cafeteria pizza is plastic",
+      "why does every teacher assign homework on the same night 😂",
+      "i almost fell asleep in class and did the head drop 💀"
+    ],
+    "compliment": [
+      "you were really good today",
+      "ngl you're funny",
+      "you always make class less boring",
+      "you killed it today"
+    ],
+    "flirt": [
+      "ngl i was hoping you'd text 😏",
+      "you're kinda distracting in class you know that",
+      "ok you're cute when you're annoyed",
+      "so are you always this fun or just with me 😏",
+      "i might have been thinking about you a little"
+    ],
+    "flirt_strong": [
+      "i really like talking to you",
+      "can't stop thinking about earlier 😳",
+      "so when are we hanging out, just us 😏",
+      "ok i'll just say it. i like you"
+    ],
+    "plans": [
+      "wanna get food this weekend?",
+      "you should come hang after school",
+      "wanna hang out sometime?",
+      "we should go to the game together"
+    ],
+    "support": [
+      "you ok? you seemed off today",
+      "hey, how are you holding up?",
+      "here if you wanna talk"
+    ],
+    "good_luck": [
+      "good luck tonight!! 💪",
+      "you're gonna kill it today"
+    ],
+    "congrats": [
+      "congrats!! that's huge",
+      "yo congrats, you deserve it"
+    ],
+    "apology": [
+      "hey i'm sorry about the other day",
+      "my bad for earlier. i was being dumb"
+    ],
+    "love": [
+      "love you ❤️",
+      "miss you"
+    ],
+    "bye": [
+      "ok i gotta go, night!",
+      "ttyl!",
+      "gonna sleep, talk tomorrow?"
+    ],
+    "flirt_tease": [
+      "ok you're kinda cute when you're annoyed 😏",
+      "you're such a dork lol 😏",
+      "bet you can't go a day without texting me",
+      "admit it, you missed me",
+      "you wish 😏"
+    ],
+    "flirt_sweet": [
+      "ngl talking to you made my day",
+      "i really like talking to you",
+      "you're actually so easy to talk to",
+      "kinda glad we started talking"
+    ],
+    "flirt_bold": [
+      "so when are we hanging out, just us 😏",
+      "ok i'll just say it. i like you",
+      "let me take you out sometime",
+      "you're cute. that's it, that's the text"
+    ],
+    "flirt_funny": [
+      "i'd say you're my favorite person to text but my mom reads these lol",
+      "i almost texted you a meme but you deserve better 😂",
+      "if you were a vegetable you'd be a cute-cumber. i'm sorry 😂"
+    ],
+    "flirt_cheesy": [
+      "are you a parking ticket? because you've got fine written all over you",
+      "did it hurt when you fell from heaven",
+      "you must be tired because you've been running through my mind all day"
+    ],
+    "ask_out": [
+      "ok real question. would you go out with me?",
+      "wanna go out sometime? like a date"
+    ]
+  },
+  "answer": {
+    "doing": [
+      "not much, just chilling. wbu?",
+      "homework 😩 you?",
+      "just got back from practice, dead",
+      "nothing really, kinda bored",
+      "lying in bed avoiding everything lol",
+      "eating cereal for dinner. living my best life"
+    ],
+    "day": [
+      "it was fine. long. yours?",
+      "honestly kind of rough, but better now",
+      "good! practice went well",
+      "boring lol nothing happened",
+      "chaotic as always",
+      "pretty good actually"
+    ],
+    "weekend": [
+      "nothing yet, you have plans?",
+      "probably sleeping till noon lol",
+      "might go to the game. you?",
+      "free, why 👀",
+      "family stuff saturday, free sunday",
+      "no idea, entertain me"
+    ],
+    "yes": [
+      "yeah!",
+      "yep, you?",
+      "ya i'll be there",
+      "obviously lol",
+      "yes!!"
+    ],
+    "no": [
+      "nah not this time",
+      "no 😭",
+      "can't, sorry",
+      "nope lol",
+      "not yet, don't remind me"
+    ],
+    "open": [
+      "ok you have to hear this song",
+      "nothing good honestly. recommend something?",
+      "same stuff as always lol",
+      "honestly? you"
+    ],
+    "flirty": [
+      "maybe i just wanted to talk to you 😏",
+      "wouldn't you like to know",
+      "only you, don't let it go to your head",
+      "a little 👀"
+    ]
+  },
+  "topic": {
+    "game": [
+      "you guys looked good at practice",
+      "are you starting?",
+      "ugh coach is so intense",
+      "i might come watch 👀",
+      "you're gonna kill it",
+      "wait when's the next game"
+    ],
+    "school": [
+      "omg don't remind me 😭",
+      "wait was that due today??",
+      "i haven't even started lol",
+      "that class is actually evil",
+      "can i copy your notes pls",
+      "mr. whatever's tests are impossible"
+    ],
+    "music": [
+      "ok send it",
+      "wait i love that song",
+      "your music taste is actually good",
+      "adding it rn",
+      "lol that's so you"
+    ],
+    "weekend": [
+      "wait what's going on this weekend?",
+      "i need plans so bad",
+      "is everyone going?",
+      "ooh i'm in"
+    ],
+    "food": [
+      "now i'm hungry thanks",
+      "ok but the cafeteria fries are elite",
+      "we should get food sometime",
+      "i would kill for pizza rn"
+    ]
+  },
+  "follow": {
+    "school": [
+      "how'd the test go??",
+      "so did you survive that test lol",
+      "how was the quiz?"
+    ],
+    "game": [
+      "how'd the game go?!",
+      "did you guys win??",
+      "heard about the game. how'd you do?"
+    ],
+    "weekend": [
+      "how was your weekend?",
+      "so what'd you end up doing this weekend?"
+    ]
+  },
+  "double": [
+    "lol",
+    "wait",
+    "ok but seriously",
+    "👀",
+    "haha",
+    "also hi",
+    "ok i'm done lol",
+    "😂"
+  ]
 }

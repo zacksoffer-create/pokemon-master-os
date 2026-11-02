@@ -117,3 +117,92 @@ def test_the_phone_routes():
     assert v["stages"][0] == "Strangers" and v["read"] and v["tip"] and isinstance(v["signals"], list)
     assert len(c.get("/api/phone/flirting").json()["guide"]) >= 5
     assert c.post(f"/api/phone/thread/dm:{g}/say", json={"text": "   "}).status_code == 409
+
+
+def test_teasing_vs_rude_and_flirt_styles():
+    assert chat.classify("you're such a loser 😂")["intent"] == "joke" and chat.classify("you're such a loser 😂")["style"] == "tease"
+    assert chat.classify("you're such a loser")["intent"] == "rude"
+    assert chat.classify("ok i like you")["style"] == "bold"
+    assert chat.classify("talking to you made my day")["style"] == "sweet"
+    assert chat.classify("did it hurt when you fell from heaven 😏")["style"] == "cheesy"
+
+
+def test_everyone_likes_different_things_and_you_learn_what():
+    w, sim, me, g = _setup(45, 55, 40)
+    t = chat.tastes(w.chars[g])
+    assert set(t) == set(chat.STYLES) and 1 in t.values() and list(t.values()).count(-1) >= 2
+    others = {tuple(sorted(chat.tastes(c).items())) for c in w.students()[:20]}
+    assert len(others) >= 3, "different people, different tastes"
+    loved = next(k for k, v in t.items() if v == 1)
+    hated = next(k for k, v in t.items() if v == -1 and k != "cheesy") if any(v == -1 and k != "cheesy" for k, v in t.items()) else "cheesy"
+    # a style they're not into costs you; one they love helps (same person, same moment)
+    import random
+    lo = chat.flirt_check(sim, g, 1, 0.5, 0.0, random.Random(1), style=hated)
+    hi = chat.flirt_check(sim, g, 1, 0.5, 0.0, random.Random(1), style=loved)
+    assert hi["score"] > lo["score"]
+    assert "not into" in lo["why"] or lo["outcome"] in ("landed", "playful")
+    # you only know once you've tried it
+    assert not any(x["known"] for x in chat.tastes_view(sim, g))
+    chat.send(sim, g, "hey")
+    sug = chat.suggestions(sim, g)
+    fl = next(i for i, s in enumerate(sug) if s["intent"] == "flirt")
+    style = sug[fl]["style"]
+    chat.send(sim, g, None, fl)
+    known = {x["style"]: x for x in chat.tastes_view(sim, g)}
+    assert known[style]["known"] and known[style]["taste"] == t[style]
+
+
+def test_they_ask_you_things_and_your_answers_fit():
+    w, sim, me, g = _setup(30, 50, 45)
+    messages.post(sim, f"dm:{g}", g, "you going to the game friday?", kind="chat_ask", ctx={"a": "yesno"})
+    sug = chat.suggestions(sim, g)
+    assert [s.get("yn") for s in sug if s["intent"] == "answer"] == ["yes", "no"]
+    chat.send(sim, g, "yeah obviously")
+    th = messages.phone(w)["threads"][f"dm:{g}"]["msgs"]
+    mine = max(i for i, m in enumerate(th) if m["from"] == "me")
+    answer = th[mine + 1]["text"].lower()
+    assert any(answer.startswith(x.lower().rstrip("!")[:6]) for x in chat.D()["reply"]["answered"]["yes"]), answer
+    # bring up a test: they answer about it, and follow up after
+    chat.send(sim, g, "ugh i have a chem test tomorrow")
+    assert messages.phone(w)["threads"][f"dm:{g}"]["mentioned"]["topic"] == "school"
+    sim.advance_days(2)
+    msgs = messages.phone(w)["threads"][f"dm:{g}"]["msgs"]
+    follow = [m for m in msgs if m["kind"] == "chat_follow"]
+    assert follow and follow[-1]["text"] in chat.D()["follow"]["school"] and not follow[-1]["replies"]
+    assert any(s["text"] == "Remembered what you told them" for s in chat.signals(sim, g))
+
+
+def test_asking_out_by_text_plans_it_and_they_keep_their_word():
+    from lifeos import planner
+    w, sim, me, g = _setup(70, 70, 55)
+    for _ in range(2):
+        chat.send(sim, g, "you're kinda cute when you're annoyed 😏")
+    assert chat.stage(sim, g) >= 3
+    res = chat.send(sim, g, "ok real question. would you go out with me?")
+    assert res["result"] == "flirt_landed" and "Plan made" in res["why"]
+    q = w.meta["control"]["queued"]
+    assert q["action"] == "ask_out" and q["target"] == g and q["expires"] == w.day + 4
+    assert planner.plan_label(sim, q) == f"Asking {w.chars[g].first} out, next time you see them"
+    assert w.rels[(me.id, g)].crush, "you asked them out: you're into them"
+    assert w.chars[g].flags["told_to_ask"]["by"] == me.id
+
+
+def test_a_partner_you_ignore_misses_you():
+    from lifeos import planner
+    w, sim, me, g = _setup(70, 70, 70)
+    sim.advance_days(6)
+    me.flags["partner"], w.chars[g].flags["partner"] = g, me.id
+    r = w.rels[(me.id, g)]
+    r.last_day = w.day - 5
+    v = chat.vibe(sim, g)
+    assert v["signals"][0]["text"].startswith("Feeling distant: 5 days") and "5 days" in v["tip"]
+    plate = planner.today(sim)["plate"]
+    assert any(p["title"] == f"{w.chars[g].first} misses you" for p in plate)
+
+
+def test_packs_can_add_texting_lines():
+    from lifeos import dialogue
+    ok = dialogue.check({"name": "Chat test", "chat": {"topic": {"school": ["pop quiz again"]}, "ask": {"general": [{"q": "bonfire?", "a": "yesno"}]}}})
+    assert ok["ok"] and ok["summary"]["chat"] == 2
+    bad = dialogue.check({"name": "Chat test", "chat": {"topic": {"homework": ["x"]}, "ask": {"general": ["no kind"]}}})
+    assert not bad["ok"] and len(bad["errors"]) == 2

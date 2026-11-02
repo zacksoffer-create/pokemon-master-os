@@ -258,6 +258,10 @@ def r_ask_out(sim, c, cand, ev, fx, rng, ctx):
         ("likes someone else", -0.8 if others else 0.0),
         ("luck", rng.gauss(0, 0.5)),
     ]
+    told = B.flags.get("told_to_ask") or {}
+    if not dance and told.get("by") == c.id and w.day - told.get("day", -99) <= 7:
+        terms.append(("they told you to ask them in person", 3.0))  # they meant it
+        B.flags.pop("told_to_ask", None)
     if dance:
         terms.append(("just a dance (friends can say yes)", (rba.affection - 30) / 25))
         if B.flags.get("partner") == c.id:

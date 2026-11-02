@@ -39,11 +39,9 @@ _DATA = None
 
 
 def D() -> dict:
-    global _DATA
-    if _DATA is None:
-        from .catalogs import _base
-        _DATA = _base("chat.json")
-    return _DATA
+    """The texting lines: the built-in ones plus any from dialogue packs."""
+    from . import dialogue
+    return dialogue.chat_lines()
 
 
 # --- reading what you typed --------------------------------------------------------------------
@@ -68,6 +66,18 @@ QUESTION = r"^((what|how|why|when|where|who|wyd|hbu|wbu)\b|(did|do|are|r|is|can|
 TOPICS = {"game": r"\b(game|practice|coach|team|match|season|play(ed|ing)?)\b", "school": r"\b(test|quiz|homework|hw|class|teacher|exam|grade|essay)\b",
           "music": r"\b(song|music|album|concert|playlist|listen)\b", "weekend": r"\b(weekend|saturday|sunday|friday|party|dance)\b",
           "food": r"\b(food|pizza|hungry|eat|dinner|lunch)\b"}
+STYLE_RX = [
+    ("cheesy", r"(are you a |did it hurt|you must be tired|fell from heaven|\bangel\b|parking ticket|got a map|lost in your eyes|stole my heart|cute-?cumber|is your name)"),
+    ("bold", r"\b(i like you|i like u|go out with me|be my|just us|take you out|kiss|date)\b"),
+    ("sweet", r"\b(made my day|like talking to you|easy to talk to|glad (i met|we|you)|means a lot|thinking (about|of) (you|u)|miss (you|u)|you'?re (so )?(sweet|kind|amazing|beautiful|pretty))\b"),
+    ("tease", r"\b(annoying|nerd|loser|dork|weirdo|you wish|bet you can'?t|whatever you say|so dramatic|try me|admit it|you'?re lucky)\b"),
+]
+PLAYFUL = r"(😏|😂|🤣|😜|😝|\blol\b|\blmao\b|\bhaha|\bjk\b|💀)"
+MEAN = r"\b(hate you|f+u+c*k|nobody likes you|ugly|kill yourself|kys)\b"
+STYLES = ("tease", "sweet", "bold", "funny", "cheesy")
+STYLE_WORD = {"tease": ("Teasing", "the teasing"), "sweet": ("Sweet stuff", "sweet stuff"), "bold": ("Being direct", "you being direct"),
+              "funny": ("Making them laugh", "the jokes"), "cheesy": ("Cheesy lines", "cheesy lines")}
+STYLE_TONE = {"tease": "😏", "sweet": "🥰", "bold": "🔥", "funny": "😂", "cheesy": "🧀", "playful": "😏"}
 YES = r"^(yes+|yeah+|yea|yep|sure|ok(ay)?|down|i'?m down|bet|of course|definitely|deal|sounds good|let'?s do it)\b"
 NO = r"^(no+|nah|nope|can'?t|i can'?t|busy|not today|maybe another|sorry,? (i )?can'?t)\b"
 
@@ -101,8 +111,53 @@ def classify(text: str) -> dict:
             intent = "joke"
         else:
             intent = "chat"
-    f["intent"] = intent
+    if intent == "rude" and re.search(PLAYFUL, s) and not re.search(MEAN, low):
+        intent = "flirt" if emoji else "joke"  # "you're such a loser 😂" is teasing, not rude
+        f["flirt"] = 1 if emoji else 0
+    style = next((name for name, rx in STYLE_RX if re.search(rx, low)), None)
+    if intent in ("chat", "greet") and style == "sweet":
+        intent = "compliment"  # "talking to you made my day" is a sweet thing to say
+    if intent == "flirt":
+        style = style or ("funny" if f["joke"] else "playful")
+    elif intent == "joke":
+        style = "tease" if style == "tease" else "funny"
+    elif intent == "compliment":
+        style = "sweet"
+    elif intent not in ("ask_out", "love"):
+        style = None
+    f["intent"], f["style"] = intent, style
     return f
+
+
+def tastes(o) -> dict:
+    """What works on this person: their personality decides it. +1 they love it, -1 they're not into it."""
+    t = o.traits
+    raw = {"tease": (t["competitiveness"] + t["impulsivity"]) / 2 - t["volatility"] * 0.3 + 15,
+           "sweet": (t["empathy"] + t["loyalty"]) / 2,
+           "bold": (t["confidence"] + t["impulsivity"]) / 2,
+           "funny": (t["sociability"] + t["curiosity"]) / 2,
+           "cheesy": (t["sociability"] + t["impulsivity"]) / 2 - 18}
+    order = sorted(raw, key=lambda k: (-raw[k], k))
+    out = {k: 0 for k in raw}
+    out[order[0]] = 1
+    if raw[order[1]] >= raw[order[0]] - 6:
+        out[order[1]] = 1
+    out[order[-1]] = -1
+    out[order[-2]] = -1 if out[order[-2]] == 0 else out[order[-2]]
+    return out
+
+
+def _learn(sim, cid, style):
+    """You tried a style on them: now you know how it goes over."""
+    from .messages import phone
+    if style in STYLES:
+        phone(sim.w).setdefault("tastes", {}).setdefault(cid, {})[style] = tastes(sim.w.chars[cid])[style]
+
+
+def tastes_view(sim, cid) -> list:
+    from .messages import phone
+    known = phone(sim.w).get("tastes", {}).get(cid, {})
+    return [{"style": k, "label": STYLE_WORD[k][0], "known": k in known, "taste": known.get(k)} for k in STYLES]
 
 
 # --- how things stand between you ---------------------------------------------------------------
@@ -213,6 +268,10 @@ def signals(sim, cid, days=21) -> list:
     count = lambda k: sum(1 for m in recent if m["from"] == cid and m.get("kind") == k)  # noqa: E731
     if starts:
         out.append({"text": f"Texted you first{f' ({starts}×)' if starts > 1 else ''}", "good": True})
+    if count("chat_double"):
+        out.append({"text": "Double-texted you", "good": True})
+    if count("chat_follow"):
+        out.append({"text": "Remembered what you told them", "good": True})
     back = count("chat_flirt_landed")
     if back:
         out.append({"text": "Flirted back" + (f" ({back}×)" if back > 1 else ""), "good": True})
@@ -246,6 +305,11 @@ def signals(sim, cid, days=21) -> list:
             out.append({"text": "Had a great time with you", "good": True})
         elif k in ("interact.hang_out", "interact.date") and o in ("declined", "busy"):
             out.append({"text": "Turned down plans", "good": False})
+    if me.flags.get("partner") == cid:
+        mine = w.rels.get((me.id, cid))
+        gap = w.day - mine.last_day if mine and mine.last_day >= 0 else 0
+        if gap >= 4:
+            out.insert(0, {"text": f"Feeling distant: {gap} days since you talked", "good": False})
     seen, uniq = set(), []
     for s in out:
         if s["text"] not in seen:
@@ -263,13 +327,17 @@ def tip(sim, cid, st=None, rd=None) -> str:
     if why == "taken":
         return "They're with someone. Flirting now mostly makes things weird."
     if st == 5:
+        mine = sim.w.rels.get((_me(sim).id, cid))
+        gap = sim.w.day - mine.last_day if mine and mine.last_day >= 0 else 0
+        if gap >= 4:
+            return f"It's been {gap} days. Text them or make plans before they start to wonder."
         return "You're together. Text, hang out, show up for them."
     if rd["level"] == -1 or st == 0:
         return "Get to know them first: say hi, ask about their day, hang out. Flirting with someone who barely knows you is a gamble."
     if rd["level"] <= 1:
         return "They see you as a friend right now. Hang out and make them laugh; flirting now will probably be awkward."
     if st <= 2:
-        return "There are signs. Try a light flirt and see if they flirt back."
+        return "There are signs. Try a light flirt and see if they flirt back. Everyone's different: see what style works on them."
     if st == 3:
         return "They flirt back. Keep it going, then ask them to hang out, just you two."
     return "This is going somewhere. Ask them out in person."
@@ -278,15 +346,9 @@ def tip(sim, cid, st=None, rd=None) -> str:
 def vibe(sim, cid) -> dict:
     st = stage(sim, cid)
     rd = read(sim, cid)
-    from .social import orientation_ok
-    w = sim.w
-    me = _me(sim)
-    r = w.rels.get((cid, me.id))
-    # only where it could mean something: you could be into them, or they're into you
-    maybe = orientation_ok(me, w.chars[cid]) or (r is not None and r.attraction >= 30) or me.flags.get("partner") == cid
     return {"stage": st, "stages": STAGES, "read": rd["label"], "tone": rd["tone"], "level": rd["level"],
-            "signals": signals(sim, cid), "tip": tip(sim, cid, st, rd),
-            "romance": bool(maybe) and _open_to_you(sim, cid) not in ("family", "staff")}
+            "signals": signals(sim, cid), "tip": tip(sim, cid, st, rd), "tastes": tastes_view(sim, cid),
+            "romance": vibe_relevant(sim, cid)}
 
 
 # --- flirting, and why it worked -----------------------------------------------------------------
@@ -300,7 +362,7 @@ WHY = {
 }
 
 
-def flirt_check(sim, cid, strength: int, effort: float, momentum: float, rng) -> dict:
+def flirt_check(sim, cid, strength: int, effort: float, momentum: float, rng, style: str | None = None) -> dict:
     """Did the flirt land? Five readable parts, the two that mattered most become the reason."""
     w = sim.w
     me = _me(sim)
@@ -319,6 +381,8 @@ def flirt_check(sim, cid, strength: int, effort: float, momentum: float, rng) ->
     pace = 0.25 if st >= need else -0.35 * (need - st)
     you = 0.4 * (me.aptitudes["charisma"] + me.traits["confidence"] - 100) / 100 + 0.15 * effort
     terms = [("closeness", closeness), ("interest", interest), ("moment", moment), ("pace", pace), ("you", you)]
+    if style in STYLES:
+        terms.append(("style", 0.32 * tastes(o)[style]))  # everyone's different
     score = sum(v for _, v in terms) + rng.gauss(0, 0.15)
     if score >= 0.9:
         out = "landed"
@@ -332,20 +396,29 @@ def flirt_check(sim, cid, strength: int, effort: float, momentum: float, rng) ->
     neg = sorted([t for t in terms if t[1] < -0.05], key=lambda t: t[1])
 
     def word(k, good):
+        if k == "style":
+            return f"they love {STYLE_WORD[style][1]}" if good else f"they're not into {STYLE_WORD[style][1]}"
         if k == "pace" and not good and st <= 1:
             return "they barely know you yet"
         if k == "moment" and not good:
             return "they're stressed out" if stress > 0.3 else "they're in a bad mood" if o.mood < 40 else "the conversation had gone dry" if momentum < 0 else "bad timing"
         return WHY[k][0 if good else 1]
+    sv = dict(terms).get("style", 0)
     if out == "landed":
         why = "Landed: " + " and ".join(word(k, True) for k, _ in pos[:2]) + "." if pos else "Landed."
+        if sv < 0:
+            why += f" (They're not big on {STYLE_WORD[style][1]}, though.)"
     elif out == "playful":
         why = "They liked it" + (f" ({word(pos[0][0], True)})" if pos else "") + (f", but {word(neg[0][0], False)}." if neg else ".")
     else:
         lead = "Awkward" if out == "awkward" else "Shut down"
         why = f"{lead}: " + " and ".join(word(k, False) for k, _ in neg[:2]) + "." if neg else f"{lead}."
+        if sv > 0 and not any(k == "style" for k, _ in neg):
+            why += f" They do love {STYLE_WORD[style][1]}, so it's not the style."
         if neg:
-            why += " " + ("Talk and hang out first." if neg[0][0] in ("pace", "closeness") and st <= 1 else WHY[neg[0][0]][2])
+            k0 = neg[0][0]
+            why += " " + ("Talk and hang out first." if k0 in ("pace", "closeness") and st <= 1 else "Try a different style with them." if k0 == "style"
+                          else WHY[k0][2])
     return {"outcome": out, "why": why[0].upper() + why[1:], "terms": [[k, round(v, 2)] for k, v in terms], "score": round(score, 2)}
 
 
@@ -374,6 +447,8 @@ def why_ask_out(terms, yes: bool) -> str:
     aff = next((v for k, v in d.items() if "affection" in k), 0)
     taken = next((v for k, v in d.items() if k == "already taken"), 0)
     other = next((v for k, v in d.items() if k == "likes someone else"), 0)
+    if yes and d.get("they told you to ask them in person"):
+        return "Why: they told you to ask them in person, and they meant it."
     if yes:
         bits = ["they were into you"] if att > -1 else []
         if aff > 0.3:
@@ -448,11 +523,20 @@ def _pick(sim, pool: list, salt: str, avoid: set) -> str:
     return pool[i0]
 
 
-def _say(sim, cid, key, outcome, salt, kind, avoid):
-    from .messages import post, _fill
-    pool = D()["reply"].get(key, {}).get(outcome) or []
+def _keen(sim, cid) -> bool:
+    """Someone into you (or very close to you) answers fast."""
+    w = sim.w
     me = _me(sim)
-    return post(sim, f"dm:{cid}", cid, _fill(_pick(sim, pool, salt, avoid), {"me": me.first}), kind=kind, unread=False)
+    r = w.rels.get((cid, me.id))
+    return bool(r and (r.attraction >= 45 or r.affection >= 70 or me.flags.get("partner") == cid))
+
+
+def _say(sim, cid, key, outcome, salt, kind, avoid, pool=None):
+    from .messages import post, _fill
+    pool = pool if pool is not None else (D()["reply"].get(key, {}).get(outcome) or [])
+    me = _me(sim)
+    return post(sim, f"dm:{cid}", cid, _fill(_pick(sim, pool, salt, avoid), {"me": me.first}), kind=kind, unread=False,
+                ctx={"fast": True} if _keen(sim, cid) else None)
 
 
 def _note(sim, cid, text):
@@ -488,8 +572,9 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         if not 0 <= suggestion < len(sug):
             raise ValueError("no such suggestion")
         text, forced = sug[suggestion]["text"], sug[suggestion]["intent"]
+        sug_style, sug_yn = sug[suggestion].get("style"), sug[suggestion].get("yn")
     else:
-        forced = None
+        forced = sug_style = sug_yn = None
     text = (text or "").strip()[:240]
     if not text:
         raise ValueError("say something")
@@ -502,7 +587,17 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         intent = "compliment"
     if forced == "answer":
         intent = "chat"
+    if forced == "ask_out":
+        intent = "ask_out"
+    style = sug_style or f.get("style")
     tid = f"dm:{cid}"
+    # they asked you a yes-or-no question: a yes or a no is an answer to it
+    last_q = next((m for m in reversed(_thread(sim, cid)["msgs"]) if m.get("kind") != "note"), None)
+    yn = sug_yn
+    if yn is None and last_q is not None and last_q["from"] == cid and (last_q.get("ctx") or {}).get("a") == "yesno":
+        yn = "yes" if re.match(YES, text.lower()) else "no" if re.match(NO, text.lower()) else None
+    if yn and intent in ("chat", "dry", "ask", "greet"):
+        intent = "answered"
     # their last text was asking you something with set answers (an invite, a moment): a typed yes or no counts
     pend = _pending(sim, cid)
     if pend is not None:
@@ -549,17 +644,37 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         _say(sim, cid, "greet", ok, salt, "chat_react", avoid)
         ask = ok != "cold"
         _gain(sim, cid, fx, cid, "familiarity", 0.6, "texting")
+    elif intent == "answered":
+        _say(sim, cid, "answered", yn, salt, "chat_react", avoid)
+        _gain(sim, cid, fx, cid, "familiarity", 0.8, "texting")
+        _gain(sim, cid, fx, cid, "affection", 0.5, "texting")
+        ask = ok == "warm" and _h(salt, "ask") % 2 == 0
+        cost = 0.7
     elif intent in ("chat", "ask"):
-        _say(sim, cid, "ask" if f["question"] else "chat", ok, salt, "chat_react", avoid)
+        topic = f["topic"]
+        if topic and ok != "cold" and topic in D().get("topic", {}) and _h(salt, "tp") % 5 < 3:
+            _say(sim, cid, None, None, salt, "chat_react", avoid, pool=D()["topic"][topic])  # they answer what you brought up
+        else:
+            _say(sim, cid, "ask" if f["question"] else "chat", ok, salt, "chat_react", avoid)
+        if topic in ("school", "game", "weekend"):
+            _thread(sim, cid)["mentioned"] = {"topic": topic, "day": w.day}
         _gain(sim, cid, fx, cid, "familiarity", 1.0, "texting")
         _gain(sim, cid, fx, cid, "affection", 0.6 + 0.6 * f["effort"] if ok != "cold" else 0.0, "a good conversation")
         ask = ok == "warm" and _h(salt, "ask") % 3 != 0
         cost = 0.8
     elif intent == "joke":
         from .social import compatibility
-        q = 0.4 * compatibility(w, me, o) + (me.aptitudes["charisma"] - 50) / 100 + (o.mood - 50) / 100 + rng.gauss(0, 0.2)
-        if q > 0:
-            _say(sim, cid, "joke", "laugh", salt, "chat_laugh", avoid)
+        taste = tastes(o)[style] if style in STYLES else 0
+        q = 0.4 * compatibility(w, me, o) + (me.aptitudes["charisma"] - 50) / 100 + (o.mood - 50) / 100 + 0.3 * taste + rng.gauss(0, 0.2)
+        _learn(sim, cid, style)
+        if taste < 0 and style == "tease" and q <= 0.15:
+            _say(sim, cid, "style", "hates", salt, "chat_react", avoid)
+            _gain(sim, cid, fx, cid, "perceived", -1.5, "teasing they didn't like")
+            c["momentum"] -= 0.15
+            why = f"{o.first} isn't into teasing. Try a different style with them."
+        elif q > 0:
+            _say(sim, cid, "style" if taste > 0 and _h(salt, "lv") % 2 else "joke", "loves" if taste > 0 and _h(salt, "lv") % 2 else "laugh",
+                 salt, "chat_laugh", avoid)
             _gain(sim, cid, fx, cid, "affection", 1.2, "made them laugh")
             fx.need(me.id, "fun", 2, "texting")
             c["momentum"] = min(0.3, c["momentum"] + 0.1)
@@ -568,7 +683,11 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
             _say(sim, cid, "joke", "meh", salt, "chat_react", avoid)
             c["momentum"] -= 0.1
     elif intent == "compliment":
-        if rt.affection >= 10 or rt.familiarity >= 40:
+        _learn(sim, cid, "sweet")
+        if tastes(o)["sweet"] < 0 and rt.affection < 50:
+            _say(sim, cid, "compliment", "weird", salt, "chat_react", avoid)
+            why = f"{o.first} gets weird about sweet stuff. Make them laugh instead."
+        elif rt.affection >= 10 or rt.familiarity >= 40:
             _say(sim, cid, "compliment", "warm", salt, "chat_react", avoid)
             _gain(sim, cid, fx, cid, "affection", 2.0, "a nice text")
             _gain(sim, cid, fx, cid, "perceived", 1.5, "a nice text")
@@ -640,14 +759,31 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         else:
             _say(sim, cid, "plans", "no" if ok != "cold" else "cold", salt, "chat_react", avoid)
     elif intent in ("flirt", "ask_out", "love"):
-        res = flirt_check(sim, cid, 2 if intent in ("ask_out", "love") else max(1, f["flirt"]), f["effort"], c["momentum"], rng)
+        res = flirt_check(sim, cid, 2 if intent in ("ask_out", "love") else max(1, f["flirt"]), f["effort"], c["momentum"], rng,
+                          style=style if intent == "flirt" else None)
         out = res["outcome"]
         why = res["why"]
+        if intent == "flirt":
+            _learn(sim, cid, style)
         if intent == "ask_out" and out == "landed":
             _say(sim, cid, "ask_out", "yes", salt, "chat_flirt_landed", avoid)
-            why += " Ask them out in person: it's in your choices when you see them."
+            # they said to ask in person: they meant it, and the game plans it for the next time you see them
+            o.flags["told_to_ask"] = {"by": me.id, "day": w.day}
+            r_me = w.ensure_rel(me.id, cid, w.day)
+            need = w.rules["rel.crush_threshold"] + 2 - r_me.attraction
+            if need > 0:
+                fx.rel(me.id, cid, "attraction", need, "you asked them out")
+            q = w.meta.setdefault("control", {}).get("queued")
+            if not q or q.get("action") == "ask_out":
+                w.meta["control"]["queued"] = {"action": "ask_out", "target": cid, "day": w.day, "expires": w.day + 4}
+                why += f" Plan made: you'll ask {o.first} out the next time you see them."
+            else:
+                why += f" Ask {o.first} out when you see them: it's in your choices."
         elif intent == "ask_out" and out == "shut":
             _say(sim, cid, "ask_out", "no", salt, "chat_flirt_shut", avoid)
+        elif intent == "flirt" and style in STYLES and _h(salt, "st") % 2 and (
+                (tastes(o)[style] > 0 and out == "landed") or (tastes(o)[style] < 0 and out in ("awkward", "shut"))):
+            _say(sim, cid, "style", "loves" if out == "landed" else "hates", salt, f"chat_flirt_{out}", avoid)
         else:
             _say(sim, cid, "flirt", out, salt, f"chat_flirt_{out}", avoid)
         if out == "landed":
@@ -677,13 +813,19 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         _say(sim, cid, "chat", ok, salt, "chat_react", avoid)
     c["turns"] += 1
     c["energy"] -= cost
+    good = result not in ("rude", "flirt_awkward", "flirt_shut") and intent not in ("dry", "bye")
+    if good and not c["closed"] and _keen(sim, cid) and not sib and rng.random() < 0.35:
+        post(sim, tid, cid, _pick(sim, D()["double"], salt + ":dbl", avoid), kind="chat_double", unread=False, ctx={"fast": True})
     if c["energy"] <= 0 and not c["closed"]:
         tone = "cold" if result == "rude" or c["momentum"] < -0.3 else "nice" if ok == "warm" else "tired"
         post(sim, tid, cid, _pick(sim, D()["close"][tone], salt + ":close", avoid), kind="chat_close" if tone != "cold" else "chat_close_cold", unread=False)
         c["closed"] = True
     elif ask and not c["closed"]:
         pool = D()["ask"]["flirty" if result == "flirt_landed" else "general"]
-        post(sim, tid, cid, _pick(sim, pool, salt + ":ask", avoid), kind="chat_ask", unread=False)
+        qs = [x if isinstance(x, dict) else {"q": x, "a": "open"} for x in pool]
+        text_q = _pick(sim, [x["q"] for x in qs], salt + ":ask", avoid)
+        kind_a = next((x["a"] for x in qs if x["q"] == text_q), "open")
+        post(sim, tid, cid, text_q, kind="chat_ask", unread=False, ctx={"a": kind_a, **({"fast": True} if _keen(sim, cid) else {})})
     if c["turns"] == 5:
         t = _thread(sim, cid)
         t["long_days"] = (t.get("long_days", []) + [w.day])[-10:]  # a real back-and-forth
@@ -711,47 +853,75 @@ def suggestions(sim, cid) -> list:
     last = next((m for m in reversed(t["msgs"]) if m.get("kind") != "note"), None)
     talking = bool(c and c["turns"])
     asked = last is not None and last["from"] == cid and (last.get("kind") == "chat_ask" or last["text"].rstrip().endswith("?"))
+    a_kind = (last.get("ctx") or {}).get("a", "doing") if asked else None
     rd = read(sim, cid)
     st = stage(sim, cid)
     sib = cid in sim.siblings(me.id)
-    kinds = []
-    if asked:
-        kinds.append("answer")
+    partner = me.flags.get("partner") == cid
+    cands = []  # (rank to pick, rank to show, suggestion)
+
+    def add(pick, show, intent, pool, tone=None, **extra):
+        cands.append((pick, show, dict(intent=intent, pool=pool, tone=tone or TONE.get(intent, "💬"), **extra)))
+    if asked and a_kind == "yesno":
+        add(0, 0, "answer", "yes", "↩", yn="yes")
+        add(0, 0, "answer", "no", "↩", yn="no")
+    elif asked:
+        add(0, 0, "answer", a_kind if a_kind in D()["answer"] else "doing", "↩")
     elif not talking:
-        kinds.append("greet")
+        add(0, 0, "greet", "greet")
     soon = {i["group"] for i in w.calendar if i["kind"] == "game" and i["day"] in (w.day, w.day + 1)}
     if any(g in soon for g in o.memberships):
-        kinds.append("good_luck")
-    if any(w.day - a["day"] <= 7 for a in o.achievements):
-        kinds.append("congrats")
+        add(3, 1, "good_luck", "good_luck")
+    if any(w.day - x["day"] <= 7 for x in o.achievements):
+        add(3, 1, "congrats", "congrats")
     hurt = any(m["valence"] <= -0.3 and cid in m.get("with", []) and w.day - m["day"] <= 21 for m in me.memories)
     r_me = w.rels.get((me.id, cid))
     if hurt or (r_me and (r_me.affection < 0 or r_me.rivalry >= 45)):
-        kinds.append("apology")
+        add(3, 1, "apology", "apology")
     if o.needs.get("stress", 40) > 60:
-        kinds.append("support")
-    kinds += ["ask", "joke"]
-    if me.flags.get("partner") == cid:
-        kinds += ["love", "plans", "flirt_strong"]
-    elif not sib and o.role != "staff" and rd["level"] >= 2:
-        kinds.append("flirt_strong" if st >= 3 else "flirt")
-    if (r_me and r_me.affection >= 20) or st >= 2:
-        kinds.append("plans")
+        add(3, 1, "support", "support")
+    add(5, 2, "ask", "ask")
+    add(5, 2, "joke", "joke")
+    if partner:
+        add(2, 3, "love", "love")
+        add(4, 4, "plans", "plans")
+    if not sib and o.role != "staff" and (partner or rd["level"] >= 2):
+        # a flirt in a style: one you know they love, or one you haven't tried on them yet
+        known = phone(w).get("tastes", {}).get(cid, {})
+        loved = [k for k in STYLES if known.get(k) == 1]
+        fresh = [k for k in ("tease", "sweet", "bold", "funny") if k not in known]
+        style = loved[_h(w.day, cid) % len(loved)] if loved else fresh[_h(w.day, cid, len(t["msgs"])) % len(fresh)] if fresh else None
+        if style and f"flirt_{style}" in D()["suggest"]:
+            add(2, 3, "flirt", f"flirt_{style}", STYLE_TONE[style], style=style)
+        else:
+            add(2, 3, "flirt_strong" if st >= 3 else "flirt", "flirt_strong" if st >= 3 else "flirt")
+        if st >= 3 and not partner:
+            add(2, 3, "ask_out", "ask_out", "💘")
+    if not partner and ((r_me and r_me.affection >= 20) or st >= 2):
+        add(4, 4, "plans", "plans")
     if talking and c["turns"] >= 2:
-        kinds.append("bye")
-    pick_rank = {"answer": 0, "greet": 0, "bye": 1, "flirt": 2, "flirt_strong": 2, "love": 2, "good_luck": 3, "congrats": 3,
-                 "apology": 3, "support": 3, "plans": 4, "ask": 5, "joke": 5}
-    show_rank = {"answer": 0, "greet": 0, "good_luck": 1, "congrats": 1, "apology": 1, "support": 1, "ask": 2, "joke": 2,
-                 "love": 3, "flirt": 3, "flirt_strong": 3, "plans": 4, "bye": 9}
+        add(1, 9, "bye", "bye")
     salt = f"{w.day}:{cid}:{len(t['msgs'])}"
-    uniq = list(dict.fromkeys(kinds))
-    chosen = sorted(uniq, key=lambda k: (pick_rank[k], _h(salt, k) % 7))[:4]
+    seen, picked = set(), []
+    for pick, show, sug in sorted(cands, key=lambda x: (x[0], _h(salt, x[2]["pool"]) % 7)):
+        key = sug["pool"] + str(sug.get("yn"))
+        if key in seen:
+            continue
+        seen.add(key)
+        picked.append((show, sug))
+        if len(picked) >= 4:
+            break
     avoid = _avoid(sim, f"dm:{cid}")
     out = []
-    for k in sorted(chosen, key=lambda k: show_rank[k]):
-        pool = D()["suggest"].get(k) or []
-        if pool:
-            out.append({"text": _pick(sim, pool, f"{salt}:{k}", avoid), "intent": k, "tone": TONE.get(k, "💬")})
+    for show, sug in sorted(picked, key=lambda x: x[0]):
+        pool = D()["answer"].get(sug["pool"]) if sug["intent"] == "answer" else D()["suggest"].get(sug["pool"])
+        if not pool:
+            continue
+        item = {"text": _pick(sim, pool, f"{salt}:{sug['pool']}", avoid), "intent": sug["intent"], "tone": sug["tone"]}
+        for k in ("style", "yn"):
+            if sug.get(k):
+                item[k] = sug[k]
+        out.append(item)
     return out
 
 
@@ -769,5 +939,38 @@ def view(sim, cid) -> dict:
     c = t.get("convo")
     live = c and c.get("day") == w.day and c.get("phase") == sim.current_phase()
     status = "done" if live and c.get("closed") else "open" if live and c.get("turns") else "new"
+    rd = read(sim, cid)
     return {"can_type": True, "suggestions": suggestions(sim, cid), "status": status,
-            "stage": STAGES[stage(sim, cid)], "read": read(sim, cid)["label"]}
+            "stage": STAGES[stage(sim, cid)], "read": rd["label"], "tone": rd["tone"], "romance": vibe_relevant(sim, cid)}
+
+
+def vibe_relevant(sim, cid) -> bool:
+    from .social import orientation_ok
+    w = sim.w
+    me = _me(sim)
+    r = w.rels.get((cid, me.id))
+    maybe = orientation_ok(me, w.chars[cid]) or (r is not None and r.attraction >= 30) or me.flags.get("partner") == cid
+    return bool(maybe) and _open_to_you(sim, cid) not in ("family", "staff")
+
+
+def follow_ups(sim):
+    """Mornings: friends follow up on what you told them ("how'd the test go??")."""
+    from .messages import _h, later, phone
+    w = sim.w
+    me = _me(sim)
+    if not me:
+        return
+    for tid, t in phone(w)["threads"].items():
+        m = t.get("mentioned")
+        if not m or not tid.startswith("dm:"):
+            continue
+        cid = tid[3:]
+        r = w.rels.get((cid, me.id))
+        if 1 <= w.day - m["day"] <= 2 and cid in w.chars and r and r.affection >= 25:
+            pool = D().get("follow", {}).get(m["topic"]) or []
+            if pool:
+                later(sim, cid, "chat_follow", delay_phases=2 + _h(w.day, cid) % 3, text=pool[_h(w.day, cid, "f") % len(pool)],
+                      ctx={"a": "day"})
+            t.pop("mentioned", None)
+        elif w.day - m["day"] > 2:
+            t.pop("mentioned", None)

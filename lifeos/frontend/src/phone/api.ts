@@ -36,11 +36,12 @@ export type Today = { strip: DaySlot[]; plate: PlateItem[]; week: WeekDay[] };
 export type Line = { id: number; type: string; outcome?: string; text: string; with?: string[]; calc?: any };
 export type Chip = { label: string; delta: number; good: boolean; who?: string; kind?: string };
 export type ThreadSummary = { id: string; kind: "dm" | "group"; title: string; members: string[]; unread: number; last: string; last_from: string; at: string; date: string; needs_reply: boolean };
-export type Msg = { id: string; from: string; from_name: string; text: string; at: string; day: number; date: string; kind: string; read: boolean; replies: string[] | null; chosen: number | null };
-export type ChatSuggestion = { text: string; intent: string; tone: string };
-export type ChatBar = { can_type: boolean; suggestions: ChatSuggestion[]; status: "new" | "open" | "done" | "no_number" | "none"; stage?: string; read?: string };
+export type Msg = { id: string; from: string; from_name: string; text: string; at: string; day: number; date: string; kind: string; read: boolean; replies: string[] | null; chosen: number | null; fast?: boolean };
+export type ChatSuggestion = { text: string; intent: string; tone: string; style?: string; yn?: string };
+export type ChatBar = { can_type: boolean; suggestions: ChatSuggestion[]; status: "new" | "open" | "done" | "no_number" | "none"; stage?: string; read?: string; tone?: string; romance?: boolean };
 export type Thread = { id: string; kind: "dm" | "group"; title: string; members: string[]; msgs: Msg[]; can_text: boolean; text_options: { kind: string; label: string }[]; chat?: ChatBar };
-export type Vibe = { stage: number; stages: string[]; read: string; tone: string; level: number; signals: { text: string; good: boolean | null }[]; tip: string; romance: boolean };
+export type Vibe = { stage: number; stages: string[]; read: string; tone: string; level: number; signals: { text: string; good: boolean | null }[]; tip: string; romance: boolean;
+  tastes?: { style: string; label: string; known: boolean; taste: number | null }[] };
 export type ContactRow = {
   id: string; name: string; first: string; year_label: string; look: Look; color: string; label: string; crush: boolean; partner: boolean; roles: string[];
   affection: number; hearts: number; attraction: number; rivalry: number; perceived: number; has_number: boolean; unread: number;

@@ -212,6 +212,22 @@ What's in it:
   first, asked about you, laughed at your jokes, flirted back, short dry answers, left you on read, flirting in person),
   what to try next, and **How flirting works**. Flirt and ask-out choices say how risky they are ("Seems into you",
   "Risky: you barely know them").
+- **Conversations hang together.** When they ask you something ("you going to the game friday?"), the suggestions answer
+  that question (yes / no, what you're up to, how your day was), and a typed "yeah" counts. Bring something up (the game, a
+  test, music, the weekend, food) and they answer about it; mention a test or a game and they follow up a day or two later
+  ("how'd the test go??"). Someone into you answers fast, sometimes double-texts, and the chat header shows where you two
+  are ("Flirty · Seems into you").
+- **People are different.** Teasing, sweet stuff, being direct, making them laugh and cheesy lines each go over differently
+  depending on the person's personality: everyone loves one or two and isn't into a couple. You find out by trying, and
+  their contact page keeps track under **What works with them** ("Teasing: they love it", "Cheesy lines: not into it",
+  "Being direct: not tried yet"). Flirt suggestions offer a style you know they love, or one you haven't tried. Teasing
+  with a 😂 is teasing; the same words without it are rude.
+- **From text to in person.** When you ask someone out by text and they say "ask me in person 😳", the game plans it
+  ("Asking Sophie out, next time you see them"), and they meant it: they'll say yes when you do.
+- **Dating takes showing up.** Go a few days without talking to your partner and it shows: "Feeling distant: 5 days since
+  you talked" on their page, "Sophie misses you" on your plate, and they text you about it.
+- **Packs can add texting lines.** A dialogue pack's `chat` section adds to how people answer, what they ask back,
+  follow-ups and flirt lines by style. The pack prompts ask for them, and the checker explains any mistakes.
   People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).
   You only have someone's number once you've actually hung out or gotten close.
 - **Home.** Your family and your pets. A pet is a real animal with needs, moods, a bond with each person and tricks to learn.

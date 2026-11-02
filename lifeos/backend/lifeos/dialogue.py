@@ -30,7 +30,7 @@ BUILTIN_DIR = os.path.join(DATA_DIR, "dialogue")
 USER_DIR = os.environ.get("LIFEOS_DIALOGUE") or os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "var", "dialogue")
 
-SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia", "mods")
+SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia", "mods", "chat")
 MOD_KINDS = {"open": "said before a text (\"ok so\", \"u up?\")", "close": "tacked on after a text (\"lol\")",
              "talk": "how a line is said in person: \"{them_first} {says}, grinning\" ({says} becomes says or asks)"}
 PH = re.compile(r"\{(\w+)\}")
@@ -828,6 +828,8 @@ def check(pack: dict) -> dict:
                 elif _check_line(R, f"{wt}[{i}]", x, set(), 40):
                     added["mods"] += 1
 
+    added["chat"] = _check_chat(R, pack.get("chat", {}))
+
     scenes = pack.get("scenes", [])
     if not isinstance(scenes, list):
         R.err("scenes", "is a list of scenes")
@@ -839,6 +841,49 @@ def check(pack: dict) -> dict:
     if added["duplicates"]:
         R.warn("texts", f"{added['duplicates']} line{'s are' if added['duplicates'] != 1 else ' is'} already in the game and will be skipped")
     return {"ok": not R.errors, "errors": R.errors, "warnings": R.warnings, "summary": added}
+
+
+def _check_chat(R, chat) -> int:
+    """Texting lines (chat.py): same shape as the built-in ones, lists of short lines in places that exist."""
+    if not chat:
+        return 0
+    base = _base("chat.json")
+    if not isinstance(chat, dict):
+        R.err("chat", 'is an object like {"topic": {"school": ["pop quiz again"]}, "suggest": {"flirt_tease": ["you wish"]}}')
+        return 0
+    n = 0
+
+    def walk(v, b, where):
+        nonlocal n
+        if isinstance(b, dict):
+            if not isinstance(v, dict):
+                R.err(where, "should be an object here")
+                return
+            for k, sub in v.items():
+                if k not in b:
+                    R.err(f"{where}.{k}", f"isn't a place for lines.{_suggest(k, list(b))} Use: {', '.join(x for x in b if not x.startswith('_'))}")
+                    continue
+                walk(sub, b[k], f"{where}.{k}")
+            return
+        if not isinstance(v, list):
+            R.err(where, "is a list of lines")
+            return
+        for i, x in enumerate(v):
+            if where.startswith("chat.ask."):
+                kinds = ("yesno", "doing", "day", "weekend", "open", "flirty")
+                if not isinstance(x, dict) or "q" not in x or x.get("a") not in kinds:
+                    R.err(f"{where}[{i}]", f'is a question like {{"q": "you going friday?", "a": "yesno"}}; "a" is one of {", ".join(kinds)}')
+                    continue
+                if _check_line(R, f"{where}[{i}].q", x["q"], {"me"}, 160):
+                    n += 1
+            elif _check_line(R, f"{where}[{i}]", x, {"me"}, 200):
+                n += 1
+    for k, v in chat.items():
+        if k not in base or k.startswith("_"):
+            R.err(f"chat.{k}", f"isn't part of chat lines.{_suggest(k, [x for x in base if not x.startswith('_')])}")
+            continue
+        walk(v, base[k], f"chat.{k}")
+    return n
 
 
 # ---------------------------------------------------------------------------------------- packs on disk
@@ -994,6 +1039,7 @@ def _build() -> dict:
     mods = {k: copy.deepcopy(v) for k, v in _base("mods.json").items() if k in MOD_KINDS}
     loaded = []
     trivia_extra: dict = {}
+    chat_lines = copy.deepcopy(_base("chat.json"))
     for p in packs():
         if not p["enabled"]:
             continue
@@ -1021,6 +1067,7 @@ def _build() -> dict:
             templates[key] = templates[key] + [s for s in lines if s not in templates[key]]
         for mid, chs in (pk.get("moment_choices") or {}).items():
             moments[mid]["choices"] = moments[mid]["choices"] + [_with_needs(ch) for ch in chs]
+        _merge_chat(chat_lines, pk.get("chat") or {})
         for sub, qs in (pk.get("trivia") or {}).items():
             trivia_extra.setdefault(sub, []).extend({"q": q["q"], "a": q["a"], "w": list(q["w"]), "g": q.get("g", 9)} for q in qs)
         for sc in pk.get("scenes") or []:
@@ -1031,7 +1078,27 @@ def _build() -> dict:
                                  "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"),
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
-            "loaded": loaded}
+            "chat": chat_lines, "loaded": loaded}
+
+
+def _merge_chat(into: dict, add: dict):
+    """A pack's texting lines go into the same places as the built-in ones (no duplicates)."""
+    for k, v in add.items():
+        if k.startswith("_"):
+            continue
+        if isinstance(v, dict) and isinstance(into.get(k), dict):
+            _merge_chat(into[k], v)
+        elif isinstance(v, list) and isinstance(into.get(k), list):
+            have = {(x["q"] if isinstance(x, dict) else x).lower() for x in into[k]}
+            for x in v:
+                key = (x["q"] if isinstance(x, dict) else x).lower()
+                if key not in have:
+                    into[k].append(x)
+                    have.add(key)
+
+
+def chat_lines() -> dict:
+    return merged()["chat"]
 
 
 def merged() -> dict:
@@ -1387,6 +1454,8 @@ How to write it:
 - When a scene is about someone you'd text, add "by_text" (what they'd text you instead) so it can happen either way.
 - Use the mini games. Where a scene fits one (pickup soccer, shooting around, cup pong at a party, a round of golf, a quiz),
   make one choice play it, with different outcomes for great, good and miss. Always keep two choices that don't need a game.
+- Add texting lines in "chat" for what I asked for: how people answer when I text them, questions they ask back, follow-ups,
+  and flirt lines by style (tease, sweet, bold, funny, cheesy). At least 8 lines in every list you touch.
 - Don't reuse the same idea twice. Vary the openings, the length, and the mood.
 
 How to answer:
@@ -1411,6 +1480,8 @@ Do all of this:
 5. Mini games: wherever a scene fits one, give it a choice that plays it, with "great", "good" and "miss" outcomes. Then add
    3 new scenes built around mini games that fit this pack's people.
 6. Add 2 new scenes that follow up on things the old scenes "remember".
+7. Add a "chat" section with texting lines that fit this pack's people: topic answers, questions they'd ask back (with the
+   kind of answer), follow-ups, and flirt suggestions by style. At least 8 lines in every list you add.
 
 Reply with the COMPLETE upgraded pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
 Follow the format and the lists in the guide below exactly; the game checks every line.
@@ -1438,7 +1509,25 @@ def guide_markdown() -> str:
     a("- `narration`: more lines for the story feed, keyed `event.outcome`.")
     a("- `moment_choices`: extra choices on an existing story moment.")
     a("- `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.")
-    a("- `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.\n")
+    a("- `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.")
+    a("- `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask "
+      "back, follow-ups, flirt lines by style. See Texting lines.\n")
+    a("## Texting lines\n")
+    a("When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a "
+      "`chat` section. Every list is short lines; `{me}` is your first name.\n")
+    a("- `reply.<what you did>.<how it went>`: their answer. What you did: greet, chat, ask, joke, compliment, flirt, plans, support, "
+      "apology, dry, rude, love, ask_out, answered, style, family. How it went, for flirt: landed, playful, awkward, shut; for "
+      "jokes: laugh, meh; for chat: warm, ok, cold; style: loves, hates (when you hit or miss their taste).")
+    a("- `topic.<topic>`: their answer when you bring something up: game, school, music, weekend, food.")
+    a("- `ask.general` / `ask.flirty`: questions they send back, as {\"q\": \"you going friday?\", \"a\": \"yesno\"}. `a` is the "
+      "kind of answer: yesno, doing, day, weekend, open, flirty. The game offers you fitting answers.")
+    a("- `answer.<kind>`: answers you can tap (`yes`, `no`, doing, day, weekend, open, flirty).")
+    a("- `follow.<topic>`: them following up a day or two later (\"how'd the test go??\").")
+    a("- `suggest.<kind>`: messages you can tap to send: greet, ask, joke, compliment, plans, support, apology, bye, love, ask_out, "
+      "and flirts by style: flirt_tease, flirt_sweet, flirt_bold, flirt_funny, flirt_cheesy.")
+    a("- `close.nice` / `close.tired` / `close.cold`: how they wrap up a conversation. `double`: extra texts from someone into you.\n")
+    a('```json\n"chat": {"topic": {"school": ["mr. hanley gave us a pop quiz AGAIN"]}, "suggest": {"flirt_tease": ["you\'re lucky you\'re cute"]}, '
+      '"ask": {"general": [{"q": "you going to the bonfire?", "a": "yesno"}]}}\n```\n')
     a("## Every line, two ways\n")
     a("Any line can be texted or said in person. A text-pool line is a plain string (the text), or an object:\n")
     a('```json\n{"text": "u free later?", "talk": "\\"You free later?\\" {them_first} asks, trying to sound casual.", "when": ["late_night", "crush"]}\n```\n')

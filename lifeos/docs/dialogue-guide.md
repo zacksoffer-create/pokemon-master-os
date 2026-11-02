@@ -193,6 +193,23 @@ Every section is optional; use the ones you need.
 - `moment_choices`: extra choices on an existing story moment.
 - `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.
 - `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.
+- `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask back, follow-ups, flirt lines by style. See Texting lines.
+
+## Texting lines
+
+When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a `chat` section. Every list is short lines; `{me}` is your first name.
+
+- `reply.<what you did>.<how it went>`: their answer. What you did: greet, chat, ask, joke, compliment, flirt, plans, support, apology, dry, rude, love, ask_out, answered, style, family. How it went, for flirt: landed, playful, awkward, shut; for jokes: laugh, meh; for chat: warm, ok, cold; style: loves, hates (when you hit or miss their taste).
+- `topic.<topic>`: their answer when you bring something up: game, school, music, weekend, food.
+- `ask.general` / `ask.flirty`: questions they send back, as {"q": "you going friday?", "a": "yesno"}. `a` is the kind of answer: yesno, doing, day, weekend, open, flirty. The game offers you fitting answers.
+- `answer.<kind>`: answers you can tap (`yes`, `no`, doing, day, weekend, open, flirty).
+- `follow.<topic>`: them following up a day or two later ("how'd the test go??").
+- `suggest.<kind>`: messages you can tap to send: greet, ask, joke, compliment, plans, support, apology, bye, love, ask_out, and flirts by style: flirt_tease, flirt_sweet, flirt_bold, flirt_funny, flirt_cheesy.
+- `close.nice` / `close.tired` / `close.cold`: how they wrap up a conversation. `double`: extra texts from someone into you.
+
+```json
+"chat": {"topic": {"school": ["mr. hanley gave us a pop quiz AGAIN"]}, "suggest": {"flirt_tease": ["you're lucky you're cute"]}, "ask": {"general": [{"q": "you going to the bonfire?", "a": "yesno"}]}}
+```
 
 ## Every line, two ways
 
@@ -344,6 +361,7 @@ The game remembers every line it uses and rests it before using it again; the bi
 | `date_talk` | IN PERSON: something they say on a date at {place}. | {place} | "i'm really glad you said yes" / "ok i might have been a little nervous about tonight" |
 | `chat_talk` | IN PERSON: something they say when you stop and talk (hallway, lunch, practice). | none | "did you see what happened in second period" / "i swear this week is never ending" |
 | `awkward_talk` | IN PERSON: something they say when a hangout or date is going badly. | none | "so... yeah" / "anyway. i should probably go" |
+| `invite_later` | A friend who asked while you were busy, texting to try again later. | {place} | "you around later? wanna hang" / "saw you were busy. later this week?" |
 
 ## Reply sets (`replies`)
 
@@ -796,4 +814,3 @@ Keep effects small and believable: most relationship changes are 2 to 8; 10+ is 
 - Only the placeholders listed for that spot.
 - Scenes have 2 to 4 choices and unique ids.
 - Lots of lines, real variety, versions that differ in more than a word.
-

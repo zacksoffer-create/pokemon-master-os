@@ -208,6 +208,19 @@ function VibeCard({ v, first }: { v: Vibe; first: string }) {
       ) : (
         <div className="pm-fineprint">No signals yet. Text them, hang out, and notice how they answer.</div>
       )}
+      {v.tastes && (
+        <div className="pm-tastes">
+          <div className="pm-tastes-h">What works with {first}</div>
+          <div className="pm-tastes-row">
+            {v.tastes.map((t) => (
+              <span key={t.style} className={`pm-taste${!t.known ? " unknown" : t.taste === 1 ? " good" : t.taste === -1 ? " bad" : ""}`}>
+                <b>{t.label}</b>
+                <small>{!t.known ? "not tried yet" : t.taste === 1 ? "they love it" : t.taste === -1 ? "not into it" : "it's fine"}</small>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
       {v.tip && <p className="pm-vibe-tip">{v.tip}</p>}
       <button className="pm-linkbtn" onClick={toggle}>How flirting works {open ? "▴" : "▾"}</button>
       {open && guide && (

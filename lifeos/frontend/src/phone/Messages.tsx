@@ -189,7 +189,8 @@ export function Conversation({ tid }: { tid: string }) {
         continue;
       }
       setTyping(m.from);
-      await sleep(800 + Math.min(800, m.text.length * 22) + Math.random() * 250);
+      // someone into you answers fast; everyone else takes their time
+      await sleep(m.fast ? 380 + Math.min(300, m.text.length * 10) + Math.random() * 120 : 800 + Math.min(800, m.text.length * 22) + Math.random() * 250);
       setTyping(null);
       setShown((s) => [...s, m]);
       await sleep(120);
@@ -277,7 +278,7 @@ export function Conversation({ tid }: { tid: string }) {
   const title = thread?.title || (other ? other.name : kind === "family" ? "Family" : "Messages");
   const memberNames = (thread?.members || []).map((m) => (m.startsWith("parent") ? parents.find((p) => p.id === m)?.name : people[m]?.first)).filter(Boolean);
   const subtitle = kind === "dm"
-    ? (other?.year_label || "")
+    ? [thread?.chat?.stage, thread?.chat?.romance ? thread.chat.read : null].filter(Boolean).join(" · ") || other?.year_label || ""
     : thread
       ? memberNames.length && memberNames.length <= 6 ? `${memberNames.join(", ")} & you` : `${thread.members.length + 1} people`
       : "";
