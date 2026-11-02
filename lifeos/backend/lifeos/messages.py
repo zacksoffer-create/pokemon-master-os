@@ -97,6 +97,8 @@ def sender_name(sim, sid) -> str:
     w = sim.w
     if sid == "me":
         return "You"
+    if sid == "note":
+        return ""
     if sid.startswith("parent"):
         return next((p["name"] for p in parent_names(sim) if p["id"] == sid), "Parent")
     c = w.chars.get(sid)
@@ -670,6 +672,13 @@ def reply(sim, tid, mid, index) -> dict:
     sim.finish(ev, fx)
     if answer:
         post(sim, tid, sender, pick(answer, f"{mid}:ans", sim=sim, frm=sender), kind="react", unread=False)
+    if tid.startswith("dm:") and sender in w.chars:
+        from . import chat
+        c = chat._convo(sim, sender)  # you answered: the conversation's going, keep texting if you want
+        if c["energy"] is None:
+            c["energy"] = chat._energy(sim, sender, c)
+        c["turns"] += 1
+        c["energy"] -= 1
     t["unread"] = 0
     return {"thread": thread_view(sim, tid)}
 
@@ -683,13 +692,13 @@ def text_options(sim, cid) -> list:
     if not me or not o:
         return []
     r = w.rels.get((me.id, cid))
-    ph = phone(w)
-    if ph["texted"].get(cid) == w.day:
+    from . import chat
+    if chat.view(sim, cid).get("status") == "done":
         return []
     out = [{"kind": "hey", "label": "Just say hey"}]
     if o.role != "staff":
         out.append({"kind": "hang", "label": "Ask to hang out"})
-    if r and (r.attraction >= 30 or r.crush) and o.role != "staff":
+    if o.role != "staff" and cid not in sim.siblings(me.id) and (chat.read(sim, cid)["level"] >= 2 or (r and r.crush)):
         out.append({"kind": "flirt", "label": "Flirt a little"})
     tomorrow_games = {i["group"] for i in w.calendar if i["kind"] == "game" and i["day"] in (w.day, w.day + 1)}
     if any(g in tomorrow_games for g in o.memberships):
@@ -704,6 +713,9 @@ def text_options(sim, cid) -> list:
 
 
 def text_first(sim, cid, kind) -> dict:
+    """A quick text from their contact page ("Just say hey", "Ask to hang out"...). It starts a conversation you can
+    keep going, typed or with suggestions (chat.py)."""
+    from . import chat
     w = sim.w
     me = prot(w)
     o = w.chars.get(cid)
@@ -713,72 +725,15 @@ def text_first(sim, cid, kind) -> dict:
         raise ValueError(f"You don't have {o.first}'s number yet.")
     if kind not in {x["kind"] for x in text_options(sim, cid)}:
         raise ValueError("you can't send that right now")
-    phone(w)["texted"][cid] = w.day
-    tid = f"dm:{cid}"
-    places = [p["name"] for p in sim.cat.world["places"] if p["id"] not in ("house",)]
+    pool = {"hey": "greet", "hang": "plans", "flirt": "flirt", "good_luck": "good_luck", "congrats": "congrats", "sorry": "apology"}[kind]
     salt = f"{w.day}:{cid}:{kind}"
-    post(sim, tid, "me", pick(f"first_{kind}", salt, sim=sim, frm="me", place=places[_h(salt) % len(places)]), kind="first", unread=False)
-    r_them = w.ensure_rel(cid, me.id, w.day)
-    r_me = w.ensure_rel(me.id, cid, w.day)
-    ev = sim.new_event("text", kind, [me.id], [cid], 8, {"label": kind})
-    fx = Effects(w, ev)
-    rng = sim.streams.get("text-first", w.day, cid)
-    warmth = r_them.affection + o.traits["sociability"] * 0.3 + rng.gauss(0, 12)
-    answer, note, plans = None, None, False
-    if kind == "hey":
-        if warmth > 40:
-            answer = "reply_hey"
-            fx.rel(cid, me.id, "affection", 1.5, "you texted first")
-            fx.rel(cid, me.id, "familiarity", 1.5, "texting")
-        elif warmth > 10:
-            answer = "reply_hey_dry"
-            fx.rel(cid, me.id, "familiarity", 1.0, "texting")
-        else:
-            note = "read"
-    elif kind == "hang":
-        free = o.location == me.location and o.status == "active"
-        p = clamp((warmth - 10) / 70, 0.02, 0.92) * (1 if free else 0.1) * (0.6 + o.needs.get("energy", 60) / 250)
-        if rng.random() < p:
-            answer, plans = "react_plans_yes", True
-            w.meta.setdefault("control", {})["queued"] = {"action": "hang_out", "target": cid, "agreed": True, "day": w.day}
-            fx.rel(cid, me.id, "affection", 1.0, "making plans")
-            note = "plans"
-        elif warmth > 15:
-            answer = "react_plans_no"
-        else:
-            note = "read"
-    elif kind == "flirt":
-        if r_them.attraction >= 40:
-            answer = "react_flirt_yes"
-            fx.rel(cid, me.id, "attraction", 5, "you flirted")
-            fx.rel(me.id, cid, "attraction", 3, "flirting")
-        elif warmth > 25:
-            answer = "react_flirt_no"
-            fx.rel(cid, me.id, "perceived", -1, "awkward")
-        else:
-            note = "read"
-            fx.rel(me.id, cid, "perceived", -2, "left on read")
-    elif kind in ("good_luck", "congrats"):
-        answer = "react_warm"
-        fx.rel(cid, me.id, "affection", 2.5, "you thought of them")
-        fx.rel(cid, me.id, "perceived", 2, "you thought of them")
-    elif kind == "sorry":
-        if warmth > -10:
-            answer = "react_warm"
-            fx.rel(cid, me.id, "rivalry", -8, "you apologized")
-            fx.rel(cid, me.id, "trust", 4, "you apologized")
-            fx.rel(cid, me.id, "affection", 3, "you apologized")
-        else:
-            note = "read"
-    ev["outcome"] = note or ("replied" if answer else "no reply")
-    ev["text"] = f"You texted {o.first}." + (" They're in." if plans else " Left on read." if note == "read" else "")
-    sim.finish(ev, fx)
-    if answer:
-        post(sim, tid, cid, pick(answer, f"{salt}:ans", sim=sim, frm=cid), kind="react", unread=False)
-    t = phone(w)["threads"][tid]
-    if note == "read":
-        t["msgs"][-1]["read"] = True
-    return {"thread": thread_view(sim, tid), "result": note or "replied", "plans": plans}
+    text = chat.D()["suggest"][pool][_h(salt) % len(chat.D()["suggest"][pool])]
+    sug = chat.suggestions(sim, cid)
+    i = next((k for k, x in enumerate(sug) if x["intent"] == pool), None)
+    res = chat.send(sim, cid, None, i) if i is not None else chat.send(sim, cid, text)
+    t = phone(w)["threads"][f"dm:{cid}"]
+    note = "read" if t["msgs"] and t["msgs"][-1].get("read") else None
+    return {"thread": thread_view(sim, f"dm:{cid}"), "result": note or res.get("result", "replied"), "plans": bool(res.get("plans"))}
 
 
 # --- views ------------------------------------------------------------------------------------
@@ -810,9 +765,13 @@ def thread_view(sim, tid, mark_read=False) -> dict:
                      "day": m["day"], "date": calm.label(m["day"]), "kind": m["kind"], "read": m.get("read", False),
                      "replies": [r["label"] for r in m["replies"]] if _reply_open(sim, m) else None,
                      "chosen": m.get("chosen")})
-    return {"id": tid, "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"], "msgs": msgs,
-            "can_text": t["kind"] == "dm" and bool(text_options(sim, t["members"][0])) if t["members"] else False,
-            "text_options": text_options(sim, t["members"][0]) if t["kind"] == "dm" and t["members"] else []}
+    out = {"id": tid, "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"], "msgs": msgs,
+           "can_text": t["kind"] == "dm" and bool(text_options(sim, t["members"][0])) if t["members"] else False,
+           "text_options": text_options(sim, t["members"][0]) if t["kind"] == "dm" and t["members"] else []}
+    if t["kind"] == "dm" and t["members"] and t["members"][0] in w.chars:
+        from . import chat
+        out["chat"] = chat.view(sim, t["members"][0])
+    return out
 
 
 def thread_title(sim, t) -> str:
@@ -826,9 +785,10 @@ def threads_view(sim) -> list:
     w = sim.w
     out = []
     for t in phone(w)["threads"].values():
-        if not t["msgs"]:
+        said = [m for m in t["msgs"] if m.get("kind") != "note"]
+        if not said:
             continue
-        last = t["msgs"][-1]
+        last = said[-1]
         out.append({"id": t["id"], "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"][:6],
                     "unread": t["unread"], "last": last["text"], "last_from": sender_name(sim, last["from"]), "at": last["at"],
                     "date": calm.label(last["day"]), "order": t["last"],

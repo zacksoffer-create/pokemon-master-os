@@ -89,7 +89,7 @@ export function Lines({ lines }: { lines: Line[] }) {
   return (
     <div className="ph-lines">
       {lines.map((l, i) => (
-        <div key={l.id ?? i} className="ph-line" style={{ animationDelay: `${i * 90}ms` }}>
+        <div key={l.id ?? i} className={l.type === "why" ? "ph-line why" : "ph-line"} style={{ animationDelay: `${i * 90}ms` }}>
           {l.with && l.with.length > 0 && (
             <div className="ph-line-faces">{l.with.slice(0, 2).map((w) => <Face key={w} id={w} size={36} />)}</div>
           )}

@@ -287,3 +287,47 @@
 .pm-memories small, .pm-recent small { color: var(--pm-dim); font-size: 11.5px; font-weight: 600; }
 .pm-recent li { padding-bottom: 9px; border-bottom: 1px solid var(--pm-line); }
 .pm-recent li:last-child { border-bottom: 0; padding-bottom: 0; }
+
+/* typing your own texts */
+.pm-chips.sugg { margin-bottom: 8px; }
+.pm-root .pm-chip.sugg,
+.pm-root .pm-chip.sugg:hover:not(:disabled) { white-space: normal; text-align: left; font-size: 13.5px; padding: 8px 13px; line-height: 1.25; max-width: 100%; }
+.pm-tone { margin-right: 6px; }
+.pm-input { display: flex; gap: 8px; align-items: center; }
+.pm-input input {
+  flex: 1; min-width: 0; height: 40px; border-radius: 99px; border: 1.5px solid var(--pm-line); background: #fff; padding: 0 15px;
+  font: inherit; font-size: 16px; color: var(--pm-ink); outline: none;
+}
+.pm-input input:focus { border-color: #c9c1ff; }
+.pm-root .pm-input button,
+.pm-root .pm-input button:hover:not(:disabled) {
+  flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(var(--pm-me-top), var(--pm-me-bot));
+}
+.pm-root .pm-input button:disabled { opacity: .35; }
+
+/* you and them: where you are, your read, the signals */
+.pm-ladder { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; margin: 4px 0 12px; }
+.pm-ladder .step { display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+.pm-ladder .step i { width: 100%; height: 6px; border-radius: 99px; background: var(--pm-line); }
+.pm-ladder .step.done i { background: #c9c1ff; }
+.pm-ladder .step.now i { background: var(--pm-accent); }
+.pm-ladder .step span { font-size: 10.5px; line-height: 1.15; font-weight: 700; color: var(--pm-dim); }
+.pm-ladder .step.now span { color: var(--pm-accent); }
+.pm-root .pm-vibe-read { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 9px 12px; border-radius: 12px; background: #f6f5fb; }
+.pm-vibe-read span { font-size: 12.5px; font-weight: 700; color: var(--pm-muted); }
+.pm-vibe-read b { font-size: 15px; }
+.pm-root .pm-vibe-read.is-good b { color: var(--pm-love); }
+.pm-root .pm-vibe-read.is-bad b, .pm-root .pm-vibe-read.is-unknown b { color: var(--pm-plain); }
+.pm-signals { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.pm-signals li { font-size: 13.5px; display: flex; gap: 8px; align-items: baseline; }
+.pm-signals li::before { content: "•"; font-weight: 900; width: 12px; text-align: center; color: var(--pm-dim); }
+.pm-signals li.good::before { content: "✓"; color: var(--pm-friend); }
+.pm-signals li.bad::before { content: "✗"; color: var(--pm-rival); }
+.pm-vibe-tip { margin: 11px 0 0; font-size: 13.5px; color: var(--pm-ink-2); background: var(--pm-accent-soft); border-radius: 12px; padding: 9px 12px; }
+.pm-root .pm-linkbtn,
+.pm-root .pm-linkbtn:hover:not(:disabled) { margin-top: 10px; font-weight: 800; font-size: 13.5px; color: var(--pm-accent); background: none; padding: 4px 0; }
+.pm-guide { margin: 6px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+.pm-guide li { font-size: 13.5px; }
+.pm-guide li b { display: block; }
+.pm-guide li span { color: var(--pm-muted); }

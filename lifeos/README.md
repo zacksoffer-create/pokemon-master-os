@@ -194,6 +194,24 @@ What's in it:
   **Continue** goes to your next choice; **Skip ahead** lives until something happens.
 - **Phone.** Your texts and contacts inside the game. Friends text you after a good hangout, the team chat lights up before games,
   your family chat has opinions, people ask you out by text, invitations arrive as messages, and you can answer or text people first.
+- **Texting goes back and forth.** In a one-on-one chat you can **type anything**, or tap a suggestion (each has a little
+  tone icon: 💬 ask, 😂 joke, 😏 flirt, 📅 plans, 🤝 check on them, 👋 bye). They answer like themselves and often ask you
+  something back. What you type is read for what you're doing (hi, a question, a joke, a compliment, flirting, plans,
+  checking on them, sorry, dry, rude, bye) and how much effort it shows; it doesn't understand every word like a person
+  would. A conversation has energy: more if they like you, they're social or they're into you, less if they're stressed.
+  Good messages give a little back, dry or rude ones drain it, and when it runs out they wrap it up ("gtg, ttyl"). Texting
+  again right then gets you left on read. Ending it yourself on a good note helps. A typed "yeah i'm down" answers an invite.
+  A day of texting one person can only move things so far, so spamming doesn't farm friendship.
+- **Flirting you can read.** Every flirt, by text or in person, tells you why it went the way it did ("Landed: they were
+  already into you and you'd built up to it." / "Awkward: they barely know you yet. Talk and hang out first."). It comes
+  down to five things: **closeness** (do they know and like you), **interest** (are they into you), **the moment** (their
+  mood, stress, how the conversation's going), **pace** (talking, joking around, a light flirt, then asking out) and
+  **you** (confidence, charm, effort). Asking someone out over text gets "ask me in person 😳" when they're into you.
+  Each person's contact page has **You and them**: where you are (strangers, know each other, friendly, flirty, talking
+  stage, dating), your read on whether they're into you (once you know them a little), the signals behind it (texted you
+  first, asked about you, laughed at your jokes, flirted back, short dry answers, left you on read, flirting in person),
+  what to try next, and **How flirting works**. Flirt and ask-out choices say how risky they are ("Seems into you",
+  "Risky: you barely know them").
   People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).
   You only have someone's number once you've actually hung out or gotten close.
 - **Home.** Your family and your pets. A pet is a real animal with needs, moods, a bond with each person and tricks to learn.
@@ -433,7 +451,8 @@ lifeos/
 - **Guardians** are household-level actors with a parenting style. They react to grades and trouble, but they aren't autonomous agents.
 - **Pets** in your household are full animals with needs, bonds, tricks and chores. Pets in other households are still a simple line (they relieve stress at home).
 - **Phone art** is hand-drawn vector illustration (portraits generated from each person's look, scene backdrops per place, season and time of day). Image generation wasn't available, so there are no painted backgrounds.
-- **Texts** are written from templates with a per-person voice. They follow what happens, but conversations are a choice of replies, not free typing.
+- **Texts** are written from templates with a per-person voice. You can type anything, but it's read for intent and tone with simple
+  rules (no AI), so it catches what you're doing, not every detail of what you said.
 - **The phone app** keeps your story on that one phone (back it up). It's slower than a computer on long skips (a few seconds for a week, longer for months) and trims old background history sooner to fit in phone memory. Experiments and the Engine Workshop stay in the lab.
 - **Careers and economy** are minimal: two part-time employers, allowance by income level, and costs for outings.
 - **After high school**: your own college is fully simulated (teams, classes, roommate, classmates). Everyone else who leaves town lives offscreen: weekly updates, no daily decisions, home for breaks. Graduates who stay in town work full time. The seven chapters end with the MLB Draft after college junior year and a final review. The world keeps running after that, but pro ball is offscreen (no minor league seasons yet), and there's no grad school or later adult life.

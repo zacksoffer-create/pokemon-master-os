@@ -124,6 +124,11 @@ def phrase(sim, opt) -> str:
     return tmpl.format(f=first, t=tname or "it")
 
 
+def chat_vibe(sim, cid):
+    from . import chat
+    return chat.vibe(sim, cid)
+
+
 def incoming_view(w):
     from .story import incoming_view as iv
     return iv(w)
@@ -328,7 +333,9 @@ def _lines(L, evs, me):
             continue
         out.append({"id": e["id"], "type": e["type"], "outcome": e.get("outcome"), "text": pov.event_line(w, e, me.id),
                     "with": [x for x in e["actors"] + e["targets"] if x != me.id][:3]})
-    return out[:6]
+        if (e.get("data") or {}).get("why") and me.id in e["actors"]:
+            out.append({"id": f"why{e['id']}", "type": "why", "text": e["data"]["why"]})
+    return out[:8]
 
 
 def _chips(L, me, needs0, mood0, rels0):
@@ -513,6 +520,33 @@ def phone_reply(tid: str, body: dict = Body(...)):
         return out
 
 
+@router.post("/api/phone/thread/{tid}/say")
+def phone_say(tid: str, body: dict = Body(...)):
+    """Text someone: {"text": "anything you want"} or {"suggestion": index}. They answer like themselves."""
+    A, L = _lab()
+    L.guard()
+    from . import chat
+    with L.lock:
+        _me(L)
+        if not tid.startswith("dm:") or tid[3:] not in L.w.chars:
+            raise HTTPException(404, "you can only text one person at a time here")
+        try:
+            sug = body.get("suggestion")
+            res = chat.send(L.sim, tid[3:], body.get("text"), int(sug) if sug is not None else None)
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return {"thread": messages.thread_view(L.sim, tid, mark_read=True), "result": res.get("result"), "why": res.get("why"),
+                "plans": bool(res.get("plans"))}
+
+
+@router.get("/api/phone/flirting")
+def phone_flirting():
+    """How flirting works, in plain words."""
+    from . import chat
+    return {"guide": chat.GUIDE, "stages": chat.STAGES}
+
+
 @router.post("/api/phone/text")
 def phone_text(body: dict = Body(...)):
     A, L = _lab()
@@ -623,7 +657,8 @@ def phone_contact(cid: str):
                     feel=_feel(r.affection if r else 0), seems=_feel(r.perceived if r else 0, "perceived"),
                     trust=round(r.trust) if r else 0, respect=round(r.respect) if r else 0, familiarity=round(r.familiarity) if r else 0,
                     memories=mems, shared=shared, text_options=messages.text_options(L.sim, cid) if row["has_number"] else [],
-                    partner_of=o.flags.get("partner") and w.chars[o.flags["partner"]].first if o.flags.get("partner") in w.chars else None)
+                    partner_of=o.flags.get("partner") and w.chars[o.flags["partner"]].first if o.flags.get("partner") in w.chars else None,
+                    vibe=chat_vibe(L.sim, cid))
 
 
 # --- pets -----------------------------------------------------------------------------------

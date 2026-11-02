@@ -118,6 +118,7 @@ export function Conversation({ tid }: { tid: string }) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [hasNumber, setHasNumber] = useState<boolean | null>(null);
+  const [draft, setDraft] = useState("");
   const scroller = useRef<HTMLDivElement>(null);
   const kind = threadKind({ id: tid, kind: tid.startsWith("dm:") ? "dm" : "group" });
   const otherId = kind === "dm" ? tid.slice(3) : null;
@@ -182,6 +183,11 @@ export function Conversation({ tid }: { tid: string }) {
     const base = before.filter((m) => m.id !== optimisticId).map((m) => next.msgs.find((x) => x.id === m.id) || m);
     setShown([...base, ...mine]);
     for (const m of theirs) {
+      if (m.kind === "note") {
+        await sleep(260);
+        setShown((s) => [...s, m]);
+        continue;
+      }
       setTyping(m.from);
       await sleep(800 + Math.min(800, m.text.length * 22) + Math.random() * 250);
       setTyping(null);
@@ -229,6 +235,27 @@ export function Conversation({ tid }: { tid: string }) {
         const last = r.thread.msgs[r.thread.msgs.length - 1];
         setNotes((n) => [...n, { id: `plans-${last.id}`, after: last.id, text: "Plans made. You'll hang out at your next free time." }]);
       }
+      refresh();
+    } catch (e: any) {
+      toast(e.message, "bad");
+      await load();
+    } finally {
+      setSending(false);
+    }
+  };
+
+  /** Text them: something you typed, or one of the suggestions. */
+  const say = async (body: { text?: string; suggestion?: number }, label: string) => {
+    if (sending || !thread || !label.trim()) return;
+    setSending(true);
+    const waiting = pendingReply;
+    const base = waiting ? shown.map((x) => (x.id === waiting.id ? { ...x, replies: null, chosen: -2 } : x)) : [...shown];
+    const temp = optimistic(label.trim());
+    setShown([...base, temp]);
+    setDraft("");
+    try {
+      const r = await phoneApi.say(tid, body);
+      await stage(r.thread, [...base, temp], temp.id);
       refresh();
     } catch (e: any) {
       toast(e.message, "bad");
@@ -296,7 +323,36 @@ export function Conversation({ tid }: { tid: string }) {
       </div>
 
       <footer className="pm-compose">
-        {pendingReply ? (
+        {kind === "dm" && thread?.chat?.can_type ? (
+          <>
+            {pendingReply ? (
+              <div className="pm-chips">
+                {pendingReply.replies!.map((r, i) => (
+                  <button key={i} className="pm-chip reply" disabled={sending} onClick={() => answer(pendingReply, i)}>{r}</button>
+                ))}
+              </div>
+            ) : thread.chat.suggestions.length ? (
+              <div className="pm-chips sugg">
+                {thread.chat.suggestions.map((s, i) => (
+                  <button key={i} className="pm-chip sugg" disabled={sending || !!typing} onClick={() => say({ suggestion: i }, s.text)}>
+                    <span className="pm-tone" aria-hidden>{s.tone}</span>{s.text}
+                  </button>
+                ))}
+              </div>
+            ) : thread.chat.status === "done" ? (
+              <div className="pm-compose-note">{other?.first || "They"}'s done talking for now. Try again later.</div>
+            ) : null}
+            <form className="pm-input" onSubmit={(e) => { e.preventDefault(); say({ text: draft }, draft); }}>
+              <input
+                value={draft} maxLength={240} placeholder={`Text ${other?.first || "them"}…`} enterKeyHint="send" autoComplete="off"
+                onChange={(e) => setDraft(e.target.value)} aria-label={`Text ${other?.first || "them"}`}
+              />
+              <button type="submit" disabled={sending || !draft.trim()} aria-label="Send">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden><path d="M12 19V6m0 0-6 6m6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+            </form>
+          </>
+        ) : pendingReply ? (
           <>
             <div className="pm-compose-label">Reply</div>
             <div className="pm-chips">
@@ -342,6 +398,10 @@ function Bubbles({ msgs, kind, today, openTs, setOpenTs, people, parents, notes 
     const newDay = !prev || prev.day !== m.day;
     if (newDay) out.push(<div key={`d-${m.id}`} className="pm-day"><span>{dayLabel(m.day, m.date, today)}</span>{m.at && <em>{m.at}</em>}</div>);
     else if (m.at && prev?.at && minutes(m.at) - minutes(prev.at) >= 90) out.push(<div key={`t-${m.id}`} className="pm-gap">{m.at}</div>);
+    if (m.kind === "note") {
+      out.push(<div key={m.id} className="pm-sysnote">{m.text}</div>);
+      return;
+    }
     const mine = m.from === ME;
     const startRun = newDay || !prev || prev.from !== m.from || (prev.at && m.at && minutes(m.at) - minutes(prev.at) >= 90);
     const endRun = !next || next.from !== m.from || next.day !== m.day || (next.at && m.at && minutes(next.at) - minutes(m.at) >= 90);

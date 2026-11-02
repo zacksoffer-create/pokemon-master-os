@@ -730,3 +730,5 @@ html.ph-html body { color-scheme: light; }
 .ph-choice-wrap { display: flex; flex-direction: column; }
 .ph-root .ph-later { --btn-bg: #f5ede3; align-self: flex-end; display: inline-flex; align-items: center; gap: 5px; margin: -4px 4px 10px 0; padding: 5px 10px;
   border-radius: 999px; font-size: 12px; font-weight: 800; color: var(--ph-ink-2); }
+
+.ph-line.why p { font-size: 13px; color: var(--ph-dim); font-style: italic; }

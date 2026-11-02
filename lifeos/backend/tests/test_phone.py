@@ -90,7 +90,9 @@ def test_texts_come_from_what_happens_and_replies_matter():
     assert "hey" in opts and "hang" in opts
     res = messages.text_first(sim, friend, "hey")
     assert res["result"] in ("replied", "read")
-    assert not messages.text_options(sim, friend), "one text first per person per day"
+    from lifeos import chat
+    bar = chat.view(sim, friend)
+    assert bar["can_type"] and (bar["suggestions"] or bar["status"] == "done"), "the conversation keeps going until they wrap it up"
     th = next((t for t in ph["threads"].values() for m in t["msgs"] if messages._reply_open(sim, m) and not m["replies"][0]["fx"].startswith(("moment", "invite"))), None)
     if th:
         m = next(m for m in th["msgs"] if messages._reply_open(sim, m) and not m["replies"][0]["fx"].startswith(("moment", "invite")))

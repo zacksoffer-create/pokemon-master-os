@@ -201,6 +201,11 @@ def r_interact(sim, c, cand, ev, fx, rng, ctx):
     sim.expect(c.id, a["id"], clamp(res["qa"], -1, 1))
     if res["outcome"] == "great":
         ev["importance"] = a["importance"] + 6
+    if kind in ("flirt", "date", "hang_out") and c.id == w.meta.get("protagonist"):
+        from .chat import why_interact
+        why = why_interact(res["terms"], True)  # say why it went the way it did, in words
+        if why:
+            ev["data"]["why"] = why
     if kind == "flirt":
         _flirt_side_effects(sim, c, b, res, ev, fx, rng, ctx)
     if kind == "support":
@@ -284,6 +289,9 @@ def r_ask_out(sim, c, cand, ev, fx, rng, ctx):
         sim.expect(c.id, "ask_to_dance", 0.6 if yes else -0.5)
         return
     ev["type"] = "ask_out"
+    if c.id == w.meta.get("protagonist"):
+        from .chat import why_ask_out
+        ev["data"]["why"] = why_ask_out(terms, yes)
     if yes:
         ev["outcome"] = "yes"
         start_dating(sim, c.id, b, ev, fx)

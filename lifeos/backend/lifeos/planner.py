@@ -335,6 +335,14 @@ def annotate(sim, me, opts: list) -> list:
             grp, why = ("should", f"Energy {round(energy)}%") if energy < 30 else ("could", f"Energy {round(energy)}%")
         elif a == "reply_invite":
             grp, why = "want", "They asked you"
+        elif a in ("flirt", "ask_out", "ask_to_dance") and t in w.chars:
+            from . import chat
+            rd, st = chat.read(sim, t), chat.stage(sim, t)
+            if a == "ask_out":
+                grp, why = ("want", "They flirt back") if st >= 3 and rd["level"] >= 3 else ("could", f"Risky: {rd['label'].lower()}")
+            else:
+                grp, why = ("want", rd["label"]) if rd["level"] >= 3 else ("could", "Some signs") if rd["level"] == 2 else \
+                    ("could", "Risky: you barely know them" if rd["level"] == -1 else f"Risky: {rd['label'].lower()}")
         elif a in RISKY:
             why = "Risky" if o.get("risk", 0) >= 0.3 else "Could start drama"
         elif a == "sign_up":

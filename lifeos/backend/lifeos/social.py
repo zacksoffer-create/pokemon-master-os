@@ -157,7 +157,7 @@ def interact(sim, fx, ev, a: str, b: str, p: dict, rng, calc: list | None) -> di
     elif outcome == "bad":
         fx.memory(a, f"{kind}_bad", [b], -0.5, 35, f"Bad {kind.replace('_', ' ')} with {B.name}")
         fx.memory(b, f"{kind}_bad", [a], -0.45, 30, f"Bad {kind.replace('_', ' ')} with {A.name}")
-    return {"quality": q, "qa": qa, "qb": qb, "outcome": outcome, "first": first}
+    return {"quality": q, "qa": qa, "qb": qb, "outcome": outcome, "first": first, "terms": [[t[0], round(t[1], 3)] for t in terms]}
 
 
 def update_labels(sim, fx, cause_ev):

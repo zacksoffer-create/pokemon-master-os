@@ -37,7 +37,10 @@ export type Line = { id: number; type: string; outcome?: string; text: string; w
 export type Chip = { label: string; delta: number; good: boolean; who?: string; kind?: string };
 export type ThreadSummary = { id: string; kind: "dm" | "group"; title: string; members: string[]; unread: number; last: string; last_from: string; at: string; date: string; needs_reply: boolean };
 export type Msg = { id: string; from: string; from_name: string; text: string; at: string; day: number; date: string; kind: string; read: boolean; replies: string[] | null; chosen: number | null };
-export type Thread = { id: string; kind: "dm" | "group"; title: string; members: string[]; msgs: Msg[]; can_text: boolean; text_options: { kind: string; label: string }[] };
+export type ChatSuggestion = { text: string; intent: string; tone: string };
+export type ChatBar = { can_type: boolean; suggestions: ChatSuggestion[]; status: "new" | "open" | "done" | "no_number" | "none"; stage?: string; read?: string };
+export type Thread = { id: string; kind: "dm" | "group"; title: string; members: string[]; msgs: Msg[]; can_text: boolean; text_options: { kind: string; label: string }[]; chat?: ChatBar };
+export type Vibe = { stage: number; stages: string[]; read: string; tone: string; level: number; signals: { text: string; good: boolean | null }[]; tip: string; romance: boolean };
 export type ContactRow = {
   id: string; name: string; first: string; year_label: string; look: Look; color: string; label: string; crush: boolean; partner: boolean; roles: string[];
   affection: number; hearts: number; attraction: number; rivalry: number; perceived: number; has_number: boolean; unread: number;
@@ -46,7 +49,7 @@ export type ContactRow = {
 export type Contact = ContactRow & {
   bio: string; archetype: string; pronouns: string; teams: string[]; school: string; since: string | null; feel: string; seems: string;
   trust: number; respect: number; familiarity: number; memories: { text: string; date: string; valence: number }[];
-  shared: { id: number; date: string; text: string }[]; text_options: { kind: string; label: string }[]; partner_of: string | null;
+  shared: { id: number; date: string; text: string }[]; text_options: { kind: string; label: string }[]; partner_of: string | null; vibe?: Vibe;
 };
 
 export type MiniGameRow = { id: string; title: string; label: string; blurb: string; icon: string; ready: boolean; available: boolean; why: string; rewarded_today: boolean; best: number | null };
@@ -74,6 +77,9 @@ export const phoneApi = {
   thread: (tid: string): Promise<Thread> => api.get(`/api/phone/thread/${encodeURIComponent(tid)}`),
   reply: (tid: string, msg: string, index: number): Promise<{ thread: Thread }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/reply`, { msg, index }),
   text: (to: string, kind: string): Promise<{ thread: Thread; result: string; plans: boolean }> => api.post("/api/phone/text", { to, kind }),
+  say: (tid: string, body: { text?: string; suggestion?: number }): Promise<{ thread: Thread; result: string; why: string | null; plans: boolean }> =>
+    api.post(`/api/phone/thread/${encodeURIComponent(tid)}/say`, body),
+  flirting: (): Promise<{ guide: { t: string; d: string }[]; stages: string[] }> => api.get("/api/phone/flirting"),
   contacts: (): Promise<{ groups: { name: string; people: ContactRow[] }[]; parents: { id: string; name: string; full: string; parent: boolean }[] }> => api.get("/api/phone/contacts"),
   contact: (cid: string): Promise<Contact> => api.get(`/api/phone/contact/${encodeURIComponent(cid)}`),
   pets: (): Promise<{ pets: Pet[]; kids: { id: string; first: string; me: boolean }[]; approved: any; asked: number | null;

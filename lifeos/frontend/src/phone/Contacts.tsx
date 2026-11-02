@@ -1,6 +1,6 @@
 // The Contacts app: everyone you know, grouped the way you'd think about them, and a profile for each.
 import React, { useEffect, useState } from "react";
-import { Contact, ContactRow, phoneApi, pgo } from "./api";
+import { Contact, ContactRow, Vibe, phoneApi, pgo } from "./api";
 import { usePhone } from "./PhoneContext";
 import { Portrait } from "./art";
 import { Chevron, Hearts, LabelBadge, ParentAvatar, labelTone, moodFor, pendingCompose } from "./MessagesUtil";
@@ -144,6 +144,8 @@ export function ContactProfile({ cid }: { cid: string }) {
         <div className="pm-fineprint">This is your read on {c.first}. You can't see inside anyone's head.</div>
       </div>
 
+      {c.vibe && c.vibe.romance && <VibeCard v={c.vibe} first={c.first} />}
+
       <div className="pm-card pm-facts">
         {c.since && <Fact k="Known since" v={monthYear(c.since)} />}
         <Fact k="School" v={c.year_label} />
@@ -179,6 +181,38 @@ export function ContactProfile({ cid }: { cid: string }) {
         </div>
       )}
       <div style={{ height: 24 }} />
+    </div>
+  );
+}
+
+function VibeCard({ v, first }: { v: Vibe; first: string }) {
+  const [open, setOpen] = useState(false);
+  const [guide, setGuide] = useState<{ t: string; d: string }[] | null>(null);
+  const toggle = () => {
+    setOpen((o) => !o);
+    if (!guide) phoneApi.flirting().then((r) => setGuide(r.guide)).catch(() => setGuide([]));
+  };
+  return (
+    <div className="pm-card pm-vibe">
+      <div className="pm-card-h">You and {first}</div>
+      <div className="pm-ladder">
+        {v.stages.map((s, i) => (
+          <div key={s} className={`step${i < v.stage ? " done" : ""}${i === v.stage ? " now" : ""}`}><i /><span>{s}</span></div>
+        ))}
+      </div>
+      <div className={`pm-vibe-read is-${v.tone}`}><span>Into you?</span><b>{v.read}</b></div>
+      {v.signals.length > 0 ? (
+        <ul className="pm-signals">
+          {v.signals.map((s) => <li key={s.text} className={s.good === true ? "good" : s.good === false ? "bad" : ""}>{s.text}</li>)}
+        </ul>
+      ) : (
+        <div className="pm-fineprint">No signals yet. Text them, hang out, and notice how they answer.</div>
+      )}
+      {v.tip && <p className="pm-vibe-tip">{v.tip}</p>}
+      <button className="pm-linkbtn" onClick={toggle}>How flirting works {open ? "▴" : "▾"}</button>
+      {open && guide && (
+        <ol className="pm-guide">{guide.map((g) => <li key={g.t}><b>{g.t}</b><span>{g.d}</span></li>)}</ol>
+      )}
     </div>
   );
 }
