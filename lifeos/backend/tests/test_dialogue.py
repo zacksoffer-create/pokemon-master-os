@@ -440,7 +440,7 @@ def test_one_big_story_seasons_episodes_and_previously():
     e = episodes.log(w)[-1]
     assert e["kind"] == "bro_driveway" and e["choices"] == ["You're on", "Drive left. Prove him wrong."] and e["storyline"] == "Big brother season"
     second = dialogue.fire(sim, "bro_tryouts", dialogue._context(sim, me, "older_brother", {}, sim.streams.get("x", 2), pack=pid))
-    assert second["previously"].startswith("Previously, in “The driveway”: you went with “You're on” then “Drive left.")
+    assert second["previously"].startswith("Previously, in \u201cThe driveway\u201d: you went with \u201cYou're on\u201d then \u201cDrive left. Prove him wrong\u201d.")
     assert second["episode"]["number"] == first["episode"]["number"] + 1
     g = episodes.guide(sim)
     assert g["now"]["label"] == "Freshman year" and g["seasons"][0]["episodes"][-1]["title"] == "Tryout nerves"

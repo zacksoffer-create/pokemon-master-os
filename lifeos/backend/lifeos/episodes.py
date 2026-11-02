@@ -71,7 +71,7 @@ def on_trigger(sim, m):
     if pack:
         last = next((x for x in reversed(eps) if x["pack"] == pack and x["choices"]), None)
         if last:
-            picks = " then ".join(f"“{c}”" for c in last["choices"][:3])
+            picks = " then ".join(f"“{c.rstrip('.!?')}”" for c in last["choices"][:3])
             m["previously"] = f"Previously, in “{last['title']}”: you went with {picks}." + (f" {last['said']}" if last.get("said") else "")
     eps.append(e)
     m["episode"] = {k: e[k] for k in ("season", "season_label", "number", "premiere", "finale", "storyline")}
