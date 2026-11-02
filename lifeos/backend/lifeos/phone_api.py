@@ -306,6 +306,51 @@ def crew_option(L, me, opts):
                 group="want", reason="The crew, all at once", later=None, gut=False, icon="people")
 
 
+# --- the social scene: groups, couples, where you stand, people to meet --------------------------
+
+@router.get("/api/phone/scene")
+def phone_scene():
+    A, L = _lab()
+    from . import scene
+    with L.lock:
+        _me(L)
+        return scene.view(L.sim)
+
+
+@router.post("/api/phone/scene/intro")
+def phone_scene_intro(body: dict = Body(...)):
+    """Ask a friend ({via}) to introduce you to someone they know ({to}). Free, once a day."""
+    A, L = _lab()
+    L.guard()
+    from . import scene
+    with L.lock:
+        me = _me(L)
+        needs0, mood0 = dict(me.needs), me.mood
+        rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
+        try:
+            ev = scene.intro(L.sim, str(body.get("via", "")), str(body.get("to", "")))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return {"lines": _lines(L, [ev], me), "chips": _chips(L, me, needs0, mood0, rels0), "scene": scene.view(L.sim)}
+
+
+@router.post("/api/phone/scene/plan")
+def phone_scene_plan(body: dict = Body(...)):
+    """Plan to hang out with someone at your next free time."""
+    A, L = _lab()
+    L.guard()
+    from . import scene
+    with L.lock:
+        _me(L)
+        try:
+            note = scene.plan(L.sim, str(body.get("with", "")))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return {"note": note}
+
+
 # --- the editor: change anyone, and anything between two people ---------------------------------
 
 def _editor(L):

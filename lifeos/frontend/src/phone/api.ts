@@ -20,6 +20,18 @@ export type EdPerson = EdMini & { last: string; bio: string; gender: string; gra
   partner: string | null; with_me: { ab: EdRel | null; ba: EdRel | null } | null;
   rels: (EdMini & { roles: string[]; ab: EdRel | null; ba: EdRel | null })[] };
 export type EdPair = { a: EdMini; b: EdMini; ab: EdRel | null; ba: EdRel | null; roles: string[]; dating: boolean; presets: { id: string; label: string }[] };
+export type SceneMini = { id: string; name: string; first: string; color: string; look: Look; year: string };
+export type SceneView = {
+  me: { rank: number; of: number; grade_rank: number; grade_of: number; tier: string; popularity: number; group: string | null; reputation: string[]; friends: number };
+  groups: { id: string; name: string; size: number; mine: boolean; members: (SceneMini & { friend: boolean; me: boolean; family: boolean })[]; friends: number;
+    way_in: SceneMini | null; vibe: string; standing: string; since: string }[];
+  couples: { a: SceneMini; b: SceneMini; since: string; new: boolean; you: boolean }[];
+  breakups: { a: SceneMini; b: SceneMini; when: string }[];
+  popular: (SceneMini & { you: boolean })[];
+  meet: (SceneMini & { mutual: string[]; n: number; via: SceneMini })[];
+  intro_today: boolean;
+  talk?: any;
+};
 export type MomentGame = { id: string; title: string; secs?: number | null; icon: string };
 export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string; game?: MomentGame }[]; storyline?: string | null;
   episode_label?: string | null; previously?: string | null };
@@ -85,6 +97,9 @@ export const phoneApi = {
     api.post("/api/phone/choose", crew ? { index, crew, act } : { index }),
   today: (): Promise<Today> => api.get("/api/phone/today"),
   episodes: (): Promise<EpisodeGuide> => api.get("/api/phone/episodes"),
+  scene: (): Promise<SceneView> => api.get("/api/phone/scene"),
+  sceneIntro: (via: string, to: string): Promise<{ lines: Line[]; chips: Chip[]; scene: SceneView }> => api.post("/api/phone/scene/intro", { via, to }),
+  scenePlan: (id: string): Promise<{ note: string }> => api.post("/api/phone/scene/plan", { with: id }),
   // the editor (only while it's on)
   editor: (): Promise<{ schema: EdSchema; people: EdPersonRow[] }> => api.get("/api/phone/editor"),
   editorPerson: (id: string): Promise<EdPerson> => api.get(`/api/phone/editor/person/${encodeURIComponent(id)}`),

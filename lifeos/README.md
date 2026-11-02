@@ -306,6 +306,25 @@ What's in it:
   Their answer depends on how they parent, money at home, your grades and how much they trust you.
 - **Me.** Your stats, grades, teams, the seven-year timeline, your focus and when the story should stop to ask you.
 
+## The scene (Phone → Scene)
+
+Your school's world, from where you're standing. It's the third tab in the Phone app, next to Messages and Contacts.
+
+- **Where you stand:** your rank at school and in your grade ("#12 of 140", "Well known"), how many friends you have,
+  your group ("You're in the Court Crew", or "You float between groups"), and what people say about you ("throws the
+  best parties", "not someone to mess with", "an athlete").
+- **The groups:** every friend group at your school, the ones that formed on their own from who's actually friends with
+  who (the Court Crew, the Honor Roll, the In-Crowd, the Theater Kids...). Each shows its people, its vibe, how popular
+  it is, and how many of your friends are in it. Tap one to see everyone in it.
+- **Getting in:** if a friend of yours is in a group, that's your way in: **Hang out with Danny** plans it for your
+  next free time. Get close to the rest, and the next time the groups shift, you're in. Groups change on their own as
+  friendships do.
+- **People you could meet:** friends of your friends you don't know yet ("friends with Danny and Cole"). **Ask Danny**
+  and they introduce you. It's free like texting, one a day, and how it goes depends on you, them, and how close your
+  friend is with them. If it goes well you swap numbers.
+- **Who's together:** every couple at school (new ones marked), and who just broke up.
+- **Most popular:** the top six, and where you are among them.
+
 ## Big nights (parties and dances)
 
 Going to a party, throwing one, or going to Homecoming, the Snow Ball or prom isn't one tap anymore. The night plays out as
