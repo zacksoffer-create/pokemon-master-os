@@ -213,6 +213,80 @@ When you text someone yourself, the game reads what you typed and answers from t
 "chat": {"topic": {"school": ["mr. hanley gave us a pop quiz AGAIN"]}, "suggest": {"flirt_tease": ["you're lucky you're cute"]}, "ask": {"general": [{"q": "you going to the bonfire?", "a": "yesno"}]}}
 ```
 
+## Storylines: chapters, scenes that keep going, choices that matter
+
+Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart (at least 3 days; set `"when": {"gap_days": 7}` on a scene for more). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
+
+- **Keep going:** a choice with `then` continues the scene right away: `{"label": "You're on", "then": {"text": "It's 10-10...", "choices": [...]}}`. Up to two `then`s deep (three decisions in one scene).
+- **Branches:** `["remember", "fact"]` in a choice, and a later chapter with `"when": {"remembered": ["fact"]}` (or `not_remembered`) only happens on that path. `"when": {"after": ["scene_id"]}` waits for a specific scene.
+- **Style choices:** in a scene about someone, `["vibe", "tease", {"good": [...], "meh": [...], "bad": [...]}]` lands or misses by what they like (tease, sweet, bold, funny, cheesy; chill is the safe pick), and you learn their taste.
+- **The same person:** `who` picks who the story is about and keeps them for every chapter (and its texting lines). Use the most specific kind (older_brother rather than older_sibling).
+
+```json
+{
+ "id": "driveway_one_on_one",
+ "title": "One on one",
+ "who": "older_brother",
+ "text": [
+  "{them_first} bounces you the ball. \"First to eleven.\""
+ ],
+ "choices": [
+  {
+   "label": "You're on",
+   "ops": [
+    [
+     "remember",
+     "played_brother"
+    ]
+   ],
+   "then": {
+    "text": "It's 10-10. {them_first} is talking trash about your left hand.",
+    "choices": [
+     {
+      "label": "Drive left",
+      "ops": [
+       [
+        "vibe",
+        "bold",
+        {
+         "good": [
+          "You score. He can't believe it."
+         ],
+         "meh": [
+          "He blocks it, barely."
+         ],
+         "bad": [
+          "He swats it into the yard."
+         ]
+        }
+       ]
+      ]
+     },
+     {
+      "label": "Pull up from deep",
+      "ops": [
+       [
+        "mood",
+        2
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "Homework first",
+   "ops": [
+    [
+     "mood",
+     -1
+    ]
+   ]
+  }
+ ]
+}
+```
+
 ## Every line, two ways
 
 Any line can be texted or said in person. A text-pool line is a plain string (the text), or an object:
@@ -809,6 +883,7 @@ A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "mis
 | `remember` | `["remember", "covered_for_sibling"]` | Remember a fact so a later scene can depend on it. |
 | `forget` | `["forget", "covered_for_sibling"]` | Forget a remembered fact. |
 | `minigame` | `["minigame", "soccer_pk", {"great": [ops], "good": [ops], "miss": [ops]}, {"base": 0.5, "athletic": 0.3}]` | You play a mini game; how you do (great 80%+, good 50%+, else miss) picks the ops. If nobody plays it, the odds roll instead. The choice only shows when the game is ready. |
+| `vibe` | `["vibe", "tease", {"good": ["{them_first} cracks up."], "meh": ["A small laugh."], "bad": ["{them_first} goes quiet."]}]` | A choice in a style (tease, sweet, bold, funny, cheesy, or chill for the safe pick) that lands or misses by what they like. good / meh / bad are what happens, a line or a list of versions. Only in scenes about someone (who). |
 | `chance` | `["chance", {"base": 0.5, "charisma": 0.3}, [ops if it works], [ops if it doesn't]]` | Roll against your own traits and talents. base 0..1, then +coef x (stat - 50)/100 for each stat. |
 
 Traits: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty.  Talents: athletic, academic, creativity, technical, charisma.  Skills: academics, art, baseball, basketball, drama, fitness, football, music, tech, writing.

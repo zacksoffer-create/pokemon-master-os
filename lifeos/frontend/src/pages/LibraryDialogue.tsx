@@ -84,7 +84,7 @@ export default function Dialogue() {
       <Panel title="Dialogue packs" sub="More texts, reply options, story-feed lines, moment choices and whole new scenes. A pack is one JSON file; it only ever adds.">
         <div className="row" style={{ gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
           <button className="primary" disabled={!!busy} onClick={copyPrompt}>Copy the ChatGPT prompt</button>
-          <button disabled={!!busy} onClick={() => copyUpdate()}>Copy the upgrade prompt (for a pack you already made)</button>
+          <button disabled={!!busy} onClick={() => copyUpdate()}>Copy the build-out prompt (turns a pack you made into a real storyline)</button>
           <button disabled={!!busy} onClick={() => copyTexting()}>Copy the texting prompt (its people text like themselves)</button>
           <a className="btn" href="/api/dialogue/guide.md?download=1">Download the guide (.md)</a>
           <a className="btn" href="/api/dialogue/current?download=1">Download all current dialogue (.json)</a>
@@ -137,7 +137,7 @@ export default function Dialogue() {
                 </div>
                 <div className="row" style={{ gap: 6 }}>
                   <button className="small" disabled={!p.ok || busy === p.id} onClick={() => toggle(p)}>{p.enabled ? "Turn off" : "Turn on"}</button>
-                  {p.source === "yours" && p.ok && <button className="small" disabled={!!busy} onClick={() => copyUpdate(p.id)}>Upgrade it (copy prompt)</button>}
+                  {p.source === "yours" && p.ok && <button className="small" disabled={!!busy} onClick={() => copyUpdate(p.id)}>Build it out (copy prompt)</button>}
                   {p.source === "yours" && p.ok && <button className="small" disabled={!!busy} onClick={() => copyTexting(p.id)}>Upgrade its texting</button>}
                   {p.source === "yours" && <button className="small ghost" onClick={() => remove(p)}>Remove</button>}
                 </div>

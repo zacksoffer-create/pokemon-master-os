@@ -181,6 +181,7 @@ WHO = {
     "coach": "A coach of one of your teams.",
 }
 
+VIBE_STYLES = ("tease", "sweet", "bold", "funny", "cheesy", "chill")
 SIBLING_KINDS = ("sibling", "older_sibling", "younger_sibling", "twin", "brother", "sister", "older_brother", "older_sister",
                  "younger_brother", "younger_sister")
 CASTABLE = SIBLING_KINDS + ("friend", "teammate", "classmate", "ex", "coach")  # kinds with more than one person who fits: a storyline keeps its pick
@@ -207,7 +208,10 @@ SCENE_REFS = ("them", "best_friend", "sibling", "partner")
 SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "sibling", "sibling_first", "partner", "partner_first",
                "me_first", "school", "town", "sport", "pet"}
 DEFAULT_CHANCE = 0.04
-SCENE_GAP_DAYS = 5
+SCENE_GAP_DAYS = 2      # at most one storyline scene every couple of days, across all of them
+CHAPTER_GAP_DAYS = 3    # a storyline's next chapter comes at least this long after its last one (when.gap_days changes it)
+CHAPTER_CHANCE = 0.5    # once it's due, the next chapter comes soon (about every other day)
+MAX_BEATS = 3           # how deep a scene can keep going with "then"
 NO_ADD = {"college_decision"}  # choices are built from your real options
 
 # where each mini game fits in a story, for the guide
@@ -245,6 +249,9 @@ OPS = {
     "forget": (1, '["forget", "covered_for_sibling"]', "Forget a remembered fact."),
     "minigame": (3, '["minigame", "soccer_pk", {"great": [ops], "good": [ops], "miss": [ops]}, {"base": 0.5, "athletic": 0.3}]',
                  "You play a mini game; how you do (great 80%+, good 50%+, else miss) picks the ops. If nobody plays it, the odds roll instead. The choice only shows when the game is ready."),
+    "vibe": (2, '["vibe", "tease", {"good": ["{them_first} cracks up."], "meh": ["A small laugh."], "bad": ["{them_first} goes quiet."]}]',
+             "A choice in a style (tease, sweet, bold, funny, cheesy, or chill for the safe pick) that lands or misses by what they like. "
+             "good / meh / bad are what happens, a line or a list of versions. Only in scenes about someone (who)."),
     "chance": (3, '["chance", {"base": 0.5, "charisma": 0.3}, [ops if it works], [ops if it doesn\'t]]',
                "Roll against your own traits and talents. base 0..1, then +coef x (stat - 50)/100 for each stat."),
 }
@@ -459,6 +466,17 @@ def _check_ops(R, where, ops, refs, names, depth=0):
         elif name in ("remember", "forget"):
             if not isinstance(args[0], str) or not SLUG.match(args[0]):
                 R.err(w, "a remembered fact " + _slug_problem(args[0]).replace("needs a short lowercase id", "needs a short lowercase name").removeprefix("is "))
+        elif name == "vibe":
+            style, outs = args
+            if style not in VIBE_STYLES:
+                R.err(w, f"'{style}' isn't a style. Use: {', '.join(VIBE_STYLES)}")
+            if "them" not in refs:
+                R.err(w, "a style choice needs the scene to be about someone (set who)")
+            if not isinstance(outs, dict) or not outs or any(k not in ("good", "meh", "bad") for k in outs):
+                R.err(w, 'the second value maps good / meh / bad to what happens, like {"good": ["..."], "meh": ["..."], "bad": ["..."]}')
+            else:
+                for ok_, lines in outs.items():
+                    _check_variants(R, f"{w} ({ok_})", lines, names, 300)
         elif name == "minigame":
             from .minigames import reg
             game, tiers, spec = args
@@ -492,13 +510,27 @@ def _check_ops(R, where, ops, refs, names, depth=0):
                 _check_ops(R, w + " (if it doesn't)", bad_ops, refs, names, depth + 1)
 
 
-def _check_choice(R, where, ch, refs, names):
+def _check_choice(R, where, ch, refs, names, depth=0):
     if not isinstance(ch, dict):
         R.err(where, 'a choice looks like {"label": "...", "ops": [...]}')
         return
     for k in ch:
-        if k not in ("label", "hint", "fits", "ops"):
-            R.warn(where, f"'{k}' is ignored (a choice has label, hint, fits, ops)")
+        if k not in ("label", "hint", "fits", "ops", "then"):
+            R.warn(where, f"'{k}' is ignored (a choice has label, hint, fits, ops, then)")
+    then = ch.get("then")
+    if then is not None:
+        if depth + 1 >= MAX_BEATS:
+            R.err(where + ".then", f"a scene can keep going {MAX_BEATS - 1} times at most; end it here")
+        elif not isinstance(then, dict) or "text" not in then or "choices" not in then:
+            R.err(where + ".then", 'keeps the scene going: {"text": "what happens next", "choices": [2 to 4 choices]}')
+        else:
+            _check_variants(R, where + ".then.text", then["text"], names, 700)
+            tch = then["choices"]
+            if not isinstance(tch, list) or not 2 <= len(tch) <= 4:
+                R.err(where + ".then.choices", "needs 2 to 4 choices")
+            else:
+                for i, c2 in enumerate(tch):
+                    _check_choice(R, f"{where}.then.choices[{i}]", c2, refs, names, depth + 1)
     _check_line(R, where + ".label", ch.get("label"), names, 100)
     if ch.get("hint") is not None:
         _check_line(R, where + ".hint", ch["hint"], names, 140)
@@ -559,7 +591,7 @@ def _check_scene(R, where, sc, seen_ids):
         R.err(where + ".when", "when is an object, like {\"chance\": 0.05, \"years\": [\"freshman\"]}")
         when = {}
     allowed_when = {"chance", "years", "months", "dates", "weekdays", "requires", "you_feel", "they_feel", "me",
-                    "remembered", "not_remembered", "once", "cooldown_days"}
+                    "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days"}
     for k, v in when.items():
         w = f"{where}.when.{k}"
         if k not in allowed_when:
@@ -614,6 +646,12 @@ def _check_scene(R, where, sc, seen_ids):
                 R.err(w, "is true or false")
         elif k == "cooldown_days":
             _num(R, w, v, 1, 2000)
+        elif k == "after":
+            for a in v if isinstance(v, list) else [v]:
+                if not isinstance(a, str) or not SLUG.match(a):
+                    R.err(w, "is a list of scene ids that have to happen first")
+        elif k == "gap_days":
+            _num(R, w, v, 0, 365)
     chs = sc.get("choices")
     if not isinstance(chs, list) or not 2 <= len(chs) <= 4:
         R.err(where + ".choices", "a scene needs 2 to 4 choices")
@@ -659,7 +697,7 @@ def check(pack: dict) -> dict:
     elif len(name) > 60:
         R.err("name", "keep the name under 60 characters")
     for k in pack:
-        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version"):
+        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order"):
             R.warn(k, f"isn't part of a pack and is ignored.{_suggest(k, SECTIONS)}")
     base_texts = _texts_base()
     added = {"texts": 0, "replies": 0, "narration": 0, "moment_choices": 0, "scenes": 0, "duplicates": 0}
@@ -1063,6 +1101,7 @@ def _build() -> dict:
     trivia_extra: dict = {}
     chat_lines = copy.deepcopy(_base("chat.json"))
     chat_people = []  # (pack, {kind: lines}): a storyline's own people text with these
+    in_order = {}  # pack -> its scenes happen as chapters, in the order they're written
     for p in packs():
         if not p["enabled"]:
             continue
@@ -1095,15 +1134,77 @@ def _build() -> dict:
             chat_people.append((p["id"], pk["chat"]["people"]))
         for sub, qs in (pk.get("trivia") or {}).items():
             trivia_extra.setdefault(sub, []).extend({"q": q["q"], "a": q["a"], "w": list(q["w"]), "g": q.get("g", 9)} for q in qs)
-        for sc in pk.get("scenes") or []:
+        st_order = _state().get("order", {})
+        in_order[p["id"]] = st_order.get(p["id"], pk.get("in_order", p["source"] == "yours"))
+        for n, sc in enumerate(pk.get("scenes") or []):
             if sc["id"] in moments:
                 continue  # an earlier pack already has a scene with this id
             moments[sc["id"]] = {"title": sc["title"], "text": sc["text"],
-                                 "choices": [_with_needs(ch) for ch in sc["choices"]],
-                                 "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"),
+                                 "choices": _with_beats(moments, sc["id"], sc["title"], p["id"], sc["choices"], ""),
+                                 "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"), "order": n,
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
-            "chat": chat_lines, "chat_people": chat_people, "loaded": loaded}
+            "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded}
+
+
+def _with_beats(moments, sid, title, pack, choices, path) -> list:
+    """Choices, where one with "then" keeps the scene going: the next beat is its own moment, right after."""
+    out = []
+    for i, ch in enumerate(choices):
+        c2 = _with_needs({k: v for k, v in ch.items() if k != "then"})
+        then = ch.get("then")
+        if isinstance(then, dict):
+            bid = f"{sid}__{path}{i}"
+            moments[bid] = {"title": title, "text": then["text"], "beat_of": sid, "scene_pack": pack,
+                            "choices": _with_beats(moments, sid, title, pack, then.get("choices") or [], f"{path}{i}_")}
+            c2["ops"] = list(c2["ops"]) + [["beat", bid]]
+        out.append(c2)
+    return out
+
+
+def in_order(pid) -> bool:
+    return bool(merged()["in_order"].get(pid))
+
+
+def set_in_order(pid: str, on: bool):
+    if not any(p["id"] == pid for p in packs()):
+        raise KeyError(pid)
+    st = _state()
+    st.setdefault("order", {})[pid] = bool(on)
+    _save_state(st)
+    reload()
+
+
+def chapters(sim, pid) -> list:
+    """A storyline's scenes in order (not the beats inside them)."""
+    return sorted(((m["scene"].get("order", 0), sid, m) for sid, m in sim.cat.moments.items()
+                   if (m.get("scene") or {}).get("pack") == pid), key=lambda x: x[0])
+
+
+def progress(sim, pid) -> dict:
+    """How far along a storyline you are: chapters done, out of how many, and what's next."""
+    seen = sim.w.meta.get("scenes_seen", {})
+    ch = chapters(sim, pid)
+    done = sum(1 for _, sid, _ in ch if sid in seen)
+    nxt = next((m["title"] for _, sid, m in ch if sid not in seen), None)
+    return {"done": done, "of": len(ch), "next": nxt, "in_order": in_order(pid)}
+
+
+def chapter_label(sim, kind) -> str | None:
+    """'Hoops with my brother · Chapter 2 of 5' for a scene (or a beat inside one)."""
+    m = sim.cat.moments.get(kind) or {}
+    sid = m.get("beat_of") or kind
+    sc = (sim.cat.moments.get(sid) or {}).get("scene")
+    if not sc:
+        return None
+    pid = sc.get("pack")
+    p = next((x for x in packs() if x["id"] == pid), None)
+    name = (p["pack"].get("name") if p else None) or "A storyline"
+    if not in_order(pid):
+        return name
+    ch = chapters(sim, pid)
+    n = next((i for i, (_, s, _) in enumerate(ch) if s == sid), 0) + 1
+    return f"{name} · Chapter {n} of {len(ch)}"
 
 
 def _merge_chat(into: dict, add: dict):
@@ -1312,6 +1413,13 @@ def _when_ok(sim, me, sid, when, ignore_time=False) -> bool:
     mem = w.meta.get("remembered", {})
     if any(k not in mem for k in when.get("remembered", [])) or any(k in mem for k in when.get("not_remembered", [])):
         return False
+    allseen = w.meta.get("scenes_seen", {})
+    after = when.get("after") or []
+    after = after if isinstance(after, list) else [after]
+    if any(a not in allseen for a in after):
+        return False
+    if after and when.get("gap_days") and not ignore_time and w.day - max(allseen[a][-1] for a in after) < when["gap_days"]:
+        return False
     for f, rng in (when.get("me") or {}).items():
         v = me.mood if f == "mood" else me.gpa if f == "gpa" else me.needs.get(f, 50)
         if not _in(v, rng):
@@ -1338,8 +1446,8 @@ def _story_words(sim, pack) -> str:
     """Everything a storyline says (its scenes' titles, text and lines), to tell who it's about."""
     out = []
     for sid, m in sim.cat.moments.items():
-        if (m.get("scene") or {}).get("pack") == pack:
-            out.append(json.dumps([m.get("title"), m.get("text"), m.get("scene", {}).get("by_text"),
+        if (m.get("scene") or {}).get("pack") == pack or m.get("scene_pack") == pack:
+            out.append(json.dumps([m.get("title"), m.get("text"), (m.get("scene") or {}).get("by_text"),
                                    [(c.get("label"), c.get("ops")) for c in m.get("choices", [])]], ensure_ascii=False))
     return " ".join(out).lower()
 
@@ -1433,7 +1541,8 @@ def _playable(spec, ctx) -> bool:
 
 
 def maybe_scene(sim):
-    """Once a morning in story mode: maybe one scene from the packs happens today."""
+    """Once a morning in story mode: maybe one scene from the packs happens today. A storyline played in order offers only its
+    next chapter (the first one that can happen now), a few days after its last; the rest come up now and then."""
     w = sim.w
     pid = w.meta.get("protagonist")
     me = w.chars.get(pid) if pid else None
@@ -1447,19 +1556,37 @@ def maybe_scene(sim):
     if not scenes:
         return None
     rng = sim.streams.get("scene", w.day)
-    rng.shuffle(scenes)
+    by_pack = {}
+    for sid, m in scenes:
+        by_pack.setdefault(m["scene"].get("pack"), []).append((m["scene"].get("order", 0), sid, m))
+    ordered = {pk for pk in by_pack if in_order(pk)}
+    chapters_due = []
+    for pk in sorted(ordered):
+        lst = sorted(by_pack[pk], key=lambda x: x[0])
+        nxt = next(((sid, m) for _, sid, m in lst if sid not in seen and _when_ok(sim, me, sid, m["scene"].get("when") or {}, ignore_time=True)), None)
+        if not nxt:
+            continue
+        last_pk = max((seen[s][-1] for _, s, _ in lst if seen.get(s)), default=-999)
+        if w.day - last_pk >= (nxt[1]["scene"].get("when") or {}).get("gap_days", CHAPTER_GAP_DAYS):
+            chapters_due.append((w.day - last_pk, nxt))
+    chapters_due = [x for _, x in sorted(chapters_due, key=lambda t: -t[0])]  # the storyline that's waited longest first
+    free = [(sid, m) for sid, m in scenes if m["scene"].get("pack") not in ordered]
+    rng.shuffle(free)
     dated_today = []
     for sid, spec in scenes:
         when = spec["scene"].get("when") or {}
-        if when.get("dates") and _when_ok(sim, me, sid, when):
+        if when.get("dates") and _when_ok(sim, me, sid, when) and (spec["scene"].get("pack") not in ordered or (sid, spec) in chapters_due):
             dated_today.append((sid, spec))
     if not dated_today and (busy or w.day - last < SCENE_GAP_DAYS):
         return None
-    for sid, spec in (dated_today if busy else dated_today + scenes):
+    due_ids = {sid for sid, _ in chapters_due}
+    for sid, spec in (dated_today if busy else dated_today + chapters_due + free):
         when = spec["scene"].get("when") or {}
         if not _when_ok(sim, me, sid, when):
             continue
-        chance = when.get("chance", 1.0 if when.get("dates") else DEFAULT_CHANCE)
+        chance = when.get("chance", 1.0 if when.get("dates") else CHAPTER_CHANCE if sid in due_ids else DEFAULT_CHANCE)
+        if sid in due_ids:
+            chance = max(chance, CHAPTER_CHANCE)
         if rng.random() >= chance:
             continue
         ctx = _context(sim, me, spec["scene"].get("who"), when, rng, pack=spec["scene"].get("pack"))
@@ -1576,6 +1703,9 @@ How to write it:
   make one choice play it, with different outcomes for great, good and miss. Always keep two choices that don't need a game.
 - Add texting lines in "chat" for what I asked for: how people answer when I text them, questions they ask back, follow-ups,
   and flirt lines by style (tease, sweet, bold, funny, cheesy). At least 8 lines in every list you touch.
+- Make it a story: write the scenes in the order they should happen (they play as chapters), give important scenes a "then"
+  so they keep going, and use ["remember", ...] with "when": {"remembered": [...]} so choices change what happens later.
+- In scenes about someone, make a choice a style ("vibe": tease, sweet, bold, funny, cheesy) with good / meh / bad outcomes.
 - Don't reuse the same idea twice. Vary the openings, the length, and the mood.
 
 How to answer:
@@ -1585,27 +1715,45 @@ How to answer:
 
 """
 
-UPDATE_PROMPT = """You're updating a dialogue pack for LIFE OS, a life-simulation game: you play one person from the first day of high
-school (Guilford High School in Guilford, Connecticut) through college. I made this pack before the game could do some new
-things. Upgrade it, and make it much bigger.
+UPDATE_PROMPT = """You're building out a dialogue pack (one of my storylines) for LIFE OS, a life-simulation game: you play one person
+from the first day of high school (Guilford High School in Guilford, Connecticut) through college. I made this storyline before
+the game could tell real stories. Build it out: make it a story with chapters, scenes that keep going, choices that matter
+later, and people who react like themselves. Make it much bigger.
+
+How storylines work now:
+- A storyline's scenes are chapters: they happen in the order they're written in "scenes", a few days apart (set
+  "when": {"gap_days": 7} on a scene to space it out more). A chapter that can't happen yet (wrong school year, needs a
+  girlfriend...) waits, and the story moves on to the next one that can.
+- A choice can keep the scene going right away with "then": {"text": "what happens next", "choices": [...]}. Up to two
+  "then"s deep, so a scene can be three decisions long.
+- Choices can matter later: ["remember", "fact"] in a choice, then a later chapter with "when": {"remembered": ["fact"]} (or
+  "not_remembered") only happens on that path. Use this for branches and different endings.
+- In a scene about someone, a choice can be a style: ["vibe", "tease" | "sweet" | "bold" | "funny" | "cheesy" | "chill",
+  {"good": [...], "meh": [...], "bad": [...]}]. Whether it lands depends on what that person likes, and I learn their taste.
+- Mini games can be a choice (["minigame", ...] with great / good / miss outcomes).
+- "who" picks the person the story is about and keeps them for every chapter. Use the most specific kind (older_brother, not
+  older_sibling, when it's about my brother).
 
 Do all of this:
-1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep every scene id and every line
-   that's already there.
-2. Texts: for every pool in the pack, add at least 12 new lines. Turn the best lines into objects with a "talk" version (how
-   they'd say it in person) and "when" tags where a line fits a moment (late_night, close, crush, partner, stressed, weekend...).
-3. Add "mods" for the people in this pack: openers and closers for their texts, and ways they say things in person.
-4. Scenes: turn each scene's "text" into a list of 3 versions, and each "say" into a list of 2 or 3 versions. Add a "by_text"
-   version to scenes about someone you'd text. Add more choices where a scene has only 2 (4 at most).
-5. Mini games: wherever a scene fits one, give it a choice that plays it, with "great", "good" and "miss" outcomes. Then add
-   3 new scenes built around mini games that fit this pack's people.
-6. Add 2 new scenes that follow up on things the old scenes "remember".
-6b. If a scene's "who" is a general kind (sibling, older_sibling, younger_sibling) but it's clearly about one person (my brother,
-   my sister), change it to the specific kind: older_brother, older_sister, younger_brother, younger_sister, brother or sister.
-7. Add a "chat" section with texting lines that fit this pack's people: topic answers, questions they'd ask back (with the
-   kind of answer), follow-ups, and flirt suggestions by style. At least 8 lines in every list you add.
+1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep every scene id and line that's
+   already there. You can reorder scenes so they read as a story.
+2. Put the scenes in story order (the order they should happen) and turn them into a real arc: a beginning, things getting
+   harder or more interesting, a turning point, and an ending. Add new chapters so the storyline has at least 8.
+3. Give at least half the chapters a "then" so the scene keeps going after the first choice (and some a second "then").
+4. Make choices matter: at least 2 facts remembered early that change which later chapters happen, and 2 different endings
+   (one for each path).
+5. In every scene about someone, make at least one choice a style choice (vibe) with good / meh / bad outcomes written for
+   that person.
+6. Scenes: give each scene's "text" 3 versions (a list) and each "say" 2 or 3 versions. Add a "by_text" version to scenes about
+   someone I'd text. 2 to 4 choices per scene and per "then".
+7. Where a scene fits a mini game, give it a choice that plays it.
+8. If a scene's "who" is a general kind but it's clearly about one person, change it to the specific kind (older_brother,
+   older_sister, younger_brother, younger_sister, brother, sister).
+9. Add a "chat" section with texting lines for this storyline's people under "chat": {"people": {"<kind>": {...}}}: how they
+   answer, questions they ask back (with the kind of answer), follow-ups, things that come up after you've done something
+   together ("recent"), and for a crush or partner flirts by style. At least 6 lines in every list you add.
 
-Reply with the COMPLETE upgraded pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
+Reply with the COMPLETE built-out pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
 Follow the format and the lists in the guide below exactly; the game checks every line.
 
 """
@@ -1654,6 +1802,29 @@ def guide_markdown() -> str:
     a("- `close.nice` / `close.tired` / `close.cold`: how they wrap up a conversation. `double`: extra texts from someone into you.\n")
     a('```json\n"chat": {"topic": {"school": ["mr. hanley gave us a pop quiz AGAIN"]}, "suggest": {"flirt_tease": ["you\'re lucky you\'re cute"]}, '
       '"ask": {"general": [{"q": "you going to the bonfire?", "a": "yesno"}]}}\n```\n')
+    a("## Storylines: chapters, scenes that keep going, choices that matter\n")
+    a("Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart "
+      f"(at least {CHAPTER_GAP_DAYS} days; set `\"when\": {{\"gap_days\": 7}}` on a scene for more). A chapter that can't happen yet waits, and the "
+      "story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say "
+      "`\"in_order\": false` to let its scenes come up in any order.)\n")
+    a("- **Keep going:** a choice with `then` continues the scene right away: `{\"label\": \"You're on\", \"then\": {\"text\": "
+      "\"It's 10-10...\", \"choices\": [...]}}`. Up to two `then`s deep (three decisions in one scene).")
+    a("- **Branches:** `[\"remember\", \"fact\"]` in a choice, and a later chapter with `\"when\": {\"remembered\": [\"fact\"]}` "
+      "(or `not_remembered`) only happens on that path. `\"when\": {\"after\": [\"scene_id\"]}` waits for a specific scene.")
+    a("- **Style choices:** in a scene about someone, `[\"vibe\", \"tease\", {\"good\": [...], \"meh\": [...], \"bad\": [...]}]` "
+      "lands or misses by what they like (tease, sweet, bold, funny, cheesy; chill is the safe pick), and you learn their taste.")
+    a("- **The same person:** `who` picks who the story is about and keeps them for every chapter (and its texting lines). Use "
+      "the most specific kind (older_brother rather than older_sibling).\n")
+    a("```json\n" + json.dumps({"id": "driveway_one_on_one", "title": "One on one", "who": "older_brother",
+                                "text": ["{them_first} bounces you the ball. \"First to eleven.\""],
+                                "choices": [{"label": "You're on", "ops": [["remember", "played_brother"]],
+                                             "then": {"text": "It's 10-10. {them_first} is talking trash about your left hand.",
+                                                      "choices": [{"label": "Drive left", "ops": [["vibe", "bold", {"good": ["You score. He can't believe it."],
+                                                                                                                  "meh": ["He blocks it, barely."],
+                                                                                                                  "bad": ["He swats it into the yard."]}]]},
+                                                                  {"label": "Pull up from deep", "ops": [["mood", 2]]}]}},
+                                            {"label": "Homework first", "ops": [["mood", -1]]}]},
+                               ensure_ascii=False, indent=1) + "\n```\n")
     a("## Every line, two ways\n")
     a("Any line can be texted or said in person. A text-pool line is a plain string (the text), or an object:\n")
     a('```json\n{"text": "u free later?", "talk": "\\"You free later?\\" {them_first} asks, trying to sound casual.", "when": ["late_night", "crush"]}\n```\n')

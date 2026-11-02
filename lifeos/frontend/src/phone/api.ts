@@ -8,7 +8,7 @@ export type Mood = "happy" | "neutral" | "sad" | "angry" | "flirty" | "surprised
 
 export type Scene = { art: string; title: string; line: string; phase: string; season: string; weekend: boolean; break: string | null; time: string };
 export type FeedItem = { id: number; date: string; slot: string; type: string; outcome: string; text: string; with: string[]; importance: number };
-export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string }[] };
+export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string }[]; storyline?: string | null };
 export type PetDuty = { id: string; label: string; hint: string; when: string; owner: string; today: string; due: boolean; done: boolean; done_by: string | null };
 export type Pet = {
   id: string; name: string; species: "dog" | "cat" | "rabbit"; species_label: string; breed: string; coat: string; personality: string; age: number;

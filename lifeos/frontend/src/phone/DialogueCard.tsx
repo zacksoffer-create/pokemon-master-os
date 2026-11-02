@@ -10,6 +10,7 @@ import { pickFile } from "./StoryFiles";
 type PackRow = {
   id: string; name: string; author?: string; notes?: string; source: "builtin" | "yours"; enabled: boolean; ok: boolean;
   errors: string[]; warnings: string[]; summary: Record<string, number>; scenes: { id: string; title: string; who?: string }[];
+  in_order?: boolean; progress?: { done: number; of: number; next: string | null; in_order: boolean };
 };
 type Packs = { packs: PackRow[]; scenes: string[]; lines: number };
 type Check = { ok: boolean; errors: string[]; warnings: string[]; summary: Record<string, number>; name?: string };
@@ -122,6 +123,16 @@ export default function DialogueCard() {
       setBusy(null);
     }
   };
+  const setOrder = async (p: PackRow, on: boolean) => {
+    setBusy(p.id);
+    try {
+      setData(await api.post(`/api/dialogue/packs/${encodeURIComponent(p.id)}/order`, { in_order: on }));
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
   const toggle = async (p: PackRow) => {
     setBusy(p.id);
     try {
@@ -180,8 +191,8 @@ export default function DialogueCard() {
           <li>Copy ChatGPT's whole answer and tap <b>Paste a pack</b>.</li>
         </ol>
         <p className="ph-dim small">
-          Made packs before? Open one below and tap <b>Upgrade it</b>: ChatGPT makes it bigger and adds in-person lines, versions
-          that don't repeat, and mini games. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate()}>Pack not on this phone? Copy the upgrade prompt</button>
+          Made storylines before? Open one below and tap <b>Build it out</b>: ChatGPT turns it into a real story, with chapters in
+          order, scenes that keep going, choices that change what happens later, style choices and mini games. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate()}>Pack not on this phone? Copy the build-out prompt</button>
           {" "}Or tap <b>Upgrade its texting</b> so its people text like themselves. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate(undefined, "texting")}>Copy the texting prompt</button>
         </p>
         <div className="dl-list">
@@ -190,7 +201,9 @@ export default function DialogueCard() {
               <button className="dl-pack-h" onClick={() => setOpen(open === p.id ? null : p.id)}>
                 <span className="dl-pack-m">
                   <b>{p.name}</b>
-                  <small>{p.source === "builtin" ? "Built in" : "Yours"} · {p.ok ? addsLine(p.summary) : "has problems"}</small>
+                  <small>{p.source === "builtin" ? "Built in" : "Yours"} · {p.ok ? (p.progress && p.in_order && p.progress.of
+                    ? (p.progress.done >= p.progress.of ? `All ${p.progress.of} chapters done` : `Chapter ${p.progress.done + 1} of ${p.progress.of} next`)
+                    : addsLine(p.summary)) : "has problems"}</small>
                 </span>
                 <span className={cx("ph-switch", p.enabled && "on")} role="switch" aria-checked={p.enabled}
                   onClick={(e) => { e.stopPropagation(); if (p.ok && busy !== p.id) toggle(p); }}><i /></span>
@@ -200,6 +213,15 @@ export default function DialogueCard() {
                   {p.notes && <p className="ph-dim small">{p.notes}</p>}
                   {!p.ok && <Problems errors={p.errors} warnings={[]} />}
                   {p.ok && <WhoItsAbout pack={p.id} />}
+                  {p.ok && p.scenes.length > 1 && (
+                    <label className="dl-order">
+                      <span><b>Play in order</b><small>{p.in_order
+                        ? `Its scenes come as chapters, in the order they're written, a few days apart.${p.progress?.next ? ` Next: ${p.progress.next.replace(/\{(\w+)\}/g, "…")}` : ""}`
+                        : "Its scenes come up now and then, in any order."}</small></span>
+                      <span className={cx("ph-switch", p.in_order && "on")} role="switch" aria-checked={!!p.in_order}
+                        onClick={() => setOrder(p, !p.in_order)}><i /></span>
+                    </label>
+                  )}
                   {p.scenes.length > 0 && (
                     <>
                       <div className="dl-sub">Scenes</div>
@@ -216,7 +238,7 @@ export default function DialogueCard() {
                   )}
                   {p.source === "yours" && p.ok && (
                     <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id)}>
-                      {busy === `up:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Upgrade it: copy the prompt for ChatGPT
+                      {busy === `up:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Build it out: copy the prompt for ChatGPT
                     </button>
                   )}
                   {p.source === "yours" && p.ok && (

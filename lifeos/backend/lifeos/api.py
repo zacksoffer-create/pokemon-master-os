@@ -1132,7 +1132,17 @@ def _dialogue_changed(L):
 def _dialogue_list():
     from . import dialogue
     m = dialogue.merged()
-    return {"packs": [dialogue.pack_summary(p) for p in dialogue.packs()],
+    L = get_lab()
+    story = bool(L.w.meta.get("protagonist"))
+    rows = []
+    for p in dialogue.packs():
+        row = dialogue.pack_summary(p)
+        row["in_order"] = dialogue.in_order(p["id"])
+        if story and p["enabled"]:
+            with L.lock:
+                row["progress"] = dialogue.progress(L.sim, p["id"])
+        rows.append(row)
+    return {"packs": rows,
             "scenes": sorted(k for k, v in m["moments"].items() if v.get("scene")),
             "lines": sum(len(v) for v in m["texts"].values())}
 
@@ -1202,6 +1212,18 @@ def api_dialogue_guide(download: int = 0):
 def api_dialogue_prompt():
     from . import dialogue
     return {"prompt": dialogue.prompt_for_ai()}
+
+
+@app.post("/api/dialogue/packs/{pid}/order")
+def api_dialogue_order(pid: str, body: dict = Body(...)):
+    """Play a storyline's scenes as chapters in order (or let them come up whenever)."""
+    from . import dialogue
+    try:
+        dialogue.set_in_order(pid, bool(body.get("in_order")))
+    except KeyError:
+        raise HTTPException(404, "no such pack")
+    _dialogue_changed(get_lab())
+    return _dialogue_list()
 
 
 @app.get("/api/dialogue/cast")

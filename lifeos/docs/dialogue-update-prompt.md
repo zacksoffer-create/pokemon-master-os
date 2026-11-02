@@ -1,24 +1,42 @@
-You're updating a dialogue pack for LIFE OS, a life-simulation game: you play one person from the first day of high
-school (Guilford High School in Guilford, Connecticut) through college. I made this pack before the game could do some new
-things. Upgrade it, and make it much bigger.
+You're building out a dialogue pack (one of my storylines) for LIFE OS, a life-simulation game: you play one person
+from the first day of high school (Guilford High School in Guilford, Connecticut) through college. I made this storyline before
+the game could tell real stories. Build it out: make it a story with chapters, scenes that keep going, choices that matter
+later, and people who react like themselves. Make it much bigger.
+
+How storylines work now:
+- A storyline's scenes are chapters: they happen in the order they're written in "scenes", a few days apart (set
+  "when": {"gap_days": 7} on a scene to space it out more). A chapter that can't happen yet (wrong school year, needs a
+  girlfriend...) waits, and the story moves on to the next one that can.
+- A choice can keep the scene going right away with "then": {"text": "what happens next", "choices": [...]}. Up to two
+  "then"s deep, so a scene can be three decisions long.
+- Choices can matter later: ["remember", "fact"] in a choice, then a later chapter with "when": {"remembered": ["fact"]} (or
+  "not_remembered") only happens on that path. Use this for branches and different endings.
+- In a scene about someone, a choice can be a style: ["vibe", "tease" | "sweet" | "bold" | "funny" | "cheesy" | "chill",
+  {"good": [...], "meh": [...], "bad": [...]}]. Whether it lands depends on what that person likes, and I learn their taste.
+- Mini games can be a choice (["minigame", ...] with great / good / miss outcomes).
+- "who" picks the person the story is about and keeps them for every chapter. Use the most specific kind (older_brother, not
+  older_sibling, when it's about my brother).
 
 Do all of this:
-1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep every scene id and every line
-   that's already there.
-2. Texts: for every pool in the pack, add at least 12 new lines. Turn the best lines into objects with a "talk" version (how
-   they'd say it in person) and "when" tags where a line fits a moment (late_night, close, crush, partner, stressed, weekend...).
-3. Add "mods" for the people in this pack: openers and closers for their texts, and ways they say things in person.
-4. Scenes: turn each scene's "text" into a list of 3 versions, and each "say" into a list of 2 or 3 versions. Add a "by_text"
-   version to scenes about someone you'd text. Add more choices where a scene has only 2 (4 at most).
-5. Mini games: wherever a scene fits one, give it a choice that plays it, with "great", "good" and "miss" outcomes. Then add
-   3 new scenes built around mini games that fit this pack's people.
-6. Add 2 new scenes that follow up on things the old scenes "remember".
-6b. If a scene's "who" is a general kind (sibling, older_sibling, younger_sibling) but it's clearly about one person (my brother,
-   my sister), change it to the specific kind: older_brother, older_sister, younger_brother, younger_sister, brother or sister.
-7. Add a "chat" section with texting lines that fit this pack's people: topic answers, questions they'd ask back (with the
-   kind of answer), follow-ups, and flirt suggestions by style. At least 8 lines in every list you add.
+1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep every scene id and line that's
+   already there. You can reorder scenes so they read as a story.
+2. Put the scenes in story order (the order they should happen) and turn them into a real arc: a beginning, things getting
+   harder or more interesting, a turning point, and an ending. Add new chapters so the storyline has at least 8.
+3. Give at least half the chapters a "then" so the scene keeps going after the first choice (and some a second "then").
+4. Make choices matter: at least 2 facts remembered early that change which later chapters happen, and 2 different endings
+   (one for each path).
+5. In every scene about someone, make at least one choice a style choice (vibe) with good / meh / bad outcomes written for
+   that person.
+6. Scenes: give each scene's "text" 3 versions (a list) and each "say" 2 or 3 versions. Add a "by_text" version to scenes about
+   someone I'd text. 2 to 4 choices per scene and per "then".
+7. Where a scene fits a mini game, give it a choice that plays it.
+8. If a scene's "who" is a general kind but it's clearly about one person, change it to the specific kind (older_brother,
+   older_sister, younger_brother, younger_sister, brother, sister).
+9. Add a "chat" section with texting lines for this storyline's people under "chat": {"people": {"<kind>": {...}}}: how they
+   answer, questions they ask back (with the kind of answer), follow-ups, things that come up after you've done something
+   together ("recent"), and for a crush or partner flirts by style. At least 6 lines in every list you add.
 
-Reply with the COMPLETE upgraded pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
+Reply with the COMPLETE built-out pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
 Follow the format and the lists in the guide below exactly; the game checks every line.
 
 Here's my pack:
@@ -238,6 +256,80 @@ When you text someone yourself, the game reads what you typed and answers from t
 
 ```json
 "chat": {"topic": {"school": ["mr. hanley gave us a pop quiz AGAIN"]}, "suggest": {"flirt_tease": ["you're lucky you're cute"]}, "ask": {"general": [{"q": "you going to the bonfire?", "a": "yesno"}]}}
+```
+
+## Storylines: chapters, scenes that keep going, choices that matter
+
+Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart (at least 3 days; set `"when": {"gap_days": 7}` on a scene for more). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
+
+- **Keep going:** a choice with `then` continues the scene right away: `{"label": "You're on", "then": {"text": "It's 10-10...", "choices": [...]}}`. Up to two `then`s deep (three decisions in one scene).
+- **Branches:** `["remember", "fact"]` in a choice, and a later chapter with `"when": {"remembered": ["fact"]}` (or `not_remembered`) only happens on that path. `"when": {"after": ["scene_id"]}` waits for a specific scene.
+- **Style choices:** in a scene about someone, `["vibe", "tease", {"good": [...], "meh": [...], "bad": [...]}]` lands or misses by what they like (tease, sweet, bold, funny, cheesy; chill is the safe pick), and you learn their taste.
+- **The same person:** `who` picks who the story is about and keeps them for every chapter (and its texting lines). Use the most specific kind (older_brother rather than older_sibling).
+
+```json
+{
+ "id": "driveway_one_on_one",
+ "title": "One on one",
+ "who": "older_brother",
+ "text": [
+  "{them_first} bounces you the ball. \"First to eleven.\""
+ ],
+ "choices": [
+  {
+   "label": "You're on",
+   "ops": [
+    [
+     "remember",
+     "played_brother"
+    ]
+   ],
+   "then": {
+    "text": "It's 10-10. {them_first} is talking trash about your left hand.",
+    "choices": [
+     {
+      "label": "Drive left",
+      "ops": [
+       [
+        "vibe",
+        "bold",
+        {
+         "good": [
+          "You score. He can't believe it."
+         ],
+         "meh": [
+          "He blocks it, barely."
+         ],
+         "bad": [
+          "He swats it into the yard."
+         ]
+        }
+       ]
+      ]
+     },
+     {
+      "label": "Pull up from deep",
+      "ops": [
+       [
+        "mood",
+        2
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "label": "Homework first",
+   "ops": [
+    [
+     "mood",
+     -1
+    ]
+   ]
+  }
+ ]
+}
 ```
 
 ## Every line, two ways
@@ -836,6 +928,7 @@ A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "mis
 | `remember` | `["remember", "covered_for_sibling"]` | Remember a fact so a later scene can depend on it. |
 | `forget` | `["forget", "covered_for_sibling"]` | Forget a remembered fact. |
 | `minigame` | `["minigame", "soccer_pk", {"great": [ops], "good": [ops], "miss": [ops]}, {"base": 0.5, "athletic": 0.3}]` | You play a mini game; how you do (great 80%+, good 50%+, else miss) picks the ops. If nobody plays it, the odds roll instead. The choice only shows when the game is ready. |
+| `vibe` | `["vibe", "tease", {"good": ["{them_first} cracks up."], "meh": ["A small laugh."], "bad": ["{them_first} goes quiet."]}]` | A choice in a style (tease, sweet, bold, funny, cheesy, or chill for the safe pick) that lands or misses by what they like. good / meh / bad are what happens, a line or a list of versions. Only in scenes about someone (who). |
 | `chance` | `["chance", {"base": 0.5, "charisma": 0.3}, [ops if it works], [ops if it doesn't]]` | Roll against your own traits and talents. base 0..1, then +coef x (stat - 50)/100 for each stat. |
 
 Traits: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty.  Talents: athletic, academic, creativity, technical, charisma.  Skills: academics, art, baseball, basketball, drama, fitness, football, music, tech, writing.

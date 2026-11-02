@@ -231,7 +231,7 @@ def test_every_line_two_ways_with_context_mods_and_no_repeats():
 def test_the_upgrade_prompt_carries_your_pack_and_the_new_ways_to_write():
     assert dialogue.add_pack({"dialogue_pack": 1, "name": "Old pack", "texts": {"chatter_vent": ["so tired"]}})["ok"]
     p = dialogue.prompt_for_update("yours:old_pack")
-    assert p.startswith("You're updating a dialogue pack") and '"so tired"' in p and "Every line, two ways" in p
+    assert p.startswith("You're building out a dialogue pack") and '"so tired"' in p and "Every line, two ways" in p
     assert "[paste your pack's JSON here]" in dialogue.prompt_for_update()
     with pytest.raises(KeyError):
         dialogue.prompt_for_update("yours:nope")
@@ -318,3 +318,104 @@ def test_the_cast_routes():
     assert c.post("/api/dialogue/cast", json={"pack": pid, "who": "older_sibling", "char": "nobody"}).status_code == 409
     r = c.post("/api/dialogue/cast", json={"pack": pid, "who": "older_sibling", "char": None}).json()
     assert r["kinds"][0]["current"] is None
+
+
+def _arc():
+    return {"name": "Big brother season", "scenes": [
+        {"id": "bro_driveway", "title": "The driveway", "who": "older_brother",
+         "text": "{them_first} is shooting in the driveway when you get home. He bounces you the ball. \"First to eleven.\"",
+         "choices": [
+             {"label": "You're on", "ops": [["remember", "played_bro"]],
+              "then": {"text": "It's 10-10. {them_first} is talking trash about your left hand. Next bucket wins.",
+                       "choices": [{"label": "Drive left. Prove him wrong.", "ops": [["vibe", "bold", {"good": ["You score. He can't believe it."],
+                                                                                                    "meh": ["He blocks it, barely."],
+                                                                                                    "bad": ["He swats it into the neighbor's yard."]}]]},
+                                   {"label": "Pull up from deep", "ops": [["mood", 2]]}]}},
+             {"label": "Homework first", "ops": [["mood", -1]]}]},
+        {"id": "bro_tryouts", "title": "Tryout nerves", "who": "older_brother",
+         "text": "{them_first} knocks on your door the night before tryouts. He doesn't say much. He sits on the end of your bed.",
+         "choices": [{"label": "Ask how he's feeling", "ops": [["vibe", "sweet", {"good": "He actually tells you.", "meh": "He shrugs.", "bad": "\"I'm fine.\" He leaves."}]]},
+                     {"label": "Crack a joke", "ops": [["vibe", "funny", {"good": "He laughs.", "meh": "A smirk.", "bad": "Not now."}]]}]},
+        {"id": "bro_rematch", "title": "The rematch", "who": "older_brother", "when": {"remembered": ["played_bro"]},
+         "text": "\"Rematch,\" {them_first} says, tossing you the ball. He's been thinking about the last one.",
+         "choices": [{"label": "Bring it", "ops": [["mood", 3]]}, {"label": "Not today", "ops": [["mood", -1]]}]},
+        {"id": "bro_senior_night", "title": "Senior night", "who": "older_brother",
+         "text": "It's {them_first}'s senior night. He looks up at you in the stands before the anthem.",
+         "choices": [{"label": "Hold up the sign you made", "ops": [["rel_back", "them", "affection", 6]]},
+                     {"label": "Yell his name", "ops": [["mood", 2]]}]}]}
+
+
+def _brother_story():
+    sim = story()
+    w = sim.w
+    me = w.chars[w.meta["protagonist"]]
+    assert dialogue.candidates(sim, me, "older_brother"), "the test story has an older brother"
+    return sim, w, me
+
+
+def test_storylines_check_beats_styles_and_chapters():
+    r = dialogue.check(_arc())
+    assert r["ok"], r["errors"]
+    bad = _arc()
+    bad["scenes"][1]["who"] = None
+    bad["scenes"][0]["choices"][0]["then"]["choices"][0]["then"] = {"text": "x", "choices": [
+        {"label": "a", "then": {"text": "y", "choices": [{"label": "b"}, {"label": "c"}]}}, {"label": "d"}]}
+    bad["scenes"][2]["when"]["after"] = ["Not An Id"]
+    errs = " | ".join(dialogue.check(bad)["errors"])
+    assert "needs the scene to be about someone" in errs and "keep going" in errs and "scene ids" in errs
+
+
+def test_a_storyline_plays_in_order_and_scenes_keep_going():
+    dialogue.add_pack(_arc())
+    dialogue.reload()
+    sim, w, me = _brother_story()
+    sim = Simulation(w)
+    pid = next(p["id"] for p in dialogue.packs() if p["pack"]["name"] == "Big brother season")
+    assert dialogue.in_order(pid), "your storylines play in order by default"
+    order, fired = [], []
+    for _ in range(80):
+        for m in moments.pending(w):
+            if m["kind"] == "bro_driveway":
+                moments.resolve(sim, m["id"], 0)  # you're on: and it keeps going
+                beat = next((x for x in moments.pending(w) if x["kind"].startswith("bro_driveway__")), None)
+                assert beat and beat["title"] == "The driveway" and "10-10" in beat["text"]
+                moments.resolve(sim, beat["id"], 0)
+            else:
+                moments.resolve(sim, m["id"], 0)
+        seen = w.meta.get("scenes_seen", {})
+        for sid in ("bro_driveway", "bro_tryouts", "bro_rematch", "bro_senior_night"):
+            if sid in seen and sid not in order:
+                order.append(sid)
+                fired.append(seen[sid][0])
+        if len(order) == 4:
+            break
+        sim.advance_days(1)
+    assert order == ["bro_driveway", "bro_tryouts", "bro_rematch", "bro_senior_night"], order
+    assert all(b - a >= dialogue.CHAPTER_GAP_DAYS for a, b in zip(fired, fired[1:])), fired
+    assert dialogue.progress(sim, pid) == {"done": 4, "of": 4, "next": None, "in_order": True}
+    from lifeos import chat
+    bro = dialogue.candidates(sim, me, "older_brother")[0]
+    assert any(x["known"] for x in chat.tastes_view(sim, bro)), "the style choices in his story taught you what he likes"
+
+
+def test_a_branch_waits_for_what_you_chose_and_the_label_says_where_you_are():
+    dialogue.add_pack(_arc())
+    dialogue.reload()
+    sim, w, me = _brother_story()
+    sim = Simulation(w)
+    pid = next(p["id"] for p in dialogue.packs() if p["pack"]["name"] == "Big brother season")
+    first = dialogue.fire(sim, "bro_driveway", dialogue._context(sim, me, "older_brother", {}, sim.streams.get("x", 1), pack=pid))
+    assert dialogue.chapter_label(sim, "bro_driveway") == "Big brother season · Chapter 1 of 4"
+    moments.resolve(sim, first["id"], 1)  # homework first: no game with your brother, so no rematch later
+    assert not dialogue._when_ok(sim, me, "bro_rematch", sim.cat.moments["bro_rematch"]["scene"]["when"])
+    dialogue.set_in_order(pid, False)
+    assert not dialogue.in_order(pid) and dialogue.chapter_label(sim, "bro_driveway") == "Big brother season"
+
+
+def test_the_build_out_prompt_teaches_storylines_and_its_example_passes():
+    import re
+    p = dialogue.prompt_for_update()
+    for must in ("chapters", '"then"', "remembered", "vibe", "at least 8", "older_brother", "ONE JSON code block"):
+        assert must in p, must
+    ex = re.search(r"## Storylines.*?```json\n(.*?)\n```", p, re.S).group(1)
+    assert dialogue.check({"name": "x", "scenes": [json.loads(ex)]})["ok"]

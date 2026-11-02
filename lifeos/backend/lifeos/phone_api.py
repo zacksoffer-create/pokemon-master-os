@@ -173,6 +173,9 @@ def phone_state(since: int | None = None):
             mm = {k: v for k, v in m.items() if k != "_choices"}
             mm["text"] = pov.second_person(m["text"], me)
             mm["title"] = pov.second_person(m["title"], me)
+            if m["kind"] in sim.cat.moments and (sim.cat.moments[m["kind"]].get("scene") or sim.cat.moments[m["kind"]].get("beat_of")):
+                from . import dialogue
+                mm["storyline"] = dialogue.chapter_label(sim, m["kind"])  # "Hoops with my brother · Chapter 2 of 5"
             pend.append(mm)
         evs = w.history.by_char.get(me.id, [])
         feed = []

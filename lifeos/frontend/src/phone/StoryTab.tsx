@@ -466,7 +466,7 @@ function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: 
   const mood = m.kind === "asked_out" || m.kind === "asked_to_dance" ? "flirty" : m.kind === "heartbreak" || m.kind === "cut" ? "sad" : m.kind === "rumor" ? "surprised" : "neutral";
   return (
     <div className={cx("ph-moment", "k-" + m.kind)}>
-      <div className="ph-moment-k">{KICKER[m.kind] || "A moment"}{more > 0 && <span> · {more} more after this</span>}</div>
+      <div className="ph-moment-k">{m.storyline || KICKER[m.kind] || "A moment"}{more > 0 && <span> · {more} more after this</span>}</div>
       {person && (
         <div className="ph-moment-who">
           <Portrait look={person.look} size={88} mood={mood as any} color={person.color} name={person.first} />

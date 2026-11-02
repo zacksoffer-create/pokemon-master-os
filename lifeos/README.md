@@ -271,6 +271,15 @@ What's in it:
   your coach like a coach. Every pack you made has an **Upgrade its texting** button (phone and lab) that copies a prompt
   with the pack in it: ChatGPT gives that storyline's people their own replies, questions, follow-ups, flirts by style and
   more, and the answer replaces the old pack. The prompt is also in `docs/dialogue-texting-prompt.md`.
+- **Storylines play as stories.** Every pack you made plays as a storyline: its scenes come as chapters, in the order
+  they're written, a few days apart (a chapter that can't happen yet waits, and the story moves on). Scene cards say where
+  you are ("Big brother season · Chapter 3 of 8"), and the pack list shows what's next. Turn **Play in order** off on a
+  storyline to let its scenes come up in any order. Storylines can now have scenes that keep going (a choice with `then`
+  continues the scene right away, up to three decisions deep), choices that matter later (`remember` a fact, and a later
+  chapter only happens on that path), and style choices (`vibe`: teasing, sweet, direct, funny, cheesy) that land or miss
+  by what that person likes. **Build it out** on each storyline copies a prompt with the storyline in it: ChatGPT turns it
+  into a real arc with at least 8 chapters, branches and two endings, scenes that keep going, style choices, mini games and
+  its people's texting. Storyline scenes also come more often now (one every couple of days across all your storylines).
 - **Storylines keep their people.** When a storyline is about "an older sibling" and you have more than one, it picks the
   one it's clearly about (a basketball story that says "he" and "his" gets your brother who plays basketball) and keeps
   them for every scene and every text after that. Open a storyline in your dialogue packs and **Who it's about** shows who
