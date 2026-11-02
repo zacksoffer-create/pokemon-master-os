@@ -185,7 +185,7 @@ class Lab:
                             break
                         ph = sim.current_phase()
                         if until == "decision" and stepped and ph in DECISION_SLOTS and prot in sim.slot_actors(ph) \
-                                and not (ph == "lunch" and ctl.get("auto_lunch", True)):
+                                and not (ph == "lunch" and ctl.get("auto_lunch", False)) and not sim.committed(prot, ph):
                             reason = "decision"
                             break
                         if w.day >= start + limits[until] and (until != "decision" or stepped):

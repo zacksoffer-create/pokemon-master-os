@@ -425,6 +425,35 @@ class Simulation:
         rng = self.streams.get("decide", self.w.day, slot, cid)
         return decide(self, c, slot, self.char_ctx(c), rng, trace)
 
+    def must_go(self, dec):
+        """Your team's practice or game (or your show) in this part of the day: the index of going, or None."""
+        game = practice = None
+        for i, cd in enumerate(dec["cands"]):
+            if cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show"):
+                game = i if game is None else game
+            elif cd.a["id"] == "attend_practice" and isinstance(cd.target, str) and cd.target in self.w.groups \
+                    and self.w.groups[cd.target]["kind"] in ("team", "production"):
+                practice = i if practice is None else practice
+        return game if game is not None else practice
+
+    def committed(self, cid, slot=None) -> dict | None:
+        """What you're already doing in this part of the day because you're on the team (or in the show)."""
+        w = self.w
+        slot = slot or self.current_phase()
+        c = w.chars.get(cid)
+        if not c or c.flags.get("injured_until", -1) >= w.day:
+            return None
+        for it in self._today:
+            if it.get("slot") == slot and it["kind"] in ("game", "show") and it.get("group") in c.memberships:
+                if it["kind"] == "game" or cid in (w.groups[it["group"]].get("production") or {}).get("cast", []):
+                    return {"kind": it["kind"], "group": it["group"], "label": it["name"]}
+        if slot == "after_school":
+            for gid in self.ctx_practices or []:
+                g = w.groups.get(gid)
+                if g and gid in c.memberships and g["kind"] in ("team", "production"):
+                    return {"kind": "practice", "group": gid, "label": f"{g['name']} {'practice' if g['kind'] == 'team' else 'rehearsal'}"}
+        return None
+
     def run_slot(self, slot, overrides: dict):
         w = self.w
         self.ctx = self.slot_ctx(slot)
@@ -439,9 +468,13 @@ class Simulation:
             q = w.meta.get("control", {}).get("queued")
             if q and q.get("slot") and q.get("day") == w.day and q["slot"] != slot:
                 q = None  # saved for a later part of today
-            if q and any(cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show")
-                         for cd in dec["cands"]):
-                q = None  # your game (or your show) comes first: the plan waits for your next free time
+            must = self.must_go(dec) if cid == w.meta.get("protagonist") else None
+            if q and (must is not None or any(cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show")
+                                              for cd in dec["cands"])):
+                q = None  # your game, show or practice comes first: the plan waits for your next free time
+            if must is not None and cid not in overrides:
+                overrides = dict(overrides)
+                overrides[cid] = must  # practice and games aren't optional: you just go
             if q and cid == w.meta.get("protagonist") and cid not in overrides:
                 hit = None
                 for i, cd in enumerate(dec["cands"]):

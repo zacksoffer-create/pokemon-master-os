@@ -20,6 +20,7 @@ export type PhoneState = {
   active: boolean; day: number; date: string; weekday: string; term: string; scene: Scene; decision_ready: boolean;
   progress: { day: number; total: number; pct: number; year: number; complete: boolean }; title: string;
   me: any; moments: Moment[]; feed: FeedItem[]; last_event: number; unread: number; needs_reply: number;
+  committed?: { kind: string; group: string; label: string } | null;
   pets: Pet[]; pet_setup_needed: boolean; pet_approved: { species: string; day: number } | null; queued: { label: string } | null;
   family: { name: string; guardians: { id: string; name: string; full: string }[]; siblings: { id: string; first: string; year_label: string; location: string; look: Look; path: any }[];
     younger?: { key: string; first: string; year_label: string; starts: string; look: Look }[]; style: string; trust: number };
@@ -28,7 +29,8 @@ export type PhoneState = {
   setting: { town: string; school: string; short: string; mascot: string };
 };
 export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string;
-  group?: "should" | "want" | "could"; reason?: string; later?: string | null; gut?: boolean; key?: string; crew?: string[] };
+  group?: "should" | "want" | "could"; reason?: string; later?: string | null; gut?: boolean; key?: string; crew?: string[];
+  section?: "people" | "solo" | "out" | "trouble" };
 export type DaySlot = { phase: string; label: string; icon: string; state: "done" | "now" | "later"; note: string; decide: boolean; kind?: string; plan?: string };
 export type PlateItem = { id: string; kind: string; icon: string; title: string; sub: string; go?: string; cta?: string };
 export type WeekDay = { n: number; dow: string; num: number; date: string; school: boolean; items: { icon: string; label: string; kind: string }[] };

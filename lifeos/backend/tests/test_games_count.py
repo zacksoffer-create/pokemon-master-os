@@ -92,23 +92,25 @@ def _game_slot():
     return api, w, sim, me, it
 
 
-def test_on_game_day_your_game_comes_first_and_skipping_it_says_so():
+def test_on_game_day_you_just_play_and_skipping_still_says_so():
     from lifeos import phone_api
     api, w, sim, me, it = _game_slot()
     ch = phone_api.phone_choices()
-    assert ch["ready"], "game day, after school: your call"
-    top = ch["options"][0]
-    assert top.get("own") == "game" and top["group"] == "should" and top["text"].startswith("Play in your game vs ") and top["reason"].startswith("Your game vs ")
-    rest = ch["options"][1:]
-    assert rest and all(o["group"] == "could" and o["reason"] == "You'd miss your game" for o in rest)
-    # pick something else anyway: the team plays without you, and you hear about it
+    assert not ch["ready"] and ch["committed"]["kind"] == "game", "your game isn't a choice: you play"
+    assert phone_api.phone_state()["committed"]["kind"] == "game"
     before = w.history.next_event
-    out = phone_api.phone_choose({"index": rest[0]["index"]})
-    missed = [e for eid, e in w.history.events.items() if eid >= before and e["type"] == "game" and e["outcome"] == "missed"]
-    assert len(missed) == 1 and me.id in missed[0]["actors"]
-    assert any(x["text"].startswith("You missed the game.") for x in out["lines"]), out["lines"]
-    card = next(t for t in phone_api.phone_state()["teams"] if t["id"] == "football")
-    assert card["record"]["w"] + card["record"]["l"] == 1 and card["mine"] == {"w": 0, "l": 0}, card
+    sim.step()
+    played = [e for eid, e in w.history.events.items() if eid >= before and e["type"] == "game" and e.get("outcome") in ("win", "loss")
+              and e["data"].get("level") == "varsity"]
+    assert played and me.id in played[0]["actors"]
+    # the lab can still overrule it; then the team plays without you, and you hear about it
+    api2, w2, sim2, me2, it2 = _game_slot()
+    slot, dec = sim2.options_for(me2.id)
+    other = next(i for i, cd in enumerate(dec["cands"]) if cd.a["id"] not in ("attend_event", "attend_practice"))
+    before = w2.history.next_event
+    sim2.act_as(me2.id, other)
+    missed = [e for eid, e in w2.history.events.items() if eid >= before and e["type"] == "game" and e["outcome"] == "missed"]
+    assert len(missed) == 1 and me2.id in missed[0]["actors"]
 
 
 def test_a_saved_plan_waits_until_after_your_game():

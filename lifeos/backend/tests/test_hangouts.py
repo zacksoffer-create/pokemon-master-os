@@ -104,30 +104,57 @@ def test_your_pick_is_busy_so_you_hang_out_with_someone_else():
     assert any(l["type"] == "swap" for l in r["lines"]) or any("passed" in l["text"] for l in r["lines"])
 
 
-def test_lunch_runs_on_autopilot_unless_you_turn_it_off():
+def _stops(c, sim, n=10):
+    stops = []
+    for _ in range(n):
+        for m in c.get("/api/phone/state").json()["moments"]:
+            r = c.post(f"/api/phone/moment/{m['id']}", json={"index": 0}).json()
+            if r.get("minigame"):
+                c.post(f"/api/phone/moment/{m['id']}", json={"index": 0, "auto": True})
+        c.post("/api/story/advance", json={"until": "decision"})
+        stops.append(sim.current_phase())
+    return stops
+
+
+def test_lunch_is_yours_unless_you_put_it_on_autopilot():
     from fastapi.testclient import TestClient
     w, sim, me, pals = _world()
     c = TestClient(api.app)
-    assert moments.control(w)["auto_lunch"] is True
-    stops = []
-    for _ in range(8):
-        for m in c.get("/api/phone/state").json()["moments"]:
-            r = c.post(f"/api/phone/moment/{m['id']}", json={"index": 0}).json()
-            if r.get("minigame"):
-                c.post(f"/api/phone/moment/{m['id']}", json={"index": 0, "auto": True})
-        c.post("/api/story/advance", json={"until": "decision"})
-        stops.append(sim.current_phase())
-    assert "lunch" not in stops, stops
-    c.post("/api/story/control", json={"auto_lunch": False})
-    stops = []
-    for _ in range(8):
-        for m in c.get("/api/phone/state").json()["moments"]:
-            r = c.post(f"/api/phone/moment/{m['id']}", json={"index": 0}).json()
-            if r.get("minigame"):
-                c.post(f"/api/phone/moment/{m['id']}", json={"index": 0, "auto": True})
-        c.post("/api/story/advance", json={"until": "decision"})
-        stops.append(sim.current_phase())
-    assert "lunch" in stops, stops
+    assert moments.control(w)["auto_lunch"] is False, "lunch is one of your free times"
+    assert "lunch" in _stops(c, sim)
+    c.post("/api/story/control", json={"auto_lunch": True})
+    assert "lunch" not in _stops(c, sim)
+
+
+def test_practice_and_games_just_happen_and_evenings_are_yours():
+    from fastapi.testclient import TestClient
+    from lifeos.history import Effects
+    w, sim, me, pals = _world()
+    assert "evening" in sim.phases() or not __import__("lifeos.calendar", fromlist=["x"]).is_school_day(w.day, sim.cat.world["calendar"])
+    team = next(g for g in w.groups.values() if g["kind"] == "team" and sim.institutions.in_season(g))
+    if me.id not in team["members"]:
+        Effects(w, None).join(me.id, team["id"], "test")
+    c = TestClient(api.app)
+    stops = _stops(c, sim, 12)
+    practiced = [e for e in w.history.events.values() if e["type"] == "practice" and me.id in e["actors"]]
+    days = {e["day"] for e in practiced}
+    assert days, "you went to practice without being asked"
+    # on a practice day you're never stopped after school: your free time is lunch and the evening
+    for d in days:
+        assert not [1 for e in w.history.events.values() if e["day"] == d and e.get("slot") == "after_school"
+                    and me.id in e["actors"] and e["type"] not in ("practice", "game", "moment", "text")], d
+    assert "evening" in stops and "lunch" in stops
+    st = c.get("/api/phone/state").json()
+    assert "committed" in st
+
+
+def test_the_choice_list_sorts_into_sections_and_texting_is_free():
+    w, sim, me, pals = _world()
+    ch = _to_slot(sim, w, me, slots=("evening", "day", "after_school"))
+    secs = {o["section"] for o in ch["options"]}
+    assert secs <= {"people", "solo", "out", "trouble"} and "people" in secs and "solo" in secs
+    assert not any(o["action"] == "chat_online" for o in ch["options"]), "texting is free, it isn't one of your choices"
+    assert all(o["section"] == "people" for o in ch["options"] if o["action"] in ("hang_out", "hang_group", "sit_with", "date"))
 
 
 def test_when_you_make_a_plan_you_go_first():

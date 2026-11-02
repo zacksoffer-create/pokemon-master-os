@@ -162,7 +162,7 @@ def strip(sim, me) -> list:
                 s["note"] = "sleep"
             elif q and q.get("day") == w.day and q.get("slot") == ph:
                 s.update(note="planned", kind="planned", plan=plan_label(sim, q))
-            elif s["decide"] and ph == "lunch" and i != now and w.meta.get("control", {}).get("auto_lunch", True):
+            elif s["decide"] and ph == "lunch" and i != now and w.meta.get("control", {}).get("auto_lunch", False):
                 s["note"] = "usual table"  # lunch runs on autopilot
             elif s["decide"]:
                 s["note"] = "now" if i == now else "open"
@@ -295,9 +295,11 @@ def plan_label(sim, q) -> str | None:
 # ---------------------------------------------------------------------------------------- choices with reasons
 
 def _next_slot(sim) -> str | None:
+    """Your next free time today (practice and games don't count: you're busy then)."""
     from .calendar import DECISION_SLOTS
     ph = sim.phases()
-    return next((p for p in ph[sim.w.phase + 1:] if p in DECISION_SLOTS), None)
+    me = sim.w.meta.get("protagonist")
+    return next((p for p in ph[sim.w.phase + 1:] if p in DECISION_SLOTS and not (me and sim.committed(me, p))), None)
 
 
 def annotate(sim, me, opts: list) -> list:
@@ -391,8 +393,26 @@ def annotate(sim, me, opts: list) -> list:
                 grp, why = "could", "You'd miss your game" if own["own"] == "game" else "You'd miss the show"
         o["group"], o["reason"] = grp, why
         o["later"] = f"Save for {LABEL.get(nxt, 'later').lower()}" if nxt and a in LATER_OK and not busy_next else None
+    for o in opts:
+        o["section"] = section_of(o["action"])
     rank = {"should": 0, "want": 1, "could": 2}
     return sorted(opts, key=lambda o: (rank[o["group"]], o is not own))
+
+
+SECTIONS = {
+    "people": ("hang_group", "hang_out", "date", "sit_with", "family_time", "reply_invite", "flirt", "ask_out", "ask_to_dance", "help_friend",
+               "introduce", "mentor", "staff_chat", "apologize"),
+    "out": ("attend_event", "go_to_party", "spectate", "throw_party", "sign_up"),
+    "trouble": ("confront", "prank", "tease", "gossip", "spread_rumor", "sneak_out", "break_up", "quit_group"),
+}
+
+
+def section_of(action: str) -> str:
+    """Where a choice goes on the phone: with friends, on your own, go somewhere, or the trouble (behind More)."""
+    for k, acts in SECTIONS.items():
+        if action in acts:
+            return k
+    return "solo"
 
 
 def save_for_later(sim, opt: dict) -> dict:

@@ -183,10 +183,11 @@ export default function StoryTab() {
   });
 
   const todayFeed = s.feed.filter((f) => f.date === s.date);
-  // choices sorted into should / want to / could: the first few of each up front, the rest behind "More options"
-  const groups = (["should", "want", "could"] as const).map((g) => ({ g, list: (choices || []).filter((c) => (c.group || "could") === g) }));
-  const shown = groups.map(({ g, list }) => ({ g, list: more ? list : varied(list, g === "could" ? 2 : 3) }));
+  // your free time, sorted by what kind of thing it is: with friends, on your own, going somewhere (the trouble is under More)
+  const groups = (["people", "solo", "out", "trouble"] as const).map((g) => ({ g, list: (choices || []).filter((c) => (c.section || "solo") === g) }));
+  const shown = groups.map(({ g, list }) => ({ g, list: more ? list : g === "trouble" ? [] : varied(list, g === "people" ? 4 : g === "solo" ? 3 : 2) }));
   const hidden = groups.reduce((n, { list }, i) => n + list.length - shown[i].list.length, 0);
+  const freeTitle = { lunch: "Lunch", after_school: "After school", evening: "Tonight", day: s.scene.weekend ? "Your day" : "Today" }[s.scene.phase] || "Free time";
 
   return (
     <div className="ph-story">
@@ -215,7 +216,11 @@ export default function StoryTab() {
           <MomentCard m={moment} more={s.moments.length - 1} busy={busy} onPick={pickMoment} />
         ) : s.decision_ready ? (
           <div className="ph-choices">
-            <div className="ph-section-t">What do you do?</div>
+            <div className="ph-free-h">
+              <div className="ph-kicker">Free time</div>
+              <b>{freeTitle}: pick one thing</b>
+              <small>Texting doesn't use up your time. Text anyone, anytime, from the Phone tab.</small>
+            </div>
             {choices === null ? (
               <div className="ph-choice ghost-load"><span className="ph-spinner small" /> Thinking it over…</div>
             ) : choices.length === 0 ? (
@@ -224,7 +229,7 @@ export default function StoryTab() {
               <>
                 {shown.map(({ g, list }) => list.length > 0 && (
                   <div key={g} className={cx("ph-cgroup", "g-" + g)}>
-                    <div className="ph-cgroup-t">{g === "should" ? "Should" : g === "want" ? "Want to" : "Could"}</div>
+                    <div className="ph-cgroup-t">{{ people: "With friends", solo: "On your own", out: "Go somewhere", trouble: "Stir things up" }[g]}</div>
                     {list.map((c, i) => <ChoiceCard key={c.key || c.index} c={c} gut={!!c.gut} busy={busy} onPick={choose} onLater={later} delay={i} />)}
                   </div>
                 ))}
@@ -251,6 +256,13 @@ export default function StoryTab() {
           </div>
         ) : (
           <div className="ph-next">
+            {s.committed && (
+              <div className="ph-committed">
+                <PIcon name={s.committed.kind === "practice" ? "ball" : s.committed.kind === "show" ? "star" : "trophy"} size={20} />
+                <span><b>{s.committed.kind === "practice" ? "Practice" : s.committed.kind === "show" ? "Showtime" : "Game time"}</b>
+                  <small>{s.committed.label}. It's not optional, you just go. Your free time is lunch and tonight.</small></span>
+              </div>
+            )}
             <button className="ph-btn primary block big" onClick={next} disabled={busy}>
               {busy ? <span className="ph-spinner small light" /> : <>What's next <PIcon name="chevron" size={18} /></>}
             </button>
@@ -365,6 +377,7 @@ function ChoiceCard({ c, gut, busy, onPick, onLater, delay = 0, small }: { c: Ch
       <span className="ph-choice-m">
         <b>{c.text}</b>
         <span className="ph-choice-s">
+          {c.group === "should" && <em className="needs">needs you</em>}
           {c.reason || CAT[c.category] || c.category}
           {c.risk >= 0.3 && c.reason !== "Risky" && <em className="risky">risky</em>}
           {gut && <em className="gut"><PIcon name="sparkle" size={11} /> your gut</em>}

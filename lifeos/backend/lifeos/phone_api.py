@@ -161,7 +161,8 @@ def phone_state(since: int | None = None):
         from .story import progress
         from .calendar import DECISION_SLOTS
         ph = sim.current_phase()
-        ready = ph in DECISION_SLOTS and me.id in sim.slot_actors(ph)
+        busy_with = sim.committed(me.id, ph) if ph in DECISION_SLOTS else None
+        ready = ph in DECISION_SLOTS and me.id in sim.slot_actors(ph) and not busy_with
         pend = []
         for m in moments.pending(w):
             mm = {k: v for k, v in m.items() if k != "_choices"}
@@ -194,7 +195,7 @@ def phone_state(since: int | None = None):
             "me": dict(A.char_summary(L, me), age=me.age(w.day), needs={k: round(v) for k, v in me.needs.items()}, money=round(me.money),
                        gpa=round(me.gpa, 2), injured=me.flags.get("injured_until", -1) >= w.day, path=me.path, body=me.body,
                        positions=me.positions, jersey=me.jersey),
-            "moments": pend, "feed": feed, "last_event": w.history.next_event - 1,
+            "moments": pend, "feed": feed, "last_event": w.history.next_event - 1, "committed": busy_with,
             "unread": sum(t["unread"] for t in threads), "needs_reply": sum(1 for t in threads if t["needs_reply"]),
             "pets": [pets.view(sim, p) for p in hp], "pet_setup_needed": any(pets.setup_needed(w, p["id"]) for p in hp),
             "pet_approved": w.meta.get("pet_approved"), "queued": q and {"label": planner.plan_label(sim, q) or "Saying yes to an invite"},
@@ -220,6 +221,9 @@ def phone_choices():
         ph = sim.current_phase()
         if not (ph in DECISION_SLOTS and me.id in sim.slot_actors(ph)):
             return {"ready": False}
+        busy_with = sim.committed(me.id, ph)
+        if busy_with:
+            return {"ready": False, "committed": busy_with}  # practice and games just happen
         res = sim.options_for(me.id)
         if res is None:
             return {"ready": False}
@@ -231,6 +235,8 @@ def phone_choices():
             o = {"index": i, "action": cd.a["id"], "label": cd.a["label"], "category": cd.a["category"],
                  "target": cd.target if isinstance(cd.target, str) and cd.target in L.w.chars else None,
                  "target_name": sim.target_name(cd), "prob": round(cd.prob, 4), "risk": cd.a["risk"]}
+            if cd.a["id"] == "chat_online":
+                continue  # texting doesn't use up your time: text anyone, anytime, from the Phone tab
             o["text"] = phrase(sim, o)
             o["icon"] = ICON.get(cd.a["category"], "star")
             o["why"] = cd.why

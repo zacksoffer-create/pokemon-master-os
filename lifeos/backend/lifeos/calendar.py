@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-SCHOOL_PHASES = ["dawn", "classes", "lunch", "after_school", "night"]
+SCHOOL_PHASES = ["dawn", "classes", "lunch", "after_school", "evening", "night"]  # after school: practice if you're on a team; evening: yours
 FREE_PHASES = ["dawn", "day", "evening", "night"]
 DECISION_SLOTS = {"lunch", "after_school", "day", "evening"}
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]

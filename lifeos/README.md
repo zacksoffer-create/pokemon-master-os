@@ -237,11 +237,17 @@ What's in it:
 - **No wasted afternoons.** When you make a plan you ask first, so your friends aren't already booked. If your pick passes
   anyway, you hang out with someone else who's free ("Danny passed, so you hung out with Kira instead"); with the crew, the
   rest of the crew steps up. Other people's invites go to your texts instead of cluttering what just happened.
-- **Lunch on autopilot.** Lunch with your usual table happens without stopping to ask (the day strip says "usual table"),
-  so you only decide the parts of the day that matter. Turn it off on the Me tab to pick every lunch. Saved plans still
-  happen at lunch.
-- **A mix up front.** The first choices you see are one of each kind (the crew, a hangout, a text) before a second "Sit
-  with someone"; the rest are under More options.
+- **Your free time is clear.** A school day is morning, class, lunch, after school, evening, night. If you're on a team
+  (or in the show) and it has practice or a game, after school is that: it isn't a choice, you just go (games on
+  weekends too). Your free time is lunch and the evening, and the whole day on weekends. Each one says **Free time,
+  Tonight: pick one thing**, sorted into **With friends** (the crew, hangouts, a date, lunch tables, family), **On your
+  own** (homework, training, hobbies, rest, your pet) and **Go somewhere** (parties, games to watch, sign-ups); the
+  drama (pranks, gossip, sneaking out) is under More options. Anything that needs you (homework before a quiz, a chore)
+  has a **needs you** tag. **Texting doesn't use up your time**: text anyone, anytime, from the Phone tab, so "Message
+  someone" isn't one of your choices anymore. Plans made by text fill your next free time and show at the top.
+  Prefer not to pick every lunch? Turn on **Lunch on autopilot** on the Me tab (you sit with your usual table).
+- **A mix up front.** The first choices in each section are one of each kind before a second "Sit with someone"; the rest
+  are under More options.
 - **Packs can add texting lines.** A dialogue pack's `chat` section adds to how people answer, what they ask back,
   follow-ups and flirt lines by style. The pack prompts ask for them, and the checker explains any mistakes.
   People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).

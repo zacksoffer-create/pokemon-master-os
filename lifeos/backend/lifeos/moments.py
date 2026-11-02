@@ -29,7 +29,10 @@ def control(w) -> dict:
     c.setdefault("ask_romance", True)
     c.setdefault("stop_before_games", True)
     c.setdefault("stop_on_big", True)
-    c.setdefault("auto_lunch", True)  # lunch with your usual table, without stopping to ask
+    if not c.get("_free_time"):
+        c["auto_lunch"] = False  # lunch is one of your free times now (practice takes after school): you pick it
+        c["_free_time"] = 1
+    c.setdefault("auto_lunch", False)
     return c
 
 
