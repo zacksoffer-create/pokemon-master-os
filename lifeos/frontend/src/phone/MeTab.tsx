@@ -1,9 +1,9 @@
 // Me: who you are right now, how you're doing, and how you want to play.
 import React, { useState } from "react";
-import { phoneApi } from "./api";
+import { EpisodeGuide, phoneApi } from "./api";
 import { Portrait } from "./art";
 import { PIcon } from "./icons";
-import { Bar, cx, errText, money } from "./kit";
+import { Bar, cx, errText, money, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import ClassesCard from "./ClassesCard";
 import DialogueCard from "./DialogueCard";
@@ -31,6 +31,14 @@ const CHAPTERS = ["Fr", "So", "Jr", "Sr", "C1", "C2", "C3"];
 export default function MeTab() {
   const { state, refresh, toast } = usePhone();
   const [busy, setBusy] = useState<string | null>(null);
+  const [guide, setGuide] = useState<EpisodeGuide | null>(null);
+  const openGuide = async () => {
+    try {
+      setGuide(await phoneApi.episodes());
+    } catch (e) {
+      toast(errText(e), "bad");
+    }
+  };
   if (!state) return null;
   const s = state;
   const me = s.me;
@@ -123,7 +131,11 @@ export default function MeTab() {
             {CHAPTERS.map((c, i) => <span key={c} className={cx(i + 1 < year && "done", i + 1 === year && "now")}>{c}</span>)}
           </div>
           {s.progress.complete && <p className="ph-dim small">The seven chapters are written. Your world keeps going if you do.</p>}
+          <button className="ph-btn soft block ph-ep-btn" onClick={openGuide}><PIcon name="book" size={17} /> Episode guide</button>
         </div>
+        <Sheet open={!!guide} onClose={() => setGuide(null)} title="Your story, so far" className="ph-episodes">
+          {guide && <EpisodeGuideView g={guide} />}
+        </Sheet>
 
         <div className="ph-section-t">Your focus</div>
         <p className="ph-dim small ph-tight">When you let things play out, your focus pulls you toward these kinds of choices. It nudges; it doesn't force.</p>
@@ -173,6 +185,40 @@ function Stat({ icon, label, value, tone }: { icon: string; label: string; value
       <PIcon name={icon} size={17} />
       <b>{value}</b>
       <small>{label}</small>
+    </div>
+  );
+}
+
+
+/** Your seven years as one show: seasons, episodes, what you chose, and what's coming up. */
+function EpisodeGuideView({ g }: { g: EpisodeGuide }) {
+  return (
+    <div className="ph-eg">
+      {g.coming_up.length > 0 && (
+        <div className="ph-eg-next">
+          <div className="ph-section-t">Coming up</div>
+          {g.coming_up.map((c) => (
+            <div key={c.storyline} className="ph-eg-up"><b>{c.next.replace(/\{(\w+)\}/g, "…")}</b><small>{c.storyline} · Chapter {c.chapter} of {c.of}</small></div>
+          ))}
+        </div>
+      )}
+      {g.seasons.length === 0 && <p className="ph-dim">Nothing's aired yet. Your first episode is coming.</p>}
+      {[...g.seasons].reverse().map((s) => (
+        <div key={s.n} className="ph-eg-season">
+          <div className="ph-section-t">Season {s.n} · {s.label}{s.n === g.now.season ? " (now)" : ""}</div>
+          {[...s.episodes].reverse().map((e) => (
+            <div key={e.number} className={cx("ph-eg-ep", (e.premiere || e.finale) && "big")}>
+              <span className="ph-eg-n">E{e.number}</span>
+              <span className="ph-eg-m">
+                <b>{e.title}</b>
+                <small>{e.storyline} · {e.date}{e.premiere ? " · Premiere" : e.finale ? " · Finale" : ""}</small>
+                {e.choices.length > 0 && <em>You: {e.choices.join(" → ")}</em>}
+                {e.said && <span className="ph-eg-said">{e.said}</span>}
+              </span>
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

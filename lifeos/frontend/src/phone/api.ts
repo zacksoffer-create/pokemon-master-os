@@ -8,7 +8,8 @@ export type Mood = "happy" | "neutral" | "sad" | "angry" | "flirty" | "surprised
 
 export type Scene = { art: string; title: string; line: string; phase: string; season: string; weekend: boolean; break: string | null; time: string };
 export type FeedItem = { id: number; date: string; slot: string; type: string; outcome: string; text: string; with: string[]; importance: number };
-export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string }[]; storyline?: string | null };
+export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string }[]; storyline?: string | null;
+  episode_label?: string | null; previously?: string | null };
 export type PetDuty = { id: string; label: string; hint: string; when: string; owner: string; today: string; due: boolean; done: boolean; done_by: string | null };
 export type Pet = {
   id: string; name: string; species: "dog" | "cat" | "rabbit"; species_label: string; breed: string; coat: string; personality: string; age: number;
@@ -36,6 +37,9 @@ export type Choice = { index: number; action: string; label: string; category: s
 export type DaySlot = { phase: string; label: string; icon: string; state: "done" | "now" | "later"; note: string; decide: boolean; kind?: string; plan?: string };
 export type PlateItem = { id: string; kind: string; icon: string; title: string; sub: string; go?: string; cta?: string };
 export type WeekDay = { n: number; dow: string; num: number; date: string; school: boolean; items: { icon: string; label: string; kind: string }[] };
+export type Episode = { number: number; title: string; storyline: string; date: string; choices: string[]; said: string | null; who: string | null; premiere: boolean; finale: boolean };
+export type EpisodeGuide = { now: { season: number; label: string }; seasons: { n: number; label: string; episodes: Episode[] }[];
+  coming_up: { storyline: string; next: string; chapter: number; of: number }[] };
 export type Today = { strip: DaySlot[]; plate: PlateItem[]; week: WeekDay[] };
 export type Line = { id: number; type: string; outcome?: string; text: string; with?: string[]; calc?: any };
 export type Chip = { label: string; delta: number; good: boolean; who?: string; kind?: string };
@@ -66,6 +70,7 @@ export const phoneApi = {
   choose: (index: number, crew?: string[], act?: string): Promise<{ lines: Line[]; chips: Chip[] }> =>
     api.post("/api/phone/choose", crew ? { index, crew, act } : { index }),
   today: (): Promise<Today> => api.get("/api/phone/today"),
+  episodes: (): Promise<EpisodeGuide> => api.get("/api/phone/episodes"),
   later: (index: number): Promise<{ queued: string; note: string }> => api.post("/api/phone/later", { index }),
   moment: (id: string, index: number | null, extra: Record<string, any> = {}): Promise<{ lines: Line[]; chips: Chip[]; minigame?: any }> =>
     api.post(`/api/phone/moment/${id}`, index === null ? { ...extra } : { index, ...extra }),

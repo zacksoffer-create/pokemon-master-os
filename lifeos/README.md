@@ -280,6 +280,16 @@ What's in it:
   by what that person likes. **Build it out** on each storyline copies a prompt with the storyline in it: ChatGPT turns it
   into a real arc with at least 8 chapters, branches and two endings, scenes that keep going, style choices, mini games and
   its people's texting. Storyline scenes also come more often now (one every couple of days across all your storylines).
+- **One big story, in episodes.** Your seven years play like a show. Each school year is a season, and every big thing
+  that happens to you is an episode, numbered in the order it aired: your storylines' chapters and the game's own big
+  moments (the first day, tryouts, getting asked out, the college decision). Hangouts and quizzes are the days in between.
+  Scene cards say "Season 2 · Episode 6" with the storyline under it; the first episode of a year is the premiere and the
+  year in review is the finale. When a storyline picks back up, its episode opens with **Previously**: what happened last
+  time and what you chose. **Episode guide** (Me tab) lists every season and episode with what you chose, and what's coming
+  up in each storyline. **Make it one story** (dialogue packs) copies a prompt with all your storylines in it: ChatGPT sends
+  back a **Season plan** pack that schedules every episode across your seven years (`schedule`: years, which episodes from
+  other storylines come first, how long after) and adds crossover episodes that tie storylines together. A storyline's
+  chapters now come at least 5 days apart (about weekly, like episodes), woven together with the others.
 - **Storylines keep their people.** When a storyline is about "an older sibling" and you have more than one, it picks the
   one it's clearly about (a basketball story that says "he" and "his" gets your brother who plays basketball) and keeps
   them for every scene and every text after that. Open a storyline in your dialogue packs and **Who it's about** shows who

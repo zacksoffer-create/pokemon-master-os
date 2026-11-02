@@ -1268,6 +1268,13 @@ def api_dialogue_set_cast(body: dict = Body(...)):
     return api_dialogue_cast(pack)
 
 
+@app.get("/api/dialogue/show-prompt")
+def api_dialogue_show_prompt():
+    """The prompt that makes all your storylines one story: a season plan with crossover episodes."""
+    from . import dialogue
+    return {"prompt": dialogue.prompt_for_show()}
+
+
 @app.get("/api/dialogue/texting-prompt")
 def api_dialogue_texting_prompt(pack: str = ""):
     """The prompt that gives one of your storylines' people their own way of texting (?pack=<id> includes that pack)."""

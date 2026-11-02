@@ -466,7 +466,8 @@ function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: 
   const mood = m.kind === "asked_out" || m.kind === "asked_to_dance" ? "flirty" : m.kind === "heartbreak" || m.kind === "cut" ? "sad" : m.kind === "rumor" ? "surprised" : "neutral";
   return (
     <div className={cx("ph-moment", "k-" + m.kind)}>
-      <div className="ph-moment-k">{m.storyline || KICKER[m.kind] || "A moment"}{more > 0 && <span> · {more} more after this</span>}</div>
+      <div className="ph-moment-k">{m.episode_label || m.storyline || KICKER[m.kind] || "A moment"}{more > 0 && <span> · {more} more after this</span>}</div>
+      {m.episode_label && m.storyline && <div className="ph-moment-series">{m.storyline}</div>}
       {person && (
         <div className="ph-moment-who">
           <Portrait look={person.look} size={88} mood={mood as any} color={person.color} name={person.first} />
@@ -474,6 +475,7 @@ function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: 
         </div>
       )}
       <h2>{m.title}</h2>
+      {m.previously && <p className="ph-moment-prev">{m.previously}</p>}
       <p className="ph-moment-t">{m.text}</p>
       <div className="ph-moment-c">
         {m.choices.map((c, i) => (

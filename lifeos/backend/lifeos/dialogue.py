@@ -30,7 +30,7 @@ BUILTIN_DIR = os.path.join(DATA_DIR, "dialogue")
 USER_DIR = os.environ.get("LIFEOS_DIALOGUE") or os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "var", "dialogue")
 
-SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia", "mods", "chat")
+SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia", "mods", "chat", "schedule")
 MOD_KINDS = {"open": "said before a text (\"ok so\", \"u up?\")", "close": "tacked on after a text (\"lol\")",
              "talk": "how a line is said in person: \"{them_first} {says}, grinning\" ({says} becomes says or asks)"}
 PH = re.compile(r"\{(\w+)\}")
@@ -209,7 +209,7 @@ SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "siblin
                "me_first", "school", "town", "sport", "pet"}
 DEFAULT_CHANCE = 0.04
 SCENE_GAP_DAYS = 2      # at most one storyline scene every couple of days, across all of them
-CHAPTER_GAP_DAYS = 3    # a storyline's next chapter comes at least this long after its last one (when.gap_days changes it)
+CHAPTER_GAP_DAYS = 5    # a storyline's next chapter comes at least this long after its last one (when.gap_days changes it)
 CHAPTER_CHANCE = 0.5    # once it's due, the next chapter comes soon (about every other day)
 MAX_BEATS = 3           # how deep a scene can keep going with "then"
 NO_ADD = {"college_decision"}  # choices are built from your real options
@@ -876,6 +876,7 @@ def check(pack: dict) -> dict:
                     added["mods"] += 1
 
     added["chat"] = _check_chat(R, pack.get("chat", {}))
+    added["schedule"] = _check_schedule(R, pack.get("schedule", {}))
 
     scenes = pack.get("scenes", [])
     if not isinstance(scenes, list):
@@ -888,6 +889,45 @@ def check(pack: dict) -> dict:
     if added["duplicates"]:
         R.warn("texts", f"{added['duplicates']} line{'s are' if added['duplicates'] != 1 else ' is'} already in the game and will be skipped")
     return {"ok": not R.errors, "errors": R.errors, "warnings": R.warnings, "summary": added}
+
+
+SCHEDULE_KEYS = ("years", "after", "gap_days", "months")
+
+
+def _check_schedule(R, sch) -> int:
+    """When episodes of any storyline air: {"scene_id": {"years": [...], "after": [...], "gap_days": n, "months": [...]}}."""
+    if not sch:
+        return 0
+    if not isinstance(sch, dict):
+        R.err("schedule", 'is an object of scene ids to when they air, like {"bro_driveway": {"years": ["freshman"], "after": ["crush_first_text"]}}')
+        return 0
+    n = 0
+    for sid, v in sch.items():
+        w = f"schedule.{sid}"
+        if not isinstance(sid, str) or not SLUG.match(sid):
+            R.err(w, "needs to be a scene id")
+            continue
+        if not isinstance(v, dict) or not v:
+            R.err(w, 'is an object like {"years": ["sophomore"], "after": ["other_scene_id"]}')
+            continue
+        for k, x in v.items():
+            if k not in SCHEDULE_KEYS:
+                R.err(f"{w}.{k}", f"isn't part of a schedule. Use: {', '.join(SCHEDULE_KEYS)}")
+            elif k == "years":
+                for y in x if isinstance(x, list) else [x]:
+                    if y not in YEARS:
+                        R.err(f"{w}.years", f"'{y}' isn't a school year. Use: {', '.join(YEARS)}")
+            elif k == "after":
+                for a in x if isinstance(x, list) else [x]:
+                    if not isinstance(a, str) or not SLUG.match(a):
+                        R.err(f"{w}.after", "is a list of scene ids")
+            elif k == "gap_days":
+                _num(R, f"{w}.gap_days", x, 0, 365)
+            elif k == "months":
+                for mo in x if isinstance(x, list) else [x]:
+                    _num(R, f"{w}.months", mo, 1, 12)
+        n += 1
+    return n
 
 
 def _check_chat(R, chat) -> int:
@@ -1143,6 +1183,18 @@ def _build() -> dict:
                                  "choices": _with_beats(moments, sc["id"], sc["title"], p["id"], sc["choices"], ""),
                                  "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"), "order": n,
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
+    for p in packs():  # a season plan places any storyline's episodes across the seasons
+        if p["enabled"]:
+            for sid, sch in (p["pack"].get("schedule") or {}).items():
+                sc = (moments.get(sid) or {}).get("scene")
+                if sc is not None and isinstance(sch, dict):
+                    when = dict(sc.get("when") or {})
+                    for k, v in sch.items():
+                        if k == "after":
+                            when["after"] = sorted(set((when.get("after") or []) + (v if isinstance(v, list) else [v])))
+                        elif k in SCHEDULE_KEYS:
+                            when[k] = v
+                    sc["when"] = when
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
             "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded}
 
@@ -1781,7 +1833,9 @@ def guide_markdown() -> str:
     a("- `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.")
     a("- `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.")
     a("- `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask "
-      "back, follow-ups, flirt lines by style. See Texting lines.\n")
+      "back, follow-ups, flirt lines by style. See Texting lines.")
+    a("- `schedule`: when episodes of any storyline air: `{\"scene_id\": {\"years\": [\"sophomore\"], \"after\": [\"other_scene\"], "
+      "\"gap_days\": 7}}`. A season plan uses this to weave all your storylines into one story.\n")
     a("## Texting lines\n")
     a("When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a "
       "`chat` section. Every list is short lines; `{me}` is your first name.\n")
@@ -2040,6 +2094,75 @@ def prompt_for_texting(pid: str | None = None) -> str:
             raise KeyError(pid)
         body = "Here's my pack:\n\n```json\n" + json.dumps(p["pack"], indent=1, ensure_ascii=False) + "\n```\n\n"
     return TEXTING_PROMPT + body + texting_guide()
+
+
+SHOW_PROMPT = """You're the showrunner for my LIFE OS story. LIFE OS is a life-simulation game: you play one person from the first day
+of high school (Guilford High School in Guilford, Connecticut) through college, seven years. I want my whole run to feel like ONE
+big story with a bunch of episodes, like a TV show: each school year is a season, and my storylines are the threads that run
+through it. Below is a summary of every storyline I have: each one's episodes in order, who they're about, and the facts its
+choices remember.
+
+How it plays:
+- Each storyline's episodes air in the order they're written, a few days apart, woven together with the others. An episode
+  waits until its conditions are true (school year, things remembered...).
+- A "schedule" can place any episode of any storyline: which school years it airs in ("years"), which episodes from other
+  storylines have to air first ("after"), and how long after those it comes ("gap_days").
+- New "scenes" here are crossover episodes. They're about someone ("who"), can depend on facts remembered in any storyline
+  ("when": {"remembered": [...]}), and can remember facts that change other storylines.
+
+Make me a season plan: ONE pack named "Season plan" with
+1. "schedule": an entry for EVERY episode below. Spread each storyline across the seasons so the years have a shape (a
+   premiere, things building, a finale), interleave the storylines so they feel connected, and use "after" so episodes that
+   relate to each other air in a sensible order. Don't put more than one storyline's big moment in the same week.
+2. "scenes": at least 8 crossover episodes that tie storylines together: characters from different storylines meeting,
+   something from one thread causing trouble in another, a season finale that pays off two threads at once. Give them
+   "then" so they keep going, style choices ("vibe") where they're about someone, and remember facts that later episodes
+   use. Put each crossover in the schedule too.
+3. Keep every scene id you schedule exactly as it is below. Don't rewrite my storylines; this pack only plans and connects them.
+
+Reply with ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas. The game checks every line.
+
+"""
+
+
+def show_summary() -> str:
+    """Every storyline you have, compact: its episodes in order, who they're about, what they remember."""
+    L = []
+    m = merged()
+    for p in packs():
+        if not p["enabled"] or p["source"] != "yours" or (p["pack"].get("name") == "Season plan"):
+            continue
+        L.append(f"### {p['pack'].get('name')}")
+        for sc in p["pack"].get("scenes") or []:
+            if not isinstance(sc, dict):
+                continue
+            text = sc.get("text")
+            text = (text[0] if isinstance(text, list) and text else text or "")[:140].replace("\n", " ")
+            facts = sorted({op[1] for op in _all_ops(sc) if isinstance(op, list) and op and op[0] == "remember" and len(op) > 1})
+            when = sc.get("when") or {}
+            bits = [f"who: {sc.get('who')}" if sc.get("who") else None,
+                    f"years: {', '.join(when['years'])}" if when.get("years") else None,
+                    f"needs remembered: {', '.join(when['remembered'])}" if when.get("remembered") else None,
+                    f"remembers: {', '.join(facts)}" if facts else None]
+            L.append(f"- `{sc.get('id')}` \"{sc.get('title')}\" ({'; '.join(b for b in bits if b)}): {text}")
+        L.append("")
+    return "\n".join(L) if L else "(no storylines yet)\n"
+
+
+def _all_ops(sc):
+    out = []
+    def walk(chs):
+        for ch in chs or []:
+            if isinstance(ch, dict):
+                out.extend(ch.get("ops") or [])
+                if isinstance(ch.get("then"), dict):
+                    walk(ch["then"].get("choices"))
+    walk(sc.get("choices"))
+    return out
+
+
+def prompt_for_show() -> str:
+    return SHOW_PROMPT + "## My storylines\n\n" + show_summary() + "\n" + guide_markdown()
 
 
 def prompt_for_update(pid: str | None = None) -> str:

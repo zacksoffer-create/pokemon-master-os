@@ -62,6 +62,10 @@ export default function Dialogue() {
     toast((await copyText(r.prompt)) ? (pid ? "Upgrade prompt copied, with the pack in it. Paste it into ChatGPT or Claude; the answer replaces the old pack."
       : "Upgrade prompt copied. Paste your pack where it says.") : "Couldn't copy.", "good");
   });
+  const copyShow = () => run("show", async () => {
+    const r = await api.get("/api/dialogue/show-prompt");
+    toast((await copyText(r.prompt)) ? "Season plan prompt copied, with all your storylines in it." : "Couldn't copy.", "good");
+  });
   const copyTexting = (pid?: string) => run(pid ? `tx:${pid}` : "tx", async () => {
     const r = await api.get(`/api/dialogue/texting-prompt${pid ? `?pack=${encodeURIComponent(pid)}` : ""}`);
     toast((await copyText(r.prompt)) ? (pid ? "Texting prompt copied, with the pack in it. The answer gives its people their own way of texting."
@@ -86,6 +90,7 @@ export default function Dialogue() {
           <button className="primary" disabled={!!busy} onClick={copyPrompt}>Copy the ChatGPT prompt</button>
           <button disabled={!!busy} onClick={() => copyUpdate()}>Copy the build-out prompt (turns a pack you made into a real storyline)</button>
           <button disabled={!!busy} onClick={() => copyTexting()}>Copy the texting prompt (its people text like themselves)</button>
+          <button disabled={!!busy} onClick={copyShow}>Make it one story (season plan prompt for all your storylines)</button>
           <a className="btn" href="/api/dialogue/guide.md?download=1">Download the guide (.md)</a>
           <a className="btn" href="/api/dialogue/current?download=1">Download all current dialogue (.json)</a>
         </div>

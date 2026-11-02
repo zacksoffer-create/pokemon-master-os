@@ -109,6 +109,8 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
             m["text"] = f"{w.chars[them].first} texted you: \"{line}\""
             m["by_text"] = line
     w.meta.setdefault("moments", []).append(m)
+    from . import episodes
+    episodes.on_trigger(sim, m)  # one big story: this is Season 2, Episode 6 (and what happened last time)
     if "phone" in w.meta:
         from . import messages
         messages.moment_text(sim, m)
@@ -243,6 +245,8 @@ def resolve(sim, mid: str, index: int | None, by: str = "player"):
     fx = Effects(w, ev)
     rng = sim.streams.get("moment-resolve", m["id"])
     run_ops(sim, c, ch["ops"], ctx, fx, ev, rng, m)
+    from . import episodes
+    episodes.on_resolve(sim, m, ch, ev)
     m["status"] = "resolved"
     m["choice"] = index
     m["by"] = by

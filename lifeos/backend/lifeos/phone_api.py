@@ -176,6 +176,8 @@ def phone_state(since: int | None = None):
             if m["kind"] in sim.cat.moments and (sim.cat.moments[m["kind"]].get("scene") or sim.cat.moments[m["kind"]].get("beat_of")):
                 from . import dialogue
                 mm["storyline"] = dialogue.chapter_label(sim, m["kind"])  # "Hoops with my brother · Chapter 2 of 5"
+            from . import episodes
+            mm["episode_label"] = episodes.label(m)  # "Season 2 · Episode 6"
             pend.append(mm)
         evs = w.history.by_char.get(me.id, [])
         feed = []
@@ -300,6 +302,16 @@ def crew_option(L, me, opts):
     label = ", ".join(firsts[:-1]) + " and " + firsts[-1]
     return dict(main, key=f"crew{main['index']}", action="hang_group", crew=extra, text=f"Hang out with {label}",
                 group="want", reason="The crew, all at once", later=None, gut=False, icon="people")
+
+
+@router.get("/api/phone/episodes")
+def phone_episodes():
+    """Your seven years as one show: every season, every episode and what you chose, and what's coming up."""
+    A, L = _lab()
+    from . import episodes
+    with L.lock:
+        _me(L)
+        return episodes.guide(L.sim)
 
 
 @router.get("/api/phone/today")

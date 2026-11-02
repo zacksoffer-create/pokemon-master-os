@@ -239,6 +239,7 @@ Every section is optional; use the ones you need.
 - `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.
 - `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.
 - `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask back, follow-ups, flirt lines by style. See Texting lines.
+- `schedule`: when episodes of any storyline air: `{"scene_id": {"years": ["sophomore"], "after": ["other_scene"], "gap_days": 7}}`. A season plan uses this to weave all your storylines into one story.
 
 ## Texting lines
 
@@ -260,7 +261,7 @@ When you text someone yourself, the game reads what you typed and answers from t
 
 ## Storylines: chapters, scenes that keep going, choices that matter
 
-Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart (at least 3 days; set `"when": {"gap_days": 7}` on a scene for more). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
+Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart (at least 5 days; set `"when": {"gap_days": 7}` on a scene for more). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
 
 - **Keep going:** a choice with `then` continues the scene right away: `{"label": "You're on", "then": {"text": "It's 10-10...", "choices": [...]}}`. Up to two `then`s deep (three decisions in one scene).
 - **Branches:** `["remember", "fact"]` in a choice, and a later chapter with `"when": {"remembered": ["fact"]}` (or `not_remembered`) only happens on that path. `"when": {"after": ["scene_id"]}` waits for a specific scene.

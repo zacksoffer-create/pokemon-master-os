@@ -123,6 +123,18 @@ export default function DialogueCard() {
       setBusy(null);
     }
   };
+  const copyShow = async () => {
+    setBusy("show");
+    try {
+      const r = await api.get("/api/dialogue/show-prompt");
+      const ok = await copyText(r.prompt);
+      toast(ok ? "Copied, with all your storylines in it. Paste it into ChatGPT, then paste its answer back here." : "Couldn't copy on this phone. Try again.", ok ? "good" : "bad");
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
   const setOrder = async (p: PackRow, on: boolean) => {
     setBusy(p.id);
     try {
@@ -194,6 +206,10 @@ export default function DialogueCard() {
           Made storylines before? Open one below and tap <b>Build it out</b>: ChatGPT turns it into a real story, with chapters in
           order, scenes that keep going, choices that change what happens later, style choices and mini games. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate()}>Pack not on this phone? Copy the build-out prompt</button>
           {" "}Or tap <b>Upgrade its texting</b> so its people text like themselves. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate(undefined, "texting")}>Copy the texting prompt</button>
+          <button className="ph-btn soft block dl-show" disabled={!!busy} onClick={copyShow}>
+            <PIcon name="book" size={17} /> Make it one story: copy the season plan prompt
+          </button>
+          <span className="ph-dim small">All your storylines at once: ChatGPT plans when each episode airs across your seven years and writes crossover episodes that tie them together. Paste the answer back here.</span>
         </p>
         <div className="dl-list">
           {data?.packs.map((p) => (

@@ -419,3 +419,61 @@ def test_the_build_out_prompt_teaches_storylines_and_its_example_passes():
         assert must in p, must
     ex = re.search(r"## Storylines.*?```json\n(.*?)\n```", p, re.S).group(1)
     assert dialogue.check({"name": "x", "scenes": [json.loads(ex)]})["ok"]
+
+
+def test_one_big_story_seasons_episodes_and_previously():
+    from lifeos import episodes
+    dialogue.add_pack(_arc())
+    dialogue.reload()
+    sim, w, me = _brother_story()
+    sim = Simulation(w)
+    pid = next(p["id"] for p in dialogue.packs() if p["pack"]["name"] == "Big brother season")
+    before = len(episodes.log(w))
+    first = dialogue.fire(sim, "bro_driveway", dialogue._context(sim, me, "older_brother", {}, sim.streams.get("x", 1), pack=pid))
+    n, label = episodes.season(sim)
+    assert n == 1 and label == "Freshman year"
+    assert first["episode"]["number"] == before + 1 and episodes.label(first).startswith(f"Season 1 · Episode {before + 1}")
+    moments.resolve(sim, first["id"], 0)
+    beat = next(x for x in moments.pending(w) if x["kind"].startswith("bro_driveway__"))
+    assert beat["episode"]["number"] == first["episode"]["number"], "the next beat is the same episode"
+    moments.resolve(sim, beat["id"], 0)
+    e = episodes.log(w)[-1]
+    assert e["kind"] == "bro_driveway" and e["choices"] == ["You're on", "Drive left. Prove him wrong."] and e["storyline"] == "Big brother season"
+    second = dialogue.fire(sim, "bro_tryouts", dialogue._context(sim, me, "older_brother", {}, sim.streams.get("x", 2), pack=pid))
+    assert second["previously"].startswith("Previously, in “The driveway”: you went with “You're on” then “Drive left.")
+    assert second["episode"]["number"] == first["episode"]["number"] + 1
+    g = episodes.guide(sim)
+    assert g["now"]["label"] == "Freshman year" and g["seasons"][0]["episodes"][-1]["title"] == "Tryout nerves"
+    assert any(c["storyline"] == "Big brother season" and c["chapter"] == 3 for c in g["coming_up"])
+    # hangouts and quizzes aren't episodes
+    assert not episodes.counts("hang_dock_dare") and not episodes.counts("class_quiz") and episodes.counts("asked_out")
+
+
+def test_a_season_plan_schedules_episodes_across_storylines():
+    dialogue.add_pack(_arc())
+    other = {"name": "Crush arc", "scenes": [
+        {"id": "crush_first_text", "title": "The first text", "who": "crush", "text": "{them_first} texts you first. Huh.",
+         "choices": [{"label": "Text back fast", "ops": [["mood", 2]]}, {"label": "Wait an hour", "ops": [["mood", 1]]}]}]}
+    dialogue.add_pack(other)
+    plan = {"name": "Season plan", "schedule": {"bro_tryouts": {"after": ["crush_first_text"], "gap_days": 2},
+                                                "bro_senior_night": {"years": ["senior"]}},
+            "scenes": [{"id": "crossover_bleachers", "title": "The bleachers", "who": "older_brother",
+                        "when": {"after": ["bro_tryouts"]},
+                        "text": "Your brother catches you looking at someone in the bleachers.",
+                        "choices": [{"label": "Deny everything", "ops": [["vibe", "tease", {"good": "He laughs.", "meh": "He shrugs.", "bad": "He tells mom."}]]},
+                                    {"label": "Ask for advice", "ops": [["remember", "asked_bro_advice"]]}]}]}
+    r = dialogue.check(plan)
+    assert r["ok"] and r["summary"]["schedule"] == 2, r["errors"]
+    assert not dialogue.check({"name": "x", "schedule": {"bro_tryouts": {"year": ["senior"]}}})["ok"]
+    dialogue.add_pack(plan)
+    dialogue.reload()
+    sim, w, me = _brother_story()
+    sim = Simulation(w)
+    when = sim.cat.moments["bro_tryouts"]["scene"]["when"]
+    assert when["after"] == ["crush_first_text"] and when["gap_days"] == 2
+    assert sim.cat.moments["bro_senior_night"]["scene"]["when"]["years"] == ["senior"]
+    w.meta.setdefault("scenes_seen", {})["bro_driveway"] = [w.day]
+    assert not dialogue._when_ok(sim, me, "bro_tryouts", when), "it waits for the crush storyline's first episode"
+    p = dialogue.prompt_for_show()
+    assert "big story with a bunch of episodes" in p and "`bro_driveway`" in p and "`crush_first_text`" in p and "remembers: played_bro" in p
+    assert "crossover_bleachers" not in p.split("## My storylines")[1].split("## ")[0], "the season plan itself isn't summarized"
