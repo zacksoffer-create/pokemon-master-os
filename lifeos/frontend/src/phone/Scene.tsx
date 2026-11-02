@@ -1,7 +1,7 @@
 // Phone → Scene: your school's world from where you're standing. Where you stand, the groups (and your way in), who's
 // together, who's popular, and friends of friends you could meet (ask a friend to introduce you: free, once a day).
 import React, { useEffect, useState } from "react";
-import { Chip, Line, phoneApi, pgo, SceneMini, SceneView } from "./api";
+import { Chip, Line, phoneApi, pgo, Rumor, SceneMini, SceneView } from "./api";
 import { Portrait } from "./art";
 import { cx, errText, Lines, Sheet, StatChips } from "./kit";
 import { usePhone } from "./PhoneContext";
@@ -14,7 +14,7 @@ export function SceneScreen() {
   const { toast, refresh } = usePhone();
   const [v, setV] = useState<SceneView | null>(null);
   const [open, setOpen] = useState<string | null>(null);
-  const [out, setOut] = useState<{ lines: Line[]; chips: Chip[] } | null>(null);
+  const [out, setOut] = useState<{ lines: Line[]; chips: Chip[]; title: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const load = () => phoneApi.scene().then(setV).catch((e) => toast(errText(e), "bad"));
   useEffect(() => {
@@ -27,7 +27,20 @@ export function SceneScreen() {
     try {
       const r = await phoneApi.sceneIntro(via, to);
       setV(r.scene);
-      setOut({ lines: r.lines, chips: r.chips });
+      setOut({ lines: r.lines, chips: r.chips, title: "Introduced" });
+      refresh();
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(false);
+    }
+  };
+  const rumor = async (id: string, what: string) => {
+    setBusy(true);
+    try {
+      const r = await phoneApi.sceneRumor(id, what);
+      setV(r.scene);
+      setOut({ lines: r.lines, chips: r.chips, title: "What you did" });
       refresh();
     } catch (e) {
       toast(errText(e), "bad");
@@ -59,6 +72,18 @@ export function SceneScreen() {
           <span>People say you're</span>
           {me.reputation.map((r) => <b key={r}>{r}</b>)}
         </div>
+      )}
+
+      <div className="sc-h">What people are saying</div>
+      {v.talk.length === 0 && <div className="sc-dim">You haven't heard anything yet. Your friends will fill you in.</div>}
+      {v.talk.slice(0, 8).map((t) => <RumorCard key={t.id} t={t} busy={busy} onAct={rumor} />)}
+      {v.fights.length > 0 && (
+        <>
+          <div className="sc-sub">Still not speaking</div>
+          {v.fights.map((f) => (
+            <div key={f.a + f.b} className="sc-fight"><b>{f.a} & {f.b}</b><small>since {f.when} · over {f.reason}</small></div>
+          ))}
+        </>
       )}
 
       <div className="sc-h">The groups</div>
@@ -139,7 +164,7 @@ export function SceneScreen() {
       </div>
       <div style={{ height: 20 }} />
 
-      <Sheet open={!!out} onClose={() => setOut(null)} title="Introduced">
+      <Sheet open={!!out} onClose={() => setOut(null)} title={out?.title}>
         {out && (
           <>
             <Lines lines={out.lines} />
@@ -148,6 +173,41 @@ export function SceneScreen() {
           </>
         )}
       </Sheet>
+    </div>
+  );
+}
+
+const ACTS: Record<string, [string, string][]> = {
+  you: [["deny", "Set the record straight"], ["own", "Own it"], ["find", "Who started it?"]],
+  them: [["tell", "Warn them"], ["pass", "Pass it on"], ["drop", "Keep it to yourself"]],
+};
+const DID: Record<string, string> = { deny: "You set the record straight.", own: "You owned it.", find: "You asked around.", tell: "You warned them.",
+  pass: "You passed it on.", drop: "You kept it to yourself." };
+
+function RumorCard({ t, busy, onAct }: { t: Rumor; busy: boolean; onAct: (id: string, what: string) => void }) {
+  const acts = ACTS[t.about_you ? "you" : "them"];
+  return (
+    <div className={cx("sc-rumor", t.about_you && "you")}>
+      <div className="sc-rumor-top">
+        {t.about ? <Portrait look={t.about.look} size={36} color={t.about.color} name={t.about.first} /> : <span className="sc-rumor-dot">!</span>}
+        <div className="sc-rumor-m">
+          <p>“{t.text}”</p>
+          <small>
+            {t.about_you ? "About you" : t.from ? `${t.from} told you` : "You heard it"} · {t.spread}
+            {t.about_you && t.true !== null ? (t.true ? " · it's true" : " · it's not true") : ""}
+          </small>
+        </div>
+        {t.new && <span className="sc-new">new</span>}
+      </div>
+      {t.acted ? (
+        <div className="sc-done">{DID[t.acted] || "Done."}{t.origin ? ` It started with ${t.origin}.` : ""}</div>
+      ) : (
+        <div className="sc-acts">
+          {acts.map(([k, l]) => (
+            <button key={k} disabled={busy} onClick={() => onAct(t.id, k)}>{k === "tell" && t.about ? `Warn ${t.about.first}` : l}</button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

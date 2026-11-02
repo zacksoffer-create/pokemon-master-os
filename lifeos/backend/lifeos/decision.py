@@ -283,7 +283,7 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
                 res.append((pk, p, f"invited to {w.chars[p['host']].short}'s party"))
             else:
                 friends_in = [i for i in p["invited"] if is_friend(w.rels.get((c.id, i)), R)]
-                if friends_in and c.traits["sociability"] > 55:
+                if friends_in and (c.traits["sociability"] > 55 or c.id == w.meta.get("protagonist")):
                     res.append((pk, p, f"heard about {w.chars[p['host']].short}'s party from friends"))
         return res
     if sel == "sibling":

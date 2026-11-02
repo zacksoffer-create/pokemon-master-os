@@ -370,8 +370,11 @@ def clique_profile(w, members):
 
 def clique_name(w, members, cid):
     prof = clique_profile(w, members)
+    taken = {c.get("name") for c in w.cliques.values() if c.get("active")}
     if prof["popularity"] >= 72:
-        return "the In-Crowd" if not any(c.get("name") == "the In-Crowd" and c.get("active") for c in w.cliques.values()) else "the Senior Lot Crowd"
+        for nm in ("the In-Crowd", "the Senior Lot Crowd", "the A-List", "the Back Booth"):
+            if nm not in taken:
+                return nm
     ints = [k for k, v in prof["interests"] if k != "academics" or v >= 62]
     key = ints[0] if ints else "shows"
     names = CLIQUE_NAMES.get(key, ["the Regulars"])

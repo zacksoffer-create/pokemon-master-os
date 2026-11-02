@@ -30,8 +30,11 @@ export type SceneView = {
   popular: (SceneMini & { you: boolean })[];
   meet: (SceneMini & { mutual: string[]; n: number; via: SceneMini })[];
   intro_today: boolean;
-  talk?: any;
+  talk: Rumor[];
+  fights: { a: string; b: string; reason: string; when: string }[];
 };
+export type Rumor = { id: string; text: string; about_you: boolean; true: boolean | null; about: { id: string; first: string; color: string; look: Look } | null;
+  from: string | null; known: number; spread: string; when: string; new: boolean; acted: string | null; origin: string | null };
 export type MomentGame = { id: string; title: string; secs?: number | null; icon: string };
 export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string; game?: MomentGame }[]; storyline?: string | null;
   episode_label?: string | null; previously?: string | null };
@@ -100,6 +103,7 @@ export const phoneApi = {
   scene: (): Promise<SceneView> => api.get("/api/phone/scene"),
   sceneIntro: (via: string, to: string): Promise<{ lines: Line[]; chips: Chip[]; scene: SceneView }> => api.post("/api/phone/scene/intro", { via, to }),
   scenePlan: (id: string): Promise<{ note: string }> => api.post("/api/phone/scene/plan", { with: id }),
+  sceneRumor: (id: string, what: string): Promise<{ lines: Line[]; chips: Chip[]; scene: SceneView }> => api.post("/api/phone/scene/rumor", { id, what }),
   // the editor (only while it's on)
   editor: (): Promise<{ schema: EdSchema; people: EdPersonRow[] }> => api.get("/api/phone/editor"),
   editorPerson: (id: string): Promise<EdPerson> => api.get(`/api/phone/editor/person/${encodeURIComponent(id)}`),

@@ -163,6 +163,9 @@ class Simulation:
         if w.meta.get("protagonist"):
             from . import squad
             squad.dawn(self)  # your group might make plans for later
+            from . import drama, nights
+            drama.dawn(self)  # gossip reaches you; sometimes drama does too
+            nights.dawn(self)  # most Fridays and Saturdays, somebody has people over
         rng = self.streams.get("dawn", w.day)
         due = [s for s in w.schedule if s["day"] <= w.day]
         w.schedule = [s for s in w.schedule if s["day"] > w.day]

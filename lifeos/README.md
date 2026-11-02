@@ -325,6 +325,33 @@ Your school's world, from where you're standing. It's the third tab in the Phone
 - **Who's together:** every couple at school (new ones marked), and who just broke up.
 - **Most popular:** the top six, and where you are among them.
 
+## Drama and gossip
+
+Rumors spread through the school on their own: who got rejected, who kissed who at a party, who got roasted at lunch.
+Now you're in it.
+
+- **Gossip finds you.** Most days a friend texts you the juiciest thing going around that you haven't heard ("ok you
+  can't say anything but..."). **Phone → Scene → What people are saying** lists everything you've heard: who told you,
+  and how far it's spread (just a few people, your grade's talking, half the school, everyone).
+- **What you do with it** (free, once per rumor):
+  - about someone else: **Warn them** (they trust you more), **Pass it on** (it spreads, you get the gossip rep, and
+    they might hear it came from you), or **Keep it to yourself**;
+  - about you: **Set the record straight** (works better if it's not true), **Own it**, or **Who started it?**
+- **Drama comes to you** as story moments, at most one every few days:
+  - **Two of your friends fall out** (over a group chat screenshot, someone's ex, a party invite...) and both want you
+    on their side: pick one, stay out of it, or get them in a room together (it can fix it, or make it worse). Scene
+    shows who's still not speaking.
+  - **Someone's into your partner** (or your partner's into someone): ask them, warn the other person off, or let it
+    go. Let it go when it's real, and you might hear about it later.
+  - **Your crush gets with someone else:** be happy for them, tell them how you feel anyway (it can work, and it can
+    blow up), or move on.
+  - **A friend goes cold on you:** apologize, give it time, or write them off. Give it time, and sometimes they're the
+    one who reaches out: "hey. can we talk?"
+- **Parties happen most weekends now.** Somebody popular has people over most Fridays and Saturdays; if you're friends
+  with the host or a friend of yours is going, you get a text that morning, and the party is one of your choices that
+  night.
+- Writers: the scenes and lines are in `backend/data/drama.json`.
+
 ## Big nights (parties and dances)
 
 Going to a party, throwing one, or going to Homecoming, the Snow Ball or prom isn't one tap anymore. The night plays out as

@@ -460,3 +460,61 @@ def _end(sim, c, st, fx, ev, render):
     fx.need(c.id, "fun", 6, st["event"])
     fx.flag(c.id, "late_night", w.day, st["event"])
     w.meta.pop("night", None)
+
+
+# ------------------------------------------------------------------------------------------------ the weekend calendar
+
+def dawn(sim):
+    """Most Fridays and Saturdays somebody has people over. If you're friends with the host, or a friend of yours is
+    going, you hear about it that morning, and "Go to Mike's party" is one of your choices tonight."""
+    from . import calendar as calm
+    w = sim.w
+    me = w.chars.get(w.meta.get("protagonist") or "")
+    if not me or me.status != "active" or me.role != "student":
+        return
+    wd = calm.weekday(w.day)
+    if wd not in (4, 5) or any(p["day"] == w.day for p in w.parties.values()):
+        return
+    rng = random.Random(_h(w.seed, w.day, "weekend-party"))
+    if rng.random() > (0.4 if wd == 4 else 0.6):
+        return
+    R = w.rules
+    recent = w.meta.setdefault("party_hosts", {})
+    pool = [c for c in w.chars.values() if c.role == "student" and c.status == "active" and c.id != me.id and c.location == me.location
+            and c.school == me.school and c.money >= 15 and c.flags.get("grounded_until", -1) < w.day
+            and w.day - recent.get(c.id, -99) > 21 and (c.traits.get("sociability", 50) >= 50 or c.popularity >= 55)]
+    if not pool:
+        return
+    pool.sort(key=lambda c: c.id)
+    weights = [max(1.0, c.popularity + c.traits.get("sociability", 50) - 60) for c in pool]
+    x = rng.random() * sum(weights)
+    host = pool[-1]
+    for c, wt in zip(pool, weights):
+        x -= wt
+        if x <= 0:
+            host = c
+            break
+    friends = sorted((o for o, r in w.out.get(host.id, {}).items() if r.affection >= R["rel.friend_threshold"] - 8 and o in w.chars
+                      and w.chars[o].role == "student" and w.chars[o].status == "active"), key=lambda o: (-w.rels[(host.id, o)].affection, o))
+    popular = sorted((o for o, r in w.out.get(host.id, {}).items() if r.familiarity >= 20 and o in w.chars and w.chars[o].role == "student"
+                      and w.chars[o].popularity >= 60 and o not in friends), key=lambda o: (-w.chars[o].popularity, o))
+    invited = (friends[:12] + popular[:6])[:16]
+    key = f"party:{host.id}:{w.day}"
+    w.parties[key] = {"key": key, "day": w.day, "host": host.id, "invited": invited, "slot": "evening"}
+    recent[host.id] = w.day
+    ev = sim.new_event("throw_party", "planned", [host.id], [], 14, {"invited": invited, "party": key})
+    ev["involved"] = invited
+    ev["text"] = f"{host.name} is having people over tonight."
+    fx = Effects(w, ev)
+    fx.money(host.id, -15, "party supplies")
+    sim.finish(ev, fx)
+    if "phone" not in w.meta:
+        return
+    from . import messages
+    mine = [o for o in invited if w.rels.get((me.id, o)) and w.rels[(me.id, o)].affection >= R["rel.friend_threshold"]]
+    if me.id in invited:
+        messages.later(sim, host.id, "scene", delay_phases=1, text=["people coming over tonight. you in?", "party at mine tonight. bring whoever",
+                                                                    "my parents are gone this weekend. tonight. you're coming"][_h(w.day, host.id) % 3])
+    elif mine:
+        messages.later(sim, mine[0], "scene", delay_phases=1, text=[f"{host.first}'s having people over tonight. you coming?",
+                                                                    f"you going to {host.first}'s tonight??", f"{host.first}'s party tonight. pull up"][_h(w.day, mine[0]) % 3])

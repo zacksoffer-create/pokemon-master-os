@@ -195,7 +195,9 @@ class Generator:
         ppl = self.cat.people
         if last is None:
             avail = [n for n in ppl["names"]["last"] if n not in self.used_last]
-            last = rng.choice(avail) if avail else f"{rng.choice(ppl['names']['last'])}-{rng.randint(2, 99)}"
+            if not avail:  # a big school: more family names, then (like real life) two families can share one
+                avail = [n for n in ppl["names"].get("last_more", []) if n not in self.used_last] or list(ppl["names"]["last"])
+            last = rng.choice(avail)
         self.used_last.add(last)
         styles = {s["id"]: s for s in ppl["guardian_styles"]}
         if style is None:

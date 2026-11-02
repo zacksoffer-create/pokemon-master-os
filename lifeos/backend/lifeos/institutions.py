@@ -879,6 +879,11 @@ class Institutions:
         p = w.parties.pop(key)
         host = p["host"]
         came = sorted(set(sim.slot.attend.get(("party", key), [])) | {host})
+        prot = w.meta.get("protagonist")
+        if prot in came and len(came) < 7:  # you're there: more of the invite list drifts in as the night goes on
+            extra = [i for i in p["invited"] if i not in came and i in w.chars and w.chars[i].status == "active"
+                     and w.chars[i].location == w.chars[host].location and not sim.committed(i, "evening")]
+            came = sorted(set(came) | set(extra[:7 - len(came)]))
         H = w.chars[host]
         if len(came) <= 3:
             ev = self.event("party", "flop", [host], importance=26, data={"n": len(came) - 1})

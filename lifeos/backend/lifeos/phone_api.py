@@ -335,6 +335,24 @@ def phone_scene_intro(body: dict = Body(...)):
         return {"lines": _lines(L, [ev], me), "chips": _chips(L, me, needs0, mood0, rels0), "scene": scene.view(L.sim)}
 
 
+@router.post("/api/phone/scene/rumor")
+def phone_scene_rumor(body: dict = Body(...)):
+    """Do something with a rumor you've heard: {id, what}. About you: deny, own, find. About someone else: tell, pass, drop."""
+    A, L = _lab()
+    L.guard()
+    from . import drama, scene
+    with L.lock:
+        me = _me(L)
+        needs0, mood0 = dict(me.needs), me.mood
+        rels0 = {o: (r.affection, r.attraction, r.trust) for o, r in L.w.out.get(me.id, {}).items()}
+        try:
+            ev = drama.act(L.sim, str(body.get("id", "")), str(body.get("what", "")))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return {"lines": _lines(L, [ev], me), "chips": _chips(L, me, needs0, mood0, rels0), "scene": scene.view(L.sim)}
+
+
 @router.post("/api/phone/scene/plan")
 def phone_scene_plan(body: dict = Body(...)):
     """Plan to hang out with someone at your next free time."""

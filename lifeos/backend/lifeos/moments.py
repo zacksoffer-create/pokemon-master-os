@@ -374,6 +374,9 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                     _rejected(sim, w.chars[other], c.id, ev, fx, rng, {"slot": "after_school"}, dance=bool(ctx.get("dance_key")))
         elif kind == "beat":
             sim.moment_trigger(op[1], c.id, {k: v for k, v in ctx.items() if not k.startswith("_")})  # the scene keeps going
+        elif kind == "drama":
+            from . import drama
+            drama.op(sim, c, op, ctx, fx, ev, rng, m, lambda s: _render(s, names))
         elif kind == "night":
             from . import nights
             nights.op(sim, c, op, ctx, fx, ev, rng, m, lambda s: _render(s, names))

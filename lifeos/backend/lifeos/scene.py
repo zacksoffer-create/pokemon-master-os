@@ -74,6 +74,7 @@ def _vibe(sim, cl) -> str:
 
 
 def view(sim) -> dict:
+    from . import drama
     w = sim.w
     me = _me(sim)
     studs = students(sim, me)
@@ -123,7 +124,8 @@ def view(sim) -> dict:
                    "reputation": reputation(me), "friends": len(friends)},
             "groups": groups[:14], "couples": couples[:20], "breakups": breakups[:8],
             "popular": [{**_mini(w, c.id), "you": c.id == me.id} for c in ranked[:6]],
-            "meet": meet(sim, me, friends, ids), "intro_today": st.get("intro_day") == w.day}
+            "meet": meet(sim, me, friends, ids), "intro_today": st.get("intro_day") == w.day,
+            "talk": drama.view(sim), "fights": drama.fights(sim)}
 
 
 def meet(sim, me, friends, ids) -> list:
