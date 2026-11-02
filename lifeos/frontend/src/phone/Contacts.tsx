@@ -102,6 +102,9 @@ export function ContactProfile({ cid }: { cid: string }) {
         <div className="pm-hero-sub">
           {c.year_label}{c.pronouns ? ` · ${c.pronouns}` : ""}
         </div>
+        {state?.control.editor && (
+          <button className="pm-edit" onClick={() => pgo(`edit/${encodeURIComponent(c.id)}`)}>Edit</button>
+        )}
         <div className="pm-hero-badges">
           <LabelBadge label={label} crush={c.crush} partner={c.partner} />
           {dating && !c.partner && <span className="pm-badge plain">{dating}</span>}

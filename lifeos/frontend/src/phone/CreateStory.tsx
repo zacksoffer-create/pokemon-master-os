@@ -110,7 +110,7 @@ function playsList(p: Person) {
 }
 
 // ---------------------------------------------------------------- small pieces
-function Seg<T extends string | number>({ value, options, onChange, wrap }: { value: T | undefined; options: [T, React.ReactNode][]; onChange: (v: T) => void; wrap?: boolean }) {
+export function Seg<T extends string | number>({ value, options, onChange, wrap }: { value: T | undefined; options: [T, React.ReactNode][]; onChange: (v: T) => void; wrap?: boolean }) {
   return (
     <div className={cx("ph-seg", "cs-seg", wrap && "wrap")}>
       {options.map(([v, l]) => (
@@ -120,7 +120,7 @@ function Seg<T extends string | number>({ value, options, onChange, wrap }: { va
   );
 }
 
-function Field({ label, hint, children, right }: { label: React.ReactNode; hint?: React.ReactNode; children: React.ReactNode; right?: React.ReactNode }) {
+export function Field({ label, hint, children, right }: { label: React.ReactNode; hint?: React.ReactNode; children: React.ReactNode; right?: React.ReactNode }) {
   return (
     <div className="cs-field">
       <div className="cs-field-l">
@@ -133,7 +133,7 @@ function Field({ label, hint, children, right }: { label: React.ReactNode; hint?
   );
 }
 
-function Slider({ label, value, auto, min = 0, max = 100, onChange, onAuto, left, rightWord, show }: {
+export function Slider({ label, value, auto, min = 0, max = 100, onChange, onAuto, left, rightWord, show }: {
   label: React.ReactNode; value: number; auto?: boolean; min?: number; max?: number; onChange: (v: number) => void; onAuto?: () => void;
   left?: string; rightWord?: string; show?: React.ReactNode;
 }) {
@@ -154,7 +154,7 @@ function Slider({ label, value, auto, min = 0, max = 100, onChange, onAuto, left
   );
 }
 
-function Fold({ title, sub, children, open: start = false }: { title: React.ReactNode; sub?: React.ReactNode; children: React.ReactNode; open?: boolean }) {
+export function Fold({ title, sub, children, open: start = false }: { title: React.ReactNode; sub?: React.ReactNode; children: React.ReactNode; open?: boolean }) {
   const [open, setOpen] = useState(start);
   return (
     <div className={cx("cs-fold", open && "open")}>

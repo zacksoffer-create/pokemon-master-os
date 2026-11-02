@@ -306,6 +306,27 @@ What's in it:
   Their answer depends on how they parent, money at home, your grades and how much they trust you.
 - **Me.** Your stats, grades, teams, the seven-year timeline, your focus and when the story should stop to ask you.
 
+## The editor (change anyone, anything)
+
+For setting your world up exactly how you want it, or fixing something later. It's **on when a story starts**, and
+**Me → Editor** turns it off (and back on whenever you want).
+
+- **Where:** the Story tab shows **Set your world up** for the first week; the Me tab has an **Editor** card (**Edit
+  anyone**, **Edit me**); and every contact page gets an **Edit** button while it's on.
+- **Everyone list:** search anyone by name, or filter to your people, your family, your grade, or everyone in the world.
+- **A person:** name and bio, look, personality (all ten traits), talents, what drives them, skills, interests, and how
+  they're doing right now (mood, energy, social, fun, stress, popularity, GPA, money). Change as much as you want, then
+  **Save changes** (or **Undo**). Works on you too.
+- **Any two people:** **You and Danny** on a person's page, or tap anyone in their people list, or **Someone else…** to
+  pick any pair. Set both sides separately (how Danny feels about you, how you feel about Danny): closeness, attraction,
+  trust, respect, rivalry, how well they know each other. Or one tap: strangers, friends, close friends, best friends,
+  one-way crush either way, like each other, dating, exes, rivals, can't stand each other, looks up to.
+- **Dating is real:** setting two people to dating ends whoever they were with before, and setting them to anything else
+  ends it between them. Attraction past 55 is a crush (and they're into that person's gender from then on).
+- **Quiet:** edits don't send texts, make news or fill your feed. Labels (friend, best friend, rival) and crushes just
+  update to match. Each save is one small entry in the lab's History, so you can see what was changed.
+- Everything is checked before anything changes: if one value is off, nothing is saved and it tells you which.
+
 ## Plan your characters first
 
 Open **My Story → Start your story**. The first step has a **Want to plan it first?** panel:

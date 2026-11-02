@@ -8,6 +8,18 @@ export type Mood = "happy" | "neutral" | "sad" | "angry" | "flirty" | "surprised
 
 export type Scene = { art: string; title: string; line: string; phase: string; season: string; weekend: boolean; break: string | null; time: string };
 export type FeedItem = { id: number; date: string; slot: string; type: string; outcome: string; text: string; with: string[]; importance: number };
+export type EdMini = { id: string; name: string; first: string; color: string; look: Look; year: string; role: string };
+export type EdRel = { affection: number; attraction: number; trust: number; respect: number; rivalry: number; familiarity: number; perceived: number;
+  label: string; crush: boolean };
+export type EdPersonRow = EdMini & { grade: number | null; me: boolean; family: boolean; known: boolean; label: string | null; close: number };
+export type EdSchema = { traits: string[]; aptitudes: string[]; motives: string[]; needs: string[]; skills: { id: string; label: string }[];
+  interests: { id: string; label: string }[]; rel_fields: { id: string; label: string; min: number; max: number }[]; crush_at: number; friend_at: number };
+export type EdPerson = EdMini & { last: string; bio: string; gender: string; grade: number | null; is_me: boolean; look_locked: Partial<Look>;
+  traits: Record<string, number>; aptitudes: Record<string, number>; motives: Record<string, number>; skills: Record<string, number>;
+  interests: Record<string, number>; needs: Record<string, number>; mood: number; popularity: number; money: number; gpa: number; student: boolean;
+  partner: string | null; with_me: { ab: EdRel | null; ba: EdRel | null } | null;
+  rels: (EdMini & { roles: string[]; ab: EdRel | null; ba: EdRel | null })[] };
+export type EdPair = { a: EdMini; b: EdMini; ab: EdRel | null; ba: EdRel | null; roles: string[]; dating: boolean; presets: { id: string; label: string }[] };
 export type MomentGame = { id: string; title: string; secs?: number | null; icon: string };
 export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string; game?: MomentGame }[]; storyline?: string | null;
   episode_label?: string | null; previously?: string | null };
@@ -29,7 +41,7 @@ export type PhoneState = {
   teams: { id: string; name: string; sport: string; record: { w: number; l: number }; mine?: { w: number; l: number }; level: string; position: string }[];
   squad?: { name: string; members: { id: string; first: string; look: Look }[]; cohesion: number; last: string | null;
     plan: { label: string; when: string; joined: boolean } | null; jokes: string[] } | null;
-  control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean };
+  control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean; editor?: boolean };
   setting: { town: string; school: string; short: string; mascot: string };
 };
 export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string;
@@ -73,6 +85,13 @@ export const phoneApi = {
     api.post("/api/phone/choose", crew ? { index, crew, act } : { index }),
   today: (): Promise<Today> => api.get("/api/phone/today"),
   episodes: (): Promise<EpisodeGuide> => api.get("/api/phone/episodes"),
+  // the editor (only while it's on)
+  editor: (): Promise<{ schema: EdSchema; people: EdPersonRow[] }> => api.get("/api/phone/editor"),
+  editorPerson: (id: string): Promise<EdPerson> => api.get(`/api/phone/editor/person/${encodeURIComponent(id)}`),
+  editorSavePerson: (id: string, body: any): Promise<EdPerson> => api.post(`/api/phone/editor/person/${encodeURIComponent(id)}`, body),
+  editorPair: (a: string, b: string): Promise<EdPair> => api.get(`/api/phone/editor/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`),
+  editorSavePair: (a: string, b: string, body: any): Promise<EdPair> =>
+    api.post(`/api/phone/editor/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`, body),
   later: (index: number): Promise<{ queued: string; note: string }> => api.post("/api/phone/later", { index }),
   moment: (id: string, index: number | null, extra: Record<string, any> = {}): Promise<{ lines: Line[]; chips: Chip[]; minigame?: any }> =>
     api.post(`/api/phone/moment/${id}`, index === null ? { ...extra } : { index, ...extra }),

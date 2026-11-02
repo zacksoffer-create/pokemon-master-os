@@ -7,6 +7,7 @@ import { Portrait, Scene } from "./art";
 import { PIcon } from "./icons";
 import { buzz, cx, errText, Face, Lines, money, Sheet, StatChips, useWho } from "./kit";
 import { usePhone } from "./PhoneContext";
+import { SetupNudge } from "./Editor";
 
 const KICKER: Record<string, string> = {
   first_day: "New chapter", cut: "Tryouts", injury: "Injury", benched: "Playing time", offer: "Recruiting", college_decision: "The big decision",
@@ -208,6 +209,7 @@ export default function StoryTab() {
 
       <div className="ph-pad ph-story-b">
         {today && <DayStrip strip={today.strip} />}
+        {!moment && !skip && <SetupNudge />}
         {s.queued && (
           <div className="ph-planned"><PIcon name="clock" size={16} /> Planned: {s.queued.label}</div>
         )}

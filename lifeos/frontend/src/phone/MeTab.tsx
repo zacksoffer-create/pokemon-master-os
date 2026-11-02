@@ -7,6 +7,7 @@ import { Bar, cx, errText, money, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import ClassesCard from "./ClassesCard";
 import DialogueCard from "./DialogueCard";
+import { EditorCard } from "./Editor";
 import { STANDALONE, StoryFilesCard } from "./StoryFiles";
 
 const FOCUS: [string, string, string, string][] = [
@@ -26,6 +27,7 @@ const TOGGLES: [string, string, string][] = [
   ["stop_on_big", "Stop for big moments", "Tryout results, offers, injuries, the big stuff."],
   ["auto_lunch", "Lunch on autopilot", "Sit with your usual table without stopping. Turn it off to pick every lunch."],
   ["class_games", "Class challenges", "Quick games in class most school days (a few seconds each). Off: just quizzes and tests."],
+  ["editor", "Editor", "Change anyone's personality, look, mood and relationships. Turn it off once your world is set up."],
 ];
 const CHAPTERS = ["Fr", "So", "Jr", "Sr", "C1", "C2", "C3"];
 
@@ -151,6 +153,8 @@ export default function MeTab() {
         </div>
 
         <ClassesCard />
+
+        {s.control.editor && <EditorCard />}
 
         <div className="ph-section-t">When should the story stop?</div>
         <div className="ph-card ph-toggles">

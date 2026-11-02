@@ -34,6 +34,7 @@ def control(w) -> dict:
         c["_free_time"] = 1
     c.setdefault("auto_lunch", False)
     c.setdefault("class_games", True)  # quick games in class most school days
+    c.setdefault("editor", True)  # change anyone and anything (on to start; turn it off on the Me tab)
     return c
 
 

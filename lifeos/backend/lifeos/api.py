@@ -1043,7 +1043,7 @@ def api_story_control(body: dict = Body(...)):
             if body["focus"] not in list(FOCUS) + ["balanced"]:
                 raise HTTPException(422, f"focus must be one of balanced, {', '.join(FOCUS)}")
             ctl["focus"] = body["focus"]
-        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games"):
+        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games", "editor"):
             if k in body:
                 ctl[k] = bool(body[k])
         return ctl

@@ -304,6 +304,81 @@ def crew_option(L, me, opts):
                 group="want", reason="The crew, all at once", later=None, gut=False, icon="people")
 
 
+# --- the editor: change anyone, and anything between two people ---------------------------------
+
+def _editor(L):
+    from . import editor
+    if not editor.on(L.w):
+        raise HTTPException(403, "The editor is off. Turn it on in Me → Editor.")
+    return editor
+
+
+@router.get("/api/phone/editor")
+def phone_editor():
+    """Everyone in your world (closest to you first) and what can be edited."""
+    A, L = _lab()
+    with L.lock:
+        _me(L)
+        ed = _editor(L)
+        return {"schema": ed.schema(L.sim), "people": ed.people(L.sim)}
+
+
+@router.get("/api/phone/editor/person/{cid}")
+def phone_editor_person(cid: str):
+    A, L = _lab()
+    with L.lock:
+        _me(L)
+        ed = _editor(L)
+        try:
+            return ed.person(L.sim, cid)
+        except ed.EditorError as e:
+            raise HTTPException(404, str(e))
+
+
+@router.post("/api/phone/editor/person/{cid}")
+def phone_editor_save_person(cid: str, body: dict = Body(...)):
+    """Change a person: {traits: {...}, aptitudes, motives, skills, interests, needs, mood, popularity, money, gpa, first, last, bio, look}."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        ed = _editor(L)
+        try:
+            out = ed.save_person(L.sim, cid, body)
+        except ed.EditorError as e:
+            raise HTTPException(422, str(e))
+        L.autosave()
+        return out
+
+
+@router.get("/api/phone/editor/pair/{a}/{b}")
+def phone_editor_pair(a: str, b: str):
+    A, L = _lab()
+    with L.lock:
+        _me(L)
+        ed = _editor(L)
+        try:
+            return ed.pair(L.sim, a, b)
+        except ed.EditorError as e:
+            raise HTTPException(404, str(e))
+
+
+@router.post("/api/phone/editor/pair/{a}/{b}")
+def phone_editor_save_pair(a: str, b: str, body: dict = Body(...)):
+    """How two people feel about each other: {preset} and/or {ab: {field: value}, ba: {...}} (a's feelings, b's feelings)."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        ed = _editor(L)
+        try:
+            out = ed.save_pair(L.sim, a, b, body)
+        except ed.EditorError as e:
+            raise HTTPException(422, str(e))
+        L.autosave()
+        return out
+
+
 @router.get("/api/phone/episodes")
 def phone_episodes():
     """Your seven years as one show: every season, every episode and what you chose, and what's coming up."""
