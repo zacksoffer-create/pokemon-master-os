@@ -222,6 +222,37 @@ storylines went dark, and none of them were the story's fault:
   it was waiting on (`chapter_order`: behind another chapter; `never_picked`: it was ready but never chosen), instead of
   a bare "year passed".
 
+## Play a storyline start to finish
+
+Me > Story schedule > open a storyline > **Play it start to finish** (or tap a chapter > **Play from here**). Every
+chapter comes one after another, right now, so you can see what's actually in it: you read the scene, choose, see what
+happens (and the next beat if it keeps going), then the next chapter. Each chapter stays on screen as a running script
+(the scene, what you chose, what happened). It plays on a copy of your story (your family and people, everything that's
+happened), so nothing here counts in your real story, and the dates are skipped so you can read straight through.
+Your choices still steer it: a chapter on another branch is skipped and says exactly which choice leads to it ("only
+if you chose “Go with Maya” in “The ask”"), and a chapter about someone nobody in your story fits says so. Play it again
+to choose differently. Scenes you've added to a storyline play in it, right where they were wired in.
+
+## Add a scene right here
+
+From any chapter (in the player, **Add a scene after this one**; on the Story schedule, tap a chapter > **Add a scene
+after this**), say what happens there (or leave it empty and ChatGPT fills the gap), and **Make my ChatGPT prompt**
+builds a prompt for that one spot: the storyline's chapters in their own words (the text, every choice, what each one
+says and remembers; the ones around the spot in full), what you chose when you played it, what else is going on in the
+story at that point (other storylines' scenes in the same weeks first), your family and cast, the facts the story can
+remember, and the exact wiring: the new scene comes `after` the chapter before it, and a `schedule` entry makes the next
+chapter wait for it. Paste ChatGPT's answer, **Check it** (on a copy: does it load, when does it play, does the next
+chapter still follow), **Add it**. It goes in as its own pack ("Additions: <storyline> #n", numbered so additions never
+overwrite each other), and the next prompt for that storyline already includes it.
+
+```
+GET  /api/story/add/weave?pack=&after=&ask=     -> {prompt, where, pack_name, after, next}
+POST /api/story/playline/start {pack, from?}    -> the first chapter (and the ones skipped on the way, with why)
+POST /api/story/playline/choose {index | null}  -> what you read, chose and what happened; the next beat if any
+POST /api/story/playline/next                   -> the next chapter (or done, with your path)
+POST /api/story/playline/stop
+```
+
 ## Add to your story
 
 Me > Story schedule > **Add to your story** (or the API) turns "I want more of this" into scenes that fit:

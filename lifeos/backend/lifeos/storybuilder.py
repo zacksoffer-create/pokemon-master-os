@@ -278,3 +278,207 @@ def preview(new_sim, pack: dict, days: int = 7 * 365 + 10, last: dict | None = N
                 "changed": changed, "already_there": clash, "played_total": played, "coverage": cov,
                 "before": (last or {}).get("played")})
     return out
+
+
+# ---------------------------------------------------------------------------------------- add a scene right here
+
+WEAVE = """You're adding to my LIFE OS story. LIFE OS is a life-simulation game: I play one character from freshman year of \
+high school through college junior year, and storylines (packs of scenes with choices) play out across those years. I \
+want to add to one storyline at one exact spot, so it reads like it was always there.
+
+## What I want
+
+{ask}
+
+## Where it goes
+
+In the storyline **{line}**, {where}
+
+{timing}
+
+## The storyline, as it is now
+
+{content}
+
+## What I chose when I played it
+
+{path}
+
+## What else is going on around then (other storylines)
+
+{around}
+
+## My family and the people in my story
+
+{family}
+
+Cast slots (one specific person; the same slot name in another pack means the same person):
+{cast}
+
+Facts my story can already remember (from any storyline's choices); a new scene can depend on them with "remembered":
+{facts}
+
+## Rules for your reply
+
+- Reply with ONE pack in a ```json block, named exactly "{pack_name}", with "dialogue_pack": 1 and "in_order": true.
+- Write {count}. Give every new scene an id that starts with `{prefix}`.
+- Make them fit exactly here: same people, same voice, same running threads as the chapters around them. Pick up what \
+the chapter before leaves open and set up what the chapter after needs.
+- Wire them in so they play right here:
+{wiring}
+- Set "years" on each new scene to the school year where this spot falls{years_hint}. Use "importance" (ambient, regular, \
+major or finale) honestly.
+- If a new scene is about {who_hint}, copy that cast slot into your pack's "cast" section exactly as it's written above \
+and set "who" to it.
+- 2 to 4 choices per scene, each with a `say` line or two and small effects. A choice can `remember` a new fact (a new \
+name) if a later scene should react to it.
+- Second person ("you"), the way the chapters above are written. Short paragraphs.
+
+The pack format (the parts for scenes and storylines):
+
+"""
+
+
+def _raw_scenes() -> dict:
+    from . import dialogue
+    out = {}
+    for p in dialogue.packs():
+        if p["enabled"]:
+            for sc in p["pack"].get("scenes") or []:
+                if isinstance(sc, dict) and sc.get("id") and sc["id"] not in out:
+                    out[sc["id"]] = sc
+    return out
+
+
+def _first(x) -> str:
+    return (x[0] if isinstance(x, list) and x else x or "") if not isinstance(x, str) else x
+
+
+def _says(ops) -> list:
+    out = []
+    for op in ops or []:
+        if isinstance(op, list) and op and op[0] == "say" and len(op) > 1:
+            out.append(_first(op[1]))
+    return out
+
+
+def _remembers(ops) -> list:
+    return [op[1] for op in ops or [] if isinstance(op, list) and len(op) > 1 and op[0] == "remember"]
+
+
+def _chapter_text(n: int, sc: dict, when: dict, full: bool) -> str:
+    bits = [f"who {sc.get('who')}" if sc.get("who") else None, ", ".join(when.get("years") or []) or None,
+            f"needs {', '.join(when['remembered'])}" if when.get("remembered") else None,
+            f"not if {', '.join(when['not_remembered'])}" if when.get("not_remembered") else None]
+    head = f"### Chapter {n}: {sc.get('title')} (`{sc.get('id')}`)" + (f" · {'; '.join(b for b in bits if b)}" if any(bits) else "")
+    if not full:
+        return head
+    L = [head, "", _first(sc.get("text")).strip(), ""]
+
+    def choices(chs, depth):
+        for ch in chs or []:
+            if not isinstance(ch, dict):
+                continue
+            say = _says(ch.get("ops"))
+            rem = _remembers(ch.get("ops"))
+            L.append("  " * depth + f"- **{ch.get('label')}**" + (f": {say[0]}" if say else "") + (f" (remembers `{'`, `'.join(rem)}`)" if rem else ""))
+            if isinstance(ch.get("then"), dict):
+                L.append("  " * (depth + 1) + f"then: {_first(ch['then'].get('text')).strip()}")
+                choices(ch["then"].get("choices"), depth + 1)
+    choices(sc.get("choices"), 0)
+    return "\n".join(L)
+
+
+def weave_prompt(sim, pack: str, after: str | None, ask: str = "", path: list | None = None) -> dict:
+    """The ChatGPT prompt for adding to one storyline at one spot: the storyline's own words around it, what you chose,
+    what else is happening then, who's who, and exactly how to wire the new scenes in. Returns the prompt and the name
+    the new pack should have."""
+    from . import dialogue, scheduler
+    cat = scheduler.catalog(sim)
+    if pack not in cat["chapters"]:
+        raise KeyError(pack)
+    from .preview import storyline_order
+    order = storyline_order(sim, pack)  # with the scenes you've already added to it
+    p = next(x for x in dialogue.packs() if x["id"] == pack)
+    name = p["pack"].get("name") or "the storyline"
+    raw = _raw_scenes()
+    live = dialogue.merged()["moments"]
+    when_of = lambda s: (live.get(s) or {}).get("scene", {}).get("when") or {}
+    i = order.index(after) if after in order else -1
+    nxt = order[i + 1] if i + 1 < len(order) else None
+    title = lambda s: (raw.get(s) or {}).get("title") or s
+    if i < 0:
+        where = f"before its first chapter, “{title(order[0])}” (`{order[0]}`)." if order else "as its first chapter."
+    elif nxt:
+        where = f"right after chapter {i + 1}, “{title(after)}” (`{after}`), and before chapter {i + 2}, “{title(nxt)}” (`{nxt}`)."
+    else:
+        where = f"after its last chapter, “{title(after)}” (`{after}`): what happens next."
+    rows = {r["sid"]: r for r in scheduler.rows(sim)}
+
+    def when_line(s):
+        r = rows.get(s) or {}
+        w = when_of(s)
+        if r.get("state") == "played":
+            return f"“{title(s)}” played on {r.get('date')}."
+        return (f"“{title(s)}” hasn't happened yet: " + ", ".join(b for b in [
+            ("school year " + ", ".join(w["years"])) if w.get("years") else None,
+            ("months " + ", ".join(str(m) for m in w["months"])) if w.get("months") else None,
+            (f"its season: {r['window_text']}") if r.get("window_text") else None] if b) + ".").replace(": .", ".")
+    timing = "\n".join("- " + when_line(s) for s in [after, nxt] if s)
+    near = set(order[max(0, i - 2): i + 4]) if len(order) > 12 else set(order)
+    content = "\n\n".join(_chapter_text(k + 1, raw.get(s) or {"id": s, "title": title(s)}, when_of(s), s in near) for k, s in enumerate(order))
+    if path:
+        ptxt = "\n".join(f"- “{c['title']}”: " + (" → ".join(f"“{x}”" for x in c["picks"]) or "(didn't get to choose)") for c in path)
+    else:
+        ptxt = "(I haven't played it through; write it so it works whatever I chose.)"
+    years = set()
+    for s in [after, nxt]:
+        years |= set(when_of(s).get("years") or []) if s else set()
+
+    def months(sid):  # the months a scene can come in: its own, or the season map's window
+        w = when_of(sid)
+        if w.get("months"):
+            return set(w["months"])
+        win = (cat["info"].get(sid) or {}).get("window")
+        if isinstance(win, list):
+            return set(win)
+        if isinstance(win, dict):
+            a, b = win["from"][0], win["to"][0]
+            return {((a - 1 + k) % 12) + 1 for k in range(((b - a) % 12) + 1)}
+        return set()
+    spot = set().union(*(months(s) for s in [after, nxt] if s)) if (after or nxt) else set()
+    around, close = [], []
+    for pk, sids in cat["chapters"].items():
+        if pk == pack:
+            continue
+        nm = next((x["pack"].get("name") for x in dialogue.packs() if x["id"] == pk), pk)
+        for s in sids:
+            if years and not (set(when_of(s).get("years") or []) & years):
+                continue
+            (close if spot and months(s) & spot else around).append(f"- {title(s)} ({nm})")
+    around = close + around  # the ones in the same weeks first
+    around_txt = "\n".join(around[:30]) + (f"\n- …and {len(around) - 30} more" if len(around) > 30 else "") if around else "(nothing else at that point)"
+    facts = sorted({f for sc in raw.values() for f in _remembers([op for op in dialogue._all_ops(sc)])})
+    n = sum(1 for x in dialogue.packs() if (x["pack"].get("name") or "").startswith(f"Additions: {name}")) + 1
+    pack_name = f"Additions: {name} #{n}"
+    tag = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")[:16] or "line"
+    prefix = f"add_{tag}_{n}_"
+    if i < 0 and order:
+        wiring = (f"  - Your last new scene: nothing before it. Then keep the storyline going after yours: add "
+                  f"\"schedule\": {{\"{order[0]}\": {{\"after\": [\"<your last new scene id>\"]}}}}.")
+    elif nxt:
+        wiring = (f"  - Your first new scene: \"when\": {{\"after\": [\"{after}\"]}} (add \"gap_days\" if some time should pass).\n"
+                  f"  - Each next new scene: \"after\" the one before it.\n"
+                  f"  - Keep the story's next chapter after yours: \"schedule\": {{\"{nxt}\": {{\"after\": [\"<your last new scene id>\"]}}}}.")
+    else:
+        wiring = (f"  - Your first new scene: \"when\": {{\"after\": [\"{after}\"]}} (add \"gap_days\" if some time should pass).\n"
+                  f"  - Each next new scene: \"after\" the one before it.")
+    who = [sc.get("who") for s in order[max(0, i - 1): i + 2] for sc in [raw.get(s) or {}] if sc.get("who")]
+    body = WEAVE.format(
+        ask=(ask or "").strip() or "A scene that belongs here: whatever this spot in the storyline is missing.", line=name, where=where,
+        timing=timing or "", content=content, path=ptxt, around=around_txt, family=_family(sim), cast=_cast_block(sim),
+        facts=", ".join(f"`{f}`" for f in facts[:200]) or "(none yet)", pack_name=pack_name,
+        count="one scene unless I asked for more (at most three)", prefix=prefix, wiring=wiring,
+        years_hint=f" ({', '.join(sorted(years))})" if years else "", who_hint=f"`{who[0]}`" if who else "someone with a cast slot")
+    text = body + scene_guide(dialogue.guide_markdown())
+    return {"prompt": text, "chars": len(text), "pack_name": pack_name, "where": where, "after": after, "next": nxt}

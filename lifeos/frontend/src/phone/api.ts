@@ -119,6 +119,14 @@ export type UpNextRow = { sid: string; title: string; storyline: string; pack: s
   importance: string; ready: boolean; waits_for: string[] };
 export type UpNext = { now: { sid: string; title: string } | null; list: UpNextRow[]; date: string;
   changes: { sid: string; title: string; waits_for: { sid: string; title: string }[] }[]; note?: string | null; undid?: boolean };
+export type PlayRead = {
+  read: { title: string; text: string; storyline: string; chose: string }; lines: Line[]; moment: Moment | null; chapter_done: boolean;
+};
+export type PlayStep = {
+  moment?: Moment; done?: boolean; chapter?: number; of: number; storyline: string; pack?: string;
+  skipped: { sid: string; chapter: number; title: string; why: string }[];
+  chapters?: { sid: string; title: string }[]; path?: { sid: string; title: string; picks: string[] }[];
+};
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
@@ -162,6 +170,13 @@ export const phoneApi = {
   addPrompt: (ask: string): Promise<{ prompt: string; chars: number; suggestions: string[]; checked: boolean; last_check: { coverage: Coverage } | null }> =>
     api.get(`/api/story/add/prompt?ask=${encodeURIComponent(ask)}`),
   addPreview: (text: string): Promise<AddPreview> => api.post("/api/story/add/preview", { text }),
+  weave: (pack: string, after: string | null, ask: string): Promise<{ prompt: string; chars: number; pack_name: string; where: string; after: string | null; next: string | null }> =>
+    api.get(`/api/story/add/weave?pack=${encodeURIComponent(pack)}&after=${encodeURIComponent(after || "")}&ask=${encodeURIComponent(ask)}`),
+  // play a storyline start to finish, on a copy of your story
+  playStart: (pack: string, from?: string): Promise<PlayStep> => api.post("/api/story/playline/start", { pack, from }),
+  playChoose: (index: number | null): Promise<PlayRead> => api.post("/api/story/playline/choose", { index }),
+  playNext: (): Promise<PlayStep> => api.post("/api/story/playline/next", {}),
+  playStop: () => api.post("/api/story/playline/stop", {}),
   addPack: (text: string) => api.post("/api/dialogue/packs", { text }),
   threads: (): Promise<{ threads: ThreadSummary[] }> => api.get("/api/phone/threads"),
   thread: (tid: string): Promise<Thread> => api.get(`/api/phone/thread/${encodeURIComponent(tid)}`),

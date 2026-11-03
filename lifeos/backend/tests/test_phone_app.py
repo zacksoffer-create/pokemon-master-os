@@ -41,6 +41,12 @@ def test_local_api_answers_like_the_server(tmp_path):
         assert j['status'] == 'done' and j['stop'] == 'episode', j
         st = js(call('GET', '/api/phone/state'))
         assert st['control']['binge'] and st['stories']['binge'] and st['moments'] and st['moments'][0]['storyline']
+        sched = js(call('GET', '/api/story/schedule'))  # play a storyline start to finish, on a copy, on the phone too
+        line = next(x['pack'] for x in sched['storylines'] if x['played'] + x['eligible'] + x['waiting'] + x['queued'] > 0)
+        r = call('POST', '/api/story/playline/start', {{'pack': line}})
+        assert r['status'] == 200, r['body'][:300]
+        if js(r).get('moment'):
+            assert call('POST', '/api/story/playline/choose', {{'index': 0}})['status'] == 200
         up = call('GET', '/api/story/order')  # up next, played forward on a copy, on the phone too
         assert up['status'] == 200 and js(up)['list'], up['body'][:300]
         threads = js(call('GET', '/api/phone/threads'))['threads']

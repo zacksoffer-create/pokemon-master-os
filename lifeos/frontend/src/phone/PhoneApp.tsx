@@ -19,6 +19,7 @@ import MeTab from "./MeTab";
 import Editor from "./Editor";
 import { PhoneProvider, usePhone } from "./PhoneContext";
 import PhoneTab from "./PhoneTab";
+import PlayLine from "./PlayLine";
 import StoryTab from "./StoryTab";
 import "./phone.css";
 
@@ -87,6 +88,7 @@ function Shell({ route }: { route: string[] }) {
   else if (tab === "me") body = <MeTab />;
   else if (tab === "edit") body = <Editor route={route.slice(1)} />;
   else if (tab === "schedule") body = <ScheduleScreen />;
+  else if (tab === "playline") body = <PlayLine route={route.slice(1)} />;
   else body = <StoryTab />;
   return (
     <>

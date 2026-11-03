@@ -1,10 +1,10 @@
 // Story schedule (Me → How much story a day → Story schedule): every storyline, what's played, what's ready, what's
 // waiting and exactly why, and a dry run of the next seven years you can save as a report.
 import React, { useEffect, useState } from "react";
-import { AddPreview, Coverage, phoneApi, ScheduleReport, ScheduleRow, ScheduleView } from "./api";
+import { AddPreview, Coverage, pgo, phoneApi, ScheduleReport, ScheduleRow, ScheduleView } from "./api";
 import { copyText } from "./DialogueCard";
 import { PIcon } from "./icons";
-import { cx, errText } from "./kit";
+import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 
 const STATE_LABEL: Record<string, string> = {
@@ -22,6 +22,8 @@ export function ScheduleScreen() {
   const { toast } = usePhone();
   const [v, setV] = useState<ScheduleView | null>(null);
   const [open, setOpen] = useState<string | null>(null);
+  const [rowOpen, setRowOpen] = useState<string | null>(null);
+  const [weave, setWeave] = useState<{ pack: string; after: string; title: string } | null>(null);
   const [rep, setRep] = useState<ScheduleReport | null>(null);
   const [running, setRunning] = useState(false);
   useEffect(() => {
@@ -77,17 +79,28 @@ export function ScheduleScreen() {
             </button>
             {open === s.pack && (
               <div className="sch-rows">
+                <button className="ph-btn primary block sch-play" onClick={() => pgo(`playline/${encodeURIComponent(s.pack)}`)}>
+                  <PIcon name="skip" size={16} /> Play it start to finish
+                </button>
                 {rows.map((r) => (
-                  <div key={r.sid} className={cx("sch-row", "st-" + r.state)}>
-                    <span className="sch-st">{STATE_LABEL[r.state] || r.state}</span>
-                    <span className="sch-row-m">
-                      <b>{r.title}</b>
-                      <small>
-                        {r.state === "played" ? r.date : why(r)}
-                        {r.window_text && r.state !== "played" ? ` · season: ${r.window_text}` : ""}
-                        {r.importance === "major" || r.importance === "finale" ? ` · ${r.importance}` : ""}
-                      </small>
-                    </span>
+                  <div key={r.sid}>
+                    <button className={cx("sch-row", "st-" + r.state, rowOpen === r.sid && "on")} onClick={() => setRowOpen(rowOpen === r.sid ? null : r.sid)}>
+                      <span className="sch-st">{STATE_LABEL[r.state] || r.state}</span>
+                      <span className="sch-row-m">
+                        <b>{r.title}</b>
+                        <small>
+                          {r.state === "played" ? r.date : why(r)}
+                          {r.window_text && r.state !== "played" ? ` · season: ${r.window_text}` : ""}
+                          {r.importance === "major" || r.importance === "finale" ? ` · ${r.importance}` : ""}
+                        </small>
+                      </span>
+                    </button>
+                    {rowOpen === r.sid && (
+                      <div className="sch-row-acts">
+                        <button className="ph-link" onClick={() => pgo(`playline/${encodeURIComponent(s.pack)}/${encodeURIComponent(r.sid)}`)}>Play from here</button>
+                        <button className="ph-link" onClick={() => setWeave({ pack: s.pack, after: r.sid, title: r.title })}>Add a scene after this</button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -95,6 +108,17 @@ export function ScheduleScreen() {
           </div>
         );
       })}
+      <Sheet open={!!weave} onClose={() => setWeave(null)} title="Add a scene here" full>
+        {weave && (
+          <>
+            <p className="ph-dim small" style={{ marginTop: 0 }}>Right after “{weave.title}”. ChatGPT gets this storyline in its own words, what else is going on then, and exactly how to slot it in.</p>
+            <AddToStory key={weave.after} target={{ pack: weave.pack, after: weave.after }} onAdded={() => {
+              setWeave(null);
+              phoneApi.schedule().then(setV);
+            }} />
+          </>
+        )}
+      </Sheet>
       <div className="sch-legend"><i className="c-played" /> played <i className="c-ready" /> ready <i className="c-wait" /> not yet <i className="c-no" /> won't happen</div>
 
       <div className="sch-h">Check the next seven years</div>
@@ -146,17 +170,19 @@ function CoverageGrid({ c }: { c: Coverage }) {
 }
 
 /** Ask ChatGPT for more story with a prompt that knows yours, then check what it wrote on a copy before adding it. */
-function AddToStory({ onAdded }: { onAdded: () => void }) {
+/** Add to your story with ChatGPT: say what you want, copy the prompt, paste the answer, check it on a copy, add it.
+ * With a target, it's one spot in one storyline ("add a scene right here"); without, the whole story. */
+export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: { pack: string; after: string | null } }) {
   const { toast, refresh } = usePhone();
   const [ask, setAsk] = useState("");
   const [sugg, setSugg] = useState<string[]>([]);
-  const [prompt, setPrompt] = useState<{ text: string; checked: boolean } | null>(null);
+  const [prompt, setPrompt] = useState<{ text: string; checked: boolean; where?: string } | null>(null);
   const [paste, setPaste] = useState("");
   const [pv, setPv] = useState<AddPreview | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   useEffect(() => {
-    phoneApi.addPrompt("").then((r) => setSugg(r.suggestions)).catch(() => undefined);
-  }, []);
+    if (!target) phoneApi.addPrompt("").then((r) => setSugg(r.suggestions)).catch(() => undefined);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const run = async (k: string, fn: () => Promise<void>) => {
     setBusy(k);
     try {
@@ -168,8 +194,13 @@ function AddToStory({ onAdded }: { onAdded: () => void }) {
     }
   };
   const make = () => run("make", async () => {
-    const r = await phoneApi.addPrompt(ask);
-    setPrompt({ text: r.prompt, checked: r.checked });
+    if (target) {
+      const r = await phoneApi.weave(target.pack, target.after, ask);
+      setPrompt({ text: r.prompt, checked: true, where: r.where });
+    } else {
+      const r = await phoneApi.addPrompt(ask);
+      setPrompt({ text: r.prompt, checked: r.checked });
+    }
   });
   const copy = async () => {
     if (!prompt) return;
@@ -195,15 +226,21 @@ function AddToStory({ onAdded }: { onAdded: () => void }) {
   const notNew = (pv?.new || []).filter((x) => x.state !== "played");
   return (
     <div className="sch-card sch-add">
-      <div className="sch-step"><i>1</i><b>What do you want more of?</b></div>
-      <textarea className="ph-input" rows={3} value={ask} placeholder="Like: more sophomore year with the twins, a storyline about my brother's college team, fill the quiet weeks"
+      <div className="sch-step"><i>1</i><b>{target ? "What happens here?" : "What do you want more of?"}</b></div>
+      <textarea className="ph-input" rows={3} value={ask}
+        placeholder={target ? "Like: he gets benched and won't talk about it. Or leave it empty and ChatGPT fills the gap." : "Like: more sophomore year with the twins, a storyline about my brother's college team, fill the quiet weeks"}
         onChange={(e) => setAsk(e.target.value)} />
       <div className="sch-sugg">{sugg.map((s) => <button key={s} onClick={() => setAsk(s)}>{s}</button>)}</div>
       <button className="ph-btn primary block" disabled={!!busy} onClick={make}>{busy === "make" ? <span className="ph-spinner small light" /> : "Make my ChatGPT prompt"}</button>
       {prompt && (
         <div className="sch-prompt">
-          <p className="ph-dim small">Ready: it has your family and cast, every storyline and its scene ids, {prompt.checked ? "how your seven years play right now (from your last check), " : ""}and the rules for an answer the game can load.
-            {!prompt.checked && " Run the check above first and the prompt will know where your story is thin."}</p>
+          {prompt.where ? (
+            <p className="ph-dim small">Ready: it goes {prompt.where.replace(/\.$/, "")}. The prompt has this storyline's chapters in their own words, what you chose when you played it,
+              what else is going on then, your family and cast, and exactly how to wire the new scene in.</p>
+          ) : (
+            <p className="ph-dim small">Ready: it has your family and cast, every storyline and its scene ids, {prompt.checked ? "how your seven years play right now (from your last check), " : ""}and the rules for an answer the game can load.
+              {!prompt.checked && " Run the check above first and the prompt will know where your story is thin."}</p>
+          )}
           <div className="sch-row2">
             <button className="ph-btn block" onClick={copy}>Copy</button>
             {"share" in navigator && <button className="ph-btn block" onClick={share}>Share to ChatGPT</button>}

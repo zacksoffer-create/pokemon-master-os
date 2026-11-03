@@ -1333,6 +1333,70 @@ def api_story_add_prompt(ask: str = ""):
                 "checked": bool(L.w.meta.get("last_check")), "last_check": L.w.meta.get("last_check")}
 
 
+@app.get("/api/story/add/weave")
+def api_story_add_weave(pack: str, after: str = "", ask: str = ""):
+    """Add a scene right here: the ChatGPT prompt for one spot in one storyline (its own words around it, what you chose
+    when you played it, what else is happening then, and exactly how to wire the new scenes in)."""
+    from . import storybuilder
+    L = _story_lab()
+    with L.lock:
+        pl = getattr(L, "playline", None)
+        path = pl.path if pl is not None and pl.pack == pack else None
+        try:
+            return storybuilder.weave_prompt(L.sim, pack, after or None, ask, path)
+        except KeyError:
+            raise HTTPException(404, "no such storyline")
+
+
+# --- play a storyline start to finish (on a copy: nothing counts in your real story) -----------------------------
+
+def _playline(L):
+    pl = getattr(L, "playline", None)
+    if pl is None:
+        raise HTTPException(409, "start playing a storyline first")
+    return pl
+
+
+@app.post("/api/story/playline/start")
+def api_playline_start(body: dict = Body(...)):
+    """{pack, from?}: play this storyline's chapters in a row from the start (or from a chapter), on a copy of your story."""
+    from . import preview
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        try:
+            L.playline = preview.Player(L.sim, body.get("pack"), body.get("from") or None)
+        except KeyError:
+            raise HTTPException(404, "no such storyline")
+        return {**L.playline.present(), "chapters": L.playline.chapters(), "pack": L.playline.pack}
+
+
+@app.post("/api/story/playline/choose")
+def api_playline_choose(body: dict = Body(...)):
+    L = _story_lab()
+    with L.lock:
+        try:
+            ix = body.get("index")
+            return _playline(L).choose(None if ix is None else int(ix))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+
+
+@app.post("/api/story/playline/next")
+def api_playline_next():
+    L = _story_lab()
+    with L.lock:
+        return _playline(L).present()
+
+
+@app.post("/api/story/playline/stop")
+def api_playline_stop():
+    L = _story_lab()
+    with L.lock:
+        L.playline = None
+        return {"ok": True}
+
+
 @app.post("/api/story/add/preview")
 def api_story_add_preview(body: dict = Body(...)):
     """Check a pack ChatGPT wrote and play the seven years forward on a copy with it added. Nothing is saved."""

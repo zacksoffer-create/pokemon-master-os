@@ -592,7 +592,7 @@ function Week({ days }: { days: WeekDay[] }) {
   );
 }
 
-function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: boolean; onPick: (m: Moment, i: number | null) => void }) {
+export function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: boolean; onPick: (m: Moment, i: number | null) => void }) {
   const who = useWho();
   const pid = PERSON_KEYS.map((k) => m.ctx?.[k]).find((v) => typeof v === "string" && who(v));
   const person = pid ? who(pid) : null;
