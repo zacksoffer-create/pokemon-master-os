@@ -50,14 +50,33 @@ export function addsLine(s: Record<string, number>) {
 }
 
 type CastKind = { who: string; label: string; current: { id: string; name: string } | null; options: { id: string; name: string; first: string }[] };
+type CastSlot = { slot: string; label: string; who: string; current: { id: string; name: string; grade: string } | null;
+  options: { id: string; name: string; first: string; year: string }[]; shared_with: string[] };
+type Lockable = { kind: string; who: string; sport: string | null; slot: string };
+const KIND_WORD: Record<string, string> = { older_brother: "older brother", older_sister: "older sister", younger_brother: "younger brother",
+  younger_sister: "younger sister", brother: "brother", sister: "sister", twin: "twin", older_sibling: "older brother or sister",
+  younger_sibling: "younger brother or sister", sibling: "brother or sister", friend: "friend", teammate: "teammate" };
+const LOCK_TO: Record<string, string[]> = { older_sibling: ["older_brother", "older_sister"], younger_sibling: ["younger_brother", "younger_sister"],
+  sibling: ["brother", "sister"], friend: ["friend"], teammate: ["teammate"], twin: ["twin"], older_brother: ["older_brother"],
+  older_sister: ["older_sister"], younger_brother: ["younger_brother"], younger_sister: ["younger_sister"], brother: ["brother"], sister: ["sister"] };
 
-/** Who a storyline is about in your story: the game picks the best fit and keeps them; you can change it. */
-function WhoItsAbout({ pack }: { pack: string }) {
+/** Who a storyline is about in your story: the game picks the best fit and keeps them; you can change it. A storyline can
+ * also be locked onto one named person (a cast slot): the same person every time, in every pack that names them. */
+function WhoItsAbout({ pack, onChanged }: { pack: string; onChanged: () => void }) {
   const { toast } = usePhone();
   const [kinds, setKinds] = useState<CastKind[] | null>(null);
+  const [slots, setSlots] = useState<CastSlot[]>([]);
+  const [lockable, setLockable] = useState<Lockable[]>([]);
+  const [lock, setLock] = useState<{ kind: string; who: string; sport: string; close: boolean } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const load = () => api.get(`/api/dialogue/cast?pack=${encodeURIComponent(pack)}`).then((r) => {
+    setKinds(r.kinds);
+    setSlots(r.slots || []);
+    setLockable(r.lockable || []);
+  }).catch(() => setKinds([]));
   useEffect(() => {
-    api.get(`/api/dialogue/cast?pack=${encodeURIComponent(pack)}`).then((r) => setKinds(r.kinds)).catch(() => setKinds([]));
-  }, [pack]);
+    load();
+  }, [pack]); // eslint-disable-line react-hooks/exhaustive-deps
   const pick = async (who: string, char: string) => {
     try {
       const r = await api.post("/api/dialogue/cast", { pack, who, char: char || null });
@@ -67,11 +86,51 @@ function WhoItsAbout({ pack }: { pack: string }) {
       toast(errText(e), "bad");
     }
   };
+  const pickSlot = async (slot: string, char: string) => {
+    try {
+      const r = await api.post("/api/dialogue/cast", { pack, slot, char });
+      setSlots(r.slots || []);
+      toast("Got it. Every storyline about them uses this person.", "good");
+    } catch (e) {
+      toast(errText(e), "bad");
+    }
+  };
+  const doLock = async () => {
+    if (!lock) return;
+    setBusy(true);
+    try {
+      const body: any = { slot: lock.who, who: lock.who, replace: [lock.kind], sport: lock.sport || null };
+      if (lock.close) Object.assign(body, { bond: { familiarity: 95, affection: 75, trust: 75 }, floor: { affection: 55, trust: 55 } });
+      const r = await api.post(`/api/dialogue/packs/${encodeURIComponent(pack)}/lock-cast`, body);
+      toast(r.bound ? `Locked: ${r.locked} scenes are about ${r.bound.name} now.` : `Locked ${r.locked} scenes. Nobody in your story fits yet, so they'll wait.`, "good");
+      setLock(null);
+      onChanged();
+      load();
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(false);
+    }
+  };
   const many = (kinds || []).filter((k) => k.options.length > 1 || k.current);
-  if (!many.length) return null;
+  if (!many.length && !slots.length && !lockable.length) return null;
   return (
     <div className="dl-cast">
       <div className="dl-sub">Who it's about</div>
+      {slots.map((s) => (
+        <div key={s.slot} className="dl-slot">
+          <label className="dl-cast-row">
+            <span>{s.slot.replace(/_/g, " ")}<small>{s.label}</small></span>
+            {s.options.length > 0 ? (
+              <select className="ph-input" value={s.current?.id || ""} onChange={(e) => pickSlot(s.slot, e.target.value)}>
+                {!s.current && <option value="">Nobody yet</option>}
+                {s.options.map((o) => <option key={o.id} value={o.id}>{o.name} ({o.year})</option>)}
+              </select>
+            ) : <em className="dl-none">Nobody in your story fits</em>}
+          </label>
+          {s.shared_with.length > 0 && <small className="dl-shared">Same person in {s.shared_with.join(", ")}</small>}
+        </div>
+      ))}
       {many.map((k) => (
         <label key={k.who} className="dl-cast-row">
           <span>{k.label}</span>
@@ -81,7 +140,33 @@ function WhoItsAbout({ pack }: { pack: string }) {
           </select>
         </label>
       ))}
+      {lockable.map((l) => (
+        <button key={l.kind} className="dl-lock" onClick={() => setLock({ kind: l.kind, who: l.who, sport: l.sport || "", close: false })}>
+          <PIcon name="check" size={14} /> Lock its {KIND_WORD[l.kind] || l.kind} scenes onto one person
+        </button>
+      ))}
       <p className="ph-dim small">The same person every time this storyline comes up, in its scenes and its texts.</p>
+      <Sheet open={!!lock} onClose={() => setLock(null)} title="Lock who it's about">
+        {lock && (
+          <div className="dl-lock-sheet">
+            <p className="ph-dim small">Its scenes about your {KIND_WORD[lock.kind] || lock.kind} will be about one specific person: bound once, kept through graduation and college, and shared with every storyline locked to the same person. If nobody fits, those scenes wait instead of using someone else.</p>
+            <label className="dl-cast-row"><span>Who it is</span>
+              <select className="ph-input" value={lock.who} onChange={(e) => setLock({ ...lock, who: e.target.value })}>
+                {(LOCK_TO[lock.kind] || [lock.kind]).map((k) => <option key={k} value={k}>Your {KIND_WORD[k] || k}</option>)}
+              </select>
+            </label>
+            <label className="dl-cast-row"><span>Who plays</span>
+              <select className="ph-input" value={lock.sport} onChange={(e) => setLock({ ...lock, sport: e.target.value })}>
+                <option value="">Any (no sport needed)</option>
+                {["basketball", "football", "baseball", "soccer"].map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </label>
+            <label className="dl-check"><input type="checkbox" checked={lock.close} onChange={(e) => setLock({ ...lock, close: e.target.checked })} />
+              <span><b>Inseparable</b><small>Start close (or closer) and stay close: any one choice can sting, but the bond holds.</small></span></label>
+            <button className="ph-btn primary block" disabled={busy} onClick={doLock}>{busy ? "Locking…" : "Lock it"}</button>
+          </div>
+        )}
+      </Sheet>
     </div>
   );
 }
@@ -228,7 +313,7 @@ export default function DialogueCard() {
                 <div className="dl-pack-b">
                   {p.notes && <p className="ph-dim small">{p.notes}</p>}
                   {!p.ok && <Problems errors={p.errors} warnings={[]} />}
-                  {p.ok && <WhoItsAbout pack={p.id} />}
+                  {p.ok && <WhoItsAbout pack={p.id} onChanged={load} />}
                   {p.ok && p.scenes.length > 1 && (
                     <label className="dl-order">
                       <span><b>Play in order</b><small>{p.in_order

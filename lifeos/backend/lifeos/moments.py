@@ -260,6 +260,9 @@ def resolve(sim, mid: str, index: int | None, by: str = "player"):
     if m["kind"] == "class_game":
         from . import classgames
         classgames.after(sim, m, ev, index)  # it counts a little toward that class
+    if ctx.get("cast_slot"):
+        from . import dialogue
+        dialogue.keep_floor(sim, ctx)  # a storyline's bond (inseparable brothers) holds, whatever you chose
     from . import episodes
     episodes.on_resolve(sim, m, ch, ev)
     m["status"] = "resolved"

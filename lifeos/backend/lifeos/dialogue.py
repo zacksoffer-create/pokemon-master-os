@@ -579,8 +579,12 @@ def _check_scene(R, where, sc, seen_ids):
         if k not in ("id", "title", "text", "by_text", "who", "when", "choices", "notes"):
             R.warn(where, f"'{k}' is ignored (a scene has id, title, text, by_text, who, when, choices)")
     who = sc.get("who")
-    if who is not None and who not in WHO:
-        R.err(where + ".who", f"'{who}' isn't a kind of person.{_suggest(who, WHO)} Use: {', '.join(WHO)}")
+    if isinstance(who, str) and who.startswith("cast:"):
+        if who[5:] not in getattr(R, "slots", set()):
+            R.err(where + ".who", f"'{who}' needs a cast slot named '{who[5:]}' in this pack's \"cast\" section"
+                  + (f" (this pack has: {', '.join(sorted(R.slots))})" if getattr(R, "slots", None) else ""))
+    elif who is not None and who not in WHO:
+        R.err(where + ".who", f"'{who}' isn't a kind of person.{_suggest(who, WHO)} Use: {', '.join(WHO)}, or cast:<slot> for a named person")
     names = set(SCENE_NAMES)
     refs = set(SCENE_REFS)
     if not who:
@@ -704,7 +708,7 @@ def check(pack: dict) -> dict:
     elif len(name) > 60:
         R.err("name", "keep the name under 60 characters")
     for k in pack:
-        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order"):
+        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order", "cast"):
             R.warn(k, f"isn't part of a pack and is ignored.{_suggest(k, SECTIONS)}")
     base_texts = _texts_base()
     added = {"texts": 0, "replies": 0, "narration": 0, "moment_choices": 0, "scenes": 0, "duplicates": 0}
@@ -885,6 +889,7 @@ def check(pack: dict) -> dict:
     added["chat"] = _check_chat(R, pack.get("chat", {}))
     added["schedule"] = _check_schedule(R, pack.get("schedule", {}))
 
+    R.slots = _check_cast(R, pack["cast"]) if "cast" in pack else set()  # named people this storyline is about
     scenes = pack.get("scenes", [])
     if not isinstance(scenes, list):
         R.err("scenes", "is a list of scenes")
@@ -1192,6 +1197,13 @@ def _build() -> dict:
                                  "choices": _with_beats(moments, sc["id"], sc["title"], p["id"], sc["choices"], ""),
                                  "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"), "order": n,
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
+    cast = {}  # named people storylines are about: a slot name means the same person in every pack that uses it
+    for p in packs():
+        if p["enabled"]:
+            for name, spec in (p["pack"].get("cast") or {}).items():
+                if isinstance(spec, dict):
+                    d = cast.setdefault(name, {"spec": normalize_slot(spec), "packs": []})
+                    d["packs"].append(p["id"])
     for p in packs():  # a season plan places any storyline's episodes across the seasons
         if p["enabled"]:
             for sid, sch in (p["pack"].get("schedule") or {}).items():
@@ -1205,7 +1217,7 @@ def _build() -> dict:
                             when[k] = v
                     sc["when"] = when
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
-            "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded}
+            "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded, "cast": cast}
 
 
 def _with_beats(moments, sid, title, pack, choices, path) -> list:
@@ -1477,8 +1489,8 @@ def _when_ok(sim, me, sid, when, ignore_time=False) -> bool:
     allseen = w.meta.get("scenes_seen", {})
     after = when.get("after") or []
     after = after if isinstance(after, list) else [after]
-    if any(a not in allseen for a in after):
-        return False
+    if any(a not in allseen and not _expired(sim, me, a) for a in after):
+        return False  # (a chapter whose school years are over counts as skipped, so the story doesn't get stuck)
     if after and when.get("gap_days") and not ignore_time and w.day - max(allseen[a][-1] for a in after) < when["gap_days"]:
         return False
     for f, rng in (when.get("me") or {}).items():
@@ -1494,6 +1506,236 @@ def cast_of(w, pack, who):
 
 def set_cast(w, pack, who, cid):
     w.meta.setdefault("pack_cast", {}).setdefault(pack, {})[who] = cid
+
+
+# ---------------------------------------------------------------------------------------- cast slots
+# A pack can name the people it's about: "cast": {"lead_brother": {"who": "older_brother", "sport": "basketball",
+# "grade_offset": 3}}, and its scenes say "who": "cast:lead_brother". A slot is bound once, to one real person in your story
+# (never a new or changed one), and stays bound for the whole run: through graduation, college, everything. Every pack that
+# uses the same slot name gets the same person. If nobody fits, those scenes just don't happen.
+
+CAST_FIELDS = ("who", "gender", "sport", "grade_offset", "bind", "bond", "floor", "label")
+CAST_ALIASES = {"relationship_to_player": "who", "grade_offset_at_player_freshman": "grade_offset", "grade_offset_at_start": "grade_offset"}
+CAST_SPORT_FLAGS = {"basketball_player": "basketball", "football_player": "football", "baseball_player": "baseball", "soccer_player": "soccer"}
+CAST_ACCEPTED = ("same_high_school_at_start", "bind_once", "notes")  # fine to include: always true / informational
+GENDERS = {"m": "m", "male": "m", "boy": "m", "f": "f", "female": "f", "girl": "f"}
+
+
+def normalize_slot(spec: dict) -> dict:
+    out = {}
+    for k, v in spec.items():
+        if k in CAST_SPORT_FLAGS:
+            if v:
+                out["sport"] = CAST_SPORT_FLAGS[k]
+            continue
+        k2 = CAST_ALIASES.get(k, k)
+        if k2 == "gender":
+            v = GENDERS.get(str(v).lower(), v)
+        if k2 in CAST_FIELDS:
+            out[k2] = v
+    who = out.get("who")
+    if isinstance(who, str) and who.endswith("brother"):
+        out.setdefault("gender", "m")
+    elif isinstance(who, str) and who.endswith("sister"):
+        out.setdefault("gender", "f")
+    out.setdefault("bind", "first_scene")
+    return out
+
+
+def _check_cast(R, cast) -> set:
+    if not isinstance(cast, dict):
+        R.err("cast", 'is an object of named people, like {"lead_brother": {"who": "older_brother", "sport": "basketball"}}')
+        return set()
+    sports = set(_base("sports.json")["sports"])
+    out = set()
+    for name, spec in cast.items():
+        w = f"cast.{name}"
+        if not isinstance(name, str) or not SLUG.match(name):
+            R.err(w, _slug_problem(name))
+            continue
+        if not isinstance(spec, dict):
+            R.err(w, 'is an object like {"who": "older_brother"}')
+            continue
+        for k in spec:
+            if k not in CAST_FIELDS + tuple(CAST_ALIASES) + tuple(CAST_SPORT_FLAGS) + CAST_ACCEPTED:
+                R.warn(w, f"'{k}' is ignored. A cast slot has: {', '.join(CAST_FIELDS)}")
+        n = normalize_slot(spec)
+        who = n.get("who")
+        if who not in CASTABLE:
+            R.err(w + ".who", f"'{who}' isn't a kind of person a slot can be. Use one of: {', '.join(CASTABLE)}")
+            continue
+        g = n.get("gender")
+        if g is not None and g not in ("m", "f"):
+            R.err(w + ".gender", 'is "male" or "female"')
+        elif (g == "f" and who.endswith("brother")) or (g == "m" and who.endswith("sister")):
+            R.err(w + ".gender", f"doesn't match '{who}'")
+        if n.get("sport") is not None and n["sport"] not in sports:
+            R.err(w + ".sport", f"'{n['sport']}' isn't a sport. Sports: {', '.join(sorted(sports))}")
+        off = n.get("grade_offset")
+        if off is not None and (not isinstance(off, int) or isinstance(off, bool) or not -8 <= off <= 8):
+            R.err(w + ".grade_offset", "is how many grades ahead of you they are (3 = a senior when you're a freshman; -2 = two behind)")
+        if n.get("bind") not in ("start", "first_scene"):
+            R.err(w + ".bind", '"start" (bind when the story starts) or "first_scene" (when their first scene comes up)')
+        for key in ("bond", "floor"):
+            v = n.get(key)
+            if v is None:
+                continue
+            if not isinstance(v, dict):
+                R.err(f"{w}.{key}", 'is an object like {"affection": 70, "trust": 70}')
+                continue
+            for f, x in v.items():
+                if f not in REL_FIELDS:
+                    R.err(f"{w}.{key}.{f}", f"isn't part of a relationship. Use: {', '.join(REL_FIELDS)}")
+                elif not isinstance(x, (int, float)) or isinstance(x, bool) or not -100 <= x <= 100:
+                    R.err(f"{w}.{key}.{f}", "is a number from -100 to 100")
+        out.add(name)
+    return out
+
+
+def slot_spec(name):
+    return (merged()["cast"].get(name) or {}).get("spec")
+
+
+def slot_label(spec) -> str:
+    if spec.get("label"):
+        return spec["label"]
+    bits = [WHO.get(spec.get("who"), "someone")[:-1].lower()]
+    if spec.get("sport"):
+        bits.append(f"who plays {spec['sport']}")
+    off = spec.get("grade_offset")
+    if off:
+        bits.append(f"{abs(off)} grade{'s' if abs(off) != 1 else ''} {'ahead of' if off > 0 else 'behind'} you")
+    return ", ".join(bits)
+
+
+def plays(sim, c, sport) -> bool:
+    """On (or was on) that sport's team, or clearly into it."""
+    w = sim.w
+    if any(w.groups.get(g, {}).get("skill") == sport for g in c.memberships):
+        return True
+    if any(isinstance(pm, dict) and w.groups.get(pm.get("group"), {}).get("skill") == sport for pm in c.past_memberships):
+        return True
+    if (c.path or {}).get("sport") == sport:
+        return True
+    return c.skills.get(sport, 0) >= 55 or c.interests.get(sport, 0) >= 70
+
+
+def slot_candidates(sim, me, spec) -> list:
+    """Everyone in your story who fits a slot right now."""
+    w = sim.w
+    out = candidates(sim, me, spec["who"])
+    if spec.get("gender"):
+        out = [o for o in out if w.chars[o].gender == spec["gender"]]
+    if spec.get("sport"):
+        out = [o for o in out if plays(sim, w.chars[o], spec["sport"])]
+    off = spec.get("grade_offset")
+    if off is not None and me.grade:
+        out = [o for o in out if w.chars[o].grade is None or w.chars[o].grade - me.grade == off]
+    return out
+
+
+def bound(sim, name):
+    """Who a slot is bound to (None if it isn't, or if they're gone from your story)."""
+    rec = sim.w.meta.get("cast_slots", {}).get(name)
+    cid = rec and rec.get("id")
+    c = sim.w.chars.get(cid) if cid else None
+    return cid if c and c.status == "active" else None
+
+
+def bind(sim, me, name, cid=None, by="auto"):
+    """The person a slot means in this story: bound once, then the same person every time (even after they graduate).
+    The best fit is the one whose life matches what the storylines say (the brother who plays basketball); ties go the
+    same way every time. Pass cid to pick them yourself."""
+    w = sim.w
+    d = merged()["cast"].get(name)
+    if not d:
+        return None
+    spec = d["spec"]
+    if cid is None:
+        cur = bound(sim, name)
+        if cur or name in w.meta.get("cast_slots", {}):
+            return cur  # bound already (if they've left your story, so does this storyline: nobody gets swapped in)
+        cands = slot_candidates(sim, me, spec)
+        if not cands:
+            return None
+        words = " ".join(_story_words(sim, p) for p in d["packs"])
+        cid = sorted(cands, key=lambda o: (-_fit(sim, o, words), o))[0]
+    w.meta.setdefault("cast_slots", {})[name] = {"id": cid, "day": w.day, "by": by, "who": spec["who"]}
+    w.meta.setdefault("cast_log", []).append([w.day, name, cid, by])
+    _raise_to(sim, me.id, cid, spec.get("bond"))
+    return cid
+
+
+def _raise_to(sim, a, b, levels):
+    """Make sure two people are at least this close (both ways). Never lowers anything."""
+    from .social import label_for
+    w = sim.w
+    if not levels:
+        return
+    for x, y in ((a, b), (b, a)):
+        r = w.ensure_rel(x, y, w.day)
+        for f, v in levels.items():
+            if getattr(r, f, None) is not None and getattr(r, f) < v:
+                setattr(r, f, float(v))
+        r.peak_affection = max(r.peak_affection, r.affection)
+        r.label = label_for(r, w.rules)
+
+
+def keep_floor(sim, ctx):
+    """After a scene with a slot that has a floor: whatever you chose, the bond stays at least that strong."""
+    name = (ctx or {}).get("cast_slot")
+    spec = slot_spec(name) if name else None
+    me = sim.w.meta.get("protagonist")
+    if spec and spec.get("floor") and me and ctx.get("them") in sim.w.chars:
+        _raise_to(sim, me, ctx["them"], spec["floor"])
+
+
+def _expired(sim, me, sid) -> bool:
+    """A scene whose school years are all behind you (it can't happen anymore)."""
+    spec = sim.cat.moments.get(sid) or {}
+    years = ((spec.get("scene") or {}).get("when") or {}).get("years") or []
+    grades = [g for y in years for g in YEARS.get(y, ())]
+    return bool(grades) and max(grades) < (me.grade or 0)
+
+
+def suggest_lock(sim, pack_id, kind) -> dict:
+    """What a general kind most likely means in this storyline, from what it says: older_sibling + "he/his/brother" and
+    "hoops/court" -> your older brother who plays basketball."""
+    words = _story_words(sim, pack_id)
+    he, she = len(re.findall(MALE, words)), len(re.findall(FEMALE, words))
+    base = kind.replace("_sibling", "") if kind != "sibling" else ""
+    pre = f"{base}_" if base else ""
+    who = kind if kind == "twin" else f"{pre}brother" if he > she * 1.5 else f"{pre}sister" if she > he * 1.5 else kind
+    counts = {s: len(re.findall(rx, words)) for s, rx in SPORT_WORDS.items()}
+    sport = max(counts, key=lambda s: counts[s]) if max(counts.values(), default=0) >= 3 else None
+    return {"who": who, "sport": sport, "slot": who}
+
+
+def lock_cast(pack: dict, slot: str, spec: dict, replace: list) -> dict:
+    """Rewrite a pack so its scenes (and texting lines) about a general kind of person are about one named person:
+    adds the cast slot and points those scenes at it. Everything else in the pack stays exactly as it was."""
+    import copy
+    out = copy.deepcopy(pack)
+    cast = out.setdefault("cast", {})
+    cast[slot] = dict(cast.get(slot) or {}, **{k: v for k, v in spec.items() if v is not None})
+    n = 0
+    for sc in out.get("scenes") or []:
+        if isinstance(sc, dict) and sc.get("who") in replace:
+            sc["who"] = f"cast:{slot}"
+            n += 1
+    people = (out.get("chat") or {}).get("people")
+    target = normalize_slot(cast[slot]).get("who")
+    if isinstance(people, dict) and target in WHO:
+        for k in list(people):
+            if k in replace and k != target:
+                lines = people.pop(k)
+                if isinstance(lines, dict) and isinstance(people.get(target), dict):
+                    for sec, v in lines.items():
+                        people[target][sec] = (people[target].get(sec) or []) + (v if isinstance(v, list) else [v])
+                else:
+                    people[target] = lines
+    out["_locked"] = n
+    return out
 
 
 MALE = r"\b(he|him|his|himself|brother|bro|son|guy)\b"
@@ -1549,6 +1791,18 @@ def _context(sim, me, who, when, rng, pack=None) -> dict | None:
     """Who the scene is about and everything its text can say. None if nobody fits."""
     w = sim.w
     ctx = {"me_first": me.first}
+    if who and who.startswith("cast:"):
+        name = who[5:]
+        them = bind(sim, me, name)
+        if not them:
+            return None  # nobody fits that slot in your story: these scenes don't happen
+        if not (all(_in(_rel(w, me.id, them, f), r) for f, r in (when.get("you_feel") or {}).items())
+                and all(_in(_rel(w, them, me.id, f), r) for f, r in (when.get("they_feel") or {}).items())):
+            return None
+        ctx["them"] = them
+        ctx["them_first"] = w.chars[them].first
+        ctx["cast_slot"] = name
+        who = None
     if who:
         cands = candidates(sim, me, who)
         about = [_remembered_who(w, k) for k in when.get("remembered", [])]
@@ -1610,6 +1864,9 @@ def maybe_scene(sim):
     if not me or me.status != "active" or "story" not in w.meta:
         return None
     from . import moments as mo
+    for name, d in merged()["cast"].items():  # slots that bind at the start of the story bind now
+        if d["spec"].get("bind") == "start" and name not in w.meta.get("cast_slots", {}):
+            bind(sim, me, name)
     busy = bool(mo.pending(w))  # another moment is waiting: only a scene with a date (Halloween...) still happens
     seen = w.meta.get("scenes_seen", {})
     last = max((d[-1] for d in seen.values() if d), default=-999)
@@ -1681,6 +1938,8 @@ def try_scene(sim, sid):
     who = spec["scene"].get("who")
     ctx = _context(sim, me, who, when, sim.streams.get("scene-try", w.day, sid), pack=spec["scene"].get("pack"))
     if ctx is None:
+        if isinstance(who, str) and who.startswith("cast:"):
+            raise ValueError(f"nobody in your story fits '{who[5:]}' ({slot_label(slot_spec(who[5:]) or {})})")
         raise ValueError(f"nobody fits '{who}' in your story right now ({WHO.get(who, '')[:-1].lower()})")
     if not _playable(spec, ctx):
         words = {"them": "someone who fits", "best_friend": "a best friend", "partner": "a boyfriend or girlfriend", "pet": "a pet",
@@ -1793,7 +2052,8 @@ How storylines work now:
   {"good": [...], "meh": [...], "bad": [...]}]. Whether it lands depends on what that person likes, and I learn their taste.
 - Mini games can be a choice (["minigame", ...] with great / good / miss outcomes).
 - "who" picks the person the story is about and keeps them for every chapter. Use the most specific kind (older_brother, not
-  older_sibling, when it's about my brother).
+  older_sibling, when it's about my brother). If the pack has a "cast" section (named people) and scenes say "who":
+  "cast:<slot>", keep the cast section and those who values exactly as they are.
 
 Do all of this:
 1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep every scene id and line that's
@@ -1979,6 +2239,31 @@ def guide_markdown() -> str:
       "when they exist. Keep at least two choices that work for anybody.\n")
     a("**Choices**: `label` (what you do or say), optional `hint`, `fits` (which personalities lean this way when the game picks for "
       "you, trait: -1..1), and `ops`.\n")
+    a("## Cast slots: one specific person (`cast`)\n")
+    a("When a storyline is about one specific person (your older brother, the basketball star; your twin), name them in a "
+      "`cast` section and set the scenes' `who` to `cast:<slot>`. A slot is bound once, to one real person already in the "
+      "player's story (never a new or changed one), and kept for the whole run: through graduation, college, everything. "
+      "Every pack that uses the same slot name gets the same person, so two storylines about the same brother should use "
+      "the same slot name. If nobody in the story fits, those scenes don't happen (it never falls back to someone else, "
+      "like a sister for a brother story). The player can see and change who a slot is on the pack's card.\n")
+    a("| field | what it means |")
+    a("|---|---|")
+    a("| `who` (required) | the kind of person: " + ", ".join(f"`{k}`" for k in CASTABLE) + ". Use the specific kind: `older_brother`, not `older_sibling`. |")
+    a("| `sport` | they play (or played) this sport: on its team, or clearly into it |")
+    a("| `grade_offset` | how many grades ahead of the player they are: 3 = a senior when the player is a freshman (-2 = two behind) |")
+    a("| `bind` | `start` (bind as soon as the story runs with this pack) or `first_scene` (default: when their first scene comes up) |")
+    a("| `bond` | start at least this close, both ways, once, when they're bound: `{\"familiarity\": 95, \"affection\": 75, \"trust\": 75}` |")
+    a("| `floor` | in these storylines, the relationship never drops below this, whatever the player chooses: `{\"affection\": 55}` |")
+    a("| `label` | how the pack card describes them (\"Your older brother, the basketball star\") |")
+    a("")
+    a('```json\n"cast": {"lead_brother": {"who": "older_brother", "sport": "basketball", "grade_offset": 3, "bind": "start",\n'
+      '  "bond": {"familiarity": 95, "affection": 75, "trust": 75}, "floor": {"affection": 55, "trust": 55}}},\n'
+      '"scenes": [{"id": "bro_team_01_first_morning", "who": "cast:lead_brother", ...}]\n```\n')
+    a("Also accepted (same meaning): `relationship_to_player` for `who`, `gender` (\"male\"/\"female\", must match `who`), "
+      "`grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer) for `sport`, "
+      "and `same_high_school_at_start`, `bind_once` (always true). Remembered facts (`remember`) keep pointing at the same person "
+      "after they graduate. A chapter whose school `years` are over counts as skipped for `after`, so a missed season doesn't "
+      "strand the rest of the story.\n")
     a("## Trivia (`trivia`)\n")
     a("Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right answer), `w` (exactly three wrong answers), "
       "`g` (the lowest grade it fits: 9 to 12, or 13 for college). Facts must be correct; keep answers short. Math is generated, so "

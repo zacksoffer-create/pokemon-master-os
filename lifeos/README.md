@@ -393,6 +393,33 @@ four short scenes on the Story tab ("Mike's party · 2 of 4"), built around who 
 - Skipping ahead? Your character plays the night for you.
 - Writers: every scene, choice and line is in `backend/data/nights.json`.
 
+## Storylines about one specific person (cast slots)
+
+A storyline can be about one exact person: your older brother, the senior basketball star, not "an older brother or
+sister" (which could land on one of your twin sisters). That's a **cast slot**.
+
+- **In a pack:** a `cast` section names the person (`"lead_brother": {"who": "older_brother", "sport": "basketball",
+  "grade_offset": 3}`), and its scenes say `"who": "cast:lead_brother"`. The pack guide (and the ChatGPT prompts) explain
+  every field: `who`, `sport`, `grade_offset`, `bind` (`start` or `first_scene`), `bond` (start at least this close) and
+  `floor` (stay at least this close, whatever you choose).
+- **Bound once, kept forever:** the slot is bound to one real person already in your story (never a new or changed one)
+  and stays them through graduation, college, all of it. Remembered facts keep pointing at them.
+- **Shared:** every pack that uses the same slot name gets the same person, so two storylines about your brother are about
+  the same brother.
+- **Nobody fits? Nothing happens.** If your story has no older brother who plays basketball, those scenes just don't
+  come up. It never swaps in someone else.
+- **Missed a season?** A chapter whose school years are over counts as skipped, so the rest of the storyline (the
+  college years) still comes.
+- **Lock a pack you already have:** on the pack's card (Me → Dialogue), **Lock its older brother or sister scenes onto
+  one person**: pick **Your older brother**, the sport, and **Inseparable** if they start close and stay close. Every
+  scene that said `older_sibling` now says `cast:older_brother`; names, text, choices and remembered facts don't change.
+  Lock a second pack the same way and it's the same person ("Same person in Friday Nights").
+- **See or change who it is:** the card shows the slot and who it's bound to; pick someone else who fits if you want.
+- **On a computer:** `python lifeos/tools/pack_cast.py pack.json --slot lead_brother --who older_brother --sport basketball
+  --grade-offset 3 --bond familiarity=95,affection=75,trust=75 --floor affection=55,trust=55` rewrites pack files the
+  same way (checked by the game's own checker). `python lifeos/tools/cast_playthrough.py [packs...]` plays a seeded story
+  (you a freshman, twin sisters in 10th, a senior brother) into college and prints who every scene was about.
+
 ## The editor (change anyone, anything)
 
 For setting your world up exactly how you want it, or fixing something later. It's **on when a story starts**, and

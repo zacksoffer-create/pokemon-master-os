@@ -689,6 +689,7 @@ Add up to 5 choices in all to an existing moment. Choices use the same ops as sc
 | `draft_passed` | The draft came and went | {best_friend}, {college_name}, {school}, {town}, {udfa_line} | best_friend |
 | `story_end` | Seven years | {best_friend}, {review}, {school}, {town} | best_friend |
 | `class_quiz` | {exam}: {class_name} | {best_friend}, {class_name}, {exam}, {quiz_line}, {school}, {teacher_line}, {town} | best_friend |
+| `class_game` | {cg_title} | {best_friend}, {cg_go}, {cg_good}, {cg_great}, {cg_hint}, {cg_miss}, {cg_pass}, {cg_pass_label}, {cg_sit}, {cg_sit_label}, {cg_text}, {cg_title}, {school}, {town} | best_friend, them |
 
 ## Scenes (`scenes`)
 
@@ -867,6 +868,28 @@ A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each 
 
 **Choices**: `label` (what you do or say), optional `hint`, `fits` (which personalities lean this way when the game picks for you, trait: -1..1), and `ops`.
 
+## Cast slots: one specific person (`cast`)
+
+When a storyline is about one specific person (your older brother, the basketball star; your twin), name them in a `cast` section and set the scenes' `who` to `cast:<slot>`. A slot is bound once, to one real person already in the player's story (never a new or changed one), and kept for the whole run: through graduation, college, everything. Every pack that uses the same slot name gets the same person, so two storylines about the same brother should use the same slot name. If nobody in the story fits, those scenes don't happen (it never falls back to someone else, like a sister for a brother story). The player can see and change who a slot is on the pack's card.
+
+| field | what it means |
+|---|---|
+| `who` (required) | the kind of person: `sibling`, `older_sibling`, `younger_sibling`, `twin`, `brother`, `sister`, `older_brother`, `older_sister`, `younger_brother`, `younger_sister`, `friend`, `teammate`, `classmate`, `ex`, `coach`. Use the specific kind: `older_brother`, not `older_sibling`. |
+| `sport` | they play (or played) this sport: on its team, or clearly into it |
+| `grade_offset` | how many grades ahead of the player they are: 3 = a senior when the player is a freshman (-2 = two behind) |
+| `bind` | `start` (bind as soon as the story runs with this pack) or `first_scene` (default: when their first scene comes up) |
+| `bond` | start at least this close, both ways, once, when they're bound: `{"familiarity": 95, "affection": 75, "trust": 75}` |
+| `floor` | in these storylines, the relationship never drops below this, whatever the player chooses: `{"affection": 55}` |
+| `label` | how the pack card describes them ("Your older brother, the basketball star") |
+
+```json
+"cast": {"lead_brother": {"who": "older_brother", "sport": "basketball", "grade_offset": 3, "bind": "start",
+  "bond": {"familiarity": 95, "affection": 75, "trust": 75}, "floor": {"affection": 55, "trust": 55}}},
+"scenes": [{"id": "bro_team_01_first_morning", "who": "cast:lead_brother", ...}]
+```
+
+Also accepted (same meaning): `relationship_to_player` for `who`, `gender` ("male"/"female", must match `who`), `grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer) for `sport`, and `same_high_school_at_start`, `bind_once` (always true). Remembered facts (`remember`) keep pointing at the same person after they graduate. A chapter whose school `years` are over counts as skipped for `after`, so a missed season doesn't strand the rest of the story.
+
 ## Trivia (`trivia`)
 
 Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right answer), `w` (exactly three wrong answers), `g` (the lowest grade it fits: 9 to 12, or 13 for college). Facts must be correct; keep answers short. Math is generated, so don't add math. Subjects: `english`, `biology`, `chemistry`, `physics`, `us_history`, `world_history`, `government`, `spanish`, `health`, `art`, `music`, `tech`, `psychology`, `economics`, `general`.
@@ -877,7 +900,7 @@ Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right
 
 ## Mini games (the `minigame` op)
 
-A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "miss": [ops]}, odds if nobody plays]`. The player plays the game right there; great is 80% or better, good 50% or better, anything else a miss, and each picks its own ops (write a different `say` for each). If they skip it, the odds roll instead. Use `"sport"` for the player's own sport in a sports scene. A choice with a game that isn't ready stays hidden, so always keep two other choices. Use them: a scene that turns into a game is the best kind.
+A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "miss": [ops]}, odds if nobody plays]`. The player plays the game right there; great is 80% or better, good 50% or better, anything else a miss, and each picks its own ops (write a different `say` for each). If they skip it, the odds roll instead. Use `"sport"` for the player's own sport in a sports scene. A choice with a game that isn't ready stays hidden, so always keep two other choices. Use them: a scene that turns into a game is the best kind. The quick ones (`hold`, `sweep`, `mathdash`, `flash`, `oddone`, `lineup`, `reflex`) take a few seconds, so they fit anywhere: a bet, a dare, a dumb contest with a friend. (Class already has its own quick games most school days, so your scenes don't need to make class challenges.)
 
 | game | what it is | scenes it fits |
 |---|---|---|
@@ -891,6 +914,13 @@ A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "mis
 | `golf` | Fairway: Nine holes, closest to the pin, the putting green. | a round with a parent, a golf outing, a bet on one hole |
 | `playmaker` | Playmaker: Five on five, and you're passing. Break your man down, find the open man. | running the offense at the park, a pickup run where you have to find the open man |
 | `swing_lab` | Swing Lab: Batting prototype: track the ball, swipe through it as it arrives. | the batting cages, a hitting lesson |
+| `hold` | Hold it: Press and hold. Let go on the line. | a steady pour in chem lab, one brushstroke, a power throw in gym, holding a note (press, hold, let go on the line) |
+| `sweep` | Stop it: Tap to stop the needle in the zone. | stopping a pendulum, hitting the beat, timing a jump rope, any "tap at the right moment" |
+| `mathdash` | Quick math: Five problems, a few seconds each. | mental math with a friend, splitting a check, making change at a register job, counting atoms |
+| `flash` | Flash: Watch the pattern, tap it back. | remembering a pattern, ear training in band, a memory bet |
+| `oddone` | Odd one out: Find the one that's different. | proofreading a friend's essay, spot the difference, a typo on a sign |
+| `lineup` | In order: Tap the cards in the right order. | a timeline review, ranking things with friends, putting cards in order |
+| `reflex` | Quick hands: Wait for it. Tap the instant it goes. | catching something falling, a reaction test, first hand up, a quick-draw bet |
 
 ## Ops
 

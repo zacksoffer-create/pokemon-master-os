@@ -1233,22 +1233,41 @@ def api_dialogue_order(pid: str, body: dict = Body(...)):
 
 @app.get("/api/dialogue/cast")
 def api_dialogue_cast(pack: str):
-    """Who a storyline is about in your story: for each kind of person it uses, who it picked and who else fits."""
+    """Who a storyline is about in your story: for each kind of person it uses, who it picked and who else fits;
+    and for each named person it declares (a cast slot), who that is in this story."""
     from . import dialogue
     L = get_lab()
     w = L.w
     me = w.chars.get(w.meta.get("protagonist") or "")
     if not me:
-        return {"kinds": []}
+        return {"kinds": [], "slots": [], "lockable": []}
     out = []
     with L.lock:
+        p = next((x for x in dialogue.packs() if x["id"] == pack), None)
+        slots = []
+        for name in ((p or {}).get("pack", {}).get("cast") or {}):
+            d = dialogue.merged()["cast"].get(name)
+            if not d:
+                continue
+            cur = dialogue.bound(L.sim, name)
+            opts = dialogue.slot_candidates(L.sim, me, d["spec"])
+            if cur and cur not in opts:
+                opts = [cur] + opts
+            others = [x["pack"].get("name") for x in dialogue.packs() if x["id"] in d["packs"] and x["id"] != pack]
+            slots.append({"slot": name, "label": dialogue.slot_label(d["spec"]), "who": d["spec"]["who"],
+                          "current": cur and {"id": cur, "name": w.chars[cur].name, "grade": w.chars[cur].year_label},
+                          "options": [{"id": o, "name": w.chars[o].name, "first": w.chars[o].first, "year": w.chars[o].year_label} for o in opts],
+                          "shared_with": others})
+        uses = {sc.get("who") for sc in ((p or {}).get("pack", {}).get("scenes") or []) if isinstance(sc, dict)}
+        lockable = [{"kind": k, **dialogue.suggest_lock(L.sim, pack, k)} for k in dialogue.SIBLING_KINDS + ("friend", "teammate")
+                    if k in uses] if p and p["source"] == "yours" else []
         for k in dialogue.pack_kinds(pack):
             cands = dialogue.candidates(L.sim, me, k)
             cur = dialogue.cast_of(w, pack, k)
             cur = cur if cur in cands else None
             out.append({"who": k, "label": dialogue.WHO[k][:-1], "current": cur and {"id": cur, "name": w.chars[cur].name},
                         "options": [{"id": o, "name": w.chars[o].name, "first": w.chars[o].first} for o in cands]})
-    return {"kinds": out}
+    return {"kinds": out, "slots": slots, "lockable": lockable}
 
 
 @app.post("/api/dialogue/cast")
@@ -1261,6 +1280,19 @@ def api_dialogue_set_cast(body: dict = Body(...)):
         w = L.w
         me = w.chars.get(w.meta.get("protagonist") or "")
         pack, who, cid = body.get("pack"), body.get("who"), body.get("char")
+        if me and body.get("slot"):  # a named person (cast slot): pick who it is in this story
+            name = body["slot"]
+            d = dialogue.merged()["cast"].get(name)
+            if not d:
+                raise HTTPException(404, "no such cast slot")
+            if cid is None:
+                w.meta.get("cast_slots", {}).pop(name, None)
+            elif cid not in dialogue.slot_candidates(L.sim, me, d["spec"]) and cid != dialogue.bound(L.sim, name):
+                raise HTTPException(409, f"they don't fit: this storyline is about {dialogue.slot_label(d['spec'])}")
+            else:
+                dialogue.bind(L.sim, me, name, cid, by="you")
+            L.autosave()
+            return api_dialogue_cast(pack)
         if not me or who not in dialogue.WHO:
             raise HTTPException(422, "pick a kind of person")
         if cid is None:
@@ -1271,6 +1303,46 @@ def api_dialogue_set_cast(body: dict = Body(...)):
             dialogue.set_cast(w, pack, who, cid)
         L.autosave()
     return api_dialogue_cast(pack)
+
+
+@app.post("/api/dialogue/packs/{pid}/lock-cast")
+def api_dialogue_lock_cast(pid: str, body: dict = Body(...)):
+    """Make one of your storylines about one specific person: its scenes about a general kind (older_sibling) point at a
+    named cast slot instead ({slot, who, sport?, grade_offset?, bond?, floor?, replace: [kinds], char?}). The pack keeps its
+    name, scenes, choices and remembered facts; only who it's about changes. Then the slot is bound (to char, or the best fit)."""
+    from . import dialogue
+    L = get_lab()
+    L.guard()
+    p = next((x for x in dialogue.packs() if x["id"] == pid), None)
+    if not p:
+        raise HTTPException(404, "no such pack")
+    if p["source"] != "yours":
+        raise HTTPException(409, "built-in packs can't be changed")
+    slot = str(body.get("slot") or body.get("who") or "")
+    spec = {k: body.get(k) for k in ("who", "sport", "grade_offset", "bond", "floor", "bind", "label")}
+    replace = body.get("replace") or ["older_sibling"]
+    new = dialogue.lock_cast(p["pack"], slot, spec, replace)
+    n = new.pop("_locked", 0)
+    rep = dialogue.check(new)
+    if not rep["ok"]:
+        return JSONResponse({"detail": "that doesn't work", "errors": rep["errors"]}, status_code=422)
+    if n == 0 and not body.get("force"):
+        raise HTTPException(409, f"none of its scenes are about {', '.join(replace)}")
+    r = dialogue.add_pack(new)
+    _dialogue_changed(L)
+    with L.lock:
+        w = L.w
+        me = w.chars.get(w.meta.get("protagonist") or "")
+        bound = None
+        if me:
+            cid = body.get("char")
+            d = dialogue.merged()["cast"].get(slot)
+            if cid and d and cid in dialogue.slot_candidates(L.sim, me, d["spec"]):
+                bound = dialogue.bind(L.sim, me, slot, cid, by="you")
+            else:
+                bound = dialogue.bind(L.sim, me, slot)
+            L.autosave()
+    return {**_dialogue_list(), "locked": n, "id": r.get("id"), "bound": bound and {"id": bound, "name": L.w.chars[bound].name}}
 
 
 @app.get("/api/dialogue/show-prompt")

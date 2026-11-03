@@ -839,6 +839,28 @@ A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each 
 
 **Choices**: `label` (what you do or say), optional `hint`, `fits` (which personalities lean this way when the game picks for you, trait: -1..1), and `ops`.
 
+## Cast slots: one specific person (`cast`)
+
+When a storyline is about one specific person (your older brother, the basketball star; your twin), name them in a `cast` section and set the scenes' `who` to `cast:<slot>`. A slot is bound once, to one real person already in the player's story (never a new or changed one), and kept for the whole run: through graduation, college, everything. Every pack that uses the same slot name gets the same person, so two storylines about the same brother should use the same slot name. If nobody in the story fits, those scenes don't happen (it never falls back to someone else, like a sister for a brother story). The player can see and change who a slot is on the pack's card.
+
+| field | what it means |
+|---|---|
+| `who` (required) | the kind of person: `sibling`, `older_sibling`, `younger_sibling`, `twin`, `brother`, `sister`, `older_brother`, `older_sister`, `younger_brother`, `younger_sister`, `friend`, `teammate`, `classmate`, `ex`, `coach`. Use the specific kind: `older_brother`, not `older_sibling`. |
+| `sport` | they play (or played) this sport: on its team, or clearly into it |
+| `grade_offset` | how many grades ahead of the player they are: 3 = a senior when the player is a freshman (-2 = two behind) |
+| `bind` | `start` (bind as soon as the story runs with this pack) or `first_scene` (default: when their first scene comes up) |
+| `bond` | start at least this close, both ways, once, when they're bound: `{"familiarity": 95, "affection": 75, "trust": 75}` |
+| `floor` | in these storylines, the relationship never drops below this, whatever the player chooses: `{"affection": 55}` |
+| `label` | how the pack card describes them ("Your older brother, the basketball star") |
+
+```json
+"cast": {"lead_brother": {"who": "older_brother", "sport": "basketball", "grade_offset": 3, "bind": "start",
+  "bond": {"familiarity": 95, "affection": 75, "trust": 75}, "floor": {"affection": 55, "trust": 55}}},
+"scenes": [{"id": "bro_team_01_first_morning", "who": "cast:lead_brother", ...}]
+```
+
+Also accepted (same meaning): `relationship_to_player` for `who`, `gender` ("male"/"female", must match `who`), `grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer) for `sport`, and `same_high_school_at_start`, `bind_once` (always true). Remembered facts (`remember`) keep pointing at the same person after they graduate. A chapter whose school `years` are over counts as skipped for `after`, so a missed season doesn't strand the rest of the story.
+
 ## Trivia (`trivia`)
 
 Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right answer), `w` (exactly three wrong answers), `g` (the lowest grade it fits: 9 to 12, or 13 for college). Facts must be correct; keep answers short. Math is generated, so don't add math. Subjects: `english`, `biology`, `chemistry`, `physics`, `us_history`, `world_history`, `government`, `spanish`, `health`, `art`, `music`, `tech`, `psychology`, `economics`, `general`.
