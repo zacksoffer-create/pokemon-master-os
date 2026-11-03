@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Moment, phoneApi, pgo, PlayRead, PlayStep } from "./api";
 import { PIcon } from "./icons";
-import { cx, errText, Lines, Sheet } from "./kit";
+import { cx, errText, Lines, Sheet, Talk } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { AddToStory } from "./Schedule";
 import { MomentCard } from "./StoryTab";
@@ -82,7 +82,7 @@ export default function PlayLine({ route }: { route: string[] }) {
         <div key={k} className="pl-read">
           {k === 0 && <div className="ph-kicker">{r.read.storyline}</div>}
           {k === 0 ? <h3>{r.read.title}</h3> : null}
-          <p className="pl-text">{r.read.text}</p>
+          <Talk className="pl-text" text={r.read.text} />
           <div className="pl-chose">You: “{r.read.chose}”</div>
           <Lines lines={r.lines} />
         </div>

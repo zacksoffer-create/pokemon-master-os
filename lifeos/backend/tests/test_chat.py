@@ -275,12 +275,21 @@ def test_storyline_people_text_like_themselves(tmp_path, monkeypatch):
     assert not bad["ok"] and "isn't a kind of person" in bad["errors"][0]
 
 
-def test_the_texting_prompt_is_complete_and_its_example_passes():
-    import json
-    import re
-    from lifeos import dialogue
-    p = dialogue.prompt_for_texting()
-    for must in ("chat", "people", "reply.vent", "recent", "ask.general", "flirt_tease", "older_sibling", "ONE JSON code block"):
-        assert must in p, must
-    example = json.loads(re.search(r"## Example\n\n```json\n(.*?)\n```", p, re.S).group(1))
-    assert dialogue.check(example)["ok"], dialogue.check(example)["errors"]
+def test_the_texting_prompt_is_complete_and_its_lines_load(tmp_path, monkeypatch):
+    from lifeos import dialogue, script
+    monkeypatch.setattr(dialogue, "USER_DIR", str(tmp_path / "dialogue"))
+    dialogue.reload()
+    try:
+        assert dialogue.add_script("=== Brothers\ncast: bro = older brother\n\n--- Driveway  [freshman]\nbro: Shoot.\n* Okay\n")["ok"]
+        p = dialogue.prompt_for_texting("yours:brothers")
+        for must in ("=== Brothers texting", "chat people.older_brother.reply.greet.warm:", "reply.vent", "ask.general", "(yesno)",
+                     "reply.flirt", "ONE code block", "chat <path>:"):
+            assert must in p, must
+        answer = ("=== Brothers texting\n\nchat people.older_brother.reply.greet.warm:\nyo\nwhat's good\n\n"
+                  "chat people.older_brother.ask.general:\nu coming to the game (yesno)\nwhat are u doing (doing)\n")
+        r = script.compile_script(answer)
+        assert not r["errors"] and r["summary"]["lines"] == 4, r
+        assert r["packs"][0]["chat"]["people"]["older_brother"]["reply"]["greet"]["warm"] == ["yo", "what's good"]
+    finally:
+        dialogue.reload()
+

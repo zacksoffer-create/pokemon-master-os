@@ -136,7 +136,8 @@ class Player:
         sim, w = self.sim, self.sim.w
         spec = sim.cat.moments[sid]
         when = {k: v for k, v in (spec["scene"].get("when") or {}).items() if k not in ("you_feel", "they_feel", "me")}
-        ctx = dialogue._context(sim, self.me, spec["scene"].get("who"), when, sim.streams.get("preview", w.day, sid), pack=spec["scene"].get("pack"))
+        ctx = dialogue._context(sim, self.me, spec["scene"].get("who"), when, sim.streams.get("preview", w.day, sid), pack=spec["scene"].get("pack"),
+                                cast_refs=spec["scene"].get("cast_refs"))
         if ctx is None or not dialogue._playable(spec, ctx):
             return None
         return dialogue.fire(sim, sid, ctx)

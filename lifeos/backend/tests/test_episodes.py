@@ -21,12 +21,18 @@ def own_packs(tmp_path, monkeypatch):
     dialogue.reload()
 
 
+AROUND = "=== Around school\norder: any\n\n" + "\n".join(
+    f"--- {t}  [freshman · always]\nbest friend: {{Huh.|Okay.}} {t}.\n* Sure | mood +\n* Nah\n"
+    for t in ("Locker jam", "Lunch line", "Fire drill", "Pop quiz rumor", "Bus stop"))
+
+
 def _client():
     from fastapi.testclient import TestClient
     from lifeos import api
     from lifeos.storage import Store
     for p in season_plan():
         dialogue.add_pack(copy.deepcopy(p))
+    assert dialogue.add_script(AROUND)["ok"]  # one-offs that can come any time (so there's always something ready)
     dialogue.reload()
     api.lab = api.Lab(Store(":memory:"), fresh=True)
     c = TestClient(api.app)

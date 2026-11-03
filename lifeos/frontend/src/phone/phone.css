@@ -1219,3 +1219,18 @@ html.ph-html body { color-scheme: light; }
 .lg-pos { font-style: normal; color: var(--ph-dim); font-size: 11px; min-width: 16px; display: inline-block; }
 .sp-wl.d { background: #eeeae3; color: var(--ph-ink-2); }
 .lg-clubs { font-size: 14px; font-weight: 800; line-height: 1.35; }
+
+/* scene text written like a screenplay: narration, then people talking */
+.ph-talk { display: flex; flex-direction: column; gap: 7px; }
+.ph-talk p { margin: 0; }
+.ph-talk p.say b { color: var(--ph-grape); font-weight: 900; margin-right: 2px; }
+.ph-talk p.say b::after { content: ":"; }
+.ph-line .ph-talk p { font-size: 15.5px; font-weight: 700; line-height: 1.42; color: var(--ph-ink); }
+.dl-guide { white-space: pre-wrap; font: 500 12.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ph-ink-2); margin: 0; }
+.ph-root textarea.dl-script { min-height: 55vh; white-space: pre; overflow-wrap: normal; overflow-x: auto; }
+.dl-count { display: block; text-align: right; margin: 4px 2px 0; font-size: 12px; }
+.dl-errbtn { all: unset; display: block; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.dl-problems b small { font-weight: 600; opacity: .8; }
+.dl-castline { margin: 4px 0 8px; }
+.dl-paste-foot { display: flex; gap: 8px; }
+.dl-paste-foot > .ph-btn { flex: 1; }

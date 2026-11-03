@@ -14,6 +14,12 @@ from lifeos import dialogue, moments, scheduler  # noqa: E402
 from tests.test_scheduler import BROTHER, TWINS, season_plan  # noqa: E402
 from tests.test_story import spec  # noqa: E402
 
+BRO_SCENES = ["bro_team_01_first_morning", "bro_team_02_lunch_table", "bro_team_05_tryouts", "bro_team_09_scrimmage",
+              "brother_final_13_senior_night", "bro_team_17_last_school_game", "bro_graduation_day", "bro_college_call"]
+BRO = "=== Brothers: Same Team\ncast: lead_brother = older brother, plays basketball, 3 years older, from the start\n\n" + "\n".join(
+    f"--- {sid.replace('_', ' ')}  [{'sophomore' if sid == 'bro_college_call' else 'freshman'}] #{sid}\n{{lead_brother}} is here.\n"
+    f"* Go for it  | remember {sid}_yes\n* Not today\n" for sid in BRO_SCENES)
+
 
 @pytest.fixture(autouse=True)
 def own_packs(tmp_path, monkeypatch):
@@ -28,7 +34,9 @@ def _client():
     from lifeos import api
     from lifeos.storage import Store
     for p in season_plan():
-        dialogue.add_pack(copy.deepcopy(p))
+        if p["name"] != "Brothers: Same Team":
+            dialogue.add_pack(copy.deepcopy(p))
+    assert dialogue.add_script(BRO)["ok"]
     dialogue.reload()
     api.lab = api.Lab(Store(":memory:"), fresh=True)
     c = TestClient(api.app)
@@ -82,48 +90,57 @@ def test_your_choices_steer_the_branches_and_skipped_chapters_say_why():
     assert r["moment"]["kind"] == "bro_team_05_tryouts" and r["chapter"] == 3
 
 
+BENCHED = """Sure, here's the scene:
+```
+--- Benched  [freshman]
+{lead_brother} sits at the end of the bench all game.
+* Ask him about it
+    lead_brother: Not now.
+* Leave it
+```"""
+
+
 def test_add_a_scene_right_here_prompt():
     c, api = _client()
     bro = _pack(api, "Brothers: Same Team")
     _play_all(c, c.post("/api/story/playline/start", json={"pack": bro}).json())
     r = c.get("/api/story/add/weave", params={"pack": bro, "after": "bro_team_02_lunch_table", "ask": "Mike gets benched and won't talk about it"}).json()
     p = r["prompt"]
-    assert r["pack_name"] == "Additions: Brothers: Same Team #1" and r["next"] == "bro_team_05_tryouts"
-    assert "Mike gets benched" in p and "right after chapter 2" in p and "Mike Soffer" in p
-    assert '"after": ["bro_team_02_lunch_table"]' in p and '"schedule": {"bro_team_05_tryouts": {"after"' in p
-    assert "{them_first} is here." in p, "the storyline's own words"
+    assert r["pack_name"] == "Brothers: Same Team" and r["next"] == "bro_team_05_tryouts"
+    assert "Mike gets benched" in p and "right after scene 2" in p and "Mike Soffer" in p
+    assert "--- bro team 02 lunch table  [freshman] #bro_team_02_lunch_table" in p, "the storyline's own script"
+    assert "{lead_brother} is here." in p and "{lead_brother}" in p
     assert "“Go for it”" in p, "what you chose when you played it"
-    assert "lead_brother" in p and "## Scenes (`scenes`)" in p
-    # ChatGPT's answer, wired as asked, goes in after chapter 2 and chapter 3 waits for it
-    ans = {"dialogue_pack": 1, "name": r["pack_name"], "in_order": True,
-           "cast": {"lead_brother": {"who": "older_brother", "sport": "basketball", "grade_offset": 3, "bind": "start"}},
-           "scenes": [{"id": "add_brothers_same_t_1_benched", "title": "Benched", "who": "cast:lead_brother",
-                       "text": "{them_first} sits at the end of the bench all game.", "when": {"after": ["bro_team_02_lunch_table"], "years": ["freshman"]},
-                       "choices": [{"label": "Ask him about it", "ops": [["say", "\"Not now.\""]]}, {"label": "Leave it", "ops": []}]}],
-           "schedule": {"bro_team_05_tryouts": {"after": ["add_brothers_same_t_1_benched"]}}}
-    pv = c.post("/api/story/add/preview", json={"text": "```json\n" + json.dumps(ans) + "\n```"}).json()
-    assert pv["ok"] and pv["new"][0]["state"] == "played", pv
-    assert c.post("/api/dialogue/packs", json={"pack": ans}).status_code == 200
-    r2 = c.get("/api/story/add/weave", params={"pack": bro, "after": "bro_team_05_tryouts"}).json()
-    assert r2["pack_name"].endswith("#2"), "a second addition doesn't overwrite the first"
+    assert "No `===` line" in p and "# LIFE OS story scripts" in p and "texts <pool>" not in p
+    # ChatGPT's answer: just the scene. Previewed on a copy, then put in right after scene 2
+    pv = c.post("/api/story/add/preview", json={"pack": bro, "after": "bro_team_02_lunch_table", "text": BENCHED}).json()
+    assert pv["ok"], pv
+    assert [x["title"] for x in pv["new"]] == ["Benched"] and pv["new"][0]["state"] == "played", pv["new"]
+    assert bro in pv["replaces"] and "Benched" not in dialogue.script_of(bro), "nothing saved"
+    bad = c.post("/api/story/add/preview", json={"pack": bro, "after": "bro_team_02_lunch_table", "text": BENCHED.replace("* Leave it", "* Leave it | fnu +")}).json()
+    assert not bad["ok"] and bad["error_lines"][0]["yours"] and bad["error_lines"][0]["line"] == 5, bad["error_lines"]
+    ins = c.post("/api/story/add/insert", json={"pack": bro, "after": "bro_team_02_lunch_table", "text": BENCHED})
+    assert ins.status_code == 200, ins.text
+    src = dialogue.script_of(bro)
+    assert src.index("#bro_team_02_lunch_table") < src.index("--- Benched") < src.index("#bro_team_05_tryouts")
 
 
 def test_a_scene_you_added_plays_right_where_it_goes():
     c, api = _client()
     bro = _pack(api, "Brothers: Same Team")
-    ans = {"dialogue_pack": 1, "name": "Additions: Brothers: Same Team #1", "in_order": True,
-           "cast": {"lead_brother": {"who": "older_brother", "sport": "basketball", "grade_offset": 3, "bind": "start"}},
-           "scenes": [{"id": "add_bro_1_benched", "title": "Benched", "who": "cast:lead_brother", "text": "{them_first} sits all game.",
-                       "when": {"after": ["bro_team_02_lunch_table"], "years": ["freshman"]},
-                       "choices": [{"label": "Ask him", "ops": [["say", '"Not now."']]}, {"label": "Leave it", "ops": []}]}],
-           "schedule": {"bro_team_05_tryouts": {"after": ["add_bro_1_benched"]}}}
-    assert c.post("/api/dialogue/packs", json={"pack": ans}).status_code == 200
+    assert c.post("/api/story/add/insert", json={"pack": bro, "after": "bro_team_02_lunch_table", "text": BENCHED}).status_code == 200
+    benched = next(sc["id"] for sc in next(p for p in dialogue.packs() if p["id"] == bro)["pack"]["scenes"] if sc["title"] == "Benched")
     r = c.post("/api/story/playline/start", json={"pack": bro}).json()
-    assert [x["sid"] for x in r["chapters"]][:4] == ["bro_team_01_first_morning", "bro_team_02_lunch_table", "add_bro_1_benched", "bro_team_05_tryouts"]
+    order = ["bro_team_01_first_morning", "bro_team_02_lunch_table", benched, "bro_team_05_tryouts"]
+    assert [x["sid"] for x in r["chapters"]][:4] == order
     played, skipped, _ = _play_all(c, r)
-    assert played[:4] == ["bro_team_01_first_morning", "bro_team_02_lunch_table", "add_bro_1_benched", "bro_team_05_tryouts"] and not skipped
-    p = c.get("/api/story/add/weave", params={"pack": bro, "after": "add_bro_1_benched"}).json()
-    assert "Benched" in p["prompt"] and p["next"] == "bro_team_05_tryouts" and p["pack_name"].endswith("#2")
+    assert played[:4] == order and not skipped
+    p = c.get("/api/story/add/weave", params={"pack": bro, "after": benched}).json()
+    assert "Benched" in p["prompt"] and p["next"] == "bro_team_05_tryouts"
+    # before the first scene, and the errors you'd see pasting nonsense
+    assert c.post("/api/story/add/insert", json={"pack": bro, "after": "", "text": "--- Day zero  [freshman]\nIt starts.\n* Okay\n"}).status_code == 200
+    assert dialogue.script_of(bro).index("--- Day zero") < dialogue.script_of(bro).index("#bro_team_01_first_morning")
+    assert c.post("/api/story/add/insert", json={"pack": bro, "after": "", "text": "just words"}).status_code == 422
 
 
 def test_let_it_happen_and_the_read_back():

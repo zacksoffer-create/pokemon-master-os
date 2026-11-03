@@ -237,19 +237,20 @@ to choose differently. Scenes you've added to a storyline play in it, right wher
 
 From any chapter (in the player, **Add a scene after this one**; on the Story schedule, tap a chapter > **Add a scene
 after this**), say what happens there (or leave it empty and ChatGPT fills the gap), and **Make my ChatGPT prompt**
-builds a prompt for that one spot: the storyline's chapters in their own words (the text, every choice, what each one
-says and remembers; the ones around the spot in full), what you chose when you played it, what else is going on in the
-story at that point (other storylines' scenes in the same weeks first), your family and cast, the facts the story can
-remember, and the exact wiring: the new scene comes `after` the chapter before it, and a `schedule` entry makes the next
-chapter wait for it. Paste ChatGPT's answer, **Check it** (on a copy: does it load, when does it play, does the next
-chapter still follow), **Add it**. It goes in as its own pack ("Additions: <storyline> #n", numbered so additions never
-overwrite each other), and the next prompt for that storyline already includes it.
+builds a prompt for that one spot: the storyline's script (the scenes around the spot in full if it's a long one), what
+you chose when you played it, what else is going on in the story then (other storylines' scenes in the same weeks first),
+your family and cast, and the facts the story can remember. ChatGPT sends back just the new scene (`--- Title [tags]`
+and its lines). Paste it, **Check it** (on a copy: does it load, when does it play), **Add it**: the game puts it into the
+storyline's script right after that scene, so it plays there and the story carries on after it. No wiring, no separate
+file; open the storyline's script and it's there. A problem in what you pasted is reported by its own line number.
 
 ```
-GET  /api/story/add/weave?pack=&after=&ask=     -> {prompt, where, pack_name, after, next}
-POST /api/story/playline/start {pack, from?}    -> the first chapter (and the ones skipped on the way, with why)
-POST /api/story/playline/choose {index | null}  -> what you read, chose and what happened; the next beat if any
-POST /api/story/playline/next                   -> the next chapter (or done, with your path)
+GET  /api/story/add/weave?pack=&after=&ask=        -> {prompt, where, pack_name, after, next}
+POST /api/story/add/preview {pack, after, text}    -> the storyline with it in, played on a copy
+POST /api/story/add/insert {pack, after, text}     -> puts it in the script (after "" = before the first scene)
+POST /api/story/playline/start {pack, from?}       -> the first chapter (and the ones skipped on the way, with why)
+POST /api/story/playline/choose {index | null}     -> what you read, chose and what happened; the next beat if any
+POST /api/story/playline/next                      -> the next chapter (or done, with your path)
 POST /api/story/playline/stop
 ```
 
@@ -259,25 +260,24 @@ Me > Story schedule > **Add to your story** (or the API) turns "I want more of t
 
 1. **Say what you want more of**, or tap a suggestion (fill the quiet weeks, more sophomore and junior year, fix what
    can't happen, a new storyline about someone already in it, bigger payoffs).
-2. **Make my ChatGPT prompt.** It carries your family and cast, every storyline with its scene ids, years, facts and
-   links (as they play after every schedule), how your seven years play right now from your last **Run the check**
-   (scenes per month, the quiet stretches, what can't happen and why), the rules for an answer the game can load, and
-   the scene parts of the pack guide. Copy it or share it straight to the ChatGPT app.
-3. **Paste what ChatGPT gives you** (the whole answer; the game finds the pack inside) and **Check it**. Nothing is
-   saved: the game plays seven years forward on a copy with the new pack in and shows which new scenes play and when,
-   which ones won't and why, what changed for scenes you already have, the before and after count, and the month grid.
-   If it can't load, you get the problems and a **fix-it message** to paste back to ChatGPT.
-4. **Add it to my story.** It goes in as its own pack ("Additions: ..."), so it stacks on what you have and can be
-   turned off any time.
+2. **Make my ChatGPT prompt.** It carries your family and cast (as `cast:` lines, with who each one is in your story),
+   every storyline as its scene lines and tags, the facts their choices remember, how your seven years play right now
+   from your last **Run the check** (scenes per month, the quiet stretches, what can't happen and why), and the storyline
+   part of the script guide. Copy it or share it straight to the ChatGPT app.
+3. **Paste what ChatGPT gives you** (the whole answer; the game finds the script inside) and **Check it**. Nothing is
+   saved: the game plays seven years forward on a copy with it in and shows which new scenes play and when, which ones
+   won't and why, what changed for scenes you already have, the before and after count, and the month grid. If it can't
+   load, you get the problems by line number and a **fix-it message** to paste back to ChatGPT.
+4. **Add it to my story.** Each `=== storyline` becomes its own script. A storyline sent back with the same title
+   replaces yours (that's how ChatGPT adds to one you have).
 
-Additions can also adjust scenes you already have, through a `schedule`: move a scene's years or months, give it a new
-`after` (`"replace_after": true` replaces the old links instead of adding to them), give it a `gap_days`, or retire it
-with `"skip": true`. Timing put on a scene itself instead of inside `"when"` (an easy mistake) is caught at the check.
+A script can also retime scenes you already have, with a `schedule:` block: one line per scene, `Same Team: Cut day
+[sophomore · March · after Prom night]`; `[replace]` swaps its old after-links for the new one, `[skip]` retires it.
 
 ```
 GET  /api/story/add/prompt?ask=...      -> {prompt, chars, suggestions, checked, last_check}
-POST /api/story/add/preview {text|pack} -> {ok, errors, fix_prompt | new, changed, played_total, before, coverage}
-POST /api/dialogue/packs {text|pack}    -> adds it
+POST /api/story/add/preview {text}      -> {ok, errors, error_lines, fix_prompt | new, changed, played_total, before, coverage}
+POST /api/dialogue/packs {text}         -> adds it
 ```
 
 ## Knowing who everyone is
@@ -307,7 +307,7 @@ seriously ("doctor says a couple more weeks. thanks for asking"), and it counts 
   or a senior and a college freshman. Your own choices are yours: if you flirt with or ask out someone older, you're into
   them, and it's up to them.
 - Group names fit the group: "the Bat Girls" only for a group of girls, "the Senior Lot Crowd" only for seniors.
-- Dialogue packs can use the same tags in `when`: `from_guy`, `from_girl`, `to_guy`, `to_girl`, `guys`, `girls`,
+- Story scripts can use the same tags on texting lines: `from_guy`, `from_girl`, `to_guy`, `to_girl`, `guys`, `girls`,
   `same_year`, `older`, `younger` and `hurt` (they're injured), and mods can combine tags (`close+guys`).
 
 ## Teams: boys' and girls', five sports
@@ -624,17 +624,17 @@ What's in it:
   Scene cards say "Season 2 · Episode 6" with the storyline under it; the first episode of a year is the premiere and the
   year in review is the finale. When a storyline picks back up, its episode opens with **Previously**: what happened last
   time and what you chose. **Episode guide** (Me tab) lists every season and episode with what you chose, and what's coming
-  up in each storyline. **Make it one story** (dialogue packs) copies a prompt with all your storylines in it: ChatGPT sends
+  up in each storyline. **Make it one story** (Me > Storylines) copies a prompt with all your storylines in it: ChatGPT sends
   back a **Season plan** pack that schedules every episode across your seven years (`schedule`: years, which episodes from
   other storylines come first, how long after) and adds crossover episodes that tie storylines together. A storyline's
   chapters now come at least 5 days apart (about weekly, like episodes), woven together with the others.
 - **Storylines keep their people.** When a storyline is about "an older sibling" and you have more than one, it picks the
   one it's clearly about (a basketball story that says "he" and "his" gets your brother who plays basketball) and keeps
-  them for every scene and every text after that. Open a storyline in your dialogue packs and **Who it's about** shows who
-  it picked; change it anytime. Packs can also name `brother`, `sister`, `older_brother`, `older_sister`, `younger_brother`
-  and `younger_sister`, and the upgrade prompts tell ChatGPT to use those.
-- **Packs can add texting lines.** A dialogue pack's `chat` section adds to how people answer, what they ask back,
-  follow-ups and flirt lines by style. The pack prompts ask for them, and the checker explains any mistakes.
+  them for every scene and every text after that. Open a storyline under Me > Storylines and **Who it's about** shows who
+  it picked; change it anytime. Scripts can also name `brother`, `sister`, `older brother`, `older sister`, `younger brother`
+  and `younger sister`, and the prompts tell ChatGPT to use those.
+- **Scripts can add texting lines.** A script's `chat <path>:` blocks add to how people answer, what they ask back,
+  follow-ups and flirt lines by style. The texting prompt asks for them, and the checker explains any mistakes.
   People can leave you on read. Contacts show how you feel about everyone and how they *seem* to feel about you (your read, not the truth).
   You only have someone's number once you've actually hung out or gotten close.
 - **Home.** Your family and your pets. A pet is a real animal with needs, moods, a bond with each person and tricks to learn.
@@ -840,7 +840,7 @@ card like "Second period · Chemistry: Fill it to the line". Three choices: **go
 - Quiz and test days stay quizzes. Skipping ahead lets your character decide, so a week skip doesn't stop for these.
 - Don't want them? **Me → Class challenges** turns them off.
 - Writers: the setups (what each teacher says, how it lands) are in `backend/data/class_games.json`, and the order and
-  odd-one-out cards are in its `banks`. Dialogue packs can use the quick games in any scene too (`hold`, `sweep`,
+  odd-one-out cards are in its `banks`. Story scripts can use the quick games in any scene too (`hold`, `sweep`,
   `mathdash`, `flash`, `oddone`, `lineup`, `reflex`).
 
 **Mini games:** short rounds whose results feed the story.
@@ -851,7 +851,7 @@ card like "Second period · Chemistry: Fill it to the line". Three choices: **go
   The first round each day counts as practice (a small skill gain, plus fun), scaled by how you did.
 - **Game day:** **Take over late. Play the big moment yourself.** plays your sport's game. A great round adds +7 to your
   game performance, a good one +3, a miss -2. It appears once that sport's game is ready.
-- **Scenes:** dialogue packs can put a game in a scene, like the built-in pickup soccer scene.
+- **Scenes:** a story script can put a game in a scene (`play soccer`, with `great:` / `good:` / `miss:` outcomes).
 - **Soccer Playmaker** (soccer, 11 v 11) is soccer's game-day game: whoever has the ball is you. Drag to dribble,
   flick toward a teammate to pass (it leads his run), flick at the goal to shoot, hold still to look up while it slows
   down and your forwards run in behind, tap to fake. Game day is Clutch: three attacks against a tougher defense, and
@@ -876,64 +876,70 @@ too. Paste in `lifeos-bridge.js`, call `LifeOS.finish({score, max})` when the ro
 `backend/data/minigames.json`, and rebuild. The full contract is in `frontend/public/minigames/README.md`. Paper toss
 is registered as "coming" and appears once its file lands.
 
-## Add dialogue (with ChatGPT, Claude, or by hand)
+## Story scripts (with ChatGPT, Claude, or by hand)
 
-Texts, reply options, story-feed lines, moment choices and **whole new scenes** come from *dialogue packs*: one JSON file each.
-A pack only adds. Nothing it does can break the base game.
+Everything you add to the story (storylines, one-off scenes, texts, reply buttons, texting lines, story-feed lines,
+trivia) is a **story script**: plain text, like a screenplay. The game reads it, checks every line, and tells you what to
+fix by line number. The game ships with none: you write them.
 
-**On the phone:** Me → **Dialogue packs**.
-1. Tap **Copy the ChatGPT prompt** and paste it into ChatGPT. It carries the full format and every list the game accepts.
-2. Replace the "What I want" line with your idea ("15 more texts from my older brother", "a scene where my twin sisters fight over
-   the car", "make the team group chat funnier").
-3. Copy ChatGPT's whole answer, tap **Paste a pack**, then **Check it**. If something's off, the game says exactly what (and **Copy the
-   problems for ChatGPT** hands the list back to it). **Add to my game**.
-4. Open the pack and tap **Play now** on any scene to see it in your story right away. Packs can be turned off or removed.
-5. **Already made packs?** Open one and tap **Upgrade it**. That copies an upgrade prompt with your pack inside it. ChatGPT keeps
-   everything and makes it much bigger: talk versions, context tags, mods, scene versions, texted versions, mini game choices and
-   new scenes. Paste the answer back and it replaces the old pack (same name). For a pack that isn't on the phone, use **Pack not
-   on this phone? Copy the upgrade prompt** and paste the pack in yourself. The same prompt is in `docs/dialogue-update-prompt.md`.
+```
+=== Same Team
+cast: bro = older brother, plays basketball, 3 years older, close
+when: freshman-junior
 
-**In the lab:** Content Library → **Dialogue**. Same steps. You can also download the guide (`.md`) and all the current dialogue
-(`.json`), so the AI can match what's there.
+--- The tryout list  [freshman · November · weekday]
+The list goes up outside the gym. {bro} is already there.
+bro: You're actually trying out? Coach'll eat you alive.
+* "Watch me."               | confidence +, bro respect +
+    bro: ...Alright. Don't embarrass me.
+* "Help me get ready?"      | bro affection ++, basketball +
+    bro: Driveway. Six a.m. Don't be late.
+    remember bro_trains_you
+* Shrug.                    | bro affection -
 
-**Every line two ways, fitted to the moment, never on repeat:**
-- **Text and talk:** any line can be texted or said in person. A text line is a string, or `{"text", "talk", "when"}`. `talk` is
-  how they'd say it to your face; without it, the game makes one by spelling out the abbreviations and quoting it, then adds
-  who's talking and how ("Jake says, with a shoulder bump"). The IN PERSON pools (`hang_talk`, `date_talk`, `chat_talk`,
-  `awkward_talk`) show in the story feed when you hang out, go on a date or stop and talk.
-- **Context:** `when` tags like `late_night`, `close`, `crush`, `partner`, `stressed` and `you_down` pick the line that fits.
-  **Mods** dress a base line: openers ("u up?"), closers ("lol") and ways of saying it ("{them_first} {says}, grinning"), so one
-  line becomes many.
-- **No repeats:** the game remembers every line it uses and rests it before using it again; bigger pools rest longer. Scene
-  text, `say` lines and texts from scenes can be lists of versions it rotates through.
-- **Scenes by text:** a scene with a `by_text` version can arrive as a text instead (more often on days off, rarely from
-  family). The choices become your replies.
+--- Six a.m.  [next day · if bro_trains_you]
+bro: You're late. {Again.|Shocker.|Unbelievable.}
+* Run the drill             | play basketball
+    great: You hit nine straight. | bro respect ++
+    good: Not bad.               | bro respect +
+    miss: You airball the last one.
+```
 
-**What a pack can add:**
-- **texts:** lines for any of 72 text situations (friend invites, team chat after a win, parents after a report card, siblings,
-  and things people say in person).
-- **replies:** more reply buttons. Each has a tone that decides what it does: warm, funny, vent, flirt, dry, cold...
-- **narration:** story-feed lines.
-- **moment_choices:** extra choices on the built-in moments (a rumor, an injury, getting cut...).
-- **trivia:** more quiz questions by subject.
-- **mods:** openers, closers and ways of saying things, by context.
-- **scenes:** brand-new moments. Each scene has:
-  - `who` it's about: best friend, crush, partner, rival, teammate, an older sibling, your twin, a coach...
-  - `when` it can happen: school year, months, a date like Halloween, weekends, in season, feelings toward that person, your stress
-    or GPA.
-  - 2 to 4 choices. Their effects can be dialogue lines (`say`), a text they send you later (`text`), relationship changes, plans
-    to hang out, a chance roll against your own traits, or a **mini game** you play right there (pickup soccer, HORSE in the
-    driveway, cup pong in a basement, a round of golf, a quiz), with its own outcome for great, good and miss.
-  - `remember` facts that later scenes can depend on, so scenes chain. A follow-up stays with the same person.
+- `=== Title` starts a storyline; its scenes play in the order written, each waiting for the one before (tags hold a
+  scene to its season). `order: any` lets them come in any order. `cast:` names a specific person who stays the same
+  person for the whole story, across storylines.
+- `--- Title [tags]` starts a scene. Tags: school year, month or date, weekday/weekend, `after <scene>`, `next day` /
+  `a week later`, `if <fact>`, feelings (`if bro trust 40+`), stats, how big it is (`small`, `big`, `finale`).
+- `Name: line` is someone talking; the first person who talks is who the scene is about. `{a|b}` gives versions so a
+  line doesn't repeat word for word.
+- `* choice | effects`: effects in plain words (`mood +`, `bro affection ++`, `remember made_jv`, `play basketball`,
+  `60% +athletic`, `vibe funny`). Indent under a choice for what happens: lines, outcomes (`great:` / `good:` / `miss:`
+  for a mini game, `yes:` / `no:` for a roll), or more `*` choices (the scene keeps going, up to five beats deep).
+- Blocks for the game's pools: `texts <pool>:`, `replies <set>:`, `chat <path>:`, `narration <key>:`, `mods ...:`,
+  `trivia <subject>:`, `choices <moment>:`, and `schedule:` to retime any scene.
 
-The game starts at most one pack scene every few days, and dated scenes always get their day. A scene or choice that mentions
-someone only shows up when that person exists. Built-in starter pack: **Everyday life** (14 scenes, 54 texts, 10 replies, mods, and a pickup match you can play). The
-full reference is `docs/dialogue-guide.md`.
+**On the phone:** Me → **Storylines**.
+1. **Copy the ChatGPT prompt**, paste it into ChatGPT, replace the "What I want" line with your idea.
+2. Copy ChatGPT's whole answer, tap **Paste a script**, **Check it**, **Add to my game**. Problems come back by line
+   number; tap one and the cursor jumps to that line, or **Copy the problems for ChatGPT** for a fix-it message.
+3. Open a storyline: **Read and edit the script** (edit right on the phone; nothing changes until it checks out),
+   **Play now** on any scene, **Build it out** (ChatGPT gets the whole script and sends it back bigger; paste it and it
+   replaces the old one, same title), **Upgrade its texting** (chat lines for its people), turn it on or off, remove it.
+4. **Make it one story**: a season plan prompt with every storyline's scene lines; ChatGPT sends back crossover scenes
+   and a `schedule:` block that times everything across your seven years.
 
-**For Claude (or anyone editing the repo):** put the pack in `backend/data/dialogue/<name>.json` and check it with
-`python -m lifeos.dialogue check backend/data/dialogue/<name>.json` (run from `backend/`). Then rebuild the phone app
-(`python lifeos/tools/build_phone_app.py`) and push. Built-in packs load for everyone; packs loaded in the app are kept in
-`var/dialogue/` (lab) or on the phone.
+**In the lab:** Content Library → **Dialogue**. Same steps, plus downloading the guide.
+
+Scenes on screen read like the script: narration, then each line of talk with the speaker's name. The game still rests
+every line it uses before using it again, fits texting lines to the moment (`when` tags like `late_night`, `close`,
+`crush`), and dresses lines with openers, closers and ways of saying things (`mods`).
+
+The full reference is `docs/story-script-guide.md` (generated from the game's own lists, so it's never out of date), and
+the prompt is `docs/story-script-prompt.md`.
+
+**For Claude (or anyone editing the repo):** write the script, check it with
+`python -m lifeos.dialogue check my-story.story` (run from `backend/`), and drop it in `var/dialogue/` (lab) or paste it
+on the phone. Scripts are saved one storyline per `.story` file.
 
 ## Tests
 
@@ -1026,8 +1032,8 @@ lifeos/
   backend/
     data/                the data catalogs (JSON): rules schema, actions, world, people, templates, goals,
                          sports, colleges, story moments, texts
-      dialogue/          built-in dialogue packs (Everyday life)
-    lifeos/              the engine and API (Python); dialogue.py loads and checks dialogue packs
+      dialogue/          (empty: the game ships no storylines; yours are .story scripts)
+    lifeos/              the engine and API (Python); script.py compiles story scripts, dialogue.py loads them
       rng.py rules.py catalogs.py model.py history.py calendar.py worldgen.py
       decision.py actions.py social.py institutions.py households.py development.py
       sports.py college.py story.py moments.py

@@ -1399,15 +1399,55 @@ def api_playline_stop():
 
 @app.post("/api/story/add/preview")
 def api_story_add_preview(body: dict = Body(...)):
-    """Check a pack ChatGPT wrote and play the seven years forward on a copy with it added. Nothing is saved."""
-    from . import storybuilder
+    """Check what ChatGPT wrote (a story script, or {pack, after, text} for scenes going in at one spot) and play the
+    seven years forward on a copy with it in. Nothing is saved."""
+    from . import dialogue, script, storybuilder
     L = _story_lab()
+    text = body.get("text") if isinstance(body.get("text"), str) else None
+    if text is not None and (body.get("after") is not None or body.get("into")) and body.get("pack"):
+        pid = body["pack"]
+        try:
+            new, first, n = dialogue.with_inserted(pid, body.get("after") or None, text)
+        except KeyError:
+            raise HTTPException(404, "no such scene in that storyline")
+        except ValueError as e:
+            return {"ok": False, "errors": [str(e)], "warnings": [], "fix_prompt": None}
+        with L.lock:
+            out = storybuilder.preview(lambda: _copy_sim(L), None, last=L.w.meta.get("last_check"), text=new, replaces=pid)
+        if not out["ok"]:  # errors in the pasted scenes use its own line numbers
+            el = [{"line": e["line"] - first + 1, "text": e["text"], "yours": True} if first <= e["line"] < first + n
+                  else {**e, "yours": False} for e in out.get("error_lines") or []]
+            out["error_lines"] = el
+            out["errors"] = [f"{'line' if x['yours'] else 'storyline line'} {x['line']}: {x['text']}" for x in el]
+            out["fix_prompt"] = storybuilder.fix_prompt(out["errors"], script.extract(text))
+        return out
+    if text is not None and script.looks_like_script(text):
+        with L.lock:
+            return storybuilder.preview(lambda: _copy_sim(L), None, last=L.w.meta.get("last_check"), text=text)
     try:
         pack = _pack_from(body)
     except ValueError as e:
         return {"ok": False, "errors": [str(e)], "warnings": [], "fix_prompt": None}
     with L.lock:
         return storybuilder.preview(lambda: _copy_sim(L), pack, last=L.w.meta.get("last_check"))
+
+
+@app.post("/api/story/add/insert")
+def api_story_add_insert(body: dict = Body(...)):
+    """{pack, after, text}: put new scenes into a storyline right after one of its scenes (after empty: before the first).
+    They go into its script, in order, and the story carries on after them."""
+    from . import dialogue
+    L = _story_lab()
+    try:
+        r = dialogue.insert_scenes(body.get("pack") or "", body.get("after") or None, body.get("text") or "")
+    except KeyError:
+        raise HTTPException(404, "no such storyline or scene")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    if not r["ok"]:
+        raise HTTPException(422, {"errors": r["errors"], "error_lines": r["error_lines"]})
+    _dialogue_changed(L)
+    return {**r, "packs": _dialogue_list()}
 
 
 @app.post("/api/story/schedule/season_map")
@@ -1552,7 +1592,12 @@ def api_dialogue_packs():
 
 @app.post("/api/dialogue/check")
 def api_dialogue_check(body: dict = Body(...)):
-    from . import dialogue
+    from . import dialogue, script
+    if isinstance(body.get("text"), str) and script.looks_like_script(script.extract(body["text"])):
+        r = script.compile_script(script.extract(body["text"]))
+        return {"ok": not r["errors"], "script": True, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]],
+                "error_lines": r["errors"], "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]],
+                "summary": r["summary"], "name": ", ".join(p["name"] for p in r["packs"])}
     try:
         pack = _pack_from(body)
     except ValueError as e:
@@ -1562,8 +1607,15 @@ def api_dialogue_check(body: dict = Body(...)):
 
 @app.post("/api/dialogue/packs")
 def api_dialogue_add(body: dict = Body(...)):
-    from . import dialogue
+    from . import dialogue, script
     L = get_lab()
+    if isinstance(body.get("text"), str) and script.looks_like_script(script.extract(body["text"])):
+        r = dialogue.add_script(body["text"])
+        if not r["ok"]:
+            return JSONResponse({"detail": "the script has a few problems", "errors": r["errors"], "error_lines": r["error_lines"],
+                                 "warnings": r["warnings"]}, status_code=422)
+        _dialogue_changed(L)
+        return {**_dialogue_list(), "added": r["ids"][0], "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"]}
     try:
         pack = _pack_from(body)
     except ValueError as e:
@@ -1573,6 +1625,33 @@ def api_dialogue_add(body: dict = Body(...)):
         return JSONResponse({"detail": "the pack has a few problems", "errors": r["errors"], "warnings": r["warnings"]}, status_code=422)
     _dialogue_changed(L)
     return {**_dialogue_list(), "added": r["id"], "warnings": r["warnings"], "summary": r["summary"]}
+
+
+@app.get("/api/dialogue/packs/{pid}/script")
+def api_dialogue_script(pid: str):
+    """A storyline's script, to read or edit."""
+    from . import dialogue
+    try:
+        return {"id": pid, "text": dialogue.script_of(pid)}
+    except KeyError:
+        raise HTTPException(404, "no such storyline")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
+
+
+@app.post("/api/dialogue/packs/{pid}/script")
+def api_dialogue_script_save(pid: str, body: dict = Body(...)):
+    """Save an edited script (it's checked first: nothing changes if it has problems)."""
+    from . import dialogue
+    L = get_lab()
+    if not any(p["id"] == pid for p in dialogue.packs()):
+        raise HTTPException(404, "no such storyline")
+    r = dialogue.add_script(str(body.get("text") or ""), into=pid)
+    if not r["ok"]:
+        return JSONResponse({"detail": "the script has a few problems", "errors": r["errors"], "error_lines": r["error_lines"],
+                             "warnings": r["warnings"]}, status_code=422)
+    _dialogue_changed(L)
+    return {**_dialogue_list(), "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"]}
 
 
 @app.post("/api/dialogue/packs/{pid}/enabled")
@@ -1606,10 +1685,18 @@ def api_dialogue_guide(download: int = 0):
     return Response(dialogue.guide_markdown(), media_type="text/markdown; charset=utf-8", headers=headers)
 
 
+@app.get("/api/dialogue/guide")
+def api_dialogue_guide_json(story: int = 0):
+    """How to write a story script (to read on the phone)."""
+    from . import script
+    return {"text": script.guide(story_only=bool(story))}
+
+
 @app.get("/api/dialogue/prompt")
-def api_dialogue_prompt():
+def api_dialogue_prompt(ask: str = ""):
+    """The ChatGPT prompt for writing new storylines (the script guide is in it)."""
     from . import dialogue
-    return {"prompt": dialogue.prompt_for_ai()}
+    return {"prompt": dialogue.prompt_for_ai(ask)}
 
 
 @app.post("/api/dialogue/packs/{pid}/order")
@@ -1739,10 +1826,10 @@ def api_dialogue_lock_cast(pid: str, body: dict = Body(...)):
 
 
 @app.get("/api/dialogue/show-prompt")
-def api_dialogue_show_prompt():
+def api_dialogue_show_prompt(ask: str = ""):
     """The prompt that makes all your storylines one story: a season plan with crossover episodes."""
     from . import dialogue
-    return {"prompt": dialogue.prompt_for_show()}
+    return {"prompt": dialogue.prompt_for_show(ask)}
 
 
 @app.get("/api/dialogue/texting-prompt")
@@ -1753,16 +1840,20 @@ def api_dialogue_texting_prompt(pack: str = ""):
         return {"prompt": dialogue.prompt_for_texting(pack or None)}
     except KeyError:
         raise HTTPException(404, "no such pack")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
 
 
 @app.get("/api/dialogue/update-prompt")
-def api_dialogue_update_prompt(pack: str = ""):
-    """The prompt that upgrades a pack you already made: with ?pack=<id> it includes that pack's JSON."""
+def api_dialogue_update_prompt(pack: str = "", ask: str = ""):
+    """The prompt that builds out a storyline: with ?pack=<id> it includes that storyline's script."""
     from . import dialogue
     try:
-        return {"prompt": dialogue.prompt_for_update(pack or None)}
+        return {"prompt": dialogue.prompt_for_update(pack or None, ask)}
     except KeyError:
         raise HTTPException(404, "no such pack")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
 
 
 @app.get("/api/dialogue/current")

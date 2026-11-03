@@ -22,6 +22,74 @@ def own_packs(tmp_path, monkeypatch):
     dialogue.reload()
 
 
+EVERYDAY = """
+=== Everyday life
+order: any
+about: Small moments at home and school.
+
+--- {older sibling} needs a favor #cover_for_me  [freshman-junior · school day · 5% · with older sibling]
+{older sibling} leans into your doorway, already whispering.
+older sibling: If anyone asks, I was at the library till eleven. Deal?
+* Deal. You owe me.                          | older sibling affection ++, remember covered_for_sibling, fits loyalty
+    older sibling: Legend.
+* No way. I'm not lying for you.             | older sibling affection -, fits discipline
+    older sibling: Wow. Okay. Remember this.
+* Only if you drive me to practice all week. | 50% +charisma
+    yes: older sibling: ...Fine. Seven sharp. | older sibling respect +
+    no: older sibling: Forget it.            | older sibling affection -
+
+--- The library story #cover_story_falls_apart  [if covered_for_sibling · school day · 6% · with older sibling]
+Your parents are at the kitchen table with a phone face up between them.
+Mom: Funny thing. The library closes at eight.
+* Stick to the story.                        | 40% +charisma, fits loyalty
+    yes: They don't buy it, but they let it go. | older sibling trust ++, forget covered_for_sibling
+    no: "Nice try. You're both on dishes for a week." | stress +, forget covered_for_sibling
+* Come clean.                                | older sibling affection --, forget covered_for_sibling, text older sibling "seriously??"
+    {older sibling} gets the lecture.
+
+--- {pet} got out #pet_got_out  [if has pet · 3%]
+Someone left the side gate open. {pet} is three yards away and very proud of it.
+* Sprint after them.                         | 45% +athletic
+    yes: You catch {pet} two streets over.    | energy -, mood +
+    no: {pet} thinks this is the best game ever invented. | energy --, stress +
+* Grab the treat bag and shake it.           | 70%
+    yes: {pet} trots right back.              | mood +
+    no: Apparently the neighbor's yard is better than treats. | stress +
+* Get {sibling} to help corner them.         | family affection +
+    {sibling} cuts across the lawn. Teamwork.
+
+--- Your hoodie is missing #hoodie_thief  [4% · with sibling]
+Your favorite hoodie isn't in your drawer. Then {sibling} walks past your door wearing it.
+* Let it go.                                 | sibling affection +
+    sibling: Thank you for your donation.
+* Steal their charger back.                  | fun +
+
+--- Halloween #halloween_plans  [Oct 31 · high school · repeats every 300 days · with best friend]
+best friend: {Okay. What are we doing tonight?|It's Halloween. We're doing something. What?}
+* Party at a senior's house.                 | 55% +sociability
+    yes: Half the school is there.            | fun ++, social +, best friend affection +
+    no: The cops show up at 10:30.            | fun +, stress +
+* Scary movies at your place.                | best friend affection ++, fun +
+* Hand out candy and eat most of it.         | fun +
+
+--- Test tomorrow #test_tomorrow  [school day · often · repeats every 20 days · with friend]
+friend: did u study for tomorrow
+* "Obviously."                               | academics +
+* "...there's a test?"                       | stress +
+
+--- Lunch line #lunch_line  [school day · often · repeats every 20 days · with best friend]
+best friend: They ran out of fries. This is the worst day of my life.
+* Split yours.                               | best friend affection +
+* "Character building."                      | fun +
+"""
+
+
+def install():
+    r = dialogue.add_script(EVERYDAY)
+    assert r["ok"], r["errors"]
+    return r
+
+
 def story(**kw):
     s = spec(per=6, **kw)
     sim = Simulation(create_story(s))
@@ -34,10 +102,14 @@ def story(**kw):
 def test_built_in_packs_are_clean_and_the_guide_lists_everything():
     for p in dialogue.packs():
         assert p["check"]["ok"], (p["id"], p["check"]["errors"])
+    from lifeos import script
     g = dialogue.guide_markdown()
-    for must in ("chatter_school", "sibling_tease", "older_sibling", "remembered", "hang_out", "rumor"):
-        assert must in g
-    assert dialogue.prompt_for_ai().startswith("You're writing dialogue for LIFE OS")
+    for must in ("chatter_school", "sibling_tease", "older sibling", "if <fact>", "remember", "hang_out", "choices <moment>:",
+                 "texts <pool>:", "chat <path>:", "schedule:", "{a|b}"):
+        assert must in g, must
+    assert dialogue.prompt_for_ai().startswith("You're writing for LIFE OS")
+    shape = g.split("## The shape")[1].split("```")[1]
+    assert not script.compile_script(shape)["errors"], "the guide's own example loads"
 
 
 def test_check_explains_mistakes_in_plain_words():
@@ -49,7 +121,7 @@ def test_check_explains_mistakes_in_plain_words():
     msg = " | ".join(r["errors"])
     assert not r["ok"]
     for frag in ("Did you mean chatter_school", "{placee}", "'happy' isn't a tone", "'bff' isn't a kind of person",
-                 "Did you mean chance", "2 to 4 choices", "Did you mean mood"):
+                 "Did you mean chance", "Did you mean mood"):
         assert frag in msg, frag
 
 
@@ -74,12 +146,13 @@ def test_a_pack_pasted_from_chatgpt_loads_and_adds_lines():
     dialogue.remove_pack("yours:more_school_texts")
     assert not any(p["id"] == "yours:more_school_texts" for p in dialogue.packs())
     with pytest.raises(ValueError):
-        dialogue.remove_pack("builtin:everyday_life")
+        dialogue.remove_pack("builtin:anything")
     with pytest.raises(ValueError):
         dialogue.parse_text("sorry, I can't help with that")
 
 
 def test_scenes_play_with_dialogue_texts_and_follow_ups():
+    install()
     sim = story()
     m = dialogue.try_scene(sim, "cover_for_me")
     them = m["ctx"]["them"]
@@ -98,6 +171,7 @@ def test_scenes_play_with_dialogue_texts_and_follow_ups():
 
 
 def test_a_choice_that_needs_someone_only_shows_when_they_exist():
+    install()
     s = spec(per=6)
     s["siblings"] = []
     s["family"]["pet"] = {"species": "dog", "name": "Scout"}
@@ -107,13 +181,14 @@ def test_a_choice_that_needs_someone_only_shows_when_they_exist():
         moments.resolve(sim, m["id"], 0)
     m = dialogue.try_scene(sim, "pet_got_out")
     labels = [c["label"] for c in m["choices"]]
-    assert len(labels) == 2 and not any("help corner" in x for x in labels)
+    assert len(labels) == 2 and not any("corner" in x for x in labels)
     with pytest.raises(ValueError):
         dialogue.try_scene(sim, "hoodie_thief")  # needs a sibling
 
 
 def test_scenes_happen_on_their_own_and_dated_ones_get_their_day():
     from lifeos import calendar as calm
+    install()
     sim = story()
     w = sim.w
     while calm.date_of(w.day) <= calm.date_of(0).replace(month=11, day=1):
@@ -133,8 +208,18 @@ def test_dialogue_api_and_the_phone_engine_layer(tmp_path):
     api.lab = api.Lab(Store(":memory:"), fresh=True)
     c = TestClient(api.app)
     assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
+    assert not c.get("/api/dialogue/packs").json()["packs"], "the game ships no packs: you write them"
+    r = c.post("/api/dialogue/packs", json={"text": "Sure! Here it is:\n```\n" + EVERYDAY + "```"})
+    assert r.status_code == 200 and r.json()["ids"] == ["yours:everyday_life"]
     j = c.get("/api/dialogue/packs").json()
-    assert any(p["id"] == "builtin:everyday_life" and p["enabled"] for p in j["packs"]) and "u_up" in j["scenes"]
+    assert any(p["id"] == "yours:everyday_life" and p["enabled"] and p["kind"] == "script" for p in j["packs"]) and "test_tomorrow" in j["scenes"]
+    src = c.get("/api/dialogue/packs/yours%3Aeveryday_life/script").json()["text"]
+    assert src.startswith("=== Everyday life")
+    bad = c.post("/api/dialogue/packs/yours%3Aeveryday_life/script", json={"text": src.replace("| fun +", "| fnu +", 1)})
+    assert bad.status_code == 422 and bad.json()["error_lines"][0]["line"] > 5
+    ok = c.post("/api/dialogue/packs/yours%3Aeveryday_life/script", json={"text": src.replace("Lunch line", "The lunch line")})
+    assert ok.status_code == 200 and ok.json()["ids"] == ["yours:everyday_life"]
+    assert c.post("/api/dialogue/check", json={"text": EVERYDAY.replace("with best friend]", "with besty]")}).json()["ok"] is False
     bad = c.post("/api/dialogue/packs", json={"text": '{"name": "x", "texts": {"nope": ["hi"]}}'})
     assert bad.status_code == 422 and bad.json()["errors"]
     good = {"name": "Snow day", "scenes": [{
@@ -149,9 +234,10 @@ def test_dialogue_api_and_the_phone_engine_layer(tmp_path):
     assert t.status_code == 200 and t.json()["moment"]["title"] == "Snow day"
     assert c.post("/api/dialogue/packs/yours%3Asnow_day/enabled", json={"enabled": False}).status_code == 200
     assert "snow_day" not in c.get("/api/dialogue/packs").json()["scenes"]
-    assert c.post("/api/dialogue/packs/builtin%3Aeveryday_life/remove").status_code == 409
+    assert c.post("/api/dialogue/packs/builtin%3Anothing/remove").status_code == 409
     assert c.post("/api/dialogue/packs/yours%3Asnow_day/remove").status_code == 200
-    assert "Text pools" in c.get("/api/dialogue/guide.md").text
+    assert c.post("/api/dialogue/packs/yours%3Aeveryday_life/remove").status_code == 200
+    assert "texts <pool>:" in c.get("/api/dialogue/guide.md").text and "# LIFE OS story scripts" in c.get("/api/dialogue/guide").json()["text"]
     assert "texts" in c.get("/api/dialogue/current").json()
     assert len(c.get("/api/dialogue/prompt").json()["prompt"]) > 5000
 
@@ -192,10 +278,11 @@ def test_every_line_two_ways_with_context_mods_and_no_repeats():
     friend = next(o for o in w.out[me.id] if w.chars[o].role != "staff" and o not in sim.siblings(me.id))
     from lifeos import lines, narrative
     # texts from one friend on one day: never the same line twice while there's anything else
-    got = [lines.pick_text(sim, "chatter_school", f"s{i}", frm=friend) for i in range(8)]
+    n = min(8, len(dialogue.texts()["chatter_school"]))
+    got = [lines.pick_text(sim, "chatter_school", f"s{i}", frm=friend) for i in range(n)]
     base = [lines.speakable(x).lower() for x in got]
     assert len(set(got)) == len(got), got
-    assert len({lines.hid(x) for x in got}) == 8 and len(base) == 8
+    assert len({lines.hid(x) for x in got}) == n and len(base) == n
     # context: a parent is family, late at night is late_night
     assert {"family", "parent"} <= lines.tags_for(sim, "parent1")
     assert "late_night" in lines.tags_for(sim, friend, phase="night")
@@ -228,17 +315,21 @@ def test_every_line_two_ways_with_context_mods_and_no_repeats():
     assert said and w.chars[friend].first in said.split("\"")[-1]
 
 
-def test_the_upgrade_prompt_carries_your_pack_and_the_new_ways_to_write():
-    assert dialogue.add_pack({"dialogue_pack": 1, "name": "Old pack", "texts": {"chatter_vent": ["so tired"]}})["ok"]
-    p = dialogue.prompt_for_update("yours:old_pack")
-    assert p.startswith("You're building out a dialogue pack") and '"so tired"' in p and "Every line, two ways" in p
-    assert "[paste your pack's JSON here]" in dialogue.prompt_for_update()
+def test_the_build_out_prompt_carries_your_script():
+    install()
+    p = dialogue.prompt_for_update("yours:everyday_life", "more about the bus")
+    assert p.startswith("You're building out one of my storylines") and "=== Everyday life" in p and "more about the bus" in p
+    assert "# LIFE OS story scripts" in p and "texts <pool>:" not in p, "the storyline part of the guide"
+    assert dialogue.prompt_for_update().startswith("You're writing for LIFE OS")
     with pytest.raises(KeyError):
         dialogue.prompt_for_update("yours:nope")
+    assert dialogue.add_pack({"dialogue_pack": 1, "name": "Old pack", "texts": {"chatter_vent": ["so tired"]}})["ok"]
+    with pytest.raises(ValueError):
+        dialogue.prompt_for_update("yours:old_pack")  # the old JSON format: paste it again as a script
     g = dialogue.guide_markdown()
-    for must in ("## Mods", "late_night", "by_text", "soccer_11", "hang_talk", "Nothing repeats"):
+    for must in ("mods <open|close|talk> <tag>:", "late_night", "soccer_11", "{a|b}", "60% +charisma"):
         assert must in g, must
-    assert "Write a LOT" in dialogue.prompt_for_ai()
+    assert "Write a lot" in dialogue.prompt_for_ai()
 
 
 def test_long_descriptive_ids_and_texted_versions_from_a_coach_load():
@@ -358,8 +449,10 @@ def test_storylines_check_beats_styles_and_chapters():
     assert r["ok"], r["errors"]
     bad = _arc()
     bad["scenes"][1]["who"] = None
-    bad["scenes"][0]["choices"][0]["then"]["choices"][0]["then"] = {"text": "x", "choices": [
-        {"label": "a", "then": {"text": "y", "choices": [{"label": "b"}, {"label": "c"}]}}, {"label": "d"}]}
+    deep = {"label": "z"}
+    for k in range(5):  # five more beats under the two the arc has: past the limit
+        deep = {"label": f"a{k}", "then": {"text": f"beat {k}", "choices": [deep, {"label": f"d{k}"}]}}
+    bad["scenes"][0]["choices"][0]["then"]["choices"][0]["then"] = {"text": "x", "choices": [deep, {"label": "d"}]}
     bad["scenes"][2]["when"]["after"] = ["Not An Id"]
     errs = " | ".join(dialogue.check(bad)["errors"])
     assert "needs the scene to be about someone" in errs and "keep going" in errs and "scene ids" in errs
@@ -412,13 +505,11 @@ def test_a_branch_waits_for_what_you_chose_and_the_label_says_where_you_are():
     assert not dialogue.in_order(pid) and dialogue.chapter_label(sim, "bro_driveway") == "Big brother season"
 
 
-def test_the_build_out_prompt_teaches_storylines_and_its_example_passes():
-    import re
-    p = dialogue.prompt_for_update()
-    for must in ("chapters", '"then"', "remembered", "vibe", "at least 8", "older_brother", "ONE JSON code block"):
-        assert must in p, must
-    ex = re.search(r"## Storylines.*?```json\n(.*?)\n```", p, re.S).group(1)
-    assert dialogue.check({"name": "x", "scenes": [json.loads(ex)]})["ok"]
+def test_every_prompt_asks_for_one_script_block():
+    install()
+    for p in (dialogue.prompt_for_ai(), dialogue.prompt_for_update("yours:everyday_life"), dialogue.prompt_for_texting("yours:everyday_life"),
+              dialogue.prompt_for_show()):
+        assert "ONE code block" in p and "=== " in p and "# LIFE OS story scripts" in p
 
 
 def test_one_big_story_seasons_episodes_and_previously():
@@ -474,6 +565,13 @@ def test_a_season_plan_schedules_episodes_across_storylines():
     assert sim.cat.moments["bro_senior_night"]["scene"]["when"]["years"] == ["senior"]
     w.meta.setdefault("scenes_seen", {})["bro_driveway"] = [w.day]
     assert not dialogue._when_ok(sim, me, "bro_tryouts", when), "it waits for the crush storyline's first episode"
+    p = dialogue.prompt_for_show("tie the crush in")
+    assert "=== Big brother season" in p and "=== Crush arc" in p and "--- The first text" in p and "tie the crush in" in p
+    assert "starts with `=== Season plan`" in p and "## My season plan now" not in p
+    # a season plan in script form comes back whole: the next plan prompt carries it, and it isn't listed as a storyline
+    plan_script = "=== Season plan\n\n--- On the bleachers  [freshman · after Big brother season: Tryout nerves]\nIt's loud.\n* Wave\n\nschedule:\nBig brother season: Senior night [senior]\n"
+    r = dialogue.add_script(plan_script)
+    assert r["ok"], r["errors"]
     p = dialogue.prompt_for_show()
-    assert "big story with a bunch of episodes" in p and "`bro_driveway`" in p and "`crush_first_text`" in p and "remembers: played_bro" in p
-    assert "crossover_bleachers" not in p.split("## My storylines")[1].split("## ")[0], "the season plan itself isn't summarized"
+    assert "## My season plan now" in p and "--- On the bleachers" in p.split("## My season plan now")[1]
+    assert "--- On the bleachers" not in p.split("## My season plan now")[0], "the plan itself isn't listed as a storyline"

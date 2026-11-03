@@ -50,13 +50,57 @@ def test_the_prompt_knows_the_story_and_how_it_plays():
     r = c.get("/api/story/add/prompt?ask=more%20sophomore%20year").json()
     p = r["prompt"]
     assert not r["checked"] and r["suggestions"]
-    for must in ("more sophomore year", "lead_brother", "Mike", "bro_team_05_tryouts", "Additions: ", "add_", "replace_after",
-                 '"skip": true', "The format"):
+    for must in ("more sophomore year", "cast: lead_brother = older brother", "Mike", "=== Brothers: Same Team", "--- bro team 05 tryouts",
+                 "schedule:", "[skip]", "# LIFE OS story scripts", "ONE code block"):
         assert must in p, must
+    assert "texts <pool>" not in p, "the storyline part of the guide only"
     rep = c.get("/api/story/schedule/report?days=400").json()
     assert rep["coverage"]["years"][0]["total"] > 0
     r = c.get("/api/story/add/prompt").json()
     assert r["checked"] and "Scenes that played per month" in r["prompt"]
+
+
+SOPH = """Here you go!
+```
+=== Sophomore fall
+cast: lead_brother = older brother, plays basketball, 3 years older, from the start
+order: any
+
+--- Bro calls  [sophomore · October]
+lead_brother: You still alive over there?
+* "Barely."      | lead_brother affection +
+* Let it ring
+
+--- The hallway  [sophomore · after Sep 10 · before Sep 30 · small]
+Lockers slam. Everybody's somebody new this year.
+* Keep your head down
+* Say hi to everyone   | mood +
+
+schedule:
+bro college call [sophomore · after Sophomore fall: Bro calls · replace]
+twins graduation [skip]
+```
+"""
+
+
+def test_a_pasted_script_is_previewed_on_a_copy_and_nothing_is_saved():
+    c, api = _client()
+    before = [p["id"] for p in dialogue.packs()]
+    r = c.post("/api/story/add/preview", json={"text": SOPH}).json()
+    assert r["ok"] and r["script"], r["errors"]
+    new = {x["title"]: x for x in r["new"]}
+    assert new["Bro calls"]["state"] == "played" and "Oct" in new["Bro calls"]["date"]
+    assert new["The hallway"]["state"] == "played" and "Sep" in new["The hallway"]["date"]
+    changed = {x["sid"]: x for x in r["changed"]}
+    assert changed["twins_graduation"]["reason"] == "skipped_by_plan", changed
+    assert [p["id"] for p in dialogue.packs()] == before, "nothing saved"
+    assert c.post("/api/dialogue/packs", json={"text": SOPH}).status_code == 200
+    m = dialogue.merged()["moments"]
+    calls = next(k for k, v in m.items() if v.get("title") == "Bro calls")
+    assert m["bro_college_call"]["scene"]["when"]["after"] == [calls], "replace swapped the after-link"
+    # sent back with the same title, it's an update: nothing in it is new
+    r = c.post("/api/story/add/preview", json={"text": SOPH}).json()
+    assert r["ok"] and r["new"] == [] and r["replaces"], r
 
 
 def test_a_pasted_pack_is_previewed_on_a_copy_and_nothing_is_saved():
@@ -84,12 +128,10 @@ def test_a_broken_pack_comes_back_with_a_fix_prompt():
     bad["schedule"]["twins_graduation"]["skip"] = "yes"
     r = c.post("/api/story/add/preview", json={"pack": bad}).json()
     assert not r["ok"] and r["errors"] and "fix exactly these problems" in r["fix_prompt"].lower()
-    loose = copy.deepcopy(ADDITIONS)
-    loose["scenes"][0]["years"] = loose["scenes"][0]["when"].pop("years")  # the easy mistake: timing on the scene itself
-    r = c.post("/api/story/add/preview", json={"pack": loose}).json()
-    assert not r["ok"] and "inside \"when\"" in r["errors"][0] and r["fix_prompt"]
     r = c.post("/api/story/add/preview", json={"text": "no json here"}).json()
     assert not r["ok"] and r["errors"]
+    r = c.post("/api/story/add/preview", json={"text": SOPH.replace("| mood +", "| mod +")}).json()
+    assert not r["ok"] and r["error_lines"][0]["line"] == 13 and "line 13" in r["fix_prompt"], r["errors"]
 
 
 def test_coverage_finds_the_quiet_stretches():

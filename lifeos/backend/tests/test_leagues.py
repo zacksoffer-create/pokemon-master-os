@@ -111,7 +111,15 @@ def test_storylines_can_ask_about_any_league():
                                                     "when": {"requires": ["pro:mbb:my_team_rules"]},
                                                     "choices": [{"label": "a", "ops": []}, {"label": "b", "ops": []}]}]})
     assert not bad["ok"]
-    assert "pro:mbb:my_team_alive" in dialogue.guide_markdown()
+    g = dialogue.guide_markdown()
+    assert "if pro:<league>:<condition>" in g and "my_team_alive" in g and "mbb" in g
+    from lifeos import script
+    r = script.compile_script("=== Tourney\n\n--- Still alive  [college · March · if pro:mbb:my_team_alive]\n"
+                              "best friend: {my_college} is still alive. {my_mbb_record}.\n* Watch the game | mood +\n* Study\n")
+    assert not r["errors"], r["errors"]
+    assert r["packs"][0]["scenes"][0]["when"]["requires"] == ["pro:mbb:my_team_alive"]
+    r = script.compile_script("=== x\n\n--- Nope  [if pro:mbb:my_team_rules]\nbest friend: hi\n* ok\n")
+    assert r["errors"] and r["errors"][0]["line"] == 3
 
 
 def test_the_phone_pages():

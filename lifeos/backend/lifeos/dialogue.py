@@ -212,7 +212,7 @@ SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "siblin
                "ucl_champ", "ballon_dor"}  # (the last three rows: pro.py)
 DEFAULT_CHANCE = 0.04
 CHAPTER_CHANCE = 0.5    # the relaxed profile's odds a due chapter comes today (pacing lives in scheduler.py now)
-MAX_BEATS = 3           # how deep a scene can keep going with "then"
+MAX_BEATS = 5           # how deep a scene can keep going with "then" (a script's choices under choices)
 NO_ADD = {"college_decision"}  # choices are built from your real options
 
 # where each mini game fits in a story, for the guide
@@ -534,8 +534,8 @@ def _check_choice(R, where, ch, refs, names, depth=0):
         else:
             _check_variants(R, where + ".then.text", then["text"], names, 700)
             tch = then["choices"]
-            if not isinstance(tch, list) or not 2 <= len(tch) <= 4:
-                R.err(where + ".then.choices", "needs 2 to 4 choices")
+            if not isinstance(tch, list) or not 1 <= len(tch) <= 4:
+                R.err(where + ".then.choices", "needs 1 to 4 choices")
             else:
                 for i, c2 in enumerate(tch):
                     _check_choice(R, f"{where}.then.choices[{i}]", c2, refs, names, depth + 1)
@@ -583,7 +583,7 @@ def _check_scene(R, where, sc, seen_ids):
     for k in sc:
         if k in WHEN_KEYS:
             R.warn(where, f"'{k}' is ignored here: it goes inside \"when\", like \"when\": {{\"{k}\": ...}}")
-        elif k not in ("id", "title", "text", "by_text", "who", "when", "choices", "notes"):
+        elif k not in ("id", "title", "text", "by_text", "who", "when", "choices", "notes", "src", "line", "cast_refs"):
             R.warn(where, f"'{k}' is ignored (a scene has id, title, text, by_text, who, when, choices)")
     who = sc.get("who")
     if isinstance(who, str) and who.startswith("cast:"):
@@ -594,6 +594,12 @@ def _check_scene(R, where, sc, seen_ids):
         R.err(where + ".who", f"'{who}' isn't a kind of person.{_suggest(who, WHO)} Use: {', '.join(WHO)}, or cast:<slot> for a named person")
     names = set(SCENE_NAMES)
     refs = set(SCENE_REFS)
+    for s in getattr(R, "slots", set()):  # the storyline's other people, by name: {cast_coach_first}, effects on cast_coach
+        names |= {f"cast_{s}", f"cast_{s}_first"}
+        refs.add(f"cast_{s}")
+    for s in sc.get("cast_refs") or []:
+        if s not in getattr(R, "slots", set()):
+            R.err(where, f"names '{s}', who isn't in this storyline's cast")
     if not who:
         names -= {"them", "them_first"}
         refs -= {"them"}
@@ -667,7 +673,7 @@ def _check_scene(R, where, sc, seen_ids):
             _num(R, w, v, 1, 2000)
         elif k == "after":
             for a in v if isinstance(v, list) else [v]:
-                if not isinstance(a, str) or not SLUG.match(a):
+                if not isinstance(a, str) or not (SLUG.match(a) or a.startswith("@")):
                     R.err(w, "is a list of scene ids that have to happen first")
         elif k == "gap_days":
             _num(R, w, v, 0, 2600)  # up to the whole seven years: a long authored gap is the author's call
@@ -678,8 +684,8 @@ def _check_scene(R, where, sc, seen_ids):
             if v not in ("ambient", "regular", "major", "finale"):
                 R.err(w, "is ambient, regular, major or finale")
     chs = sc.get("choices")
-    if not isinstance(chs, list) or not 2 <= len(chs) <= 4:
-        R.err(where + ".choices", "a scene needs 2 to 4 choices")
+    if not isinstance(chs, list) or not 1 <= len(chs) <= 4:
+        R.err(where + ".choices", "a scene needs 1 to 4 choices")
         chs = chs if isinstance(chs, list) else []
     for i, ch in enumerate(chs):
         _check_choice(R, f"{where}.choices[{i}]", ch, refs, names)
@@ -722,7 +728,7 @@ def check(pack: dict) -> dict:
     elif len(name) > 60:
         R.err("name", "keep the name under 60 characters")
     for k in pack:
-        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order", "cast"):
+        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order", "cast", "script"):
             R.warn(k, f"isn't part of a pack and is ignored.{_suggest(k, SECTIONS)}")
     base_texts = _texts_base()
     added = {"texts": 0, "replies": 0, "narration": 0, "moment_choices": 0, "scenes": 0, "duplicates": 0}
@@ -932,7 +938,7 @@ def _check_schedule(R, sch) -> int:
     n = 0
     for sid, v in sch.items():
         w = f"schedule.{sid}"
-        if not isinstance(sid, str) or not SLUG.match(sid):
+        if not isinstance(sid, str) or not (SLUG.match(sid) or sid.startswith("@")):
             R.err(w, "needs to be a scene id")
             continue
         if not isinstance(v, dict) or not v:
@@ -947,7 +953,7 @@ def _check_schedule(R, sch) -> int:
                         R.err(f"{w}.years", f"'{y}' isn't a school year. Use: {', '.join(YEARS)}")
             elif k == "after":
                 for a in x if isinstance(x, list) else [x]:
-                    if not isinstance(a, str) or not SLUG.match(a):
+                    if not isinstance(a, str) or not (SLUG.match(a) or a.startswith("@")):
                         R.err(f"{w}.after", "is a list of scene ids")
             elif k == "gap_days":
                 _num(R, f"{w}.gap_days", x, 0, 2600)
@@ -1053,7 +1059,7 @@ def _read_dir(folder, source):
     """The packs in a folder, read and checked once until a file changes (packs() is called often: every scene start)."""
     if not os.path.isdir(folder):
         return []
-    names = sorted(fn for fn in os.listdir(folder) if fn.endswith(".json") and fn != "state.json")
+    names = sorted(fn for fn in os.listdir(folder) if (fn.endswith(".json") or fn.endswith(".story")) and fn != "state.json")
     sig = []
     for fn in names:
         try:
@@ -1070,8 +1076,27 @@ def _read_dir(folder, source):
 
 
 def _read_dir_now(folder, source):
+    from . import script as SC
     out = []
     for fn in sorted(os.listdir(folder)):
+        if fn.endswith(".story"):  # a story script: one or more storylines (=== sections), compiled here
+            stem = fn[:-6]
+            try:
+                with open(os.path.join(folder, fn), encoding="utf-8") as f:
+                    text = f.read()
+                r = SC.compile_script(text, default_title=stem.replace("_", " ").title())
+            except (OSError, ValueError) as e:
+                out.append({"id": f"{source}:{stem}", "file": fn, "source": source, "pack": {"name": stem}, "kind": "script",
+                            "script": "", "check": {"ok": False, "errors": [f"couldn't read it: {e}"], "warnings": [], "summary": {}}})
+                continue
+            errs = [f"line {e['line']}: {e['text']}" for e in r["errors"]]
+            warns = [f"line {e['line']}: {e['text']}" for e in r["warnings"]]
+            for i, pk in enumerate(r["packs"] or [{"name": stem}]):
+                rep = check(pk) if not errs else {"summary": {}}
+                out.append({"id": f"{source}:{stem}" + (f"~{i + 1}" if i else ""), "file": fn, "source": source, "pack": pk,
+                            "kind": "script", "script": text,
+                            "check": {"ok": not errs, "errors": errs, "warnings": warns, "summary": rep.get("summary", {})}})
+            continue
         if not fn.endswith(".json") or fn == "state.json":
             continue
         pid = f"{source}:{fn[:-5]}"
@@ -1086,42 +1111,54 @@ def _read_dir_now(folder, source):
 
 
 _trial: list = []
+_hidden: set = set()
 
 
 def packs() -> list:
     """Every pack the game knows about, in load order, with whether it's on and what it adds."""
     disabled = set(_state().get("disabled", []))
     out = []
-    for p in _read_dir(BUILTIN_DIR, "builtin") + _read_dir(USER_DIR, "yours") + [dict(t) for t in _trial]:
+    mine = [p for p in _read_dir(USER_DIR, "yours") if p["id"] not in _hidden]
+    for p in _read_dir(BUILTIN_DIR, "builtin") + mine + [dict(t) for t in _trial]:
         p["enabled"] = p["id"] not in disabled and p["check"]["ok"]
         out.append(p)
     return out
 
 
 class trial_pack:
-    """with trial_pack(pack): the game sees this pack as if it were added (for a preview), and forgets it after."""
-    def __init__(self, pack: dict):
-        self.p = {"id": "yours:__trial__", "file": "__trial__.json", "source": "yours", "pack": pack, "check": check(pack)}
+    """with trial_pack(pack or [packs], hide=[pack ids]): the game sees these packs as if they were added (and the hidden
+    ones as if they were gone: a storyline being replaced by a new version of itself), for a preview; it forgets it after."""
+    def __init__(self, pack, hide=()):
+        ps = pack if isinstance(pack, list) else [pack]
+        self.ps = [{"id": f"yours:__trial__{i}" if i else "yours:__trial__", "file": "__trial__.json", "source": "yours", "pack": pk,
+                    "kind": "script" if pk.get("script") else "json", "check": check(pk)} for i, pk in enumerate(ps)]
+        self.hide = set(hide)
 
     def __enter__(self):
-        _trial[:] = [self.p]
+        _trial[:] = self.ps
+        _hidden.clear()
+        _hidden.update(self.hide)
         reload()
         return self
 
     def __exit__(self, *exc):
         _trial.clear()
+        _hidden.clear()
         reload()
         return False
 
 
 def pack_summary(p) -> dict:
     pk = p["pack"]
+    kind = p.get("kind", "json")
     load = (merged().get("load_errors") or {}).get(p["id"]) if p["enabled"] else None
     return {"id": p["id"], "name": pk.get("name") or p["file"], "author": pk.get("author"), "notes": pk.get("notes"),
             "source": p["source"], "enabled": p["enabled"], "ok": p["check"]["ok"] and not load,
             "errors": ([load] if load else []) + p["check"]["errors"][:20],
             "warnings": p["check"]["warnings"][:20], "summary": p["check"]["summary"],
-            "scenes": [{"id": s.get("id"), "title": s.get("title"), "who": s.get("who")} for s in pk.get("scenes", []) if isinstance(s, dict)]}
+            "scenes": [{"id": s.get("id"), "title": s.get("title"), "who": s.get("who")} for s in pk.get("scenes", []) if isinstance(s, dict)],
+            "kind": kind, "file": p.get("file"), "lines": sum(len(v) for v in (pk.get("texts") or {}).values()),
+            "cast": [{"name": k, "who": v.get("who"), "label": slot_label(normalize_slot(v))} for k, v in (pk.get("cast") or {}).items()]}
 
 
 def add_pack(data: dict) -> dict:
@@ -1157,11 +1194,100 @@ def remove_pack(pid: str):
     src, _, name = pid.partition(":")
     if src != "yours":
         raise ValueError("built-in packs can be turned off, not removed")
-    path = os.path.join(USER_DIR, f"{name}.json")
-    if not os.path.exists(path):
+    name = name.split("~")[0]
+    for ext in (".story", ".json"):
+        path = os.path.join(USER_DIR, f"{name}{ext}")
+        if os.path.exists(path):
+            os.remove(path)
+            reload()
+            return
+    raise KeyError(pid)
+
+
+# ---------------------------------------------------------------------------------------- story scripts on disk
+def with_inserted(pid: str, after: str | None, text: str) -> tuple:
+    """A storyline's script with new scenes put right after one of its scenes (or before the first): (new source, the line
+    the new text starts on, how many lines it is)."""
+    from . import script as SC
+    p = _script_pack(pid)
+    src = p["script"].rstrip("\n").split("\n")
+    snippet = [ln for ln in SC.extract(text).strip("\n").split("\n") if not SC.SECTION_RE.match(ln.strip())]
+    if not any(SC.SCENE_RE.match(ln.strip()) for ln in snippet):
+        raise ValueError("there's no scene in that: a scene starts with --- and its title")
+    scenes = p["pack"].get("scenes") or []
+    heads = sorted(sc["line"] for sc in scenes if isinstance(sc, dict) and sc.get("line"))
+    if after:
+        sc = next((x for x in scenes if x.get("id") == after), None)
+        if sc is None:
+            raise KeyError(after)
+        nxt = [h for h in heads if h > sc["line"]]
+        k = (nxt[0] - 1) if nxt else len(src)  # (0-based index of the next scene's header, or the end)
+        while k > 0 and not src[k - 1].strip():
+            k -= 1
+    else:
+        k = (heads[0] - 1) if heads else len(src)
+    new = src[:k] + [""] + snippet + [""] + src[k:]
+    return "\n".join(new).rstrip("\n") + "\n", k + 2, len(snippet)
+
+
+def insert_scenes(pid: str, after: str | None, text: str) -> dict:
+    """Put new scenes into a storyline right where they go: its file gets them, in order, and they play there."""
+    new, first, n = with_inserted(pid, after, text)
+    r = add_script(new, into=pid)
+    if not r["ok"]:
+        # errors in what was pasted get its own line numbers; anything else is the storyline's
+        lines = []
+        for e in r["error_lines"]:
+            if first <= e["line"] < first + n:
+                lines.append({"line": e["line"] - first + 1, "text": e["text"], "yours": True})
+            else:
+                lines.append({"line": e["line"], "text": e["text"], "yours": False})
+        r["error_lines"] = lines
+        r["errors"] = [f"{'line' if x['yours'] else 'storyline line'} {x['line']}: {x['text']}" for x in lines]
+    return r
+def _script_path(pid: str) -> str:
+    src, _, name = pid.partition(":")
+    if src != "yours":
+        raise ValueError("built-in storylines can't be edited here")
+    return os.path.join(USER_DIR, f"{name.split('~')[0]}.story")
+
+
+def script_of(pid: str) -> str:
+    """A storyline's script, as written."""
+    p = next((p for p in packs() if p["id"] == pid), None)
+    if p is None:
         raise KeyError(pid)
-    os.remove(path)
+    if p.get("kind") != "script":
+        raise ValueError("that pack isn't a story script")
+    return p["script"]
+
+
+def add_script(text: str, into: str | None = None) -> dict:
+    """Add scripts: each === storyline goes to its own file (a storyline with the same title is replaced: that's how
+    you update one). into=<pack id> saves the text as that storyline's file instead (editing it in place)."""
+    from . import script as SC
+    src = SC.extract(text)
+    r = SC.compile_script(src)
+    if r["errors"]:
+        return {"ok": False, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]], "warnings": r["warnings"],
+                "error_lines": r["errors"]}
+    os.makedirs(USER_DIR, exist_ok=True)
+    secs = SC.split_sections(src)
+    ids = []
+    for i, (title, body) in enumerate(secs):
+        if into and i == 0:
+            path = _script_path(into)
+        else:
+            path = os.path.join(USER_DIR, f"{_slug(title or 'untitled')}.story")
+        with open(path + ".tmp", "w", encoding="utf-8") as f:
+            f.write(body)
+        os.replace(path + ".tmp", path)
+        ids.append("yours:" + os.path.basename(path)[:-6])
+    st = _state()
+    st["disabled"] = [d for d in st.get("disabled", []) if d not in ids]
+    _save_state(st)
     reload()
+    return {"ok": True, "ids": ids, "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]], "summary": r["summary"]}
 
 
 # ---------------------------------------------------------------------------------------- merged content
@@ -1262,6 +1388,7 @@ def _build(only: set | None = None) -> dict:
             moments[sc["id"]] = {"title": sc["title"], "text": sc["text"],
                                  "choices": _with_beats(moments, sc["id"], sc["title"], p["id"], sc["choices"], ""),
                                  "scene": {"who": sc.get("who"), "when": sc.get("when", {}), "pack": p["id"], "by_text": sc.get("by_text"), "order": n,
+                                           "cast_refs": sc.get("cast_refs") or [],
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
     cast = {}  # named people storylines are about: a slot name means the same person in every pack that uses it
     for p in packs():
@@ -1270,9 +1397,26 @@ def _build(only: set | None = None) -> dict:
                 if isinstance(spec, dict):
                     d = cast.setdefault(name, {"spec": normalize_slot(spec), "packs": []})
                     d["packs"].append(p["id"])
+    # scripts can name another storyline's scene ("after Same Team: Cut day"): resolve those by title now that all are in
+    titles = {}
+    for mid, mm in moments.items():
+        scn = mm.get("scene")
+        if scn:
+            nm = next((x["pack"].get("name") for x in packs() if x["id"] == scn.get("pack")), "")
+            titles.setdefault(str(mm.get("title", "")).lower(), mid)
+            titles[f"{str(nm).lower()}: {str(mm.get('title', '')).lower()}"] = mid
+    resolve = lambda r: titles.get(r[1:].strip().lower()) if isinstance(r, str) and r.startswith("@") else r  # noqa: E731
+    for mm in moments.values():
+        scn = mm.get("scene")
+        if scn and (scn.get("when") or {}).get("after"):
+            a = scn["when"]["after"]
+            scn["when"] = {**scn["when"], "after": [x for x in (resolve(y) for y in (a if isinstance(a, list) else [a])) if x]}
     for p in packs():  # a season plan places any storyline's episodes across the seasons
         if p["enabled"] and p["id"] in loaded:
-            for sid, sch in (p["pack"].get("schedule") or {}).items():
+            for sid0, sch in (p["pack"].get("schedule") or {}).items():
+                sid = resolve(sid0)
+                if isinstance(sch, dict) and sch.get("after"):
+                    sch = {**sch, "after": [x for x in (resolve(y) for y in (sch["after"] if isinstance(sch["after"], list) else [sch["after"]])) if x]}
                 sc = (moments.get(sid) or {}).get("scene")
                 if sc is not None and isinstance(sch, dict):
                     when = dict(sc.get("when") or {})
@@ -1894,8 +2038,9 @@ def pick_cast(sim, me, pack, who, cands):
     return best
 
 
-def _context(sim, me, who, when, rng, pack=None) -> dict | None:
-    """Who the scene is about and everything its text can say. None if nobody fits."""
+def _context(sim, me, who, when, rng, pack=None, cast_refs=None) -> dict | None:
+    """Who the scene is about and everything its text can say. None if nobody fits (or a cast member it needs isn't in
+    your story)."""
     w = sim.w
     ctx = {"me_first": me.first}
     if who and who.startswith("cast:"):
@@ -1951,6 +2096,12 @@ def _context(sim, me, who, when, rng, pack=None) -> dict | None:
     pets = [p for p in w.meta.get("pets", {}).values() if p.get("household") == me.household_id and p.get("status") == "home"]
     if pets or h.get("pet"):
         ctx["pet"] = pets[0]["name"] if pets else h["pet"]["name"]
+    for name in cast_refs or []:  # the storyline's other people in this scene: the same person every time
+        cid = bind(sim, me, name)
+        if not cid or cid == ctx.get("them") or cid == me.id:
+            return None
+        ctx[f"cast_{name}"] = cid
+        ctx[f"cast_{name}_first"] = w.chars[cid].first
     ctx.update(_pro_names(sim, me))
     return ctx
 
@@ -2003,7 +2154,8 @@ def try_scene(sim, sid):
         raise ValueError("start a story first")
     when = spec["scene"].get("when") or {}
     who = spec["scene"].get("who")
-    ctx = _context(sim, me, who, when, sim.streams.get("scene-try", w.day, sid), pack=spec["scene"].get("pack"))
+    ctx = _context(sim, me, who, when, sim.streams.get("scene-try", w.day, sid), pack=spec["scene"].get("pack"),
+                   cast_refs=spec["scene"].get("cast_refs"))
     if ctx is None:
         if isinstance(who, str) and who.startswith("cast:"):
             raise ValueError(f"nobody in your story fits '{who[5:]}' ({slot_label(slot_spec(who[5:]) or {})})")
@@ -2062,485 +2214,70 @@ EXAMPLE = {
     }],
 }
 
-VOICE = """- Texts sound like real texts. Teens: mostly lowercase, short, abbreviations sometimes, an emoji now and then, never
-  a paragraph. Parents: full sentences, proper capitals, a heart emoji is fine. Coaches: short and direct.
-- The game already roughs up spelling and adds emoji based on each person's personality, so write the plain version.
-- Nobody talks like an ad or a guidance counselor. No "absolutely!", no life lessons.
-- Scene text is second person, present tense ("You", "your"), one or two short paragraphs at most.
-- Choices are what YOU do or say, in your own words, under about 12 words each.
-- Use the {placeholders} listed for each spot and only those. Never write a specific person's name: use {them_first} and friends.
-- Keep it PG-13: crushes, drama, parties, trouble at home are all fine; nothing graphic."""
-
-PROMPT = """You're writing dialogue for LIFE OS, a life-simulation game: you play one person from the first day of high school
-(Guilford High School in Guilford, Connecticut) through college. Texts, story moments and the story feed are all data, and
-you can add to them by writing a "dialogue pack": one JSON object.
-
-What I want in this pack:
-[describe it here, e.g. "more texts from my older brother, and 3 scenes about my twin sisters borrowing my stuff"]
-
-How to write it:
-- Write a LOT. The game remembers what it has used and won't repeat a line until it's rested, so more lines means more
-  life. Aim for 12 or more new lines for every text pool you touch, and give every scene 3 versions of its text and
-  2 or 3 versions of every "say" line (a list instead of one string).
-- Every line works two ways: as a text, and said in person. Give the lines that matter most a "talk" version (how they'd say
-  it to your face) and "when" tags (late_night, close, crush, stressed...) so the right line shows up at the right moment.
-  Add "mods" (openers, closers, ways of saying things) for the people in your pack: one base line times its mods is many lines.
-- When a scene is about someone you'd text, add "by_text" (what they'd text you instead) so it can happen either way.
-- Use the mini games. Where a scene fits one (pickup soccer, shooting around, cup pong at a party, a round of golf, a quiz),
-  make one choice play it, with different outcomes for great, good and miss. Always keep two choices that don't need a game.
-- Add texting lines in "chat" for what I asked for: how people answer when I text them, questions they ask back, follow-ups,
-  and flirt lines by style (tease, sweet, bold, funny, cheesy). At least 8 lines in every list you touch.
-- Make it a story: write the scenes in the order they should happen (they play as chapters), give important scenes a "then"
-  so they keep going, and use ["remember", ...] with "when": {"remembered": [...]} so choices change what happens later.
-- In scenes about someone, make a choice a style ("vibe": tease, sweet, bold, funny, cheesy) with good / meh / bad outcomes.
-- Don't reuse the same idea twice. Vary the openings, the length, and the mood.
-
-How to answer:
-- Reply with ONE JSON code block and nothing else after it. It must be valid JSON (double quotes, no comments, no trailing commas).
-- Follow the format and the lists in the guide below exactly. The game checks every line and will tell me what to fix.
-- Only add what I asked for.
-
-"""
-
-UPDATE_PROMPT = """You're building out a dialogue pack (one of my storylines) for LIFE OS, a life-simulation game: you play one person
-from the first day of high school (Guilford High School in Guilford, Connecticut) through college. I made this storyline before
-the game could tell real stories. Build it out: make it a story with chapters, scenes that keep going, choices that matter
-later, and people who react like themselves. Make it much bigger.
-
-How storylines work now:
-- A storyline's scenes are chapters: they happen in the order they're written in "scenes", as soon as they're ready (the
-  same day if nothing holds them; set "when": {"gap_days": 7} on a scene for time in between, and "months" or
-  "not_before"/"not_after" like "11-15" to pin it to its season). A chapter that can't happen yet (wrong school year, needs a
-  girlfriend...) waits, and the story moves on to the next one that can.
-- A choice can keep the scene going right away with "then": {"text": "what happens next", "choices": [...]}. Up to two
-  "then"s deep, so a scene can be three decisions long.
-- Choices can matter later: ["remember", "fact"] in a choice, then a later chapter with "when": {"remembered": ["fact"]} (or
-  "not_remembered") only happens on that path. Use this for branches and different endings.
-- In a scene about someone, a choice can be a style: ["vibe", "tease" | "sweet" | "bold" | "funny" | "cheesy" | "chill",
-  {"good": [...], "meh": [...], "bad": [...]}]. Whether it lands depends on what that person likes, and I learn their taste.
-- Mini games can be a choice (["minigame", ...] with great / good / miss outcomes).
-- "who" picks the person the story is about and keeps them for every chapter. Use the most specific kind (older_brother, not
-  older_sibling, when it's about my brother). If the pack has a "cast" section (named people) and scenes say "who":
-  "cast:<slot>", keep the cast section and those who values exactly as they are.
-
-Do all of this:
-1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep every scene id and line that's
-   already there. You can reorder scenes so they read as a story.
-2. Put the scenes in story order (the order they should happen) and turn them into a real arc: a beginning, things getting
-   harder or more interesting, a turning point, and an ending. Add new chapters so the storyline has at least 8.
-3. Give at least half the chapters a "then" so the scene keeps going after the first choice (and some a second "then").
-4. Make choices matter: at least 2 facts remembered early that change which later chapters happen, and 2 different endings
-   (one for each path).
-5. In every scene about someone, make at least one choice a style choice (vibe) with good / meh / bad outcomes written for
-   that person.
-6. Scenes: give each scene's "text" 3 versions (a list) and each "say" 2 or 3 versions. Add a "by_text" version to scenes about
-   someone I'd text. 2 to 4 choices per scene and per "then".
-7. Where a scene fits a mini game, give it a choice that plays it.
-8. If a scene's "who" is a general kind but it's clearly about one person, change it to the specific kind (older_brother,
-   older_sister, younger_brother, younger_sister, brother, sister).
-9. Add a "chat" section with texting lines for this storyline's people under "chat": {"people": {"<kind>": {...}}}: how they
-   answer, questions they ask back (with the kind of answer), follow-ups, things that come up after you've done something
-   together ("recent"), and for a crush or partner flirts by style. At least 6 lines in every list you add.
-
-Reply with the COMPLETE built-out pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
-Follow the format and the lists in the guide below exactly; the game checks every line.
-
-"""
-
+# ---------------------------------------------------------------------------------------- the guide and the prompts
+# Everything is written as story scripts now (script.py): the guide and every ChatGPT prompt come from there.
 
 def guide_markdown() -> str:
-    """The full guide: format, voice, and every pool, set, moment and op, built from the game's own data."""
-    texts = _texts_base()
-    sets = _base_reply_sets()
-    base_moments = _base("moments.json")["moments"]
-    templates = _base("templates.json")["templates"]
-    L = []
-    a = L.append
-    a("# LIFE OS dialogue packs\n")
-    a("A dialogue pack adds lines, reply options, narration, choices and whole new scenes to the game. It's one JSON file. "
-      "Load it on the phone (Me, then Dialogue packs) or in the lab (Content Library, then Dialogue). The game checks it and says exactly what to fix.\n")
-    a("## The format\n")
-    a("Every section is optional; use the ones you need.\n")
-    a("```json\n" + json.dumps(EXAMPLE, indent=2, ensure_ascii=False) + "\n```\n")
-    a("- `texts`: more lines for a text-message pool (the list is below). Use only that pool's placeholders. A line can be a plain "
-      "string or an object with a `talk` version and `when` tags (see Every line, two ways).")
-    a("- `replies`: more reply buttons for a reply set. Each option is `[\"what you say\", \"tone\"]`. The tone decides the effect.")
-    a("- `narration`: more lines for the story feed, keyed `event.outcome`.")
-    a("- `moment_choices`: extra choices on an existing story moment.")
-    a("- `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.")
-    a("- `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.")
-    a("- `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask "
-      "back, follow-ups, flirt lines by style. See Texting lines.")
-    a("- `schedule`: when episodes of any storyline air: `{\"scene_id\": {\"years\": [\"sophomore\"], \"after\": [\"other_scene\"], "
-      "\"gap_days\": 7, \"months\": [11, 12], \"importance\": \"major\"}}`, plus optional `not_before` / `not_after` (month-day inside "
-      "the school year, like `\"11-15\"`). A season plan uses this to weave all your storylines into one story. A later "
-      "pack can adjust what an earlier one set: `\"replace_after\": true` swaps out a scene's `after` instead of adding to it, "
-      "and `\"skip\": true` retires a scene.\n")
-    a("## Texting lines\n")
-    a("When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a "
-      "`chat` section. Every list is short lines; `{me}` is your first name.\n")
-    a("- `reply.<what you did>.<how it went>`: their answer. What you did: greet, chat, ask, joke, compliment, flirt, plans, support, "
-      "apology, vent, news, gossip, thanks, dry, rude, love, ask_out, answered, style, family. How it went, for flirt: landed, playful, "
-      "awkward, shut; for jokes: laugh, meh; for chat: warm, ok, cold; vent: comfort, meh; news: hype, meh; gossip: spill, shut; "
-      "style: loves, hates (when you hit or miss their taste).")
-    a("- `recent.<kind>`: how they bring up something you just did together: hangout, date, group, game_win, game_loss.")
-    a("- `people.<kind>`: lines for one kind of person (older_sibling, crush, coach...) in the same shape. They use those first, "
-      "so a brother texts like a brother.")
-    a("- `topic.<topic>`: their answer when you bring something up: game, school, music, weekend, food.")
-    a("- `ask.general` / `ask.flirty`: questions they send back, as {\"q\": \"you going friday?\", \"a\": \"yesno\"}. `a` is the "
-      "kind of answer: yesno, doing, day, weekend, open, flirty. The game offers you fitting answers.")
-    a("- `answer.<kind>`: answers you can tap (`yes`, `no`, doing, day, weekend, open, flirty).")
-    a("- `follow.<topic>`: them following up a day or two later (\"how'd the test go??\").")
-    a("- `suggest.<kind>`: messages you can tap to send: greet, ask, joke, compliment, plans, support, apology, bye, love, ask_out, "
-      "and flirts by style: flirt_tease, flirt_sweet, flirt_bold, flirt_funny, flirt_cheesy.")
-    a("- `close.nice` / `close.tired` / `close.cold`: how they wrap up a conversation. `double`: extra texts from someone into you.\n")
-    a('```json\n"chat": {"topic": {"school": ["mr. hanley gave us a pop quiz AGAIN"]}, "suggest": {"flirt_tease": ["you\'re lucky you\'re cute"]}, '
-      '"ask": {"general": [{"q": "you going to the bonfire?", "a": "yesno"}]}}\n```\n')
-    a("## Storylines: chapters, scenes that keep going, choices that matter\n")
-    a("Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters that come as soon "
-      "as they're ready, the same day if nothing holds them (set `\"when\": {\"gap_days\": 7}` on a scene for time in between; "
-      "`\"months\": [3, 4]` or `\"not_before\": \"03-01\"` / `\"not_after\": \"06-15\"` to keep it in its season; `\"importance\"`: "
-      "ambient, regular, major or finale). Several scenes can happen in one day: the pacing setting decides how many to aim for "
-      "(dense by default: two to five on a school day). Scenes that don't say when get a season from the season map (baseball "
-      "tryouts in March, Homecoming in the fall, graduation in June). A chapter that can't happen yet waits, and the "
-      "story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say "
-      "`\"in_order\": false` to let its scenes come up in any order.)\n")
-    a("- **Keep going:** a choice with `then` continues the scene right away: `{\"label\": \"You're on\", \"then\": {\"text\": "
-      "\"It's 10-10...\", \"choices\": [...]}}`. Up to two `then`s deep (three decisions in one scene).")
-    a("- **Branches:** `[\"remember\", \"fact\"]` in a choice, and a later chapter with `\"when\": {\"remembered\": [\"fact\"]}` "
-      "(or `not_remembered`) only happens on that path. `\"when\": {\"after\": [\"scene_id\"]}` waits for a specific scene.")
-    a("- **Style choices:** in a scene about someone, `[\"vibe\", \"tease\", {\"good\": [...], \"meh\": [...], \"bad\": [...]}]` "
-      "lands or misses by what they like (tease, sweet, bold, funny, cheesy; chill is the safe pick), and you learn their taste.")
-    a("- **The same person:** `who` picks who the story is about and keeps them for every chapter (and its texting lines). Use "
-      "the most specific kind (older_brother rather than older_sibling).\n")
-    a("```json\n" + json.dumps({"id": "driveway_one_on_one", "title": "One on one", "who": "older_brother",
-                                "text": ["{them_first} bounces you the ball. \"First to eleven.\""],
-                                "choices": [{"label": "You're on", "ops": [["remember", "played_brother"]],
-                                             "then": {"text": "It's 10-10. {them_first} is talking trash about your left hand.",
-                                                      "choices": [{"label": "Drive left", "ops": [["vibe", "bold", {"good": ["You score. He can't believe it."],
-                                                                                                                  "meh": ["He blocks it, barely."],
-                                                                                                                  "bad": ["He swats it into the yard."]}]]},
-                                                                  {"label": "Pull up from deep", "ops": [["mood", 2]]}]}},
-                                            {"label": "Homework first", "ops": [["mood", -1]]}]},
-                               ensure_ascii=False, indent=1) + "\n```\n")
-    a("## Every line, two ways\n")
-    a("Any line can be texted or said in person. A text-pool line is a plain string (the text), or an object:\n")
-    a('```json\n{"text": "u free later?", "talk": "\\"You free later?\\" {them_first} asks, trying to sound casual.", "when": ["late_night", "crush"]}\n```\n')
-    a("- `text`: how it reads on the phone. The game roughs up spelling and adds emoji by personality, so write it plain.")
-    a("- `talk` (optional): how they'd say it to your face, with `{them_first}` (who's talking). Leave it out and the game makes "
-      "one: it spells out the abbreviations, capitalizes, puts it in quotes and adds how it was said from the `talk` mods.")
-    a("- `when` (optional): context tags that all have to be true for the line to be used. Lines that fit the moment more "
-      "specifically get picked over generic ones more often than not. Tags:\n")
-    a("| tag | true when |")
-    a("|---|---|")
-    for k, v in _lines.TAGS.items():
-        a(f"| `{k}` | {v} |")
-    a("\nThe pools marked IN PERSON below are things people say to your face; they show in the story feed when you hang out, "
-      "go on a date or stop and talk.\n")
-    a("## Mods: one line, many versions\n")
-    a("Mods dress a line for its moment. The game adds an opener or a closer to some texts and says in-person lines a "
-      "particular way, picked by context tag (or `any`; join tags with + when all must hold, like `close+guys` for \"bro\"). "
-      "One base line times its mods is a lot of different lines.\n")
-    for k, v in MOD_KINDS.items():
-        a(f"- `{k}`: {v}")
-    base_mods = _base("mods.json")
-    a("\n```json\n\"mods\": " + json.dumps({k: {t: v[:2] for t, v in list(base_mods[k].items())[:3]} for k in MOD_KINDS}, ensure_ascii=False) + "\n```\n")
-    a("Openers and closers are short (under 40 characters, no placeholders). A talk mod must have `{them_first}` and can use "
-      "`{says}` (it becomes says or asks).\n")
-    a("## Nothing repeats\n")
-    a("The game remembers every line it uses and rests it before using it again; the bigger the pool, the longer the rest. "
-      "Scene `text`, `by_text`, `say` lines and `text` op lines can each be a list of versions instead of one string, and "
-      "the game rotates through them the same way. So write plenty, and make the versions really different, not the same "
-      "sentence reworded.\n")
-    a("## Voice\n")
-    a(VOICE + "\n")
-    a("## Text pools (`texts`)\n")
-    a("| pool | when it shows up | placeholders | sounds like |")
-    a("|---|---|---|---|")
-    for k in texts:
-        ph = ", ".join("{" + n + "}" for n in sorted(pool_names(k))) or "none"
-        ex = " / ".join(f"\"{x}\"" for x in texts[k][:2]).replace("|", "/")
-        a(f"| `{k}` | {POOL_DOCS.get(k, '')} | {ph} | {ex} |")
-    a("")
-    a("## Reply sets (`replies`)\n")
-    a("| set | when you get to reply | current options |")
-    a("|---|---|---|")
-    for k, opts in sets.items():
-        a(f"| `{k}` | {REPLY_SET_DOCS.get(k, '')} | " + " / ".join(f"\"{l}\" ({t})" for l, t in opts) + " |")
-    a("\nTones and what they do:\n")
-    for k, v in REPLY_TONES.items():
-        a(f"- `{k}`: {v}")
-    a("\nReply labels can't use placeholders. When a set has more than 3 options, the game shows 3 at a time and keeps a mix of tones.\n")
-    a("## Narration (`narration`)\n")
-    a("Story-feed lines, keyed `event.outcome`. `{a}` is the person doing it (you, on the phone, becomes \"You\"). One line per entry.\n")
-    for k in templates:
-        a(f"- `{k}`: " + (", ".join("{" + n + "}" for n in sorted(narration_names(k)))))
-    a("")
-    a("## Story moments (`moment_choices`)\n")
-    a("Add up to 5 choices in all to an existing moment. Choices use the same ops as scenes, with the people and placeholders listed here.\n")
-    a("| moment | title | placeholders | people ops can refer to |")
-    a("|---|---|---|---|")
-    for k, m in base_moments.items():
-        if k in NO_ADD or m.get("dynamic"):
-            continue
-        a(f"| `{k}` | {m['title']} | " + ", ".join("{" + n + "}" for n in sorted(moment_names(k))) + " | " + ", ".join(sorted(moment_refs(k))) + " |")
-    a("")
-    a("## Scenes (`scenes`)\n")
-    a("A scene is a new story moment: a title, a short scene, and 2 to 4 choices. Each morning the game may start one scene whose "
-      "conditions fit (at most one every few days; scenes on a specific date always get their day).\n")
-    a("```json\n" + json.dumps(EXAMPLE["scenes"][0], indent=2, ensure_ascii=False) + "\n```\n")
-    a("**id**: lowercase with underscores, unique.  **title**: under 80 characters.  **text**: the scene, second person; one "
-      "string or a list of versions.\n")
-    a("**by_text** (optional, needs `who`): what they'd text you instead, one line or a list. A scene with both can happen in "
-      "person or by text (more often by text on days off, rarely with family). By text, their message lands in your phone "
-      "and the choices are your replies; write `say` lines that work either way.\n")
-    a("**who** (optional): who the scene is about. They become `{them}` / `{them_first}` and the ref `them` in ops.\n")
-    for k, v in WHO.items():
-        a(f"- `{k}`: {v}")
-    a("\n**when** (all optional):\n")
-    a(f"- `chance`: odds per day when everything else fits (default {DEFAULT_CHANCE}; 1 for date scenes). 0.02 rare, 0.05 normal, 0.15 likely.")
-    a(f"- `years`: any of {', '.join(YEARS)}.")
-    a("- `months`: numbers 1-12. `dates`: like \"10-31\". `weekdays`: " + ", ".join(WEEKDAYS) + ".")
-    a("- `requires`: any of " + "; ".join(f"`{k}` ({v[:-1].lower()})" for k, v in REQUIRES.items()) + ".")
-    a("- The other leagues: `pro:<league>:<condition>`, league `nfl`, `nba`, `cfb` (college football), `mbb` / `wbb` (men's / "
-      "women's college basketball), `cbase` (college baseball), `msoc` / `wsoc` (college soccer), `epl` / `laliga` / "
-      "`seriea` / `bund` / `ligue1` (European soccer, your club in each) and `ucl` (the Champions League); condition `in_season`, "
-      "`my_team_winning`, `my_team_losing`, `my_team_in_postseason`, `my_team_alive`, `my_team_champs`, and `my_team_ranked` "
-      "for college (baseball and soccer only have `my_team_champs`). Like `pro:mbb:my_team_alive` for a scene during "
-      "UConn's tournament run.")
-    a("- Pro sports `requires` (the MLB season running in the background; \"your team\" is the Yankees unless you picked another): "
-      + "; ".join(f"`{k}` ({v[:-1].lower()})" for k, v in _pro().REQUIRES.items())
-      + "; and `pro:whatif:<id>` for a world where that piece of history went the other way (" + ", ".join(
-          f"`{w['id']}` = {w['title'].lower()}" for w in _pro().mlb.WHATIFS) + ").")
-    a("- `you_feel` / `they_feel`: ranges on how you feel about them / they feel about you, e.g. `{\"affection\": [40, 100]}`. "
-      "Fields: " + ", ".join(REL_FIELDS) + ".")
-    a("- `me`: ranges on your own stats: " + ", ".join(f"{k} ({v})" for k, v in ME_STATS.items()) + ".")
-    a("- `remembered` / `not_remembered`: facts set by `remember` ops in other scenes, to chain scenes together. A fact remembers "
-      "who the scene was about, so a follow-up scene with the same `who` is about the same person.")
-    a("- `once`: true by default (a scene happens once per story). Set false and add `cooldown_days` for things that can recur.\n")
-    a("**Placeholders** in scenes: " + ", ".join("{" + n + "}" for n in sorted(SCENE_NAMES)) +
-      ". `{them}` is a full name and `{them_first}` a first name; `{sport}` is your main sport; `{pet}` your pet's name; "
-      "`{my_team}` your MLB team (Yankees), `{my_team_record}` its record, `{my_team_star}` its best player right now, "
-      "`{mlb_champ}` the last World Series winner; `{my_nfl_team}` / `{my_nba_team}` (Giants, Knicks), `{my_college}` "
-      "(UConn, or your college once you're there), `{my_nfl_record}` and the like (nba, cfb, mbb, wbb), and `{nfl_champ}` "
-      "and the like for whoever won it last; `{my_club}` (your Premier League club), `{epl_champ}`, `{ucl_champ}`, "
-      "`{ballon_dor}`.\n")
-    a("**People** ops can refer to in scenes: `them` (needs who), `best_friend`, `sibling`, `partner`. A scene whose title or text "
-      "mentions someone (like `{sibling_first}` or `{pet}`) only happens when they exist; a choice that mentions someone only shows "
-      "when they exist. Keep at least two choices that work for anybody.\n")
-    a("**Choices**: `label` (what you do or say), optional `hint`, `fits` (which personalities lean this way when the game picks for "
-      "you, trait: -1..1), and `ops`.\n")
-    a("## Cast slots: one specific person (`cast`)\n")
-    a("When a storyline is about one specific person (your older brother, the basketball star; your twin), name them in a "
-      "`cast` section and set the scenes' `who` to `cast:<slot>`. A slot is bound once, to one real person already in the "
-      "player's story (never a new or changed one), and kept for the whole run: through graduation, college, everything. "
-      "Every pack that uses the same slot name gets the same person, so two storylines about the same brother should use "
-      "the same slot name. If nobody in the story fits, those scenes don't happen (it never falls back to someone else, "
-      "like a sister for a brother story). The player can see and change who a slot is on the pack's card.\n")
-    a("| field | what it means |")
-    a("|---|---|")
-    a("| `who` (required) | the kind of person: " + ", ".join(f"`{k}`" for k in CASTABLE) + ". Use the specific kind: `older_brother`, not `older_sibling`. |")
-    a("| `sport` | they play (or played) this sport: on its team, or clearly into it |")
-    a("| `grade_offset` | how many grades ahead of the player they are: 3 = a senior when the player is a freshman (-2 = two behind) |")
-    a("| `bind` | `start` (bind as soon as the story runs with this pack) or `first_scene` (default: when their first scene comes up) |")
-    a("| `bond` | start at least this close, both ways, once, when they're bound: `{\"familiarity\": 95, \"affection\": 75, \"trust\": 75}` |")
-    a("| `floor` | in these storylines, the relationship never drops below this, whatever the player chooses: `{\"affection\": 55}` |")
-    a("| `label` | how the pack card describes them (\"Your older brother, the basketball star\") |")
-    a("")
-    a('```json\n"cast": {"lead_brother": {"who": "older_brother", "sport": "basketball", "grade_offset": 3, "bind": "start",\n'
-      '  "bond": {"familiarity": 95, "affection": 75, "trust": 75}, "floor": {"affection": 55, "trust": 55}}},\n'
-      '"scenes": [{"id": "bro_team_01_first_morning", "who": "cast:lead_brother", ...}]\n```\n')
-    a("Also accepted (same meaning): `relationship_to_player` for `who`, `gender` (\"male\"/\"female\", must match `who`), "
-      "`grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer/softball) for `sport`, "
-      "and `same_high_school_at_start`, `bind_once` (always true). Remembered facts (`remember`) keep pointing at the same person "
-      "after they graduate. A chapter whose school `years` are over counts as skipped for `after`, so a missed season doesn't "
-      "strand the rest of the story.\n")
-    a("## Trivia (`trivia`)\n")
-    a("Quiz questions for class quizzes, midterms and finals. Each: `q`, `a` (the right answer), `w` (exactly three wrong answers), "
-      "`g` (the lowest grade it fits: 9 to 12, or 13 for college). Facts must be correct; keep answers short. Math is generated, so "
-      "don't add math. Subjects: " + ", ".join(f"`{k}`" for k in __import__("lifeos.trivia", fromlist=["x"]).subjects() if k != "math") + ".\n")
-    a('```json\n"trivia": {"biology": [{"q": "What do red blood cells carry?", "a": "Oxygen", "w": ["Insulin", "Bile", "Calcium"], "g": 9}]}\n```\n')
-    a("## Mini games (the `minigame` op)\n")
-    from .minigames import reg as _mreg
-    a("A choice can be played: `[\"minigame\", game, {\"great\": [ops], \"good\": [ops], \"miss\": [ops]}, odds if nobody plays]`. "
-      "The player plays the game right there; great is 80% or better, good 50% or better, anything else a miss, and each "
-      "picks its own ops (write a different `say` for each). If they skip it, the odds roll instead. Use `\"sport\"` for the "
-      "player's own sport in a sports scene. A choice with a game that isn't ready stays hidden, so always keep two other "
-      "choices. Use them: a scene that turns into a game is the best kind. The quick ones (`hold`, `sweep`, `mathdash`, `flash`, "
-      "`oddone`, `lineup`, `reflex`) take a few seconds, so they fit anywhere: a bet, a dare, a dumb contest with a friend. "
-      "(Class already has its own quick games most school days, so your scenes don't need to make class challenges.)\n")
-    a("| game | what it is | scenes it fits |")
-    a("|---|---|---|")
-    for k, g in _mreg()["games"].items():
-        if g.get("status") != "ready":
-            continue
-        a(f"| `{k}` | {g['title']}: {g.get('blurb', '')} | {MG_FITS.get(k, '')} |")
-    a("")
-    a("## Ops\n")
-    a("| op | how to write it | what it does |")
-    a("|---|---|---|")
-    for k, (n, ex, doc) in OPS.items():
-        a(f"| `{k}` | `{ex}` | {doc} |")
-    a("\nTraits: " + ", ".join(TRAITS) + ".  Talents: " + ", ".join(APTITUDES) + ".  Skills: " + ", ".join(sorted(_skill_ids())) + ".\n")
-    a("Keep effects small and believable: most relationship changes are 2 to 8; 10+ is a big moment. Good choices aren't free: "
-      "the kind option can cost stress or energy, the bold one can backfire through `chance`.\n")
-    a("## Checklist\n")
-    a("- One JSON object, valid JSON, with a `name`.\n- Pool, set, moment, op and tag names exactly as listed.\n"
-      "- Only the placeholders listed for that spot.\n- Scenes have 2 to 4 choices and unique ids.\n"
-      "- Lots of lines, real variety, versions that differ in more than a word.\n")
-    return "\n".join(L)
+    from . import script
+    return script.guide()
 
 
-def prompt_for_ai() -> str:
-    return PROMPT + guide_markdown()
+def prompt_for_ai(ask: str = "") -> str:
+    from . import script
+    return script.prompt_new(ask)
 
 
-TEXTING_PROMPT = """You're upgrading a dialogue pack (one of my storylines) for LIFE OS, a life-simulation game: you play one person from
-the first day of high school (Guilford High School in Guilford, Connecticut) through college. Texting in the game just got a
-lot deeper, and I want the people in this storyline to text like themselves. Add a big "chat" section to the pack.
-
-How texting works now:
-- I can type anything to anyone, or tap a suggestion. The game reads what I did: say hi, ask something, chat, joke, compliment,
-  flirt (in a style: tease, sweet, bold, funny or cheesy), make plans, check on them, apologize, vent about my day, share good
-  news, gossip, say thanks, go dry, be rude, say bye, or ask them out.
-- They answer from lines picked by what I did and how it went (a joke can land or not, a flirt can land, be playful, get
-  awkward or get shut down, venting gets comfort or a shrug). They often ask me something back, and the game offers fitting
-  answers. A conversation runs until they wrap it up. Someone into me answers fast and sometimes double-texts.
-- Everyone has a taste: some love teasing, some love sweet stuff, some hate cheesy lines. Each style can land or miss.
-- They remember: if I mention a test or a game they follow up later, and when we just did something together (a hangout, a
-  date, the boys, a game we won or lost) they bring it up when we start talking.
-- Lines can belong to a kind of person (older_sibling, crush, coach...): those people use their own lines first, so a brother
-  texts like a brother and a coach like a coach.
-
-Do all of this:
-1. Keep the "name" exactly the same (so it replaces the old pack when I paste it in), and keep everything already in the pack.
-2. Add a "chat" section. For every person this storyline is about, add their own lines under "chat": {"people": {"<kind>": {...}}},
-   using the kinds of people listed below, the most specific one that fits (older_brother, not older_sibling, when it's about
-   my brother). If the pack's scenes use a general kind for someone specific, change their "who" to the specific kind too.
-   Write the lines so you could tell who's texting without a name.
-3. For each of those people, fill at least:
-   - reply.greet (warm, ok, cold), reply.chat (warm, ok, cold), reply.ask (warm, ok, cold), reply.joke (laugh, meh),
-     reply.compliment (warm, weird), reply.vent (comfort, meh), reply.news (hype, meh), reply.plans (yes, no, already),
-     reply.apology (accept, cold), reply.support (thanks, fine), reply.thanks (warm, ok), reply.dry (dry, check)
-   - ask.general: questions they'd text back, each {"q": "...", "a": "yesno" | "doing" | "day" | "weekend" | "open" | "flirty"}
-   - topic (game, school, music, weekend, food), follow (school, game, weekend), recent (hangout, date, group, game_win, game_loss)
-   - close (nice, tired, cold)
-   - suggest: things I'd text THEM (greet, ask, joke, plans, support, apology, vent, news, thanks, bye)
-   For a crush, partner or ex, also: reply.flirt (landed, playful, awkward, shut), reply.style (loves, hates), reply.ask_out
-   (yes, no), reply.love (back), ask.flirty, double, and suggest.flirt_tease, flirt_sweet, flirt_bold, flirt_funny, flirt_cheesy.
-   For a sibling, also reply.family (sib_flirt, sib_ok, sib_warm) and reply.love (fam).
-4. At least 6 lines in every list, more for the ones that come up most (greet, chat, ask, close). Short, like real texts (under
-   120 characters). Vary them: openers, lengths, moods. Don't repeat an idea.
-5. Add general lines too (top level of "chat", same shape) for anyone in the storyline's world: at least 6 more for each of
-   reply.vent, reply.news, reply.gossip (spill, shut), reply.thanks and recent.
-6. Use {me} for my first name if you need it; no other names or placeholders in chat lines. Keep it PG-13.
-
-Reply with the COMPLETE upgraded pack as ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas.
-The game checks every line and will tell me exactly what to fix.
-
-"""
+def _script_pack(pid: str):
+    p = next((p for p in packs() if p["id"] == pid), None)
+    if p is None:
+        raise KeyError(pid)
+    if p.get("kind") != "script":
+        raise ValueError("that storyline is in the old JSON format: paste it again as a script")
+    return p
 
 
-def texting_guide() -> str:
-    """Everything a texting upgrade needs: the shape of "chat", every place a line can go, and the kinds of people."""
-    base = _base("chat.json")
-    L = ["## The \"chat\" section\n",
-         "Every list is short text lines. The same shape works at the top level (anyone) and under people.<kind> (just them).\n"]
-    L.append("Their answers, `reply.<what you did>.<how it went>`:")
-    for k, v in base["reply"].items():
-        L.append(f"- reply.{k}: {', '.join(v)}")
-    L.append("\nQuestions they ask back, `ask.general` / `ask.flirty`: each {\"q\": \"...\", \"a\": kind}; a is one of yesno, doing, day, "
-             "weekend, open, flirty.")
-    L.append(f"Answers I can tap, `answer.<kind>`: {', '.join(base['answer'])}.")
-    L.append(f"What I brought up, `topic.<topic>`: {', '.join(base['topic'])}.")
-    L.append(f"Following up later, `follow.<topic>`: {', '.join(base['follow'])}.")
-    L.append(f"Something we just did together, `recent.<kind>`: {', '.join(base['recent'])}.")
-    L.append(f"Wrapping up, `close.<tone>`: {', '.join(base['close'])}. Extra texts from someone into me: `double`.")
-    L.append(f"Things I'd text them, `suggest.<kind>`: {', '.join(base['suggest'])}.\n")
-    L.append("## Kinds of people (for chat.people)\n")
-    for k, v in WHO.items():
-        L.append(f"- `{k}`: {v}")
-    L.append("\n## Example\n")
-    L.append("```json\n" + json.dumps({"name": "My storyline", "chat": {
-        "people": {"older_sibling": {"reply": {"greet": {"warm": ["what do you want", "oh look who remembered i exist"]},
-                                               "vent": {"comfort": ["who do i need to fight", "come to my room, we'll figure it out"]}},
-                                     "ask": {"general": [{"q": "did you take my charger", "a": "yesno"}]},
-                                     "suggest": {"ask": ["can you drive me later", "is mom mad at me or"]}},
-                   "coach": {"reply": {"greet": {"warm": ["Hey. What's up.", "Talk to me."]}},
-                             "recent": {"game_win": ["Good game tonight. Film at 3.", "Proud of that effort. Don't get comfortable."]}}},
-        "reply": {"gossip": {"spill": ["no WAY. who told you"]}}}}, indent=1, ensure_ascii=False) + "\n```\n")
-    return "\n".join(L) + "\n"
+def prompt_for_update(pid: str | None = None, ask: str = "") -> str:
+    """Build out a storyline: the prompt with its whole script in it (or, with no storyline, the one for a new one)."""
+    from . import script
+    if not pid:
+        return script.prompt_new(ask)
+    p = _script_pack(pid)
+    return script.prompt_continue(p["script"], p["pack"].get("name") or "Storyline", ask)
 
 
 def prompt_for_texting(pid: str | None = None) -> str:
-    """The prompt that gives a storyline's people their own way of texting (the pack itself, when it's loaded here)."""
-    body = "Here's my pack:\n\n[paste your pack's JSON here]\n\n"
-    if pid:
-        p = next((x for x in packs() if x["id"] == pid), None)
-        if p is None:
-            raise KeyError(pid)
-        body = "Here's my pack:\n\n```json\n" + json.dumps(p["pack"], indent=1, ensure_ascii=False) + "\n```\n\n"
-    return TEXTING_PROMPT + body + texting_guide()
+    """Texting lines for a storyline's people, as chat blocks."""
+    from . import script
+    if not pid:
+        return script.prompt_new("Texting lines (chat blocks) for the people in my story.")
+    p = _script_pack(pid)
+    return script.prompt_texting(p["script"], p["pack"].get("name") or "Storyline")
 
 
-SHOW_PROMPT = """You're the showrunner for my LIFE OS story. LIFE OS is a life-simulation game: you play one person from the first day
-of high school (Guilford High School in Guilford, Connecticut) through college, seven years. I want my whole run to feel like ONE
-big story with a bunch of episodes, like a TV show: each school year is a season, and my storylines are the threads that run
-through it. Below is a summary of every storyline I have: each one's episodes in order, who they're about, and the facts its
-choices remember.
-
-How it plays:
-- Each storyline's episodes air in the order they're written, as soon as they're ready, woven together with the others:
-  several can happen on one day (two to five on a school day at the default pacing). An episode waits until its
-  conditions are true (school year, season, things remembered...).
-- A "schedule" can place any episode of any storyline: which school years it airs in ("years"), which months ("months",
-  or "not_before"/"not_after" as month-day like "11-15"), which episodes from other storylines have to resolve first
-  ("after"), how long after those it comes ("gap_days": none means it can come the same day), and how big it is
-  ("importance": ambient, regular, major, finale).
-- New "scenes" here are crossover episodes. They're about someone ("who"), can depend on facts remembered in any storyline
-  ("when": {"remembered": [...]}), and can remember facts that change other storylines.
-
-Make me a season plan: ONE pack named "Season plan" with
-1. "schedule": an entry for EVERY episode below. Spread each storyline across the seasons so the years have a shape (a
-   premiere, things building, a finale), interleave the storylines so they feel connected, and use "after" so episodes that
-   relate to each other air in a sensible order. Don't put more than one storyline's big moment in the same week.
-2. "scenes": at least 8 crossover episodes that tie storylines together: characters from different storylines meeting,
-   something from one thread causing trouble in another, a season finale that pays off two threads at once. Give them
-   "then" so they keep going, style choices ("vibe") where they're about someone, and remember facts that later episodes
-   use. Put each crossover in the schedule too.
-3. Keep every scene id you schedule exactly as it is below. Don't rewrite my storylines; this pack only plans and connects them.
-
-Reply with ONE JSON code block and nothing after it: valid JSON, no comments, no trailing commas. The game checks every line.
-
-"""
-
-
-def show_summary() -> str:
-    """Every storyline you have, compact: its episodes in order, who they're about, what they remember."""
-    L = []
-    m = merged()
+def storyline_headers(skip=()) -> str:
+    """Every storyline as its scene lines with their tags (what a season plan works from)."""
+    out = []
     for p in packs():
-        if not p["enabled"] or p["source"] != "yours" or (p["pack"].get("name") == "Season plan"):
+        if not p["enabled"] or not p["pack"].get("scenes") or (p["pack"].get("name") or "").lower() in skip:
             continue
-        L.append(f"### {p['pack'].get('name')}")
-        for sc in p["pack"].get("scenes") or []:
-            if not isinstance(sc, dict):
-                continue
-            text = sc.get("text")
-            text = (text[0] if isinstance(text, list) and text else text or "")[:140].replace("\n", " ")
-            facts = sorted({op[1] for op in _all_ops(sc) if isinstance(op, list) and op and op[0] == "remember" and len(op) > 1})
-            when = sc.get("when") or {}
-            bits = [f"who: {sc.get('who')}" if sc.get("who") else None,
-                    f"years: {', '.join(when['years'])}" if when.get("years") else None,
-                    f"needs remembered: {', '.join(when['remembered'])}" if when.get("remembered") else None,
-                    f"remembers: {', '.join(facts)}" if facts else None]
-            L.append(f"- `{sc.get('id')}` \"{sc.get('title')}\" ({'; '.join(b for b in bits if b)}): {text}")
-        L.append("")
-    return "\n".join(L) if L else "(no storylines yet)\n"
+        out.append(f"=== {p['pack'].get('name')}" + ("" if in_order(p["id"]) else "  (any order)"))
+        for sc in p["pack"]["scenes"]:
+            src = (sc.get("src") or "").split("\n")[0] if isinstance(sc, dict) else ""
+            out.append(src or f"--- {sc.get('title')}")
+        out.append("")
+    return "\n".join(out) or "(no storylines yet)"
+
+
+def prompt_for_show(ask: str = "") -> str:
+    """Make it one story: every storyline's scene lines, and the season plan you have now (sent back whole)."""
+    from . import script
+    plan = next((p for p in packs() if p.get("kind") == "script" and (p["pack"].get("name") or "").lower() == "season plan"), None)
+    return script.prompt_plan(storyline_headers(skip=("season plan",)), ask, plan["script"] if plan else None)
 
 
 def _all_ops(sc):
     out = []
+
     def walk(chs):
         for ch in chs or []:
             if isinstance(ch, dict):
@@ -2549,21 +2286,6 @@ def _all_ops(sc):
                     walk(ch["then"].get("choices"))
     walk(sc.get("choices"))
     return out
-
-
-def prompt_for_show() -> str:
-    return SHOW_PROMPT + "## My storylines\n\n" + show_summary() + "\n" + guide_markdown()
-
-
-def prompt_for_update(pid: str | None = None) -> str:
-    """The prompt that upgrades a pack you already have: the pack itself (when it's loaded here), what to change, and the guide."""
-    body = "Here's my pack:\n\n[paste your pack's JSON here]\n\n"
-    if pid:
-        p = next((x for x in packs() if x["id"] == pid), None)
-        if p is None:
-            raise KeyError(pid)
-        body = "Here's my pack:\n\n```json\n" + json.dumps(p["pack"], indent=1, ensure_ascii=False) + "\n```\n\n"
-    return UPDATE_PROMPT + body + guide_markdown()
 
 
 def current_dialogue() -> dict:
@@ -2575,11 +2297,19 @@ def current_dialogue() -> dict:
             "packs": m["loaded"]}
 
 
-if __name__ == "__main__":  # python -m lifeos.dialogue check pack.json   |   python -m lifeos.dialogue guide > guide.md
+if __name__ == "__main__":  # python -m lifeos.dialogue check story.story   |   python -m lifeos.dialogue guide > guide.md
     import sys
     if len(sys.argv) >= 3 and sys.argv[1] == "check":
+        from . import script as _sc
         with open(sys.argv[2], encoding="utf-8") as f:
-            r = check(parse_text(f.read()))
+            txt = f.read()
+        if _sc.looks_like_script(txt):
+            r = _sc.compile_script(txt)
+            for e in r["errors"]:
+                print(f"ERROR   line {e['line']}: {e['text']}")
+            print("OK" if not r["errors"] else "NOT OK", r["summary"])
+            sys.exit(1 if r["errors"] else 0)
+        r = check(parse_text(txt))
         for e in r["errors"]:
             print("ERROR  ", e)
         for wn in r["warnings"]:
@@ -2589,4 +2319,4 @@ if __name__ == "__main__":  # python -m lifeos.dialogue check pack.json   |   py
     elif len(sys.argv) >= 2 and sys.argv[1] == "guide":
         print(guide_markdown())
     else:
-        print("usage: python -m lifeos.dialogue check <pack.json> | guide")
+        print("usage: python -m lifeos.dialogue check <story.story> | guide")

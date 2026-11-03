@@ -151,7 +151,7 @@ export type Coverage = { years: { label: string; key: string; months: number[]; 
 export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; name?: string; fix_prompt?: string | null;
   new?: { sid: string; title: string; state: string; date?: string; reason?: string; why?: string; detail?: any }[]; new_played?: number;
   changed?: { sid: string; title: string; state: string; date?: string; why?: string; reason?: string }[]; already_there?: string[];
-  played_total?: number; before?: number | null; coverage?: Coverage };
+  played_total?: number; before?: number | null; coverage?: Coverage; replaces?: string[]; script?: boolean };
 export type UpNextRow = { sid: string; title: string; storyline: string; pack: string; day: number; date: string; in_days: number;
   importance: string; ready: boolean; waits_for: string[] };
 export type UpNext = { now: { sid: string; title: string } | null; list: UpNextRow[]; date: string;
@@ -258,7 +258,9 @@ export const phoneApi = {
   scheduleReport: (days: number): Promise<ScheduleReport> => api.get(`/api/story/schedule/report?days=${days}&fmt=both`),
   addPrompt: (ask: string): Promise<{ prompt: string; chars: number; suggestions: string[]; checked: boolean; last_check: { coverage: Coverage } | null }> =>
     api.get(`/api/story/add/prompt?ask=${encodeURIComponent(ask)}`),
-  addPreview: (text: string): Promise<AddPreview> => api.post("/api/story/add/preview", { text }),
+  addPreview: (text: string, target?: { pack: string; after: string | null }): Promise<AddPreview> =>
+    api.post("/api/story/add/preview", target ? { text, pack: target.pack, after: target.after || "" } : { text }),
+  addInsert: (pack: string, after: string | null, text: string) => api.post("/api/story/add/insert", { pack, after: after || "", text }),
   weave: (pack: string, after: string | null, ask: string): Promise<{ prompt: string; chars: number; pack_name: string; where: string; after: string | null; next: string | null }> =>
     api.get(`/api/story/add/weave?pack=${encodeURIComponent(pack)}&after=${encodeURIComponent(after || "")}&ask=${encodeURIComponent(ask)}`),
   // play a storyline start to finish, on a copy of your story

@@ -1,4 +1,5 @@
-// Dialogue packs on the phone: copy the prompt for ChatGPT, paste its answer back, turn packs on and off, try a scene.
+// Storylines on the phone: everything is a story script (plain text, like a screenplay). Copy the prompt for ChatGPT,
+// paste its answer back, read and edit any storyline's script, turn them on and off, try a scene.
 import React, { useEffect, useState } from "react";
 import { api } from "../api";
 import { pgo } from "./api";
@@ -11,9 +12,44 @@ type PackRow = {
   id: string; name: string; author?: string; notes?: string; source: "builtin" | "yours"; enabled: boolean; ok: boolean;
   errors: string[]; warnings: string[]; summary: Record<string, number>; scenes: { id: string; title: string; who?: string }[];
   in_order?: boolean; progress?: { done: number; of: number; next: string | null; in_order: boolean };
+  kind?: "script" | "json"; cast?: { name: string; who: string; label: string }[];
 };
 type Packs = { packs: PackRow[]; scenes: string[]; lines: number };
-type Check = { ok: boolean; errors: string[]; warnings: string[]; summary: Record<string, number>; name?: string };
+type Check = { ok: boolean; errors: string[]; warnings: string[]; summary: Record<string, number>; name?: string; script?: boolean };
+
+/** "line 12: ..." -> 12 (the line a problem is on), or null. */
+export function lineOf(msg: string): number | null {
+  const m = /^(?:storyline )?line (\d+):/.exec(msg);
+  return m ? Number(m[1]) : null;
+}
+
+/** Put the cursor on a line of a textarea (and scroll it into view). */
+export function goToLine(ta: HTMLTextAreaElement | null, line: number) {
+  if (!ta) return;
+  const lines = ta.value.split("\n");
+  const n = Math.max(1, Math.min(line, lines.length));
+  let start = 0;
+  for (let i = 0; i < n - 1; i++) start += lines[i].length + 1;
+  ta.focus();
+  ta.setSelectionRange(start, start + lines[n - 1].length);
+  const lh = parseFloat(getComputedStyle(ta).lineHeight) || 18;
+  ta.scrollTop = Math.max(0, (n - 4) * lh);
+}
+
+/** How many lines of a paste come before the script itself (ChatGPT's "Here you go!" and the ``` line). */
+export function scriptOffset(text: string) {
+  const ls = text.split("\n");
+  const fence = ls.findIndex((l) => l.trim().startsWith("```"));
+  if (fence >= 0) return fence + 1;
+  let k = 0;
+  while (k < ls.length && !ls[k].trim()) k++;
+  return k;
+}
+
+export function fixMessage(errors: string[], text: string) {
+  return "The LIFE OS game couldn't load this script. Fix exactly these problems and send the whole script again as ONE code block (```), nothing after it:\n\n- "
+    + errors.join("\n- ") + "\n\nThe script:\n\n```\n" + text.trim() + "\n```\n";
+}
 
 export async function copyText(text: string): Promise<boolean> {
   try {
@@ -46,6 +82,8 @@ export function addsLine(s: Record<string, number>) {
   if (s.moment_choices) parts.push(`${s.moment_choices} choice${s.moment_choices === 1 ? "" : "s"}`);
   if (s.narration) parts.push(`${s.narration} story line${s.narration === 1 ? "" : "s"}`);
   if (s.mods) parts.push(`${s.mods} mod${s.mods === 1 ? "" : "s"}`);
+  if (s.lines) parts.push(`${s.lines} line${s.lines === 1 ? "" : "s"}`);
+  if (s.trivia) parts.push(`${s.trivia} trivia`);
   return parts.join(" · ") || "nothing yet";
 }
 
@@ -176,6 +214,8 @@ export default function DialogueCard() {
   const [data, setData] = useState<Packs | null>(null);
   const [paste, setPaste] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
+  const [edit, setEdit] = useState<PackRow | null>(null);
+  const [guide, setGuide] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const load = () => api.get("/api/dialogue/packs").then(setData).catch(() => setData(null));
   useEffect(() => {
@@ -218,6 +258,13 @@ export default function DialogueCard() {
       toast(errText(e), "bad");
     } finally {
       setBusy(null);
+    }
+  };
+  const showGuide = async () => {
+    try {
+      setGuide((await api.get("/api/dialogue/guide")).text);
+    } catch (e) {
+      toast(errText(e), "bad");
     }
   };
   const setOrder = async (p: PackRow, on: boolean) => {
@@ -268,29 +315,30 @@ export default function DialogueCard() {
 
   return (
     <>
-      <div className="ph-section-t">Dialogue packs</div>
+      <div className="ph-section-t">Storylines</div>
       <div className="ph-card dl-card">
         <p className="ph-dim small" style={{ marginTop: 0 }}>
-          More texts, reply options and whole new scenes. Have ChatGPT (or Claude) write a pack, then paste it here.
-          {data && <> Right now: <b>{data.scenes.length}</b> pack scenes and <b>{data.lines}</b> text lines.</>}
+          Storylines, scenes, texts and chat lines, all written as story scripts: plain text, like a screenplay. Have ChatGPT
+          (or Claude) write one, paste it here, and open any storyline to read or edit its script.
+          {data && <> Right now: <b>{data.scenes.length}</b> scenes and <b>{data.lines}</b> text lines.</>}
         </p>
         <div className="ph-filebtns">
           <button className="ph-btn primary block" disabled={!!busy} onClick={copyPrompt}>
             {busy === "copy" ? <span className="ph-spinner small light" /> : <PIcon name="chat" size={17} />} Copy the ChatGPT prompt
           </button>
           <button className="ph-btn soft block" disabled={!!busy} onClick={() => setPaste(true)}>
-            <PIcon name="plus" size={17} /> Paste a pack
+            <PIcon name="plus" size={17} /> Paste a script
           </button>
         </div>
         <ol className="dl-how">
           <li>Copy the prompt and paste it into ChatGPT.</li>
           <li>Replace the "What I want" line with your idea.</li>
-          <li>Copy ChatGPT's whole answer and tap <b>Paste a pack</b>.</li>
+          <li>Copy ChatGPT's whole answer and tap <b>Paste a script</b>.</li>
         </ol>
+        <button className="ph-link" onClick={showGuide}>How scripts work</button>
         <p className="ph-dim small">
-          Made storylines before? Open one below and tap <b>Build it out</b>: ChatGPT turns it into a real story, with chapters in
-          order, scenes that keep going, choices that change what happens later, style choices and mini games. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate()}>Pack not on this phone? Copy the build-out prompt</button>
-          {" "}Or tap <b>Upgrade its texting</b> so its people text like themselves. <button className="ph-link" disabled={!!busy} onClick={() => copyUpdate(undefined, "texting")}>Copy the texting prompt</button>
+          Open a storyline below and tap <b>Build it out</b>: ChatGPT gets its whole script and sends it back bigger (paste it
+          here and it replaces the old one, same title). Or tap <b>Upgrade its texting</b> so its people text like themselves.
           <button className="ph-btn soft block dl-show" disabled={!!busy} onClick={copyShow}>
             <PIcon name="book" size={17} /> Make it one story: copy the season plan prompt
           </button>
@@ -302,7 +350,7 @@ export default function DialogueCard() {
               <button className="dl-pack-h" onClick={() => setOpen(open === p.id ? null : p.id)}>
                 <span className="dl-pack-m">
                   <b>{p.name}</b>
-                  <small>{p.source === "builtin" ? "Built in" : "Yours"} · {p.ok ? (p.progress && p.in_order && p.progress.of
+                  <small>{p.kind === "json" ? "Old format · " : ""}{p.ok ? (p.progress && p.in_order && p.progress.of
                     ? (p.progress.done >= p.progress.of ? `All ${p.progress.of} chapters done` : `Chapter ${p.progress.done + 1} of ${p.progress.of} next`)
                     : addsLine(p.summary)) : "has problems"}</small>
                 </span>
@@ -312,7 +360,14 @@ export default function DialogueCard() {
               {open === p.id && (
                 <div className="dl-pack-b">
                   {p.notes && <p className="ph-dim small">{p.notes}</p>}
+                  {p.cast && p.cast.length > 0 && <p className="ph-dim small dl-castline">{p.cast.map((c) => `${c.name}: ${c.label}`).join(" · ")}</p>}
                   {!p.ok && <Problems errors={p.errors} warnings={[]} />}
+                  {p.kind === "script" && (
+                    <button className="ph-btn soft block" onClick={() => setEdit(p)}>
+                      <PIcon name="book" size={17} /> Read and edit the script
+                    </button>
+                  )}
+                  {p.kind === "json" && <p className="ph-dim small">This one's in the old JSON format. Ask ChatGPT to rewrite it as a story script (copy the prompt above) and paste that in; then remove this one.</p>}
                   {p.ok && <WhoItsAbout pack={p.id} onChanged={load} />}
                   {p.ok && p.scenes.length > 1 && (
                     <label className="dl-order">
@@ -337,17 +392,17 @@ export default function DialogueCard() {
                       ))}
                     </>
                   )}
-                  {p.source === "yours" && p.ok && (
+                  {p.source === "yours" && p.ok && p.kind === "script" && (
                     <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id)}>
                       {busy === `up:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Build it out: copy the prompt for ChatGPT
                     </button>
                   )}
-                  {p.source === "yours" && p.ok && (
+                  {p.source === "yours" && p.ok && p.kind === "script" && (
                     <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id, "texting")}>
                       {busy === `tx:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Upgrade its texting: copy the prompt
                     </button>
                   )}
-                  {p.source === "yours" && <button className="ph-link dl-remove" onClick={() => remove(p)}>Remove this pack</button>}
+                  {p.source === "yours" && <button className="ph-link dl-remove" onClick={() => remove(p)}>Remove this storyline</button>}
                 </div>
               )}
             </div>
@@ -355,16 +410,23 @@ export default function DialogueCard() {
         </div>
       </div>
       <PasteSheet open={paste} onClose={() => setPaste(false)} onAdded={(d) => { setData(d); setPaste(false); }} />
+      <ScriptSheet pack={edit} onClose={() => setEdit(null)} onSaved={(d) => setData(d)} />
+      <Sheet open={guide !== null} onClose={() => setGuide(null)} full title="How scripts work">
+        <pre className="dl-guide">{guide}</pre>
+      </Sheet>
     </>
   );
 }
 
-function Problems({ errors, warnings }: { errors: string[]; warnings: string[] }) {
+export function Problems({ errors, warnings, onLine }: { errors: string[]; warnings: string[]; onLine?: (n: number) => void }) {
   if (!errors.length && !warnings.length) return null;
   return (
     <div className="dl-problems">
-      {errors.length > 0 && <b>Needs fixing ({errors.length})</b>}
-      {errors.slice(0, 12).map((e, i) => <div key={i} className="dl-err">{e}</div>)}
+      {errors.length > 0 && <b>Needs fixing ({errors.length}){onLine && lineOf(errors[0]) ? <small> · tap one to go to its line</small> : null}</b>}
+      {errors.slice(0, 12).map((e, i) => {
+        const n = lineOf(e);
+        return onLine && n ? <button key={i} className="dl-err dl-errbtn" onClick={() => onLine(n)}>{e}</button> : <div key={i} className="dl-err">{e}</div>;
+      })}
       {errors.length > 12 && <div className="dl-err">…and {errors.length - 12} more</div>}
       {warnings.slice(0, 6).map((e, i) => <div key={`w${i}`} className="dl-warn">{e}</div>)}
     </div>
@@ -376,6 +438,7 @@ function PasteSheet({ open, onClose, onAdded }: { open: boolean; onClose: () => 
   const [text, setText] = useState("");
   const [check, setCheck] = useState<Check | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const ref = React.useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     if (!open) setCheck(null);
   }, [open]);
@@ -418,32 +481,33 @@ function PasteSheet({ open, onClose, onAdded }: { open: boolean; onClose: () => 
     }
   };
   const fromFile = async () => {
-    const f = await pickFile(".json,.txt,application/json,text/plain");
+    const f = await pickFile(".story,.txt,.md,.json,text/plain,application/json");
     if (!f) return;
     const t = await f.text();
     setText(t);
     doCheck(t);
   };
   return (
-    <Sheet open={open} onClose={onClose} full title="Paste a dialogue pack">
-      <p className="ph-dim small" style={{ marginTop: 0 }}>Paste ChatGPT's whole answer. Extra words around the JSON are fine.</p>
+    <Sheet open={open} onClose={onClose} full title="Paste a script">
+      <p className="ph-dim small" style={{ marginTop: 0 }}>Paste ChatGPT's whole answer: extra words around the script are fine.
+        A storyline with the same title as one you have replaces it (that's how you update one).</p>
       <div className="dl-paste-btns">
         <button className="ph-btn soft" onClick={fromClipboard}>Paste from clipboard</button>
         <button className="ph-btn soft" onClick={fromFile}><PIcon name="upload" size={16} /> File</button>
       </div>
-      <textarea className="ph-input dl-text" value={text} placeholder='{"dialogue_pack": 1, "name": "...", ...}'
+      <textarea ref={ref} className="ph-input dl-text" value={text} placeholder={"=== Title\ncast: bro = older brother\n\n--- First scene  [freshman · September]\n..."}
         onChange={(e) => { setText(e.target.value); setCheck(null); }} spellCheck={false} autoCapitalize="off" autoCorrect="off" />
       {check && (
         check.ok ? (
           <div className="dl-ok">
-            <b>{check.name || "This pack"} looks good.</b> It adds {addsLine(check.summary)}.
+            <b>{check.name || "This script"} looks good.</b> It adds {addsLine(check.summary)}.
             {check.warnings.length > 0 && <Problems errors={[]} warnings={check.warnings} />}
           </div>
         ) : (
           <>
-            <Problems errors={check.errors} warnings={check.warnings} />
+            <Problems errors={check.errors} warnings={check.warnings} onLine={(n) => goToLine(ref.current, n + scriptOffset(text))} />
             <button className="ph-link center" onClick={async () => {
-              const ok = await copyText("The game found these problems in the dialogue pack. Please fix them and send the whole pack again as one JSON block:\n- " + check.errors.join("\n- "));
+              const ok = await copyText(fixMessage(check.errors, text));
               toast(ok ? "Copied. Paste it back to ChatGPT." : "Couldn't copy.", ok ? "good" : "bad");
             }}>Copy the problems for ChatGPT</button>
           </>
@@ -460,6 +524,87 @@ function PasteSheet({ open, onClose, onAdded }: { open: boolean; onClose: () => 
           </button>
         )}
       </div>
+    </Sheet>
+  );
+}
+
+/** One storyline's script: read it, edit it, check it, save it (nothing changes until it's clean). */
+function ScriptSheet({ pack, onClose, onSaved }: { pack: PackRow | null; onClose: () => void; onSaved: (d: Packs) => void }) {
+  const { toast } = usePhone();
+  const [text, setText] = useState<string | null>(null);
+  const [orig, setOrig] = useState("");
+  const [check, setCheck] = useState<Check | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const ref = React.useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    setText(null);
+    setCheck(null);
+    if (!pack) return;
+    api.get(`/api/dialogue/packs/${encodeURIComponent(pack.id)}/script`).then((r) => {
+      setText(r.text);
+      setOrig(r.text);
+    }).catch((e) => toast(errText(e), "bad"));
+  }, [pack?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  const doCheck = async () => {
+    if (text === null) return;
+    setBusy("check");
+    try {
+      setCheck(await api.post("/api/dialogue/check", { text }));
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
+  const save = async () => {
+    if (!pack || text === null) return;
+    setBusy("save");
+    try {
+      const r = await api.post(`/api/dialogue/packs/${encodeURIComponent(pack.id)}/script`, { text });
+      toast(`Saved. ${addsLine(r.summary)}.`, "good");
+      setOrig(text);
+      setCheck(null);
+      onSaved(r);
+    } catch (e: any) {
+      setCheck({ ok: false, errors: e?.errors?.length ? e.errors : [errText(e)], warnings: [], summary: {} });
+    } finally {
+      setBusy(null);
+    }
+  };
+  const changed = text !== null && text !== orig;
+  const lines = text === null ? 0 : text.split("\n").length;
+  return (
+    <Sheet open={!!pack} onClose={() => { if (!changed || window.confirm("Close without saving your changes?")) onClose(); }} full title={pack?.name || "Script"}>
+      {text === null ? <div className="pm-empty"><span className="ph-spinner" /></div> : (
+        <>
+          <div className="dl-paste-btns">
+            <button className="ph-btn soft" onClick={async () => toast((await copyText(text)) ? "Copied the script." : "Couldn't copy.", "good")}>Copy</button>
+            <button className="ph-btn soft" disabled={!changed} onClick={() => { setText(orig); setCheck(null); }}>Undo changes</button>
+          </div>
+          <textarea ref={ref} className="ph-input dl-text dl-script" value={text} onChange={(e) => { setText(e.target.value); setCheck(null); }}
+            spellCheck={false} autoCapitalize="off" autoCorrect="off" />
+          <small className="ph-dim dl-count">{lines} lines{changed ? " · edited" : ""}</small>
+          {check && (check.ok
+            ? <div className="dl-ok"><b>Looks good.</b> {addsLine(check.summary)}.{check.warnings.length > 0 && <Problems errors={[]} warnings={check.warnings} />}</div>
+            : (
+              <>
+                <Problems errors={check.errors} warnings={check.warnings} onLine={(n) => goToLine(ref.current, n)} />
+                <button className="ph-link center" onClick={async () => {
+                  const ok = await copyText(fixMessage(check.errors, text));
+                  toast(ok ? "Copied. Paste it to ChatGPT." : "Couldn't copy.", ok ? "good" : "bad");
+                }}>Copy the problems for ChatGPT</button>
+              </>
+            ))}
+          <div className="dl-paste-foot">
+            <button className="ph-btn soft block" disabled={!!busy} onClick={doCheck}>
+              {busy === "check" ? <span className="ph-spinner small" /> : null} Check it
+            </button>
+            <button className="ph-btn primary block" disabled={!changed || !!busy} onClick={save}>
+              {busy === "save" ? <span className="ph-spinner small light" /> : null} Save
+            </button>
+          </div>
+        </>
+      )}
     </Sheet>
   );
 }

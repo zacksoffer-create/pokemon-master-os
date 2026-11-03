@@ -85,6 +85,24 @@ export function StatChips({ chips }: { chips: Chip[] }) {
   );
 }
 
+// "Mike: You're actually trying out?" is someone talking (story scripts write scenes like a screenplay)
+// (a name is one to three capitalized words: "Mike", "Coach Davis", "Ms. Lee"; "The tryout list: you chose..." isn't)
+const SAY = /^([A-Z][A-Za-z.'\-]*(?: [A-Z][A-Za-z.'\-]*){0,2})(?: texts)?: (.+)$/;
+
+/** Scene text as it was written: narration as paragraphs, "Name: line" as someone talking. */
+export function Talk({ text, className }: { text: string; className?: string }) {
+  const parts = (text || "").split("\n").map((l) => l.trim()).filter(Boolean);
+  if (parts.length <= 1 && !SAY.test(parts[0] || "")) return <p className={className}>{text}</p>;
+  return (
+    <div className={cx("ph-talk", className)}>
+      {parts.map((l, i) => {
+        const m = SAY.exec(l);
+        return m ? <p key={i} className="say"><b>{m[1]}</b> {m[2]}</p> : <p key={i}>{l}</p>;
+      })}
+    </div>
+  );
+}
+
 export function Lines({ lines }: { lines: Line[] }) {
   return (
     <div className="ph-lines">
@@ -93,7 +111,7 @@ export function Lines({ lines }: { lines: Line[] }) {
           {l.with && l.with.length > 0 && (
             <div className="ph-line-faces">{l.with.slice(0, 2).map((w) => <Face key={w} id={w} size={36} />)}</div>
           )}
-          <p>{l.text}</p>
+          <Talk text={l.text} />
         </div>
       ))}
     </div>

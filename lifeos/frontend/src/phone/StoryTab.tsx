@@ -5,7 +5,7 @@ import MiniGame, { MGConfig, MGResult } from "../minigames/MiniGame";
 import { Chip, Choice, DaySlot, FeedItem, Line, MiniGameRow, Moment, phoneApi, pgo, PlateItem, Today, UpNext, WeekDay } from "./api";
 import { Portrait, Scene } from "./art";
 import { PIcon } from "./icons";
-import { buzz, cx, errText, Face, Lines, money, Sheet, StatChips, useWho } from "./kit";
+import { buzz, cx, errText, Face, Lines, money, Sheet, StatChips, Talk, useWho } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { SetupNudge } from "./Editor";
 
@@ -612,7 +612,7 @@ export function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number;
       )}
       <h2>{m.title}</h2>
       {m.previously && <p className="ph-moment-prev">{m.previously}</p>}
-      <p className="ph-moment-t">{m.text}</p>
+      <Talk className="ph-moment-t" text={m.text} />
       <div className="ph-moment-c">
         {m.choices.map((c, i) => (
           <button key={i} className={cx("ph-mchoice", c.game && "is-game")} disabled={busy} onClick={() => onPick(m, i)} style={{ animationDelay: `${i * 70}ms` }}>

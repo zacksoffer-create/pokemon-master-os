@@ -212,10 +212,11 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
       await (navigator as any).share({ title: "LIFE OS: add to my story", text: prompt.text });
     } catch { /* cancelled */ }
   };
-  const check = () => run("check", async () => setPv(await phoneApi.addPreview(paste)));
+  const check = () => run("check", async () => setPv(await phoneApi.addPreview(paste, target)));
   const add = () => run("add", async () => {
-    await phoneApi.addPack(paste);
-    toast(`Added: ${pv?.name || "your new scenes"}.`, "good");
+    if (target) await phoneApi.addInsert(target.pack, target.after, paste);
+    else await phoneApi.addPack(paste);
+    toast(target ? "Added. It's in the storyline's script now, right where it goes." : `Added: ${pv?.name || "your new scenes"}.`, "good");
     setPv(null);
     setPaste("");
     setPrompt(null);
@@ -235,10 +236,10 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
       {prompt && (
         <div className="sch-prompt">
           {prompt.where ? (
-            <p className="ph-dim small">Ready: it goes {prompt.where.replace(/\.$/, "")}. The prompt has this storyline's chapters in their own words, what you chose when you played it,
-              what else is going on then, your family and cast, and exactly how to wire the new scene in.</p>
+            <p className="ph-dim small">Ready: it goes {prompt.where.replace(/\.$/, "")}. The prompt has this storyline's script, what you chose when you played it,
+              what else is going on then, and your family and cast. ChatGPT sends back just the new scene; the game puts it in right there.</p>
           ) : (
-            <p className="ph-dim small">Ready: it has your family and cast, every storyline and its scene ids, {prompt.checked ? "how your seven years play right now (from your last check), " : ""}and the rules for an answer the game can load.
+            <p className="ph-dim small">Ready: it has your family and cast, every storyline and its scenes, {prompt.checked ? "how your seven years play right now (from your last check), " : ""}and the rules for an answer the game can load.
               {!prompt.checked && " Run the check above first and the prompt will know where your story is thin."}</p>
           )}
           <div className="sch-row2">
@@ -248,7 +249,7 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
         </div>
       )}
       <div className="sch-step"><i>2</i><b>Paste what ChatGPT gives you</b></div>
-      <textarea className="ph-input mono" rows={4} value={paste} placeholder="Paste the whole answer. The game finds the pack inside it." onChange={(e) => { setPaste(e.target.value); setPv(null); }} />
+      <textarea className="ph-input mono" rows={4} value={paste} placeholder="Paste the whole answer. The game finds the script inside it." onChange={(e) => { setPaste(e.target.value); setPv(null); }} />
       <button className="ph-btn block" disabled={!!busy || !paste.trim()} onClick={check}>{busy === "check" ? <span className="ph-spinner small" /> : "Check it (nothing is saved yet)"}</button>
       {pv && !pv.ok && (
         <div className="sch-pv bad">
@@ -260,7 +261,7 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
       )}
       {pv && pv.ok && (
         <div className="sch-pv">
-          <b>{pv.name}</b>
+          <b>{target ? "Your new scene" : pv.name}</b>
           <div className="sch-rep-l ok">{pv.new?.length || 0} new scene{pv.new?.length === 1 ? "" : "s"}: {playedNew.length} play in your seven years
             {playedNew.length ? ` (${playedNew[0].date} to ${playedNew[playedNew.length - 1].date})` : ""}.</div>
           {pv.before !== null && pv.before !== undefined && <div className="sch-rep-l">Your story: {pv.before} scenes play now, {pv.played_total} with this.</div>}
@@ -279,7 +280,8 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
           {(pv.already_there || []).length > 0 && <div className="sch-rep-l bad">Already in your story (skipped): {pv.already_there!.join(", ")}</div>}
           {pv.coverage && <CoverageGrid c={pv.coverage} />}
           <button className="ph-btn primary block" disabled={!!busy} onClick={add}>{busy === "add" ? <span className="ph-spinner small light" /> : "Add it to my story"}</button>
-          <p className="ph-dim small">It goes in as its own pack: on or off any time under Me &gt; Storylines, and your other files don't change.</p>
+          <p className="ph-dim small">{target ? "It goes into this storyline's script, right after that scene. You can read and edit it under Me > Storylines."
+            : pv.replaces && pv.replaces.length ? "A storyline you have comes back with the same title: this replaces it." : "Each storyline goes in as its own script: on or off any time under Me > Storylines."}</p>
         </div>
       )}
     </div>

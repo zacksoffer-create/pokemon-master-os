@@ -951,7 +951,8 @@ def _start(sim, me, sid, cat):
     spec = sim.cat.moments[sid]
     when = spec["scene"].get("when") or {}
     rng = sim.streams.get("scene", w.day, sid)
-    ctx = dialogue._context(sim, me, spec["scene"].get("who"), when, rng, pack=spec["scene"].get("pack"))
+    ctx = dialogue._context(sim, me, spec["scene"].get("who"), when, rng, pack=spec["scene"].get("pack"),
+                            cast_refs=spec["scene"].get("cast_refs"))
     if ctx is None:
         _note(w, sid, "waiting", "missing_cast", spec["scene"].get("who"))
         return None
