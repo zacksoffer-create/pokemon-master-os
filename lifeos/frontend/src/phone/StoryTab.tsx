@@ -46,6 +46,7 @@ export default function StoryTab() {
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [recap, setRecap] = useState<FeedItem[] | null>(null);
   const [skip, setSkip] = useState<{ done: number; days: number } | null>(null);
+  const [between, setBetween] = useState<{ days: number; feed: FeedItem[] } | null>(null);
   const [busy, setBusy] = useState(false);
   const [showToday, setShowToday] = useState(false);
   const [playing, setPlaying] = useState<Playing | null>(null);
@@ -119,6 +120,7 @@ export default function StoryTab() {
 
   const pickMoment = (m: Moment, index: number | null) => run(async () => {
     buzz();
+    setBetween(null);
     const r = await phoneApi.moment(m.id, index);
     if (r.minigame) {  // you play this one yourself
       setPlaying({ cfg: r.minigame, m, index: index ?? undefined });
@@ -197,6 +199,43 @@ export default function StoryTab() {
     lab.refresh();
   });
 
+  // Episodes back to back: your life plays itself up to the next storyline scene, and you see what happened in between
+  const binge = !!s.control?.binge;
+  const nextEpisode = () => run(async () => {
+    buzz();
+    const before = s.last_event;
+    let j = await phoneApi.advance("episode");
+    setSkip({ done: j.done || 0, days: j.days || 0 });
+    while (j.status === "running") {
+      await new Promise((r) => setTimeout(r, 500));
+      j = await phoneApi.job();
+      if (alive.current) setSkip({ done: j.done || 0, days: j.days || 0 });
+    }
+    setSkip(null);
+    if (j.status === "failed") throw new Error(j.error || "something went wrong while time passed");
+    const st = await phoneApi.state(before);
+    const days = Math.max(0, (j.end_day ?? 0) - (j.start_day ?? 0));
+    setBetween(days > 0 || st.feed.length ? { days, feed: st.feed.slice().reverse() } : null);
+    if (j.stop === "time") toast("No scene came up for a long stretch. Me > Story schedule shows what's waiting.", "bad");
+    if (j.stop === "end") toast("That's your whole story.", "good");
+    await refresh();
+    lab.refresh();
+  });
+  const setBinge = (on: boolean) => run(async () => {
+    buzz();
+    await phoneApi.control({ binge: on });
+    setBetween(null);
+    await refresh();
+  });
+  const startBinge = async () => {
+    await setBinge(true);
+    if (!moment) nextEpisode();
+  };
+  const afterOutcome = () => {
+    setOutcome(null);
+    if (binge && !s.moments.length) nextEpisode();
+  };
+
   const todayFeed = s.feed.filter((f) => f.date === s.date);
   // your free time, sorted by what kind of thing it is: with friends, on your own, going somewhere (the trouble is under More)
   const groups = (["people", "solo", "out", "trouble"] as const).map((g) => ({ g, list: (choices || []).filter((c) => (c.section || "solo") === g) }));
@@ -218,18 +257,28 @@ export default function StoryTab() {
       </div>
 
       <div className="ph-pad ph-story-b">
-        {today && <DayStrip strip={today.strip} />}
-        {!moment && !skip && <SetupNudge />}
-        {s.queued && (
+        {today && !binge && <DayStrip strip={today.strip} />}
+        {!moment && !skip && !binge && <SetupNudge />}
+        {binge && between && !skip && <Between b={between} onAll={() => setRecap(between.feed)} />}
+        {!binge && s.queued && (
           <div className="ph-planned"><PIcon name="clock" size={16} /> Planned: {s.queued.label}</div>
         )}
-        {today && !moment && !skip && <Plate items={today.plate} />}
-        {today && !moment && !skip && <Week days={today.week} />}
+        {today && !moment && !skip && !binge && <Plate items={today.plate} />}
+        {today && !moment && !skip && !binge && <Week days={today.week} />}
 
         {skip ? (
           <SkipProgress done={skip.done} />
         ) : moment ? (
           <MomentCard m={moment} more={s.moments.length - 1} busy={busy} onPick={pickMoment} />
+        ) : binge ? (
+          <div className="ph-binge">
+            <div className="ph-kicker">Episodes, back to back</div>
+            <button className="ph-btn primary block big" onClick={nextEpisode} disabled={busy}>
+              {busy ? <span className="ph-spinner small light" /> : <>Next episode <PIcon name="chevron" size={18} /></>}
+            </button>
+            <small className="ph-dim">{s.stories?.played ? `${s.stories.played} played so far. ` : ""}Your life plays itself in between: practices, games, classes and plans. Your character decides those; the scenes wait for you.</small>
+            <button className="ph-link center" onClick={() => setBinge(false)} disabled={busy}>Back to living day by day</button>
+          </div>
         ) : s.decision_ready ? (
           <div className="ph-choices">
             <div className="ph-free-h">
@@ -286,7 +335,7 @@ export default function StoryTab() {
           </div>
         )}
 
-        {!skip && !moment && (s.stories?.waiting ?? 0) > 0 && (
+        {!skip && !moment && !binge && (s.stories?.waiting ?? 0) > 0 && (
           <button className="ph-continue" onClick={continueStory} disabled={busy}>
             <PIcon name="story" size={18} />
             <span><b>Continue story</b><small>{s.stories!.waiting} more scene{s.stories!.waiting === 1 ? "" : "s"} today. Play the next one now, or they'll come up through the day.</small></span>
@@ -294,10 +343,16 @@ export default function StoryTab() {
           </button>
         )}
 
-        {!skip && !moment && (
+        {!skip && !moment && !binge && (
           <button className="ph-skip" onClick={skipAhead} disabled={busy}>
             <PIcon name="skip" size={16} />
             <span><b>Live until something happens</b><small>Your life plays out on its own until there's something for you.</small></span>
+          </button>
+        )}
+        {!skip && !moment && !binge && (
+          <button className="ph-skip ph-binge-on" onClick={startBinge} disabled={busy}>
+            <PIcon name="story" size={16} />
+            <span><b>Play episodes back to back</b><small>Just the story: one scene after another, with your life playing itself in between.</small></span>
           </button>
         )}
 
@@ -327,7 +382,9 @@ export default function StoryTab() {
             )}
             <Lines lines={outcome.lines} />
             <StatChips chips={outcome.chips} />
-            <button className="ph-btn primary block" onClick={() => setOutcome(null)}>Continue</button>
+            <button className="ph-btn primary block" onClick={afterOutcome}>
+              {binge && !s.moments.length ? <>Next episode <PIcon name="chevron" size={16} /></> : "Continue"}
+            </button>
           </>
         )}
       </Sheet>
@@ -528,6 +585,21 @@ function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: 
       {m.choices.length > 1 && (
         <button className="ph-link center" disabled={busy} onClick={() => onPick(m, null)}>Let it happen</button>
       )}
+    </div>
+  );
+}
+
+/** Between episodes: how long it was and the biggest things that happened, with everything one tap away. */
+function Between({ b, onAll }: { b: { days: number; feed: FeedItem[] }; onAll: () => void }) {
+  // what happened to you, ahead of the class games and small moments your character answered along the way
+  const real = b.feed.filter((f) => f.type !== "moment");
+  const top = (real.length ? real : b.feed).slice().sort((x, y) => y.importance - x.importance).slice(0, 3).sort((x, y) => x.id - y.id);
+  const when = b.days === 0 ? "Later that day" : b.days === 1 ? "The next day" : b.days < 14 ? `${b.days} days later` : b.days < 60 ? `${Math.round(b.days / 7)} weeks later` : `${Math.round(b.days / 30)} months later`;
+  return (
+    <div className="ph-between">
+      <div className="ph-between-h"><PIcon name="clock" size={14} /> <b>{when}</b></div>
+      {top.map((f) => <p key={f.id}>{f.text}</p>)}
+      {b.feed.length > top.length && <button className="ph-link" onClick={onAll}>Everything that happened ({b.feed.length})</button>}
     </div>
   );
 }

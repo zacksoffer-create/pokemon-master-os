@@ -156,10 +156,11 @@ class Lab:
 
     def start_story_advance(self, until: str) -> dict:
         """Live the protagonist's life forward until something worth stopping for."""
-        from . import moments
+        from . import moments, scheduler
         from .calendar import DECISION_SLOTS
         self.guard()
-        limits = {"decision": 4, "day": 1, "week": 7, "month": 31, "moment": 400}
+        # episode: straight to the next storyline scene; everything in between, your character lives and decides
+        limits = {"decision": 4, "day": 1, "week": 7, "month": 31, "moment": 400, "episode": 800}
         if until not in limits:
             raise HTTPException(422, f"until must be one of {', '.join(limits)}")
         self.job_seq += 1
@@ -178,9 +179,25 @@ class Lab:
                 stepped = False
                 reason = None
                 ctl = moments.control(w)
+                tried = set()
                 while True:
                     with self.lock:
                         pend = moments.pending(w)
+                        if until == "episode":
+                            if any(scheduler.is_episode(sim, m["kind"]) for m in pend):
+                                reason = "episode"
+                                break
+                            if any(m["id"] in tried for m in pend):
+                                reason = "moment"  # something your character can't answer for you: it's yours
+                                break
+                            if pend:
+                                for m in pend:  # tryouts, invites, class games, a night out: your character decides
+                                    tried.add(m["id"])
+                                    moments.resolve(sim, m["id"], None)
+                                continue
+                            if (w.meta.get("story") or {}).get("complete"):
+                                reason = "end"
+                                break
                         if pend and until != "decision" and all(moments.light(m["kind"]) for m in pend):
                             for m in pend:  # skipping ahead: your character plays the class game or the night themselves
                                 moments.resolve(sim, m["id"], None)
@@ -1043,7 +1060,7 @@ def api_story_control(body: dict = Body(...)):
             if body["focus"] not in list(FOCUS) + ["balanced"]:
                 raise HTTPException(422, f"focus must be one of balanced, {', '.join(FOCUS)}")
             ctl["focus"] = body["focus"]
-        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games", "editor", "auto_scenes"):
+        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games", "editor", "auto_scenes", "binge"):
             if k in body:
                 ctl[k] = bool(body[k])
         if "pacing" in body:

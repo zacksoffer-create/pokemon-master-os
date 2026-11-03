@@ -90,6 +90,13 @@ stats, your family and your people.
 - **Live until something happens** runs the world until there's something for you: a story moment
   (tryouts, getting cut, an injury, a scholarship offer, a sibling leaving for college, someone asking
   you out, the college decision), an invitation, or a big event.
+- **Play episodes back to back** (phone, Story tab) is just the story: **Next episode** lives your life up to the next
+  storyline scene and stops there, every time. Every beat of a scene plays in a row, the last answer's button is Next
+  episode, and an "8 days later" card shows the biggest things that happened in between (everything is one tap away).
+  In between, your character handles the rest the way they would on their own: practices, games, classes, tryouts,
+  invites. The scenes keep their real dates and pacing, so the story has the same shape it would day by day. **Back to
+  living day by day** turns it off. API: `POST /api/story/advance {"until": "episode"}`; the mode is
+  `{"binge": true}` on `/api/story/control`.
 - **Next choice** stops at your very next decision so you can pick exactly what you do. You see every
   real option and how likely you'd be to pick it on your own.
 - **Focus** (athletics, academics, social, romance, family, rest, work) tilts what you do when you

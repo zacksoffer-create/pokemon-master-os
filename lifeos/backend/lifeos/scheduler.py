@@ -144,6 +144,7 @@ def control(w) -> dict:
     c = moments.control(w)
     c.setdefault("pacing", DEFAULT_PROFILE)
     c.setdefault("auto_scenes", False)
+    c.setdefault("binge", False)  # Episodes back to back: the Story tab is just the next scene, with your life in between
     return c
 
 
@@ -1062,6 +1063,11 @@ def auto_ok(w, m) -> bool:
     return bool(control(w).get("auto_scenes")) or not _is_story(m.get("kind"))
 
 
+def is_episode(sim, kind) -> bool:
+    """What Next episode stops for: a storyline scene (any beat of one), or the end of the story."""
+    return kind == "story_end" or _is_story(kind)
+
+
 def _is_story(kind) -> bool:
     from . import dialogue
     mm = dialogue.merged()["moments"].get(kind) or {}
@@ -1134,7 +1140,8 @@ def brief(sim) -> dict:
     q = queue(w)
     today = q.get("day") == w.day
     return {"waiting": len(q["items"]) if today else 0, "presented_today": q.get("presented", 0) if today else 0,
-            "target": q.get("target") if today else None, "pacing": profile(w)["name"], "label": profile(w)["label"]}
+            "target": q.get("target") if today else None, "pacing": profile(w)["name"], "label": profile(w)["label"],
+            "played": len(done_map(w)), "binge": bool(control(w).get("binge"))}
 
 
 def status(sim) -> dict:

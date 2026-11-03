@@ -57,8 +57,8 @@ export type PhoneState = {
   squad?: { name: string; members: { id: string; first: string; look: Look }[]; cohesion: number; last: string | null;
     plan: { label: string; when: string; joined: boolean } | null; jokes: string[] } | null;
   control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean; editor?: boolean;
-    pacing?: string; auto_scenes?: boolean };
-  stories?: { waiting: number; presented_today: number; target: number | null; pacing: string; label: string };
+    pacing?: string; auto_scenes?: boolean; binge?: boolean };
+  stories?: { waiting: number; presented_today: number; target: number | null; pacing: string; label: string; played?: number; binge?: boolean };
   setting: { town: string; school: string; short: string; mascot: string };
 };
 export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string;

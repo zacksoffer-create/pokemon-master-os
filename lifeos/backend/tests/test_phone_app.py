@@ -32,6 +32,15 @@ def test_local_api_answers_like_the_server(tmp_path):
         while local_api.pump(0.2):
             pass
         assert js(call('GET', '/api/sim/job'))['status'] == 'done'
+        # episodes back to back: Next episode runs on the phone the same way, a bit at a time, and stops at a scene
+        assert js(call('POST', '/api/story/control', {{'binge': True}}))['binge'] is True
+        js(call('POST', '/api/story/advance', {{'until': 'episode'}}))
+        while local_api.pump(0.2):
+            pass
+        j = js(call('GET', '/api/sim/job'))
+        assert j['status'] == 'done' and j['stop'] == 'episode', j
+        st = js(call('GET', '/api/phone/state'))
+        assert st['control']['binge'] and st['stories']['binge'] and st['moments'] and st['moments'][0]['storyline']
         threads = js(call('GET', '/api/phone/threads'))['threads']
         # the phone screens encode thread ids ("dm:bf" -> "dm%3Abf"), just like a browser talking to the server
         from urllib.parse import quote
