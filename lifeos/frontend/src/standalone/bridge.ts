@@ -12,10 +12,10 @@ export const ready = new Promise<any>((res, rej) => {
   readyReject = rej;
 });
 
-export function startEngine(progress: (msg: string) => void) {
+export function startEngine(progress: (msg: string) => void, workerFile = "engine-worker.js") {
   onProgress = progress;
   const base = new URL(".", window.location.href);
-  worker = new Worker(new URL("engine-worker.js", base));
+  worker = new Worker(new URL(workerFile, base));
   worker.onmessage = (e: MessageEvent) => {
     const m = e.data;
     if (m.type === "progress") onProgress(m.text);

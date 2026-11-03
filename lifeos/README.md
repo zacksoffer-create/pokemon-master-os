@@ -249,6 +249,48 @@ POST /api/story/add/preview {text|pack} -> {ok, errors, fix_prompt | new, change
 POST /api/dialogue/packs {text|pack}    -> adds it
 ```
 
+## Story Editor
+
+A separate app for writing the story: **https://zacksoffer-create.github.io/pokemon-master-os/play/edit/** (or Me > Story
+Editor in the game). Playing and writing are different jobs: the game is one moment at a time, spoiler-free, on a phone;
+writing wants every storyline, every branch and the whole seven years in front of you. So the editor is its own app,
+best on a laptop or iPad (it works on a phone too, one pane at a time). It is **not** a separate set of rules: it runs
+the game's own engine (the same Python, in the browser), so a storyline it says is fine is one the game loads, and the
+dates it shows are the scheduler's own.
+
+- **Write.** Storylines on the left, a storyline's chapters in the middle (move them up and down, add, duplicate, move
+  to another storyline, delete), the scene on the right: title, id (renaming it renames every link to it), who it's about
+  (a kind of person or one of the storyline's cast slots), what happens (several versions), the texted version, the
+  choices (2 to 4) and what each does (dialogue, how someone feels, a fact to remember, a mini game... every op as a
+  form, mini games and dice rolls as JSON), scenes that keep going (`then`, up to three decisions deep), when it can
+  happen (years, months, dates, after, gap, importance, remembered facts, only-when), and the season plan's word on top
+  of it (editable where it lives, with replace-after and retire). A live preview reads the scene with names filled in;
+  "comes after / leads to" links jump between scenes. Cast slots are edited on the storyline.
+- **Timeline.** Every scene in its school year and month, as planned (its timing plus the season plan) or as it
+  actually played in the last check. Click any one to open it.
+- **Check.** Check the files (will every storyline load, plus what's only wrong across them: two scenes with one id, a
+  link to a scene that isn't in your story, a fact no choice remembers) and **Play it through**: the whole story from the
+  first day of freshman year with your storylines, your character answering, in a few seconds. Then you see what plays
+  when (each chapter shows its date), the month grid with the quiet stretches, and everything that never happens grouped
+  by why, each one click from the scene.
+- **Your story, not a sample.** Use my story (backup file) takes the phone's backup (Me > Back up your story) and
+  rebuilds your own setup (you, your family, your cast) to play on, from the first day. Without it, a sample story with
+  an older brother and twin sisters.
+- **Files in and out.** Open files takes your Season plan, storyline packs, ChatGPT answers, or a story file from the
+  editor (a pack with the same name replaces the old one). Export gives one file with every storyline (the phone
+  imports it in one go: Paste a pack > File, all or nothing), each storyline as its own file (the same files the game
+  always used), or **Send to the game on this device**: the game asks to add them the next time it opens. Anything a pack
+  has that the editor doesn't edit (texting lines, trivia...) rides along untouched. The project saves in the browser as
+  you type, with undo and redo.
+
+```
+GET  /api/storyeditor/schema    the vocabulary (who, years, conditions, every op and its arguments)
+GET  /api/storyeditor/builtin   the game's own storylines, to copy in
+POST /api/storyeditor/check     {packs}             -> each pack's problems + the ones across packs
+POST /api/storyeditor/run       {packs, spec?, builtin?} -> when every scene plays (or why not), month grid
+POST /api/storyeditor/backup    a .lifeos backup    -> your story's setup to play on
+```
+
 ## Knowing who everyone is
 
 Every person has a profile built from what's actually true in the world right now, and the game uses it everywhere.

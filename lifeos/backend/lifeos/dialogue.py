@@ -1083,14 +1083,47 @@ def _read_dir_now(folder, source):
 _trial: list = []
 
 
+_project: dict = {}  # the story editor's packs, in place of yours (see project_packs)
+
+
 def packs() -> list:
     """Every pack the game knows about, in load order, with whether it's on and what it adds."""
+    if _project:
+        out = []
+        for p in (_read_dir(BUILTIN_DIR, "builtin") if _project["builtin"] else []) + [dict(t) for t in _project["packs"]]:
+            p["enabled"] = p["check"]["ok"]
+            out.append(p)
+        return out
     disabled = set(_state().get("disabled", []))
     out = []
     for p in _read_dir(BUILTIN_DIR, "builtin") + _read_dir(USER_DIR, "yours") + [dict(t) for t in _trial]:
         p["enabled"] = p["id"] not in disabled and p["check"]["ok"]
         out.append(p)
     return out
+
+
+class project_packs:
+    """with project_packs([...]): the game sees exactly these packs (plus the built-in ones, unless builtin=False) in place
+    of yours, in memory, and goes back to yours after. The story editor plays a story it's writing this way."""
+    def __init__(self, packs_: list, builtin: bool = True):
+        self.items, seen = [], set()
+        for i, pk in enumerate(packs_):
+            slug = _slug(pk.get("name") if isinstance(pk, dict) else None) or f"pack_{i + 1}"
+            while slug in seen:
+                slug += "_2"
+            seen.add(slug)
+            self.items.append({"id": f"edit:{slug}", "file": f"{slug}.json", "source": "yours", "pack": pk, "check": check(pk)})
+        self.builtin = builtin
+
+    def __enter__(self):
+        _project.update({"packs": self.items, "builtin": self.builtin})
+        reload()
+        return self
+
+    def __exit__(self, *exc):
+        _project.clear()
+        reload()
+        return False
 
 
 class trial_pack:

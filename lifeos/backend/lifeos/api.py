@@ -1486,13 +1486,31 @@ def api_dialogue_packs():
     return _dialogue_list()
 
 
+def _check_bundle(b: dict) -> dict:
+    """A bundle from the Story Editor (many packs in one file), checked as one: each problem says which storyline."""
+    from . import dialogue, storyeditor
+    ps = storyeditor.packs_in(b)
+    out = {"ok": True, "errors": [], "warnings": [], "summary": {}, "name": f"{b.get('name') or 'Your story'} ({len(ps)} packs)", "packs": len(ps)}
+    for p in ps:
+        r = dialogue.check(p)
+        out["ok"] = out["ok"] and r["ok"]
+        out["errors"] += [f"{p.get('name')}: {e}" for e in r["errors"]]
+        out["warnings"] += [f"{p.get('name')}: {e}" for e in r["warnings"]]
+        for k, v in (r.get("summary") or {}).items():
+            if isinstance(v, (int, float)):
+                out["summary"][k] = out["summary"].get(k, 0) + v
+    return out
+
+
 @app.post("/api/dialogue/check")
 def api_dialogue_check(body: dict = Body(...)):
-    from . import dialogue
+    from . import dialogue, storyeditor
     try:
         pack = _pack_from(body)
     except ValueError as e:
         return {"ok": False, "errors": [str(e)], "warnings": [], "summary": {}}
+    if storyeditor.is_bundle(pack):
+        return _check_bundle(pack)
     return {**dialogue.check(pack), "name": pack.get("name")}
 
 
@@ -1504,11 +1522,68 @@ def api_dialogue_add(body: dict = Body(...)):
         pack = _pack_from(body)
     except ValueError as e:
         return JSONResponse({"detail": str(e), "errors": [str(e)]}, status_code=422)
+    from . import storyeditor
+    if storyeditor.is_bundle(pack):  # every storyline from the Story Editor in one file: all of them go in, or none do
+        rep = _check_bundle(pack)
+        if not rep["ok"]:
+            return JSONResponse({"detail": "some of these packs have problems", "errors": rep["errors"], "warnings": rep["warnings"]}, status_code=422)
+        ids = [dialogue.add_pack(p)["id"] for p in storyeditor.packs_in(pack)]
+        _dialogue_changed(L)
+        return {**_dialogue_list(), "added": ids[0] if ids else None, "added_all": ids, "warnings": rep["warnings"], "summary": rep["summary"]}
     r = dialogue.add_pack(pack)
     if not r["ok"]:
         return JSONResponse({"detail": "the pack has a few problems", "errors": r["errors"], "warnings": r["warnings"]}, status_code=422)
     _dialogue_changed(L)
     return {**_dialogue_list(), "added": r["id"], "warnings": r["warnings"], "summary": r["summary"]}
+
+
+# --- the Story Editor (its own app): the format, checking a whole story, playing it from the first day ------------
+
+@app.get("/api/storyeditor/schema")
+def api_storyeditor_schema():
+    from . import storyeditor
+    return storyeditor.schema()
+
+
+@app.get("/api/storyeditor/builtin")
+def api_storyeditor_builtin():
+    from . import storyeditor
+    return {"packs": storyeditor.builtin_packs()}
+
+
+@app.post("/api/storyeditor/check")
+def api_storyeditor_check(body: dict = Body(...)):
+    """{packs: [...]}: each pack's problems and the ones across packs."""
+    from . import storyeditor
+    return storyeditor.check_all(list(body.get("packs") or []))
+
+
+@app.post("/api/storyeditor/run")
+def api_storyeditor_run(body: dict = Body(...)):
+    """{packs, spec?, builtin?}: the story from the first day with these packs: when each scene comes or why it doesn't."""
+    from . import storyeditor, story
+    L = get_lab()
+    L.guard()
+    try:
+        with L.lock:  # the game holds still while the engine plays the editor's story (it's back to yours after)
+            r = storyeditor.run(list(body.get("packs") or []), body.get("spec"), bool(body.get("builtin", True)))
+            _dialogue_changed(L)
+            return r
+    except story.StoryError as e:
+        return JSONResponse(status_code=422, content={"detail": "That story setup needs a few fixes", "errors": e.errors})
+
+
+@app.post("/api/storyeditor/backup")
+async def api_storyeditor_backup(request: Request):
+    """A phone backup (.lifeos) in, your story's setup out: the editor plays your storylines on your own family and cast."""
+    from . import storyeditor
+    data = await request.body()
+    try:
+        spec = storyeditor.spec_from_backup(data)
+    except Exception:  # noqa: BLE001
+        raise HTTPException(422, "That file isn't a LIFE OS story backup (Me > Back up your story on the phone makes one).")
+    me = spec.get("protagonist") or {}
+    return {"spec": spec, "title": spec.get("title"), "name": f"{me.get('first', '')} {me.get('last', '')}".strip()}
 
 
 @app.post("/api/dialogue/packs/{pid}/enabled")

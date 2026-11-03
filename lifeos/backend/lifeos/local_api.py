@@ -20,8 +20,9 @@ LEAN = {"history.event_window_days": 21, "history.event_keep_importance": 22, "h
         "history.trace_keep_importance": 45, "history.trace_everyone": False}
 
 
-def boot(data_dir: str = "/data/saves"):
-    """Start the game on the phone: load the autosave (or the demo world) from on-device storage."""
+def boot(data_dir: str = "/data/saves", tiny: bool = False):
+    """Start the game on the phone: load the autosave (or the demo world) from on-device storage. tiny: the Story Editor's
+    copy of the engine (nothing it keeps outlives the page; it only checks and plays the editor's storylines)."""
     import fastapi  # the stand-in
     from . import api
     from .storage import FileStore
