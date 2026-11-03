@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "notes": "Mods dress a line for its context. open: said before a text ('ok so', 'u up?'). close: tacked on after ('lol'). talk: how a line is said in person; {them_first} is who's talking and {says} becomes 'says' or 'asks'. Keys are context tags (see lines.TAGS), or 'any'. Dialogue packs add more.",
+  "notes": "Mods dress a line for its context. open: said before a text ('ok so', 'u up?'). close: tacked on after ('lol'). talk: how a line is said in person; {them_first} is who's talking and {says} becomes 'says' or 'asks'. Keys are context tags (see lines.TAGS), several joined with + when all must hold ('close+guys'), or 'any'. Dialogue packs add more.",
   "open": {
     "any": [
       "ok so",
@@ -18,8 +18,14 @@
     ],
     "close": [
       "yo",
-      "ok listen",
+      "ok listen"
+    ],
+    "close+guys": [
       "bro"
+    ],
+    "close+girls": [
+      "girl.",
+      "ok girl"
     ],
     "partner": [
       "hey you."

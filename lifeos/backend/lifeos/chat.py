@@ -577,8 +577,24 @@ def _pool(sim, cid, *path) -> list:
                     continue
             own += _get(people[k], path) or []
     if own and (not base or _h(sim.w.day, cid, *path, len(_thread(sim, cid)["msgs"])) % 10 < 7):
-        return own
-    return base or own
+        return _fit(sim, cid, own)
+    return _fit(sim, cid, base or own)
+
+
+def _fit(sim, cid, pool) -> list:
+    """The lines that fit who's talking and the moment (a line's `when`), as text. "bro we're already hanging" is
+    between guys; a line without `when` fits anyone."""
+    from . import lines
+    if not any(isinstance(x, dict) for x in pool):
+        return list(pool)
+    from .messages import _h
+    tags = lines.tags_for(sim, cid)
+    es = [lines.entry(x) for x in pool]
+    fit = [e for e in es if set(e["when"]) <= tags]
+    apt = [e["text"] for e in fit if any(t not in lines.IDENTITY for t in e["when"])]  # about this moment ("hurt")
+    if apt and _h(sim.w.day, cid, len(pool)) % 4:
+        return apt
+    return [e["text"] for e in fit] or [e["text"] for e in es if not e["when"]] or [e["text"] for e in es]
 
 
 def _keen(sim, cid) -> bool:
@@ -801,8 +817,10 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         else:
             _say(sim, cid, "compliment", "weird", salt, "chat_react", avoid)
     elif intent == "support":
-        down = o.needs.get("stress", 40) > 55 or o.mood < 45 or any(
-            m["valence"] <= -0.3 and w.day - m["day"] <= 4 for m in o.memories)
+        # they're going through something you'd know about: hurt, cut, a breakup, a bad stretch
+        down = (o.needs.get("stress", 40) > 55 or o.mood < 45 or o.flags.get("injured_until", -1) >= w.day
+                or any(m["valence"] <= -0.3 and w.day - m["day"] <= (10 if m["kind"] in ("cut_from_team", "broke_up") else 4)
+                       for m in o.memories))
         if down:
             _say(sim, cid, "support", "thanks", salt, "chat_react", avoid)
             _gain(sim, cid, fx, cid, "affection", 3.0, "you checked on them")

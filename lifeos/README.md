@@ -141,6 +141,36 @@ and the story closes with a look back at your seven years.
 You can open anyone in **Character Studio** (including yourself) to see their full profile and athlete
 page, and **History Explorer** shows the math behind anything that happened.
 
+## Knowing who everyone is
+
+Every person has a profile built from what's actually true in the world right now, and the game uses it everywhere.
+
+**On their contact page: Who they are.** What you see depends on how well you know them:
+
+| You see | When | What |
+|---|---|---|
+| Everyone knows | always | year and age, the teams they play on and where ("Starting striker · Guilford Girls Soccer"), clubs, job, their group, who they're dating, family at school, what they're known as |
+| You know | you've spent real time together (or family) | what they're into, what they're like, who they're closest to and who they don't get along with, what's going on lately (hurt, just got cut, not speaking to someone, a game tomorrow, stressed), grades, what's next (offers, college) |
+| Only people close to them know | friends who trust each other, family you get along with, or the person you're dating | what drives them, what they're working toward, who they have a thing for (if it's you, they won't say), what home is like |
+
+The rest shows as a locked row ("3 more things you don't know yet") with what it takes to learn them. The contact list
+shows a one-line glance under each name: "Sophomore · Girls Soccer · dating Theo".
+
+**Checking on people.** When someone you know is going through something, their page offers it: *Ask how the sprained
+ankle is*, *Cheer them up about getting cut*, *Check on them after the breakup*, *See if they're okay*. They take it
+seriously ("doctor says a couple more weeks. thanks for asking"), and it counts for more than a random check-in.
+
+**The game knows who's talking to whom.**
+- Lines know if a guy or a girl is talking, to a guy or a girl, and whether the whole conversation (you two, or a team
+  or group chat) is guys or girls. "bro" is between guys; a girls' team gets "lock in tomorrow ladies", never "boys".
+- Romance knows age and family. Feelings only grow on their own between people who are into each other's gender, aren't
+  family, and are the right age for each other: both in high school (or both in college) and at most two grades apart,
+  or a senior and a college freshman. Your own choices are yours: if you flirt with or ask out someone older, you're into
+  them, and it's up to them.
+- Group names fit the group: "the Bat Girls" only for a group of girls, "the Senior Lot Crowd" only for seniors.
+- Dialogue packs can use the same tags in `when`: `from_guy`, `from_girl`, `to_guy`, `to_girl`, `guys`, `girls`,
+  `same_year`, `older`, `younger` and `hurt` (they're injured), and mods can combine tags (`close+guys`).
+
 ## Teams: boys' and girls', five sports
 
 Guilford has seven high school teams, each with its own coach, tryouts and schedule:

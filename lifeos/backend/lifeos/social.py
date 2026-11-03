@@ -10,7 +10,21 @@ from __future__ import annotations
 
 from .model import pair_key
 from .rng import clamp
-from .worldgen import chemistry, compatibility, orientation_ok
+from .worldgen import chemistry, compatibility, orientation_ok, stage_ok
+
+
+def romance_ok(w, x: str, y: str, chosen: bool = False) -> bool:
+    """Whether x could fall for y at all: x is into y's gender, they aren't family, and they're the right age for each
+    other (stage_ok). Every place attraction grows on its own or a crush forms asks this. `chosen`: you picked them
+    yourself (you flirted, you asked them out), so the age rule doesn't decide your feelings for you; family still does."""
+    X, Y = w.chars.get(x), w.chars.get(y)
+    if X is None or Y is None or not w.rules["romance.enabled"]:
+        return False
+    if not orientation_ok(X, Y) or w.has_role(x, y, "sibling") or (X.household_id and X.household_id == Y.household_id):
+        return False
+    if chosen:
+        return X.role == Y.role == "student"
+    return stage_ok(X, Y)
 
 LABEL_ORDER = ["dislikes", "stranger", "acquaintance", "friend", "close friend", "best friend"]
 
@@ -127,8 +141,7 @@ def interact(sim, fx, ev, a: str, b: str, p: dict, rng, calc: list | None) -> di
         fx.rel(x, y, "familiarity", p.get("familiarity", 4) * (1 - rxy.familiarity / 120), why)
         fx.rel(x, y, "trust", p.get("trust", 2) * (qq if qq > 0 else 2 * qq), why)
         X, Y = w.chars[x], w.chars[y]
-        if R["romance.enabled"] and p.get("attraction", 0) and orientation_ok(X, Y) and X.role == Y.role == "student" \
-                and not w.has_role(x, y, "sibling"):
+        if p.get("attraction", 0) and romance_ok(w, x, y):
             chem = chemistry(w, x, y) * R["romance.chemistry_spread"]
             d_att = p["attraction"] * R["romance.attraction_rate"] * (chem * 0.8 + 0.1 + qq * 0.4) * (1 - rxy.attraction / 110)
             fx.rel(x, y, "attraction", d_att, why)
@@ -170,14 +183,14 @@ def update_labels(sim, fx, cause_ev):
         A, B = w.chars[a], w.chars[b]
         new = label_for(r, R)
         old = r.label
-        crush = (R["romance.enabled"] and r.attraction >= R["rel.crush_threshold"] and orientation_ok(A, B)
-                 and A.role == "student" and B.role == "student")
+        ok = romance_ok(w, a, b, chosen=a == w.meta.get("protagonist"))  # your own feelings are yours
+        crush = ok and r.attraction >= R["rel.crush_threshold"]
         if crush and not r.crush:
             r.crush = True
             r.milestones.append([w.day, "crush", cause_ev["id"] if cause_ev else None])
             if A.role == "student":
                 sim.milestone_event("crush", a, b, cause_ev, 18)
-        elif not crush and r.crush and r.attraction < R["rel.crush_threshold"] - 10:
+        elif not crush and r.crush and (r.attraction < R["rel.crush_threshold"] - 10 or not ok):
             r.crush = False
         if new == old:
             continue
@@ -369,21 +382,40 @@ def clique_profile(w, members):
     return {"popularity": round(pop / n, 1), "interests": [[k, round(v / n, 1)] for k, v in top]}
 
 
+def _all(w, members, test) -> bool:
+    cs = [w.chars[m] for m in members if m in w.chars]
+    return bool(cs) and all(test(c) for c in cs)
+
+
+def _most(w, members, test) -> bool:
+    cs = [w.chars[m] for m in members if m in w.chars]
+    return bool(cs) and sum(1 for c in cs if test(c)) * 2 > len(cs)
+
+
+# names that only fit some groups: who's in it has to match
+NAME_FITS = {"the Linemen": lambda w, ms: _all(w, ms, lambda c: c.gender == "m"),
+             "the Bat Girls": lambda w, ms: _all(w, ms, lambda c: c.gender == "f"),
+             "the Senior Lot Crowd": lambda w, ms: _most(w, ms, lambda c: c.grade == 12)}
+
+
 def clique_name(w, members, cid):
     prof = clique_profile(w, members)
     taken = {c.get("name") for c in w.cliques.values() if c.get("active")}
+
+    def fits(nm):
+        return nm not in taken and NAME_FITS.get(nm, lambda w, ms: True)(w, members)
     if prof["popularity"] >= 72:
         for nm in ("the In-Crowd", "the Senior Lot Crowd", "the A-List", "the Back Booth"):
-            if nm not in taken:
+            if fits(nm):
                 return nm
     ints = [k for k, v in prof["interests"] if k != "academics" or v >= 62]
     key = ints[0] if ints else "shows"
     names = CLIQUE_NAMES.get(key, ["the Regulars"])
-    taken = {c.get("name") for c in w.cliques.values() if c.get("active")}
     for nm in names:
-        if nm not in taken:
+        if fits(nm):
             return nm
-    return f"{names[0]} ({cid})"
+    plain = [nm for nm in names if nm not in NAME_FITS] or ["the Regulars"]
+    return f"{plain[0]} ({cid})"
 
 
 # --- rumors -----------------------------------------------------------------

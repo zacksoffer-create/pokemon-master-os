@@ -80,10 +80,8 @@ class Simulation:
         rng = self.streams.get("init")
         for (a, b), r in w.rels.items():
             r.label = social.label_for(r, w.rules)
-            A, B = w.chars[a], w.chars[b]
-            from .worldgen import orientation_ok
-            r.crush = bool(w.rules["romance.enabled"] and r.attraction >= w.rules["rel.crush_threshold"]
-                           and A.role == B.role == "student" and orientation_ok(A, B))
+            r.crush = bool(r.attraction >= w.rules["rel.crush_threshold"]
+                           and social.romance_ok(w, a, b, chosen=a == w.meta.get("protagonist") or r.attraction >= 60))
         social.detect_cliques(self, rng)
         for c in sorted(w.active(), key=lambda c: c.id):
             development.review_goals(self, c, rng)

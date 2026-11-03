@@ -373,15 +373,25 @@ Any line can be texted or said in person. A text-pool line is a plain string (th
 | `down` | They're in a bad mood. |
 | `stressed` | They're stressed. |
 | `tired` | They're running on empty. |
+| `hurt` | They're injured right now. |
 | `you_happy` | You're in a good mood. |
 | `you_down` | You're in a bad mood. |
 | `you_stressed` | You're stressed. |
+| `from_guy` | A guy is saying it. |
+| `from_girl` | A girl is saying it. |
+| `to_guy` | You're a guy. |
+| `to_girl` | You're a girl. |
+| `guys` | Everyone in the conversation is a guy (you and them, or the whole group chat or team). |
+| `girls` | Everyone in the conversation is a girl (you and them, or the whole group chat or team). |
+| `same_year` | They're in your grade. |
+| `older` | They're older than you (a higher grade). |
+| `younger` | They're younger than you (a lower grade). |
 
 The pools marked IN PERSON below are things people say to your face; they show in the story feed when you hang out, go on a date or stop and talk.
 
 ## Mods: one line, many versions
 
-Mods dress a line for its moment. The game adds an opener or a closer to some texts and says in-person lines a particular way, picked by context tag (or `any`). One base line times its mods is a lot of different lines.
+Mods dress a line for its moment. The game adds an opener or a closer to some texts and says in-person lines a particular way, picked by context tag (or `any`; join tags with + when all must hold, like `close+guys` for "bro"). One base line times its mods is a lot of different lines.
 
 - `open`: said before a text ("ok so", "u up?")
 - `close`: tacked on after a text ("lol")

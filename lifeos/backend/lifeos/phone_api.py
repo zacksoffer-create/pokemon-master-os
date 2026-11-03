@@ -11,7 +11,7 @@ from fastapi import APIRouter, Body, HTTPException, Request
 from fastapi.responses import Response
 
 from . import calendar as calm
-from . import messages, pets, pov
+from . import knowing, messages, pets, pov
 from .appearance import look_of
 
 router = APIRouter()
@@ -806,7 +806,7 @@ def contact_row(L, me, oid):
             "attraction": round(r.attraction) if r else 0, "rivalry": round(r.rivalry) if r else 0,
             "perceived": round(r.perceived) if r else 0, "has_number": oid in ph["contacts"] or sib,
             "unread": t["unread"] if t else 0, "last": last and {"text": last["text"], "at": last["at"], "from": last["from"]},
-            "location": o.location, "role": o.role}
+            "location": o.location, "role": o.role, "glance": knowing.glance(L.sim, oid)}
 
 
 @router.get("/api/phone/contacts")
@@ -873,7 +873,7 @@ def phone_contact(cid: str):
                     trust=round(r.trust) if r else 0, respect=round(r.respect) if r else 0, familiarity=round(r.familiarity) if r else 0,
                     memories=mems, shared=shared, text_options=messages.text_options(L.sim, cid) if row["has_number"] else [],
                     partner_of=o.flags.get("partner") and w.chars[o.flags["partner"]].first if o.flags.get("partner") in w.chars else None,
-                    vibe=chat_vibe(L.sim, cid))
+                    vibe=chat_vibe(L.sim, cid), who=knowing.profile(L.sim, me.id, cid))
 
 
 # --- pets -----------------------------------------------------------------------------------

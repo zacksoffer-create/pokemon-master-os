@@ -81,12 +81,16 @@ export type Vibe = { stage: number; stages: string[]; read: string; tone: string
 export type ContactRow = {
   id: string; name: string; first: string; year_label: string; look: Look; color: string; label: string; crush: boolean; partner: boolean; roles: string[];
   affection: number; hearts: number; attraction: number; rivalry: number; perceived: number; has_number: boolean; unread: number;
-  last: { text: string; at: string; from: string } | null; location: string; role: string;
+  last: { text: string; at: string; from: string } | null; location: string; role: string; glance?: string;
 };
+export type WhoFact = { k: string; v: string; tone?: string };
+export type Who = { level: "everyone" | "know" | "close"; glance: string; sections: { level: string; label: string; facts: WhoFact[] }[];
+  hidden: number; unlock: string | null };
 export type Contact = ContactRow & {
   bio: string; archetype: string; pronouns: string; teams: string[]; school: string; since: string | null; feel: string; seems: string;
   trust: number; respect: number; familiarity: number; memories: { text: string; date: string; valence: number }[];
   shared: { id: number; date: string; text: string }[]; text_options: { kind: string; label: string }[]; partner_of: string | null; vibe?: Vibe;
+  who?: Who;
 };
 
 export type MiniGameRow = { id: string; title: string; label: string; blurb: string; icon: string; ready: boolean; available: boolean; why: string; rewarded_today: boolean; best: number | null };

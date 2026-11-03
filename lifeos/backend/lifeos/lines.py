@@ -46,9 +46,19 @@ TAGS = {
     "down": "They're in a bad mood.",
     "stressed": "They're stressed.",
     "tired": "They're running on empty.",
+    "hurt": "They're injured right now.",
     "you_happy": "You're in a good mood.",
     "you_down": "You're in a bad mood.",
     "you_stressed": "You're stressed.",
+    "from_guy": "A guy is saying it.",
+    "from_girl": "A girl is saying it.",
+    "to_guy": "You're a guy.",
+    "to_girl": "You're a girl.",
+    "guys": "Everyone in the conversation is a guy (you and them, or the whole group chat or team).",
+    "girls": "Everyone in the conversation is a girl (you and them, or the whole group chat or team).",
+    "same_year": "They're in your grade.",
+    "older": "They're older than you (a higher grade).",
+    "younger": "They're younger than you (a lower grade).",
 }
 PHASE_TAG = {"dawn": "morning", "classes": "morning", "lunch": "afternoon", "after_school": "afternoon", "day": "afternoon",
              "evening": "evening", "night": "late_night"}
@@ -90,14 +100,39 @@ def fill(s, kw) -> str:
 
 # ---------------------------------------------------------------------------------------- context
 
-def tags_for(sim, frm=None, phase=None) -> set:
-    """What's true right now, for a line someone (frm) says or texts to you."""
+GENDER_TAG = {"m": "guy", "f": "girl"}
+IDENTITY = {"from_guy", "from_girl", "to_guy", "to_girl", "guys", "girls", "same_year", "older", "younger"}
+
+
+def identity_tags(w, speaker, me, group=None) -> set:
+    """Who's talking to whom: a guy or a girl, to a guy or a girl, and whether the whole conversation (you two, or a group
+    chat or team) is guys or girls. Lines that only fit one of those ("bro", "lock in boys") say so in `when`."""
+    tags = set()
+    if me is not None and me.gender in GENDER_TAG:
+        tags.add("to_" + GENDER_TAG[me.gender])
+    if speaker is not None and speaker.gender in GENDER_TAG:
+        tags.add("from_" + GENDER_TAG[speaker.gender])
+    people = [w.chars[x] for x in group if x in w.chars] if group else [c for c in (speaker, me) if c is not None]
+    genders = {c.gender for c in people}
+    if people and genders == {"m"}:
+        tags.add("guys")
+    elif people and genders == {"f"}:
+        tags.add("girls")
+    if speaker is not None and me is not None and speaker.role == me.role == "student" and speaker.grade and me.grade:
+        tags.add("same_year" if speaker.grade == me.grade else "older" if speaker.grade > me.grade else "younger")
+    return tags
+
+
+def tags_for(sim, frm=None, phase=None, group=None) -> set:
+    """What's true right now, for a line someone (frm) says or texts to you (or to a group: `group` is who's in it)."""
     from . import dialogue
     w = sim.w
     me = w.chars.get(w.meta.get("protagonist") or "")
     tags = {PHASE_TAG.get(phase or sim.current_phase(), "afternoon")}
     if not me:
         return tags
+    if group:
+        tags |= identity_tags(w, w.chars.get(frm) if frm else None, me, group)
     for r in ("school_day", "weekend", "summer"):
         try:
             if dialogue._requirement(sim, me, r):
@@ -118,6 +153,8 @@ def tags_for(sim, frm=None, phase=None) -> set:
     c = w.chars.get(frm)
     if not c:
         return tags
+    if not group:
+        tags |= identity_tags(w, c, me)
     if c.role == "staff":
         tags.add("coach")
     if frm in sim.siblings(me.id):
@@ -149,6 +186,8 @@ def tags_for(sim, frm=None, phase=None) -> set:
         tags.add("stressed")
     if (c.needs or {}).get("energy", 100) <= 25:
         tags.add("tired")
+    if c.flags.get("injured_until", -1) >= w.day:
+        tags.add("hurt")
     return tags
 
 
@@ -185,7 +224,8 @@ def choose(sim, key, items, salt, tags=frozenset(), avoid=None, text=lambda e: e
         fresh = ago >= rest
         said = bool(avoid) and s.lower().rstrip(".!") in avoid
         jitter = (_h(salt, hid(s)) % 1000) / 1000
-        return (not said, fresh, jitter + (0.6 if when(e) else 0) if fresh else ago + jitter * 0.01)
+        specific = any(t not in IDENTITY for t in when(e))  # who's talking only says whether a line fits, not that it's apt
+        return (not said, fresh, jitter + (0.6 if specific else 0) if fresh else ago + jitter * 0.01)
     best = max(fit, key=score)
     _remember(sim, key, hid(text(best)))
     return best
@@ -203,9 +243,10 @@ def variant(sim, key, v, salt, tags=frozenset()):
 def pick_text(sim, key, salt, frm=None, avoid=None, kw=None) -> str:
     """A text from a pool for someone to send you, fitted to the moment and not a repeat."""
     from . import dialogue
-    kw = kw or {}
+    kw = dict(kw or {})
+    group = kw.pop("_group", None)  # who's in the group chat or on the team, when it isn't just you two
     pool = [entry(x) for x in dialogue.texts().get(key) or [key]]
-    tags = tags_for(sim, frm)
+    tags = tags_for(sim, frm, group=group)
     e = choose(sim, f"t:{key}", pool, salt, tags, avoid=avoid)
     out = fill(e["text"], kw)
     if key in DRESS and frm and frm != "me" and not str(frm).startswith("parent"):
@@ -222,10 +263,11 @@ def _mods(kind) -> dict:
 
 def _mod(sim, kind, tags, salt):
     bank = _mods(kind)
-    opts = [(t, s) for t, lines in bank.items() if t == "any" or t in tags for s in lines]
+    # a key is one tag, several joined with + (all must hold: "close+guys"), or "any"
+    opts = [(t, s) for t, lines in bank.items() if t == "any" or all(x in tags for x in t.split("+")) for s in lines]
     if not opts:
         return None
-    pick = choose(sim, f"m:{kind}", [{"text": s, "when": [] if t == "any" else [t]} for t, s in opts], salt, tags)
+    pick = choose(sim, f"m:{kind}", [{"text": s, "when": [] if t == "any" else t.split("+")} for t, s in opts], salt, tags)
     return pick["text"]
 
 

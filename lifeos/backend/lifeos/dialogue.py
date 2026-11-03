@@ -870,8 +870,10 @@ def check(pack: dict) -> dict:
             continue
         for tag, ls in bank.items():
             wt = f"{w}.{tag}"
-            if tag != "any" and tag not in _lines.TAGS:
-                R.err(wt, f"'{tag}' isn't a context tag.{_suggest(tag, _lines.TAGS)} Tags: any, {', '.join(_lines.TAGS)}")
+            bad = [t for t in tag.split("+") if t not in _lines.TAGS] if tag != "any" else []
+            if bad:
+                R.err(wt, f"'{bad[0]}' isn't a context tag.{_suggest(bad[0], _lines.TAGS)} Tags: any, {', '.join(_lines.TAGS)} "
+                          "(join several with +, like close+guys)")
                 continue
             if not isinstance(ls, list):
                 R.err(wt, "is a list of lines")
@@ -2167,7 +2169,8 @@ def guide_markdown() -> str:
       "go on a date or stop and talk.\n")
     a("## Mods: one line, many versions\n")
     a("Mods dress a line for its moment. The game adds an opener or a closer to some texts and says in-person lines a "
-      "particular way, picked by context tag (or `any`). One base line times its mods is a lot of different lines.\n")
+      "particular way, picked by context tag (or `any`; join tags with + when all must hold, like `close+guys` for \"bro\"). "
+      "One base line times its mods is a lot of different lines.\n")
     for k, v in MOD_KINDS.items():
         a(f"- `{k}`: {v}")
     base_mods = _base("mods.json")

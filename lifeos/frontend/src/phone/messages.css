@@ -211,7 +211,7 @@
 .pm-crow-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .pm-crow-main b { font-weight: 700; font-size: 15.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pm-crow-main small { display: flex; align-items: center; gap: 6px; color: var(--pm-muted); font-size: 12.5px; }
-.pm-crow-year { color: var(--pm-dim); font-weight: 600; }
+.pm-crow-year { color: var(--pm-dim); font-weight: 600; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pm-crow-side { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex: none; }
 .pm-crow-go { color: #c5c1d6; display: grid; }
 .pm-nonum { font-size: 10.5px; font-weight: 700; color: var(--pm-dim); background: #f1eff7; border-radius: 6px; padding: 1px 6px; }
@@ -278,6 +278,24 @@
 .pm-fact span { color: var(--pm-muted); font-weight: 600; flex: none; }
 .pm-fact b { font-weight: 700; text-align: right; }
 .pm-bio { margin: 4px 0 0; color: var(--pm-ink-2); font-size: 14px; line-height: 1.45; }
+
+/* who they are: what everyone knows, what you know, what only close people know */
+.pm-who { display: flex; flex-direction: column; gap: 12px; }
+.pm-who-sec { display: flex; flex-direction: column; gap: 7px; }
+.pm-who-sec + .pm-who-sec { border-top: 1px dashed #e6e1f0; padding-top: 11px; }
+.pm-who-l { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pm-dim); }
+.pm-who-sec.lv-know .pm-who-l { color: #2a9d86; }
+.pm-who-sec.lv-close .pm-who-l { color: #b0558a; }
+.pm-who .pm-fact { align-items: flex-start; }
+.pm-who .pm-fact span { max-width: 44%; }
+.pm-who .pm-fact b { display: flex; flex-direction: column; gap: 3px; min-width: 0; overflow-wrap: anywhere; }
+.pm-who .pm-fact b em { font-style: normal; }
+.pm-who .pm-fact b em.t-love { color: #d6457a; }
+.pm-who-lock { display: flex; gap: 10px; align-items: flex-start; padding: 11px 12px; border-radius: 14px; border: 1.5px dashed #ddd6ea;
+  background: #faf8fd; color: var(--pm-muted); font-size: 13px; line-height: 1.4; }
+.pm-who-lock svg { flex: none; margin-top: 1px; color: #a79fc0; }
+.pm-who-lock b { display: block; color: var(--pm-ink-2); font-size: 13.5px; margin-bottom: 2px; }
+.pm-who-since { border-top: 1px solid #f0edf5; padding-top: 10px; }
 
 .pm-memories, .pm-recent { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
 .pm-memories li, .pm-recent li { display: flex; flex-direction: column; gap: 1px; font-size: 14px; color: var(--pm-ink-2); }

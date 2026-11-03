@@ -71,6 +71,16 @@ def orientation_ok(a: Character, b: Character) -> bool:
     return b.gender in a.attracted_to
 
 
+def stage_ok(a: Character, b: Character) -> bool:
+    """Right age for each other: both in high school (or both in college) and at most two grades apart; across high
+    school and college only a year apart (a senior and a college freshman). Middle schoolers, staff and adults: no."""
+    ga, gb = a.grade or 0, b.grade or 0
+    if ga < 9 or gb < 9 or a.role != "student" or b.role != "student":
+        return False
+    gap = abs(ga - gb)
+    return gap <= (1 if (ga <= 12) != (gb <= 12) else 2)
+
+
 def _attracted(rng, gender: str) -> list:
     x = rng.random()
     if gender == "f":
@@ -293,7 +303,7 @@ def initial_relationships(gen: Generator, w: World, rng, day: int = 0, only: set
                 r.respect = round(clamp((y.traits["confidence"] + y.traits["discipline"] - 100) * 0.3 * r.familiarity / 60
                                         + rng.gauss(0, 8), -50, 70), 1)
                 r.trust = round(clamp(30 + r.affection * 0.4 + rng.gauss(0, 6), 0, 95), 1)
-                if not sib and orientation_ok(x, y) and r.familiarity > 10:
+                if not sib and orientation_ok(x, y) and stage_ok(x, y) and r.familiarity > 10:
                     chem = chemistry(w, x.id, y.id)
                     r.attraction = round(clamp((chem * 0.6 + 0.25) * r.familiarity * 0.9 + rng.gauss(0, 10), 0, 80), 1)
                 shared_sport = any(x.interests.get(s, 0) > 55 and y.interests.get(s, 0) > 55 for s in SPORTS)

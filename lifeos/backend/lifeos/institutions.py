@@ -14,7 +14,7 @@ from .actions import hear_rumor, skill_gain, start_dating
 from .history import Effects
 from .rng import clamp, sigmoid
 from .social import is_friend, make_rumor
-from .worldgen import compatibility, orientation_ok
+from .worldgen import compatibility
 
 
 def ambient(sim, fx, a, b, q, kind):
@@ -30,7 +30,7 @@ def ambient(sim, fx, a, b, q, kind):
         if q > 0:
             fx.rel(x, y, "trust", 0.8 * q, kind)
         X, Y = w.chars[x], w.chars[y]
-        if R["romance.enabled"] and X.role == Y.role == "student" and orientation_ok(X, Y) and not w.has_role(x, y, "sibling"):
+        if social.romance_ok(w, x, y):
             from .worldgen import chemistry
             chem = chemistry(w, x, y) * R["romance.chemistry_spread"]
             fx.rel(x, y, "attraction", 0.5 * R["romance.attraction_rate"] * (chem * 0.8 + 0.1 + q * 0.3) * (1 - r.attraction / 110), kind)

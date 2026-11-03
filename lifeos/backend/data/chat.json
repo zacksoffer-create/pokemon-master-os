@@ -189,7 +189,8 @@
         "lol we already have plans",
         "yes we literally just said that 😂",
         "already planned, silly",
-        "bro we're already hanging lol"
+        {"text": "bro we're already hanging lol", "when": ["guys"]},
+        {"text": "girl we're literally already hanging 😂", "when": ["girls"]}
       ]
     },
     "support": {
@@ -199,7 +200,10 @@
         "yeah... it's been a lot. thanks for asking",
         "you're a good friend you know that",
         "🥹 thank you",
-        "i'm ok, better now that you asked"
+        "i'm ok, better now that you asked",
+        {"text": "it's getting better. slowly lol. thanks for checking", "when": ["hurt"]},
+        {"text": "doctor says a couple more weeks. thanks for asking 🙏", "when": ["hurt"]},
+        {"text": "ugh sitting out is the worst. but thank you", "when": ["hurt"]}
       ],
       "fine": [
         "lol i'm good! but thanks",
@@ -763,7 +767,8 @@
     "group": [
       "last night was ridiculous",
       "we have to run it back",
-      "the boys were in rare form",
+      {"text": "the boys were in rare form", "when": ["guys"]},
+      {"text": "the girls were in rare form", "when": ["girls"]},
       "best night in a while"
     ],
     "game_win": [

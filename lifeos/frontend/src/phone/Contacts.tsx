@@ -1,6 +1,6 @@
 // The Contacts app: everyone you know, grouped the way you'd think about them, and a profile for each.
 import React, { useEffect, useState } from "react";
-import { Contact, ContactRow, Vibe, phoneApi, pgo } from "./api";
+import { Contact, ContactRow, Vibe, Who, WhoFact, phoneApi, pgo } from "./api";
 import { usePhone } from "./PhoneContext";
 import { Portrait } from "./art";
 import { Chevron, Hearts, LabelBadge, ParentAvatar, labelTone, moodFor, pendingCompose } from "./MessagesUtil";
@@ -55,7 +55,7 @@ function ContactLine({ c }: { c: ContactRow }) {
         <b>{c.name}</b>
         <small>
           <LabelBadge label={label} crush={c.crush} partner={c.partner} />
-          <span className="pm-crow-year">{c.year_label}</span>
+          <span className="pm-crow-year">{c.glance || c.year_label}</span>
         </small>
       </span>
       <span className="pm-crow-side">
@@ -132,6 +132,15 @@ export function ContactProfile({ cid }: { cid: string }) {
         </div>
       )}
 
+      {c.who ? <WhoCard who={c.who} first={c.first} since={c.since} bio={c.bio} /> : (
+        <div className="pm-card pm-facts">
+          {c.since && <Fact k="Known since" v={monthYear(c.since)} />}
+          <Fact k="School" v={c.year_label} />
+          {c.teams.length > 0 && <Fact k="Teams & clubs" v={c.teams.join(", ")} />}
+          {c.bio && <p className="pm-bio">{c.bio}</p>}
+        </div>
+      )}
+
       <div className="pm-card">
         <div className="pm-read">
           <div><span>How you feel</span><b>{c.feel}</b></div>
@@ -148,13 +157,6 @@ export function ContactProfile({ cid }: { cid: string }) {
       </div>
 
       {c.vibe && c.vibe.romance && <VibeCard v={c.vibe} first={c.first} />}
-
-      <div className="pm-card pm-facts">
-        {c.since && <Fact k="Known since" v={monthYear(c.since)} />}
-        <Fact k="School" v={c.year_label} />
-        {c.teams.length > 0 && <Fact k="Teams & clubs" v={c.teams.join(", ")} />}
-        {c.bio && <p className="pm-bio">{c.bio}</p>}
-      </div>
 
       {c.memories.length > 0 && (
         <div className="pm-card">
@@ -245,6 +247,43 @@ function TopBar({ onBack }: { onBack: () => void }) {
     <header className="pm-profile-top">
       <button className="pm-back" onClick={onBack} aria-label="Back"><Chevron /><span>Back</span></button>
     </header>
+  );
+}
+
+/** Who they are: what everyone knows, what you know, and what only people close to them know (the rest stays locked). */
+function WhoCard({ who, first, since, bio }: { who: Who; first: string; since: string | null; bio: string }) {
+  const lockTip = who.level === "everyone" ? "Spend time with them" : "Get closer";
+  return (
+    <div className="pm-card pm-who">
+      <div className="pm-card-h">Who {first} is</div>
+      {who.sections.map((sec) => {
+        const rows: [string, WhoFact[]][] = [];
+        for (const f of sec.facts) {
+          const last = rows[rows.length - 1];
+          if (last && last[0] === f.k) last[1].push(f);
+          else rows.push([f.k, [f]]);
+        }
+        return (
+          <div key={sec.level} className={`pm-who-sec lv-${sec.level}`}>
+            <div className="pm-who-l">{sec.label}</div>
+            {rows.map(([k, fs]) => (
+              <div key={k} className="pm-fact">
+                <span>{k}</span>
+                <b>{fs.map((f, i) => <em key={i} className={f.tone ? `t-${f.tone}` : undefined}>{f.v}</em>)}</b>
+              </div>
+            ))}
+          </div>
+        );
+      })}
+      {who.hidden > 0 && (
+        <div className="pm-who-lock">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden><path d="M7 10V8a5 5 0 0 1 10 0v2h.5A1.5 1.5 0 0 1 19 11.5v8a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19.5v-8A1.5 1.5 0 0 1 6.5 10zm2 0h6V8a3 3 0 0 0-6 0z" fill="currentColor" /></svg>
+          <span><b>{who.hidden} more thing{who.hidden === 1 ? "" : "s"} you don't know yet</b>{who.unlock || `${lockTip} to learn more.`}</span>
+        </div>
+      )}
+      {since && <div className="pm-fact pm-who-since"><span>Known since</span><b>{monthYear(since)}</b></div>}
+      {bio && <p className="pm-bio">{bio}</p>}
+    </div>
   );
 }
 

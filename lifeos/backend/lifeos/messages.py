@@ -333,7 +333,7 @@ def on_event(sim, ev):
             mates = sorted([m for m in g["members"] if m != p and m in w.chars], key=lambda m: -w.chars[m].traits["sociability"])
             if mates:
                 s = mates[_h(salt, "mate") % min(3, len(mates))]
-                post(sim, f"team:{g['id']}", s, pick(f"team_{out}", salt, sim=sim, frm=s, opp=d.get("opponent", "them")), kind="team",
+                post(sim, f"team:{g['id']}", s, pick(f"team_{out}", salt, sim=sim, frm=s, opp=d.get("opponent", "them"), _group=list(g["members"])), kind="team",
                      title=g["name"], members=[m for m in g["members"] if m != p], tkind="group", phase="night")
             if _h(salt, "par") % 3 != 0:
                 family_text(sim, f"parent_{out}")
@@ -468,7 +468,7 @@ def pregame(sim):
                 from .sports import opponent_name
                 n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
                 s = mates[_h(w.day, g["id"]) % min(2, len(mates))]
-                post(sim, f"team:{g['id']}", s, pick("team_pregame", f"{w.day}:{g['id']}", sim=sim, frm=s, opp=opponent_name(sim, g, n)), kind="team",
+                post(sim, f"team:{g['id']}", s, pick("team_pregame", f"{w.day}:{g['id']}", sim=sim, frm=s, opp=opponent_name(sim, g, n), _group=list(g["members"])), kind="team",
                      title=g["name"], members=[m for m in g["members"] if m != me.id], tkind="group", phase="evening")
             if _h(w.day, "pp") % 2 == 0:
                 family_text(sim, "parent_pregame")
@@ -725,7 +725,28 @@ def text_options(sim, cid) -> list:
     hurt = any(m["valence"] <= -0.3 and cid in m.get("with", []) and w.day - m["day"] <= 21 for m in me.memories)
     if r and (r.affection < 0 or hurt or (r.rivalry >= 45 and r.affection < 30)):
         out.append({"kind": "sorry", "label": "Apologize"})
+    check = check_in(sim, me, o)
+    if check:
+        out.append({"kind": "check_in", "label": check})
     return out
+
+
+def check_in(sim, me, o) -> str | None:
+    """Something going on with them that you'd know about and could text about: hurt, cut, a breakup, a rough stretch."""
+    from . import knowing
+    w = sim.w
+    if o.role == "staff" or knowing.level(sim, me.id, o.id) == "everyone":
+        return None
+    if o.flags.get("injured_until", -1) >= w.day:
+        return f"Ask how the {o.flags.get('injury') or 'injury'} is"
+    recent = {m["kind"] for m in o.memories if w.day - m["day"] <= 10}
+    if "cut_from_team" in recent:
+        return "Cheer them up about getting cut"
+    if "broke_up" in recent:
+        return "Check on them after the breakup"
+    if (o.needs or {}).get("stress", 40) >= 70 or o.mood <= 30:
+        return "See if they're okay"
+    return None
 
 
 def text_first(sim, cid, kind) -> dict:
@@ -741,11 +762,20 @@ def text_first(sim, cid, kind) -> dict:
         raise ValueError(f"You don't have {o.first}'s number yet.")
     if kind not in {x["kind"] for x in text_options(sim, cid)}:
         raise ValueError("you can't send that right now")
-    pool = {"hey": "greet", "hang": "plans", "flirt": "flirt", "good_luck": "good_luck", "congrats": "congrats", "sorry": "apology"}[kind]
+    pool = {"hey": "greet", "hang": "plans", "flirt": "flirt", "good_luck": "good_luck", "congrats": "congrats", "sorry": "apology",
+            "check_in": "support"}[kind]
     salt = f"{w.day}:{cid}:{kind}"
     text = chat.D()["suggest"][pool][_h(salt) % len(chat.D()["suggest"][pool])]
     sug = chat.suggestions(sim, cid)
     i = next((k for k, x in enumerate(sug) if x["intent"] == pool), None)
+    if kind == "check_in":  # about the thing itself: their ankle, the cut, the breakup
+        recent = {m["kind"] for m in o.memories if w.day - m["day"] <= 10}
+        if o.flags.get("injured_until", -1) >= w.day:
+            text, i = f"how's the {o.flags.get('injury') or 'injury'}? hope you feel better soon", None
+        elif "cut_from_team" in recent:
+            text, i = "that sucks about the team. here if you wanna talk", None
+        elif "broke_up" in recent:
+            text, i = "hey. heard about the breakup. how are you holding up?", None
     res = chat.send(sim, cid, None, i) if i is not None else chat.send(sim, cid, text)
     t = phone(w)["threads"][f"dm:{cid}"]
     note = "read" if t["msgs"] and t["msgs"][-1].get("read") else None

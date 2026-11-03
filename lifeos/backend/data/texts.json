@@ -104,7 +104,8 @@
   "big one tomorrow 🔥",
   "everyone get sleep tonight",
   "{opp} tomorrow. we're not losing this one",
-  "lock in tomorrow boys",
+  {"text": "lock in tomorrow boys", "when": ["guys"]},
+  {"text": "lock in tomorrow ladies", "when": ["girls"]},
   "bus at 3:15 don't be late"
  ],
  "team_win": [
