@@ -6,8 +6,7 @@ What it does:
   1. builds the phone screens (vite.play.config.ts) into docs/play/
   2. copies the Python-in-the-browser runtime (Pyodide) into docs/play/pyodide/
   3. packs the game engine (backend/lifeos, backend/data, the FastAPI stand-in, openpyxl) into docs/play/engine.zip
-  4. builds the Story Editor (vite.edit.config.ts) into docs/play/edit/, sharing the engine files
-  5. stamps the offline cache with a build id
+  4. stamps the offline cache with a build id
 Needs Node (npm install in lifeos/frontend first).
 """
 import hashlib
@@ -74,9 +73,6 @@ def main():
     data = engine_zip()
     with open(os.path.join(OUT, "engine.zip"), "wb") as f:
         f.write(data)
-    # the Story Editor: its own app at play/edit/, on the same engine files (../pyodide, ../engine.zip)
-    run(["npx", "vite", "build", "--config", "vite.edit.config.ts"], FRONT)
-    os.replace(os.path.join(OUT, "edit", "edit.html"), os.path.join(OUT, "edit", "index.html"))
     build = hashlib.sha1(data + open(os.path.join(OUT, "index.html"), "rb").read()).hexdigest()[:10]
     sw = os.path.join(OUT, "sw.js")
     with open(sw) as f:

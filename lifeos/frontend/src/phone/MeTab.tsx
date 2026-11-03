@@ -176,7 +176,6 @@ export default function MeTab() {
           <p className="ph-dim small">Storylines only bring scenes they actually have: nothing gets made up to fill a day, and nothing waits just to slow things down.
             Continue story on the Story tab plays the next one right away.</p>
           <button className="ph-link" onClick={() => pgo("schedule")}>Story schedule: what's coming and what's waiting</button>
-          {STANDALONE && <a className="ph-link" href="./edit/" target="_blank" rel="noopener">Story Editor: write and rearrange your storylines (opens a new tab)</a>}
         </div>
 
         <div className="ph-section-t">When should the story stop?</div>

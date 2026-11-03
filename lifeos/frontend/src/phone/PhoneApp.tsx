@@ -14,7 +14,7 @@ import { Portrait, Scene } from "./art";
 import Gallery from "./art/Gallery";
 import HomeTab from "./HomeTab";
 import { PIcon } from "./icons";
-import { cx, errText, Sheet, Toasts } from "./kit";
+import { cx, errText, Toasts } from "./kit";
 import MeTab from "./MeTab";
 import Editor from "./Editor";
 import { PhoneProvider, usePhone } from "./PhoneContext";
@@ -80,7 +80,7 @@ function Shell({ route }: { route: string[] }) {
     );
   }
   if (tab === "create") return <CreateStory hasStory={!!state.active} />;
-  if (!state.active) return <><Welcome /><EditorInbox /></>;
+  if (!state.active) return <Welcome />;
   let body: React.ReactNode;
   if (tab === "phone") body = <PhoneTab route={route.slice(1)} />;
   else if (tab === "home") body = <HomeTab />;
@@ -92,55 +92,7 @@ function Shell({ route }: { route: string[] }) {
     <>
       <div className={cx("ph-screen", "tab-" + tab)} key={tab}>{body}</div>
       <TabBar tab={tab} />
-      <EditorInbox />
     </>
-  );
-}
-
-/** Storylines the Story Editor sent to the game on this device: add them in one tap (or not). */
-function EditorInbox() {
-  const { toast, refresh } = usePhone();
-  const [box, setBox] = useState<{ at: number; bundle: { name: string; packs: { name: string; scenes?: any[] }[] } } | null>(null);
-  const [busy, setBusy] = useState(false);
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("lifeos.editor.outbox");
-      if (raw) setBox(JSON.parse(raw));
-    } catch {
-      /* nothing waiting */
-    }
-  }, []);
-  if (!box) return null;
-  const done = () => {
-    try {
-      localStorage.removeItem("lifeos.editor.outbox");
-    } catch {
-      /* fine */
-    }
-    setBox(null);
-  };
-  const add = async () => {
-    setBusy(true);
-    try {
-      await api.post("/api/dialogue/packs", { pack: { dialogue_bundle: 1, ...box.bundle } });
-      toast(`Added ${box.bundle.packs.length} storylines from the Story Editor.`, "good");
-      done();
-      refresh();
-    } catch (e) {
-      toast(errText(e), "bad");
-    } finally {
-      setBusy(false);
-    }
-  };
-  const n = box.bundle.packs.length;
-  return (
-    <Sheet open onClose={() => setBox(null)} title="From the Story Editor">
-      <p className="ph-dim small" style={{ marginTop: 0 }}>“{box.bundle.name}”: {n} storyline{n === 1 ? "" : "s"}, {box.bundle.packs.reduce((k, p) => k + (p.scenes?.length || 0), 0)} scenes.
-        Each one replaces the storyline with the same name you already have; the rest stay as they are.</p>
-      <div className="ph-dim small" style={{ marginBottom: 12 }}>{box.bundle.packs.map((p) => p.name).join(" · ")}</div>
-      <button className="ph-btn primary block" disabled={busy} onClick={add}>{busy ? "Adding…" : "Add them to my game"}</button>
-      <button className="ph-link center" onClick={done}>Throw this one away</button>
-    </Sheet>
   );
 }
 
