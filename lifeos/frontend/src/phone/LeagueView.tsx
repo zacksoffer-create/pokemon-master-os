@@ -24,25 +24,52 @@ export default function LeagueView({ lg }: { lg: string }) {
     }
   };
   const college = v.kind === "college";
+  const soccer = v.kind === "soccer";
+
+  if (v.award) {
+    return (
+      <>
+        <div className="pro-team t-none">
+          <div className="sp-team-m">
+            <small className="lg-k">Ballon d'Or</small>
+            <b>{v.winners && v.winners[0]?.winner ? v.winners[0].winner : "Ballon d'Or"}</b>
+            <span>{v.winners && v.winners[0]?.club ? `${v.winners[0].year} · ${v.winners[0].club}` : ""}</span>
+          </div>
+          {v.next && <div className="pro-status">{v.next}</div>}
+        </div>
+        <div className="sp-h">Winners</div>
+        <div className="sp-card">
+          {(v.winners || []).map((a) => (
+            <div key={a.year} className="lg-champ">
+              <b>{a.year}</b>
+              <span>{a.winner ? <>{a.winner} ({a.club}){a.women ? <><br />Women's: {a.women} ({a.women_club})</> : null}</> : a.note}</span>
+            </div>
+          ))}
+        </div>
+        <News v={v} />
+        <p className="ph-dim small pro-src">{v.note}</p>
+      </>
+    );
+  }
 
   if (v.titles_only) {
     return (
       <>
         <div className="pro-team t-none">
           <div className="sp-team-m">
-            <small className="lg-k">{v.label}</small>
-            <b>{v.school}</b>
-            <span>{v.school_titles && v.school_titles.length ? `${v.event} titles: ${v.school_titles.join(", ")}` : `No ${v.event} titles yet in this story's years.`}</span>
+            <small className="lg-k">{v.label}{soccer ? " · your clubs" : ""}</small>
+            {soccer ? <span className="lg-clubs">{v.school}</span> : <b>{v.school}</b>}
+            <span>{v.school_titles && v.school_titles.length ? `${v.event} titles: ${v.school_titles.join(", ")}` : `No ${v.event} titles yet.`}</span>
           </div>
           {v.next && <div className="pro-status">{v.next}</div>}
-          <button className="pro-change" onClick={() => setPick(true)}>Follow a different school</button>
+          {!soccer && <button className="pro-change" onClick={() => setPick(true)}>Follow a different school</button>}
         </div>
-        <div className="sp-h">{v.event} finals</div>
+        <div className="sp-h">{soccer ? "Finals" : `${v.event} finals`}</div>
         <div className="sp-card">
           {(v.finals || []).length === 0 && <p className="ph-dim small">None yet.</p>}
           {(v.finals || []).map((f) => (
-            <div key={f.season} className={cx("lg-champ", f.champ === v.school && "mine")}>
-              <b>{f.season}</b>
+            <div key={f.season} className={cx("lg-champ", f.champ !== null && (v.school || "").split(", ").includes(f.champ) && "mine")}>
+              <b>{f.label || f.season}</b>
               <span>{f.champ ? <>{f.champ} over {f.runner_up}{f.score ? `, ${f.score}` : ""}{f.note ? ` (${f.note})` : ""}</> : f.note}</span>
             </div>
           ))}
@@ -61,7 +88,7 @@ export default function LeagueView({ lg }: { lg: string }) {
       {m && (
         <div className={cx("pro-team", "lg-" + lg)}>
           <div className="pro-team-top">
-            <div className="sp-rec"><b>{m.record || "0-0"}</b><small>{v.season} season</small></div>
+            <div className="sp-rec"><b>{soccer ? `${m.points ?? 0} pts` : m.record || "0-0"}</b><small>{soccer && m.record ? `${m.record} (W-D-L)` : `${v.season} season`}</small></div>
             <div className="sp-team-m">
               <b>{m.rank ? <span className="lg-rank">#{m.rank}</span> : null}{m.name}</b>
               {m.place && <span>{m.place}{m.conf_record ? ` (${m.conf_record})` : ""}</span>}
@@ -69,7 +96,7 @@ export default function LeagueView({ lg }: { lg: string }) {
           </div>
           {m.status && <div className="pro-status">{m.status}</div>}
           {m.next && <div className="lg-next">Next: {m.next.home ? "vs" : "at"} {m.next.opp}, {m.next.date.replace(/, \d{4}$/, "")}{m.next.label ? ` · ${m.next.label}` : ""}</div>}
-          <button className="pro-change" onClick={() => setPick(true)}>{college ? "Follow a different school" : "Not your team? Change it"}</button>
+          <button className="pro-change" onClick={() => setPick(true)}>{college ? "Follow a different school" : soccer ? "Follow a different club" : "Not your team? Change it"}</button>
         </div>
       )}
 
@@ -79,7 +106,7 @@ export default function LeagueView({ lg }: { lg: string }) {
           <div className="sp-card">
             {m.last.map((g, i) => (
               <div key={i} className="lg-game">
-                <span className={cx("sp-wl", g.result === "W" ? "w" : "l")}>{g.result}</span>
+                <span className={cx("sp-wl", g.result === "W" ? "w" : g.result === "T" ? "d" : "l")}>{soccer && g.result === "T" ? "D" : g.result}</span>
                 <span className="sp-gm"><b>{g.home ? "vs" : "at"} {g.opp} · {g.score}</b><small>{g.date}{g.label ? ` · ${g.label}` : g.conf ? " · conference" : ""}</small></span>
               </div>
             ))}
@@ -107,12 +134,25 @@ export default function LeagueView({ lg }: { lg: string }) {
 
       {(v.standings || []).map((d) => (
         <div key={d.group} className="sp-table pro-table">
-          <div className="pro-tr head"><span>{d.label}</span><span>W</span><span>L</span><span>{college ? "Conf" : ""}</span><span></span></div>
-          {d.rows.map((r) => (
-            <div key={r.team} className={cx("pro-tr", r.team === m?.team && "ours")}>
-              <span className="sp-tn">{r.name}</span><span>{r.w}</span><span>{r.l}{r.t ? `-${r.t}` : ""}</span><span>{college ? `${r.cw}-${r.cl}` : ""}</span><span></span>
-            </div>
-          ))}
+          {soccer ? (
+            <>
+              <div className="pro-tr head"><span>{d.label}</span><span>W</span><span>D</span><span>L</span><span>Pts</span></div>
+              {d.rows.map((r, i) => (
+                <div key={r.team} className={cx("pro-tr", r.team === m?.team && "ours")}>
+                  <span className="sp-tn"><i className="lg-pos">{i + 1}</i>{r.name}</span><span>{r.w}</span><span>{r.t}</span><span>{r.l}</span><span><b>{r.pts}</b></span>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="pro-tr head"><span>{d.label}</span><span>W</span><span>L</span><span>{college ? "Conf" : ""}</span><span></span></div>
+              {d.rows.map((r) => (
+                <div key={r.team} className={cx("pro-tr", r.team === m?.team && "ours")}>
+                  <span className="sp-tn">{r.name}</span><span>{r.w}</span><span>{r.l}{r.t ? `-${r.t}` : ""}</span><span>{college ? `${r.cw}-${r.cl}` : ""}</span><span></span>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       ))}
 
@@ -121,7 +161,7 @@ export default function LeagueView({ lg }: { lg: string }) {
           <div className="sp-h">Champions</div>
           <div className="sp-card">
             {v.champions!.map((c) => (
-              <div key={c.season} className={cx("lg-champ", c.mine && "mine")}><b>{c.season}</b><span>{c.champ} over {c.runner_up}</span></div>
+              <div key={c.season} className={cx("lg-champ", c.mine && "mine")}><b>{c.season}</b><span>{c.champ}{c.runner_up ? `${soccer ? ", ahead of" : " over"} ${c.runner_up}` : ""}</span></div>
             ))}
           </div>
         </>

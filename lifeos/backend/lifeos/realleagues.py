@@ -8,6 +8,9 @@ what-ifs); this is everything else.
   football, and men's and women's college basketball. Every game with its date and score; conference and division
   standings; the playoffs, bowls and the NCAA tournament; a weekly top 25 for college (ours, from results: an Elo rating with
   margin of victory, not the AP poll).
+- European soccer: the Premier League, La Liga, Serie A, the Bundesliga and Ligue 1, every league game, the table by points
+  (then goal difference), the champion on the last day; the Champions League finals; the Ballon d'Or winners (and the
+  women's from 2018).
 - Title-only sports (data/leagues/titles.json): college baseball (the College World Series) and men's and women's college
   soccer (the College Cups). No public game data exists for them, so they carry the real finals: who won, who lost, when.
 - Past the data (the 2026 seasons and on), each league keeps going in this world: a champion every year, drawn from the
@@ -48,17 +51,26 @@ LEAGUES = {
             "post": "the NCAA tournament",
             "rounds": {"FF": "First Four", "R64": "Round of 64", "R32": "Round of 32", "S16": "Sweet 16", "E8": "Elite Eight",
                        "F4": "Final Four", "NC": "National championship"}},
+    "epl": {"label": "Premier League", "short": "Premier League", "kind": "soccer", "title": "the Premier League"},
+    "laliga": {"label": "La Liga", "short": "La Liga", "kind": "soccer", "title": "La Liga"},
+    "seriea": {"label": "Serie A", "short": "Serie A", "kind": "soccer", "title": "Serie A"},
+    "bund": {"label": "Bundesliga", "short": "Bundesliga", "kind": "soccer", "title": "the Bundesliga"},
+    "ligue1": {"label": "Ligue 1", "short": "Ligue 1", "kind": "soccer", "title": "Ligue 1"},
+    "ucl": {"label": "Champions League", "short": "Champions League", "kind": "soccer", "titles_only": True},
+    "ballon": {"label": "Ballon d'Or", "short": "Ballon d'Or", "kind": "soccer", "titles_only": True, "award": True},
     "cbase": {"label": "College baseball", "short": "Baseball", "kind": "college", "titles_only": True},
     "msoc": {"label": "Men's college soccer", "short": "Men's soccer", "kind": "college", "titles_only": True},
     "wsoc": {"label": "Women's college soccer", "short": "Women's soccer", "kind": "college", "titles_only": True},
 }
 PRO = ("nfl", "nba")
 COLLEGE = ("cfb", "mbb", "wbb", "cbase", "msoc", "wsoc")
-GAME_LEAGUES = ("nfl", "nba", "cfb", "mbb", "wbb")
+SOCCER = ("epl", "laliga", "seriea", "bund", "ligue1")
+GAME_LEAGUES = ("nfl", "nba", "cfb", "mbb", "wbb") + SOCCER
 DISPLAY = {"Connecticut": "UConn"}  # college football's name for UConn
 SCHOOL = {"uconn": "UConn", "stanford": "Stanford", "ucla": "UCLA", "lsu": "LSU", "unc": "North Carolina", "texas": "Texas",
           "oklahoma": "Oklahoma", "fsu": "Florida State", "miami": "Miami", "michigan": "Michigan"}
-DEFAULT_FOLLOW = {"nfl": "NYG", "nba": "New York Knicks", "college": "UConn"}
+DEFAULT_FOLLOW = {"nfl": "NYG", "nba": "New York Knicks", "college": "UConn", "epl": "Man United", "laliga": "Barcelona",
+                  "seriea": "Juventus", "bund": "Bayern Munich", "ligue1": "Paris SG"}
 FANS = {  # the shoreline: who people root for
     "nfl": [("NYG", 34), ("NE", 34), ("NYJ", 14), ("", 18)],
     "nba": [("New York Knicks", 36), ("Boston Celtics", 34), ("Brooklyn Nets", 6), ("", 24)],
@@ -112,6 +124,8 @@ def name(lg: str, t: int, key: str | None = None, short=True) -> str:
     nm = row[0]
     if key is not None:
         nm = ((index(lg).get(key) or {}).get("names") or {}).get(str(t), nm)  # its name that season
+    if LEAGUES[lg]["kind"] == "soccer":
+        return nm
     if short:
         if LEAGUES[lg]["kind"] == "college":
             return DISPLAY.get(row[1], row[1])
@@ -184,8 +198,31 @@ def record(lg: str, key: str, t: int, day: int, conf=False, regular=None) -> lis
     return [w, l_, ti]
 
 
-def rec_text(r) -> str:
+def rec_text(r, soccer=False) -> str:
+    """'10-6', '10-5-1' with a tie, and wins-draws-losses in soccer: '21-9-8'."""
+    if soccer:
+        return f"{r[0]}-{r[2]}-{r[1]}"
     return f"{r[0]}-{r[1]}" + (f"-{r[2]}" if r[2] else "")
+
+
+def _soccer(lg) -> bool:
+    return LEAGUES[lg]["kind"] == "soccer"
+
+
+def table_points(lg: str, key: str, day: int) -> dict:
+    """{club: (points, goal difference, goals for, played)} through today."""
+    s = season(lg, key)
+    out = defaultdict(lambda: [0, 0, 0, 0])
+    for g in s["games"]:
+        if g[0] > day:
+            break
+        for t, f, a in ((g[1], g[3], g[4]), (g[2], g[4], g[3])):
+            x = out[t]
+            x[0] += 3 if f > a else 1 if f == a else 0
+            x[1] += f - a
+            x[2] += f
+            x[3] += 1
+    return out
 
 
 def poll(lg: str, key: str, day: int) -> list:
@@ -208,7 +245,12 @@ def standings(lg: str, key: str, day: int, only: set | None = None) -> list:
             c = record(lg, key, t, day, conf=True)
             rows.append({"team": t, "name": name(lg, t, key), "w": r[0], "l": r[1], "t": r[2],
                          "cw": c[0], "cl": c[1], "pct": (r[0] + r[2] / 2) / max(1, sum(r))})
-        if college:
+        if _soccer(lg):
+            tp = table_points(lg, key, day)
+            for x in rows:
+                x["pts"], x["gd"] = tp[x["team"]][0], tp[x["team"]][1]
+            rows.sort(key=lambda x: (-x["pts"], -x["gd"], -tp[x["team"]][2], x["name"]))
+        elif college:
             rows.sort(key=lambda x: (-(x["cw"] / max(1, x["cw"] + x["cl"])), -x["cw"], -x["pct"], x["name"]))
         else:
             rows.sort(key=lambda x: (-x["pct"], -x["w"], x["name"]))
@@ -290,6 +332,8 @@ def alive(lg: str, key: str, t: int, day: int) -> bool:
 def finals(lg: str, day: int) -> list:
     """The finals decided by today: [{season, date, champ, runner_up, score, note}]."""
     T = titles_data()[lg]
+    if T.get("award"):
+        return []
     out = []
     for yr, date, champ, ru, score, note in T["rows"]:
         if date is None:
@@ -299,7 +343,25 @@ def finals(lg: str, day: int) -> list:
         d = calm.day_of(dt.date.fromisoformat(date))
         if d <= day:
             out.append({"season": yr, "date": calm.label(d), "day": d, "champ": champ, "runner_up": ru, "score": score, "note": note})
-    return out + _sim_finals(lg, day, T)
+    out = out + _sim_finals(lg, day, T)
+    for f in out:
+        f["label"] = f"{f['season'] - 1}-{f['season'] % 100:02d}" if T.get("split") else str(f["season"])
+    return out
+
+
+def awards(lg: str, day: int) -> list:
+    """The Ballon d'Or winners announced by today: [{year, date, winner, club, women, women_club}]."""
+    out = []
+    for yr, date, who_, club, women, wclub in titles_data()[lg]["rows"]:
+        if date is None:
+            if calm.day_of(dt.date(yr, 12, 15)) <= day:
+                out.append({"year": yr, "date": None, "winner": None, "club": None, "women": None, "women_club": None,
+                            "note": "Not awarded (COVID-19)"})
+            continue
+        d = calm.day_of(dt.date.fromisoformat(date))
+        if d <= day:
+            out.append({"year": yr, "date": calm.label(d), "day": d, "winner": who_, "club": club, "women": women, "women_club": wclub})
+    return out
 
 
 def _sim_finals(lg: str, day: int, T: dict) -> list:
@@ -348,9 +410,11 @@ def my_college(sim) -> str:
 def followed(sim, lg: str):
     """The team you follow: a team number for the game leagues, a school name for the title-only sports."""
     st = state(sim)
-    if lg in PRO:
+    if lg in PRO or lg in SOCCER:
         label = st["follow"].get(lg) or DEFAULT_FOLLOW[lg]
         return find(lg, label)
+    if lg == "ucl":
+        return my_clubs(sim)
     school = my_college(sim)
     if LEAGUES[lg].get("titles_only"):
         return school
@@ -358,11 +422,18 @@ def followed(sim, lg: str):
     return t if t is not None else find(lg, "UConn") if lg != "cfb" else find(lg, "Connecticut")
 
 
+def my_clubs(sim) -> list:
+    """The clubs you follow, one in each league (full names)."""
+    return [name(lg, followed(sim, lg)) for lg in SOCCER if followed(sim, lg) is not None]
+
+
 def set_follow(sim, lg: str, label: str):
     st = state(sim)
-    if lg in PRO:
+    if lg in ("ucl", "ballon"):
+        raise ValueError("follow a club in its league; the Champions League follows your clubs")
+    if lg in PRO or lg in SOCCER:
         if find(lg, label) is None:
-            raise ValueError(f"no {lg.upper()} team called {label}")
+            raise ValueError(f"no {LEAGUES[lg]['label']} team called {label}")
         st["follow"][lg] = label
     else:
         st["follow"]["college_pick"] = label or None
@@ -453,6 +524,45 @@ def weekly(sim):
                         fx.memory(cid, "pro_heartbreak", [], -0.2 * care, 12 * care,
                                   f"{who(lg, lose, key)[:1].upper() + who(lg, lose, key)[1:]} lost in the {x['label']} "
                                   f"({index(lg)[key]['label']})")
+    for lg in SOCCER:  # a league title, decided on the last day
+        key = season_key(lg, day)
+        c = champion(lg, key, day) if key else None
+        tag = f"{lg}:{key}:title"
+        if c is None or tag in seen:
+            continue
+        seen.add(tag)
+        mine = c == followed(sim, lg)
+        picked = bool(st["follow"].get(lg))  # (a club you chose yourself is one you feel; the starting ones are just news)
+        _news(sim, lg, f"{name(lg, c, key)} win {LEAGUES[lg]['title']} ({index(lg)[key]['label']}).", mine, index(lg)[key]["title"][0] - _offset())
+        if mine and picked and prot in w.chars:
+            fx = fx or Effects(w, None)
+            fx.mood(prot, 4, f"{name(lg, c, key)} won the league")
+            fx.memory(prot, "pro_title", [], 0.25, 18, f"{name(lg, c, key)} won {LEAGUES[lg]['title']} ({index(lg)[key]['label']})")
+    for f in finals("ucl", day):
+        tag = f"ucl:{f['season']}"
+        if tag in seen or not f.get("champ"):
+            continue
+        seen.add(tag)
+        if f.get("day", day) < day - 60:
+            continue
+        mine = f["champ"] in my_clubs(sim)
+        picked = any(st["follow"].get(x) and name(x, followed(sim, x)) == f["champ"] for x in SOCCER)
+        _news(sim, "ucl", f"{f['champ']} beat {f['runner_up']}" + (f" {f['score']}" if f.get("score") else "") +
+              (f" {f['note']}" if f.get("note") and f["note"] != "this world's" else "") + " in the Champions League final.",
+              mine or f["runner_up"] in my_clubs(sim), f.get("day", day))
+        if mine and picked and prot in w.chars:
+            fx = fx or Effects(w, None)
+            fx.mood(prot, 5, f"{f['champ']} won the Champions League")
+            fx.memory(prot, "pro_title", [], 0.3, 20, f"{f['champ']} won the Champions League ({f['label']})")
+    for a in awards("ballon", day):
+        tag = f"ballon:{a['year']}"
+        if tag in seen or not a.get("winner"):
+            continue
+        seen.add(tag)
+        if a.get("day", day) < day - 60:
+            continue
+        _news(sim, "ballon", f"{a['winner']} ({a['club']}) wins the {a['year']} Ballon d'Or" +
+              (f"; {a['women']} ({a['women_club']}) wins the women's." if a.get("women") else "."), False, a.get("day", day))
     for lg in ("cbase", "msoc", "wsoc"):
         for f in finals(lg, day):
             tag = f"{lg}:{f['season']}"
@@ -479,7 +589,7 @@ def _game_line(lg, key, g, t) -> dict:
     rnd = (LEAGUES[lg].get("rounds", {}).get(g[6], "") if g[5] in (3, 5) else "Bowl game" if g[5] == 4 and lg == "cfb" else
            "Postseason" if g[5] == 4 else "Conference tournament" if g[5] == 2 else "")
     out = {"date": calm.label(g[0]), "opp": name(lg, opp, key), "home": home, "label": rnd,
-           "conf": g[5] == 1}
+           "conf": g[5] == 1 and not _soccer(lg)}
     return out
 
 
@@ -493,7 +603,7 @@ def team_card(sim, lg: str, key: str, t: int, day: int) -> dict:
         tab = next((x for x in standings(lg, key, day, {grp}) if x["group"] == grp), None)
         if tab and sum(r):
             pos = next(i for i, x in enumerate(tab["rows"]) if x["team"] == t)
-            place = f"{_ordinal(pos + 1)} in the {tab['label']}"
+            place = f"{_ordinal(pos + 1)} in {LEAGUES[lg]['title'] if _soccer(lg) else 'the ' + tab['label']}"
     rank = None
     if LEAGUES[lg]["kind"] == "college":
         p = poll(lg, key, day)
@@ -520,12 +630,18 @@ def team_card(sim, lg: str, key: str, t: int, day: int) -> dict:
             status = f"Out in the {lost['label'].lower()}: lost to {name(lg, other, key)}."
         else:
             status = f"Still alive in {LEAGUES[lg]['post']}."
+    elif _soccer(lg) and not games:
+        status = f"Not in {LEAGUES[lg]['label']} this season."
     elif not played and nxt:
         status = f"Season starts {calm.label(nxt[0]).replace(', ' + str(calm.date_of(nxt[0]).year), '')}."
     elif champ is not None:
         status = "Season over."
-    return {"team": t, "name": name(lg, t, key, False), "short": name(lg, t, key), "record": rec_text(r) if sum(r) else None,
-            "conf_record": rec_text(c) if sum(c) else None, "conf": grp.replace("|", " ") if grp else None, "place": place,
+    pts = table_points(lg, key, day)[t][0] if _soccer(lg) else None
+    if _soccer(lg) and champ == t:
+        status = f"Champions of {LEAGUES[lg]['title']}."
+    return {"team": t, "name": name(lg, t, key, False), "short": name(lg, t, key), "record": rec_text(r, _soccer(lg)) if sum(r) else None,
+            "conf_record": None if _soccer(lg) else rec_text(c) if sum(c) else None, "points": pts,
+            "conf": grp.replace("|", " ") if grp else None, "place": place,
             "rank": rank, "last": last, "status": status,
             "next": ({**_game_line(lg, key, nxt, t)} if nxt else None)}
 
@@ -540,24 +656,35 @@ def view(sim, lg: str) -> dict:
     news = [{"date": calm.label(n["day"]), "text": n["text"], "mine": n["mine"]}
             for n in reversed(st["news"]) if n["lg"] == lg and n["day"] <= day][:12]
     base = {"league": lg, "label": L["label"], "kind": L["kind"], "news": news, "today": calm.label(day)}
+    if L.get("award"):
+        aw = list(reversed(awards(lg, day)))
+        nxt = next((r for r in titles_data()[lg]["rows"] if r[1] and calm.day_of(dt.date.fromisoformat(r[1])) > day), None)
+        return {**base, "titles_only": True, "award": True, "winners": aw[:25],
+                "next": (f"The next one is given out around {calm.label(calm.day_of(dt.date.fromisoformat(nxt[1])))[5:]}." if nxt else None),
+                "note": "The real winners (2010-15 it was the FIFA Ballon d'Or; the women's award started in 2018)."}
     if L.get("titles_only"):
         fin = finals(lg, day)
         school = followed(sim, lg)
         T = titles_data()[lg]
-        mine = [f["season"] for f in fin if f.get("champ") == school]
+        if lg == "ucl":
+            mine = [f"{f['label']} ({f['champ']})" for f in fin if f.get("champ") in school]
+            school = ", ".join(school)
+        else:
+            mine = [str(f["season"]) for f in fin if f.get("champ") == school]
         nxt_row = next((r for r in T["rows"] if r[1] and calm.day_of(dt.date.fromisoformat(r[1])) > day), None)
         return {**base, "titles_only": True, "event": T["event"], "school": school,
                 "school_titles": mine, "finals": list(reversed(fin))[:20],
                 "next": (f"The {T['event']} final is around {calm.label(calm.day_of(dt.date.fromisoformat(nxt_row[1])))[5:]}."
                          if nxt_row else None),
-                "note": "No game-by-game data is public for this sport: you see the real finals, and your school's titles."}
+                "note": ("Every final, with your clubs' titles (follow clubs in their leagues)." if lg == "ucl" else
+                         "No game-by-game data is public for this sport: you see the real finals, and your school's titles.")}
     key = season_key(lg, day)
     if not key:
         return {**base, "season": None}
     t = followed(sim, lg)
     s = season(lg, key)
     card = team_card(sim, lg, key, t, day) if t is not None else None
-    tables = standings(lg, key, day, None if L["kind"] == "pro" else ({s["conf"].get(t)} if t is not None else set()))
+    tables = standings(lg, key, day, None if L["kind"] in ("pro", "soccer") else ({s["conf"].get(t)} if t is not None else set()))
     top = [{"rank": i + 1, "team": x, "name": name(lg, x, key), "record": rec_text(record(lg, key, x, day))}
            for i, x in enumerate(poll(lg, key, day))] if L["kind"] == "college" else []
     champs = []
@@ -567,14 +694,14 @@ def view(sim, lg: str) -> dict:
             g = ix["title"]
             win = ix["champ"]
             lose = g[2] if g[1] == win else g[1]
-            champs.append({"season": ix["label"], "champ": name(lg, win, k, False), "runner_up": name(lg, lose, k, False),
-                           "mine": win == t})
+            champs.append({"season": ix["label"], "champ": name(lg, win, k, False),
+                           "runner_up": name(lg, lose, k, False) if lose is not None else None, "mine": win == t})
     picks = sorted({x for grp in s.get("groups", {}).values() for x in grp}, key=lambda x: name(lg, x, key))
     return {**base, "season": index(lg)[key]["label"], "my_team": card, "standings": tables, "top25": top,
             "postseason": postseason(lg, key, day), "champ": (name(lg, champion(lg, key, day), key, False)
                                                              if champion(lg, key, day) is not None else None),
             "champions": list(reversed(champs))[:20],
-            "teams": [{"team": x, "name": name(lg, x, key, L["kind"] != "pro")} for x in picks],
+            "teams": [{"team": x, "name": name(lg, x, key, L["kind"] == "college")} for x in picks],
             "note": ("The real results run out here; from now on it's this world's." if past_data(lg, day) else
                      "Every game as it really happened, on its real date." +
                      (" (Bowl games before the 2023 season aren't in the public data; the title games are.)" if lg == "cfb" else "") +
@@ -586,6 +713,11 @@ def summary(sim) -> list:
     out = []
     day = sim.w.day
     for lg, L in LEAGUES.items():
+        if L.get("award"):
+            aw = awards(lg, day)
+            out.append({"league": lg, "label": L["short"], "kind": L["kind"],
+                        "line": f"Last: {aw[-1]['winner']}" if aw and aw[-1].get("winner") else None})
+            continue
         if L.get("titles_only"):
             fin = finals(lg, day)
             out.append({"league": lg, "label": L["short"], "kind": L["kind"],
@@ -600,5 +732,5 @@ def summary(sim) -> list:
         ix = index(lg)[key]
         out.append({"league": lg, "label": L["short"], "kind": L["kind"],
                     "in_season": ix["first"] - _offset() - 7 <= day <= ix["last"] - _offset(),
-                    "line": f"{name(lg, t, key)} {rec_text(r)}" if sum(r) else name(lg, t, key)})
+                    "line": f"{name(lg, t, key)} {rec_text(r, _soccer(lg))}" if sum(r) else name(lg, t, key)})
     return out

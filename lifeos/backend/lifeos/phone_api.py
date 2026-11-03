@@ -417,7 +417,8 @@ def phone_league(lg: str):
 
 @router.post("/api/phone/league/follow")
 def phone_league_follow(body: dict = Body(...)):
-    """Follow a team: an NFL or NBA team, or a school for all of college sports (empty = back to your own college)."""
+    """Follow a team: an NFL or NBA team, a club in a European league, or a school for all of college sports (empty = back to
+    your own college)."""
     A, L = _lab()
     from . import realleagues
     lg = str(body.get("lg") or "")

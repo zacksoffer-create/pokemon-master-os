@@ -1213,3 +1213,9 @@ html.ph-html body { color-scheme: light; }
 .lg-trow em { font-style: normal; color: var(--ph-dim); font-weight: 700; }
 .lg-trow.mine { background: #eef2fb; border-radius: 8px; }
 .lg-search { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--ph-line); font: inherit; margin: 6px 0 8px; }
+
+.sp-teams.sp-sub { margin-top: -4px; }
+.ph-root .sp-teams.sp-sub button { font-size: 12px; padding: 5px 10px; }
+.lg-pos { font-style: normal; color: var(--ph-dim); font-size: 11px; min-width: 16px; display: inline-block; }
+.sp-wl.d { background: #eeeae3; color: var(--ph-ink-2); }
+.lg-clubs { font-size: 14px; font-weight: 800; line-height: 1.35; }

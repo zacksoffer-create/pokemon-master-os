@@ -3,9 +3,12 @@
 Sources (all public, fetched from raw.githubusercontent.com; --download gets them):
 - NFL: nflverse's games file (every game since 1999)
 - NBA, men's and women's college basketball: sportsdataverse's ESPN schedules (hoopR / wehoop), 2005-06 on
+- The Premier League, La Liga, Serie A, the Bundesliga and Ligue 1: football-data.co.uk's results, from the
+  datasets/football-datasets mirror on GitHub, 2005-06 on (every league game)
 - College football: sportsdataverse's cfbfastR schedules, 2005 on. The older files stop before the bowls, so the title
   games (and the playoff semifinals from 2014) for those seasons come from TITLE_GAMES below.
-College baseball and college soccer have no game data anywhere public, so titles.json holds their real finals by hand.
+College baseball and college soccer have no game data anywhere public, so titles.json holds their real finals by hand,
+along with the Champions League finals and the Ballon d'Or winners.
 
     pip install pyarrow pandas
     python3 lifeos/tools/build_league_data.py --download --src /tmp/leagues     # fetch, then build
@@ -34,6 +37,7 @@ import math
 import os
 import re
 import urllib.request
+from collections import defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "backend", "data", "leagues")
@@ -46,6 +50,25 @@ URLS = {
     "mbb": [f"{SD}/hoopR-mbb-data/main/mbb/schedules/parquet/mbb_schedule_{y}.parquet" for y in range(2006, 2027)],
     "wbb": [f"{SD}/wehoop-wbb-data/main/wbb/schedules/parquet/wbb_schedule_{y}.parquet" for y in range(2006, 2027)],
     "nba": [f"{SD}/hoopR-nba-data/main/nba/schedules/parquet/nba_schedule_{y}.parquet" for y in range(2006, 2027)],
+    "soccer": [f"https://raw.githubusercontent.com/datasets/football-datasets/main/datasets/{slug}/season-{y % 100:02d}{(y + 1) % 100:02d}.csv"
+               for slug in ("premier-league", "la-liga", "serie-a", "bundesliga", "ligue-1") for y in range(2005, 2026)],
+}
+SOCCER = {"epl": ("premier-league", "Premier League"), "laliga": ("la-liga", "La Liga"), "seriea": ("serie-a", "Serie A"),
+          "bund": ("bundesliga", "Bundesliga"), "ligue1": ("ligue-1", "Ligue 1")}
+TITLE_OVERRIDE = {("seriea", 2006): "Inter"}  # Juventus finished first and were stripped (Calciopoli); Inter got it
+CLUBS = {  # football-data's names -> the names people use
+    "Man United": "Manchester United", "Man City": "Manchester City", "Nott'm Forest": "Nottingham Forest",
+    "Newcastle": "Newcastle United", "Tottenham": "Tottenham Hotspur", "West Ham": "West Ham United", "Wolves": "Wolverhampton",
+    "West Brom": "West Bromwich Albion", "QPR": "Queens Park Rangers", "Brighton": "Brighton & Hove Albion",
+    "Leicester": "Leicester City", "Stoke": "Stoke City", "Swansea": "Swansea City", "Hull": "Hull City", "Norwich": "Norwich City",
+    "Cardiff": "Cardiff City", "Leeds": "Leeds United", "Wigan": "Wigan Athletic", "Bolton": "Bolton Wanderers",
+    "Blackburn": "Blackburn Rovers", "Birmingham": "Birmingham City", "Ath Madrid": "Atlético Madrid", "Ath Bilbao": "Athletic Bilbao",
+    "Betis": "Real Betis", "Sociedad": "Real Sociedad", "Celta": "Celta Vigo", "Espanol": "Espanyol", "Sp Gijon": "Sporting Gijón",
+    "La Coruna": "Deportivo La Coruña", "Vallecano": "Rayo Vallecano", "Alaves": "Alavés", "Malaga": "Málaga", "Leganes": "Leganés",
+    "Inter": "Inter Milan", "Milan": "AC Milan", "Roma": "AS Roma", "Bayern Munich": "Bayern Munich", "Dortmund": "Borussia Dortmund",
+    "Leverkusen": "Bayer Leverkusen", "M'gladbach": "Borussia Mönchengladbach", "Ein Frankfurt": "Eintracht Frankfurt",
+    "FC Koln": "FC Köln", "Nurnberg": "Nürnberg", "Greuther Furth": "Greuther Fürth", "Paris SG": "Paris Saint-Germain",
+    "St Etienne": "Saint-Étienne", "Nimes": "Nîmes",
 }
 POWER = {"Atlantic Coast Conference", "Big East Conference", "Big Ten Conference", "Big 12 Conference",
          "Southeastern Conference", "Pac-12 Conference", "Pac-10 Conference", "American Athletic Conference"}
@@ -129,6 +152,33 @@ TITLES = {
         [2019, "2019-12-08", "Stanford", "North Carolina", "0-0", "on penalties"], [2020, "2021-05-17", "Santa Clara", "Florida State", "1-1", "on penalties (played in spring 2021)"],
         [2021, "2021-12-06", "Florida State", "BYU", "0-0", "on penalties"], [2022, "2022-12-05", "UCLA", "North Carolina", "3-2", "in overtime"],
         [2023, "2023-12-04", "Florida State", "Stanford", "5-1", ""], [2024, "2024-12-08", "North Carolina", "Wake Forest", "1-0", ""]]},
+    "ucl": {"label": "Champions League", "event": "Champions League", "split": True, "rows": [  # season = the year it ends
+        [2006, "2006-05-17", "Barcelona", "Arsenal", "2-1", ""], [2007, "2007-05-23", "AC Milan", "Liverpool", "2-1", ""],
+        [2008, "2008-05-21", "Manchester United", "Chelsea", "1-1", "on penalties"], [2009, "2009-05-27", "Barcelona", "Manchester United", "2-0", ""],
+        [2010, "2010-05-22", "Inter Milan", "Bayern Munich", "2-0", ""], [2011, "2011-05-28", "Barcelona", "Manchester United", "3-1", ""],
+        [2012, "2012-05-19", "Chelsea", "Bayern Munich", "1-1", "on penalties"], [2013, "2013-05-25", "Bayern Munich", "Borussia Dortmund", "2-1", ""],
+        [2014, "2014-05-24", "Real Madrid", "Atlético Madrid", "4-1", "after extra time"], [2015, "2015-06-06", "Barcelona", "Juventus", "3-1", ""],
+        [2016, "2016-05-28", "Real Madrid", "Atlético Madrid", "1-1", "on penalties"], [2017, "2017-06-03", "Real Madrid", "Juventus", "4-1", ""],
+        [2018, "2018-05-26", "Real Madrid", "Liverpool", "3-1", ""], [2019, "2019-06-01", "Liverpool", "Tottenham Hotspur", "2-0", ""],
+        [2020, "2020-08-23", "Bayern Munich", "Paris Saint-Germain", "1-0", ""], [2021, "2021-05-29", "Chelsea", "Manchester City", "1-0", ""],
+        [2022, "2022-05-28", "Real Madrid", "Liverpool", "1-0", ""], [2023, "2023-06-10", "Manchester City", "Inter Milan", "1-0", ""],
+        [2024, "2024-06-01", "Real Madrid", "Borussia Dortmund", "2-0", ""], [2025, "2025-05-31", "Paris Saint-Germain", "Inter Milan", "5-0", ""],
+        [2026, "2026-05-30", "Paris Saint-Germain", "Arsenal", "1-1", "on penalties"]]},
+    "ballon": {"label": "Ballon d'Or", "event": "Ballon d'Or", "award": True, "rows": [
+        # [year, the day it was given, winner, his club, women's winner, her club] (2010-15: FIFA Ballon d'Or; women's from 2018)
+        [2005, "2005-11-28", "Ronaldinho", "Barcelona", None, None], [2006, "2006-11-27", "Fabio Cannavaro", "Real Madrid", None, None],
+        [2007, "2007-12-02", "Kaká", "AC Milan", None, None], [2008, "2008-12-02", "Cristiano Ronaldo", "Manchester United", None, None],
+        [2009, "2009-12-01", "Lionel Messi", "Barcelona", None, None], [2010, "2011-01-10", "Lionel Messi", "Barcelona", None, None],
+        [2011, "2012-01-09", "Lionel Messi", "Barcelona", None, None], [2012, "2013-01-07", "Lionel Messi", "Barcelona", None, None],
+        [2013, "2014-01-13", "Cristiano Ronaldo", "Real Madrid", None, None], [2014, "2015-01-12", "Cristiano Ronaldo", "Real Madrid", None, None],
+        [2015, "2016-01-11", "Lionel Messi", "Barcelona", None, None], [2016, "2016-12-12", "Cristiano Ronaldo", "Real Madrid", None, None],
+        [2017, "2017-12-07", "Cristiano Ronaldo", "Real Madrid", None, None], [2018, "2018-12-03", "Luka Modrić", "Real Madrid", "Ada Hegerberg", "Lyon"],
+        [2019, "2019-12-02", "Lionel Messi", "Barcelona", "Megan Rapinoe", "Reign FC"], [2020, None, None, None, None, None],
+        [2021, "2021-11-29", "Lionel Messi", "Paris Saint-Germain", "Alexia Putellas", "Barcelona"],
+        [2022, "2022-10-17", "Karim Benzema", "Real Madrid", "Alexia Putellas", "Barcelona"],
+        [2023, "2023-10-30", "Lionel Messi", "Inter Miami", "Aitana Bonmatí", "Barcelona"],
+        [2024, "2024-10-28", "Rodri", "Manchester City", "Aitana Bonmatí", "Barcelona"],
+        [2025, "2025-09-22", "Ousmane Dembélé", "Paris Saint-Germain", "Aitana Bonmatí", "Barcelona"]]},
 }
 
 NFL_TEAMS = {  # nflverse code -> (franchise, name by era: [(first season, name)], conference, division)
@@ -431,6 +481,47 @@ def _pack(lg: str, T: Teams, seasons: dict) -> dict:
     return {"id": lg, "teams": T.rows, "seasons": seasons}
 
 
+def build_soccer(src: str, lg: str) -> dict:
+    """A domestic league: every game, and the table at the end (3 points a win, then goal difference, then goals)."""
+    slug, label = SOCCER[lg]
+    T = Teams()
+    seasons = {}
+    for y in range(2006, 2030):
+        f = os.path.join(src, "soccer", f"season-{(y - 1) % 100:02d}{y % 100:02d}.csv".replace("season-", f"{slug}-"))
+        if not os.path.exists(f):
+            f = os.path.join(src, "soccer", f"season-{(y - 1) % 100:02d}{y % 100:02d}.csv")
+            if not os.path.exists(f):
+                continue
+        games = []
+        for r in csv.DictReader(open(f, encoding="utf-8", errors="replace")):
+            if not r.get("HomeTeam") or r.get("FTHG") in ("", None) or r.get("FTAG") in ("", None):
+                continue
+            h = T.get(r["HomeTeam"], CLUBS.get(r["HomeTeam"], r["HomeTeam"]), r["HomeTeam"])
+            a = T.get(r["AwayTeam"], CLUBS.get(r["AwayTeam"], r["AwayTeam"]), r["AwayTeam"])
+            d = r["Date"]
+            if "/" in d:  # (older files: dd/mm/yy)
+                dd, mm, yy = d.split("/")
+                d = f"{2000 + int(yy) if len(yy) == 2 else int(yy)}-{int(mm):02d}-{int(dd):02d}"
+            games.append([day(d), h, a, int(float(r["FTHG"])), int(float(r["FTAG"])), 1])
+        if not games:
+            continue
+        games.sort(key=lambda g: (g[0], g[1]))
+        pts, gd, gf = defaultdict(int), defaultdict(int), defaultdict(int)
+        for g in games:
+            _, h, a, hs, as_ = g[:5]
+            for t, f_, a_ in ((h, hs, as_), (a, as_, hs)):
+                pts[t] += 3 if f_ > a_ else 1 if f_ == a_ else 0
+                gd[t] += f_ - a_
+                gf[t] += f_
+        table = sorted(pts, key=lambda t: (-pts[t], -gd[t], -gf[t], T.rows[t][0]))
+        champ, runner = table[0], table[1]
+        if (lg, y) in TITLE_OVERRIDE:  # a title taken away after the fact
+            champ, runner = T.idx[TITLE_OVERRIDE[(lg, y)]], None
+        seasons[str(y)] = {"label": f"{y - 1}-{y % 100:02d}", "games": games, "names": {}, "groups": {label: sorted(pts)},
+                           "champ": champ, "title": [games[-1][0], champ, runner, pts[champ], pts[runner] if runner is not None else None]}
+    return _pack(lg, T, seasons)
+
+
 def write(lg: str, data: dict):
     """One folder per league: teams.json, index.json (every season's dates and title game) and a file per season, so the
     phone only reads the season the story's in."""
@@ -445,7 +536,7 @@ def write(lg: str, data: dict):
         g = season["games"]
         fin = next((x for x in reversed(g) if x[5] == 5), None)
         index[k] = {"label": season["label"], "first": g[0][0], "last": g[-1][0],
-                    "title": fin[:5] if fin else None, "champ": season.get("champ"), "names": season.get("names") or {}}
+                    "title": fin[:5] if fin else season.get("title"), "champ": season.get("champ"), "names": season.get("names") or {}}
         if int(k) < FILES_FROM:
             continue  # (before the story: only its champion, in the index)
         with open(os.path.join(d, f"{k}.json"), "w", encoding="utf-8") as f:
@@ -466,10 +557,11 @@ if __name__ == "__main__":
     if a.download:
         download(a.src)
     os.makedirs(OUT, exist_ok=True)
-    want = set((a.only or "nfl,nba,cfb,mbb,wbb").split(","))
-    for lg in ("nfl", "nba", "cfb", "mbb", "wbb"):
+    want = set((a.only or "nfl,nba,cfb,mbb,wbb," + ",".join(SOCCER)).split(","))
+    for lg in ("nfl", "nba", "cfb", "mbb", "wbb", *SOCCER):
         if lg in want:
-            write(lg, build_nfl(a.src) if lg == "nfl" else build_cfb(a.src) if lg == "cfb" else build_basketball(a.src, lg))
+            write(lg, build_nfl(a.src) if lg == "nfl" else build_cfb(a.src) if lg == "cfb" else
+                  build_soccer(a.src, lg) if lg in SOCCER else build_basketball(a.src, lg))
     with open(os.path.join(OUT, "titles.json"), "w", encoding="utf-8") as f:
         json.dump(TITLES, f, indent=1)
     print("titles.json:", ", ".join(TITLES))

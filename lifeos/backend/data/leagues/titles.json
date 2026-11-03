@@ -504,5 +504,355 @@
     ""
    ]
   ]
+ },
+ "ucl": {
+  "label": "Champions League",
+  "event": "Champions League",
+  "split": true,
+  "rows": [
+   [
+    2006,
+    "2006-05-17",
+    "Barcelona",
+    "Arsenal",
+    "2-1",
+    ""
+   ],
+   [
+    2007,
+    "2007-05-23",
+    "AC Milan",
+    "Liverpool",
+    "2-1",
+    ""
+   ],
+   [
+    2008,
+    "2008-05-21",
+    "Manchester United",
+    "Chelsea",
+    "1-1",
+    "on penalties"
+   ],
+   [
+    2009,
+    "2009-05-27",
+    "Barcelona",
+    "Manchester United",
+    "2-0",
+    ""
+   ],
+   [
+    2010,
+    "2010-05-22",
+    "Inter Milan",
+    "Bayern Munich",
+    "2-0",
+    ""
+   ],
+   [
+    2011,
+    "2011-05-28",
+    "Barcelona",
+    "Manchester United",
+    "3-1",
+    ""
+   ],
+   [
+    2012,
+    "2012-05-19",
+    "Chelsea",
+    "Bayern Munich",
+    "1-1",
+    "on penalties"
+   ],
+   [
+    2013,
+    "2013-05-25",
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "2-1",
+    ""
+   ],
+   [
+    2014,
+    "2014-05-24",
+    "Real Madrid",
+    "Atl\u00e9tico Madrid",
+    "4-1",
+    "after extra time"
+   ],
+   [
+    2015,
+    "2015-06-06",
+    "Barcelona",
+    "Juventus",
+    "3-1",
+    ""
+   ],
+   [
+    2016,
+    "2016-05-28",
+    "Real Madrid",
+    "Atl\u00e9tico Madrid",
+    "1-1",
+    "on penalties"
+   ],
+   [
+    2017,
+    "2017-06-03",
+    "Real Madrid",
+    "Juventus",
+    "4-1",
+    ""
+   ],
+   [
+    2018,
+    "2018-05-26",
+    "Real Madrid",
+    "Liverpool",
+    "3-1",
+    ""
+   ],
+   [
+    2019,
+    "2019-06-01",
+    "Liverpool",
+    "Tottenham Hotspur",
+    "2-0",
+    ""
+   ],
+   [
+    2020,
+    "2020-08-23",
+    "Bayern Munich",
+    "Paris Saint-Germain",
+    "1-0",
+    ""
+   ],
+   [
+    2021,
+    "2021-05-29",
+    "Chelsea",
+    "Manchester City",
+    "1-0",
+    ""
+   ],
+   [
+    2022,
+    "2022-05-28",
+    "Real Madrid",
+    "Liverpool",
+    "1-0",
+    ""
+   ],
+   [
+    2023,
+    "2023-06-10",
+    "Manchester City",
+    "Inter Milan",
+    "1-0",
+    ""
+   ],
+   [
+    2024,
+    "2024-06-01",
+    "Real Madrid",
+    "Borussia Dortmund",
+    "2-0",
+    ""
+   ],
+   [
+    2025,
+    "2025-05-31",
+    "Paris Saint-Germain",
+    "Inter Milan",
+    "5-0",
+    ""
+   ],
+   [
+    2026,
+    "2026-05-30",
+    "Paris Saint-Germain",
+    "Arsenal",
+    "1-1",
+    "on penalties"
+   ]
+  ]
+ },
+ "ballon": {
+  "label": "Ballon d'Or",
+  "event": "Ballon d'Or",
+  "award": true,
+  "rows": [
+   [
+    2005,
+    "2005-11-28",
+    "Ronaldinho",
+    "Barcelona",
+    null,
+    null
+   ],
+   [
+    2006,
+    "2006-11-27",
+    "Fabio Cannavaro",
+    "Real Madrid",
+    null,
+    null
+   ],
+   [
+    2007,
+    "2007-12-02",
+    "Kak\u00e1",
+    "AC Milan",
+    null,
+    null
+   ],
+   [
+    2008,
+    "2008-12-02",
+    "Cristiano Ronaldo",
+    "Manchester United",
+    null,
+    null
+   ],
+   [
+    2009,
+    "2009-12-01",
+    "Lionel Messi",
+    "Barcelona",
+    null,
+    null
+   ],
+   [
+    2010,
+    "2011-01-10",
+    "Lionel Messi",
+    "Barcelona",
+    null,
+    null
+   ],
+   [
+    2011,
+    "2012-01-09",
+    "Lionel Messi",
+    "Barcelona",
+    null,
+    null
+   ],
+   [
+    2012,
+    "2013-01-07",
+    "Lionel Messi",
+    "Barcelona",
+    null,
+    null
+   ],
+   [
+    2013,
+    "2014-01-13",
+    "Cristiano Ronaldo",
+    "Real Madrid",
+    null,
+    null
+   ],
+   [
+    2014,
+    "2015-01-12",
+    "Cristiano Ronaldo",
+    "Real Madrid",
+    null,
+    null
+   ],
+   [
+    2015,
+    "2016-01-11",
+    "Lionel Messi",
+    "Barcelona",
+    null,
+    null
+   ],
+   [
+    2016,
+    "2016-12-12",
+    "Cristiano Ronaldo",
+    "Real Madrid",
+    null,
+    null
+   ],
+   [
+    2017,
+    "2017-12-07",
+    "Cristiano Ronaldo",
+    "Real Madrid",
+    null,
+    null
+   ],
+   [
+    2018,
+    "2018-12-03",
+    "Luka Modri\u0107",
+    "Real Madrid",
+    "Ada Hegerberg",
+    "Lyon"
+   ],
+   [
+    2019,
+    "2019-12-02",
+    "Lionel Messi",
+    "Barcelona",
+    "Megan Rapinoe",
+    "Reign FC"
+   ],
+   [
+    2020,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   [
+    2021,
+    "2021-11-29",
+    "Lionel Messi",
+    "Paris Saint-Germain",
+    "Alexia Putellas",
+    "Barcelona"
+   ],
+   [
+    2022,
+    "2022-10-17",
+    "Karim Benzema",
+    "Real Madrid",
+    "Alexia Putellas",
+    "Barcelona"
+   ],
+   [
+    2023,
+    "2023-10-30",
+    "Lionel Messi",
+    "Inter Miami",
+    "Aitana Bonmat\u00ed",
+    "Barcelona"
+   ],
+   [
+    2024,
+    "2024-10-28",
+    "Rodri",
+    "Manchester City",
+    "Aitana Bonmat\u00ed",
+    "Barcelona"
+   ],
+   [
+    2025,
+    "2025-09-22",
+    "Ousmane Demb\u00e9l\u00e9",
+    "Paris Saint-Germain",
+    "Aitana Bonmat\u00ed",
+    "Barcelona"
+   ]
+  ]
  }
 }

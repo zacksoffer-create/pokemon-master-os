@@ -96,7 +96,7 @@ def test_your_college_once_you_are_there():
     assert RL.my_college(sim) == "Stanford"
     _on(sim, 2011, 12, 31)
     soc = RL.view(sim, "wsoc")
-    assert soc["titles_only"] and soc["finals"][0]["champ"] == "Stanford" and 2011 in soc["school_titles"]
+    assert soc["titles_only"] and soc["finals"][0]["champ"] == "Stanford" and "2011" in soc["school_titles"]
 
 
 def test_storylines_can_ask_about_any_league():
@@ -124,3 +124,39 @@ def test_the_phone_pages():
     assert v["my_team"]["name"] == "North Carolina Tar Heels"
     assert c.get("/api/phone/league", params={"lg": "cbase"}).json()["school"] == "North Carolina"
     assert c.get("/api/phone/league", params={"lg": "xfl"}).status_code == 404
+
+
+def test_european_soccer_the_champions_league_and_the_ballon_dor():
+    c, sim = _story()
+    v = RL.view(sim, "epl")
+    assert v["season"] == "2010-11" and v["my_team"]["name"] == "Manchester United" and v["champions"][0]["champ"] == "Chelsea"
+    _on(sim, 2011, 5, 23)
+    v = RL.view(sim, "epl")
+    assert v["champ"] == "Manchester United" and v["my_team"]["record"] == "23-11-4" and v["my_team"]["points"] == 80
+    assert v["my_team"]["place"] == "1st in the Premier League"
+    _on(sim, 2012, 5, 14)
+    rows = RL.view(sim, "epl")["standings"][0]["rows"]
+    assert [r["name"] for r in rows[:2]] == ["Manchester City", "Manchester United"] and rows[0]["pts"] == rows[1]["pts"] == 89
+    assert RL.index("seriea")["2006"]["champ"] == RL.find("seriea", "Inter"), "Juventus were stripped of 2005-06"
+    _on(sim, 2011, 5, 27)
+    assert not pro.requirement(sim, None, "pro:ucl:my_team_champs") or RL.finals("ucl", sim.w.day)[-1]["season"] == 2010
+    _on(sim, 2011, 5, 29)
+    ucl = RL.view(sim, "ucl")
+    assert ucl["finals"][0]["label"] == "2010-11" and ucl["finals"][0]["champ"] == "Barcelona"
+    assert pro.requirement(sim, None, "pro:ucl:my_team_champs"), "Barcelona is your La Liga club to start"
+    ballon = RL.view(sim, "ballon")
+    assert ballon["winners"][0]["year"] == 2010 and ballon["winners"][0]["winner"] == "Lionel Messi"
+    assert pro.names(sim, None)["ballon_dor"] == "Lionel Messi" and pro.names(sim, None)["ucl_champ"] == "Barcelona"
+    RL.set_follow(sim, "epl", "Arsenal")
+    assert RL.name("epl", RL.followed(sim, "epl")) == "Arsenal" and "Arsenal" in RL.my_clubs(sim)
+    with pytest.raises(ValueError):
+        RL.set_follow(sim, "ucl", "Barcelona")
+    _on(sim, 2011, 6, 1)
+    RL.weekly(sim)
+    news = [n["text"] for n in RL.state(sim)["news"]]
+    assert "Manchester United win the Premier League (2010-11)." in news
+    assert any("in the Champions League final" in t for t in news)
+    me = sim.w.chars[sim.w.meta["protagonist"]]
+    assert not any("La Liga" in m["text"] for m in me.memories), "a club you didn't pick is news, not a memory"
+    assert c.get("/api/phone/league", params={"lg": "ballon"}).json()["award"]
+    assert c.post("/api/phone/league/follow", json={"lg": "bund", "team": "Dortmund"}).json()["my_team"]["name"] == "Borussia Dortmund"

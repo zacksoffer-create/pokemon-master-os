@@ -373,7 +373,8 @@ rival game), which is what moves the Scene's ladder. `GET /api/phone/sports?team
 
 **The story starts Wednesday, Sept 1, 2010.** The Yankees are the defending champions (2009), and everything behind your
 story is the real sports world from there, a day at a time. The Sports tab has three sides: **School** (above), **Pro**
-(MLB, the NFL, the NBA) and **College** (football, men's and women's basketball, baseball, men's and women's soccer). You
+(MLB, the NFL, the NBA, and soccer) and **College** (football, men's and women's basketball, baseball, men's and women's
+soccer). You
 don't play these; they're the world your story lives in, and storylines can use them. You never see past today: the
 history pages, the titles and the what-ifs only show seasons that have happened.
 
@@ -447,10 +448,22 @@ straight, the conference tournament and the national title; the Giants win the S
 **Fans.** Everyone in town has an NFL team, an NBA team and how much they care about UConn. A title is a memory and a good
 week for its fans; an exit stings. Your teams' playoff results and every title game are news.
 
+### European soccer
+
+Under **Pro → Soccer**: the **Premier League**, **La Liga**, **Serie A**, the **Bundesliga** and **Ligue 1**, every league
+game on its real date (football-data.co.uk's results via the datasets/football-datasets mirror): your club's points and
+W-D-L, where it sits, its last games and next one, the table by points then goal difference (2011-12: Man City over United
+on goal difference, both on 89), and the champions, decided on the last day (2005-06 Serie A goes to Inter: Juventus were
+stripped). The **Champions League** is its finals, every one, with your clubs' titles; the **Ballon d'Or** is its winners
+(the FIFA Ballon d'Or 2010-15, and the women's from 2018). You start following Manchester United, Barcelona, Juventus,
+Bayern and PSG; pick your own and their titles become memories, not just news.
+
 **For storylines:** `pro:<league>:<condition>` with league `nfl`, `nba`, `cfb`, `mbb`, `wbb`, `cbase`, `msoc`, `wsoc` and
 condition `in_season`, `my_team_winning`, `my_team_losing`, `my_team_in_postseason`, `my_team_alive`, `my_team_champs`,
 `my_team_ranked` (college). Placeholders `{my_nfl_team}`, `{my_nba_team}`, `{my_college}`, `{my_nfl_record}` (and nba,
-cfb, mbb, wbb), `{nfl_champ}` (and nba, cfb, mbb, wbb). `GET /api/phone/leagues`, `GET /api/phone/league?lg=`,
+cfb, mbb, wbb), `{nfl_champ}` (and nba, cfb, mbb, wbb). European soccer: `pro:epl:` (and `laliga`, `seriea`, `bund`,
+`ligue1`) with `in_season`, `my_team_winning`, `my_team_losing`, `my_team_champs`, `pro:ucl:my_team_champs`, and
+`{my_club}`, `{epl_champ}`, `{ucl_champ}`, `{ballon_dor}`. `GET /api/phone/leagues`, `GET /api/phone/league?lg=`,
 `POST /api/phone/league/follow`.
 
 ## Play on your phone

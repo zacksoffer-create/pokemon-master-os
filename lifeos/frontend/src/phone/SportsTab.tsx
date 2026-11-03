@@ -25,17 +25,23 @@ function Side({ on }: { on: "school" | "pro" | "college" }) {
   );
 }
 
-const PRO = [["mlb", "MLB"], ["nfl", "NFL"], ["nba", "NBA"]];
+const PRO = [["mlb", "MLB"], ["nfl", "NFL"], ["nba", "NBA"], ["soccer", "Soccer"]];
+const SOCCER = [["epl", "Premier League"], ["laliga", "La Liga"], ["seriea", "Serie A"], ["bund", "Bundesliga"], ["ligue1", "Ligue 1"],
+  ["ucl", "Champions League"], ["ballon", "Ballon d'Or"]];
 const COLLEGE = [["cfb", "Football"], ["mbb", "Men's hoops"], ["wbb", "Women's hoops"], ["cbase", "Baseball"], ["msoc", "Men's soccer"], ["wsoc", "Women's soccer"]];
 
 export default function SportsTab({ route }: { route: string[] }) {
   if (route[0] === "pro") {
-    const lg = route[1] === "nfl" || route[1] === "nba" ? route[1] : "mlb";
+    const lg = route[1] === "nfl" || route[1] === "nba" || route[1] === "soccer" ? route[1] : "mlb";
+    const sub = SOCCER.some(([k]) => k === route[2]) ? route[2] : "epl";
     return (
       <div className="sp">
         <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side on="pro" /></div>
         <div className="sp-teams">{PRO.map(([k, l]) => <button key={k} className={cx(lg === k && "on")} onClick={() => pgo(k === "mlb" ? "sports/pro" : `sports/pro/${k}`)}>{l}</button>)}</div>
-        {lg === "mlb" ? <ProSports route={route.slice(1)} /> : <LeagueView key={lg} lg={lg} />}
+        {lg === "soccer" && (
+          <div className="sp-teams sp-sub">{SOCCER.map(([k, l]) => <button key={k} className={cx(sub === k && "on")} onClick={() => pgo(`sports/pro/soccer/${k}`)}>{l}</button>)}</div>
+        )}
+        {lg === "mlb" ? <ProSports route={route.slice(1)} /> : <LeagueView key={lg === "soccer" ? sub : lg} lg={lg === "soccer" ? sub : lg} />}
         <div style={{ height: 30 }} />
       </div>
     );

@@ -194,15 +194,16 @@ export type LgPost = { round: string; label: string; teams: number[]; names: str
 export type LeagueView = {
   league: string; label: string; kind: string; today: string; news: { date: string; text: string; mine: boolean }[]; note?: string;
   season?: string | null; champ?: string | null;
-  my_team?: { team: number; name: string; short: string; record: string | null; conf_record: string | null; conf: string | null; place: string | null;
+  my_team?: { team: number; name: string; short: string; record: string | null; conf_record: string | null; conf: string | null; place: string | null; points?: number | null;
     rank: number | null; last: LgGame[]; status: string | null; next: LgGame | null } | null;
-  standings?: { group: string; label: string; rows: { team: number; name: string; w: number; l: number; t: number; cw: number; cl: number }[] }[];
+  standings?: { group: string; label: string; rows: { team: number; name: string; w: number; l: number; t: number; cw: number; cl: number; pts?: number; gd?: number }[] }[];
   top25?: { rank: number; team: number; name: string; record: string }[];
   postseason?: LgPost[];
-  champions?: { season: string; champ: string; runner_up: string; mine: boolean }[];
+  champions?: { season: string; champ: string; runner_up: string | null; mine: boolean }[];
   teams?: { team: number; name: string }[];
-  titles_only?: boolean; event?: string; school?: string; school_titles?: number[]; next?: string | null;
-  finals?: { season: number; date: string | null; champ: string | null; runner_up: string | null; score: string | null; note: string }[];
+  titles_only?: boolean; event?: string; school?: string; school_titles?: string[]; next?: string | null;
+  finals?: { season: number; label?: string; date: string | null; champ: string | null; runner_up: string | null; score: string | null; note: string }[];
+  award?: boolean; winners?: { year: number; date: string | null; winner: string | null; club: string | null; women: string | null; women_club: string | null; note?: string }[];
 };
 export type LeagueLine = { league: string; label: string; kind: string; line: string | null; in_season?: boolean };
 export const phoneApi = {
