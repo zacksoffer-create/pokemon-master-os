@@ -881,7 +881,8 @@ def pick_from_score(x: float) -> int:
 
 
 def round_of(pick: int, rounds: int = 20) -> int | None:
-    if pick > 615:
+    """About 31 picks a round; past the last round you go undrafted (20 rounds now, 40 in the 2010s, 50 before)."""
+    if pick > rounds * 31 - 5:
         return None
     return min(rounds, (pick - 1) // 31 + 1)
 
@@ -913,7 +914,8 @@ def mlb_draft(sim):
     year = calm.date_of(w.day).year
     rng = sim.streams.get("mlb-draft", year)
     from . import mlb as mlb_world
-    order = [t for t in mlb_world.draft_order(sim, year) if t in mlb["teams"]]  # worst record last season picks first
+    order = mlb_world.draft_order(sim, year)  # worst record last season picks first (each team by its name that year)
+    rounds = mlb_world.draft_info(year)[1]
     if len(order) != len(mlb["teams"]):
         order = list(mlb["teams"])
         rng.shuffle(order)
@@ -929,12 +931,12 @@ def mlb_draft(sim):
     for pick, c, d, noisy in sorted(pool, key=lambda x: (x[0], x[1].id)):
         while pick in taken:
             pick += 1
-        rnd = round_of(pick, mlb["rounds"])
+        rnd = round_of(pick, rounds)
         senior = c.grade == 16
         if rnd is None:
             c.recruiting["draft"] = {"year": year, "status": "undrafted", "score": d["score"], "terms": d["terms"], "senior": senior}
             ev = sim.new_event("draft", "passed", [c.id], [], 40 if c.id == prot else 8, {"label": "MLB Draft"})
-            ev["text"] = f"All 20 rounds of the MLB Draft went by without {c.short}'s name."
+            ev["text"] = f"All {rounds} rounds of the MLB Draft went by without {c.short}'s name."
             sim.finish(ev, Effects(w, ev))
             if c.id == prot:
                 sim.moment_trigger("draft_passed", c.id, {"college_name": (c.path or {}).get("name", "school"), "udfa": d["score"] >= 72,
@@ -949,8 +951,9 @@ def mlb_draft(sim):
                                  "level": first_level(rnd), "score": d["score"], "terms": d["terms"], "senior": senior}
         ev = sim.new_event("draft", "drafted", [c.id], [], 60 if c.id == prot else 20, {"label": team})
         ev["text"] = f"The {team} drafted {c.short} in round {rnd}, pick {pick} overall. Slot value: about {money(bonus)}."
-        ev["calc"] = [{"step": "MLB draft", "terms": d["terms"], "total": d["score"], "with_luck": round(noisy, 1), "pick": pick,
-                       "rule": "pick = 10 x e^(0.2 x (97 - score)); past pick 615 is undrafted"}] if w.tracing or c.id == prot else None
+        rule = f"pick = 10 x e^(0.2 x (97 - score)); past pick {rounds * 31 - 5} is undrafted ({rounds} rounds in {year})"
+        ev["calc"] = ([{"step": "MLB draft", "terms": d["terms"], "total": d["score"], "with_luck": round(noisy, 1), "pick": pick,
+                        "rule": rule}] if w.tracing or c.id == prot else None)
         fx = Effects(w, ev)
         fx.mood(c.id, 15, "drafted")
         fx.memory(c.id, "drafted", [], 0.9, 90, f"Drafted by the {team}, round {rnd}")

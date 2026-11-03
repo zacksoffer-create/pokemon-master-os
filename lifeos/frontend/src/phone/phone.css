@@ -1192,3 +1192,24 @@ html.ph-html body { color-scheme: light; }
 .pro-award span { color: var(--ph-dim); font-weight: 700; font-size: 12.5px; }
 .pro-src { text-align: center; margin-top: 14px; }
 .ph-root .pro-back { --btn-bg: transparent; align-self: flex-start; padding: 6px 0; font-weight: 800; font-size: 14px; color: var(--ph-grape); }
+
+/* ---- the other leagues (LeagueView.tsx) */
+.ph-root .sp-side button { padding: 6px 11px; }
+.pro-team.lg-nfl { background: linear-gradient(140deg, #1d3f8f, #0e2259); }
+.pro-team.lg-nba { background: linear-gradient(140deg, #e3651d, #a13f0c); }
+.pro-team.lg-cfb, .pro-team.lg-mbb, .pro-team.lg-wbb { background: linear-gradient(140deg, #13284f, #0a1730); }
+.lg-k { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.75; }
+.lg-rank { display: inline-block; font-size: 12px; font-weight: 800; background: rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 1px 6px; margin-right: 6px; vertical-align: 2px; }
+.lg-next { font-size: 13px; font-weight: 700; opacity: 0.9; }
+.lg-game { display: flex; gap: 10px; align-items: center; }
+.lg-champ { display: grid; grid-template-columns: 64px 1fr; gap: 8px; font-size: 13px; padding: 3px 0; }
+.lg-champ b { font-weight: 800; }
+.lg-champ span { color: var(--ph-ink-2); font-weight: 600; }
+.lg-champ.mine span { color: var(--ph-ink); font-weight: 800; }
+.lg-top { gap: 0; padding: 8px 14px; }
+.lg-trow { display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; font-size: 13.5px; padding: 4px 0; border-top: 1px solid #f3ece2; }
+.lg-trow:first-child { border-top: 0; }
+.lg-trow span { color: var(--ph-dim); font-weight: 800; }
+.lg-trow em { font-style: normal; color: var(--ph-dim); font-weight: 700; }
+.lg-trow.mine { background: #eef2fb; border-radius: 8px; }
+.lg-search { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--ph-line); font: inherit; margin: 6px 0 8px; }

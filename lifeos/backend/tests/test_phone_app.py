@@ -55,6 +55,8 @@ def test_local_api_answers_like_the_server(tmp_path):
         assert m['status'] == 200 and js(m)['my_team']['team'] == 'NYY', m['body'][:300]
         r = call('POST', '/api/phone/mlb/whatif', {{'id': 'harper_2019', 'on': True}})
         assert r['status'] == 200 and js(r)['view']['on'], r['body'][:300]
+        lg = call('GET', '/api/phone/league', q='lg=mbb')  # college and the pros: the season files ship in the engine too
+        assert lg['status'] == 200 and js(lg)['my_team']['name'] == 'UConn Huskies', lg['body'][:300]
         up = call('GET', '/api/story/order')  # up next, played forward on a copy, on the phone too
         assert up['status'] == 200 and js(up)['list'], up['body'][:300]
         threads = js(call('GET', '/api/phone/threads'))['threads']

@@ -226,6 +226,13 @@ def build(D: str) -> dict:
         nick = nickname(name)
         city = CITY_FIX.get(f) or name[: -len(nick)].strip() or name
         teams[f] = {"name": name, "nick": nick, "city": city, "abbr": ABBR.get(f, f), "lg": r["lgID"], "div": r["divID"]}
+    eras = {}  # franchise -> [[first year, name], ...] when its name changed (the Florida Marlins, the Cleveland Indians)
+    for r in sorted(trows, key=lambda r: r["yearID"]):
+        nm = NAME_FIX.get(r["name"], r["name"])
+        e = eras.setdefault(r["franchID"], [])
+        if not e or e[-1][1] != nm:
+            e.append([int(r["yearID"]), nm])
+    eras = {f: e for f, e in eras.items() if len(e) > 1}
     seasons = []
     for r in sorted(trows, key=lambda r: (r["yearID"], r["lgID"], r["divID"] or "", r["Rank"])):
         how = "".join(k for k, col in (("D", "DivWin"), ("W", "WCWin"), ("P", "LgWin"), ("S", "WSWin")) if r[col] == "Y")
@@ -250,7 +257,7 @@ def build(D: str) -> dict:
                       "(seanlahman.com, CC BY-SA 3.0). Player values are LIFE OS's own estimates (see tools/build_mlb_data.py)."),
             "first": FIRST, "last": last, "bat_line": BAT_LINE, "pit_line": PIT_LINE,
             "teams": teams, "seasons": seasons, "post": post, "awards": awards, "people": people, "bat": bat, "pit": pit,
-            "rosters": rosters}
+            "rosters": rosters, "names": eras}
 
 
 if __name__ == "__main__":

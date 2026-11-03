@@ -5,6 +5,7 @@ import { pgo, phoneApi, SportsView } from "./api";
 import { PIcon } from "./icons";
 import { cx, errText } from "./kit";
 import { usePhone } from "./PhoneContext";
+import LeagueView from "./LeagueView";
 import ProSports from "./ProSports";
 
 const SECTIONS = [["season", "Season"], ["league", "League"], ["awards", "Awards"], ["recruiting", "Recruiting"]] as const;
@@ -14,26 +15,56 @@ function Move({ m }: { m: number | null | undefined }) {
   return <span className={cx("sp-move", m > 0 ? "up" : "down")}>{m > 0 ? "▲" : "▼"}{Math.abs(m)}</span>;
 }
 
-function Side({ pro }: { pro: boolean }) {
+function Side({ on }: { on: "school" | "pro" | "college" }) {
   return (
     <div className="sp-side">
-      <button className={cx(!pro && "on")} onClick={() => pgo("sports")}>School</button>
-      <button className={cx(pro && "on")} onClick={() => pgo("sports/pro")}>Pros</button>
+      <button className={cx(on === "school" && "on")} onClick={() => pgo("sports")}>School</button>
+      <button className={cx(on === "pro" && "on")} onClick={() => pgo("sports/pro")}>Pro</button>
+      <button className={cx(on === "college" && "on")} onClick={() => pgo("sports/college")}>College</button>
     </div>
   );
 }
 
+const PRO = [["mlb", "MLB"], ["nfl", "NFL"], ["nba", "NBA"]];
+const COLLEGE = [["cfb", "Football"], ["mbb", "Men's hoops"], ["wbb", "Women's hoops"], ["cbase", "Baseball"], ["msoc", "Men's soccer"], ["wsoc", "Women's soccer"]];
+
 export default function SportsTab({ route }: { route: string[] }) {
   if (route[0] === "pro") {
+    const lg = route[1] === "nfl" || route[1] === "nba" ? route[1] : "mlb";
     return (
       <div className="sp">
-        <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side pro /></div>
-        <ProSports route={route.slice(1)} />
+        <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side on="pro" /></div>
+        <div className="sp-teams">{PRO.map(([k, l]) => <button key={k} className={cx(lg === k && "on")} onClick={() => pgo(k === "mlb" ? "sports/pro" : `sports/pro/${k}`)}>{l}</button>)}</div>
+        {lg === "mlb" ? <ProSports route={route.slice(1)} /> : <LeagueView key={lg} lg={lg} />}
         <div style={{ height: 30 }} />
       </div>
     );
   }
+  if (route[0] === "college") {
+    return <College lg={route[1]} />;
+  }
   return <SchoolSports route={route} />;
+}
+
+function College({ lg }: { lg?: string }) {
+  const [def, setDef] = useState<string | null>(lg || null);
+  useEffect(() => {
+    if (lg) return;
+    // start on whatever's in season in the story: football in the fall, basketball in the winter
+    phoneApi.leagues().then((r) => {
+      const on = r.leagues.find((l) => l.kind === "college" && l.in_season);
+      setDef(on ? on.league : "cfb");
+    }).catch(() => setDef("cfb"));
+  }, [lg]);
+  const cur = lg || def;
+  return (
+    <div className="sp">
+      <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side on="college" /></div>
+      <div className="sp-teams">{COLLEGE.map(([k, l]) => <button key={k} className={cx(cur === k && "on")} onClick={() => pgo(`sports/college/${k}`)}>{l}</button>)}</div>
+      {cur ? <LeagueView key={cur} lg={cur} /> : <div className="pm-empty"><span className="ph-spinner" /></div>}
+      <div style={{ height: 30 }} />
+    </div>
+  );
 }
 
 function SchoolSports({ route }: { route: string[] }) {
@@ -48,7 +79,7 @@ function SchoolSports({ route }: { route: string[] }) {
   if (!v.teams.length || !v.team) {
     return (
       <div className="sp">
-        <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side pro={false} /></div>
+        <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side on="school" /></div>
         <div className="sp-card">
           <b>You're not on a team right now.</b>
           <p className="ph-dim small">Tryouts are on your calendar; make a team and this is where your season lives: the standings, your stats, your playing time, the awards race and recruiting.</p>
@@ -60,7 +91,7 @@ function SchoolSports({ route }: { route: string[] }) {
   const t = v.team;
   return (
     <div className="sp">
-      <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side pro={false} /></div>
+      <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side on="school" /></div>
       {v.teams.length > 1 && (
         <div className="sp-teams">
           {v.teams.map((x) => <button key={x.id} className={cx(x.id === t.id && "on")} onClick={() => setTeam(x.id)}>{x.name}{x.in_season ? "" : " · off"}</button>)}

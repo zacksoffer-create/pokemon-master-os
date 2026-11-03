@@ -394,6 +394,43 @@ def phone_mlb_team(body: dict = Body(...)):
         return mlb.view(L.sim)
 
 
+@router.get("/api/phone/leagues")
+def phone_leagues():
+    """Every league behind the story with your team's line right now (the Pro and College menus)."""
+    A, L = _lab()
+    from . import realleagues
+    with L.lock:
+        return {"leagues": realleagues.summary(L.sim)}
+
+
+@router.get("/api/phone/league")
+def phone_league(lg: str):
+    """One league as it really happened, through today: your team, the table or top 25, the postseason, the champions."""
+    A, L = _lab()
+    from . import realleagues
+    if lg not in realleagues.LEAGUES:
+        raise HTTPException(404, f"no league {lg}")
+    with L.lock:
+        _me(L)
+        return realleagues.view(L.sim, lg)
+
+
+@router.post("/api/phone/league/follow")
+def phone_league_follow(body: dict = Body(...)):
+    """Follow a team: an NFL or NBA team, or a school for all of college sports (empty = back to your own college)."""
+    A, L = _lab()
+    from . import realleagues
+    lg = str(body.get("lg") or "")
+    if lg not in realleagues.LEAGUES:
+        raise HTTPException(404, f"no league {lg}")
+    with L.lock:
+        try:
+            realleagues.set_follow(L.sim, lg, str(body.get("team") or ""))
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        return realleagues.view(L.sim, lg)
+
+
 @router.get("/api/phone/ladder")
 def phone_ladder(scope: str = "school"):
     """The Scene tab's ladder: you, the movers and why, what your standing is made of, your storylines' people, the

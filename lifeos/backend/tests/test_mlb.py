@@ -102,27 +102,30 @@ def test_live_seasons_add_up(tmp_path):
     assert mlb.year_view(sim, 2026)["champ"]
 
 
-def test_october_2025_plays_out_on_its_real_dates_and_fans_feel_it():
+def test_october_2010_plays_out_on_its_real_dates_and_fans_feel_it():
     c, sim = _story()
     w = sim.w
     prot = w.meta["protagonist"]
     cur = mlb.current(sim)
-    assert cur["phase"] == "regular" and cur["rec"]["NYY"][0] > 70 and not cur["october"]
+    assert cur["year"] == 2010 and cur["phase"] == "regular" and cur["rec"]["NYY"][0] > 70 and not cur["october"]
     assert pro.requirement(sim, None, "pro:baseball_season") and not pro.requirement(sim, None, "pro:october")
-    w.day = mlb.season_days(2025)["DS"] + 1
+    assert pro.requirement(sim, None, "pro:my_team_champs"), "the Yankees won the 2009 World Series"
+    v = mlb.view(sim)
+    assert v["my_team"]["titles"]["real"][-1] == 2009 and v["years"][-1] == 2009, "nothing past today"
+    assert mlb.team_name("FLA", False, 2010) == "Florida Marlins" and mlb.team_name("CLE", True, 2016) == "Indians"
+    w.day = mlb.season_days(2010)["DS"] + 1
     cur = mlb.current(sim)
     assert cur["phase"] == "october" and pro.requirement(sim, None, "pro:my_team_in_playoffs")
     ds = [s for s in cur["october"] if s["round"] == "DS"]
     assert ds and not any(s["done"] for s in ds), "the Division Series has only just started"
-    w.day = mlb.season_days(2025)["WS"] + 12
+    w.day = mlb.season_days(2010)["WS"] + 12
     mlb.weekly(sim)
-    assert mlb.current(sim)["champ"] == "LAD" and pro.last_champ(sim) == "LAD"
+    assert mlb.current(sim)["champ"] == "SFG" and pro.last_champ(sim) == "SFG"
     assert not pro.requirement(sim, None, "pro:my_team_alive") and not pro.requirement(sim, None, "pro:my_team_champs")
     mem = [m["text"] for m in w.chars[prot].memories if m["kind"].startswith("pro_")]
-    assert any("Blue Jays" in t for t in mem), mem  # the Yankees went out to Toronto
-    dodgers = [cid for cid, (t, care) in mlb.fans(sim).items() if t == "LAD" and care]
-    for cid in dodgers:
-        assert any(m["kind"] == "pro_title" for m in w.chars[cid].memories)
+    assert any("Rangers" in t for t in mem), mem  # the Yankees went out to Texas in the ALCS
+    with pytest.raises(ValueError):
+        mlb.year_view(sim, 2015)  # (hasn't happened yet)
 
 
 def test_storylines_can_use_the_pros():
@@ -152,7 +155,9 @@ def test_the_phone_pages():
     v = c.get("/api/phone/mlb").json()
     assert v["my_team"]["name"] == "New York Yankees" and v["standings"] and len(v["whatifs"]) == 12
     w = c.get("/api/phone/mlb/whatif", params={"id": "cole_2008"}).json()
-    assert w["moves"][0]["name"] == "Gerrit Cole" and w["seasons"] and not w["on"]
+    assert w["moves"][0]["name"] == "Gerrit Cole" and not w["seasons"] and w["later"], "2013-19 hasn't happened yet in 2010"
+    w = c.get("/api/phone/mlb/whatif", params={"id": "beltran_2005"}).json()
+    assert [s["year"] for s in w["seasons"]] == [2005, 2006, 2007, 2008, 2009] and w["later"]["years"] == "2010-2011"
     r = c.post("/api/phone/mlb/whatif", json={"id": "cole_2008", "on": True}).json()
     assert r["view"]["on"] and "cole_2008" in r["whatifs"]
     y = c.get("/api/phone/mlb/year", params={"y": 2009}).json()

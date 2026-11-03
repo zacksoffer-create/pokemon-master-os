@@ -69,12 +69,13 @@ def test_time_advances_consistently():
     w = sim.w
     assert (w.day, w.phase) == (0, 0)
     cal = sim.cat.world["calendar"]
-    assert sim.phases() == calm.SCHOOL_PHASES  # Sept 1, 2025 is a Monday school day
+    assert sim.phases() == calm.SCHOOL_PHASES  # Sept 1, 2010 is a Wednesday school day
     sim.advance_days(1)
     assert (w.day, w.phase) == (1, 0)
     sim.advance_days(6)
     assert w.day == 7 and w.phase == 0
-    assert calm.weekday(5) == 5 and calm.phases_for(5, cal) == calm.FREE_PHASES
+    sat = next(d for d in range(7) if calm.weekday(d) == 5)
+    assert calm.phases_for(sat, cal) == calm.FREE_PHASES
     # stepping walks every phase of the day in order
     seen = []
     d = w.day

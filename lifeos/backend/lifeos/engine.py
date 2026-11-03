@@ -203,7 +203,8 @@ class Simulation:
             if g is not None and g < w.day:
                 c.flags.pop("grounded_until", None)
         d = calm.date_of(w.day)
-        if (d.month, d.day) == tuple(self.cat.sports["mlb"]["draft_day"]):
+        from . import mlb as mlb_world
+        if (d.month, d.day) == tuple(mlb_world.draft_info(d.year)[0]):  # early June in the 2010s, mid-July from 2021
             from . import sports
             sports.mlb_draft(self)
         self.ctx_practices = self.institutions.practices_today() if calm.is_school_day(w.day, cal) else []
@@ -239,7 +240,8 @@ class Simulation:
                 self.moment_trigger("summer", prot, {})
         if st and not st.get("complete") and w.day - st.get("start_day", 0) >= (st.get("years", 7) - 1) * 365 + 280:
             dd = calm.date_of(w.day)
-            after_draft = (dd.month, dd.day) > tuple(self.cat.sports["mlb"]["draft_day"]) and dd.month < 9
+            from . import mlb as mlb_world
+            after_draft = (dd.month, dd.day) > tuple(mlb_world.draft_info(dd.year)[0]) and dd.month < 9
             waiting = any(m["kind"] in ("mlb_draft", "draft_passed") for m in moments.pending(w))
             if after_draft and not waiting:
                 self.moment_trigger("story_end", prot, {})

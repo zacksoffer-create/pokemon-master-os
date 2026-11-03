@@ -185,9 +185,26 @@ export type MlbWhatIf = {
   seasons: { year: number; real: string; world: string; change: number; real_path: string[]; world_path: string[]; odds: { real: number; world: number } | null;
     champ: string | null; real_champ: string | null }[];
   titles: { real: number[]; world: number[] };
+  later: { years: string; line: string } | null;
 };
 export type MlbYear = { year: number; standings: MlbDiv[]; october: MlbSeries[]; champ: string | null; real_champ: string | null; changed: boolean;
   awards: { label: string; name: string; team: string | null }[] };
+export type LgGame = { date: string; opp: string; home: boolean; label: string; conf: boolean; score?: string; result?: string };
+export type LgPost = { round: string; label: string; teams: number[]; names: string[]; score: number[]; done: boolean; winner: number | null };
+export type LeagueView = {
+  league: string; label: string; kind: string; today: string; news: { date: string; text: string; mine: boolean }[]; note?: string;
+  season?: string | null; champ?: string | null;
+  my_team?: { team: number; name: string; short: string; record: string | null; conf_record: string | null; conf: string | null; place: string | null;
+    rank: number | null; last: LgGame[]; status: string | null; next: LgGame | null } | null;
+  standings?: { group: string; label: string; rows: { team: number; name: string; w: number; l: number; t: number; cw: number; cl: number }[] }[];
+  top25?: { rank: number; team: number; name: string; record: string }[];
+  postseason?: LgPost[];
+  champions?: { season: string; champ: string; runner_up: string; mine: boolean }[];
+  teams?: { team: number; name: string }[];
+  titles_only?: boolean; event?: string; school?: string; school_titles?: number[]; next?: string | null;
+  finals?: { season: number; date: string | null; champ: string | null; runner_up: string | null; score: string | null; note: string }[];
+};
+export type LeagueLine = { league: string; label: string; kind: string; line: string | null; in_season?: boolean };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
@@ -199,6 +216,9 @@ export const phoneApi = {
   scene: (): Promise<SceneView> => api.get("/api/phone/scene"),
   sports: (team = ""): Promise<SportsView> => api.get(`/api/phone/sports${team ? `?team=${encodeURIComponent(team)}` : ""}`),
   mlb: (): Promise<MlbView> => api.get("/api/phone/mlb"),
+  leagues: (): Promise<{ leagues: LeagueLine[] }> => api.get("/api/phone/leagues"),
+  league: (lg: string): Promise<LeagueView> => api.get(`/api/phone/league?lg=${encodeURIComponent(lg)}`),
+  leagueFollow: (lg: string, team: string): Promise<LeagueView> => api.post("/api/phone/league/follow", { lg, team }),
   mlbWhatIf: (id: string): Promise<MlbWhatIf> => api.get(`/api/phone/mlb/whatif?id=${encodeURIComponent(id)}`),
   mlbSetWhatIf: (id: string, on: boolean): Promise<{ whatifs: string[]; moved: string[]; view: MlbWhatIf }> => api.post("/api/phone/mlb/whatif", { id, on }),
   mlbYear: (y: number): Promise<MlbYear> => api.get(`/api/phone/mlb/year?y=${y}`),

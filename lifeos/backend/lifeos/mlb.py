@@ -142,10 +142,14 @@ class Data:
         self.PL = {k: i + 4 for i, k in enumerate(d["pit_line"])}   # pit row: [p, year, team, wins, *line]
         self.bat = defaultdict(list)
         self.pit = defaultdict(list)
+        self.bat_y = defaultdict(list)
+        self.pit_y = defaultdict(list)
         for r in d["bat"]:
             self.bat[r[0]].append(r)
+            self.bat_y[r[1]].append(r)
         for r in d["pit"]:
             self.pit[r[0]].append(r)
+            self.pit_y[r[1]].append(r)
         self.seasons = defaultdict(dict)
         for s in d["seasons"]:
             self.seasons[s[0]][s[1]] = s   # [year, team, lg, div, W, L, R, RA, rank, how]
@@ -156,6 +160,7 @@ class Data:
         for a in d["awards"]:
             self.awards[a[0]].append(a)    # [year, award, lg, p]
         self.rosters = d["rosters"]
+        self.names = d.get("names", {})  # franchise -> [[first year, name], ...]
 
     def name(self, p: int) -> str:
         x = self.people[p]
@@ -185,8 +190,19 @@ def data() -> Data:
         return Data(json.load(f))
 
 
-def team_name(t: str, short=True) -> str:
-    x = data().teams.get(t) or {}
+def _nick(name: str) -> str:
+    parts = name.split()
+    return " ".join(parts[-2:]) if len(parts) > 1 and parts[-2] in ("Red", "White", "Blue", "Devil") else parts[-1]
+
+
+def team_name(t: str, short=True, y: int | None = None) -> str:
+    """A team's name (or nickname), as it was in season y: the Florida Marlins in 2010, the Miami Marlins from 2012."""
+    D = data()
+    x = D.teams.get(t) or {}
+    if y is not None and t in D.names:
+        nm = [n for (y0, n) in D.names[t] if y0 <= y]
+        nm = nm[-1] if nm else D.names[t][0][1]
+        return _nick(nm) if short else nm
     return (x.get("nick") if short else x.get("name")) or t
 
 
@@ -211,14 +227,38 @@ def _last_weekday(year, month, weekday) -> dt.date:
     return d
 
 
-@lru_cache(maxsize=64)
+@lru_cache(maxsize=128)
 def season_days(year: int) -> dict:
-    """Game-day numbers for a season: Opening Day (the last Thursday in March), the last day (the last Sunday in September),
-    each round of October, and the offseason (Nov 15)."""
-    od = calm.day_of(_last_weekday(year, 3, 3))
-    end = calm.day_of(_last_weekday(year, 9, 6))
-    return {"od": od, "end": end, "WC": end + 2, "DS": end + 6, "CS": end + 14, "WS": end + 26,
-            "off": calm.day_of(dt.date(year, 11, 15))}
+    """Game-day numbers for a season: Opening Day, the last day of the regular season (the last Sunday on or before Oct 4),
+    each round of October as that era spaced them, and the offseason (Nov 15). 2020 was its own thing."""
+    if year == 2020:
+        od, end = calm.day_of(dt.date(2020, 7, 23)), calm.day_of(dt.date(2020, 9, 27))
+    else:
+        first_monday = dt.date(year, 4, 1) + dt.timedelta(days=(7 - dt.date(year, 4, 1).weekday()) % 7)
+        od = calm.day_of(_last_weekday(year, 3, 3) if year >= 2018 else first_monday)
+        end_d = dt.date(year, 10, 4)
+        while end_d.weekday() != 6:
+            end_d -= dt.timedelta(days=1)
+        end = calm.day_of(end_d)
+    if year <= 2011:
+        r = {"WC": end + 2, "DS": end + 3, "CS": end + 12, "WS": end + 24}
+    elif year <= 2021:
+        r = {"WC": end + 2, "DS": end + 4, "CS": end + 11, "WS": end + 22}
+    else:
+        r = {"WC": end + 2, "DS": end + 6, "CS": end + 14, "WS": end + 26}
+    return {"od": od, "end": end, **r, "off": calm.day_of(dt.date(year, 11, 15))}
+
+
+# the draft, era by era: (first day, rounds)
+DRAFTS = {2010: ((6, 7), 50), 2011: ((6, 6), 50), 2012: ((6, 4), 40), 2013: ((6, 6), 40), 2014: ((6, 5), 40),
+          2015: ((6, 8), 40), 2016: ((6, 9), 40), 2017: ((6, 12), 40), 2018: ((6, 4), 40), 2019: ((6, 3), 40),
+          2020: ((6, 10), 5), 2021: ((7, 11), 20), 2022: ((7, 17), 20), 2023: ((7, 9), 20), 2024: ((7, 14), 20),
+          2025: ((7, 13), 20)}
+
+
+def draft_info(year: int) -> tuple:
+    """((month, day), rounds) for the MLB draft in a year (mid-July and 20 rounds from 2021 on)."""
+    return DRAFTS.get(year, ((7, 13), 20) if year > 2025 else ((6, 7), 50))
 
 
 def game_day(start: int, k: int, n: int) -> int:
@@ -228,6 +268,15 @@ def game_day(start: int, k: int, n: int) -> int:
     if n == 5:
         return start + k + (k >= 2) + (k >= 4)
     return start + k
+
+
+def completed(sim) -> int:
+    """The last season that's over (its World Series played) as of today: nothing after it shows, no spoilers."""
+    day = sim.w.day
+    y = season_of_day(day)
+    sd = season_days(y)
+    ws_done = day > sd["WS"] + 10
+    return y if ws_done else y - 1
 
 
 def season_of_day(day: int) -> int:
@@ -546,10 +595,11 @@ def season(sim, y: int) -> dict:
 
 
 def titles(sim, team: str) -> dict:
-    """A team's World Series titles, real and in this world (through the last real season, plus live ones)."""
+    """A team's World Series titles, real and in this world, through the last season that's over by today."""
     D = data()
-    real = [y for y in range(D.first, D.last + 1) if any(s[1] == "WS" and s[2] == team for s in D.post[y])]
-    alt = [y for y in range(D.first, D.last + 1) if season(sim, y)["champ"] == team]
+    upto = min(D.last, completed(sim))
+    real = [y for y in range(D.first, upto + 1) if any(s[1] == "WS" and s[2] == team for s in D.post[y])]
+    alt = [y for y in range(D.first, upto + 1) if season(sim, y)["champ"] == team]
     live = [int(y) for y, a in sorted(state(sim)["arch"].items()) if a.get("champ") == team]
     return {"real": real, "world": alt + live}
 
@@ -1110,16 +1160,17 @@ def _react(sim):
                 continue
             if ws and team == s["winner"]:
                 fx.mood(cid, 6 * care, "their team won the World Series")
-                fx.memory(cid, "pro_title", [], 0.35 * care, 25 * care, f"The {team_name(team)} won the {y} World Series")
+                fx.memory(cid, "pro_title", [], 0.35 * care, 25 * care, f"The {team_name(team, True, y)} won the {y} World Series")
             elif team == loser:
-                fx.mood(cid, -(3 if not ws else 5) * care, f"the {team_name(team)} got knocked out")
+                fx.mood(cid, -(3 if not ws else 5) * care, f"the {team_name(team, True, y)} got knocked out")
                 if ws or care == 2:
                     fx.memory(cid, "pro_heartbreak", [], -0.2 * care, 12 * care,
-                              f"The {team_name(team)} lost the {y} {ROUND_LABEL[s['round']]} to the {team_name(s['winner'])}")
+                              f"The {team_name(team, True, y)} lost the {y} {ROUND_LABEL[s['round']]} to the "
+                              f"{team_name(s['winner'], True, y)}")
             elif ws and team in RIVALS.get(s["winner"], []):
-                fx.mood(cid, -2 * care, f"the {team_name(s['winner'])} won it all")
+                fx.mood(cid, -2 * care, f"the {team_name(s['winner'], True, y)} won it all")
         if ws or my_team(sim) in s["teams"]:
-            _news(sim, f"The {team_name(s['winner'])} beat the {team_name(loser)} {s['wins'][s['teams'].index(s['winner'])]}-"
+            _news(sim, f"The {team_name(s['winner'], True, y)} beat the {team_name(loser, True, y)} {s['wins'][s['teams'].index(s['winner'])]}-"
                        f"{s['wins'][s['teams'].index(loser)]}" + (f" to win the {y} World Series." if ws else f" in the {s['label']}."),
                   s["winner"], "october", s["ended"])
     st["reacted"] = sorted(done)[-60:]
@@ -1142,7 +1193,7 @@ def draft_order(sim, year: int) -> list:
         wins = {t: r[0] for t, r in state(sim)["arch"][str(prev)]["rec"].items()}
     else:
         return []
-    return [team_name(t, short=False) for t in sorted(wins, key=lambda t: (wins[t], t))]
+    return [team_name(t, False, prev) for t in sorted(wins, key=lambda t: (wins[t], t))]
 
 
 # ---------------------------------------------------------------------------------------------------- stat lines
@@ -1295,10 +1346,81 @@ def _stars(sim, team: str, y: int, n=4) -> list:
                 if r[1] == y and _moved_team(ids, D.people[p][0], y, r[2]) == team:
                     vals[p] += r[vi]
     top = sorted(vals, key=lambda p: -vals[p])[:n]
+    frac = _frac(sim, y)
     moved = [p for p in vals if any(_moved_team(ids, D.people[p][0], y, r[2]) == team != r[2] for r in D.rows_raw(p, y))]
     top += [p for p in moved if p not in top]
     return [{"name": D.name(p), "pos": _pos_of(D, p, y), "age": y - (D.people[p][3] or y - 28), "talent": round(vals[p], 1),
-             "line": None, "moved": p in moved} for p in top]
+             "line": _real_line(D, p, y, frac) if frac > 0 else None, "moved": p in moved} for p in top]
+
+
+def _frac(sim, y: int) -> float:
+    """How much of season y has been played by today (0 before Opening Day, 1 once it's over)."""
+    sd = season_days(y)
+    return min(1.0, max(0.0, (sim.w.day - sd["od"]) / (sd["end"] - sd["od"])))
+
+
+def _real_line(D: Data, p: int, y: int, frac: float) -> str | None:
+    """His real season so far (counting stats scaled to today; rates as they finished)."""
+    b = [r for r in D.bat[p] if r[1] == y]
+    q = [r for r in D.pit[p] if r[1] == y]
+    if b and sum(r[D.BL["PA"]] for r in b) >= sum(r[D.PL["IPOuts"]] for r in q):
+        tot = {k: sum(r[D.BL[k]] for r in b) for k in ("AB", "H", "HR", "RBI")}
+        avg = f"{tot['H'] / tot['AB']:.3f}".lstrip("0") if tot["AB"] else ".000"
+        return f"{avg}, {round(tot['HR'] * frac)} HR, {round(tot['RBI'] * frac)} RBI"
+    if q:
+        tot = {k: sum(r[D.PL[k]] for r in q) for k in ("W", "L", "ER", "IPOuts", "SO", "SV", "GS")}
+        era = tot["ER"] * 27 / tot["IPOuts"] if tot["IPOuts"] else 0
+        out = f"{era:.2f} ERA, {round(tot['SO'] * frac)} K"
+        if tot["GS"]:
+            out = f"{round(tot['W'] * frac)}-{round(tot['L'] * frac)}, " + out
+        if tot["SV"] >= 5:
+            out += f", {round(tot['SV'] * frac)} saves"
+        return out
+    return None
+
+
+def _real_leaders(sim, cur: dict, n=5) -> list:
+    """A real season's leaders so far: counting stats scaled to today, rates for the qualified (as the year finished)."""
+    D = data()
+    y = cur["year"]
+    if y > D.last or y not in D.seasons:
+        return []
+    frac = _frac(sim, y)
+    if frac <= 0:
+        return []
+    S = D.seasons[y]
+    ids = tuple(state(sim).get("whatifs") or [])
+    G = 162 * frac
+    pool = defaultdict(list)
+    for r in D.bat_y[y]:
+        t = _moved_team(ids, D.people[r[0]][0], y, r[2])
+        if t not in S:
+            continue
+        lg = S[t][2]
+        ab, h, pa = r[D.BL["AB"]], r[D.BL["H"]], r[D.BL["PA"]]
+        for k, v in (("hr", r[D.BL["HR"]] * frac), ("rbi", r[D.BL["RBI"]] * frac), ("sb", r[D.BL["SB"]] * frac)):
+            pool[(k, lg)].append((round(v), r[0], t))
+        if ab and pa * frac >= 3.1 * G * 0.98:
+            pool[("avg", lg)].append((h / ab, r[0], t))
+    for r in D.pit_y[y]:
+        t = _moved_team(ids, D.people[r[0]][0], y, r[2])
+        if t not in S:
+            continue
+        lg = S[t][2]
+        outs = r[D.PL["IPOuts"]]
+        for k, v in (("so", r[D.PL["SO"]] * frac), ("w", r[D.PL["W"]] * frac), ("sv", r[D.PL["SV"]] * frac)):
+            pool[(k, lg)].append((round(v), r[0], t))
+        if outs and outs * frac >= 3 * G * 0.98:
+            pool[("era", lg)].append((r[D.PL["ER"]] * 27 / outs, r[0], t))
+    out = []
+    for key, label, kind, low in LEADER_STATS:
+        for lg in ("AL", "NL"):
+            rows = sorted(pool[(key, lg)], key=lambda x: (x[0] if low else -x[0], x[1]))[:n]
+            out.append({"stat": key, "label": label, "lg": lg,
+                        "rows": [{"name": D.name(p), "team": t, "abbr": D.teams[t]["abbr"],
+                                  "value": (f"{v:.3f}".lstrip("0") if key == "avg" else f"{v:.2f}" if key == "era" else v)}
+                                 for v, p, t in rows]})
+    return out
 
 
 def _team_of(D: Data, p: int, y: int) -> str:
@@ -1359,7 +1481,7 @@ def standings(sim, cur: dict | None = None) -> list:
                 c = l10[-1]
                 k = len(l10) - len(l10.rstrip(c))
                 streak = f"{c}{k}"
-            rows.append({"team": t, "nick": D.teams[t]["nick"], "abbr": D.teams[t]["abbr"], "w": w, "l": l_,
+            rows.append({"team": t, "nick": team_name(t, True, y), "abbr": D.teams[t]["abbr"], "w": w, "l": l_,
                          "pct": f"{w / (w + l_):.3f}".lstrip("0") if w + l_ else ".000", "gb": "-" if gb <= 0 else f"{gb:g}",
                          "l10": f"{l10.count('W')}-{l10.count('L')}" if l10 else None, "streak": streak or None,
                          "proj": cur["proj"].get(t), "you": t == me,
@@ -1386,14 +1508,14 @@ def _team_card(sim, team: str, cur: dict, table: list) -> dict:
             status = f"World Series champions, {y}."
         elif team in cur["eliminated"]:
             s = next(s for s in cur["october"] if s["done"] and team in s["teams"] and s["winner"] != team)
-            status = f"Out in the {s['label']}: lost to the {team_name(s['winner'])} {max(s['wins'])}-{min(s['wins'])}."
+            status = f"Out in the {s['label']}: lost to the {team_name(s['winner'], True, y)} {max(s['wins'])}-{min(s['wins'])}."
         else:
             s = next((s for s in reversed(cur["october"]) if team in s["teams"]), None)
             if s:
                 i = s["teams"].index(team)
                 status = (f"In the {s['label']}: " + ("tied" if s["wins"][0] == s["wins"][1] else
                           ("up" if s["wins"][i] > s["wins"][1 - i] else "down")) + f" {max(s['wins'])}-{min(s['wins'])} "
-                          f"with the {team_name(s['teams'][1 - i])}" + (f" · next game {s['next']}" if s["next"] else "") + ".")
+                          f"with the {team_name(s['teams'][1 - i], True, y)}" + (f" · next game {s['next']}" if s["next"] else "") + ".")
             else:
                 status = "In the playoffs."
     elif ph == "preseason":
@@ -1401,10 +1523,10 @@ def _team_card(sim, team: str, cur: dict, table: list) -> dict:
     elif ph == "regular" and w + l_:
         status = "Holding a playoff spot." if team in _spots(cur, lg) else "Out of a playoff spot right now."
     t = titles(sim, team)
-    return {"team": team, "name": D.teams[team]["name"], "nick": D.teams[team]["nick"], "abbr": D.teams[team]["abbr"],
+    return {"team": team, "name": team_name(team, False, y), "nick": team_name(team, True, y), "abbr": D.teams[team]["abbr"],
             "record": f"{w}-{l_}" if w + l_ else None, "place": place, "status": status, "l10": row["l10"],
             "streak": row["streak"], "stars": _stars(sim, team, y), "titles": t,
-            "rival": [team_name(r) for r in RIVALS.get(team, [])]}
+            "rival": [team_name(r, True, y) for r in RIVALS.get(team, [])]}
 
 
 def _spots(cur: dict, lg: str) -> list:
@@ -1430,13 +1552,13 @@ def view(sim) -> dict:
     on = set(st.get("whatifs") or [])
     return {"year": cur["year"], "phase": cur["phase"], "today": calm.label(sim.w.day),
             "my_team": _team_card(sim, me, cur, table), "standings": table, "october": cur["october"],
-            "leaders": leaders(sim) if cur["live"] else [], "news": news,
+            "leaders": leaders(sim) if cur["live"] else _real_leaders(sim, cur), "news": news,
             "whatifs": [{"id": x["id"], "title": x["title"], "when": x["when"], "group": x["group"], "on": x["id"] in on}
                         for x in WHATIFS],
-            "teams": sorted(({"team": t, "name": x["name"], "nick": x["nick"], "abbr": x["abbr"]} for t, x in D.teams.items()),
-                            key=lambda r: r["name"]),
-            "years": list(range(D.first, max(D.last, cur["year"] - (0 if cur["phase"] == "offseason" else 1)) + 1)),
-            "source": "Real MLB through 2025 (Lahman database); everything after is this world's."}
+            "teams": sorted(({"team": t, "name": team_name(t, False, cur["year"]), "nick": team_name(t, True, cur["year"]),
+                             "abbr": x["abbr"]} for t, x in D.teams.items()), key=lambda r: r["name"]),
+            "years": list(range(D.first, completed(sim) + 1)),
+            "source": "Real MLB through 2025 (Lahman database), as it happens day by day; everything after is this world's."}
 
 
 def whatif_view(sim, wid: str) -> dict:
@@ -1455,7 +1577,9 @@ def whatif_view(sim, wid: str) -> dict:
     seasons = []
     d = deltas((wid,))
     focus = "NYY"
-    for y in sorted(d):
+    done = completed(sim)
+    later = [y for y in sorted(d) if y > done]
+    for y in sorted(y for y in d if y <= done):
         r = replay(st["seed"], (wid,), y)
         real = season(sim, y) if False else None
         del real
@@ -1468,8 +1592,8 @@ def whatif_view(sim, wid: str) -> dict:
                 if team in (s["winner"], s["loser"]):
                     out.append(("Won" if s["winner"] == team else "Lost") + f" the {ROUND_LABEL[s['round']]}" +
                                ("" if s["round"] == "WS" else "") + f" {s['w']}-{s['l']}" +
-                               ("" if s["winner"] == team else f" to the {team_name(s['winner'])}") +
-                               (f" over the {team_name(s['loser'])}" if s["winner"] == team else ""))
+                               ("" if s["winner"] == team else f" to the {team_name(s['winner'], True, y)}") +
+                               (f" over the {team_name(s['loser'], True, y)}" if s["winner"] == team else ""))
             return out
         real_series = sorted(({"round": _rkey(x[1]), "winner": x[2], "loser": x[3], "w": x[4], "l": x[5]} for x in D.post[y]),
                              key=lambda x: ROUND_ORDER[x["round"]])
@@ -1480,8 +1604,8 @@ def whatif_view(sim, wid: str) -> dict:
                         "real_path": path(real_series, focus) or ["Missed the playoffs"] if y != 1994 else ["The strike: no October"],
                         "world_path": path(r["series"], focus) or ["Missed the playoffs"] if y != 1994 else ["The strike: no October"],
                         "odds": {"real": o["real"], "world": o["alt"]} if o else None,
-                        "champ": team_name(r["champ"]) if r["champ"] else None,
-                        "real_champ": team_name(r["real_champ"]) if r["real_champ"] else None})
+                        "champ": team_name(r["champ"], True, y) if r["champ"] else None,
+                        "real_champ": team_name(r["real_champ"], True, y) if r["real_champ"] else None})
     t_real = [s["year"] for s in seasons if s["real_champ"] == team_name(focus)]
     t_world = [s["year"] for s in seasons if s["champ"] == team_name(focus)]
     return {"id": wid, "title": wi["title"], "when": wi["when"], "real": wi["real"], "group": wi["group"],
@@ -1489,6 +1613,9 @@ def whatif_view(sim, wid: str) -> dict:
             "flat": [{"team": team_name(f["team"]), "years": f"{f['years'][0]}-{f['years'][1]}" if f["years"][0] != f["years"][1]
                       else str(f["years"][0]), "wins": f["wins"], "why": f["why"]} for f in wi.get("flat", [])],
             "seasons": seasons, "titles": {"real": t_real, "world": t_world},
+            "later": ({"years": f"{later[0]}-{later[-1]}" if len(later) > 1 else str(later[0]),
+                       "line": ("It hasn't happened yet: it's " + wi["when"] + "." if not seasons else
+                                f"The rest ({later[0]} on) plays out as the story gets there.")} if later else None),
             "how": ("Each season, the Yankees' wins move by what the players were worth (an estimate in wins, like WAR), and "
                     "October replays: a series that really happened keeps its result unless the new odds flip it; a matchup "
                     "that never happened is played fresh. This world rolls it once, so it stays put.")}
@@ -1498,6 +1625,8 @@ def year_view(sim, y: int) -> dict:
     """A past season in this world: the final standings, October, the awards."""
     D = data()
     st = state(sim)
+    if y > completed(sim) or y < D.first:
+        raise ValueError(f"{y} hasn't been played yet")
     if y > D.last:
         a = st["arch"].get(str(y))
         if not a:
@@ -1515,8 +1644,9 @@ def year_view(sim, y: int) -> dict:
                "october": _reveal(s["series"], 10 ** 9, y, {r: 0 for r in ROUND_ORDER}, fields), "phase": "offseason",
                "champ": s["champ"], "eliminated": {}, "live": False}
         awards = [{"label": f"{a[2]} {AWARD_LABEL[a[1]]}" if a[1] != "wsmvp" else "World Series MVP", "name": D.name(a[3]),
-                   "team": team_name(_team_of(D, a[3], y))} for a in D.awards[y]]
+                   "team": team_name(_team_of(D, a[3], y), True, y)} for a in D.awards[y]]
         changed = s["changed"]
     return {"year": y, "standings": standings(sim, cur), "october": cur["october"],
-            "champ": team_name(cur["champ"]) if cur["champ"] else None, "awards": awards, "changed": changed,
-            "real_champ": team_name(next((x[2] for x in D.post[y] if x[1] == "WS"), "")) if y <= D.last and D.post[y] else None}
+            "champ": team_name(cur["champ"], True, y) if cur["champ"] else None, "awards": awards, "changed": changed,
+            "real_champ": team_name(next((x[2] for x in D.post[y] if x[1] == "WS"), ""), True, y) if y <= D.last and D.post[y] else None,
+            "names": {t: team_name(t, True, y) for t in D.teams}}

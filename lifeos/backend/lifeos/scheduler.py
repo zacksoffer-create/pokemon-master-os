@@ -1108,7 +1108,9 @@ def display_title(sim, sid, cat) -> str:
     fill = {"them": them, "them_first": them, "me_first": me.first if me else "you", "best_friend": "your best friend",
             "best_friend_first": "your best friend", "sibling": "your sibling", "sibling_first": "your sibling",
             "partner": "your partner", "partner_first": "your partner", "sport": "the game", "pet": "your pet",
-            "my_team": "your team", "my_team_record": "", "my_team_star": "their best player", "mlb_champ": "the champs"}
+            "my_team": "your team", "my_team_record": "", "my_team_star": "their best player", "mlb_champ": "the champs",
+            "my_nfl_team": "your team", "my_nba_team": "your team", "my_college": "your school", "nfl_champ": "the champs",
+            "nba_champ": "the champs", "cfb_champ": "the champs", "mbb_champ": "the champs", "wbb_champ": "the champs"}
     s = re.sub(r"\{(\w+)\}", lambda m: fill.get(m.group(1)) or m.group(1).replace("_", " "), t)
     return s[:1].upper() + s[1:]
 

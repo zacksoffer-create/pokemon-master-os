@@ -206,8 +206,9 @@ FOCUS_MODES = ("balanced", "athletics", "academics", "social", "romance", "famil
 REP_TAGS = ("athlete", "star", "legend", "tough", "host", "performer", "gossip", "flaky", "troublemaker", "mean", "embarrassed")
 SCENE_REFS = ("them", "best_friend", "sibling", "partner")
 SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "sibling", "sibling_first", "partner", "partner_first",
-               "me_first", "school", "town", "sport", "pet", "my_team", "my_team_record", "my_team_star", "mlb_champ"}
-PRO_NAMES = ("my_team", "my_team_record", "my_team_star", "mlb_champ")  # always there (pro.py)
+               "me_first", "school", "town", "sport", "pet", "my_team", "my_team_record", "my_team_star", "mlb_champ",
+               "my_nfl_team", "my_nba_team", "my_college", "my_nfl_record", "my_nba_record", "my_cfb_record", "my_mbb_record",
+               "my_wbb_record", "nfl_champ", "nba_champ", "cfb_champ", "mbb_champ", "wbb_champ"}  # (the last two rows: pro.py)
 DEFAULT_CHANCE = 0.04
 CHAPTER_CHANCE = 0.5    # the relaxed profile's odds a due chapter comes today (pacing lives in scheduler.py now)
 MAX_BEATS = 3           # how deep a scene can keep going with "then"
@@ -2300,6 +2301,11 @@ def guide_markdown() -> str:
     a(f"- `years`: any of {', '.join(YEARS)}.")
     a("- `months`: numbers 1-12. `dates`: like \"10-31\". `weekdays`: " + ", ".join(WEEKDAYS) + ".")
     a("- `requires`: any of " + "; ".join(f"`{k}` ({v[:-1].lower()})" for k, v in REQUIRES.items()) + ".")
+    a("- The other leagues: `pro:<league>:<condition>`, league `nfl`, `nba`, `cfb` (college football), `mbb` / `wbb` (men's / "
+      "women's college basketball), `cbase` (college baseball), `msoc` / `wsoc` (college soccer); condition `in_season`, "
+      "`my_team_winning`, `my_team_losing`, `my_team_in_postseason`, `my_team_alive`, `my_team_champs`, and `my_team_ranked` "
+      "for college (baseball and soccer only have `my_team_champs`). Like `pro:mbb:my_team_alive` for a scene during "
+      "UConn's tournament run.")
     a("- Pro sports `requires` (the MLB season running in the background; \"your team\" is the Yankees unless you picked another): "
       + "; ".join(f"`{k}` ({v[:-1].lower()})" for k, v in _pro().REQUIRES.items())
       + "; and `pro:whatif:<id>` for a world where that piece of history went the other way (" + ", ".join(
@@ -2313,7 +2319,9 @@ def guide_markdown() -> str:
     a("**Placeholders** in scenes: " + ", ".join("{" + n + "}" for n in sorted(SCENE_NAMES)) +
       ". `{them}` is a full name and `{them_first}` a first name; `{sport}` is your main sport; `{pet}` your pet's name; "
       "`{my_team}` your MLB team (Yankees), `{my_team_record}` its record, `{my_team_star}` its best player right now, "
-      "`{mlb_champ}` the last World Series winner.\n")
+      "`{mlb_champ}` the last World Series winner; `{my_nfl_team}` / `{my_nba_team}` (Giants, Knicks), `{my_college}` "
+      "(UConn, or your college once you're there), `{my_nfl_record}` and the like (nba, cfb, mbb, wbb), and `{nfl_champ}` "
+      "and the like for whoever won it last.\n")
     a("**People** ops can refer to in scenes: `them` (needs who), `best_friend`, `sibling`, `partner`. A scene whose title or text "
       "mentions someone (like `{sibling_first}` or `{pet}`) only happens when they exist; a choice that mentions someone only shows "
       "when they exist. Keep at least two choices that work for anybody.\n")

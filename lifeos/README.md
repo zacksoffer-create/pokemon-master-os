@@ -369,18 +369,26 @@ one of the things popularity is made of. A standout game, Player of the Week, an
 classmates who'd never met you get to know you and respect you a little (more if they follow the sport, more for the
 rival game), which is what moves the Scene's ladder. `GET /api/phone/sports?team=`.
 
-## The pros: MLB in the background
+## The sports world: MLB, the NFL, the NBA and college, in the background
 
-The Sports tab has two sides: **School** (above) and **Pros**. MLB runs behind your story the whole time. You don't play
-it; it's the world your story lives in, and storylines can use it.
+**The story starts Wednesday, Sept 1, 2010.** The Yankees are the defending champions (2009), and everything behind your
+story is the real sports world from there, a day at a time. The Sports tab has three sides: **School** (above), **Pro**
+(MLB, the NFL, the NBA) and **College** (football, men's and women's basketball, baseball, men's and women's soccer). You
+don't play these; they're the world your story lives in, and storylines can use them. You never see past today: the
+history pages, the titles and the what-ifs only show seasons that have happened.
 
-**Real history, then this world's.** The data is real from 1990 through 2025: every team-season, every postseason
-series, the major awards, and every regular's season with a value in wins (an estimate in the spirit of WAR, made from
-the Lahman database by `tools/build_mlb_data.py`; it reads Bonds 2001 at 12.8 and Judge 2022 at 10.7). The story starts
-Sept 1, 2025, so the real 2025 finish and October play out on their real dates (the Yankees' Wild Card win over Boston,
-then Toronto). From 2026 it's this world's: rosters from where everyone finished 2025, talent from each player's last
-three seasons, a 162-game season played series by series, the postseason in the current format, awards, then an
-offseason of aging, retirements, free agency and rookies. It's seeded, so it comes out the same every time you look.
+### MLB
+
+**Real history, day by day, then this world's.** The data is real from 1990 through 2025: every team-season, every
+postseason series, the major awards, and every regular's season with a value in wins (an estimate in the spirit of WAR,
+made from the Lahman database by `tools/build_mlb_data.py`; it reads Bonds 2001 at 12.8 and Judge 2022 at 10.7). From the
+first day of the story, each real season plays out on its dates: the 2010 Yankees are 78-55 on day one, sweep the Twins,
+lose the ALCS to Texas, and the Giants win it all. Standings move through the season, October reveals series a game at a
+time, the leaders and your team's best players carry their real lines, and teams have the names they had then (the
+Florida Marlins, the Cleveland Indians). The in-story MLB draft follows its era (40 rounds in early June in the 2010s;
+20 in July from 2021), worst-to-first by last season's standings. Past 2025 (if your story gets there) it's this world's:
+rosters from where everyone finished 2025, talent from each player's last three seasons, a 162-game season played series
+by series, the current postseason, awards, then aging, retirements, free agency and rookies.
 
 **What-ifs.** Twelve moves that were really on the table, each with the real story of how it fell apart:
 - **The big four:** the Yankees sign Beltrán (2005), trade for Cliff Lee (July 2010), re-sign Canó (2014), sign Harper (2019)
@@ -392,7 +400,8 @@ worth (and the guy who lost his job, and what the other team did instead). The p
 format, and October replays with as little change as possible. A series that really happened keeps its result unless the
 new odds flip it, and a matchup that never happened is played fresh, with each team carrying how it really played that
 October. Each what-if's page shows what moved, season by season the real path next to this world's, and the title odds
-both ways (Cliff Lee in 2010: 16% to 27%). Players who are still playing move now: with Harper on, he's a Yankee in 2026.
+both ways (Cliff Lee in 2010: 16% to 27%). A what-if that's still in the story's future (Cano, Harper, Machado, Soto)
+says so, and happens when the story gets there.
 
 **On the page:**
 - **My team:** your team (the Yankees unless you pick another), its record and place, where it stands in October, its
@@ -415,8 +424,34 @@ draft in the story goes worst-to-first by last season's real (or this world's) s
     the other way
 - placeholders: `{my_team}`, `{my_team_record}`, `{my_team_star}`, `{mlb_champ}`
 
-`GET /api/phone/mlb`, `GET|POST /api/phone/mlb/whatif`, `GET /api/phone/mlb/year?y=`, `POST /api/phone/mlb/team`. NBA, NFL
-and the Champions League are next, built the same way (`pro.py` is where each league plugs in).
+`GET /api/phone/mlb`, `GET|POST /api/phone/mlb/whatif`, `GET /api/phone/mlb/year?y=`, `POST /api/phone/mlb/team`.
+
+### The NFL, the NBA and college sports
+
+Every game as it really happened, on its real date (`realleagues.py`, data from `tools/build_league_data.py`):
+- **NFL** (every game, from nflverse) and **NBA** (every game, from ESPN via sportsdataverse): your team's record, place,
+  last games and next game, the division tables, the playoffs as they happen (NBA series a game at a time), the champions
+- **College football** (every FBS game; the bowls before 2023 aren't in the public data, but the title games and the
+  playoff semifinals are), **men's and women's college basketball** (the power conferences, the story's colleges and the
+  whole NCAA tournament, every game): your school's record, conference record and place, this week's top 25 (ours, from
+  results: an Elo rating with margin of victory, not the AP poll), the playoff or the tournament round by round, the
+  champions
+- **College baseball** and **men's and women's college soccer** have no public game data, so they carry the real finals:
+  the College World Series and the College Cups, who won, who lost, when
+
+**Your teams.** The Giants and the Knicks to start (it's Connecticut: plenty of Patriots and Celtics fans around too), and
+UConn in college, until you're at a college yourself: then it's your school, in every sport (or pick any school). On day
+one UConn football opens at Michigan; that winter UConn basketball finishes ninth in the Big East and then wins eleven
+straight, the conference tournament and the national title; the Giants win the Super Bowl after the 2011 season.
+
+**Fans.** Everyone in town has an NFL team, an NBA team and how much they care about UConn. A title is a memory and a good
+week for its fans; an exit stings. Your teams' playoff results and every title game are news.
+
+**For storylines:** `pro:<league>:<condition>` with league `nfl`, `nba`, `cfb`, `mbb`, `wbb`, `cbase`, `msoc`, `wsoc` and
+condition `in_season`, `my_team_winning`, `my_team_losing`, `my_team_in_postseason`, `my_team_alive`, `my_team_champs`,
+`my_team_ranked` (college). Placeholders `{my_nfl_team}`, `{my_nba_team}`, `{my_college}`, `{my_nfl_record}` (and nba,
+cfb, mbb, wbb), `{nfl_champ}` (and nba, cfb, mbb, wbb). `GET /api/phone/leagues`, `GET /api/phone/league?lg=`,
+`POST /api/phone/league/follow`.
 
 ## Play on your phone
 

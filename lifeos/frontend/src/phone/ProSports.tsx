@@ -246,10 +246,11 @@ function WhatIf({ id, onChanged }: { id: string; onChanged: () => void }) {
             <b>{f.team}</b><span>{f.why}, {f.years}</span><em>{f.wins > 0 ? "+" : ""}{f.wins}/yr</em>
           </div>
         ))}
-        <p className="ph-dim small">For the Yankees, about {total > 0 ? "+" : ""}{total.toFixed(1)} wins across {w.seasons.length} season{w.seasons.length === 1 ? "" : "s"}. Values are estimates in wins, like WAR.</p>
+        {w.seasons.length > 0 && <p className="ph-dim small">For the Yankees, about {total > 0 ? "+" : ""}{total.toFixed(1)} wins across {w.seasons.length} season{w.seasons.length === 1 ? "" : "s"}. Values are estimates in wins, like WAR.</p>}
       </div>
 
-      <div className="sp-h">Season by season <small>with this one alone</small></div>
+      {w.later && <div className="sp-card"><b>{w.seasons.length ? "Still to come" : "In the future"}</b><p className="ph-dim small">{w.later.line} Turn it on now and it happens when the story gets to {w.later.years.split("-")[0]}.</p></div>}
+      {w.seasons.length > 0 && <div className="sp-h">Season by season <small>with this one alone</small></div>}
       {w.seasons.map((s) => (
         <div key={s.year} className="sp-card pro-yr">
           <div className="pro-yr-h">
@@ -264,11 +265,13 @@ function WhatIf({ id, onChanged }: { id: string; onChanged: () => void }) {
           {s.champ !== s.real_champ && <p className="pro-champ">World Series: the {s.champ} (really the {s.real_champ})</p>}
         </div>
       ))}
-      <div className="sp-card">
-        <b>Titles, 1990 to 2025</b>
-        <p className="small">Really: {w.titles.real.join(", ") || "none"}. With this: {w.titles.world.join(", ") || "none"}.</p>
-        <p className="ph-dim small">{w.how}</p>
-      </div>
+      {w.seasons.length > 0 && (
+        <div className="sp-card">
+          <b>Titles in those seasons</b>
+          <p className="small">Really: {w.titles.real.join(", ") || "none"}. With this: {w.titles.world.join(", ") || "none"}.</p>
+        </div>
+      )}
+      <p className="ph-dim small">{w.how}</p>
     </>
   );
 }

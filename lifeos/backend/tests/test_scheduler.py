@@ -119,7 +119,7 @@ def _drain_today(sim, limit=200):
 
 # 1 ------------------------------------------------------------------------------------------------
 def test_twelve_independent_scenes_all_run_on_one_monday():
-    _install([_independent(12)])
+    _install([_independent(12, weekdays=["mon"])])  # (Monday-only, so none of them goes before the first Monday)
     w, sim, me = _story()
     _to_monday(sim)
     day = w.day
@@ -131,7 +131,8 @@ def test_twelve_independent_scenes_all_run_on_one_monday():
 
 # 2 ------------------------------------------------------------------------------------------------
 def test_a_storyline_chains_the_same_day():
-    _install([{"dialogue_pack": 1, "name": "Chain", "in_order": True, "scenes": [S("chain_a"), S("chain_b", after=["chain_a"], gap_days=0)]}])
+    _install([{"dialogue_pack": 1, "name": "Chain", "in_order": True,
+               "scenes": [S("chain_a", weekdays=["mon"]), S("chain_b", after=["chain_a"], gap_days=0, weekdays=["mon"])]}])
     w, sim, me = _story()
     _to_monday(sim)
     day = w.day
@@ -152,7 +153,8 @@ def test_a_storyline_chains_the_same_day():
 # 3 ------------------------------------------------------------------------------------------------
 def test_an_explicit_gap_holds_however_many_scenes_resolve():
     _install([{"dialogue_pack": 1, "name": "Gap", "in_order": False,
-               "scenes": [S("gap_a", chance=1.0), S("gap_b", after=["gap_a"], gap_days=7, chance=1.0)]}, _independent(50, "x")])
+               "scenes": [S("gap_a", chance=1.0, weekdays=["mon"]), S("gap_b", after=["gap_a"], gap_days=7, chance=1.0)]},
+              _independent(50, "x", weekdays=["mon"])])
     w, sim, me = _story()
     _to_monday(sim)
     w.meta.setdefault("control", {})["pacing"] = "uncapped"

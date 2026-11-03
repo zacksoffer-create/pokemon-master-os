@@ -124,18 +124,21 @@ def test_skipping_ahead_plays_the_night_for_you():
 def test_weekend_parties_show_up_and_picking_one_starts_the_night():
     c, api = _story()
     w = api.lab.w
-    for _ in range(220):
+    ms, tried = [], 0
+    for _ in range(300):
         ch = c.get("/api/phone/choices").json()
         party = next((o for o in ch.get("options") or [] if o.get("action") == "go_to_party"), None)
         if party:
-            break
+            tried += 1
+            r = c.post("/api/phone/choose", json={"index": party["index"]})
+            assert r.status_code == 200
+            ms = c.get("/api/phone/state").json()["moments"]
+            if ms and ms[0]["kind"] == "night_arrive":
+                break  # (a party the first weekend of school can flop: hardly anyone knows anyone yet)
         for m in c.get("/api/phone/state").json()["moments"]:
             c.post(f"/api/phone/moment/{m['id']}", json={"index": None})
         c.post("/api/story/advance", json={"until": "decision"})
-    assert party, "a weekend party should come up within a few weeks"
-    r = c.post("/api/phone/choose", json={"index": party["index"]})
-    assert r.status_code == 200
-    ms = c.get("/api/phone/state").json()["moments"]
+    assert tried, "a weekend party should come up within a few weeks"
     assert ms and ms[0]["kind"] == "night_arrive" and "party" in ms[0]["title"]
     seen, last = _play(c, api)
     assert len(seen) == 4 and "night" not in w.meta

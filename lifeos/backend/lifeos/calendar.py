@@ -15,7 +15,7 @@ FREE_PHASES = ["dawn", "day", "evening", "night"]
 DECISION_SLOTS = {"lunch", "after_school", "day", "evening"}
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-START = dt.date(2025, 9, 1)
+START = dt.date(2010, 9, 1)  # a Wednesday: the first day of school, fall 2010
 
 
 def date_of(day: int) -> dt.date:
