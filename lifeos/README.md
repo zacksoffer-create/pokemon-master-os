@@ -194,6 +194,45 @@ It writes `report.md` and `report.json`: every scene id with the day it played o
 contradictions (out of season, before its prerequisite, out of chapter order) and who every cast slot is bound to. With
 no packs it runs the synthetic season plan from the tests; the results are in `docs/reports/`.
 
+**What the check fixed in the engine.** A real seven-year report (287 played, 254 unreachable) showed three ways whole
+storylines went dark, and none of them were the story's fault:
+
+- **Chapters nobody can play are stepped over.** If a chapter needs someone who doesn't exist in your world (a cast
+  slot with no match, a kind of person nobody fits), an in-order storyline now moves past it instead of stopping there.
+  The row says `missing_cast` and who it needed.
+- **A link to another storyline is soft.** `after` pointing at a scene in a different pack that can never happen
+  (you took the other Homecoming date) no longer closes this storyline too. Inside one pack it's still a real branch.
+- **Year-end says why.** When a scene's last school year ends while it's still waiting, it's logged as missed with what
+  it was waiting on (`chapter_order`: behind another chapter; `never_picked`: it was ready but never chosen), instead of
+  a bare "year passed".
+
+## Add to your story
+
+Me > Story schedule > **Add to your story** (or the API) turns "I want more of this" into scenes that fit:
+
+1. **Say what you want more of**, or tap a suggestion (fill the quiet weeks, more sophomore and junior year, fix what
+   can't happen, a new storyline about someone already in it, bigger payoffs).
+2. **Make my ChatGPT prompt.** It carries your family and cast, every storyline with its scene ids, years, facts and
+   links (as they play after every schedule), how your seven years play right now from your last **Run the check**
+   (scenes per month, the quiet stretches, what can't happen and why), the rules for an answer the game can load, and
+   the scene parts of the pack guide. Copy it or share it straight to the ChatGPT app.
+3. **Paste what ChatGPT gives you** (the whole answer; the game finds the pack inside) and **Check it**. Nothing is
+   saved: the game plays seven years forward on a copy with the new pack in and shows which new scenes play and when,
+   which ones won't and why, what changed for scenes you already have, the before and after count, and the month grid.
+   If it can't load, you get the problems and a **fix-it message** to paste back to ChatGPT.
+4. **Add it to my story.** It goes in as its own pack ("Additions: ..."), so it stacks on what you have and can be
+   turned off any time.
+
+Additions can also adjust scenes you already have, through a `schedule`: move a scene's years or months, give it a new
+`after` (`"replace_after": true` replaces the old links instead of adding to them), give it a `gap_days`, or retire it
+with `"skip": true`. Timing put on a scene itself instead of inside `"when"` (an easy mistake) is caught at the check.
+
+```
+GET  /api/story/add/prompt?ask=...      -> {prompt, chars, suggestions, checked, last_check}
+POST /api/story/add/preview {text|pack} -> {ok, errors, fix_prompt | new, changed, played_total, before, coverage}
+POST /api/dialogue/packs {text|pack}    -> adds it
+```
+
 ## Knowing who everyone is
 
 Every person has a profile built from what's actually true in the world right now, and the game uses it everywhere.

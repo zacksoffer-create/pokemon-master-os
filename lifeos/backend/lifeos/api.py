@@ -1205,15 +1205,42 @@ def api_schedule_report(days: int = 2565, profile: str = "", full: int = 0, fmt:
     from . import scheduler
     L = _story_lab()
     days = max(1, min(int(days), 3000))
+    from . import storybuilder
     with L.lock:
         sim = _copy_sim(L)
         run = scheduler.dry_run(sim, days, profile or None, full=bool(full))
         rep = scheduler.report(sim, run)
+        rep["coverage"] = storybuilder.coverage(sim, run)
+        storybuilder.remember_check(L.w, rep, rep["coverage"])  # the next Add to your story prompt knows how it plays
     if fmt == "md":
         return Response(scheduler.report_markdown(rep), media_type="text/markdown")
     if fmt == "both":  # the phone saves the markdown itself
         return dict(rep, markdown=scheduler.report_markdown(rep))
     return rep
+
+
+@app.get("/api/story/add/prompt")
+def api_story_add_prompt(ask: str = ""):
+    """Add to your story: the ChatGPT prompt (your family, cast, every storyline, how the seven years play now, the rules)."""
+    from . import storybuilder
+    L = _story_lab()
+    with L.lock:
+        text = storybuilder.prompt(L.sim, ask)
+        return {"prompt": text, "chars": len(text), "suggestions": storybuilder.SUGGESTIONS,
+                "checked": bool(L.w.meta.get("last_check")), "last_check": L.w.meta.get("last_check")}
+
+
+@app.post("/api/story/add/preview")
+def api_story_add_preview(body: dict = Body(...)):
+    """Check a pack ChatGPT wrote and play the seven years forward on a copy with it added. Nothing is saved."""
+    from . import storybuilder
+    L = _story_lab()
+    try:
+        pack = _pack_from(body)
+    except ValueError as e:
+        return {"ok": False, "errors": [str(e)], "warnings": [], "fix_prompt": None}
+    with L.lock:
+        return storybuilder.preview(lambda: _copy_sim(L), pack, last=L.w.meta.get("last_check"))
 
 
 @app.post("/api/story/schedule/season_map")

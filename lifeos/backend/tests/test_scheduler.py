@@ -442,3 +442,43 @@ def test_the_lab_and_phone_endpoints():
                                                         "importance": {"bro_team_02_lunch_table": "major"}}).json()
     row = next(r for r in st["scenes"] if r["sid"] == "bro_team_02_lunch_table")
     assert row["window"] == [10] and row["window_rule"] == "your override" and row["importance"] == "major"
+
+
+def test_a_chapter_nobody_can_play_yet_doesnt_freeze_its_storyline():
+    _install([{"dialogue_pack": 1, "name": "Mixed signals", "in_order": True, "scenes": [
+        S("ms_01_your_partner", "partner", years=["freshman"]), S("ms_02_best_friend_take", years=["freshman"]),
+        S("ms_03_more_friend", years=["freshman"])]}])
+    w, sim, me = _story()
+    assert not me.flags.get("partner")
+    scheduler.dry_run(sim, 20, "dense", full=False)
+    done = scheduler.done_map(w)
+    assert "ms_02_best_friend_take" in done and "ms_03_more_friend" in done, "the story moves on past the chapter nobody can play"
+    assert "ms_01_your_partner" not in done
+    row = next(r for r in scheduler.rows(sim) if r["sid"] == "ms_01_your_partner")
+    assert row["state"] == "waiting" and row["reason"] in ("missing_cast", "chapter_order")
+
+
+def test_an_after_link_to_another_storyline_orders_it_but_doesnt_cut_it_off():
+    plan = {"dialogue_pack": 1, "name": "Weave", "in_order": False, "scenes": [
+        S("weave_choice", choices=[{"label": "A", "ops": [["remember", "weave_a"]]}, {"label": "B", "ops": [["remember", "weave_b"]]}], chance=1.0),
+        S("weave_only_on_a", remembered=["weave_a"], chance=1.0)]}
+    ball = {"dialogue_pack": 1, "name": "Ball", "in_order": True, "scenes": [S("ball_01_start", after=["weave_only_on_a"]), S("ball_02_more")]}
+    _install([plan, ball])
+    w, sim, me = _story()
+    m = dialogue.try_scene(sim, "weave_choice")
+    moments.resolve(sim, m["id"], 1)  # B: the scene ball_01 is "after" can never happen now
+    cat = scheduler.catalog(sim)
+    assert scheduler.permanent(sim, me, "weave_only_on_a", cat) == "branch_closed"
+    assert scheduler.permanent(sim, me, "ball_01_start", cat) is None
+    scheduler.dry_run(sim, 10, "dense", full=False)
+    assert "ball_01_start" in scheduler.done_map(w) and "ball_02_more" in scheduler.done_map(w), "the baseball storyline still plays"
+
+
+def test_the_report_says_what_a_missed_scene_was_waiting_on():
+    _install([{"dialogue_pack": 1, "name": "Date night", "in_order": False, "scenes": [
+        S("date_night_freshman", "partner", years=["freshman"], chance=1.0)]}])
+    w, sim, me = _story()
+    run = scheduler.dry_run(sim, 380, "dense", full=False)
+    row = next(r for r in scheduler.report(sim, run)["scenes"] if r["sid"] == "date_night_freshman")
+    assert row["state"] == "unreachable" and row["reason"] == "year_passed"
+    assert row["missed"]["reason"] == "missing_cast" and "while it was waiting" in row["why"]

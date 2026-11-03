@@ -108,7 +108,13 @@ export type ScheduleView = { profile: string; profiles: Record<string, { label: 
   scenes: ScheduleRow[] };
 export type ScheduleReport = { date: string; profile: string; counts: Record<string, number>; warnings: { sid: string; kind: string; text: string }[];
   deadline_misses: any[]; identity: { slot: string; who: string; name: string | null; problems: string[] }[];
-  busiest_days: { date: string; scenes: number }[]; days_with_scenes: number; markdown?: string };
+  busiest_days: { date: string; scenes: number }[]; days_with_scenes: number; markdown?: string; coverage?: Coverage };
+export type Coverage = { years: { label: string; key: string; months: number[]; total: number }[]; months: string[];
+  quiet: { from: string; to: string; days: number; year: string }[] };
+export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; name?: string; fix_prompt?: string | null;
+  new?: { sid: string; title: string; state: string; date?: string; reason?: string; why?: string; detail?: any }[]; new_played?: number;
+  changed?: { sid: string; title: string; state: string; date?: string; why?: string; reason?: string }[]; already_there?: string[];
+  played_total?: number; before?: number | null; coverage?: Coverage };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
@@ -144,6 +150,10 @@ export const phoneApi = {
   storyContinue: (): Promise<{ moment: Moment | null; note: string | null }> => api.post("/api/story/schedule/continue", {}),
   schedule: (): Promise<ScheduleView> => api.get("/api/story/schedule"),
   scheduleReport: (days: number): Promise<ScheduleReport> => api.get(`/api/story/schedule/report?days=${days}&fmt=both`),
+  addPrompt: (ask: string): Promise<{ prompt: string; chars: number; suggestions: string[]; checked: boolean; last_check: { coverage: Coverage } | null }> =>
+    api.get(`/api/story/add/prompt?ask=${encodeURIComponent(ask)}`),
+  addPreview: (text: string): Promise<AddPreview> => api.post("/api/story/add/preview", { text }),
+  addPack: (text: string) => api.post("/api/dialogue/packs", { text }),
   threads: (): Promise<{ threads: ThreadSummary[] }> => api.get("/api/phone/threads"),
   thread: (tid: string): Promise<Thread> => api.get(`/api/phone/thread/${encodeURIComponent(tid)}`),
   reply: (tid: string, msg: string, index: number): Promise<{ thread: Thread }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/reply`, { msg, index }),

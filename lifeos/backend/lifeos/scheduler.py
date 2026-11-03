@@ -58,7 +58,7 @@ DEFAULT_PROFILE = "dense"
 OVERRIDABLE = ("global_gap", "chapter_gap", "school", "weekend", "chapter_chance", "free_chance", "major_week", "aging_days")
 GUARD = 100  # scenes per action, at most (a performance guard, not a story rule)
 AGING_DAYS = 3  # a planned scene nobody got to goes back in the pool after this long (it isn't used up)
-PERMANENT = {"played", "year_passed", "exclusive_branch", "after_unreachable", "window_passed", "branch_closed"}
+PERMANENT = {"played", "year_passed", "exclusive_branch", "after_unreachable", "window_passed", "branch_closed", "skipped_by_plan"}
 REASON_TEXT = {
     "played": "already happened", "in_progress": "happening now", "cooldown": "on cooldown", "too_early": "not yet",
     "year_passed": "its school years are over", "exclusive_branch": "the other branch happened",
@@ -69,6 +69,8 @@ REASON_TEXT = {
     "chance": "didn't come up today", "major_breather": "giving the last big moment room", "budget": "today is full",
     "missing_cast": "nobody in your story fits", "not_playable": "not enough people for its choices", "global_gap": "a quiet day",
     "branch_closed": "a choice already went the other way",
+    "never_picked": "ready, but other scenes always came first", "missed": "its year ended first",
+    "skipped_by_plan": "retired by a schedule (skip)",
 }
 IMPORTANCE = ("ambient", "regular", "major", "finale")
 FINALE_RX = re.compile(r"(^|_)(finale|culminat\w*|graduat\w*|commencement|senior_night|last_(school_)?game|final_game|state_(final|title|champ\w*)|"
@@ -447,6 +449,8 @@ def _done_or_skipped(sim, me, a, cat, depth=0) -> str:
     if sc is None:
         return "skipped"  # not in any loaded pack: nothing to wait for
     when = sc.get("when") or {}
+    if when.get("skip"):
+        return "skipped"  # retired by a season plan or an addition
     grades = _years(when)
     if grades and max(grades) < (me.grade or 0):
         return "skipped"
@@ -465,6 +469,8 @@ def permanent(sim, me, sid, cat, depth=0) -> str | None:
     mem = w.meta.get("remembered", {})
     if sid in done_map(w) and when.get("once", True):
         return "played"
+    if when.get("skip"):
+        return "skipped_by_plan"
     for k in when.get("not_remembered") or []:  # the most telling reason first: a branch beats "its years are over"
         if k in mem:
             return "exclusive_branch"
@@ -472,15 +478,23 @@ def permanent(sim, me, sid, cat, depth=0) -> str | None:
         if k not in mem and _fact_closed(sim, me, k, cat, depth):
             return "branch_closed"
     for a in _after(when):
-        if depth < 6 and a not in done_map(w) and permanent(sim, me, a, cat, depth + 1) in ("exclusive_branch", "branch_closed", "after_unreachable"):
+        if depth < 6 and a not in done_map(w) and _same_line(cat, a, sid) \
+                and permanent(sim, me, a, cat, depth + 1) in ("exclusive_branch", "branch_closed", "after_unreachable"):
             return "after_unreachable"
     grades = _years(when)
     if grades and max(grades) < (me.grade or 0):
         return "year_passed"
     for a in _after(when):
-        if depth < 6 and _done_or_skipped(sim, me, a, cat, depth + 1) == "unreachable":
+        if depth < 6 and _same_line(cat, a, sid) and _done_or_skipped(sim, me, a, cat, depth + 1) == "unreachable":
             return "after_unreachable"
     return None
+
+
+def _same_line(cat, a, sid) -> bool:
+    """Both scenes are in the same storyline (pack). An after-link inside a storyline is part of its branches; one across
+    storylines (a season plan weaving them) only orders them."""
+    sa, sb = cat["scenes"].get(a), cat["scenes"].get(sid)
+    return bool(sa and sb and sa.get("pack") == sb.get("pack"))
 
 
 def _fact_closed(sim, me, fact, cat, depth) -> bool:
@@ -529,6 +543,8 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
     done, seen = done_map(w), seen_map(w)
     if sid in seen and sid not in done:
         return ("in_progress", None)
+    if when.get("skip"):
+        return ("skipped_by_plan", None)
     if sid in done:
         if when.get("once", True):
             return ("played", done[sid][-1])
@@ -549,6 +565,8 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
     last_pre = None
     for a in after:
         st = _done_or_skipped(sim, me, a, cat)
+        if st == "unreachable" and not _same_line(cat, a, sid):
+            continue  # another storyline's scene that can't happen anymore: "after" orders the story, it doesn't cut it off
         if st == "unreachable":
             return ("after_unreachable", a)
         if st == "waiting":
@@ -592,7 +610,38 @@ def _window_over(sim, when, info, day) -> bool:
 
 # chapter order: which reasons step over a chapter (the story moves on) and which hold the storyline (it waits)
 STEP_OVER = {"too_early_year", "year_passed", "missing_requirement", "missing_fact", "exclusive_branch", "waiting_for_scene",
-             "after_unreachable", "mood", "played", "branch_closed"}
+             "after_unreachable", "mood", "played", "branch_closed", "missing_cast"}
+
+
+def castable(sim, me, sid, cat) -> tuple | None:
+    """Is there someone in your story to play this scene's people right now (checked without binding anyone)? None, or
+    ("missing_cast", who)."""
+    from . import dialogue
+    w = sim.w
+    sc = cat["scenes"][sid]
+    who = sc.get("who")
+    when = sc.get("when") or {}
+
+    def feels(o):
+        return (all(dialogue._in(dialogue._rel(w, me.id, o, f), r) for f, r in (when.get("you_feel") or {}).items())
+                and all(dialogue._in(dialogue._rel(w, o, me.id, f), r) for f, r in (when.get("they_feel") or {}).items()))
+    if who and who.startswith("cast:"):
+        name = who[5:]
+        cid = dialogue.bound(sim, name)
+        if cid:
+            if not feels(cid):
+                return ("missing_cast", f"{name}: how you feel about each other isn't in its range")
+        else:
+            spec = dialogue.slot_spec(name)
+            if not spec or not [o for o in dialogue.slot_candidates(sim, me, spec) if feels(o)]:
+                return ("missing_cast", f"nobody fits {name}" + (f" ({dialogue.slot_label(spec)})" if spec else ""))
+    elif who:
+        if not [o for o in dialogue.candidates(sim, me, who) if feels(o)]:
+            return ("missing_cast", f"no {who.replace('_', ' ')} in your story right now")
+    needs = set(sc.get("needs") or [])
+    if needs & {"partner", "partner_first"} and me.flags.get("partner") not in w.chars:
+        return ("missing_cast", "you're not dating anyone")
+    return None
 
 
 def next_chapter(sim, me, pk, cat, day=None, prof=None):
@@ -605,7 +654,7 @@ def next_chapter(sim, me, pk, cat, day=None, prof=None):
             return sid, ("in_progress", None)
         if sid in seen:
             continue
-        g = gate(sim, me, sid, cat, day, prof)
+        g = gate(sim, me, sid, cat, day, prof) or castable(sim, me, sid, cat)
         if g is None:
             return sid, None
         code = "too_early_year" if g == ("too_early", "school year") else g[0]
@@ -660,7 +709,7 @@ def candidates(sim, me, cat, prof, day=None) -> list:
             continue
         when = sc.get("when") or {}
         ch = when.get("chance", 1.0 if when.get("dates") else prof["free_chance"])
-        if _roll(w, sid, day) >= ch:
+        if _roll(w, sid, day) >= ch or castable(sim, me, sid, cat):
             continue
         out.append({"sid": sid, "kind": "free", "pack": sc.get("pack"), "waited": 0, "weight": float(weights.get(sc.get("pack"), 1))})
     for c in out:
@@ -765,6 +814,9 @@ def plan_day(sim):
     if not cat["scenes"]:
         return
     prof = profile(w)
+    nxt = calm.date_of(w.day + 1)
+    if nxt.month == 9 and nxt.day == 1:
+        year_end(sim, me, cat, prof)
     q = queue(w)
     seen_q = set()
     keep = []
@@ -808,6 +860,29 @@ def plan_day(sim):
     for it in picked:
         _note(w, it["sid"], "queued")
     deliver(sim)
+
+
+def year_end(sim, me, cat, prof):
+    """The school year's last day: for every scene this was the last year for that never got to play, note what it was
+    still waiting on (nobody fits, an earlier chapter, a fact, a requirement...) so the report can say."""
+    w = sim.w
+    lg = log(w)
+    g9 = me.grade or 0
+    heads = {pk: next_chapter(sim, me, pk, cat, w.day, prof)[0] for pk in cat["ordered"]}
+    for sid, sc in cat["scenes"].items():
+        if sid in seen_map(w):
+            continue
+        grades = _years(sc.get("when") or {})
+        if not grades or max(grades) != g9:
+            continue
+        why = gate(sim, me, sid, cat, w.day, prof) or castable(sim, me, sid, cat)
+        if why is None:
+            pk = sc.get("pack")
+            if pk in cat["ordered"] and heads.get(pk) not in (None, sid):
+                why = ("chapter_order", heads[pk])
+            else:
+                why = ("never_picked", None)
+        lg[sid] = {"status": "missed", "day": w.day, "reason": why[0], "detail": why[1]}
 
 
 def _me(sim):
@@ -1038,11 +1113,17 @@ def rows(sim, day=None) -> list:
                 r.update({"state": "unreachable" if p else "waiting", "reason": p or g[0],
                           "detail": g[1] if not p or p == g[0] else None})
             le = lg.get(sid)
-            if le and le.get("status") in ("expired", "dropped", "returned"):
+            if le and le.get("status") == "missed" and r.get("reason") == "year_passed":
+                d = le.get("detail")
+                r["missed"] = {"reason": le["reason"], "detail": d}
+                r["detail"] = (REASON_TEXT.get(le["reason"], le["reason"].replace("_", " ")) + (f": {d}" if d else ""))
+                r["why_missed"] = True
+            elif le and le.get("status") in ("expired", "dropped", "returned"):
                 r["last"] = le
                 if le["status"] == "expired" and r["state"] != "eligible":
                     r["state"] = "expired"
-        r["why"] = REASON_TEXT.get(r.get("reason", ""), "")
+        r["why"] = ("its school years ended while it was waiting" if r.get("why_missed")
+                    else REASON_TEXT.get(r.get("reason", ""), ""))
         out.append(r)
     return out
 

@@ -194,7 +194,7 @@ Every section is optional; use the ones you need.
 - `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.
 - `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.
 - `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask back, follow-ups, flirt lines by style. See Texting lines.
-- `schedule`: when episodes of any storyline air: `{"scene_id": {"years": ["sophomore"], "after": ["other_scene"], "gap_days": 7, "months": [11, 12], "importance": "major"}}`, plus optional `not_before` / `not_after` (month-day inside the school year, like `"11-15"`). A season plan uses this to weave all your storylines into one story.
+- `schedule`: when episodes of any storyline air: `{"scene_id": {"years": ["sophomore"], "after": ["other_scene"], "gap_days": 7, "months": [11, 12], "importance": "major"}}`, plus optional `not_before` / `not_after` (month-day inside the school year, like `"11-15"`). A season plan uses this to weave all your storylines into one story. A later pack can adjust what an earlier one set: `"replace_after": true` swaps out a scene's `after` instead of adding to it, and `"skip": true` retires a scene.
 
 ## Texting lines
 

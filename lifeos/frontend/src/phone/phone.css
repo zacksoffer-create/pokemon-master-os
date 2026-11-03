@@ -914,3 +914,23 @@ html.ph-html body { color-scheme: light; }
 .sch-rep-counts b { font-size: 18px; } .sch-rep-counts small { font-size: 11px; color: var(--ph-dim); font-weight: 700; }
 .sch-rep-h { font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ph-dim); margin-top: 6px; }
 .sch-rep-l { font-size: 13px; color: var(--ph-ink-2); overflow-wrap: anywhere; } .sch-rep-l.bad { color: #b23b3b; } .sch-rep-l.ok { color: #187a5c; }
+
+/* add to your story */
+.sch-add textarea { width: 100%; resize: vertical; font-size: 14px; }
+.sch-add textarea.mono { font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+.sch-step { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.sch-step i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--ph-grape); color: #fff; font-size: 12px; font-weight: 800; }
+.sch-step b { font-size: 14.5px; }
+.sch-sugg { display: flex; flex-wrap: wrap; gap: 6px; }
+.ph-root .sch-sugg button { --btn-bg: #fbf6ef; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: var(--ph-ink-2); text-align: left; }
+.sch-prompt { display: flex; flex-direction: column; gap: 8px; }
+.sch-row2 { display: flex; gap: 8px; }
+.sch-pv { display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 16px; background: #f4fbf7; box-shadow: inset 0 0 0 1.5px #c9ecd9; }
+.sch-pv.bad { background: #fff4f4; box-shadow: inset 0 0 0 1.5px #f3caca; }
+.sch-cov { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.sch-cov-g { display: grid; grid-template-columns: 74px repeat(12, 1fr); gap: 3px; align-items: center; }
+.sch-cov-g > i { font-style: normal; font-size: 10px; text-align: center; color: var(--ph-dim); font-weight: 700; }
+.sch-cov-g > b { font-size: 10.5px; color: var(--ph-ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sch-cov-c { height: 18px; border-radius: 4px; background: var(--ph-grape); position: relative; }
+.sch-cov-c[data-n=""] { background: #efe6da; }
+.sch-cov-c::after { content: attr(data-n); position: absolute; inset: 0; display: grid; place-items: center; font-size: 9.5px; font-weight: 800; color: #fff; }

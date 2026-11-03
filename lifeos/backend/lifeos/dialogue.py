@@ -559,6 +559,10 @@ def _check_range(R, where, rng, lo, hi):
     _num(R, where, rng[1], lo, hi)
 
 
+WHEN_KEYS = {"chance", "years", "months", "dates", "weekdays", "requires", "you_feel", "they_feel", "me",
+             "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days", "not_before", "not_after", "importance"}
+
+
 def _check_scene(R, where, sc, seen_ids):
     base_moments = _base("moments.json")["moments"]
     if not isinstance(sc, dict):
@@ -574,7 +578,9 @@ def _check_scene(R, where, sc, seen_ids):
     else:
         seen_ids.add(sid)
     for k in sc:
-        if k not in ("id", "title", "text", "by_text", "who", "when", "choices", "notes"):
+        if k in WHEN_KEYS:
+            R.warn(where, f"'{k}' is ignored here: it goes inside \"when\", like \"when\": {{\"{k}\": ...}}")
+        elif k not in ("id", "title", "text", "by_text", "who", "when", "choices", "notes"):
             R.warn(where, f"'{k}' is ignored (a scene has id, title, text, by_text, who, when, choices)")
     who = sc.get("who")
     if isinstance(who, str) and who.startswith("cast:"):
@@ -599,8 +605,7 @@ def _check_scene(R, where, sc, seen_ids):
     if not isinstance(when, dict):
         R.err(where + ".when", "when is an object, like {\"chance\": 0.05, \"years\": [\"freshman\"]}")
         when = {}
-    allowed_when = {"chance", "years", "months", "dates", "weekdays", "requires", "you_feel", "they_feel", "me",
-                    "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days", "not_before", "not_after", "importance"}
+    allowed_when = WHEN_KEYS
     for k, v in when.items():
         w = f"{where}.when.{k}"
         if k not in allowed_when:
@@ -909,7 +914,7 @@ def check(pack: dict) -> dict:
     return {"ok": not R.errors, "errors": R.errors, "warnings": R.warnings, "summary": added}
 
 
-SCHEDULE_KEYS = ("years", "after", "gap_days", "months", "not_before", "not_after", "importance")
+SCHEDULE_KEYS = ("years", "after", "gap_days", "months", "not_before", "not_after", "importance", "replace_after", "skip")
 
 
 def _check_schedule(R, sch) -> int:
@@ -949,6 +954,8 @@ def _check_schedule(R, sch) -> int:
                     R.err(f"{w}.{k}", 'is a month-day inside the school year, like "11-15"')
             elif k == "importance" and x not in ("ambient", "regular", "major", "finale"):
                 R.err(f"{w}.importance", "is ambient, regular, major or finale")
+            elif k in ("replace_after", "skip") and not isinstance(x, bool):
+                R.err(f"{w}.{k}", "is true or false")
         n += 1
     return n
 
@@ -1073,14 +1080,33 @@ def _read_dir_now(folder, source):
     return out
 
 
+_trial: list = []
+
+
 def packs() -> list:
     """Every pack the game knows about, in load order, with whether it's on and what it adds."""
     disabled = set(_state().get("disabled", []))
     out = []
-    for p in _read_dir(BUILTIN_DIR, "builtin") + _read_dir(USER_DIR, "yours"):
+    for p in _read_dir(BUILTIN_DIR, "builtin") + _read_dir(USER_DIR, "yours") + [dict(t) for t in _trial]:
         p["enabled"] = p["id"] not in disabled and p["check"]["ok"]
         out.append(p)
     return out
+
+
+class trial_pack:
+    """with trial_pack(pack): the game sees this pack as if it were added (for a preview), and forgets it after."""
+    def __init__(self, pack: dict):
+        self.p = {"id": "yours:__trial__", "file": "__trial__.json", "source": "yours", "pack": pack, "check": check(pack)}
+
+    def __enter__(self):
+        _trial[:] = [self.p]
+        reload()
+        return self
+
+    def __exit__(self, *exc):
+        _trial.clear()
+        reload()
+        return False
 
 
 def pack_summary(p) -> dict:
@@ -1247,8 +1273,9 @@ def _build(only: set | None = None) -> dict:
                     when = dict(sc.get("when") or {})
                     for k, v in sch.items():
                         if k == "after":
-                            when["after"] = sorted(set((when.get("after") or []) + (v if isinstance(v, list) else [v])))
-                        elif k in SCHEDULE_KEYS:
+                            add = v if isinstance(v, list) else [v]
+                            when["after"] = sorted(set(add if sch.get("replace_after") else (when.get("after") or []) + add))
+                        elif k in SCHEDULE_KEYS and k != "replace_after":
                             when[k] = v
                     sc["when"] = when
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
@@ -2123,7 +2150,9 @@ def guide_markdown() -> str:
       "back, follow-ups, flirt lines by style. See Texting lines.")
     a("- `schedule`: when episodes of any storyline air: `{\"scene_id\": {\"years\": [\"sophomore\"], \"after\": [\"other_scene\"], "
       "\"gap_days\": 7, \"months\": [11, 12], \"importance\": \"major\"}}`, plus optional `not_before` / `not_after` (month-day inside "
-      "the school year, like `\"11-15\"`). A season plan uses this to weave all your storylines into one story.\n")
+      "the school year, like `\"11-15\"`). A season plan uses this to weave all your storylines into one story. A later "
+      "pack can adjust what an earlier one set: `\"replace_after\": true` swaps out a scene's `after` instead of adding to it, "
+      "and `\"skip\": true` retires a scene.\n")
     a("## Texting lines\n")
     a("When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a "
       "`chat` section. Every list is short lines; `{me}` is your first name.\n")
