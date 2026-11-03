@@ -152,6 +152,11 @@ export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; na
   new?: { sid: string; title: string; state: string; date?: string; reason?: string; why?: string; detail?: any }[]; new_played?: number;
   changed?: { sid: string; title: string; state: string; date?: string; why?: string; reason?: string }[]; already_there?: string[];
   played_total?: number; before?: number | null; coverage?: Coverage; replaces?: string[]; script?: boolean };
+export type ReadScene = { sid: string; title: string; storyline: string; pack: string; src: string; plays: boolean; date: string | null;
+  day: number | null; why: string | null; detail: any; year: string | null };
+export type StorylineRead = { title: string; pack: string; total: number; plays: number; scenes: ReadScene[]; coverage: Coverage;
+  parts: { pack: string; name: string; expands: string | null; scenes: number; plays: number }[];
+  wont: { why: string; count: number; titles: string[] }[] };
 export type UpNextRow = { sid: string; title: string; storyline: string; pack: string; day: number; date: string; in_days: number;
   importance: string; ready: boolean; waits_for: string[] };
 export type UpNext = { now: { sid: string; title: string } | null; list: UpNextRow[]; date: string;
@@ -256,8 +261,13 @@ export const phoneApi = {
   orderClear: (sid?: string): Promise<UpNext> => api.post("/api/story/order/clear", sid ? { sid } : {}),
   schedule: (): Promise<ScheduleView> => api.get("/api/story/schedule"),
   scheduleReport: (days: number): Promise<ScheduleReport> => api.get(`/api/story/schedule/report?days=${days}&fmt=both`),
-  addPrompt: (ask: string): Promise<{ prompt: string; chars: number; suggestions: string[]; checked: boolean; last_check: { coverage: Coverage } | null }> =>
-    api.get(`/api/story/add/prompt?ask=${encodeURIComponent(ask)}`),
+  addPrompt: (ask: string, size = ""): Promise<{ prompt: string; chars: number; suggestions: string[]; ideas: string[]; sizes: Record<string, string>;
+    checked: boolean; last_check: { coverage: Coverage } | null }> =>
+    api.get(`/api/story/add/prompt?ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`),
+  expand: (pack: string, ask: string, size: string): Promise<{ prompt: string; chars: number; title: string; pack: string; expansions: string[];
+    ideas: string[]; sizes: Record<string, string> }> =>
+    api.get(`/api/story/add/expand?pack=${encodeURIComponent(pack)}&ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`),
+  readStoryline: (pack: string): Promise<StorylineRead> => api.get(`/api/story/storyline/read?pack=${encodeURIComponent(pack)}`),
   addPreview: (text: string, target?: { pack: string; after: string | null }): Promise<AddPreview> =>
     api.post("/api/story/add/preview", target ? { text, pack: target.pack, after: target.after || "" } : { text }),
   addInsert: (pack: string, after: string | null, text: string) => api.post("/api/story/add/insert", { pack, after: after || "", text }),

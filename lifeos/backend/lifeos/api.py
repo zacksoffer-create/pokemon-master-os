@@ -1323,14 +1323,49 @@ def api_schedule_report(days: int = 2565, profile: str = "", full: int = 0, fmt:
 
 
 @app.get("/api/story/add/prompt")
-def api_story_add_prompt(ask: str = ""):
+def api_story_add_prompt(ask: str = "", size: str = ""):
     """Add to your story: the ChatGPT prompt (your family, cast, every storyline, how the seven years play now, the rules)."""
     from . import storybuilder
     L = _story_lab()
     with L.lock:
-        text = storybuilder.prompt(L.sim, ask)
-        return {"prompt": text, "chars": len(text), "suggestions": storybuilder.SUGGESTIONS,
-                "checked": bool(L.w.meta.get("last_check")), "last_check": L.w.meta.get("last_check")}
+        text = storybuilder.prompt(L.sim, ask, size)
+        return {"prompt": text, "chars": len(text), "suggestions": storybuilder.SUGGESTIONS, "ideas": storybuilder.IDEAS,
+                "sizes": storybuilder.SIZES, "checked": bool(L.w.meta.get("last_check")), "last_check": L.w.meta.get("last_check")}
+
+
+@app.get("/api/story/storyline/read")
+def api_storyline_read(pack: str):
+    """Read a storyline and its expansions the way they'd play (your seven years forward on a copy): every scene in order
+    with its date, what won't come and why, and the months it fills. Nothing is saved."""
+    from . import dialogue, storybuilder
+    L = _story_lab()
+    with L.lock:
+        key = (id(dialogue.merged()), L.w.day, pack, len(L.w.meta.get("moments") or []))
+        hit = getattr(L, "read_cache", None)
+        if hit and hit[0] == key:
+            return hit[1]
+        try:
+            out = storybuilder.read_storyline(lambda: _copy_sim(L), pack)
+        except KeyError:
+            raise HTTPException(404, "no such storyline")
+        L.read_cache = (key, out)
+        return out
+
+
+@app.get("/api/story/add/expand")
+def api_story_add_expand(pack: str, ask: str = "", size: str = "bunch"):
+    """An expansion of one storyline: the ChatGPT prompt (its script, the expansions it has, the facts it remembers, your
+    family and cast). The answer is just the new expansion; paste it like any script."""
+    from . import storybuilder
+    L = _story_lab()
+    with L.lock:
+        try:
+            r = storybuilder.expand_prompt(L.sim, pack, ask, size)
+        except KeyError:
+            raise HTTPException(404, "no such storyline")
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        return {**r, "ideas": storybuilder.IDEAS, "sizes": storybuilder.SIZES}
 
 
 @app.get("/api/story/add/weave")
@@ -1594,7 +1629,7 @@ def api_dialogue_packs():
 def api_dialogue_check(body: dict = Body(...)):
     from . import dialogue, script
     if isinstance(body.get("text"), str) and script.looks_like_script(script.extract(body["text"])):
-        r = script.compile_script(script.extract(body["text"]))
+        r = script.compile_script(script.extract(body["text"]), library=dialogue.library())
         return {"ok": not r["errors"], "script": True, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]],
                 "error_lines": r["errors"], "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]],
                 "summary": r["summary"], "name": ", ".join(p["name"] for p in r["packs"])}

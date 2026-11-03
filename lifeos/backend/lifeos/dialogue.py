@@ -209,7 +209,8 @@ SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "siblin
                "me_first", "school", "town", "sport", "pet", "my_team", "my_team_record", "my_team_star", "mlb_champ",
                "my_nfl_team", "my_nba_team", "my_college", "my_nfl_record", "my_nba_record", "my_cfb_record", "my_mbb_record",
                "my_wbb_record", "nfl_champ", "nba_champ", "cfb_champ", "mbb_champ", "wbb_champ", "my_club", "epl_champ",
-               "ucl_champ", "ballon_dor"}  # (the last three rows: pro.py)
+               "ucl_champ", "ballon_dor",  # (the last three rows: pro.py)
+               "teacher", "class"}  # (a scene set in one of your classes: `in biology`)
 DEFAULT_CHANCE = 0.04
 CHAPTER_CHANCE = 0.5    # the relaxed profile's odds a due chapter comes today (pacing lives in scheduler.py now)
 MAX_BEATS = 5           # how deep a scene can keep going with "then" (a script's choices under choices)
@@ -411,7 +412,7 @@ def _check_ops(R, where, ops, refs, names, depth=0):
             R.err(w, f"'{name}' isn't an op.{_suggest(name, OPS)} Ops: {', '.join(OPS)}")
             continue
         n = OPS[name][0]
-        if len(args) != n:
+        if len(args) != n and not (name == "vibe" and len(args) == 3):  # (a vibe can carry more effects per outcome)
             R.err(w, f"{name} takes {n} value{'s' if n != 1 else ''}, like {OPS[name][1]}")
             continue
         ref_ok = lambda r: r in refs or R.err(w, f"'{r}' isn't someone this can refer to here. Use one of: {', '.join(sorted(refs)) or 'nobody'}")  # noqa: E731
@@ -475,7 +476,13 @@ def _check_ops(R, where, ops, refs, names, depth=0):
             if not isinstance(args[0], str) or not SLUG.match(args[0]):
                 R.err(w, "a remembered fact " + _slug_problem(args[0]).replace("needs a short lowercase id", "needs a short lowercase name").removeprefix("is "))
         elif name == "vibe":
-            style, outs = args
+            style, outs = args[0], args[1]
+            if len(args) > 2:  # what else happens on each outcome: {"good": [ops], ...}
+                if not isinstance(args[2], dict) or any(k not in ("good", "meh", "bad") or not isinstance(v, list) for k, v in args[2].items()):
+                    R.err(w, 'the third value maps good / meh / bad to more effects, like {"good": [["mood", 2]]}')
+                else:
+                    for k, v in args[2].items():
+                        _check_ops(R, f"{w} ({k})", v, refs, names, depth + 1)
             if style not in VIBE_STYLES:
                 R.err(w, f"'{style}' isn't a style. Use: {', '.join(VIBE_STYLES)}")
             if "them" not in refs:
@@ -629,15 +636,20 @@ def _check_scene(R, where, sc, seen_ids):
             for m in v if isinstance(v, list) else [v]:
                 _num(R, w, m, 1, 12)
         elif k == "dates":
+            from . import calendar as _calm
             for d in v if isinstance(v, list) else [v]:
-                if not (isinstance(d, str) and re.match(r"^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$", d)):
-                    R.err(w, f"'{d}' should look like \"10-31\" (month-day)")
+                if not (isinstance(d, str) and (re.match(r"^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$", d) or d in _calm.NAMED_DAYS)):
+                    R.err(w, f"'{d}' should look like \"10-31\" (month-day) or be a named day: {', '.join(_calm.NAMED_DAYS)}")
         elif k == "weekdays":
             for d in v if isinstance(v, list) else [v]:
                 if d not in WEEKDAYS:
                     R.err(w, f"'{d}' isn't a weekday. Use: {', '.join(WEEKDAYS)}")
         elif k == "requires":
             for r in v if isinstance(v, list) else [v]:
+                if isinstance(r, str) and r.startswith("class:"):
+                    if r[6:] not in class_subjects():
+                        R.err(w, f"'{r[6:]}' isn't a class. Classes: {', '.join(sorted(class_subjects()))}")
+                    continue
                 if r not in REQUIRES and not (isinstance(r, str) and r.startswith("pro:") and _pro().known(r)):
                     every = {**REQUIRES, **_pro().REQUIRES}
                     R.err(w, f"'{r}' isn't something a scene can require.{_suggest(r, every)} Use: {', '.join(every)}, "
@@ -1052,62 +1064,158 @@ def _save_state(st):
     os.replace(tmp, _state_path())
 
 
-_dir_cache: dict = {}
+_dir_cache: dict = {}   # (folder, source) -> (when it was last looked at, the packs)
+_file_cache: dict = {}  # (folder, file) -> (mtime, size, its packs): a file is compiled once until it changes
+DIR_RECHECK = 2.0       # seconds: packs() is called constantly; the folder is looked at again at most this often
+
+
+_EXP_RE = re.compile(r"^\s*expands\s*:\s*(.+?)\s*$", re.I | re.M)
+_exp_cache: dict = {}  # (folder, file) -> (stamp, the storyline it expands or None)
+
+
+def _expands_of(folder, fn, stamp):
+    hit = _exp_cache.get((folder, fn))
+    if hit and hit[0] == stamp:
+        return hit[1]
+    par = None
+    if fn.endswith(".story"):
+        try:
+            with open(os.path.join(folder, fn), encoding="utf-8") as f:
+                m = _EXP_RE.search(f.read())
+            par = m.group(1) if m else None
+        except OSError:
+            par = None
+    _exp_cache[(folder, fn)] = (stamp, par)
+    return par
+
+
+def _parent_sig(lib, title) -> str:
+    """What an expansion takes from its storyline (cast and scene titles): if that changes, it's compiled again."""
+    p = lib.get((title or "").lower())
+    if not p:
+        return "none"
+    return json.dumps([p.get("name"), p.get("cast") or {}, [(sc.get("title"), sc.get("id")) for sc in p.get("scenes") or [] if isinstance(sc, dict)]],
+                      sort_keys=True, default=str)
 
 
 def _read_dir(folder, source):
-    """The packs in a folder, read and checked once until a file changes (packs() is called often: every scene start)."""
+    """The packs in a folder. Each file is read and compiled once until it changes (and a compiled script is kept on disk,
+    so the phone doesn't compile your whole library every time it opens); the folder itself is looked at again only
+    every couple of seconds, or right after reload(). Expansions load after the storylines they add to."""
+    import time
     if not os.path.isdir(folder):
         return []
-    names = sorted(fn for fn in os.listdir(folder) if (fn.endswith(".json") or fn.endswith(".story")) and fn != "state.json")
-    sig = []
-    for fn in names:
+    now = time.monotonic()
+    hit = _dir_cache.get((folder, source))
+    if hit and now - hit[0] < DIR_RECHECK:
+        return [dict(p) for p in hit[1]]
+    first, later = [], []
+    for fn in sorted(os.listdir(folder)):
+        if not (fn.endswith(".json") or fn.endswith(".story")) or fn == "state.json":
+            continue
         try:
             st = os.stat(os.path.join(folder, fn))
-            sig.append((fn, st.st_mtime_ns, st.st_size))
+            stamp = (st.st_mtime_ns, st.st_size)
         except OSError:
-            sig.append((fn, 0, 0))
-    hit = _dir_cache.get((folder, source))
-    if hit and hit[0] == sig:
-        return [dict(p) for p in hit[1]]
-    out = _read_dir_now(folder, source)
-    _dir_cache[(folder, source)] = (sig, out)
+            continue
+        par = _expands_of(folder, fn, stamp)
+        (later if par else first).append((fn, stamp, par))
+    out = []
+    for fn, stamp, _ in first:
+        fc = _file_cache.get((folder, fn))
+        if not fc or fc[0] != stamp:
+            fc = _file_cache[(folder, fn)] = (stamp, _read_file(folder, fn, source))
+        out.extend(fc[1])
+    lib = library(out)
+    for fn, stamp, par in later:
+        sig = _parent_sig(lib, par)
+        fc = _file_cache.get((folder, fn))
+        if not fc or fc[0] != (stamp, sig):
+            fc = _file_cache[(folder, fn)] = ((stamp, sig), _read_file(folder, fn, source, lib, sig))
+        out.extend(fc[1])
+    _dir_cache[(folder, source)] = (now, out)
     return [dict(p) for p in out]
 
 
-def _read_dir_now(folder, source):
-    from . import script as SC
-    out = []
-    for fn in sorted(os.listdir(folder)):
-        if fn.endswith(".story"):  # a story script: one or more storylines (=== sections), compiled here
-            stem = fn[:-6]
+def library(recs=None) -> dict:
+    """Your storylines by title (lowercase) -> pack: what expansions add to."""
+    recs = packs() if recs is None else recs
+    return {str(p["pack"].get("name")).lower(): p["pack"] for p in recs
+            if p["pack"].get("name") and p["pack"].get("scenes") is not None and not p["pack"].get("expands")}
+
+
+def _touched(path):
+    """The game just wrote or removed this file: forget its compile (a timestamp alone can miss a quick same-size edit)."""
+    _file_cache.pop((os.path.dirname(path), os.path.basename(path)), None)
+
+
+_COMPILER_KEY = None
+
+
+def _compiler_key() -> str:
+    """Changes whenever the script compiler or the checker changes (so a kept compile is never stale)."""
+    global _COMPILER_KEY
+    if _COMPILER_KEY is None:
+        import hashlib
+        from . import script as SC
+        h = hashlib.sha1()
+        for f in (SC.__file__, __file__):
             try:
-                with open(os.path.join(folder, fn), encoding="utf-8") as f:
-                    text = f.read()
-                r = SC.compile_script(text, default_title=stem.replace("_", " ").title())
-            except (OSError, ValueError) as e:
-                out.append({"id": f"{source}:{stem}", "file": fn, "source": source, "pack": {"name": stem}, "kind": "script",
-                            "script": "", "check": {"ok": False, "errors": [f"couldn't read it: {e}"], "warnings": [], "summary": {}}})
-                continue
+                with open(f, "rb") as fh:
+                    h.update(fh.read())
+            except OSError:
+                h.update(f.encode())
+        _COMPILER_KEY = h.hexdigest()[:16]
+    return _COMPILER_KEY
+
+
+def _read_file(folder, fn, source, lib=None, sig="") -> list:
+    """One file's packs: a story script (compiled, or its kept compile) or an old JSON pack. lib: the storylines an
+    expansion can add to (sig: what it takes from them, part of the kept compile's key)."""
+    from . import script as SC
+    path = os.path.join(folder, fn)
+    if fn.endswith(".story"):  # a story script: one or more storylines (=== sections)
+        stem = fn[:-6]
+        try:
+            with open(path, encoding="utf-8") as f:
+                text = f.read()
+        except (OSError, ValueError) as e:
+            return [{"id": f"{source}:{stem}", "file": fn, "source": source, "pack": {"name": stem}, "kind": "script",
+                     "script": "", "check": {"ok": False, "errors": [f"couldn't read it: {e}"], "warnings": [], "summary": {}}}]
+        import hashlib
+        key = hashlib.sha1((_compiler_key() + "\0" + sig + "\0" + text).encode("utf-8")).hexdigest()
+        kept = os.path.join(folder, ".compiled", stem + ".json")
+        recs = None
+        try:
+            with open(kept, encoding="utf-8") as f:
+                k = json.load(f)
+            if k.get("key") == key:
+                recs = k["recs"]
+        except (OSError, ValueError, KeyError):
+            recs = None
+        if recs is None:
+            r = SC.compile_script(text, default_title=stem.replace("_", " ").title(), library=lib if lib is not None else {})
             errs = [f"line {e['line']}: {e['text']}" for e in r["errors"]]
             warns = [f"line {e['line']}: {e['text']}" for e in r["warnings"]]
-            for i, pk in enumerate(r["packs"] or [{"name": stem}]):
-                rep = check(pk) if not errs else {"summary": {}}
-                out.append({"id": f"{source}:{stem}" + (f"~{i + 1}" if i else ""), "file": fn, "source": source, "pack": pk,
-                            "kind": "script", "script": text,
-                            "check": {"ok": not errs, "errors": errs, "warnings": warns, "summary": rep.get("summary", {})}})
-            continue
-        if not fn.endswith(".json") or fn == "state.json":
-            continue
-        pid = f"{source}:{fn[:-5]}"
-        try:
-            with open(os.path.join(folder, fn), encoding="utf-8") as f:
-                data = json.load(f)
-            rep = check(data)
-        except (OSError, ValueError) as e:
-            data, rep = {}, {"ok": False, "errors": [f"couldn't read it: {e}"], "warnings": [], "summary": {}}
-        out.append({"id": pid, "file": fn, "source": source, "pack": data, "check": rep})
-    return out
+            sums = r.get("pack_summaries") or []
+            recs = [{"id": f"{source}:{stem}" + (f"~{i + 1}" if i else ""), "file": fn, "source": source, "pack": pk, "kind": "script",
+                     "check": {"ok": not errs, "errors": errs, "warnings": warns, "summary": (sums[i] if i < len(sums) and not errs else {})}}
+                    for i, pk in enumerate(r["packs"] or [{"name": stem}])]
+            try:
+                os.makedirs(os.path.dirname(kept), exist_ok=True)
+                with open(kept + ".tmp", "w", encoding="utf-8") as f:
+                    json.dump({"key": key, "recs": recs}, f, separators=(",", ":"))
+                os.replace(kept + ".tmp", kept)
+            except OSError:
+                pass  # (keeping the compile is only a speed-up)
+        return [{**rec, "script": text} for rec in recs]
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        rep = check(data)
+    except (OSError, ValueError) as e:
+        data, rep = {}, {"ok": False, "errors": [f"couldn't read it: {e}"], "warnings": [], "summary": {}}
+    return [{"id": f"{source}:{fn[:-5]}", "file": fn, "source": source, "pack": data, "check": rep}]
 
 
 _trial: list = []
@@ -1158,6 +1266,7 @@ def pack_summary(p) -> dict:
             "warnings": p["check"]["warnings"][:20], "summary": p["check"]["summary"],
             "scenes": [{"id": s.get("id"), "title": s.get("title"), "who": s.get("who")} for s in pk.get("scenes", []) if isinstance(s, dict)],
             "kind": kind, "file": p.get("file"), "lines": sum(len(v) for v in (pk.get("texts") or {}).values()),
+            "expands": pk.get("expands"),
             "cast": [{"name": k, "who": v.get("who"), "label": slot_label(normalize_slot(v))} for k, v in (pk.get("cast") or {}).items()]}
 
 
@@ -1172,6 +1281,7 @@ def add_pack(data: dict) -> dict:
     with open(path + ".tmp", "w", encoding="utf-8") as f:
         json.dump(data, f, indent=1, ensure_ascii=False)
     os.replace(path + ".tmp", path)
+    _touched(path)
     st = _state()
     st["disabled"] = [d for d in st.get("disabled", []) if d != f"yours:{base}"]
     _save_state(st)
@@ -1199,6 +1309,11 @@ def remove_pack(pid: str):
         path = os.path.join(USER_DIR, f"{name}{ext}")
         if os.path.exists(path):
             os.remove(path)
+            _touched(path)
+            try:
+                os.remove(os.path.join(USER_DIR, ".compiled", f"{name}.json"))  # (its kept compile)
+            except OSError:
+                pass
             reload()
             return
     raise KeyError(pid)
@@ -1267,7 +1382,7 @@ def add_script(text: str, into: str | None = None) -> dict:
     you update one). into=<pack id> saves the text as that storyline's file instead (editing it in place)."""
     from . import script as SC
     src = SC.extract(text)
-    r = SC.compile_script(src)
+    r = SC.compile_script(src, library=library())
     if r["errors"]:
         return {"ok": False, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]], "warnings": r["warnings"],
                 "error_lines": r["errors"]}
@@ -1282,6 +1397,7 @@ def add_script(text: str, into: str | None = None) -> dict:
         with open(path + ".tmp", "w", encoding="utf-8") as f:
             f.write(body)
         os.replace(path + ".tmp", path)
+        _touched(path)
         ids.append("yours:" + os.path.basename(path)[:-6])
     st = _state()
     st["disabled"] = [d for d in st.get("disabled", []) if d not in ids]
@@ -1399,10 +1515,11 @@ def _build(only: set | None = None) -> dict:
                     d["packs"].append(p["id"])
     # scripts can name another storyline's scene ("after Same Team: Cut day"): resolve those by title now that all are in
     titles = {}
+    pack_names = {x["id"]: x["pack"].get("name") or "" for x in packs()}
     for mid, mm in moments.items():
         scn = mm.get("scene")
         if scn:
-            nm = next((x["pack"].get("name") for x in packs() if x["id"] == scn.get("pack")), "")
+            nm = pack_names.get(scn.get("pack"), "")
             titles.setdefault(str(mm.get("title", "")).lower(), mid)
             titles[f"{str(nm).lower()}: {str(mm.get('title', '')).lower()}"] = mid
     resolve = lambda r: titles.get(r[1:].strip().lower()) if isinstance(r, str) and r.startswith("@") else r  # noqa: E731
@@ -1697,7 +1814,40 @@ def _requirement(sim, me, r) -> bool:
         return (me.grade or 0) <= 12
     if r == "in_college":
         return (me.grade or 0) >= 13
+    if isinstance(r, str) and r.startswith("class:"):
+        return my_class(sim, me, r[6:]) is not None and calm.is_school_day(w.day, cal)
     return False
+
+
+_SUBJECTS = None
+
+
+def class_subjects() -> dict:
+    """Every class subject a scene can be set in (biology, chemistry, spanish...) -> a class name for it."""
+    global _SUBJECTS
+    if _SUBJECTS is None:
+        d = _base("classes.json")
+        out = {}
+        for rows in d["grades"].values():
+            for r in rows:
+                for spec in (r["std"], r["hon"]):
+                    out.setdefault(spec[1], spec[0])
+        for e in d.get("electives") or []:
+            out.setdefault(e["class"][1], e["class"][0])
+        _SUBJECTS = out
+    return _SUBJECTS
+
+
+def my_class(sim, me, subject):
+    """Your class in that subject this school year (its name and teacher), or None."""
+    from . import classes
+    if (me.grade or 0) > 12:
+        return None
+    try:
+        sched = classes.schedule(sim, me)
+    except Exception:  # noqa: BLE001  (no schedule for this person)
+        return None
+    return next((c for c in sched if c.get("subject") == subject), None)
 
 
 def _remembered_who(w, key):
@@ -1719,7 +1869,7 @@ def _when_ok(sim, me, sid, when, ignore_time=False) -> bool:
         if seen and when.get("cooldown_days") and w.day - seen[-1] < when["cooldown_days"]:
             return False
         d = calm.date_of(w.day)
-        if when.get("dates") and f"{d.month:02d}-{d.day:02d}" not in when["dates"]:
+        if when.get("dates") and not calm.date_matches(w.day, when["dates"], sim.cat.world["calendar"]):
             return False
         if when.get("months") and d.month not in when["months"]:
             return False
@@ -1762,7 +1912,8 @@ def set_cast(w, pack, who, cid):
 # (never a new or changed one), and stays bound for the whole run: through graduation, college, everything. Every pack that
 # uses the same slot name gets the same person. If nobody fits, those scenes just don't happen.
 
-CAST_FIELDS = ("who", "gender", "sport", "grade_offset", "bind", "bond", "floor", "label")
+CAST_FIELDS = ("who", "gender", "sport", "grade_offset", "bind", "bond", "floor", "label", "of")
+OF_KINDS = ("friend", "best_friend", "teammate", "partner")  # "friend of sis": someone in another cast member's life
 CAST_ALIASES = {"relationship_to_player": "who", "grade_offset_at_player_freshman": "grade_offset", "grade_offset_at_start": "grade_offset"}
 CAST_SPORT_FLAGS = {"basketball_player": "basketball", "football_player": "football", "baseball_player": "baseball", "soccer_player": "soccer",
                     "softball_player": "softball"}
@@ -1810,7 +1961,14 @@ def _check_cast(R, cast) -> set:
                 R.warn(w, f"'{k}' is ignored. A cast slot has: {', '.join(CAST_FIELDS)}")
         n = normalize_slot(spec)
         who = n.get("who")
-        if who not in CASTABLE:
+        if n.get("of") is not None:
+            if who not in OF_KINDS:
+                R.err(w + ".who", f"someone in another person's life is their {', '.join(OF_KINDS)}; not '{who}'")
+                continue
+            if not isinstance(n["of"], str) or n["of"] not in cast or n["of"] == name:
+                R.err(w + ".of", f"'{n['of']}' has to be another person in this storyline's cast ({', '.join(k for k in cast if k != name) or 'none yet'})")
+                continue
+        elif who not in CASTABLE:
             R.err(w + ".who", f"'{who}' isn't a kind of person a slot can be. Use one of: {', '.join(CASTABLE)}")
             continue
         g = n.get("gender")
@@ -1848,6 +2006,9 @@ def slot_spec(name):
 def slot_label(spec) -> str:
     if spec.get("label"):
         return spec["label"]
+    if spec.get("of"):
+        kind = {"friend": "a friend", "best_friend": "the best friend", "teammate": "a teammate", "partner": "the boyfriend or girlfriend"}
+        return f"{kind.get(spec.get('who'), 'someone')} of {spec['of']}" + (f", who plays {spec['sport']}" if spec.get("sport") else "")
     bits = [WHO.get(spec.get("who"), "someone")[:-1].lower()]
     if spec.get("sport"):
         bits.append(f"who plays {spec['sport']}")
@@ -1869,10 +2030,42 @@ def plays(sim, c, sport) -> bool:
     return c.skills.get(sport, 0) >= 55 or c.interests.get(sport, 0) >= 70
 
 
+def _people_of(sim, me, who, base) -> list:
+    """Someone in another person's life (their friends, best friend, teammates, partner), best fit first: never you or your
+    family, and never someone another slot already means."""
+    w = sim.w
+    taken = {r.get("id") for r in (w.meta.get("cast_slots") or {}).values()}
+    fam = _family(sim, me) | {me.id, base}
+    ok = lambda o: o in w.chars and w.chars[o].status == "active" and o not in fam and o not in taken  # noqa: E731
+    b = w.chars[base]
+    if who == "partner":
+        p = b.flags.get("partner")
+        return [p] if p and ok(p) else []
+    if who == "teammate":
+        mates = set()
+        for gid in b.memberships:
+            g = w.groups.get(gid)
+            if g and g.get("skill") in sim.cat.sports["sports"]:
+                mates |= {m for m in g["members"] if ok(m)}
+        return sorted(mates, key=lambda o: (-_rel(w, base, o, "affection"), o))
+    thr = w.rules.get("rel.friend_threshold", 35)
+    fr = sorted((o for o in w.out.get(base, {}) if ok(o) and w.chars[o].role != "staff" and _rel(w, base, o, "affection") >= thr),
+                key=lambda o: (-_rel(w, base, o, "affection"), o))
+    if not fr:  # nobody that close yet: the storyline makes it so with the best fit around them (same school, same year)
+        pool = [c.id for c in w.students() if ok(c.id) and c.school == b.school and c.role != "staff"]
+        fr = sorted(pool, key=lambda o: (-_rel(w, base, o, "affection"), abs((w.chars[o].grade or 0) - (b.grade or 0)),
+                                         -_rel(w, base, o, "familiarity"), o))[:12]
+    return fr[:1] if who == "best_friend" else fr
+
+
 def slot_candidates(sim, me, spec) -> list:
     """Everyone in your story who fits a slot right now."""
     w = sim.w
-    out = candidates(sim, me, spec["who"])
+    if spec.get("of"):
+        base = bound(sim, spec["of"]) or (bind(sim, me, spec["of"]) if spec["of"] in merged()["cast"] else None)
+        out = _people_of(sim, me, spec["who"], base) if base else []
+    else:
+        out = candidates(sim, me, spec["who"])
     if spec.get("gender"):
         out = [o for o in out if w.chars[o].gender == spec["gender"]]
     if spec.get("sport"):
@@ -1912,6 +2105,11 @@ def bind(sim, me, name, cid=None, by="auto"):
     w.meta.setdefault("cast_slots", {})[name] = {"id": cid, "day": w.day, "by": by, "who": spec["who"]}
     w.meta.setdefault("cast_log", []).append([w.day, name, cid, by])
     _raise_to(sim, me.id, cid, spec.get("bond"))
+    if spec.get("of") and spec.get("who") in ("friend", "best_friend"):  # the storyline says they're friends: now they are
+        base = bound(sim, spec["of"])
+        if base:
+            close = spec["who"] == "best_friend"
+            _raise_to(sim, base, cid, {"familiarity": 80 if close else 65, "affection": 70 if close else 50, "trust": 60 if close else 40})
     return cid
 
 
@@ -2103,6 +2301,10 @@ def _context(sim, me, who, when, rng, pack=None, cast_refs=None) -> dict | None:
         ctx[f"cast_{name}"] = cid
         ctx[f"cast_{name}_first"] = w.chars[cid].first
     ctx.update(_pro_names(sim, me))
+    subj = next((r[6:] for r in (when or {}).get("requires") or [] if isinstance(r, str) and r.startswith("class:")), None)
+    cls = my_class(sim, me, subj) if subj else None
+    ctx["teacher"] = cls["teacher"] if cls else "your teacher"  # a scene set in one of your classes: its teacher and name
+    ctx["class"] = cls["name"] if cls else "class"
     return ctx
 
 
@@ -2117,11 +2319,11 @@ def _pro_names(sim, me) -> dict:
 
 
 def _playable(spec, ctx) -> bool:
-    """Everyone the scene mentions exists, and at least two choices still make sense."""
+    """Everyone the scene mentions exists, and its choices still make sense (at least two, or its only one)."""
     if any(not ctx.get(n) for n in spec["scene"].get("needs", [])):
         return False
     usable = [ch for ch in spec["choices"] if not any(not ctx.get(r) for r in ch.get("requires", []))]
-    return len(usable) >= 2
+    return len(usable) >= min(2, max(1, len(spec["choices"])))
 
 
 def maybe_scene(sim):

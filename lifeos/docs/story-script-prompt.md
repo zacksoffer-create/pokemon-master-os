@@ -60,6 +60,8 @@ The roster's on the gym door.
 
 - `=== Title` starts a storyline. Its scenes play in the order they're written, each one waiting for the one before (as soon as it's ready: tags hold it to its season). `order: any` under the title lets them come in any order (good for a bag of one-off moments).
 - `cast: <name> = <who they are>`: a specific person the storyline is about, the same person for the whole story (across storylines too: the same cast name means the same person). Who: brother, classmate, coach, ex, friend, older brother, older sibling, older sister, sibling, sister, teammate, twin, younger brother, younger sibling, younger sister. Then any of: `plays <sport>` (baseball, basketball, football, soccer, softball), `3 years older` / `2 years younger`, `girl` / `guy`, `close` (you start close), `from the start` (picked on day one, not at their first scene), and any words that describe them ("the one who got away").
+- Someone in another cast member's life: `cast: kayla = friend of sis, girl` (also `best friend of`, `teammate of`, `boyfriend of`, `girlfriend of`). The game picks them from that person's own friends (or team), and they stay the same person.
+- `expands: <Storyline>` (under the title, like `=== Sisters: Holidays` then `expands: Sisters`): an expansion, more scenes for a storyline you have, in its own piece. It already has that storyline's cast (don't copy the cast: lines) and can say `after <one of its scenes>`.
 - `when: <tags>`: tags every scene in the storyline gets (like `freshman-junior`).
 - `about: <notes>`: what the storyline is about, for you and for ChatGPT.
 - A scene in another storyline: `after Same Team: Cut day`.
@@ -69,7 +71,9 @@ The roster's on the gym door.
 `--- Title  [tags]` starts a scene. Tags (separate with · or commas):
 
 - School year: freshman, sophomore, junior, senior, college freshman ... college senior, ranges like `freshman-junior`, or `high school` / `college`.
-- Month or season: `November`, `Nov`, `fall`, `winter`, `spring`, `summer`. A day: `Oct 31`, `Halloween`, `Christmas`, `Valentine's Day`, `July 4th`. `after Nov 15` / `before Dec 20` for a window.
+- Month or season: `November`, `Nov`, `fall`, `winter`, `spring`, `summer`. A day: `Oct 31`, or a holiday: `Halloween`, `Christmas Eve`, `Christmas`, `New Year's Eve`, `New Year's Day`, `Valentine's Day`, `St. Patrick's Day`, `April Fools`, `July 4th`, `Veterans Day`.
+- Days that move, worked out for every year: `Thanksgiving`, `Black Friday`, `Easter`, `Mother's Day`, `Father's Day`, `Memorial Day`, `Labor Day`, `MLK Day`, `Presidents' Day`, `Columbus Day`, `Super Bowl` (the real Sunday each year). The school calendar's own days: `first day of school`, `last day of school`, `homecoming`, `homecoming week`, `snow ball`, `prom`, `prom week`, `midterms`, `midterms week`, `finals`, `finals week`, `report cards`, `graduation`, `thanksgiving break`, `winter break`, `spring break`. A scene tagged with one of these always gets its day (you don't need a chance). `after Nov 15` / `before Thanksgiving` for a window.
+- In class: `in biology` (or `in art`, `in chemistry`, `in economics`, `in english`, `in government`, `in health`, `in math`, `in music`, `in physics`, `in psychology`, `in spanish`, `in tech`, `in us history`, `in world history`, `in gym`) puts it on a school day in that class, if you're taking it that year; `{teacher}` and `{class}` say your teacher's name and the class. `in class` is any class.
 - Day: `weekday`, `weekend`, `school day`, `summer break`, or a weekday (`friday`).
 - How likely on a day it can happen (one-off scenes): `rare`, `uncommon`, `sometimes`, `often`, `likely`, `always`, or `10%`. Storyline scenes don't need one.
 - Repeats: scenes happen once; `repeats every 30 days` lets one come back.
@@ -83,8 +87,9 @@ The roster's on the gym door.
 ## People and lines
 
 - A plain line is narration, in second person ("You...").
-- `name: line` is someone talking: a cast name, `you`, `best friend`, `sibling`, `partner`, or the kind of person the scene is with (`friend:`, `coach:`). A capitalized name (`Mom:`, `Coach Reyes:`) is just a label.
-- `{bro}` says a cast member's name; `{best friend}`, `{sibling}`, `{partner}`, `{me}` too. The game also fills in {ballon_dor}, {cfb_champ}, {epl_champ}, {mbb_champ}, {mlb_champ}, {my_cfb_record}, {my_club}, {my_college}, {my_mbb_record}, {my_nba_record}, {my_nba_team}, {my_nfl_record}, {my_nfl_team}, {my_team}, {my_team_record}, {my_team_star}, {my_wbb_record}, {nba_champ}, {nfl_champ}, {pet}, {school}, {sport}, {town}, {ucl_champ}, {wbb_champ}.
+- `name: line` is someone talking: a cast name, `you`, `best friend`, `sibling`, `partner`, or the kind of person the scene is with (`friend:`, `coach:`).
+- Anyone else can talk too, as a walk-on: `Mom:`, `Dad:`, `Grandma:`, `{teacher}:`, `Coach Reyes:`, `The waiter:`. They're just a name on the line: the game doesn't track how they feel, so effects go on you (`mood +`), your family (`family affection +`) or the scene's person.
+- `{bro}` says a cast member's name; `{best friend}`, `{sibling}`, `{partner}`, `{me}` too. The game also fills in {ballon_dor}, {cfb_champ}, {class}, {epl_champ}, {mbb_champ}, {mlb_champ}, {my_cfb_record}, {my_club}, {my_college}, {my_mbb_record}, {my_nba_record}, {my_nba_team}, {my_nfl_record}, {my_nfl_team}, {my_team}, {my_team_record}, {my_team_star}, {my_wbb_record}, {nba_champ}, {nfl_champ}, {pet}, {school}, {sport}, {teacher}, {town}, {ucl_champ}, {wbb_champ}.
 - `{a|b|c}` gives a line versions; the game rotates them so nothing repeats.
 - A scene can involve your best friend, sibling, partner and anyone in the storyline's cast, plus the one person it's with.
 
@@ -107,7 +112,7 @@ Separate with commas. `+` small, `++` medium, `+++` big, `-` `--` `---` down, or
 - Reputation: `rep <tag> +` with athlete, embarrassed, flaky, gossip, host, legend, mean, performer, star, tough, troublemaker. Family: `family affection +` (you and every sibling).
 - `play <game>`: `baseball` (a big at-bat, batting practice, a home run derby with friends); `basketball` (shooting around in the driveway, HORSE with a sibling, open gym, a dare from half court); `cup_pong` (a friend's basement, a party (beer pong in college)); `flash` (remembering a pattern, ear training in band, a memory bet); `football` (a goal-line stand at practice, a backyard game, a bet on one play); `golf` (a round with a parent, a golf outing, a bet on one hole); `hold` (a steady pour in chem lab, one brushstroke, a power throw in gym, holding a note (press, hold, let go on the line)); `lineup` (a timeline review, ranking things with friends, putting cards in order); `mathdash` (mental math with a friend, splitting a check, making change at a register job, counting atoms); `oddone` (proofreading a friend's essay, spot the difference, a typo on a sign); `paper_toss` (bored in class, the trash can across the room); `playmaker` (running the offense at the park, a pickup run where you have to find the open man); `reflex` (catching something falling, a reaction test, first hand up, a quick-draw bet); `soccer_11` (a pickup match, gym class, a game where your team needs a goal); `soccer_pk` (penalties at the park, settling an argument, a gym-class shootout); `sweep` (stopping a pendulum, hitting the beat, timing a jump rope, any "tap at the right moment"); `swing_lab` (the batting cages, a hitting lesson); `trivia` (a pop quiz, a study session, trivia night at a restaurant, a bet over who knows more); `sport` = your sport's game.
 - `60% +charisma -impulsivity`: a roll on your talents (academic, athletic, charisma, creativity, technical) and traits.
-- `vibe <style>`: bold, funny, sweet, cheesy, chill, tease (lands or misses by what they like).
+- `vibe <style>`: bold, cheesy, chill, sweet, tease, funny (lands or misses by what they like).
 - `focus <mode>` (academics, athletics, balanced, family, rest, romance, social), `hang out with <person>`, `text <person> "<line>"`, `fits loyalty` / `fits -discipline` (who'd pick this when the game picks for you; trait effects count too).
 
 ## Lines for the game's pools

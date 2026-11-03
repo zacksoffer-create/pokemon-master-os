@@ -918,15 +918,46 @@ bro: You're late. {Again.|Shocker.|Unbelievable.}
 - Blocks for the game's pools: `texts <pool>:`, `replies <set>:`, `chat <path>:`, `narration <key>:`, `mods ...:`,
   `trivia <subject>:`, `choices <moment>:`, and `schedule:` to retime any scene.
 
-**On the phone:** Me → **Storylines**.
-1. **Copy the ChatGPT prompt**, paste it into ChatGPT, replace the "What I want" line with your idea.
-2. Copy ChatGPT's whole answer, tap **Paste a script**, **Check it**, **Add to my game**. Problems come back by line
-   number; tap one and the cursor jumps to that line, or **Copy the problems for ChatGPT** for a fix-it message.
-3. Open a storyline: **Read and edit the script** (edit right on the phone; nothing changes until it checks out),
-   **Play now** on any scene, **Build it out** (ChatGPT gets the whole script and sends it back bigger; paste it and it
-   replaces the old one, same title), **Upgrade its texting** (chat lines for its people), turn it on or off, remove it.
-4. **Make it one story**: a season plan prompt with every storyline's scene lines; ChatGPT sends back crossover scenes
-   and a `schedule:` block that times everything across your seven years.
+**On the phone:** Me → **Storylines**. The loop is: write more, check it, add it, read it, repeat.
+
+1. **Write more.** Pick *a new storyline* or *more of one you have* (an expansion), say what you want ("a bunch of scenes
+   in biology class", "my sister's friends hanging out at the house", "holidays with them") or tap an idea, and pick how
+   much (a few, a bunch, a lot). **Make my ChatGPT prompt**, copy it (or share it straight to the ChatGPT app).
+2. **Paste what ChatGPT gives you**, or upload the file it gives you for long ones, and **Check it**. The game plays
+   your seven years forward on a copy with it in: which new scenes play and when, which won't and why, the month grid.
+   Problems come back by line number with a fix-it message for ChatGPT.
+3. **Add it.** A new storyline is its own script; an expansion is its own small piece, listed under its storyline.
+4. **Read it.** Open any storyline and tap **Read it**: the storyline and all its expansions laid out in the order
+   they'll play in your seven years, school year by school year, each scene with its date (and its tags, lines, choices,
+   rolls and effects), and a health line at the top: how many play, and for the rest, why not ("it needs a choice you
+   didn't make", "nobody in your story fits who it's about"). That's how you check what ChatGPT wrote.
+5. **Add an expansion** right from there, and keep going. **Edit the script** to fix anything by hand; **Play now** to
+   see a scene in your story; **Make it one story** for a season plan across every storyline.
+
+**Expansions** keep storylines growing without ever resending them: `=== Sisters: Holidays` with `expands: Sisters`
+under it. An expansion already has its storyline's people (no copying cast lines), can say `after <one of its
+scenes>` and `if <a fact it remembers>`, and lives in its own file, so a big storyline never has to be sent back whole
+(ChatGPT gets it, plus the scene lines of the expansions it already has). Change the storyline's cast and its
+expansions follow.
+
+**What scripts can say about time and people:**
+- Holidays on their real dates every year, including the ones that move: Thanksgiving, Easter, Mother's and Father's
+  Day, Memorial and Labor Day, MLK Day, the Super Bowl (the real Sunday each year)... and the school calendar's own days:
+  the first and last day of school, homecoming and homecoming week, the Snow Ball, prom and prom week, midterms, finals
+  and finals week, report cards, graduation, Thanksgiving, winter and spring break. A scene on one of those always gets
+  its day.
+- Class scenes: `in biology` (any class you take that year: chemistry, spanish, us history...) puts a scene on a school
+  day in that class, and `{teacher}` / `{class}` say your actual teacher and class.
+- Walk-ons: `Mom:`, `Dad:`, `{teacher}:`, `Coach Reyes:` can talk in any scene (the game doesn't track their feelings,
+  so effects go on you, your family or the scene's person).
+- Someone in another person's life: `cast: kayla = friend of sis, girl` (also best friend / teammate / boyfriend /
+  girlfriend of). The game picks them from your sister's world and makes them actually friends, and they stay the same
+  person in every storyline that names them.
+
+**Built for a big library.** Each script is compiled once and kept (on the phone too, so opening the app doesn't
+recompile everything); only a changed file compiles again. The scheduler checks a scene's year, month and date before
+anything else and remembers each scene's season per school year, so a seven-year check with 2,000 scenes takes about
+8 seconds on a computer (it took about 85 before), and loading 5,000 scenes takes about half a second.
 
 **In the lab:** Content Library → **Dialogue**. Same steps, plus downloading the guide.
 

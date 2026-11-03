@@ -28,6 +28,17 @@ SUGGESTIONS = [
     "A new storyline about someone already in my story",
     "Bigger payoffs: finales that tie two storylines together",
 ]
+# quick ideas for an expansion (the phone shows these as chips)
+IDEAS = [
+    "Holidays with them: Thanksgiving, Christmas, New Year's, Easter, every year",
+    "Their friends: who they bring around, and what happens when they're over",
+    "A season of their sport: tryouts, big games, the bus rides, the end of it",
+    "School days: a class you share, lunch, the hallway, getting in trouble",
+    "Summers: the beach, jobs, road trips, nothing to do",
+    "Drama: a fight, a secret, a rumor, making up",
+    "Big moments: homecoming, prom, graduation, the night before college",
+]
+SIZES = {"few": "4 to 6 scenes", "bunch": "12 to 16 scenes", "lot": "30 to 40 scenes, spread over the years"}
 
 
 # ---------------------------------------------------------------------------------------- how the story plays now
@@ -182,9 +193,11 @@ they're ready, each in its season. They're written as story scripts (the format 
 """
 
 
-def prompt(sim, ask: str = "") -> str:
+def prompt(sim, ask: str = "", size: str = "") -> str:
     from . import script
     ask = (ask or "").strip() or "More scenes where my story is thin, that fit what's already happening then."
+    if size in SIZES:
+        ask += f"\n\nHow much: {SIZES[size]}."
     body = PROMPT.format(ask=ask, family=_family(sim), cast=_cast_block(sim), now=_now(sim), lines=_storylines(sim))
     return body + "---\n\n" + script.guide(story_only=True)
 
@@ -204,7 +217,7 @@ def preview(new_sim, pack, days: int = 7 * 365 + 10, last: dict | None = None, t
     stands in for it. Nothing is saved."""
     from . import dialogue, scheduler, script
     if text is not None:
-        r = script.compile_script(script.extract(text))
+        r = script.compile_script(script.extract(text), library=dialogue.library())
         errs = [f"line {e['line']}: {e['text']}" for e in r["errors"]]
         out = {"ok": not errs, "errors": errs, "error_lines": r["errors"], "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]],
                "summary": r["summary"], "name": ", ".join(p.get("name", "") for p in r["packs"]), "script": True}
@@ -446,3 +459,164 @@ def weave_prompt(sim, pack: str, after: str | None, ask: str = "", path: list | 
         years_hint=f" ({', '.join(yl.get(y, y) for y in sorted(years, key=lambda y: YEAR_KEYS.index(y) if y in YEAR_KEYS else 9))})" if years else "")
     text = body + script.guide(story_only=True)
     return {"prompt": text, "chars": len(text), "pack_name": name, "where": where, "after": after, "next": nxt, "pack": pack}
+
+
+# ---------------------------------------------------------------------------------------- expansions
+
+EXPAND = """I want to add to one of my LIFE OS storylines with an expansion. LIFE OS is a life-simulation game: I play one person
+from the first day of high school (Guilford High School in Guilford, Connecticut, fall 2010) through college junior year,
+and storylines play out as scenes across those years, each in its season. They're written as story scripts (the format is
+below). An expansion is new scenes that build on a storyline: same people, same world, more of it.
+
+## What I want
+
+{ask}
+
+## The storyline: {title}
+
+```
+{script}
+```
+{existing}
+## Facts its choices remember (an expansion can use `if <fact>`)
+
+{facts}
+
+## My family
+
+{family}
+
+## People in my story's storylines
+
+{cast}
+
+## How to answer
+
+- Reply with ONE code block (```) and nothing after it. If it's long (more than about 150 lines), also give it to me as a
+  downloadable .txt file, so nothing gets cut off.
+- It starts with these two lines:
+  === {title}: <a short name for this expansion>
+  expands: {title}
+- Its people are already there: {names}. Don't copy the storyline's cast: lines. Add cast: lines only for new people (like
+  `cast: kayla = friend of sis, girl`).
+- Write {size}. Use `order: any` if they're separate moments (holiday scenes, class scenes, nights at the house); leave it
+  out if they're a run of scenes that happen in order.
+- Put every scene in its place in the year: a school year, and a month or a named day (Thanksgiving, homecoming, finals
+  week, Mother's Day, the Super Bowl...). Separate moments get a chance (`sometimes`, `often`) unless they're on a named day.
+- Hook into the storyline where it fits: `after <one of its scene titles>`, `if <a fact above>`.
+- Make it something I want to keep playing: choices that matter later (`remember` / `if`), a little luck (rolls, vibes,
+  rare scenes), things set up early that pay off later, and the odd surprise.
+- Same name as an expansion it already has? Yours replaces that one.
+
+---
+
+"""
+
+
+def expand_prompt(sim, pack: str, ask: str = "", size: str = "bunch") -> dict:
+    """The ChatGPT prompt for an expansion of one storyline: its whole script, the expansions it has (their scene lines),
+    the facts it remembers, your family and cast. The answer is just the new expansion, in its own file."""
+    from . import dialogue, script
+    p = dialogue._script_pack(pack)
+    if p["pack"].get("expands"):
+        pack = next((x["id"] for x in dialogue.packs() if x["pack"].get("name") == p["pack"]["expands"]), pack)
+        p = dialogue._script_pack(pack)
+    title = p["pack"].get("name") or "Storyline"
+    exps = [x for x in dialogue.packs() if x["pack"].get("expands") == title]
+    existing = ""
+    if exps:
+        L = ["", "## Expansions it already has (their scene lines)", ""]
+        for x in exps:
+            L.append(f"=== {x['pack'].get('name')}")
+            L += [(sc.get("src") or "").split("\n")[0] or f"--- {sc.get('title')}" for sc in x["pack"].get("scenes") or [] if isinstance(sc, dict)]
+            L.append("")
+        existing = "\n".join(L)
+    facts = sorted({op[1] for x in [p] + exps for sc in x["pack"].get("scenes") or [] if isinstance(sc, dict)
+                    for op in dialogue._all_ops(sc) if isinstance(op, list) and op and op[0] == "remember" and len(op) > 1})
+    names = ", ".join(f"`{n}`" for n in (p["pack"].get("cast") or {})) or "whoever its scenes are with"
+    ask = (ask or "").strip() or "More of this storyline: whatever it's missing."
+    body = EXPAND.format(ask=ask, title=title, script=p["script"].strip(), existing=existing,
+                         facts=", ".join(f"`{f}`" for f in facts) or "(none yet)", family=_family(sim), cast=_cast_block(sim),
+                         names=names, size=SIZES.get(size, size or SIZES["bunch"]))
+    text = body + script.guide(story_only=True)
+    return {"prompt": text, "chars": len(text), "title": title, "pack": pack, "expansions": [x["pack"].get("name") for x in exps]}
+
+
+# ---------------------------------------------------------------------------------------- read a storyline, and its health
+
+WHY_PLAIN = {
+    "missing_cast": "nobody in your story fits who it's about", "not_playable": "the people its choices need aren't there",
+    "year_passed": "its school years end before it can come", "window_passed": "its day (or season) had already gone by in its last school year",
+    "wrong_date": "its day never came while it was ready", "branch_closed": "it needs a choice you didn't make",
+    "missing_fact": "it needs a choice you didn't make", "exclusive_branch": "a choice you made rules it out",
+    "after_unreachable": "a scene it comes after can't happen", "waiting_for_scene": "it waits on a scene that never came",
+    "missing_requirement": "what it needs (a situation, a class, your team...) never happened", "chapter_order": "an earlier chapter is stuck",
+    "too_early": "it never got its turn", "mood": "how you're doing never matched",
+    "already_passed": "your story is already past its day (it can only come in a school year still ahead)",
+    "deadline_missed": "its day came, but it was crowded out (too much else that day)", "aged_out": "it was planned but never got its turn",
+    "global_gap": "it kept landing on quiet days", "major_breather": "too many big moments around it",
+}
+
+
+def storyline_group(pack: str) -> list:
+    """A storyline and its expansions, in order (the storyline first)."""
+    from . import dialogue
+    ps = dialogue.packs()
+    p = next((x for x in ps if x["id"] == pack), None)
+    if p is None:
+        raise KeyError(pack)
+    root = p["pack"].get("expands") or p["pack"].get("name")
+    top = next((x for x in ps if x["pack"].get("name") == root and not x["pack"].get("expands")), p)
+    return [top] + [x for x in ps if x["pack"].get("expands") == root and x["id"] != top["id"]]
+
+
+def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
+    """A storyline and all its expansions the way they'd play: your seven years forward on a copy, every scene in the order
+    it comes (with its date), the ones that won't come (and why), and how healthy it is."""
+    from . import scheduler
+    group = storyline_group(pack)
+    ids = {g["id"] for g in group}
+    names = {g["id"]: g["pack"].get("name") for g in group}
+    sim = new_sim()
+    before = {r["sid"]: r for r in scheduler.rows(sim) if r.get("pack") in ids}  # where each stands today, before playing on
+    run = scheduler.dry_run(sim, days, None, full=False)
+    rows = {r["sid"]: r for r in scheduler.rows(sim) if r.get("pack") in ids}
+    notes = scheduler.log(sim.w)
+    scenes = []
+    for g in group:
+        for i, sc in enumerate(g["pack"].get("scenes") or []):
+            if not isinstance(sc, dict):
+                continue
+            r = rows.get(sc["id"]) or {}
+            plays = r.get("state") == "played"
+            why = None
+            if not plays:
+                b = before.get(sc["id"]) or {}
+                reason = r.get("reason")
+                if b.get("reason") in ("window_passed", "year_passed") and b.get("state") != "played":
+                    reason = "already_passed"  # your story was already past its day when it came in
+                elif reason in (None, "year_passed") and (notes.get(sc["id"]) or {}).get("reason") not in (None, "year_passed"):
+                    reason = notes[sc["id"]]["reason"]  # what actually kept it out along the way
+                why = WHY_PLAIN.get(reason) or r.get("why") or (reason or "it never got its turn").replace("_", " ")
+            scenes.append({"sid": sc["id"], "title": sc.get("title"), "storyline": names[g["id"]], "pack": g["id"], "src": sc.get("src") or "",
+                           "plays": plays, "date": r.get("date") if plays else None, "day": r.get("day") if plays else None,
+                           "why": why, "detail": None if plays else r.get("detail"), "n": i})
+    y0 = calm.school_year_of(((sim.w.meta.get("story") or {}).get("start_day", 0)))
+    for x in scenes:
+        yi = calm.school_year_of(x["day"]) - y0 if x["plays"] else -1
+        x["year"] = YEAR_LABEL[yi] if 0 <= yi < len(YEAR_LABEL) else None
+    scenes.sort(key=lambda x: (not x["plays"], x["day"] if x["plays"] else 0, x["pack"] != group[0]["id"], x["n"]))
+    mine = {d: [k for k in v if k in rows] for d, v in (run.get("per_day") or {}).items()}
+    cov = coverage(sim, {**run, "per_day": {d: v for d, v in mine.items() if v}})
+    lost: dict = {}
+    for x in scenes:
+        if not x["plays"]:
+            lost.setdefault(x["why"], []).append(x["title"])
+    parts = [{"pack": g["id"], "name": g["pack"].get("name"), "expands": g["pack"].get("expands"),
+              "scenes": sum(1 for x in scenes if x["pack"] == g["id"]), "plays": sum(1 for x in scenes if x["pack"] == g["id"] and x["plays"])}
+             for g in group]
+    return {"title": group[0]["pack"].get("name"), "pack": group[0]["id"], "parts": parts, "scenes": scenes,
+            "total": len(scenes), "plays": sum(1 for x in scenes if x["plays"]),
+            "wont": [{"why": k, "count": len(v), "titles": v[:8]} for k, v in sorted(lost.items(), key=lambda kv: -len(kv[1]))],
+            "coverage": cov}
+

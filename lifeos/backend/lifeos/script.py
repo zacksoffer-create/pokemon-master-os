@@ -59,11 +59,40 @@ WEEKDAY = {"monday": "mon", "tuesday": "tue", "wednesday": "wed", "thursday": "t
            "sunday": "sun"}
 HOLIDAYS = {"halloween": "10-31", "christmas": "12-25", "christmas eve": "12-24", "new year's eve": "12-31",
             "new years eve": "12-31", "new year's day": "01-01", "valentine's day": "02-14", "valentines day": "02-14",
-            "st. patrick's day": "03-17", "st patrick's day": "03-17", "july 4th": "07-04", "fourth of july": "07-04"}
+            "st. patrick's day": "03-17", "st patrick's day": "03-17", "july 4th": "07-04", "fourth of july": "07-04",
+            "groundhog day": "02-02", "april fools": "04-01", "april fools' day": "04-01", "april fool's day": "04-01",
+            "veterans day": "11-11", "cinco de mayo": "05-05", "christmas day": "12-25", "new years day": "01-01",
+            "new year's": "01-01", "new years": "01-01"}
+# days that move from year to year, and the school calendar's own days (worked out by the game: calendar.named_days)
+NAMED = {"thanksgiving": "thanksgiving", "thanksgiving day": "thanksgiving", "black friday": "black_friday",
+         "easter": "easter", "easter sunday": "easter", "mother's day": "mothers_day", "mothers day": "mothers_day",
+         "father's day": "fathers_day", "fathers day": "fathers_day", "memorial day": "memorial_day", "labor day": "labor_day",
+         "mlk day": "mlk_day", "martin luther king day": "mlk_day", "martin luther king jr. day": "mlk_day",
+         "presidents day": "presidents_day", "presidents' day": "presidents_day", "president's day": "presidents_day",
+         "columbus day": "columbus_day", "super bowl": "super_bowl", "super bowl sunday": "super_bowl",
+         "first day of school": "first_day_of_school", "the first day of school": "first_day_of_school",
+         "last day of school": "last_day_of_school", "the last day of school": "last_day_of_school",
+         "homecoming": "homecoming", "homecoming dance": "homecoming", "homecoming night": "homecoming", "homecoming week": "homecoming_week",
+         "snow ball": "snow_ball", "winter formal": "snow_ball", "prom": "prom", "prom night": "prom", "prom week": "prom_week",
+         "graduation": "graduation", "graduation day": "graduation", "midterms": "midterms", "midterm": "midterms",
+         "midterms week": "midterms_week", "midterm week": "midterms_week", "finals": "finals", "final exams": "finals",
+         "finals week": "finals_week", "report cards": "report_cards", "report card day": "report_cards",
+         "thanksgiving break": "thanksgiving_break", "winter break": "winter_break", "christmas break": "winter_break",
+         "holiday break": "winter_break", "spring break": "spring_break"}
+# people who can talk in a scene without being someone the game keeps track of (they're just a label)
+WALKONS = {"mom", "dad", "grandma", "grandpa", "aunt", "uncle", "teacher", "the teacher", "principal", "the principal", "nurse",
+           "the nurse", "doctor", "the doctor", "waiter", "waitress", "the waiter", "cashier", "the cashier", "officer",
+           "the officer", "cop", "a cop", "neighbor", "the neighbor", "bus driver", "the bus driver", "announcer", "the announcer",
+           "ref", "the ref", "umpire", "the ump", "librarian", "guidance counselor", "counselor", "everyone", "the crowd",
+           "the team", "someone", "a voice", "stranger", "a stranger", "the dj", "dj", "barista", "the barista", "boss",
+           "the boss", "manager", "the manager", "mr. and mrs.", "mom and dad", "your mom", "your dad", "the class"}
 CHANCES = {"rare": 0.02, "uncommon": 0.04, "sometimes": 0.08, "often": 0.15, "likely": 0.3, "always": 1.0}
 YEAR_WORDS = ("freshman", "sophomore", "junior", "senior")
 IMPORTANCE = {"big": "major", "major": "major", "finale": "finale", "small": "ambient", "minor": "ambient", "ambient": "ambient",
               "regular": "regular"}
+CLASS_ALIASES = {"bio": "biology", "chem": "chemistry", "history": "world_history", "us history": "us_history",
+                 "gym": "health", "pe": "health", "p.e.": "health", "health": "health", "spanish": "spanish", "english": "english",
+                 "math": "math", "physics": "physics", "chemistry": "chemistry", "biology": "biology"}
 NUMWORDS = {"a": 1, "an": 1, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "ten": 10}
 REL_ALIASES = {"affection": "affection", "likes": "affection", "like": "affection", "trust": "trust", "respect": "respect",
                "attraction": "attraction", "into": "attraction", "rivalry": "rivalry", "familiarity": "familiarity",
@@ -87,7 +116,7 @@ BLOCKS = ("texts", "replies", "narration", "mods", "chat", "trivia", "choices")
 SECTION_RE = re.compile(r"^===\s*(.+?)\s*$")
 SCENE_RE = re.compile(r"^---\s*(.+?)\s*$")
 BLOCK_RE = re.compile(r"^(texts|replies|narration|mods|chat|trivia|choices)\s+(.+?)\s*:\s*$|^(schedule)\s*:\s*$", re.I)
-ATTR_RE = re.compile(r"^(cast|when|order|about|notes?)\s*:\s*(.*)$", re.I)
+ATTR_RE = re.compile(r"^(cast|when|order|about|notes?|expands)\s*:\s*(.*)$", re.I)
 SPEAKER_RE = re.compile(r"^([A-Za-z][\w .'-]{0,24}?):\s+(.+)$")
 OUTCOME_RE = re.compile(r"^(great|good|miss|yes|no|meh|bad)\s*:\s*(.*)$", re.I)
 TEXTS_RE = re.compile(r"^(.+?)\s+texts(?: you)?\s*:\s*(.+)$", re.I)
@@ -223,6 +252,10 @@ class Scene:
             return f"cast_{k}"
         if k in PEOPLE:
             return PEOPLE[k]
+        if k in WALKONS or name.strip()[:1].isupper() and " " not in k and k not in _vocab()["who"] and k not in KIND_ALIASES:
+            raise Fail(f"'{name}' can talk in a scene, but the game doesn't keep track of how they feel about you. Use your own "
+                       "feelings instead (mood +, stress -), family affection + (you and your siblings), or someone the scene "
+                       "is about")
         kind = KIND_ALIASES.get(k, k.replace(" ", "_"))
         if kind in _vocab()["who"]:
             if kind == self.who_kind:
@@ -288,6 +321,8 @@ class Scene:
                        "(plus your best friend, sibling, partner and the storyline's cast)")
         if who[:1].isupper():
             return who.strip()  # Mom, Coach Reyes: just a label
+        if low in WALKONS:
+            return who.strip()[:1].upper() + who.strip()[1:]  # mom: -> Mom:
         return None
 
     def line(self, s: str, n: int) -> list:
@@ -344,7 +379,9 @@ def effects(text: str, sc: Scene, n: int, out: dict) -> list:
             for tok in re.findall(r"([+-])\s*([a-z_]+)", m.group(2)):
                 stat = TRAIT_ALIASES.get(tok[1], tok[1])
                 if stat not in V["traits"] | V["apt"] | V["skills"]:
-                    raise Fail(f"'{tok[1]}' isn't a trait, talent or skill to roll against.{_suggest(stat, V['traits'] | V['apt'])}")
+                    raise Fail(f"'{tok[1]}' isn't a trait, talent or skill to roll against.{_suggest(stat, V['traits'] | V['apt'])} "
+                               f"Traits: {', '.join(sorted(V['traits']))}. Talents: {', '.join(sorted(V['apt']))}. Or a skill "
+                               f"(like {', '.join(sorted(V['skills'])[:6])}).")
                 spec[stat] = 0.3 if tok[0] == "+" else -0.3
             out["branch"] = ("chance", spec)
             continue
@@ -424,10 +461,20 @@ def effects(text: str, sc: Scene, n: int, out: dict) -> list:
 
 
 # ---------------------------------------------------------------------------------------------------- tags (when)
-def _date(s: str):
+def _subjects() -> dict:
+    from . import dialogue as D
+    return D.class_subjects()
+
+
+def _date(s: str, approx: bool = False):
+    """A day: "Oct 31", a holiday, or a named day that moves (thanksgiving, prom...). approx=True gives a named day's usual
+    month-day instead (for windows: after Thanksgiving)."""
+    from . import calendar as calm
     low = s.lower().strip().rstrip(".")
     if low in HOLIDAYS:
         return HOLIDAYS[low]
+    if low in NAMED:
+        return calm.APPROX_MD[NAMED[low]] if approx else NAMED[low]
     m = re.fullmatch(r"([a-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?", low)
     if m:
         mo = MONTHS.get(m.group(1)) or MON3.get(m.group(1)[:3])
@@ -477,6 +524,14 @@ def tags(text: str, sc: Scene | None, n: int, when: dict, sec) -> dict:
         if low in ("weekend", "school day", "summer break"):
             when.setdefault("requires", []).append({"weekend": "weekend", "school day": "school_day", "summer break": "summer"}[low])
             continue
+        m = re.fullmatch(r"(?:in|during)\s+(.+?)(?:\s+class)?", low)
+        if m and (m.group(1) in CLASS_ALIASES or m.group(1).replace(" ", "_") in _subjects()):
+            subj = CLASS_ALIASES.get(m.group(1), m.group(1).replace(" ", "_"))
+            when.setdefault("requires", []).append(f"class:{subj}")  # a school day you have that class; {teacher} and {class}
+            continue
+        if low in ("in class", "during class"):
+            when.setdefault("requires", []).append("school_day")
+            continue
         if low in CHANCES:
             when["chance"] = CHANCES[low]
             continue
@@ -509,7 +564,7 @@ def tags(text: str, sc: Scene | None, n: int, when: dict, sec) -> dict:
             continue
         m = re.fullmatch(r"(after|before)\s+(.+)", tok.strip(), re.I)
         if m:
-            d = _date(m.group(2))
+            d = _date(m.group(2), approx=True)
             if d:
                 when["not_before" if m.group(1).lower() == "after" else "not_after"] = d
             elif m.group(1).lower() == "after":
@@ -563,7 +618,7 @@ def tags(text: str, sc: Scene | None, n: int, when: dict, sec) -> dict:
                            f"{', '.join(r.replace('_', ' ') for r in V['requires'])}.{_suggest(req, opts)}")
             when.setdefault("not_remembered" if neg else "remembered", []).append(cond)
             continue
-        everything = (list(MONTHS) + list(SEASONS) + list(WEEKDAY) + list(CHANCES) + list(IMPORTANCE) +
+        everything = (list(MONTHS) + list(SEASONS) + list(WEEKDAY) + list(CHANCES) + list(IMPORTANCE) + list(NAMED) + list(HOLIDAYS) +
                       ["weekend", "weekday", "school day", "once", "repeats", "same day", "next day"] + list(YEAR_WORDS))
         raise Fail(f"'{tok.strip()}' isn't a tag I know.{_suggest(low, everything)} Tags are things like freshman, November, "
                    "weekend, Oct 31, 10%, after <scene>, next day, if <fact>, with <person>, big")
@@ -577,6 +632,31 @@ def cast_spec(desc: str) -> dict:
     parts = _split(desc, ",")
     head = parts[0].lower().strip()
     head = re.sub(r"^(an?|the|your)\s+", "", head)
+    of = re.fullmatch(r"(best friend|friend|teammate|boyfriend|girlfriend|partner)\s+of\s+([a-z][a-z0-9_]*)", head)
+    if of:  # someone in another cast member's life: "friend of sis"
+        k2 = {"best friend": "best_friend", "boyfriend": "partner", "girlfriend": "partner"}.get(of.group(1), of.group(1))
+        spec = {"who": k2, "of": of.group(2)}
+        if of.group(1) == "boyfriend":
+            spec["gender"] = "m"
+        elif of.group(1) == "girlfriend":
+            spec["gender"] = "f"
+        parts = parts[1:]
+        label = []
+        for p in parts:
+            low = p.lower().strip()
+            if low in ("girl", "female", "a girl"):
+                spec["gender"] = "f"
+            elif low in ("guy", "boy", "male", "a guy"):
+                spec["gender"] = "m"
+            elif low in ("from the start", "from day one"):
+                spec["bind"] = "start"
+            elif re.fullmatch(r"(?:plays\s+)?(\w+)(?:\s+player)?", low) and re.fullmatch(r"(?:plays\s+)?(\w+)(?:\s+player)?", low).group(1) in V["sports"]:
+                spec["sport"] = re.fullmatch(r"(?:plays\s+)?(\w+)(?:\s+player)?", low).group(1)
+            else:
+                label.append(p.strip())
+        if label:
+            spec["label"] = ", ".join(label)
+        return spec
     kind = KIND_ALIASES.get(head, head.replace(" ", "_"))
     if kind not in V["castable"]:
         raise Fail(f"'{parts[0]}' isn't a kind of person a storyline can keep.{_suggest(kind, V['castable'])} "
@@ -644,6 +724,10 @@ class Section:
         self.lines_map = {}
         self.src_lines = []
         self.local = {}  # scene titles in this script -> ids (filled as scenes compile)
+        self.expands = None  # the storyline this one adds to (an expansion): its title
+        self.expands_line = n
+        self.inherited = set()  # cast names that came from it
+        self.parent_titles = {}  # its scene titles -> ids, for "after <scene>"
 
     def schedule_key(self, ref: str) -> str:
         return self.local.get(ref.lower()) or (ref if re.fullmatch(r"[a-z][a-z0-9_]{2,79}", ref) else "@" + ref)
@@ -701,8 +785,9 @@ def _choice(node: Node, sc: Scene, depth: int, errs, path, sec) -> dict:
             errs.append((ch.line.n, str(e)))
     branch = extra.get("branch")
     if outs:
-        kind = OUTCOMES[next(iter(outs))]
-        if not branch or branch[0] != kind:
+        fits = {"game": {"great", "good", "miss"}, "chance": {"yes", "no"}, "vibe": {"good", "meh", "bad"}}
+        kind = branch[0] if branch and set(outs) <= fits.get(branch[0], set()) else OUTCOMES[next(iter(outs))]
+        if not branch or branch[0] != kind:  # ("good:" works for a mini game and for a vibe)
             need = {"game": "play <game>", "chance": "a chance like 50%", "vibe": "vibe <style>"}[kind]
             errs.append((node.line.n, f"{'/'.join(k for k in outs)}: outcomes need {need} on the choice"))
         else:
@@ -737,8 +822,12 @@ def _choice(node: Node, sc: Scene, depth: int, errs, path, sec) -> dict:
                 ops.append(["chance", branch[1], tiers.get("yes", []), tiers.get("no", [])])
             else:
                 lines_only = {k: [o[1] for o in v if o[0] == "say"] for k, v in tiers.items()}
-                ops.append(["vibe", branch[1], {k: (v[0] if len(v) == 1 else [x for vs in v for x in vs]) or ["..."]
-                                                for k, v in lines_only.items()}])
+                more = {k: [o for o in v if o[0] != "say"] for k, v in tiers.items()}
+                op = ["vibe", branch[1], {k: (v[0] if len(v) == 1 else [x for vs in v for x in vs]) or ["..."]
+                                          for k, v in lines_only.items()}]
+                if any(more.values()):
+                    op.append({k: v for k, v in more.items() if v})  # effects on an outcome happen too
+                ops.append(op)
     elif branch:
         if branch[0] == "game":
             stat = GAME_STAT.get(branch[1], "athletic")
@@ -942,6 +1031,34 @@ def _flatten(nodes):
     return out
 
 
+def _expands(sec, title: str, library, here=None):
+    """`expands: Sisters`: this storyline adds to that one. It gets its cast (the same people) and can name its scenes."""
+    title = title.strip()
+    same = (here or {}).get(title.lower())
+    if same is not None:  # its storyline is in this same script
+        sec.expands = same.title
+        for name, spec in same.cast.items():
+            if name not in sec.cast:
+                sec.cast[name] = dict(spec)
+                sec.inherited.add(name)
+        return
+    if library is None:
+        return  # (checked again when it's added to your game, with your storylines at hand)
+    parent = library.get(title.lower())
+    if parent is None:
+        raise Fail(f"there's no storyline called '{title}' to add to.{_suggest(title.lower(), list(library))}")
+    if parent.get("expands"):
+        raise Fail(f"'{title}' is itself an expansion of {parent['expands']}: expand {parent['expands']} instead")
+    sec.expands = parent.get("name") or title
+    for name, spec in (parent.get("cast") or {}).items():
+        if name not in sec.cast:
+            sec.cast[name] = dict(spec)
+            sec.inherited.add(name)
+    for sc in parent.get("scenes") or []:
+        if isinstance(sc, dict) and sc.get("title"):
+            sec.parent_titles[str(sc["title"]).lower()] = sc["id"]
+
+
 def split_sections(text: str) -> list:
     """The script's === sections as (title, source text) — for saving each storyline to its own file."""
     out, cur, title = [], [], None
@@ -970,8 +1087,9 @@ def extract(text: str) -> str:
     return text.strip().lstrip("﻿")
 
 
-def compile_script(text: str, default_title: str = "Untitled") -> dict:
-    """A script -> the game's packs, one per === section, with errors by line number."""
+def compile_script(text: str, default_title: str = "Untitled", library: dict | None = None) -> dict:
+    """A script -> the game's packs, one per === section, with errors by line number. library: the storylines you have
+    ({title in lowercase: pack}), for expansions (`expands: <Storyline>` takes its cast and can name its scenes)."""
     from . import dialogue as D
     lines = _lines(text)
     errs: list = []
@@ -1001,14 +1119,19 @@ def compile_script(text: str, default_title: str = "Untitled") -> dict:
                     if not mm:
                         raise Fail("cast looks like: cast: bro = older brother, plays basketball, 3 years older "
                                    "(a short lowercase name, at least 3 letters, then who they are)")
-                    if mm.group(1) in sec.cast:
+                    if mm.group(1) in sec.cast and mm.group(1) not in sec.inherited:
                         raise Fail(f"'{mm.group(1)}' is already in the cast")
+                    sec.inherited.discard(mm.group(1))
                     sec.cast[mm.group(1)] = cast_spec(mm.group(2))
                     sec.lines_map[f"cast.{mm.group(1)}"] = ln.n
                 elif k == "when":
                     tags(v, None, ln.n, sec.defaults, sec)
                 elif k == "order":
                     sec.order_any = v.lower() in ("any", "any order", "loose", "free")
+                elif k == "expands":
+                    if not v.strip():
+                        raise Fail("expands: names the storyline this adds to, like expands: Sisters")
+                    sec.expands, sec.expands_line = v.strip(), ln.n  # (worked out once every section is read)
                 else:
                     sec.about = v
             except Fail as e:
@@ -1035,12 +1158,23 @@ def compile_script(text: str, default_title: str = "Untitled") -> dict:
             continue
         errs.append((ln.n, "this line isn't in a scene or a block. Start a scene with --- Title, or a block like texts chatter_school:"))
         i += 1
+    # expansions: each takes its storyline's cast (from this script, or the ones you have)
+    here = {x.title.lower(): x for x in sections if not x.expands}
+    for x in sections:
+        if x.expands:
+            try:
+                _expands(x, x.expands, library, here)
+            except Fail as e:
+                errs.append((x.expands_line, str(e)))
     # titles across the whole script, for "after <scene>"
+    summaries: list = []
     packs = []
     by_title = {}
     compiled = []
     for sec in sections:
         pack = {"dialogue_pack": 1, "name": sec.title[:60], "script": {"title": sec.title, "line": sec.n}}
+        if sec.expands:
+            pack["expands"] = sec.expands
         if sec.about:
             pack["notes"] = sec.about
         if sec.cast:
@@ -1062,7 +1196,7 @@ def compile_script(text: str, default_title: str = "Untitled") -> dict:
         compiled.append((sec, pack))
     for sec, pack in compiled:
         for when, ref, n in sec.pending_after:
-            sid = by_title.get(ref.lower())
+            sid = by_title.get(ref.lower()) or sec.parent_titles.get(ref.lower())
             if sid is None and re.fullmatch(r"[a-z][a-z0-9_]{2,79}", ref):
                 sid = ref  # a scene id from another storyline
             if sid is None:
@@ -1082,8 +1216,9 @@ def compile_script(text: str, default_title: str = "Untitled") -> dict:
             if "is ignored" not in wmsg:
                 warns.append((_line_of(wmsg, sec), _plain(wmsg)))
         packs.append(pack)
+        summaries.append(rep.get("summary") or {})
     errs = sorted(set(errs), key=lambda e: e[0])
-    return {"packs": packs, "errors": [{"line": n, "text": t} for n, t in errs],
+    return {"packs": packs, "pack_summaries": summaries, "errors": [{"line": n, "text": t} for n, t in errs],
             "warnings": [{"line": n, "text": t} for n, t in sorted(set(warns), key=lambda e: e[0])],
             "summary": {"storylines": sum(1 for p in packs if p.get("scenes")),
                         "scenes": sum(len(p.get("scenes", [])) for p in packs),
@@ -1192,6 +1327,12 @@ def guide(story_only: bool = False) -> str:
       + ", ".join(k.replace("_", " ") for k in sorted(V["castable"])) + ". Then any of: `plays <sport>` ("
       + ", ".join(sorted(V["sports"])) + "), `3 years older` / `2 years younger`, `girl` / `guy`, `close` (you start close), "
       "`from the start` (picked on day one, not at their first scene), and any words that describe them (\"the one who got away\").")
+    A("- Someone in another cast member's life: `cast: kayla = friend of sis, girl` (also `best friend of`, `teammate of`, "
+      "`boyfriend of`, `girlfriend of`). The game picks them from that person's own friends (or team), and they stay the "
+      "same person.")
+    A("- `expands: <Storyline>` (under the title, like `=== Sisters: Holidays` then `expands: Sisters`): an expansion, more "
+      "scenes for a storyline you have, in its own piece. It already has that storyline's cast (don't copy the cast: lines) "
+      "and can say `after <one of its scenes>`.")
     A("- `when: <tags>`: tags every scene in the storyline gets (like `freshman-junior`).")
     A("- `about: <notes>`: what the storyline is about, for you and for ChatGPT.")
     A("- A scene in another storyline: `after Same Team: Cut day`.")
@@ -1202,8 +1343,20 @@ def guide(story_only: bool = False) -> str:
     A("")
     A("- School year: freshman, sophomore, junior, senior, college freshman ... college senior, ranges like `freshman-junior`, "
       "or `high school` / `college`.")
-    A("- Month or season: `November`, `Nov`, `fall`, `winter`, `spring`, `summer`. A day: `Oct 31`, `Halloween`, `Christmas`, "
-      "`Valentine's Day`, `July 4th`. `after Nov 15` / `before Dec 20` for a window.")
+    A("- Month or season: `November`, `Nov`, `fall`, `winter`, `spring`, `summer`. A day: `Oct 31`, or a holiday: `Halloween`, "
+      "`Christmas Eve`, `Christmas`, `New Year's Eve`, `New Year's Day`, `Valentine's Day`, `St. Patrick's Day`, "
+      "`April Fools`, `July 4th`, `Veterans Day`.")
+    A("- Days that move, worked out for every year: `Thanksgiving`, `Black Friday`, `Easter`, `Mother's Day`, `Father's Day`, "
+      "`Memorial Day`, `Labor Day`, `MLK Day`, `Presidents' Day`, `Columbus Day`, `Super Bowl` (the real Sunday each year)."
+      + " The school calendar's own days: " + ", ".join(
+        f"`{k.replace('_', ' ')}`" for k in ("first_day_of_school", "last_day_of_school", "homecoming", "homecoming_week",
+                                              "snow_ball", "prom", "prom_week", "midterms", "midterms_week", "finals",
+                                              "finals_week", "report_cards", "graduation", "thanksgiving_break", "winter_break",
+                                              "spring_break")) + ". A scene tagged with one of these always gets its day "
+      "(you don't need a chance). `after Nov 15` / `before Thanksgiving` for a window.")
+    A("- In class: `in biology` (or " + ", ".join(f"`in {k.replace('_', ' ')}`" for k in sorted(_subjects()) if k != "biology")
+      + ", `in gym`) puts it on a school day in that class, if you're taking it that year; `{teacher}` and `{class}` say "
+      "your teacher's name and the class. `in class` is any class.")
     A("- Day: `weekday`, `weekend`, `school day`, `summer break`, or a weekday (`friday`).")
     A("- How likely on a day it can happen (one-off scenes): `rare`, `uncommon`, `sometimes`, `often`, `likely`, `always`, "
       "or `10%`. Storyline scenes don't need one.")
@@ -1227,7 +1380,10 @@ def guide(story_only: bool = False) -> str:
     A("")
     A("- A plain line is narration, in second person (\"You...\").")
     A("- `name: line` is someone talking: a cast name, `you`, `best friend`, `sibling`, `partner`, or the kind of person the "
-      "scene is with (`friend:`, `coach:`). A capitalized name (`Mom:`, `Coach Reyes:`) is just a label.")
+      "scene is with (`friend:`, `coach:`).")
+    A("- Anyone else can talk too, as a walk-on: `Mom:`, `Dad:`, `Grandma:`, `{teacher}:`, `Coach Reyes:`, `The waiter:`. "
+      "They're just a name on the line: the game doesn't track how they feel, so effects go on you (`mood +`), your family "
+      "(`family affection +`) or the scene's person.")
     A("- `{bro}` says a cast member's name; `{best friend}`, `{sibling}`, `{partner}`, `{me}` too. The game also fills in "
       + ", ".join("{" + n + "}" for n in sorted(V["names"]) if not n.endswith("_first") and n not in ("them", "best_friend", "sibling", "partner")) + ".")
     A("- `{a|b|c}` gives a line versions; the game rotates them so nothing repeats.")

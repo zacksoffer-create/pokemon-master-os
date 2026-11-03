@@ -6,6 +6,7 @@ import { copyText } from "./DialogueCard";
 import { PIcon } from "./icons";
 import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
+import { pickFile } from "./StoryFiles";
 
 const STATE_LABEL: Record<string, string> = {
   played: "Played", presented: "On now", queued: "Today", eligible: "Ready", waiting: "Not yet", unreachable: "Won't happen", expired: "Missed",
@@ -149,7 +150,7 @@ export function ScheduleScreen() {
 }
 
 /** Scenes per month for each of the seven years: where the story is full and where it's thin. */
-function CoverageGrid({ c }: { c: Coverage }) {
+export function CoverageGrid({ c }: { c: Coverage }) {
   const max = Math.max(1, ...c.years.flatMap((y) => y.months));
   return (
     <div className="sch-cov">
@@ -172,17 +173,22 @@ function CoverageGrid({ c }: { c: Coverage }) {
 /** Ask ChatGPT for more story with a prompt that knows yours, then check what it wrote on a copy before adding it. */
 /** Add to your story with ChatGPT: say what you want, copy the prompt, paste the answer, check it on a copy, add it.
  * With a target, it's one spot in one storyline ("add a scene right here"); without, the whole story. */
-export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: { pack: string; after: string | null } }) {
+const SIZE_LABEL: Record<string, string> = { few: "A few", bunch: "A bunch", lot: "A lot" };
+
+export function AddToStory({ onAdded, target, expand }: { onAdded: () => void; target?: { pack: string; after: string | null }; expand?: string }) {
   const { toast, refresh } = usePhone();
   const [ask, setAsk] = useState("");
   const [sugg, setSugg] = useState<string[]>([]);
-  const [prompt, setPrompt] = useState<{ text: string; checked: boolean; where?: string } | null>(null);
+  const [size, setSize] = useState("bunch");
+  const [prompt, setPrompt] = useState<{ text: string; checked: boolean; where?: string; expand?: string; has?: string[] } | null>(null);
   const [paste, setPaste] = useState("");
   const [pv, setPv] = useState<AddPreview | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   useEffect(() => {
-    if (!target) phoneApi.addPrompt("").then((r) => setSugg(r.suggestions)).catch(() => undefined);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (!target) phoneApi.addPrompt("").then((r) => setSugg(expand ? r.ideas : r.suggestions)).catch(() => undefined);
+    setPrompt(null);
+    setPv(null);
+  }, [expand]); // eslint-disable-line react-hooks/exhaustive-deps
   const run = async (k: string, fn: () => Promise<void>) => {
     setBusy(k);
     try {
@@ -197,8 +203,11 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
     if (target) {
       const r = await phoneApi.weave(target.pack, target.after, ask);
       setPrompt({ text: r.prompt, checked: true, where: r.where });
+    } else if (expand) {
+      const r = await phoneApi.expand(expand, ask, size);
+      setPrompt({ text: r.prompt, checked: true, expand: r.title, has: r.expansions });
     } else {
-      const r = await phoneApi.addPrompt(ask);
+      const r = await phoneApi.addPrompt(ask, size);
       setPrompt({ text: r.prompt, checked: r.checked });
     }
   });
@@ -212,7 +221,14 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
       await (navigator as any).share({ title: "LIFE OS: add to my story", text: prompt.text });
     } catch { /* cancelled */ }
   };
-  const check = () => run("check", async () => setPv(await phoneApi.addPreview(paste, target)));
+  const check = (t = paste) => run("check", async () => setPv(await phoneApi.addPreview(t, target)));
+  const fromFile = async () => {
+    const f = await pickFile(".txt,.story,.md,text/plain");
+    if (!f) return;
+    const t = await f.text();
+    setPaste(t);
+    check(t);
+  };
   const add = () => run("add", async () => {
     if (target) await phoneApi.addInsert(target.pack, target.after, paste);
     else await phoneApi.addPack(paste);
@@ -227,15 +243,26 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
   const notNew = (pv?.new || []).filter((x) => x.state !== "played");
   return (
     <div className="sch-card sch-add">
-      <div className="sch-step"><i>1</i><b>{target ? "What happens here?" : "What do you want more of?"}</b></div>
+      <div className="sch-step"><i>1</i><b>{target ? "What happens here?" : expand ? "What should this expansion be?" : "What do you want?"}</b></div>
       <textarea className="ph-input" rows={3} value={ask}
-        placeholder={target ? "Like: he gets benched and won't talk about it. Or leave it empty and ChatGPT fills the gap." : "Like: more sophomore year with the twins, a storyline about my brother's college team, fill the quiet weeks"}
+        placeholder={target ? "Like: he gets benched and won't talk about it. Or leave it empty and ChatGPT fills the gap."
+          : expand ? "Like: their friends hanging out at the house. Holidays with them. A season of her soccer team."
+            : "Like: a bunch of scenes in biology class. My sister's friends hanging out at the house. Holidays with my family."}
         onChange={(e) => setAsk(e.target.value)} />
       <div className="sch-sugg">{sugg.map((s) => <button key={s} onClick={() => setAsk(s)}>{s}</button>)}</div>
+      {!target && (
+        <div className="sch-size">
+          <span>How much</span>
+          {Object.keys(SIZE_LABEL).map((k) => <button key={k} className={cx(size === k && "on")} onClick={() => setSize(k)}>{SIZE_LABEL[k]}</button>)}
+        </div>
+      )}
       <button className="ph-btn primary block" disabled={!!busy} onClick={make}>{busy === "make" ? <span className="ph-spinner small light" /> : "Make my ChatGPT prompt"}</button>
       {prompt && (
         <div className="sch-prompt">
-          {prompt.where ? (
+          {prompt.expand ? (
+            <p className="ph-dim small">Ready: it has {prompt.expand}'s whole script{prompt.has && prompt.has.length ? `, the ${prompt.has.length} expansion${prompt.has.length === 1 ? "" : "s"} it already has` : ""},
+              the facts it remembers, your family and cast. ChatGPT sends back just the expansion; it goes in as its own piece, under {prompt.expand}.</p>
+          ) : prompt.where ? (
             <p className="ph-dim small">Ready: it goes {prompt.where.replace(/\.$/, "")}. The prompt has this storyline's script, what you chose when you played it,
               what else is going on then, and your family and cast. ChatGPT sends back just the new scene; the game puts it in right there.</p>
           ) : (
@@ -250,7 +277,11 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
       )}
       <div className="sch-step"><i>2</i><b>Paste what ChatGPT gives you</b></div>
       <textarea className="ph-input mono" rows={4} value={paste} placeholder="Paste the whole answer. The game finds the script inside it." onChange={(e) => { setPaste(e.target.value); setPv(null); }} />
-      <button className="ph-btn block" disabled={!!busy || !paste.trim()} onClick={check}>{busy === "check" ? <span className="ph-spinner small" /> : "Check it (nothing is saved yet)"}</button>
+      <div className="sch-row2">
+        <button className="ph-btn block" disabled={!!busy || !paste.trim()} onClick={() => check()}>{busy === "check" ? <span className="ph-spinner small" /> : "Check it"}</button>
+        <button className="ph-btn soft block" disabled={!!busy} onClick={fromFile}><PIcon name="upload" size={15} /> Or a file</button>
+      </div>
+      <p className="ph-dim small sch-hint">Checking plays your seven years forward on a copy with it in. Nothing is saved until you add it.</p>
       {pv && !pv.ok && (
         <div className="sch-pv bad">
           <b>It needs a fix before it can load</b>
@@ -281,6 +312,7 @@ export function AddToStory({ onAdded, target }: { onAdded: () => void; target?: 
           {pv.coverage && <CoverageGrid c={pv.coverage} />}
           <button className="ph-btn primary block" disabled={!!busy} onClick={add}>{busy === "add" ? <span className="ph-spinner small light" /> : "Add it to my story"}</button>
           <p className="ph-dim small">{target ? "It goes into this storyline's script, right after that scene. You can read and edit it under Me > Storylines."
+            : expand ? `It goes in as an expansion of ${prompt?.expand || "the storyline"}: its own piece, under it in Me > Storylines.`
             : pv.replaces && pv.replaces.length ? "A storyline you have comes back with the same title: this replaces it." : "Each storyline goes in as its own script: on or off any time under Me > Storylines."}</p>
         </div>
       )}

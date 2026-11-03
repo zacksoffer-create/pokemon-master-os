@@ -388,6 +388,9 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
         elif kind == "vibe":
             from . import hangouts
             hangouts.vibe(sim, c, op, ctx, fx, ev, rng, m, lambda s: _render(s, names))
+            extra = op[3] if len(op) > 3 and isinstance(op[3], dict) else {}
+            if extra.get(ev["data"].get("vibe")):  # what else happens when it lands (or doesn't), written on the outcome
+                run_ops(sim, c, extra[ev["data"]["vibe"]], ctx, fx, ev, rng, m)
         elif kind == "say":
             from . import lines
             ev["data"].setdefault("say", []).append(_render(lines.variant(sim, f"say:{m['kind']}", op[1], f"{m['id']}:{len(ev['data'].get('say', []))}"), names))

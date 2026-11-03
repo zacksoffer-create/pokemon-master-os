@@ -393,10 +393,22 @@ def season_rules() -> list:
 
 # ---------------------------------------------------------------------------------------- the gate
 
+_DLG = None
+
+
+def _dlg():
+    """The dialogue module (imported once: the scheduler's hot paths run millions of times)."""
+    global _DLG
+    if _DLG is None:
+        from . import dialogue as d
+        _DLG = d
+    return _DLG
+
+
 def _years(when) -> list:
-    from .dialogue import YEARS
     ys = when.get("years") or []
-    return [g for y in (ys if isinstance(ys, list) else [ys]) for g in YEARS.get(y, ())]
+    Y = _dlg().YEARS
+    return [g for y in (ys if isinstance(ys, list) else [ys]) for g in Y.get(y, ())]
 
 
 def _md(s) -> tuple | None:
@@ -423,9 +435,9 @@ def _in_window(d, nb, na) -> bool:
 
 def calendar_ok(sim, sid, when, info, day) -> tuple | None:
     """Today's date against the scene's dates, months, weekdays, window and season-map window."""
-    from .dialogue import WEEKDAYS
+    WEEKDAYS = _dlg().WEEKDAYS
     d = calm.date_of(day)
-    if when.get("dates") and f"{d.month:02d}-{d.day:02d}" not in when["dates"]:
+    if when.get("dates") and not calm.date_matches(day, when["dates"], sim.cat.world["calendar"]):
         return ("wrong_date", ", ".join(when["dates"][:3]))
     win = (info or {}).get("window")
     months = when.get("months") or (win if isinstance(win, list) else None)
@@ -536,7 +548,7 @@ def _after(when) -> list:
 
 def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
     """None if the scene is ready today; else (reason, detail). Chance and pacing aren't part of this."""
-    from . import dialogue
+    dialogue = _dlg()
     w = sim.w
     day = w.day if day is None else day
     sc = cat["scenes"][sid]
@@ -598,24 +610,35 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
             return ("mood", f)
     cal = calendar_ok(sim, sid, when, info, day)
     if cal:
-        if cal[0] == "wrong_season" and grades and max(grades) == (me.grade or 0) and _window_over(sim, when, info, day):
-            return ("window_passed", cal[1])
+        if cal[0] in ("wrong_season", "wrong_date") and grades and max(grades) == (me.grade or 0) and _window_over(sim, when, info, day):
+            return ("window_passed", cal[1])  # its day (or season) has gone by in its last school year: it can't come now
         return cal
     return None
 
 
+_LAST_OK: dict = {}
+_EMPTY: dict = {}
+
+
 def _window_over(sim, when, info, day) -> bool:
-    """Its season window this school year has gone by (and its years end this year)."""
-    end = calm.md_to_day(calm.school_year_of(day), (8, 31))  # the last day of this school year
-    for x in range(day, min(end + 1, day + 370)):
-        if calendar_ok(sim, None, when, info, x) is None:
-            return False
-    return True
+    """Its season window this school year has gone by (and its years end this year). The calendar part of a scene only
+    depends on the date, so the last day it fits in each school year is worked out once and kept."""
+    when, info = when or _EMPTY, info or _EMPTY  # (an empty {} made on the fly isn't the same object twice)
+    sy = calm.school_year_of(day)
+    key = (id(when), id(info), sy)
+    hit = _LAST_OK.get(key)
+    if hit is None or hit[0] is not when or hit[1] is not info:
+        if len(_LAST_OK) > 60000:
+            _LAST_OK.clear()
+        first, end = calm.md_to_day(sy, (9, 1)), calm.md_to_day(sy, (8, 31))  # this school year
+        last = next((x for x in range(end, first - 1, -1) if calendar_ok(sim, None, when, info, x) is None), None)
+        hit = _LAST_OK[key] = (when, info, last)
+    return hit[2] is None or hit[2] < day
 
 
 # chapter order: which reasons step over a chapter (the story moves on) and which hold the storyline (it waits)
 STEP_OVER = {"too_early_year", "year_passed", "missing_requirement", "missing_fact", "exclusive_branch", "waiting_for_scene",
-             "after_unreachable", "mood", "played", "branch_closed", "missing_cast"}
+             "after_unreachable", "mood", "played", "branch_closed", "missing_cast", "window_passed"}
 
 
 def castable(sim, me, sid, cat) -> tuple | None:
@@ -687,6 +710,25 @@ def _roll(w, sid, day) -> float:
     return (_h(w.seed, "scene-roll", sid, day) % 100000) / 100000
 
 
+def _free_scenes(cat) -> list:
+    """The scenes that aren't storyline chapters, with their years, months and dates ready for a quick check (kept with
+    the catalog: built once per set of packs)."""
+    pre = cat.get("_free")
+    if pre is None:
+        pre = []
+        for sid, sc in sorted(cat["scenes"].items()):
+            if sc.get("pack") in cat["ordered"]:
+                continue
+            when = sc.get("when") or {}
+            win = (cat["info"].get(sid) or {}).get("window")
+            months = when.get("months") or (win if isinstance(win, list) else None)
+            dates = when.get("dates") or ()
+            plain = all(len(x) == 5 and x[2] == "-" for x in dates)  # (named days like Thanksgiving move: the gate checks those)
+            pre.append((sid, sc, frozenset(_years(when)), frozenset(months or ()), frozenset(dates if plain else ())))
+        cat["_free"] = pre
+    return pre
+
+
 def candidates(sim, me, cat, prof, day=None) -> list:
     """Everything ready today, best first: deadlines, then storyline chapters (the one that's waited longest first, across
     storylines), then other scenes. Chance applies here (deterministic per seed, scene and day)."""
@@ -707,9 +749,11 @@ def candidates(sim, me, cat, prof, day=None) -> list:
         prev = [done[s][-1] for s in cat["chapters"][pk] if s in done]
         out.append({"sid": sid, "kind": "chapter", "pack": pk, "waited": day - max(prev) if prev else 10**4,
                     "weight": float(weights.get(pk, 1))})
-    for sid, sc in sorted(cat["scenes"].items()):
-        if sc.get("pack") in cat["ordered"]:
-            continue
+    d = calm.date_of(day)
+    md, grade = f"{d.month:02d}-{d.day:02d}", me.grade or 0
+    for sid, sc, grades, months, dates in _free_scenes(cat):
+        if (grades and grade not in grades) or (dates and md not in dates) or (months and d.month not in months):
+            continue  # (the gate would say no too: it's not this scene's year, month or day)
         if gate(sim, me, sid, cat, day, prof) is not None:
             continue
         when = sc.get("when") or {}

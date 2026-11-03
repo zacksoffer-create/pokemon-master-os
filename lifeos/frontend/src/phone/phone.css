@@ -1234,3 +1234,54 @@ html.ph-html body { color-scheme: light; }
 .dl-castline { margin: 4px 0 8px; }
 .dl-paste-foot { display: flex; gap: 8px; }
 .dl-paste-foot > .ph-btn { flex: 1; }
+
+/* write more: how much */
+.sch-size { display: flex; align-items: center; gap: 6px; margin: 4px 0 10px; flex-wrap: wrap; }
+.sch-size span { font-size: 12.5px; font-weight: 800; color: var(--ph-dim); margin-right: 2px; }
+.sch-size button { border: 1.5px solid var(--ph-line); background: var(--ph-card); border-radius: 999px; padding: 6px 12px; font: 800 13px var(--ph-body); color: var(--ph-ink-2); }
+.sch-size button.on { background: var(--ph-ink); border-color: var(--ph-ink); color: #fff; }
+.sch-hint { margin: 6px 2px 0; }
+.dl-target { margin-bottom: 10px; }
+
+/* storylines and their expansions */
+.dl-pack.exp { margin-left: 16px; border-left: 3px solid var(--ph-line); }
+.dl-plus { font-style: normal; color: var(--ph-grape); font-weight: 900; margin-right: 5px; }
+.dl-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+.dl-acts .ph-btn { display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+/* read a storyline */
+.rd-wait { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 40px 0; }
+.rd-health { border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; font-size: 14.5px; font-weight: 700; color: var(--ph-ink-2); background: #e6f7f0; }
+.rd-health b { color: var(--ph-ink); }
+.rd-health.mid { background: #fff6e0; }
+.rd-health.bad { background: #ffe9e4; }
+.rd-wont { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; }
+.rd-wont b { color: #a8321f; }
+.rd-wont small { color: var(--ph-dim); }
+.rd-parts { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.rd-parts button { border: 1.5px solid var(--ph-line); background: var(--ph-card); border-radius: 999px; padding: 6px 11px; font: 800 12.5px var(--ph-body); color: var(--ph-ink-2); }
+.rd-parts button.on { background: var(--ph-grape); border-color: var(--ph-grape); color: #fff; }
+.rd-parts small { opacity: .75; font-weight: 700; }
+.rd-year { font: 800 13px var(--ph-head); text-transform: uppercase; letter-spacing: .06em; color: var(--ph-dim); margin: 18px 2px 8px; }
+.rd-year.bad { color: #a8321f; }
+.rd-scene { background: var(--ph-card); border-radius: 16px; padding: 12px 14px; margin-bottom: 10px; box-shadow: var(--ph-shadow); }
+.rd-scene.off { opacity: .85; border: 1.5px dashed #f0b3a6; box-shadow: none; }
+.rd-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.rd-head b { font: 800 16px var(--ph-head); color: var(--ph-ink); }
+.rd-when { flex-shrink: 0; font-size: 12px; font-weight: 800; color: var(--ph-school); background: #e6f7f0; border-radius: 999px; padding: 3px 8px; }
+.rd-when.bad { color: #a8321f; background: #ffe9e4; }
+.rd-tags { font-size: 12px; color: var(--ph-dim); font-weight: 700; margin: 3px 0 8px; }
+.rd-tags i { font-style: normal; color: var(--ph-grape); margin-right: 6px; }
+.rd-why { font-size: 13px; font-weight: 700; color: #a8321f; margin-bottom: 8px; }
+.rd-script { display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.45; color: var(--ph-ink-2); }
+.rd-narr { font-style: italic; }
+.rd-say b { color: var(--ph-grape); font-weight: 900; }
+.rd-say b::after { content: ":"; }
+.rd-choice { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; margin-top: 3px; }
+.rd-choice > span { color: var(--ph-coral); font-weight: 900; }
+.rd-choice b { color: var(--ph-ink); font-weight: 800; }
+.rd-out i { font-style: normal; font-weight: 900; font-size: 11.5px; text-transform: uppercase; color: var(--ph-sky); margin-right: 6px; }
+.rd-cmd { font-size: 12px; color: var(--ph-dim); font-weight: 700; }
+.rd-fx { font-style: normal; font-size: 11.5px; font-weight: 700; color: var(--ph-dim); background: var(--ph-bg); border-radius: 6px; padding: 1px 6px; margin-left: 6px; }
+.rd-var { color: var(--ph-ink-2); background: #f1ecff; border-radius: 6px; padding: 0 4px; }
+.rd-name { font-weight: 800; color: var(--ph-ink); }
