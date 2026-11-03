@@ -518,13 +518,37 @@ What's in it:
   Their answer depends on how they parent, money at home, your grades and how much they trust you.
 - **Me.** Your stats, grades, teams, the seven-year timeline, your focus and when the story should stop to ask you.
 
-## The scene (Phone → Scene)
+## The Scene tab
 
-Your school's world, from where you're standing. It's the third tab in the Phone app, next to Messages and Contacts.
+Your school, live: its own tab (Story · **Scene** · Phone · Home · Me), in three parts: the **Ladder**, the **Crowd** and
+the **Talk**.
 
-- **Where you stand:** your rank at school and in your grade ("#12 of 140", "Well known"), how many friends you have,
-  your group ("You're in the Court Crew", or "You float between groups"), and what people say about you ("throws the
-  best parties", "not someone to mess with", "an athlete").
+**The Ladder** is built on the game's own popularity, recomputed every week from how everyone sees everyone (how many
+people know you, how much they like and respect you and how popular *they* are, your teams' and groups' prestige, your
+reputation). Every week the game takes a snapshot of everyone's rank, so the ladder can show movement.
+
+- **You:** your rank at school ("#3 of 56", "Everybody knows you"), in your grade, this week's move (▲/▼), your rank over
+  the whole story as a line, and who's next up the ladder.
+- **What your standing is made of:** the same ingredients the game counts, each as a bar next to the best at school
+  ("16 of 55 people at school know who you are", "6 like you, 3 don't", "Popular people like you: ...", "On Guilford
+  Football", what people say about you), and **your next move**: the weakest one, in plain words.
+- **Your week:** the things that happened to you this week that people would see (games, tryouts, parties, fights, your
+  storyline scenes), not your quizzes or your pet.
+- **Your storylines' people:** everyone your storylines are about (their cast slots), with their rank and movement.
+- **Who's moving:** the biggest risers and fallers this week, each with the thing that moved them, pointing the right
+  way: good news for a riser ("led Guilford Girls Soccer: 1 goal, 1 assist"), bad news for a faller ("tried to sit with
+  Zoe and the table froze them out").
+- **Superlatives:** the yearbook, live: Most Popular, Best Athlete, Biggest Brain, Life of the Party, Nicest Person,
+  Drama Magnet, Most Likely to Succeed and Cutest Couple, with where you'd place.
+- **The rankings:** everyone, for the whole school, your grade or any grade, with movement, what they're known for, and
+  how they connect to you (friend, family, crush, dating, rival, your story). Tap anyone: their rank and what's
+  happened lately, and a move: ask a friend to introduce you (if you barely know them and a friend does), make plans,
+  text them, or read about them.
+
+The **Crowd** is the groups and people you could meet; the **Talk** is what people are saying, who's fighting and
+who's together (below). `GET /api/phone/ladder?scope=school|grade|9..12`.
+
+**The Crowd and the Talk** (what used to be Phone → Scene; that link still lands here):
 - **The groups:** every friend group at your school, the ones that formed on their own from who's actually friends with
   who (the Court Crew, the Honor Roll, the In-Crowd, the Theater Kids...). Each shows its people, its vibe, how popular
   it is, and how many of your friends are in it. Tap one to see everyone in it.

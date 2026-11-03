@@ -47,6 +47,8 @@ def test_local_api_answers_like_the_server(tmp_path):
         assert r['status'] == 200, r['body'][:300]
         if js(r).get('moment'):
             assert call('POST', '/api/story/playline/choose', {{'index': 0}})['status'] == 200
+        lad = call('GET', '/api/phone/ladder')  # the Scene tab's ladder
+        assert lad['status'] == 200 and js(lad)['you']['rank'] >= 1, lad['body'][:300]
         up = call('GET', '/api/story/order')  # up next, played forward on a copy, on the phone too
         assert up['status'] == 200 and js(up)['list'], up['body'][:300]
         threads = js(call('GET', '/api/phone/threads'))['threads']

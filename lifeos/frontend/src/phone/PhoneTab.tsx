@@ -14,7 +14,6 @@ import { pgo } from "./api";
 import { usePhone } from "./PhoneContext";
 import { ContactProfile, ContactsList } from "./Contacts";
 import { Conversation, MessagesList } from "./Messages";
-import { SceneScreen } from "./Scene";
 
 export default function PhoneTab({ route }: { route: string[] }) {
   const [view, arg] = route;
@@ -23,10 +22,14 @@ export default function PhoneTab({ route }: { route: string[] }) {
   if (view === "contact" && id) return <div className="pm-root"><ContactProfile key={id} cid={id} /></div>;
   const contacts = view === "contacts";
   const scene = view === "scene";
+  if (scene) {  // the Scene has its own tab now
+    setTimeout(() => pgo("scene"), 0);
+    return null;
+  }
   return (
     <div className="pm-root">
-      <Header contacts={contacts} scene={scene} />
-      <div className="pm-scroll">{scene ? <SceneScreen /> : contacts ? <ContactsList /> : <MessagesList />}</div>
+      <Header contacts={contacts} scene={false} />
+      <div className="pm-scroll">{contacts ? <ContactsList /> : <MessagesList />}</div>
     </div>
   );
 }
@@ -43,9 +46,6 @@ function Header({ contacts, scene }: { contacts: boolean; scene: boolean }) {
         </button>
         <button role="tab" aria-selected={contacts} className={contacts ? "on" : ""} onClick={() => pgo("phone/contacts")}>
           Contacts
-        </button>
-        <button role="tab" aria-selected={scene} className={scene ? "on" : ""} onClick={() => pgo("phone/scene")}>
-          Scene
         </button>
       </div>
     </header>

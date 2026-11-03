@@ -325,6 +325,17 @@ def phone_scene():
         return scene.view(L.sim)
 
 
+@router.get("/api/phone/ladder")
+def phone_ladder(scope: str = "school"):
+    """The Scene tab's ladder: you, the movers and why, what your standing is made of, your storylines' people, the
+    superlatives and the full rankings (scope: school, grade, or 9-12)."""
+    A, L = _lab()
+    from . import ladder
+    with L.lock:
+        _me(L)
+        return ladder.view(L.sim, scope if scope in ("school", "grade") or scope.isdigit() else "school")
+
+
 @router.post("/api/phone/scene/intro")
 def phone_scene_intro(body: dict = Body(...)):
     """Ask a friend ({via}) to introduce you to someone they know ({to}). Free, once a day."""

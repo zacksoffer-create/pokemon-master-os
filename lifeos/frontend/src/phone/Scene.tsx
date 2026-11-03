@@ -10,7 +10,9 @@ function Face({ p, size = 40 }: { p: SceneMini; size?: number }) {
   return <Portrait look={p.look} size={size} color={p.color} name={p.first} />;
 }
 
-export function SceneScreen() {
+/** The Scene tab's Crowd (the groups and your way in, people you could meet) and Talk (what people are saying, who's
+ * fighting, who's together) sections. */
+export function SceneScreen({ section }: { section: "crowd" | "talk" }) {
   const { toast, refresh } = usePhone();
   const [v, setV] = useState<SceneView | null>(null);
   const [open, setOpen] = useState<string | null>(null);
@@ -56,24 +58,10 @@ export function SceneScreen() {
       toast(errText(e), "bad");
     }
   };
-  const me = v.me;
+  const talk = section === "talk";
   return (
     <div className="sc">
-      <div className="sc-stand">
-        <div className="sc-rank"><b>#{me.rank}</b><small>of {me.of} at school</small></div>
-        <div className="sc-stand-m">
-          <b>{me.tier}</b>
-          <span>#{me.grade_rank} in your grade · {me.friends} friend{me.friends === 1 ? "" : "s"}</span>
-          <span>{me.group ? <>You're in <em>{me.group}</em></> : "You float between groups"}</span>
-        </div>
-      </div>
-      {me.reputation.length > 0 && (
-        <div className="sc-rep">
-          <span>People say you're</span>
-          {me.reputation.map((r) => <b key={r}>{r}</b>)}
-        </div>
-      )}
-
+      {talk && <>
       <div className="sc-h">What people are saying</div>
       {v.talk.length === 0 && <div className="sc-dim">You haven't heard anything yet. Your friends will fill you in.</div>}
       {v.talk.slice(0, 8).map((t) => <RumorCard key={t.id} t={t} busy={busy} onAct={rumor} />)}
@@ -85,7 +73,9 @@ export function SceneScreen() {
           ))}
         </>
       )}
+      </>}
 
+      {!talk && <>
       <div className="sc-h">The groups</div>
       {v.groups.length === 0 && <div className="sc-dim">No real groups have formed yet. Give it a few weeks.</div>}
       {v.groups.map((g) => (
@@ -131,6 +121,9 @@ export function SceneScreen() {
         </div>
       ))}
 
+      </>}
+
+      {talk && <>
       <div className="sc-h">Who's together</div>
       {v.couples.length === 0 && <div className="sc-dim">Nobody's official yet.</div>}
       {v.couples.map((c) => (
@@ -152,16 +145,7 @@ export function SceneScreen() {
         </>
       )}
 
-      <div className="sc-h">Most popular</div>
-      <div className="sc-pop">
-        {v.popular.map((p, i) => (
-          <button key={p.id} className={cx(p.you && "you")} onClick={() => !p.you && pgo(`phone/contact/${encodeURIComponent(p.id)}`)}>
-            <i>{i + 1}</i>
-            <Face p={p} size={46} />
-            <small>{p.you ? "You" : p.first}</small>
-          </button>
-        ))}
-      </div>
+      </>}
       <div style={{ height: 20 }} />
 
       <Sheet open={!!out} onClose={() => setOut(null)} title={out?.title}>

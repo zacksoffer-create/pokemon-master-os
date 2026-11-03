@@ -21,6 +21,19 @@ export type EdPerson = EdMini & { last: string; bio: string; gender: string; gra
   rels: (EdMini & { roles: string[]; ab: EdRel | null; ba: EdRel | null })[] };
 export type EdPair = { a: EdMini; b: EdMini; ab: EdRel | null; ba: EdRel | null; roles: string[]; dating: boolean; presets: { id: string; label: string }[] };
 export type SceneMini = { id: string; name: string; first: string; color: string; look: Look; year: string };
+export type LadderRow = SceneMini & {
+  rank: number | null; scope_rank?: number; move: number | null; pop?: number; grade?: number | null; known_for: string; tags: string[];
+  storylines: string[]; label?: string | null; via?: SceneMini | null; why?: string | null;
+};
+export type LadderPart = { key: string; label: string; score: number; line: string; value?: number; of?: number };
+export type Superlative = { key: string; label: string; winner: SceneMini & { you: boolean }; partner?: SceneMini; runners: SceneMini[]; you: number | null };
+export type LadderView = {
+  you: LadderRow & { of: number; tier: string; grade_rank: number; grade_of: number; grade_label: string;
+    history: { day: number; date: string; rank: number; of: number }[]; next_up: (LadderRow & { gap: number }) | null;
+    this_week: { text: string; date: string; imp: number }[]; parts: LadderPart[]; tip: string };
+  movers: { up: LadderRow[]; down: LadderRow[] }; rows: LadderRow[]; scope: string; of: number; storyline_people: LadderRow[];
+  week_of: string | null; superlatives: Superlative[];
+};
 export type SceneView = {
   me: { rank: number; of: number; grade_rank: number; grade_of: number; tier: string; popularity: number; group: string | null; reputation: string[]; friends: number };
   groups: { id: string; name: string; size: number; mine: boolean; members: (SceneMini & { friend: boolean; me: boolean; family: boolean })[]; friends: number;
@@ -136,6 +149,7 @@ export const phoneApi = {
   today: (): Promise<Today> => api.get("/api/phone/today"),
   episodes: (): Promise<EpisodeGuide> => api.get("/api/phone/episodes"),
   scene: (): Promise<SceneView> => api.get("/api/phone/scene"),
+  ladder: (scope = "school"): Promise<LadderView> => api.get(`/api/phone/ladder?scope=${encodeURIComponent(scope)}`),
   sceneIntro: (via: string, to: string): Promise<{ lines: Line[]; chips: Chip[]; scene: SceneView }> => api.post("/api/phone/scene/intro", { via, to }),
   scenePlan: (id: string): Promise<{ note: string }> => api.post("/api/phone/scene/plan", { with: id }),
   sceneRumor: (id: string, what: string): Promise<{ lines: Line[]; chips: Chip[]; scene: SceneView }> => api.post("/api/phone/scene/rumor", { id, what }),
