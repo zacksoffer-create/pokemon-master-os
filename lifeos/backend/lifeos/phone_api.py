@@ -325,6 +325,16 @@ def phone_scene():
         return scene.view(L.sim)
 
 
+@router.get("/api/phone/sports")
+def phone_sports(team: str = ""):
+    """The Sports tab: your season, your playing time, the league, the awards race and recruiting (for one of your teams)."""
+    A, L = _lab()
+    from . import sportshub
+    with L.lock:
+        _me(L)
+        return sportshub.view(L.sim, team or None)
+
+
 @router.get("/api/phone/ladder")
 def phone_ladder(scope: str = "school"):
     """The Scene tab's ladder: you, the movers and why, what your standing is made of, your storylines' people, the

@@ -1121,6 +1121,9 @@ class Institutions:
         g = w.groups[it["group"]]
         rec = dict(g["record"])
         awards = sports.season_awards(self, g) if g["kind"] == "team" else []
+        if g["kind"] == "team":
+            from . import league
+            league.season_end(self.sim, g)  # the regular-season title, and what the season did for the team's standing
         rng = self.sim.streams.get("season_end", w.day, g["id"])
         if g["kind"] == "team":
             for m in sorted(g["members"]):

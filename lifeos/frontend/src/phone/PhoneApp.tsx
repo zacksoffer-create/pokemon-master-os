@@ -21,6 +21,7 @@ import { PhoneProvider, usePhone } from "./PhoneContext";
 import PhoneTab from "./PhoneTab";
 import PlayLine from "./PlayLine";
 import SceneTab from "./SceneTab";
+import SportsTab from "./SportsTab";
 import StoryTab from "./StoryTab";
 import "./phone.css";
 
@@ -87,6 +88,7 @@ function Shell({ route }: { route: string[] }) {
   if (tab === "phone") body = <PhoneTab route={route.slice(1)} />;
   else if (tab === "home") body = <HomeTab />;
   else if (tab === "scene") body = <SceneTab route={route.slice(1)} />;
+  else if (tab === "sports") body = <SportsTab route={route.slice(1)} />;
   else if (tab === "me") body = <MeTab />;
   else if (tab === "edit") body = <Editor route={route.slice(1)} />;
   else if (tab === "schedule") body = <ScheduleScreen />;
@@ -105,6 +107,7 @@ function TabBar({ tab }: { tab: string }) {
   const items: [string, string, string, React.ReactNode?][] = [
     ["story", "Story", "story", state?.moments.length ? <i className="ph-dot" /> : null],
     ["scene", "Scene", "people", null],
+    ["sports", "Sports", "trophy", null],
     ["phone", "Phone", "phone", state?.unread ? <b className="ph-badge">{state.unread > 99 ? "99+" : state.unread}</b> : state?.needs_reply ? <i className="ph-dot" /> : null],
     ["home", "Home", "home", state?.pet_setup_needed ? <i className="ph-dot" /> : null],
     ["me", "Me", "me", null],

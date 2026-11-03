@@ -340,6 +340,35 @@ Guilford has seven high school teams, each with its own coach, tryouts and sched
   of this year's tryouts and games, girls on boys' teams move to the girls' team for that season (keeping varsity or JV),
   a girl's baseball becomes softball, some kids pick up soccer, and a college you're already at gets its women's teams.
 
+## The Sports tab and the league
+
+Its own tab (Story · Scene · **Sports** · Phone · Home · Me), one view per team you're on, in four parts.
+
+**The league is real now.** Every school in the conference (the 14 SCC schools Guilford plays; your college's conference
+later) is a team that lasts the season: its own strength (some programs are better at a sport, and it shifts year to
+year and story to story), its record, points for and against, streak, and three named stars with season stat lines. The
+conference is pitched at your team's level (half your roster, half a typical team), so most seasons are a fight. Your
+schedule rotates through the conference, and **Hand** is Guilford's rival (that game comes late, and it travels further
+when you win it). Every week your team plays, the rest of the conference plays too (one team sits each round), so the
+standings, power rankings and leaders are real.
+
+- **Season:** the record and where it puts you ("2-2, #6 of 15 in the SCC"), the streak, the last game, the next one with
+  the other team's record and the stars to watch (the rivalry game flagged). **Your playing time** in the coach's own terms:
+  starters are the best players by sport rating, so you see your rating in its real parts (skill, athleticism, fitness,
+  size and build, confidence), who you're ahead of or chasing for the last starting spot and by how much, the whole depth
+  chart with the starting line, the coach's trust and your attendance, and your next move. Then your season line, your
+  game log (rivalry games marked) and your awards.
+- **League:** the standings (W-L, point difference, streak, this week's power-ranking move) and the league leaders, your
+  teammates next to the other schools' stars.
+- **Awards:** Player of the Week (every week, from every game in the conference: yours to win), the All-SCC race
+  (everyone by impact per game, with the line that gets you named) and the team MVP race.
+- **Recruiting:** who's interested and how much, the offers, and what college coaches look at.
+
+**It feeds the Scene.** A team's prestige follows its record (a winning team's goes up, a title adds more), and prestige is
+one of the things popularity is made of. A standout game, Player of the Week, an award or a title travels around school:
+classmates who'd never met you get to know you and respect you a little (more if they follow the sport, more for the
+rival game), which is what moves the Scene's ladder. `GET /api/phone/sports?team=`.
+
 ## Play on your phone
 
 **The lab is your dashboard; your phone is where you play.** The phone app, *LIFE OS: Story*, runs the whole

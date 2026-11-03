@@ -58,6 +58,30 @@ export type Pet = {
   bond: Record<string, number>; my_bond: number; tricks: { name: string; progress: number }[]; duties: PetDuty[]; setup_needed: boolean;
   streak: number; quick_left: Record<string, number>; activities: { id: string; label: string; quick: boolean }[]; adopted: string;
 };
+export type SportsRow = { rank: number; name: string; w: number; l: number; pct: number; pf: number; pa: number; diff: number; streak: string;
+  ours: boolean; rival: boolean; power?: number | null; power_move?: number | null };
+export type RaceRow = { id: string; name: string; team: string; ours: boolean; you: boolean; per: number; games: number; line: string };
+export type SportsView = {
+  teams: { id: string; name: string; sport: string; in_season: boolean }[];
+  tryouts?: { name: string; date: string }[];
+  team?: { id: string; name: string; sport: string; label: string; record: string; rank: number; of: number; streak: string;
+    last: { day: number; vs: string; win: boolean; score: string } | null; conference: string; title: string | null; prestige: number;
+    rival: string | null; ours: string;
+    next: { date: string; in_days: number; opponent: string; rival: boolean; their_record: string | null; their_rank: number | null;
+      stars: { name: string; pos: string }[] } | null };
+  you?: { level: string; position: string | null; starter: boolean; spot: number; starters: number; of: number; rating: number;
+    parts: { key: string; label: string; value: number }[]; tip: string; injured: boolean; missed: number;
+    vs: { name: string; first: string; rating: number; gap: number; diff: Record<string, number>; line: string; how: string } | null;
+    depth: { id: string; name: string; first: string; rating: number; pos: string | null; grade: number; you: boolean; starter: boolean }[];
+    coach: { name: string; respect: number; label: string } | null; season: string | null; games: number; starts: number;
+    log: { date: string; opponent: string; win: boolean; score: string; line: string; started: boolean; rivalry: boolean }[]; awards: string[] };
+  standings?: SportsRow[];
+  leaders?: Record<string, { label: string; rows: { id: string; name: string; team: string; ours: boolean; value: number }[] }>;
+  potw?: { name: string; team: string; text: string; week_of: string; ours?: boolean }[];
+  race?: { all_conf: RaceRow[]; you: number | null; cut: number; mvp: RaceRow[] };
+  recruiting?: { grade: number | null; score: number | null; interest: { name: string; level: number; tier: string }[];
+    offers: { name: string; short: string; aid: string; conference: string }[] };
+};
 export type PhoneState = {
   active: boolean; day: number; date: string; weekday: string; term: string; scene: Scene; decision_ready: boolean;
   progress: { day: number; total: number; pct: number; year: number; complete: boolean }; title: string;
@@ -149,6 +173,7 @@ export const phoneApi = {
   today: (): Promise<Today> => api.get("/api/phone/today"),
   episodes: (): Promise<EpisodeGuide> => api.get("/api/phone/episodes"),
   scene: (): Promise<SceneView> => api.get("/api/phone/scene"),
+  sports: (team = ""): Promise<SportsView> => api.get(`/api/phone/sports${team ? `?team=${encodeURIComponent(team)}` : ""}`),
   ladder: (scope = "school"): Promise<LadderView> => api.get(`/api/phone/ladder?scope=${encodeURIComponent(scope)}`),
   sceneIntro: (via: string, to: string): Promise<{ lines: Line[]; chips: Chip[]; scene: SceneView }> => api.post("/api/phone/scene/intro", { via, to }),
   scenePlan: (id: string): Promise<{ note: string }> => api.post("/api/phone/scene/plan", { with: id }),

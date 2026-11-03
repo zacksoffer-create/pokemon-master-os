@@ -364,7 +364,8 @@ class Simulation:
                 fx.pairs.add((a, b))
         social.update_labels(self, fx, None)
         social.recompute_popularity(self, Effects(w, None))
-        from . import ladder
+        from . import ladder, league
+        league.weekly(self)  # power rankings and Player of the Week (before the ladder: it's news that moves people)
         ladder.snapshot(self)  # everyone's rank this week: who's moving on the Scene tab's ladder
         for kind, cid, qid in social.detect_cliques(self, rng):
             q = w.cliques[qid]

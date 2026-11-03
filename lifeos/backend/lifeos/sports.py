@@ -344,6 +344,8 @@ def line_text(sport, line) -> str:
         if sport == "soccer" and k == "clean_sheets" and v == 1:
             parts.append("a clean sheet")
             continue
+        if v == 1 and label in ("tackles", "sacks"):
+            label = label[:-1]
         parts.append(f"{v} {label}")
     return ", ".join(parts[:4]) if parts else "limited minutes"
 
@@ -465,11 +467,19 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     share = {cid: 1.0 if cid in starters else 0.3 for cid in players}
     strength = sum(filled) / max(1, len(filled))
     base = clevel if college else (48 if level == "varsity" else 41)
-    opp = base + rng.gauss(0, 8)
+    rivalry = False
+    if level == "varsity":  # a real team in the league: its own strength, record and stars (league.py)
+        from . import league as lg
+        ot = lg.opponent(sim, g, num)
+        opp = ot["strength"] + rng.gauss(0, 5)
+        oname = ot["name"]
+        rivalry = oname == lg.league(sim, g).get("rival")
+    else:
+        opp = base + rng.gauss(0, 8)
+        oname = opponent_name(sim, g, num)
     home = 2 if fans else 0
     margin = strength - opp + rng.gauss(0, 6) + home
     win = margin > 0
-    oname = opponent_name(sim, g, num)
     score = inst.score_line(sport, margin, rng)
     tds = None
     if sport == "football":
@@ -509,7 +519,8 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     ev = inst.event("game", "win" if win else "loss", players, importance=14 if level == "varsity" else 7, group=g["id"],
                     involved=fans, data={"group": label, "score": score, "opponent": oname, "level": level, "sport": sport,
                                           "box": box, "starters": starters, "fans": len(fans)})
-    ev["text"] = f"{label} {'beat' if win else 'lost to'} {oname}, {score}."
+    ev["text"] = f"{label} {'beat' if win else 'lost to'} {'rival ' if rivalry else ''}{oname}, {score}."
+    ev["data"]["rivalry"] = rivalry
     if w.tracing:
         ev["calc"] = [{"step": "game result", "terms": [["team strength (avg of starters' performances)", round(strength, 2)],
                                                          ["opponent strength", round(opp, 2)], ["home crowd", home]],
@@ -519,6 +530,8 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     fx = Effects(w, ev)
     if level == "varsity":
         g["record"]["w" if win else "l"] += 1
+        from . import league as lg
+        lg.record(sim, inst, g, num, win, score, box, rng)
     else:
         g.setdefault("record_jv", {"w": 0, "l": 0})["w" if win else "l"] += 1
     for cid in players:
@@ -583,6 +596,9 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
             f3 = Effects(w, e3)
             f3.rep(star, "star", 3, "standout game")
             f3.mood(star, 5, "standout game")
+            if level == "varsity":  # word gets around school (more if it was the rival game)
+                from . import league as lg
+                lg.buzz(sim, f3, star, 16 if rivalry else 10, f"a big game against {oname}", sport)
             if win:
                 f3.memory(star, "star_game", [], 0.55, 45, f"{line_text(sport, line)} in a {score} win over {oname}")
             sim.finish(e3, f3)
@@ -651,6 +667,8 @@ def season_awards(inst, g):
         c.awards.append({"day": w.day, "label": label, "sport": sport, "season": skey})
         c.achievements.append({"day": w.day, "label": label, "event": ev.get("id")})
         fx.rep(cid, "star", 6, label)
+        from . import league as lg
+        lg.buzz(sim, fx, cid, 22 if label.startswith("All-") else 14, label, sport)
         fx.memory(cid, "award", [], 0.8, 70, f"Named {label}")
         sim.confidence(cid, 2.0, fx, label)
         sim.finish(ev, fx)
