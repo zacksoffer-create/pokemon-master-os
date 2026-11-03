@@ -142,7 +142,7 @@ def test_practice_and_games_just_happen_and_evenings_are_yours():
     # on a practice day you're never stopped after school: your free time is lunch and the evening
     for d in days:
         assert not [1 for e in w.history.events.values() if e["day"] == d and e.get("slot") == "after_school"
-                    and me.id in e["actors"] and e["type"] not in ("practice", "game", "moment", "text")], d
+                    and me.id in e["actors"] and e["type"] not in ("practice", "game", "moment", "text", "milestone")], d
     assert "evening" in stops and "lunch" in stops
     st = c.get("/api/phone/state").json()
     assert "committed" in st

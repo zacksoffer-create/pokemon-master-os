@@ -1017,7 +1017,8 @@ def suggestions(sim, cid) -> list:
         add(1, 9, "bye", "bye")
     salt = f"{w.day}:{cid}:{len(t['msgs'])}"
     seen, picked = set(), []
-    for pick, show, sug in sorted(cands, key=lambda x: (x[0], _h(salt, x[2]["pool"]) % 7)):
+    # answers to their question come first and keep their order (yes before no); the rest shuffle by the day
+    for pick, show, sug in sorted(cands, key=lambda x: (x[0], 0 if x[0] == 0 else _h(salt, x[2]["pool"]) % 7)):
         key = sug["pool"] + str(sug.get("yn"))
         if key in seen:
             continue

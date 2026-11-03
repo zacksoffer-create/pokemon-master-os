@@ -868,7 +868,7 @@ function Teams({ s }: { s: any }) {
       ) : (
         <Empty>
           You're not on a team right now.
-          {tryouts.length > 0 ? <> Next up: <b>{tryouts[0].name}</b> on {tryouts[0].date}.</> : " Each sport holds tryouts before its season: football in early September, basketball in November, baseball in March."}
+          {tryouts.length > 0 ? <> Next up: <b>{tryouts[0].name}</b> on {tryouts[0].date}.</> : " Each team holds tryouts before its season: football and soccer in early September, basketball in November, baseball and softball in March. Boys and girls have separate teams."}
         </Empty>
       )}
       <div className="hint" style={{ marginTop: 8 }}>Rating = skill, athletic ability, fitness, body type for the position and confidence. Coaches start the highest-rated players.</div>
@@ -884,11 +884,12 @@ function statCols(sport: string, cat: any, lines: any[]) {
 
 function extraCols(sport: string, line: any, games: number) {
   const out: [string, string][] = [];
-  if (sport === "baseball") {
+  if (sport === "baseball" || sport === "softball") {
     out.push(["AVG", line.ab ? (line.h / line.ab).toFixed(3).replace(/^0/, "") : "-"]);
     if (line.ip) out.push(["ERA", ((line.er || 0) * 9 / line.ip).toFixed(2)]);
   }
   if (sport === "basketball" && games) out.push(["PPG", ((line.pts || 0) / games).toFixed(1)]);
+  if (sport === "soccer" && games) out.push(["G/game", ((line.goals || 0) / games).toFixed(2)]);
   return out;
 }
 

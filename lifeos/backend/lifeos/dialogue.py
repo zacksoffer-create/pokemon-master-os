@@ -1516,7 +1516,8 @@ def set_cast(w, pack, who, cid):
 
 CAST_FIELDS = ("who", "gender", "sport", "grade_offset", "bind", "bond", "floor", "label")
 CAST_ALIASES = {"relationship_to_player": "who", "grade_offset_at_player_freshman": "grade_offset", "grade_offset_at_start": "grade_offset"}
-CAST_SPORT_FLAGS = {"basketball_player": "basketball", "football_player": "football", "baseball_player": "baseball", "soccer_player": "soccer"}
+CAST_SPORT_FLAGS = {"basketball_player": "basketball", "football_player": "football", "baseball_player": "baseball", "soccer_player": "soccer",
+                    "softball_player": "softball"}
 CAST_ACCEPTED = ("same_high_school_at_start", "bind_once", "notes")  # fine to include: always true / informational
 GENDERS = {"m": "m", "male": "m", "boy": "m", "f": "f", "female": "f", "girl": "f"}
 
@@ -1742,7 +1743,9 @@ MALE = r"\b(he|him|his|himself|brother|bro|son|guy)\b"
 FEMALE = r"\b(she|her|hers|herself|sister|sis|daughter|girl)\b"
 SPORT_WORDS = {"basketball": r"\b(basketball|hoops?|court|dunk|layup|jumper|three[- ]pointer|free throws?|point guard)\b",
                "football": r"\b(football|touchdown|quarterback|qb|end zone|gridiron|huddle)\b",
-               "baseball": r"\b(baseball|batting|pitcher|inning|home run|dugout|shortstop|bullpen)\b"}
+               "baseball": r"\b(baseball|batting|pitcher|inning|home run|dugout|shortstop|bullpen)\b",
+               "soccer": r"\b(soccer|striker|goalie|keeper|penalty kick|free kick|corner kick|hat trick|the pitch)\b",
+               "softball": r"\b(softball|windmill|fastpitch)\b"}
 
 
 def _story_words(sim, pack) -> str:
@@ -2260,7 +2263,7 @@ def guide_markdown() -> str:
       '  "bond": {"familiarity": 95, "affection": 75, "trust": 75}, "floor": {"affection": 55, "trust": 55}}},\n'
       '"scenes": [{"id": "bro_team_01_first_morning", "who": "cast:lead_brother", ...}]\n```\n')
     a("Also accepted (same meaning): `relationship_to_player` for `who`, `gender` (\"male\"/\"female\", must match `who`), "
-      "`grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer) for `sport`, "
+      "`grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer/softball) for `sport`, "
       "and `same_high_school_at_start`, `bind_once` (always true). Remembered facts (`remember`) keep pointing at the same person "
       "after they graduate. A chapter whose school `years` are over counts as skipped for `after`, so a missed season doesn't "
       "strand the rest of the story.\n")

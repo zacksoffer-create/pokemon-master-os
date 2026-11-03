@@ -524,6 +524,58 @@ const footballField: S = (c) => {
   };
 };
 
+const soccerField: S = (c) => {
+  const [g1, g2] = c.s === "winter" ? ["#9fbf8a", "#8fb07c"] : ["#5cb04e", "#4c9e40"];
+  // the pitch in perspective: x at depth t (0 = far touchline, 1 = near)
+  const y = (t: number) => 236 + 244 * t;
+  const xl = (t: number) => 40 - 120 * t, xr = (t: number) => 350 + 120 * t;
+  const at = (u: number, t: number) => xl(t) + (xr(t) - xl(t)) * u;
+  return {
+    base: (
+      <g>
+        <Sky c={c} />
+        <g>{[24, 80, 140, 250, 320, 372].map((x, i) => <Tree key={i} x={x} y={218} s={0.5} c={c} />)}</g>
+        <Bleachers x={150} y={168} w={120} rows={4} c={c} crowd />
+        <StadiumLights x={30} y={70} c={c} s={0.85} />
+        <StadiumLights x={360} y={64} c={c} s={0.85} />
+        <path d="M0 232 L390 232 L390 480 L0 480 Z" fill={g2} />
+        <path d={`M${xl(0)} ${y(0)} L${xr(0)} ${y(0)} L${xr(1)} ${y(1)} L${xl(1)} ${y(1)} Z`} fill={g1} />
+        {/* mowing stripes run toward you */}
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => i % 2 ? (
+          <path key={i} d={`M${at(i / 10, 0)} ${y(0)} L${at((i + 1) / 10, 0)} ${y(0)} L${at((i + 1) / 10, 1)} ${y(1)} L${at(i / 10, 1)} ${y(1)} Z`}
+            fill={g2} opacity={0.75} />
+        ) : null)}
+        <g stroke="#fff" fill="none" opacity={0.9} strokeLinejoin="round">
+          <path d={`M${xl(0)} ${y(0)} L${xr(0)} ${y(0)} L${xr(1)} ${y(1)} L${xl(1)} ${y(1)} Z`} strokeWidth={2.5} />
+          {/* halfway line and center circle */}
+          <path d={`M${at(0.5, 0)} ${y(0)} L${at(0.5, 1)} ${y(1)}`} strokeWidth={2.4} />
+          <ellipse cx={at(0.5, 0.42)} cy={y(0.42)} rx={46} ry={22} strokeWidth={2.2} />
+          {/* the box at the far end */}
+          <path d={`M${at(0.3, 0)} ${y(0)} L${at(0.3, 0.12)} ${y(0.12)} L${at(0.7, 0.12)} ${y(0.12)} L${at(0.7, 0)} ${y(0)}`} strokeWidth={2} />
+        </g>
+        <circle cx={at(0.5, 0.42)} cy={y(0.42)} r={2.6} fill="#fff" />
+        {/* the far goal with its net */}
+        <g>
+          <path d={`M${at(0.44, 0)} ${y(0)} V${y(0) - 18} H${at(0.56, 0)} V${y(0)}`} stroke="#fff" strokeWidth={3} fill="none" strokeLinecap="round" />
+          <path d={`M${at(0.44, 0) + 3} ${y(0) - 15} H${at(0.56, 0) - 3} V${y(0) - 2} H${at(0.44, 0) + 3} Z`} fill="#fff" opacity={0.25} />
+        </g>
+        {/* a ball near the center spot */}
+        <g transform={`translate(${at(0.56, 0.62)} ${y(0.62)})`}>
+          <circle r={7} fill="#fff" stroke={OUT} strokeWidth={1.4} />
+          <path d="M0 -3 L3 -1 L2 3 L-2 3 L-3 -1 Z" fill={OUT} />
+        </g>
+        {c.s === "winter" && <path d="M0 230 H390 V250 H0 Z" fill="#fff" opacity={0.5} />}
+      </g>
+    ),
+    lights: lit(c.t) ? (
+      <g>
+        <Glow x={30} y={60} r={84} color="#fff9d8" o={0.55} />
+        <Glow x={360} y={56} r={84} color="#fff9d8" o={0.55} />
+      </g>
+    ) : null,
+  };
+};
+
 const baseballField: S = (c) => {
   const [g1, g2] = c.s === "winter" ? ["#a7c494", "#98b886"] : ["#62b252", "#55a147"];
   return {
@@ -977,7 +1029,7 @@ const ballpark: S = (c) => {
 };
 
 export const SCENES: Record<string, S> = {
-  home_morning: homeMorning, classroom, school_hall: schoolHall, cafeteria, gym, football_field: footballField,
+  home_morning: homeMorning, classroom, school_hall: schoolHall, cafeteria, gym, football_field: footballField, soccer_field: soccerField,
   baseball_field: baseballField, town_green: townGreen, beach, bedroom, dorm, campus, dining_hall: diningHall, stadium, ballpark,
 };
 export const SCENE_KEYS = Object.keys(SCENES);

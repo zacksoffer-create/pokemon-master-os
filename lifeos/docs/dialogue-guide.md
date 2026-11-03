@@ -859,7 +859,7 @@ When a storyline is about one specific person (your older brother, the basketbal
 "scenes": [{"id": "bro_team_01_first_morning", "who": "cast:lead_brother", ...}]
 ```
 
-Also accepted (same meaning): `relationship_to_player` for `who`, `gender` ("male"/"female", must match `who`), `grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer) for `sport`, and `same_high_school_at_start`, `bind_once` (always true). Remembered facts (`remember`) keep pointing at the same person after they graduate. A chapter whose school `years` are over counts as skipped for `after`, so a missed season doesn't strand the rest of the story.
+Also accepted (same meaning): `relationship_to_player` for `who`, `gender` ("male"/"female", must match `who`), `grade_offset_at_player_freshman` for `grade_offset`, `basketball_player: true` (and football/baseball/soccer/softball) for `sport`, and `same_high_school_at_start`, `bind_once` (always true). Remembered facts (`remember`) keep pointing at the same person after they graduate. A chapter whose school `years` are over counts as skipped for `after`, so a missed season doesn't strand the rest of the story.
 
 ## Trivia (`trivia`)
 
@@ -917,7 +917,7 @@ A choice can be played: `["minigame", game, {"great": [ops], "good": [ops], "mis
 | `vibe` | `["vibe", "tease", {"good": ["{them_first} cracks up."], "meh": ["A small laugh."], "bad": ["{them_first} goes quiet."]}]` | A choice in a style (tease, sweet, bold, funny, cheesy, or chill for the safe pick) that lands or misses by what they like. good / meh / bad are what happens, a line or a list of versions. Only in scenes about someone (who). |
 | `chance` | `["chance", {"base": 0.5, "charisma": 0.3}, [ops if it works], [ops if it doesn't]]` | Roll against your own traits and talents. base 0..1, then +coef x (stat - 50)/100 for each stat. |
 
-Traits: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty.  Talents: athletic, academic, creativity, technical, charisma.  Skills: academics, art, baseball, basketball, drama, fitness, football, music, tech, writing.
+Traits: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty.  Talents: athletic, academic, creativity, technical, charisma.  Skills: academics, art, baseball, basketball, drama, fitness, football, music, soccer, softball, tech, writing.
 
 Keep effects small and believable: most relationship changes are 2 to 8; 10+ is a big moment. Good choices aren't free: the kind option can cost stress or energy, the bold one can backfire through `chance`.
 

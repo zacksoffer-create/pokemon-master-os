@@ -249,7 +249,8 @@ def _popularity(sim, fx, studs):
 
 CLIQUE_NAMES = {
     "football": ["the Friday Night Crew", "the Linemen"], "fitness": ["the Gym Rats"], "basketball": ["the Court Crew", "the Hoopers"],
-    "baseball": ["the Dugout", "the Bullpen"], "drama": ["the Theater Kids", "the Understudies"],
+    "baseball": ["the Dugout", "the Bullpen"], "soccer": ["the Pitch", "the Back Line"], "softball": ["the Bat Girls", "the Diamond"],
+    "drama": ["the Theater Kids", "the Understudies"],
     "art": ["the Sketchbook Circle", "the Paint-Stained"], "music": ["the Band Room", "the Garage Band"],
     "tech": ["the Lab Rats", "the Robot Garage"], "writing": ["the Herald Desk", "the Margins"],
     "academics": ["the Honor Roll", "the Study Hall"], "gaming": ["the Respawn Club", "the Couch Co-op"],

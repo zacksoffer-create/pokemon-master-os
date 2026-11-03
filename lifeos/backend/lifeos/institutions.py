@@ -124,6 +124,8 @@ class Institutions:
                     continue
                 if g.get("school") != c.school:
                     continue
+                if g["kind"] == "team" and (not sports.can_play(c, g) or sports.clash(w, c, g)):
+                    continue  # boys' and girls' teams; one sport a season
                 if c.school == "college" and g["kind"] == "team" and c.path.get("sport") and g["skill"] != c.path["sport"]:
                     continue
                 out.append((g["id"], it, f"{it['name']} on {calm.label(it['day'])}"))
@@ -467,7 +469,7 @@ class Institutions:
             c = w.chars.get(cid)
             if c is None or c.status != "active" or c.role != "student" or gid in c.memberships:
                 continue
-            if c.interests.get(g["skill"], 0) < 40:
+            if c.interests.get(g["skill"], 0) < 40 or not sports.can_play(c, g) or sports.clash(w, c, g):
                 continue
             g["cut"] = [e for e in g["cut"] if e[0] != cid]
             ev = self.event("practice", "called_up", [cid], importance=40, group=gid, data={"group": g["name"]})
@@ -493,6 +495,8 @@ class Institutions:
         w, R = sim.w, sim.w.rules
         g = w.groups[it["group"]]
         reg = list(w.registrations.get(it["key"], []))
+        if g["kind"] == "team":
+            reg = [cid for cid in reg if cid in w.chars and sports.can_play(w.chars[cid], g)]
         came = sorted(set(sim.slot.attend.get(("event", it["key"]), [])) & set(reg))
         noshow = sorted(set(reg) - set(came))
         coach = w.chars.get(g.get("staff"))
@@ -679,15 +683,27 @@ class Institutions:
         if need <= 0:
             return
         sk = g["skill"]
-        pool = sorted((c for c in w.students() if c.school == g.get("school", "hchs") and g["id"] not in c.memberships
-                       and c.interests.get(sk, 0) >= 30 and c.flags.get("injured_until", -1) < w.day
-                       and not (g.get("school") == "college" and (c.path or {}).get("sport") and c.path["sport"] != sk)
-                       and not any(w.groups[m]["kind"] == "team" and self.in_season(w.groups[m]) for m in c.memberships)),
-                      key=lambda c: (-(sports.rating(c, sk) + c.interests.get(sk, 0) * 0.3), c.id))
-        for c in pool[:need]:
+
+        def free(c):
+            return (c.school == g.get("school", "hchs") and g["id"] not in c.memberships and c.flags.get("injured_until", -1) < w.day
+                    and sports.can_play(c, g) and not sports.clash(w, c, g)
+                    and not (g.get("school") == "college" and (c.path or {}).get("sport") and c.path["sport"] != sk)
+                    and not any(w.groups[m]["kind"] == "team" and self.in_season(w.groups[m]) for m in c.memberships))
+        pool = sorted((c for c in w.students() if c.interests.get(sk, 0) >= 30 and free(c)),
+                      key=lambda c: (-(sports.rating(c, sk) + c.interests.get(sk, 0) * 0.3), c.id))[:need]
+        short = g.get("starters", 5) - len(g["members"]) - len(pool)
+        if short > 0 and g.get("school") != "college":
+            # still not enough for a lineup: the coach works the hallways for athletic kids who aren't playing anything now
+            taken = {c.id for c in pool}
+            extra = sorted((c for c in w.students() if c.id not in taken and free(c) and c.id != w.meta.get("protagonist")
+                            and (c.aptitudes.get("athletic", 50) >= 58 or max((c.interests.get(s, 0) for s in sports.SPORTS), default=0) >= 45)),
+                           key=lambda c: (-(c.aptitudes.get("athletic", 50) + c.interests.get(sk, 0) * 0.5), c.id))
+            pool += extra[:short]
+        for c in pool:
             ev = self.event("tryout", "walk_on", [c.id], importance=24, group=g["id"], data={"group": g["name"]})
             ev["text"] = f"{w.chars[g['staff']].short if g.get('staff') in w.chars else 'The coach'} talked {c.short} into joining {g['name']}."
             fx = Effects(w, ev)
+            fx.interest(c.id, sk, max(0.0, 32 - c.interests.get(sk, 0)), "talked into it")
             fx.join(c.id, g["id"], "walked on")
             g.setdefault("levels", {})[c.id] = "varsity" if (c.grade or 9) >= 11 or not g.get("jv_capacity") else "jv"
             sports.ensure_athlete(c, sk, rng)
@@ -769,9 +785,13 @@ class Institutions:
             base = 48 + int(rng.random() * 18)
             d = max(1, int(abs(margin) / 2.2) + 1)
             a, b = base + d, base
-        elif sk == "baseball":
+        elif sk in ("baseball", "softball"):
             base = int(rng.random() * 4)
             d = max(1, int(abs(margin) / 6) + 1)
+            a, b = base + d, base
+        elif sk == "soccer":
+            base = int(rng.random() * 2.4)
+            d = min(5, max(1, int(abs(margin) / 8) + 1))
             a, b = base + d, base
         else:
             base = int(rng.random() * 2)

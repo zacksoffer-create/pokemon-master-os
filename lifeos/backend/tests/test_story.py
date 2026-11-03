@@ -124,7 +124,7 @@ def test_moment_choices_change_state_and_are_recorded():
 
 
 def test_football_season_has_rosters_box_scores_and_stats():
-    w = create_story(spec(per=10))
+    w = create_story(spec(per=14))  # enough boys for football and boys' soccer in the same fall
     w.tracing = True
     sim = Simulation(w)
     begin(sim)
@@ -204,7 +204,10 @@ def test_story_api_flow():
     assert j["status"] == "done" and j["stop"] in ("decision", "moment")
     if j["stop"] == "decision":
         opts = c.post(f"/api/play/{s['protagonist']}/options").json()
-        assert opts["options"] and any("your focus" in str(o.get("terms")) for o in opts["options"])
+        # the Lab explains the top few choices; studying gets the academics focus whenever it's explained
+        study = [o for o in opts["options"] if o["action"] in ("study", "study_at_lunch")]
+        assert opts["options"] and study
+        assert all("your focus" in str(o["terms"]) for o in study if o.get("terms"))
     j = c.post("/api/story/advance", json={"until": "week"}).json()
     while j["status"] == "running":
         time.sleep(0.2)
@@ -310,4 +313,4 @@ def test_offscreen_college_athletes_get_seasons():
     mike.role, mike.grade, mike.school, mike.location = "student", 13, "away:uconn", "away"
     college.offscreen_season(sim, "basketball")
     st = next(st for k, st in mike.stats.items() if k.startswith("basketball:"))
-    assert st["offscreen"] and st["games"] >= 10 and st["team_name"] == "UConn Basketball" and st["line"].get("pts", 0) > 0
+    assert st["offscreen"] and st["games"] >= 10 and st["team_name"] == "UConn Men's Basketball" and st["line"].get("pts", 0) > 0

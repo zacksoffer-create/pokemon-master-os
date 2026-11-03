@@ -41,6 +41,18 @@
    "kind": "sport"
   },
   {
+   "id": "soccer",
+   "label": "Soccer",
+   "aptitude": "athletic",
+   "kind": "sport"
+  },
+  {
+   "id": "softball",
+   "label": "Softball",
+   "aptitude": "athletic",
+   "kind": "sport"
+  },
+  {
    "id": "drama",
    "label": "Acting",
    "aptitude": "charisma",
@@ -228,11 +240,12 @@
    "game_day": 4,
    "staff": "coach_bryant",
    "prestige": 75,
-   "school": "hchs"
+   "school": "hchs",
+   "gender": "m"
   },
   {
    "id": "basketball",
-   "name": "Guilford Basketball",
+   "name": "Guilford Boys Basketball",
    "kind": "team",
    "skill": "basketball",
    "selection": "tryout",
@@ -262,7 +275,8 @@
    "prestige": 70,
    "jv_capacity": 8,
    "starters": 5,
-   "school": "hchs"
+   "school": "hchs",
+   "gender": "m"
   },
   {
    "id": "baseball",
@@ -296,6 +310,143 @@
    "prestige": 60,
    "jv_capacity": 10,
    "starters": 9,
+   "school": "hchs",
+   "gender": "m"
+  },
+  {
+   "id": "soccer",
+   "name": "Guilford Boys Soccer",
+   "kind": "team",
+   "skill": "soccer",
+   "gender": "m",
+   "selection": "tryout",
+   "capacity": 18,
+   "jv_capacity": 14,
+   "starters": 11,
+   "season": {
+    "start": [
+     9,
+     1
+    ],
+    "end": [
+     11,
+     14
+    ]
+   },
+   "tryout": [
+    9,
+    9
+   ],
+   "practice_days": [
+    0,
+    1,
+    3
+   ],
+   "game_day": 2,
+   "staff": "coach_lindqvist",
+   "prestige": 58,
+   "school": "hchs"
+  },
+  {
+   "id": "soccer_girls",
+   "name": "Guilford Girls Soccer",
+   "kind": "team",
+   "skill": "soccer",
+   "gender": "f",
+   "selection": "tryout",
+   "capacity": 18,
+   "jv_capacity": 14,
+   "starters": 11,
+   "season": {
+    "start": [
+     9,
+     1
+    ],
+    "end": [
+     11,
+     14
+    ]
+   },
+   "tryout": [
+    9,
+    9
+   ],
+   "practice_days": [
+    0,
+    1,
+    2
+   ],
+   "game_day": 3,
+   "staff": "coach_mensah",
+   "prestige": 64,
+   "school": "hchs"
+  },
+  {
+   "id": "basketball_girls",
+   "name": "Guilford Girls Basketball",
+   "kind": "team",
+   "skill": "basketball",
+   "gender": "f",
+   "selection": "tryout",
+   "capacity": 10,
+   "jv_capacity": 8,
+   "starters": 5,
+   "season": {
+    "start": [
+     11,
+     17
+    ],
+    "end": [
+     2,
+     27
+    ]
+   },
+   "tryout": [
+    11,
+    18
+   ],
+   "practice_days": [
+    0,
+    2,
+    3
+   ],
+   "game_day": 1,
+   "staff": "coach_dimarco",
+   "prestige": 62,
+   "school": "hchs"
+  },
+  {
+   "id": "softball",
+   "name": "Guilford Softball",
+   "kind": "team",
+   "skill": "softball",
+   "gender": "f",
+   "selection": "tryout",
+   "capacity": 14,
+   "jv_capacity": 10,
+   "starters": 9,
+   "season": {
+    "start": [
+     2,
+     23
+    ],
+    "end": [
+     5,
+     29
+    ]
+   },
+   "tryout": [
+    3,
+    2
+   ],
+   "practice_days": [
+    0,
+    1,
+    2
+   ],
+   "game_day": 3,
+   "staff": "coach_torres",
+   "prestige": 60,
    "school": "hchs"
   },
   {

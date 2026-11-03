@@ -243,7 +243,7 @@ def after(sim, c, b, came, aid, ev, fx, rng):
     ev["data"].pop("crew_line", None)  # the line already says who was there
     ev["data"].pop("why", None)  # and the scene that comes next says how it went
     if a.get("sport"):
-        sport = a["sport"] if isinstance(a["sport"], str) else max(("football", "basketball", "baseball"), key=lambda k: c.interests.get(k, 0))
+        sport = a["sport"] if isinstance(a["sport"], str) else max(("football", "basketball", "baseball", "soccer", "softball"), key=lambda k: c.interests.get(k, 0))
         fx.skill(c.id, sport, 0.25, label(sim, aid, s))
         fx.skill(c.id, "fitness", 0.1, label(sim, aid, s))
     if aid == "study":

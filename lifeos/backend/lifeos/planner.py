@@ -91,6 +91,10 @@ def _calendar(sim, me, lo, hi, upcoming=False) -> list:
             skill = (grp or {}).get("skill")
             if g in mine or (skill and me.interests.get(skill, 0) < 55 and k == "tryout") or (k == "audition" and me.interests.get("drama", 0) < 55):
                 continue
+            if k == "tryout" and grp and grp["kind"] == "team":
+                from . import sports
+                if not sports.can_play(me, grp) or sports.clash(w, me, grp):
+                    continue  # the other side's team, or a second sport the same season
         if k in ("dance", "graduation") and (me.grade or 0) > 12:
             continue
         icon = {"game": "trophy", "show": "star", "exam": "book", "dance": "sparkle", "tryout": "ball", "audition": "star",

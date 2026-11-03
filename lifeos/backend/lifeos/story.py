@@ -21,6 +21,7 @@ from .worldgen import Generator, _groups, _staff, initial_relationships, pronoun
 MAX_PER_GRADE = 40   # kids per grade the town starts with (a big school plays slower, more so on a phone)
 MAX_CAST = 120       # people you make yourself
 FUTURE_GRADES = (6, 7, 8)  # younger kids you make: they start high school as freshmen 1 to 3 years in
+COACHABLE = ("football", "basketball", "basketball_girls", "baseball", "softball", "soccer", "soccer_girls")  # high school team ids
 
 
 def future(p: dict) -> bool:
@@ -149,8 +150,16 @@ def validate_person(p: dict, path: str, cat: Catalogs, errors: list, allow_staff
             pass
         elif pp.get("college") not in cat.college_by_id:
             errors.append(f"{path}.path: unknown college {pp.get('college')}")
-        elif pp.get("sport") and pp["sport"] not in cat.college_by_id[pp["college"]]["sports"]:
-            errors.append(f"{path}.path: {cat.college_by_id[pp['college']]['short']} doesn't have a {pp['sport']} team here")
+        elif pp.get("sport"):
+            from . import sports as sp_
+            col = cat.college_by_id[pp["college"]]
+            gender = p.get("gender") or "m"
+            fit = sp_.fit_sport(pp["sport"], gender)
+            if pp["sport"] not in sp_.SPORTS:
+                errors.append(f"{path}.path: unknown sport {pp['sport']}")
+            elif not sp_.offers_side(col, fit, gender) or fit not in sp_.sports_for(gender):
+                who = {"m": "men's ", "f": "women's "}.get(gender, "") if fit not in sp_.ONLY else ""
+                errors.append(f"{path}.path: {col['short']} doesn't have a {who}{fit} team here")
         if role == "staff":
             errors.append(f"{path}.path: staff don't go to college")
 
@@ -194,8 +203,8 @@ def validate_story(spec: dict) -> dict:
     keys = {"me"} | {s.get("key") for s in sibs if s.get("key")} | {c.get("key") for c in cast if c.get("key")}
     for i, c in enumerate(cast):
         validate_person(c, f"cast[{i}]", cat, errors, allow_staff=True, allow_future=True)
-        if c.get("role") == "staff" and c.get("coach_of") and c["coach_of"] not in ("football", "basketball", "baseball"):
-            errors.append(f"cast[{i}].coach_of must be football, basketball or baseball")
+        if c.get("role") == "staff" and c.get("coach_of") and c["coach_of"] not in COACHABLE:
+            errors.append(f"cast[{i}].coach_of must be one of {', '.join(COACHABLE)}")
         for r in c.get("relationships") or []:
             if r.get("to") not in keys:
                 errors.append(f"cast[{i}].relationships: '{r.get('to')}' isn't anyone in the story (use 'me' for you)")
@@ -251,6 +260,7 @@ def build_person(w, gen, rng, p: dict, household: dict, day: int = 0):
     body.update({k: (int(v) if k == "height_in" else v) for k, v in (p.get("body") or {}).items() if v not in (None, "")})
     c.body = body
     c.positions = {k: v for k, v in (p.get("positions") or {}).items() if v}
+    sports.fit_to_side(c)  # a girl's baseball is softball; boys and girls play on separate teams
     if p.get("jersey"):
         c.jersey = int(p["jersey"])
     if p.get("color"):
@@ -263,14 +273,15 @@ def build_person(w, gen, rng, p: dict, household: dict, day: int = 0):
     c.gpa = start_gpa(c.skills["academics"], c.aptitudes["academic"], c.traits["discipline"], 0.0)
     pp = p.get("path")
     if pp:
-        preset = {"kind": "work"} if pp.get("kind") == "work" else {"kind": "college", "college": pp["college"], "sport": pp.get("sport") or None}
+        preset = {"kind": "work"} if pp.get("kind") == "work" else {"kind": "college", "college": pp["college"],
+                                                                     "sport": sports.fit_sport(pp.get("sport"), c.gender) or None}
         c.flags["preset_path"] = preset
         sp = preset.get("sport")
         if sp:
             # a recruited athlete plays the sport and is good at it by the time the offer comes
             c.interests[sp] = max(c.interests.get(sp, 0), 82.0)
             col = gen.cat.college_by_id[preset["college"]]
-            target = 48 + 0.3 * col["programs"].get(sp, 60) + (grade - 9) * 2
+            target = 48 + 0.3 * col["programs"].get(sports.side(sp, c.gender), 60) + (grade - 9) * 2
             if sp not in sk:
                 c.skills[sp] = round(max(c.skills.get(sp, 0), target), 1)
             c.aptitudes["athletic"] = max(c.aptitudes["athletic"], 70.0) if "athletic" not in (p.get("aptitudes") or {}) else c.aptitudes["athletic"]
@@ -301,8 +312,9 @@ def build_staff(w, rng, p: dict):
         c.look = {k: v for k, v in p["look"].items() if v not in (None, "")}
     w.chars[cid] = c
     if p.get("coach_of"):
+        # a team id ("basketball_girls") or a sport, which means its first team ("basketball" is the boys' team)
         for g in w.groups.values():
-            if g.get("skill") == p["coach_of"] and g["kind"] == "team" and g.get("school") == "hchs":
+            if g["id"] == p["coach_of"] and g["kind"] == "team" and g.get("school") == "hchs":
                 g["staff"] = cid
     return c
 

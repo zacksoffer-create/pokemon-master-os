@@ -22,8 +22,8 @@ The fields (all optional except first names; blanks get generated):
 - traits 0-100: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty
 - aptitudes 0-100 (natural talent): athletic, academic, creativity, technical, charisma
 - motives 0-100: achievement, approval, belonging, pleasure, altruism, mastery
-- interests 0-100 and skills 0-100 by id: academics, football, basketball, baseball, fitness, art, music, robotics, writing, acting (plus hobbies as interests). A typical freshman is 25-50 in a sport.
-- body: height_in (inches), build (slight/average/athletic/strong); positions per sport (football QB/RB/WR/TE/OL/DL/LB/DB/K, basketball PG/SG/SF/PF/C, baseball P/C/1B/2B/3B/SS/LF/CF/RF); jersey
+- interests 0-100 and skills 0-100 by id: academics, football, basketball, baseball, soccer, softball, fitness, art, music, robotics, writing, acting (plus hobbies as interests). A typical freshman is 25-50 in a sport. Teams are split: boys play football, basketball, soccer and baseball; girls play basketball, soccer and softball (a girl's baseball turns into softball).
+- body: height_in (inches), build (slight/average/athletic/strong); positions per sport (football QB/RB/WR/TE/OL/DL/LB/DB/K, basketball PG/SG/SF/PF/C, baseball and softball P/C/1B/2B/3B/SS/OF, soccer GK/CB/FB/CM/WM/ST); jersey
 - look: skin, hair, hair_color, eyes, facial_hair, glasses, freckles (options are in the guide)
 - relationships: [{"to": "me" or another person's key, "type": best_friend|close_friend|friend|acquaintance|crush|admirer|mutual_crush|dating|ex|rival|enemy|teammate|neighbor|mentor, "strength": -40..40}], written from that person's side
 - siblings: key, twin_of ("me" or another sibling's key), strength (how well we get along, -40..40)
@@ -79,7 +79,7 @@ What this person wants. Multiplied by the global motive weights in the Workshop.
 
 Interests (0-100) decide what they choose to do with their time. Skills (0-100) are how good they are on day one; a typical freshman is 25-50 in a sport, varsity seniors are 55-75, and college recruits are higher. Talent (aptitude) sets how fast skills grow and how high they can go.
 
-Skills: `academics`, `football`, `basketball`, `baseball`, `drama`, `art`, `music`, `tech`, `writing`, `fitness`
+Skills: `academics`, `football`, `basketball`, `baseball`, `soccer`, `softball`, `drama`, `art`, `music`, `tech`, `writing`, `fitness`
 
 Hobbies (interests only): `gaming`, `reading`, `sketching`, `guitar`, `pickup_games`, `batting_cage`, `shows`, `fashion`, `outdoors`, `coding`, `cooking`, `journaling`
 
@@ -104,6 +104,8 @@ Hobbies (interests only): `gaming`, `reading`, `sketching`, `guitar`, `pickup_ga
 - **Football**: `QB` Quarterback, `RB` Running back, `WR` Wide receiver, `TE` Tight end, `OL` Offensive line, `DL` Defensive line, `LB` Linebacker, `DB` Defensive back, `K` Kicker
 - **Basketball**: `PG` Point guard, `SG` Shooting guard, `SF` Small forward, `PF` Power forward, `C` Center
 - **Baseball**: `P` Pitcher, `C` Catcher, `1B` First base, `2B` Second base, `SS` Shortstop, `3B` Third base, `OF` Outfield
+- **Soccer**: `GK` Goalkeeper, `CB` Center back, `FB` Fullback, `CM` Central midfield, `WM` Winger, `ST` Striker
+- **Softball**: `P` Pitcher, `C` Catcher, `1B` First base, `2B` Second base, `SS` Shortstop, `3B` Third base, `OF` Outfield
 
 Body matters: height helps in basketball (and for pitchers), build matters in football (`strong` for linemen, `athletic` or `slight` for skill positions). Builds: `slight`, `average`, `athletic`, `strong`.
 
@@ -132,20 +134,22 @@ Always written from the other person's side, toward the one they point at (`me` 
 
 Leave it out to let it play out. `{"kind": "work"}` stays in town. `{"college": "uconn", "sport": "basketball"}` plays a sport there; `{"college": "uconn"}` goes as a student.
 
-| id | college | conference | football | basketball | baseball |
-|---|---|---|---|---|---|
-| `uconn` | University of Connecticut | Big East | 58 | 96 | 78 |
-| `stanford` | Stanford University | ACC | 72 | 74 | 88 |
-| `ucla` | University of California, Los Angeles | Big Ten | 76 | 88 | 86 |
-| `lsu` | Louisiana State University | SEC | 90 | 74 | 95 |
-| `unc` | University of North Carolina | ACC | 76 | 92 | 87 |
-| `texas` | University of Texas at Austin | SEC | 92 | 82 | 88 |
-| `oklahoma` | University of Oklahoma | SEC | 88 | 72 | 80 |
-| `fsu` | Florida State University | ACC | 85 | 76 | 88 |
-| `miami` | University of Miami | ACC | 86 | 78 | 85 |
-| `michigan` | University of Michigan | Big Ten | 93 | 82 | 76 |
-| `scsu` | Southern Connecticut State University | NE10 | 40 | 40 | 40 |
-| `gateway` | Gateway Community College |  |  |  |  |
+Program strength 0-100 by team (blank: no team on that side). A girl's `sport` is her side's team: `basketball` at UConn means women's basketball, and `baseball` for a girl means softball.
+
+| id | college | conference | football | men's basketball | women's basketball | baseball | softball | men's soccer | women's soccer |
+|---|---|---|---|---|---|---|---|---|---|
+| `uconn` | University of Connecticut | Big East | 58 | 96 | 99 | 78 | 55 | 70 | 62 |
+| `stanford` | Stanford University | ACC | 72 | 74 | 88 | 88 | 82 | 84 | 95 |
+| `ucla` | University of California, Los Angeles | Big Ten | 76 | 88 | 86 | 86 | 96 | 80 | 92 |
+| `lsu` | Louisiana State University | SEC | 90 | 74 | 92 | 95 | 90 |  | 70 |
+| `unc` | University of North Carolina | ACC | 76 | 92 | 76 | 87 | 72 | 84 | 98 |
+| `texas` | University of Texas at Austin | SEC | 92 | 82 | 90 | 88 | 94 |  | 78 |
+| `oklahoma` | University of Oklahoma | SEC | 88 | 72 | 80 | 80 | 99 |  | 62 |
+| `fsu` | Florida State University | ACC | 85 | 76 | 80 | 88 | 92 |  | 96 |
+| `miami` | University of Miami | ACC | 86 | 78 | 74 | 85 |  |  | 58 |
+| `michigan` | University of Michigan | Big Ten | 93 | 82 | 80 | 76 | 86 | 74 | 72 |
+| `scsu` | Southern Connecticut State University | NE10 | 40 | 40 | 40 | 40 | 40 | 40 | 40 |
+| `gateway` | Gateway Community College |  |  |  |  |  |  |  |  |
 
 ## Looks
 

@@ -19,6 +19,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 from . import appearance
+from .story import COACHABLE
 from .catalogs import APTITUDES, ATTRIBUTE_DOCS, MOTIVES, TRAITS, Catalogs
 
 GREEN = "1F6B3A"
@@ -29,6 +30,18 @@ THIN = Side(style="thin", color="C9D6CC")
 BOX = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
 N_SIBS, N_PEOPLE = 4, 30
 
+
+
+PROGRAM_COLS = [("football", "football"), ("basketball", "men's basketball"), ("basketball_w", "women's basketball"),
+                ("baseball", "baseball"), ("softball", "softball"), ("soccer", "men's soccer"), ("soccer_w", "women's soccer")]
+
+
+def side_strengths(c, sport) -> str:
+    """'men's 70, women's 62' or 'program strength 90'."""
+    keys = [k for k in c["programs"] if (k[:-2] if k.endswith("_w") else k) == sport]
+    if len(keys) == 1:
+        return f"program strength {c['programs'][keys[0]]}"
+    return ", ".join(f"{'women' if k.endswith('_w') else 'men'}'s {c['programs'][k]}" for k in sorted(keys))
 
 def _people_fields(cat: Catalogs, kind: str) -> list:
     """(code, label, help, validation) rows. validation: ('list', [...]) | ('ref', name) | ('num', lo, hi) | None."""
@@ -53,7 +66,8 @@ def _people_fields(cat: Catalogs, kind: str) -> list:
         rows += [("role", "Role", "student (default) or staff (a coach or teacher)", ("list", ["student", "staff"])),
                  ("title", "Staff title", "Staff only: Coach, Mr., Ms., Dr.", None),
                  ("role_label", "Staff job", "Staff only, e.g. Varsity baseball coach", None),
-                 ("coach_of", "Coaches", "Staff only: football, basketball or baseball", ("list", list(sp)))]
+                 ("coach_of", "Coaches", "Staff only, a team: football, basketball (boys), basketball_girls, baseball, softball, "
+                  "soccer (boys) or soccer_girls", ("list", list(COACHABLE)))]
     if kind in ("sibling", "people"):
         rows += [("#", "YOU TWO", "", None),
                  ("rel_type", "How they relate to you", "From their side. See Reference: relationship types." + (" Siblings default to sibling." if kind == "sibling" else ""), ("ref", "relationships")),
@@ -262,13 +276,14 @@ def _reference_sheet(ws, cat):
     for c in cat.colleges:
         paths.append([c["id"], f"{c['name']} as a student"])
         for s in c["sports"]:
-            paths.append([f"{c['id']}:{s}", f"Play {s} at {c['short']} (program strength {c['programs'][s]})"])
+            paths.append([f"{c['id']}:{s}", f"Play {s} at {c['short']} ({side_strengths(c, s)})"])
     table("paths", "After high school", ["path", "meaning"], paths)
     for k, opts in appearance.FIELDS.items():
         table(f"look_{k}", f"Look: {k.replace('_', ' ')}", [k], [[o] for o in opts])
-    table("colleges", "Colleges", ["id", "name", "conference", "GPA to get in", "GPA recruits need", "football", "basketball", "baseball"],
-          [[c["id"], c["name"], c.get("conference", ""), c["min_gpa"], c.get("athlete_min_gpa", ""), c["programs"].get("football", ""),
-            c["programs"].get("basketball", ""), c["programs"].get("baseball", "")] for c in cat.colleges])
+    table("colleges", "Colleges (program strength; blank = no team)", ["id", "name", "conference", "GPA to get in", "GPA recruits need"]
+          + [h for _, h in PROGRAM_COLS],
+          [[c["id"], c["name"], c.get("conference", ""), c["min_gpa"], c.get("athlete_min_gpa", "")]
+           + [c["programs"].get(k, "") for k, _ in PROGRAM_COLS] for c in cat.colleges])
     return ranges
 
 
@@ -488,10 +503,12 @@ def guide_markdown(cat: Catalogs | None = None) -> str:
     L.append("\n## After high school (for anyone but you)\n")
     L.append("Leave it out to let it play out. `{\"kind\": \"work\"}` stays in town. `{\"college\": \"uconn\", \"sport\": \"basketball\"}` "
              "plays a sport there; `{\"college\": \"uconn\"}` goes as a student.\n")
-    L.append("| id | college | conference | football | basketball | baseball |\n|---|---|---|---|---|---|")
+    L.append("Program strength 0-100 by team (blank: no team on that side). A girl's `sport` is her side's team: "
+             "`basketball` at UConn means women's basketball, and `baseball` for a girl means softball.\n")
+    L.append("| id | college | conference | " + " | ".join(h for _, h in PROGRAM_COLS) + " |\n|" + "---|" * (3 + len(PROGRAM_COLS)))
     for c in cat.colleges:
-        L.append(f"| `{c['id']}` | {c['name']} | {c.get('conference', '')} | {c['programs'].get('football', '')} | "
-                 f"{c['programs'].get('basketball', '')} | {c['programs'].get('baseball', '')} |")
+        L.append(f"| `{c['id']}` | {c['name']} | {c.get('conference', '')} | "
+                 + " | ".join(str(c['programs'].get(k, '')) for k, _ in PROGRAM_COLS) + " |")
     L.append("\n## Looks\n")
     for k, opts in appearance.FIELDS.items():
         L.append(f"- **{k}**: " + ", ".join(f"`{o}`" for o in opts))
@@ -515,8 +532,8 @@ The fields (all optional except first names; blanks get generated):
 - traits 0-100: sociability, confidence, discipline, ambition, impulsivity, empathy, competitiveness, curiosity, volatility, loyalty
 - aptitudes 0-100 (natural talent): athletic, academic, creativity, technical, charisma
 - motives 0-100: achievement, approval, belonging, pleasure, altruism, mastery
-- interests 0-100 and skills 0-100 by id: academics, football, basketball, baseball, fitness, art, music, robotics, writing, acting (plus hobbies as interests). A typical freshman is 25-50 in a sport.
-- body: height_in (inches), build (slight/average/athletic/strong); positions per sport (football QB/RB/WR/TE/OL/DL/LB/DB/K, basketball PG/SG/SF/PF/C, baseball P/C/1B/2B/3B/SS/LF/CF/RF); jersey
+- interests 0-100 and skills 0-100 by id: academics, football, basketball, baseball, soccer, softball, fitness, art, music, robotics, writing, acting (plus hobbies as interests). A typical freshman is 25-50 in a sport. Teams are split: boys play football, basketball, soccer and baseball; girls play basketball, soccer and softball (a girl's baseball turns into softball).
+- body: height_in (inches), build (slight/average/athletic/strong); positions per sport (football QB/RB/WR/TE/OL/DL/LB/DB/K, basketball PG/SG/SF/PF/C, baseball and softball P/C/1B/2B/3B/SS/OF, soccer GK/CB/FB/CM/WM/ST); jersey
 - look: skin, hair, hair_color, eyes, facial_hair, glasses, freckles (options are in the guide)
 - relationships: [{"to": "me" or another person's key, "type": best_friend|close_friend|friend|acquaintance|crush|admirer|mutual_crush|dating|ex|rival|enemy|teammate|neighbor|mentor, "strength": -40..40}], written from that person's side
 - siblings: key, twin_of ("me" or another sibling's key), strength (how well we get along, -40..40)

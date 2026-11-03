@@ -7,7 +7,8 @@ random roll, change the rules, run controlled experiments, and step into one per
 
 **Story mode** is the playable side: build yourself, your family and the people you want in your life,
 let the town fill in around them, and live seven years, from the first day of freshman year through
-three years of college and the MLB Draft (or work). It has a full sports career in football, basketball and baseball:
+three years of college and the MLB Draft (or work). It has a full sports career in football, basketball, soccer, baseball and
+softball, with separate boys' and girls' teams:
 JV and varsity, starting spots, box scores, season stats, awards, injuries, recruiting, offers from real
 colleges (UConn, Stanford, UCLA, LSU, UNC, Texas, Oklahoma, Florida State, Miami, Michigan) and the draft.
 
@@ -127,8 +128,8 @@ needs from recruits: the NCAA minimum is 2.3, and Stanford wants a 3.4. If your 
 senior spring, the offer gets pulled. Regular admission to the big schools is hard (Stanford is a long shot
 even with a 4.0). Southern Connecticut State and Gateway Community College are there as local options.
 
-**Recruiting is earned.** Each college has a program strength per sport (LSU baseball, UConn basketball and
-Michigan football are the top of the list). The stronger the program, the better you need to be before
+**Recruiting is earned.** Each college has a program strength per team (LSU baseball, UConn basketball on both sides,
+UNC women's soccer, Oklahoma softball and Michigan football are near the top). The stronger the program, the better you need to be before
 they offer. In senior spring you pick your path from the offers and admissions you've earned. On September 1
 you arrive at college (teams, a roommate, new classmates, real conference opponents) or start working in town.
 
@@ -139,6 +140,36 @@ and the story closes with a look back at your seven years.
 
 You can open anyone in **Character Studio** (including yourself) to see their full profile and athlete
 page, and **History Explorer** shows the math behind anything that happened.
+
+## Teams: boys' and girls', five sports
+
+Guilford has seven high school teams, each with its own coach, tryouts and schedule:
+
+| Season | Boys | Girls |
+|---|---|---|
+| Fall (tryouts early Sept.) | Football (Coach Bryant), Boys Soccer (Coach Lindqvist) | Girls Soccer (Coach Mensah) |
+| Winter (tryouts mid-Nov.) | Boys Basketball (Coach Okafor) | Girls Basketball (Coach DiMarco) |
+| Spring (tryouts early March) | Baseball (Coach Bryant) | Softball (Coach Torres) |
+
+- **You only see your side.** Tryouts, goals, the planner and the story creator show the teams you can play on. A coach
+  only takes players from their side, and walk-ons and call-ups follow the same rule.
+- **One sport a season.** Once you're on a team (or signed up for its tryouts), the other team that season drops off your
+  list. Football and boys' soccer are both in the fall, so pick one. Winter and spring are open.
+- **Soccer** has keepers, backs, midfielders, wingers and strikers. Box scores add up to the score (every goal has a
+  scorer, most have an assist), keepers get saves and clean sheets, and game day opens Soccer Playmaker.
+- **Softball** plays like baseball (same positions, at-bats, innings and ERA), and its game day opens At Bat.
+- **Short-handed coaches recruit.** When a team can't field a lineup after tryouts, the coach talks athletic kids who
+  aren't playing anything that season into joining. It never does this to you.
+- **College** has men's and women's teams: UConn Men's Basketball and UConn Women's Basketball, UNC Men's Soccer and
+  Women's Soccer, softball wherever the school has it. Recruiting and offers come from your side's program. Texas, LSU,
+  Oklahoma, Florida State and Miami have no men's soccer, and Miami has no softball. Football and basketball scholarships
+  are full rides at D1; soccer, baseball and softball are partial.
+- **Making people:** a girl you make who plays baseball becomes a softball player (her interest, skill and position
+  carry over). A coach you make can run any of the seven teams (`coach_of`: `football`, `basketball`, `basketball_girls`,
+  `baseball`, `softball`, `soccer`, `soccer_girls`).
+- **Older saves** are brought up to date once, the first time they load: the new teams and coaches show up with the rest
+  of this year's tryouts and games, girls on boys' teams move to the girls' team for that season (keeping varsity or JV),
+  a girl's baseball becomes softball, some kids pick up soccer, and a college you're already at gets its women's teams.
 
 ## Play on your phone
 
@@ -515,7 +546,7 @@ card like "Second period · Chemistry: Fill it to the line". Three choices: **go
   spin, hurdle, tap to truck. Game day is first and goal from the 10 with the whole playbook, four downs; a touchdown is
   a great round.
 - **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab, Option Arcade, Soccer Playmaker) run inside the app with
-  their mechanics untouched. Each opens to its own home screen in free play; on game day basketball, baseball and soccer open
+  their mechanics untouched. Each opens to its own home screen in free play; on game day basketball, baseball, softball and soccer open
   straight into a short clutch round. Edit them in `games/src/`, then run `python lifeos/tools/sync_games.py` and rebuild.
 - **Swing Lab** is the batting prototype: a bigger, brighter, slower ball, a swipe through an invisible contact plane,
   fastball / changeup / curveball told apart only by how they move, a training mode, and two cameras to compare. Its
@@ -705,7 +736,8 @@ lifeos/
 - **The phone app** keeps your story on that one phone (back it up). It's slower than a computer on long skips (a few seconds for a week, longer for months) and trims old background history sooner to fit in phone memory. Experiments and the Engine Workshop stay in the lab.
 - **Careers and economy** are minimal: two part-time employers, allowance by income level, and costs for outings.
 - **After high school**: your own college is fully simulated (teams, classes, roommate, classmates). Everyone else who leaves town lives offscreen: weekly updates, no daily decisions, home for breaks. Graduates who stay in town work full time. The seven chapters end with the MLB Draft after college junior year and a final review. The world keeps running after that, but pro ball is offscreen (no minor league seasons yet), and there's no grad school or later adult life.
-- **College sports** are simplified: one varsity team per sport, a short schedule (11 football games, 18 basketball, 14 baseball), and no transfer portal, redshirts or NIL.
+- **College sports** are simplified: one varsity team per side (men's and women's), a short schedule (11 football games, 18 basketball, 14 baseball, about 10 soccer and 14 softball), and no transfer portal, redshirts or NIL.
+- **Boys' and girls' teams** follow the usual high school setup: football and baseball are boys' teams, softball is the girls' spring sport, and basketball and soccer have one of each. Girls can't go out for football here. Nonbinary students can try out for either side. One fall sport at a time, so football and boys' soccer split the same boys, and a small school runs thin rosters.
 - **Real names, simulated numbers.** Guilford, its spots (the Green, Jacobs Beach, Bishop's Orchards), the SCC opponents, the colleges, their conferences and the MLB teams are real. Program strengths, GPA cutoffs, draft projections and slot values are design values for the simulation, not official figures. Every person is generated or made by you.
 - **Spreadsheet import** covers Rules, Actions and Characters. Groups, templates and goals are edited in the JSON catalogs; restart the server to reload them.
 - **Narrative text** is template-based and functional rather than literary.

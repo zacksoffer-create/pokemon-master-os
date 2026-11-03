@@ -51,7 +51,15 @@ export type BuilderMode = "protagonist" | "sibling" | "cast" | "studio";
 export const TRAITS = ["sociability", "confidence", "discipline", "ambition", "impulsivity", "empathy", "competitiveness", "curiosity", "volatility", "loyalty"];
 export const APTS = ["athletic", "academic", "creativity", "technical", "charisma"];
 export const MOTIVES = ["achievement", "approval", "belonging", "pleasure", "altruism", "mastery"];
-export const SPORTS = ["football", "basketball", "baseball"];
+export const SPORTS = ["football", "basketball", "soccer", "baseball", "softball"];
+/** Boys play football, basketball, soccer and baseball; girls play basketball, soccer and softball (nonbinary: any). */
+export const ONLY: Record<string, string> = { football: "m", baseball: "m", softball: "f" };
+export function sportsFor(gender?: string) {
+  return SPORTS.filter((s) => !ONLY[s] || !(gender === "m" || gender === "f") || ONLY[s] === gender);
+}
+/** High school teams a coach can run: [team id, label]. */
+export const TEAMS: [string, string][] = [["football", "Football"], ["basketball", "Boys basketball"], ["basketball_girls", "Girls basketball"],
+  ["soccer", "Boys soccer"], ["soccer_girls", "Girls soccer"], ["baseball", "Baseball"], ["softball", "Softball"]];
 export const GRADE_LABEL: Record<number, string> = { 6: "6th grade", 7: "7th grade", 8: "8th grade", 9: "Freshman", 10: "Sophomore", 11: "Junior", 12: "Senior" };
 export const COLORS = ["#57d9c3", "#6bb6ff", "#9b8cff", "#c08cff", "#ff8fc7", "#ff6b81", "#ff9a62", "#ffb547", "#f4d35e", "#b5e48c", "#66d98f", "#4fc3f7"];
 
@@ -77,10 +85,10 @@ export const ARCH_BLURB: Record<string, string> = {
   drifter: "Going with the flow, figuring it out.",
 };
 export const BUILD_HINT: Record<string, string> = {
-  slight: "Quick and light. Fine at WR, DB or kicker; rough on the lines.",
+  slight: "Quick and light. Receivers, wingers, guards; rough in the trenches.",
   average: "No edge either way.",
-  athletic: "The all-around body for skill spots: WR, RB, DB, guards.",
-  strong: "Built for the lines (OL/DL); a step slower out wide.",
+  athletic: "The all-around body. A plus almost anywhere, in every sport.",
+  strong: "Power: linemen, center backs, catchers. A step slower out wide.",
 };
 export const SEASON: Record<string, string> = { fall: "Fall", winter: "Winter", spring: "Spring" };
 export const REL_TYPES = ["best_friend", "close_friend", "friend", "acquaintance", "crush", "admirer", "mutual_crush", "dating", "ex",
@@ -198,6 +206,13 @@ export function positionFit(sport: string, pos: string, h = 68, build = "average
   }
   if (sport === "basketball") return pos === "C" || pos === "PF" ? (h - 74) * 0.5 + (h - 72) * 0.6 : pos === "PG" ? (72 - h) * 0.3 : 0;
   if (sport === "baseball" && pos === "P") return (h - 70) * 0.4;
+  if (sport === "softball" && pos === "P") return (h - 65) * 0.4;
+  if (sport === "soccer") {
+    const b = ({ slight: 1, average: 0, athletic: 4, strong: 2 } as any)[build] || 0;
+    if (pos === "GK") return b + Math.max(-4, Math.min(5, (h - 69) * 0.6));
+    if (pos === "CB") return b + (({ strong: 3, slight: -4 } as any)[build] || 0);
+    return b;
+  }
   return 0;
 }
 function fitTag(b: number): [string, string] | null {
@@ -337,7 +352,8 @@ export function randomizePerson(cat: any, p: Person, layers: string[] = ["traits
     const ints: Record<string, number> = {};
     const src: Record<string, number> = { ...(a?.interests || {}) };
     if (src.sport) {
-      const s = SPORTS[Math.floor(Math.random() * 3)];
+      const pool = sportsFor(p.gender);
+      const s = pool[Math.floor(Math.random() * pool.length)];
       src[s] = src.sport;
       delete src.sport;
     }
@@ -578,7 +594,7 @@ function Future({ p, set, cat }: { p: Person; set: (x: Partial<Person>) => void;
           {col && (
             <div className="callout" style={{ gridColumn: "1 / -1" }}>
               {mode === "sport"
-                ? <>{p.first || "They"} will get a {path?.sport === "baseball" ? "partial" : "full"} scholarship offer from {col.short} senior spring and commit. We'll make sure {p.first || "they"} {path?.sport ? `plays ${path.sport} in high school and is good enough to be recruited` : "is ready"}.</>
+                ? <>{p.first || "They"} will get a {path?.sport === "football" || path?.sport === "basketball" ? "full" : "partial"} scholarship offer from {col.short} senior spring and commit. We'll make sure {p.first || "they"} {path?.sport ? `plays ${path.sport} in high school and is good enough to be recruited` : "is ready"}.</>
                 : <>{p.first || "They"} will get into {col.short} and go there after graduation.</>}
             </div>
           )}
@@ -637,7 +653,7 @@ function Basics({ p, set, cat, mode }: { p: Person; set: (x: Partial<Person>) =>
             </select>
           </Field>
           <Field label="Coaches" hint="A coach takes over that varsity team.">
-            <Seg value={p.coach_of || ""} options={[["", "Nothing"], ["football", "Football"], ["basketball", "Basketball"], ["baseball", "Baseball"]]} onChange={(v) => set({ coach_of: v || undefined })} small />
+            <Seg value={p.coach_of || ""} options={[["", "Nothing"], ...TEAMS] as [string, string][]} onChange={(v) => set({ coach_of: v || undefined })} small />
           </Field>
           <Field label="Job title" hint="Shown under their name">
             <input type="text" value={p.role_label || ""} maxLength={40} placeholder={p.coach_of ? `${cap(p.coach_of)} coach` : "History teacher"} onChange={(e) => set({ role_label: e.target.value })} />
@@ -901,7 +917,7 @@ function Athlete({ p, onChange, cat }: { p: Person; onChange: (p: Person) => voi
           ))}
         </div>
       </div>
-      {SPORTS.map((s) => {
+      {sportsFor(p.gender).map((s) => {
         const sp = cat.sports[s];
         const st = playState(s);
         const iv = p.interests?.[s];

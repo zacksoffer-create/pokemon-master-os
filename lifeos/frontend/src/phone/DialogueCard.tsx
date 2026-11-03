@@ -158,7 +158,7 @@ function WhoItsAbout({ pack, onChanged }: { pack: string; onChanged: () => void 
             <label className="dl-cast-row"><span>Who plays</span>
               <select className="ph-input" value={lock.sport} onChange={(e) => setLock({ ...lock, sport: e.target.value })}>
                 <option value="">Any (no sport needed)</option>
-                {["basketball", "football", "baseball", "soccer"].map((s) => <option key={s} value={s}>{s}</option>)}
+                {["basketball", "football", "baseball", "soccer", "softball"].map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </label>
             <label className="dl-check"><input type="checkbox" checked={lock.close} onChange={(e) => setLock({ ...lock, close: e.target.checked })} />

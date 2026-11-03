@@ -377,11 +377,11 @@ function Profile({ c, h }: any) {
 }
 
 // ------------------------------------------------------------------ athlete
-const SPORT_ORDER = ["football", "basketball", "baseball"];
+const SPORT_ORDER = ["football", "basketball", "soccer", "baseball", "softball"];
 const statNum = (v: any) => (typeof v === "number" ? (Number.isInteger(v) ? String(v) : v.toFixed(1)) : v ?? "-");
 function derived(sport: string, line: any): Record<string, string> {
   const out: Record<string, string> = {};
-  if (sport === "baseball") {
+  if (sport === "baseball" || sport === "softball") {
     if (line.ab > 0) out.AVG = (line.h / line.ab).toFixed(3).replace(/^0/, "");
     if (line.ip > 0) out.ERA = ((line.er * 9) / line.ip).toFixed(2);
   }

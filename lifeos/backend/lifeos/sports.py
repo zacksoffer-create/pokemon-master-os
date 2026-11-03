@@ -13,18 +13,115 @@ from . import calendar as calm
 from .history import Effects
 from .rng import clamp, sigmoid
 
-SPORTS = ("football", "basketball", "baseball")
-INJURY_RATE = {"football": 0.010, "basketball": 0.005, "baseball": 0.0035}
+SPORTS = ("football", "basketball", "baseball", "soccer", "softball")
+# Sports only one side plays here (football and baseball are the boys' teams, softball the girls'). Basketball and soccer
+# have a boys' team and a girls' team, in high school and in college (the women's college side is keyed "<sport>_w").
+ONLY = {"football": "m", "baseball": "m", "softball": "f"}
+INJURY_RATE = {"football": 0.010, "basketball": 0.005, "baseball": 0.0035, "soccer": 0.006, "softball": 0.0035}
 INJURIES = {
     "football": [("sprained ankle", 10, 21), ("shoulder strain", 10, 28), ("concussion", 7, 18), ("torn hamstring", 21, 42), ("broken wrist", 28, 49)],
     "basketball": [("sprained ankle", 7, 21), ("jammed finger", 4, 10), ("knee strain", 10, 28), ("back spasms", 5, 14)],
     "baseball": [("pulled hamstring", 7, 21), ("sore elbow", 7, 24), ("sprained wrist", 7, 18)],
+    "soccer": [("sprained ankle", 7, 21), ("pulled groin", 7, 21), ("knee sprain", 14, 35), ("concussion", 7, 18), ("bruised shin", 4, 10)],
+    "softball": [("pulled hamstring", 7, 21), ("sore shoulder", 7, 21), ("sprained wrist", 7, 18), ("jammed finger", 4, 10)],
 }
+BAT_SPORTS = ("baseball", "softball")
 BUILD_BONUS = {"slight": -5, "average": 0, "athletic": 4, "strong": 5}
 CONF_SHORT = {"Southern Connecticut Conference": "SCC", "Big Ten": "Big Ten", "Big East": "Big East", "SEC": "SEC", "ACC": "ACC", "NE10": "NE10"}
 
 
+# --- who plays where: boys' and girls' teams ---------------------------------------------
+
+def sports_for(gender) -> list:
+    """The sports someone can play on a school team. Nonbinary students can try out for either side."""
+    return [s for s in SPORTS if ONLY.get(s) in (None, gender) or gender not in ("m", "f")]
+
+
+def side(sport, gender) -> str:
+    """The program key for a sport and a player's gender: 'soccer_w' is women's soccer; softball is already women's."""
+    return f"{sport}_w" if gender == "f" and sport not in ONLY else sport
+
+
+def side_label(sport, gender, labels) -> str:
+    """'Women's Soccer', 'Men's Basketball', 'Football'."""
+    base = labels.get(sport, {}).get("label", sport.title())
+    if sport in ONLY:
+        return base
+    return ("Women's " if side(sport, gender).endswith("_w") else "Men's ") + base
+
+
+def can_play(c, g) -> bool:
+    """Whether this person can be on this team: boys' teams are for boys, girls' teams for girls (nonbinary: either)."""
+    want = g.get("gender")
+    return not want or c.gender not in ("m", "f") or c.gender == want
+
+
+def team_for(w, c, sport, school="hchs"):
+    """The team id for this person in this sport at a school ('hchs' or 'college'), or None when there isn't one."""
+    if school == "college":
+        gid = f"col_{side(sport, c.gender)}"
+        return gid if gid in w.groups else None
+    for g in sorted(w.groups.values(), key=lambda g: g["id"]):
+        if g["kind"] == "team" and g.get("skill") == sport and g.get("school") == school and can_play(c, g):
+            return g["id"]
+    return None
+
+
+SWAP = {"f": {"baseball": "softball"}, "m": {"softball": "baseball"}}  # the same swing, the other side's team
+
+
+def fit_sport(sport, gender):
+    """The sport someone of this gender would actually play for this one ('baseball' for a girl is softball)."""
+    return SWAP.get(gender, {}).get(sport, sport)
+
+
+def fit_to_side(c) -> list:
+    """Point someone's sports at teams they can be on: a girl who plays baseball plays softball, a boy who plays softball
+    plays baseball. Interest, skill and position carry over. Returns the (from, to) pairs that moved."""
+    moved = []
+    for a, b in SWAP.get(c.gender, {}).items():
+        if c.interests.get(a, 0) <= c.interests.get(b, 0):
+            continue
+        c.interests[b] = c.interests.pop(a)
+        if c.skills.get(a, 0) > c.skills.get(b, 0):
+            c.skills[b] = c.skills[a]
+        if a in c.positions and b not in c.positions:
+            c.positions[b] = c.positions[a]
+        moved.append((a, b))
+    return moved
+
+
+def offers_side(col, sport, gender) -> bool:
+    return side(sport, gender) in col.get("programs", {})
+
+
+def _season_days(g):
+    a = calm.md_to_day(0, tuple(g["season"]["start"]))
+    b = calm.md_to_day(0, tuple(g["season"]["end"]))
+    if b < a:
+        b = calm.md_to_day(1, tuple(g["season"]["end"]))
+    return a, b
+
+
+def seasons_overlap(g1, g2) -> bool:
+    a1, b1 = _season_days(g1)
+    a2, b2 = _season_days(g2)
+    return a1 <= b2 and a2 <= b1
+
+
+def clash(w, c, g):
+    """Another team this person is on (or trying out for) whose season overlaps this one: one sport a season."""
+    year = calm.school_year_of(w.day)
+    for o in sorted(w.groups.values(), key=lambda o: o["id"]):
+        if o["id"] == g["id"] or o["kind"] != "team" or o.get("school") != g.get("school") or not seasons_overlap(o, g):
+            continue
+        if o["id"] in c.memberships or c.id in w.registrations.get(f"tryout:{o['id']}:{year}", []):
+            return o
+    return None
+
+
 def program(col, sport) -> float:
+    """A program's strength, 0-100. `sport` can be a side key ('soccer_w')."""
     return float(col.get("programs", {}).get(sport, 0))
 
 
@@ -43,7 +140,8 @@ def college_level(meta, sport) -> float:
 
 
 def aid_label(col, sport) -> str:
-    return "partial scholarship" if sport == "baseball" or col.get("tier") != "D1" else "full scholarship"
+    # football and basketball scholarships are full rides at D1; soccer, baseball and softball split theirs
+    return "full scholarship" if sport in ("football", "basketball") and col.get("tier") == "D1" else "partial scholarship"
 
 
 def poisson(rng, lam: float) -> int:
@@ -97,12 +195,22 @@ def default_position(c, sport: str, rng) -> str:
         if t["confidence"] > 65 and c.aptitudes.get("academic", 50) > 55 and rng.random() < 0.35:
             return "QB"
         return ["RB", "WR", "LB", "DB", "TE", "LB"][int(rng.random() * 6)]
-    if sport == "baseball":
+    if sport in BAT_SPORTS:
         if t["competitiveness"] > 65 and rng.random() < 0.4:
             return "P"
         if build == "strong" and t["discipline"] > 55 and rng.random() < 0.4:
             return "C"
         return ["1B", "2B", "SS", "3B", "OF", "OF"][int(rng.random() * 6)]
+    if sport == "soccer":
+        if h >= ({"f": 67}.get(c.gender, 72)) and t["confidence"] > 55 and rng.random() < 0.3:
+            return "GK"
+        if build == "strong":
+            return "CB"
+        if build == "slight":
+            return ["WM", "CM", "FB"][int(rng.random() * 3)]
+        if t["competitiveness"] > 65 and t["confidence"] > 60 and rng.random() < 0.45:
+            return "ST"
+        return ["CM", "FB", "WM", "CB", "ST", "CM"][int(rng.random() * 6)]
     return ""
 
 
@@ -132,8 +240,15 @@ def body_bonus(c, sport, pos=None) -> float:
         if pos in ("WR", "DB", "RB"):
             v += {"slight": 3, "athletic": 3, "strong": -2}.get(build, 0)
         return v
-    if sport == "baseball" and pos == "P":
-        return (h - 70) * 0.4
+    if sport in BAT_SPORTS and pos == "P":
+        return (h - (65 if sport == "softball" else 70)) * 0.4
+    if sport == "soccer":
+        v = {"slight": 1, "average": 0, "athletic": 4, "strong": 2}.get(build, 0)
+        if pos == "GK":
+            v += clamp((h - (66 if c.gender == "f" else 71)) * 0.6, -4, 5)
+        if pos == "CB":
+            v += {"strong": 3, "slight": -4}.get(build, 0)
+        return v
     return 0.0
 
 
@@ -183,7 +298,15 @@ def stat_line(sport, pos, f, starter, rng) -> dict:
         base = {"PG": (10, 3, 5), "SG": (13, 3, 2.5), "SF": (11, 5, 2), "PF": (9, 7, 1.5), "C": (8, 8, 1)}.get(pos, (9, 4, 2))
         return {"pts": max(0, int(rng.gauss(base[0] * f, 3))), "reb": poisson(rng, base[1] * f), "ast": poisson(rng, base[2] * f),
                 "stl": poisson(rng, 0.9 * f), "blk": poisson(rng, (1.5 if pos == "C" else 0.8 if pos == "PF" else 0.3) * f)}
-    if sport == "baseball":
+    if sport == "soccer":
+        # goals, assists and shots by where you play; keepers make saves and keep clean sheets (set by the game)
+        g, a, sh = {"ST": (0.55, 0.2, 3.2), "WM": (0.3, 0.3, 2.0), "CM": (0.18, 0.32, 1.4), "FB": (0.05, 0.15, 0.4),
+                    "CB": (0.06, 0.04, 0.4), "GK": (0.0, 0.0, 0.0)}.get(pos, (0.15, 0.15, 1.0))
+        if pos == "GK":
+            return {"saves": poisson(rng, 4.0 * clamp(f, 0.4, 1.6))} if starter else {}
+        shots = poisson(rng, sh * f)
+        return {"goals": min(shots, poisson(rng, g * f)), "assists": poisson(rng, a * f), "shots": shots}
+    if sport in BAT_SPORTS:
         ab = 4 if starter else 1
         avg = clamp(0.12 + 0.22 * f, 0.05, 0.5)
         h = binom(rng, ab, avg)
@@ -200,16 +323,26 @@ def line_text(sport, line) -> str:
     order = {"football": [("pass_yds", "pass yds"), ("pass_td", "TD"), ("rush_yds", "rush yds"), ("rush_td", "TD"), ("rec", "rec"),
                           ("rec_yds", "yds"), ("rec_td", "TD"), ("tackles", "tackles"), ("sacks", "sacks"), ("ints", "INT"), ("fg", "FG")],
              "basketball": [("pts", "PTS"), ("reb", "REB"), ("ast", "AST"), ("stl", "STL"), ("blk", "BLK")],
-             "baseball": [("h", "H"), ("ab", "AB"), ("hr", "HR"), ("rbi", "RBI"), ("k", "K"), ("ip", "IP")]}[sport]
+             "baseball": [("h", "H"), ("ab", "AB"), ("hr", "HR"), ("rbi", "RBI"), ("k", "K"), ("ip", "IP")],
+             "soccer": [("goals", "G"), ("assists", "A"), ("saves", "saves"), ("clean_sheets", "clean sheets"), ("shots", "shots")]}
+    order["softball"] = order["baseball"]
+    order = order[sport]
     parts = []
     for k, label in order:
         v = line.get(k)
         if not v:
             continue
-        if sport == "baseball" and k == "h":
+        if sport in BAT_SPORTS and k == "h":
             parts.append(f"{v}-for-{line.get('ab', 0)}")
             continue
-        if sport == "baseball" and k == "ab":
+        if sport in BAT_SPORTS and k == "ab":
+            continue
+        if sport == "soccer" and k in ("goals", "assists", "shots", "saves"):
+            word = {"goals": "goal", "assists": "assist", "shots": "shot", "saves": "save"}[k]
+            parts.append(f"{v} {word}{'s' if v != 1 else ''}")
+            continue
+        if sport == "soccer" and k == "clean_sheets" and v == 1:
+            parts.append("a clean sheet")
             continue
         parts.append(f"{v} {label}")
     return ", ".join(parts[:4]) if parts else "limited minutes"
@@ -230,6 +363,41 @@ def opponent_name(sim, g, n: int) -> str:
         opp = sim.cat.college_by_id[meta["id"]].get("opponents", {})
         names = opp.get(g.get("skill")) or opp.get("default") or names
     return names[(n * 7 + len(g["id"])) % len(names)]
+
+
+def soccer_box(box, score, win, rng):
+    """Make the box score add up to the scoreline: each of our goals goes to one player (strikers most often), most
+    have an assist, and a starting keeper who conceded nothing keeps a clean sheet."""
+    a, b = (int(x) for x in score.split("-"))
+    ours, theirs = (max(a, b), min(a, b)) if win else (min(a, b), max(a, b))
+    field = sorted(k for k, v in box.items() if v["pos"] != "GK")
+    weight = {k: max(0.05, box[k]["line"].get("shots", 0) + {"ST": 1.2, "WM": 0.7, "CM": 0.45}.get(box[k]["pos"], 0.12)) for k in field}
+    for k in field:
+        box[k]["line"]["goals"] = 0
+        box[k]["line"]["assists"] = 0
+    def pick(pool):
+        tot = sum(weight[k] for k in pool)
+        x = rng.random() * tot
+        for k in pool:
+            x -= weight[k]
+            if x <= 0:
+                return k
+        return pool[-1]
+    for _ in range(ours if field else 0):
+        k = pick(field)
+        box[k]["line"]["goals"] += 1
+        box[k]["line"]["shots"] = max(box[k]["line"].get("shots", 0), box[k]["line"]["goals"])
+        others = [o for o in field if o != k]
+        if others and rng.random() < 0.72:
+            box[pick(others)]["line"]["assists"] += 1
+    for k, v in box.items():
+        if v["pos"] == "GK" and v["starter"]:
+            v["line"]["saves"] = v["line"].get("saves", 0)
+            if theirs == 0:
+                v["line"]["clean_sheets"] = 1
+        for key in ("goals", "assists"):
+            if not v["line"].get(key):
+                v["line"].pop(key, None)
 
 
 def football_score(margin, rng):
@@ -287,7 +455,7 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
             bonus += float(c.flags.get("game_clutch", 0))
         perf[cid] = pre[cid] + rng.gauss(0, 7) + bonus + (c.mood - 55) * 0.05
     college = w.meta.get("college") if g.get("school") == "college" else None
-    clevel = college_level(college, sport) if college else None
+    clevel = college_level(college, g.get("side") or sport) if college else None
     filler = (clevel - 8) if college else 38.0
     if college:
         bar = clevel + 2
@@ -324,6 +492,11 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
             if "pass_td" in line:
                 line["pass_td"] = min(line["pass_td"], tds["team"])
         box[cid] = {"pos": pos, "starter": cid in starters, "line": line, "perf": round(perf[cid], 1), "approach": appr[cid]}
+    if sport == "soccer":
+        soccer_box(box, score, win, rng)
+    for cid in players:
+        c = w.chars[cid]
+        line = box[cid]["line"]
         st = c.stats.setdefault(skey, {"sport": sport, "level": level, "team": g["id"], "team_name": g["name"],
                                        "school": g.get("school"), "games": 0, "starts": 0, "wins": 0, "losses": 0,
                                        "line": {}, "impact": 0.0})
@@ -505,11 +678,12 @@ def recruiting_update(inst, c, sport, rng):
     rec.setdefault("score", {})
     score = recruit_score(c, sport)
     rec["score"][sport] = round(score, 1)
+    sd = side(sport, c.gender)
     for col in sim.cat.colleges:
-        if sport not in col["sports"]:
-            continue
+        if not offers_side(col, sport, c.gender):
+            continue  # no team on their side (no men's soccer at Texas, no softball at Miami)
         key = f"{col['id']}:{sport}"
-        gap = score - recruit_bar(col, sport)
+        gap = score - recruit_bar(col, sd)
         if gap < -6:
             continue
         first = key not in rec["interest"]
@@ -530,7 +704,8 @@ def make_offer(inst, c, col, sport, committed=False):
     w = sim.w
     aid = aid_label(col, sport)
     offer = {"college": col["id"], "name": col["name"], "short": col["short"], "tier": col["tier"], "conference": col.get("conference"),
-             "sport": sport, "scholarship": True, "aid": aid, "min_gpa": col.get("athlete_min_gpa", 2.3), "day": w.day}
+             "sport": sport, "side": side(sport, c.gender), "scholarship": True, "aid": aid, "min_gpa": col.get("athlete_min_gpa", 2.3),
+             "day": w.day}
     c.recruiting.setdefault("offers", []).append(offer)
     ev = inst.event("recruiting", "offer", [c.id], importance=42, data={"label": col["name"], "sport": sport})
     ev["text"] = f"{col['name']} offered {c.short} a {aid} to play {sport}."
@@ -597,10 +772,10 @@ def path_options(sim, c) -> list:
         col = sim.cat.college_by_id[o["college"]]
         iv = c.interests.get(o["sport"], 50)
         full = o.get("aid", "full scholarship").startswith("full")
-        v = (10 + program(col, o["sport"]) * 0.22 + iv * 0.2 + (8 if full else 4) + m["achievement"] * 0.1
+        v = (10 + program(col, o.get("side") or o["sport"]) * 0.22 + iv * 0.2 + (8 if full else 4) + m["achievement"] * 0.1
              + (6 if poor else 0) + (4 if col.get("home_state") and m["belonging"] > 60 else 0))
         opts.append({"kind": "college", "college": o["college"], "name": o["name"], "tier": o["tier"], "conference": col.get("conference"),
-                     "sport": o["sport"], "scholarship": True, "aid": o.get("aid"), "program": program(col, o["sport"]),
+                     "sport": o["sport"], "scholarship": True, "aid": o.get("aid"), "program": program(col, o.get("side") or o["sport"]),
                      "utility": round(v, 1), "label": f"Play {o['sport']} at {col['short']} ({o.get('aid', 'scholarship')})"})
     for a in c.recruiting.get("admits", []):
         col = sim.cat.college_by_id[a["college"]]

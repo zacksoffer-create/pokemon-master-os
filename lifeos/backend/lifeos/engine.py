@@ -61,6 +61,8 @@ class Simulation:
         self.ctx_practices: list = []
         self._today: list = []
         self.upcoming: list = []
+        from . import teams
+        teams.upgrade(self)  # boys' and girls' teams, soccer and softball, for saves made before them
         self._refresh_day()
         self._note_rules()
         if not world.meta.get("initialized"):

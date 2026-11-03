@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../api";
 import {
-  APTS, APT_LABEL, ARCH_BLURB, BUILD_HINT, COLORS, GRADE_LABEL, MOTIVES, MOTIVE_WORDS, Person, SEASON, SPORTS, TRAITS, TRAIT_WORDS,
+  APTS, APT_LABEL, ARCH_BLURB, BUILD_HINT, COLORS, GRADE_LABEL, MOTIVES, MOTIVE_WORDS, Person, SEASON, TEAMS, TRAITS, TRAIT_WORDS, sportsFor,
   archLabel, autoSkill, cap, displayName, heightLabel, lookOf, positionFit, randomLast, randomName, randomizePerson, shown, summaryLine,
   useStoryCatalog,
 } from "../components/CharacterBuilder";
@@ -106,7 +106,7 @@ function withSport(p: Person, sport?: string | null): Partial<Person> {
   return { interests: { ...(p.interests || {}), [sport]: Math.max(p.interests?.[sport] ?? 0, 80) } };
 }
 function playsList(p: Person) {
-  return SPORTS.filter((s) => playsSport(p, s) === "yes");
+  return sportsFor(p.gender).filter((s) => playsSport(p, s) === "yes");
 }
 
 // ---------------------------------------------------------------- small pieces
@@ -596,7 +596,7 @@ function SportsStep({ p, set, cat }: { p: Person; set: (x: Partial<Person>) => v
       <div className="cs-card">
         <Slider label="Height" value={h || defH} auto={!h} min={58} max={84} show={heightLabel(h || defH)} onChange={(x) => setBody({ height_in: x })} onAuto={() => setBody({ height_in: undefined })}
           left={`4'10"`} rightWord={`7'0"`} />
-        <div className="cs-hint">Height matters most in basketball, a little for pitchers. Freshmen still grow some.</div>
+        <div className="cs-hint">Height matters most in basketball, a little for pitchers and keepers. Freshmen still grow some.</div>
         <div className="cs-field-l" style={{ marginTop: 12 }}><span>Build</span>{!body.build && <em className="cs-auto">auto</em>}</div>
         <div className="cs-builds">
           {cat.builds.map((b: string) => (
@@ -610,7 +610,7 @@ function SportsStep({ p, set, cat }: { p: Person; set: (x: Partial<Person>) => v
         <input className="ph-input cs-num" type="number" inputMode="numeric" min={0} max={99} value={p.jersey ?? ""} placeholder="Any"
           onChange={(e) => set({ jersey: e.target.value === "" ? null : clamp(Math.round(Number(e.target.value)), 0, 99) })} />
       </div>
-      {SPORTS.map((s) => {
+      {sportsFor(p.gender).map((s) => {
         const sp = cat.sports[s];
         const st = playsSport(p, s);
         const iv = p.interests?.[s];
@@ -884,7 +884,7 @@ function TypeChips({ p, set, cat }: { p: Person; set: (x: Partial<Person>) => vo
 function SportChips({ p, set }: { p: Person; set: (x: Partial<Person>) => void }) {
   return (
     <div className="ph-seg cs-seg wrap">
-      {SPORTS.map((s) => {
+      {sportsFor(p.gender).map((s) => {
         const on = playsSport(p, s) === "yes";
         return (
           <button key={s} type="button" className={cx(on && "on")} onClick={() => {
@@ -1032,7 +1032,7 @@ function PersonEditor({ p, d, cat, set, used, problems, onRemove, onDone }: {
       {staff ? (
         <>
           <Field label="What they coach">
-            <Seg value={p.coach_of || "football"} options={SPORTS.map((s) => [s, cap(s)] as [string, string])} onChange={(v) => set({ coach_of: v })} />
+            <Seg value={p.coach_of || "football"} options={TEAMS} onChange={(v) => set({ coach_of: v })} wrap />
           </Field>
           <Field label="What you call them">
             <Seg value={p.title || "Coach"} options={[["Coach", "Coach"], ["Mr.", "Mr."], ["Ms.", "Ms."], ["Mrs.", "Mrs."]]} onChange={(v) => set({ title: v })} />

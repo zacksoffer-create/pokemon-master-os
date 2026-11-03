@@ -1,6 +1,6 @@
 {
  "version": 2,
- "notes": "Real colleges. programs = how strong each sport's program is (0-100); it sets the recruiting bar (52 + 0.36 x program) and how good the team plays (58 + 0.2 x program). academic_rank feeds path choices. Regular admission: P = admit_cap x sigmoid((GPA - min_gpa) / 0.12). Recruited athletes need athlete_min_gpa (NCAA D1 minimum is 2.3). Southern CT State and Gateway are local options for classmates who don't go to the big schools. Program numbers are design values for the simulation, not rankings.",
+ "notes": "Real colleges. programs = how strong each sport's program is (0-100); it sets the recruiting bar (52 + 0.36 x program) and how good the team plays (58 + 0.2 x program). academic_rank feeds path choices. Regular admission: P = admit_cap x sigmoid((GPA - min_gpa) / 0.12). Recruited athletes need athlete_min_gpa (NCAA D1 minimum is 2.3). Southern CT State and Gateway are local options for classmates who don't go to the big schools. Program numbers are design values for the simulation, not rankings. programs: 0-100 strength per team. A key ending in _w is the women's team (basketball_w, soccer_w); softball is women's, football and baseball men's; plain basketball and soccer are the men's teams. A school without a key has no team on that side.",
  "colleges": [
   {
    "id": "uconn",
@@ -13,12 +13,18 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 58,
     "basketball": 96,
-    "baseball": 78
+    "baseball": 78,
+    "basketball_w": 99,
+    "soccer": 70,
+    "soccer_w": 62,
+    "softball": 55
    },
    "academic_rank": 75,
    "min_gpa": 3.3,
@@ -61,12 +67,18 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 72,
     "basketball": 74,
-    "baseball": 88
+    "baseball": 88,
+    "basketball_w": 88,
+    "soccer": 84,
+    "soccer_w": 95,
+    "softball": 82
    },
    "academic_rank": 98,
    "min_gpa": 3.95,
@@ -105,12 +117,18 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 76,
     "basketball": 88,
-    "baseball": 86
+    "baseball": 86,
+    "basketball_w": 86,
+    "soccer": 80,
+    "soccer_w": 92,
+    "softball": 96
    },
    "academic_rank": 92,
    "min_gpa": 3.85,
@@ -149,12 +167,17 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 90,
     "basketball": 74,
-    "baseball": 95
+    "baseball": 95,
+    "basketball_w": 92,
+    "soccer_w": 70,
+    "softball": 90
    },
    "academic_rank": 66,
    "min_gpa": 3.1,
@@ -191,12 +214,18 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 76,
     "basketball": 92,
-    "baseball": 87
+    "baseball": 87,
+    "basketball_w": 76,
+    "soccer": 84,
+    "soccer_w": 98,
+    "softball": 72
    },
    "academic_rank": 90,
    "min_gpa": 3.8,
@@ -235,12 +264,17 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 92,
     "basketball": 82,
-    "baseball": 88
+    "baseball": 88,
+    "basketball_w": 90,
+    "soccer_w": 78,
+    "softball": 94
    },
    "academic_rank": 85,
    "min_gpa": 3.7,
@@ -277,12 +311,17 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 88,
     "basketball": 72,
-    "baseball": 80
+    "baseball": 80,
+    "basketball_w": 80,
+    "soccer_w": 62,
+    "softball": 99
    },
    "academic_rank": 68,
    "min_gpa": 3.2,
@@ -319,12 +358,17 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 85,
     "basketball": 76,
-    "baseball": 88
+    "baseball": 88,
+    "basketball_w": 80,
+    "soccer_w": 96,
+    "softball": 92
    },
    "academic_rank": 75,
    "min_gpa": 3.5,
@@ -363,12 +407,15 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer"
    ],
    "programs": {
     "football": 86,
     "basketball": 78,
-    "baseball": 85
+    "baseball": 85,
+    "basketball_w": 74,
+    "soccer_w": 58
    },
    "academic_rank": 82,
    "min_gpa": 3.6,
@@ -407,12 +454,18 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 93,
     "basketball": 82,
-    "baseball": 76
+    "baseball": 76,
+    "basketball_w": 80,
+    "soccer": 74,
+    "soccer_w": 72,
+    "softball": 86
    },
    "academic_rank": 92,
    "min_gpa": 3.8,
@@ -451,12 +504,18 @@
    "sports": [
     "football",
     "basketball",
-    "baseball"
+    "baseball",
+    "soccer",
+    "softball"
    ],
    "programs": {
     "football": 40,
     "basketball": 40,
-    "baseball": 40
+    "baseball": 40,
+    "basketball_w": 40,
+    "soccer": 40,
+    "soccer_w": 40,
+    "softball": 40
    },
    "academic_rank": 45,
    "min_gpa": 2.3,

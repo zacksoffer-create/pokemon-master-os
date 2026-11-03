@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from .history import Effects
 from .rng import clamp
+from . import sports
 from .social import grudge_score, is_friend
 
 
@@ -158,9 +159,16 @@ def generate(sim, c, rng):
         g = w.groups[it["group"]]
         if g["id"] in c.memberships:
             continue
+        if g["kind"] == "team" and (not sports.can_play(c, g) or sports.clash(w, c, g)):
+            continue  # the other side's team, or a second sport the same season
         iv = c.interests.get(g["skill"], 0)
         if iv < 55:
             continue
+        if g["kind"] == "team" and any(o is not g and o["kind"] == "team" and o.get("school") == g.get("school") and sports.can_play(c, o)
+                                       and sports.seasons_overlap(o, g) and c.interests.get(o["skill"], 0) > iv
+                                       and any(i.get("group") == o["id"] and i["kind"] == "tryout" and i["day"] >= w.day for i in sim.upcoming)
+                                       for o in w.groups.values()):
+            continue  # one goal a season: the sport they like more
         pr = 0.45 * iv + 0.25 * tr["ambition"] + 0.2 * tr["competitiveness"]
         if g["id"] in cut_before or (g["kind"] == "team" and "backstory" in {t for m in c.memories for t in m.get("tags", [])}
                                      and any(m["kind"] == "cut_from_team" for m in c.memories)):

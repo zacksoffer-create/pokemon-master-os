@@ -74,11 +74,11 @@ def scene(sim, me) -> dict:
     elif ph == "after_school":
         if games:
             g = w.groups[games[0]["group"]]
-            art = {"football": "football_field", "basketball": "gym", "baseball": "baseball_field"}.get(g.get("skill"), "school_hall")
+            art = {"football": "football_field", "basketball": "gym", "baseball": "baseball_field", "softball": "baseball_field", "soccer": "soccer_field"}.get(g.get("skill"), "school_hall")
             title, line = "Game day", f"{g['name']} plays tonight."
         elif practice:
             g = w.groups[practice]
-            art = {"football": "football_field", "basketball": "gym", "baseball": "baseball_field"}.get(g.get("skill"), "school_hall")
+            art = {"football": "football_field", "basketball": "gym", "baseball": "baseball_field", "softball": "baseball_field", "soccer": "soccer_field"}.get(g.get("skill"), "school_hall")
             title, line = "After school", f"The final bell. {g['name']} practice is in twenty minutes."
         else:
             art, title, line = "school_hall", "After school", "The final bell rings. The afternoon is yours."

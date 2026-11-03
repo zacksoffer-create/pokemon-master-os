@@ -450,7 +450,7 @@ def _interest_for(sim, c, cand) -> float:
     if aid in ("study", "study_at_lunch"):
         return c.interests.get("academics", 30)
     if aid == "train":
-        return max([c.interests.get(s, 0) for s in ("football", "basketball", "baseball", "fitness")] + [20])
+        return max([c.interests.get(s, 0) for s in ("football", "basketball", "baseball", "soccer", "softball", "fitness")] + [20])
     if aid in ("practice_skill",):
         return c.interests.get(t, 0)
     if aid == "hobby":

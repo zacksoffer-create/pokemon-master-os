@@ -14,8 +14,10 @@ from .history import History
 from .model import Character, World, pair_key
 from .rng import Streams, clamp, derive_seed, unit_hash
 from .rules import schema
+from .sports import sports_for
 
-SPORTS = ["football", "basketball", "baseball"]
+SPORTS = ["football", "basketball", "baseball", "soccer", "softball"]
+FIRST_PICK = {"m": "football", "f": "soccer"}  # the sport most likely to come first, by side
 
 
 def _color(rng) -> str:
@@ -114,22 +116,27 @@ class Generator:
         interests: dict = {}
         for k, v in arch["interests"].items():
             if k == "sport":
-                sports = SPORTS[:]
+                sports = sports_for(gender)
                 rng.shuffle(sports)
-                if rng.random() < 0.45:
-                    sports.remove("football")
-                    sports.insert(0, "football")
+                top = FIRST_PICK.get(gender)
+                if top and rng.random() < 0.45:
+                    sports.remove(top)
+                    sports.insert(0, top)
                 interests[sports[0]] = round(clamp(rng.gauss(v, 10), 20, 98), 1)
                 if rng.random() < 0.5:
                     interests[sports[1]] = round(clamp(rng.gauss(v - 22, 12), 10, 90), 1)
             else:
                 interests[k] = round(clamp(rng.gauss(v, 12), 5, 98), 1)
         if not any(k in interests for k in SPORTS) and rng.random() < 0.45:
-            pick = "football" if rng.random() < 0.5 else SPORTS[1 + int(rng.random() * 2)]
+            mine = sports_for(gender)
+            top = FIRST_PICK.get(gender) or mine[0]
+            rest = [x for x in mine if x != top]
+            pick = top if rng.random() < 0.5 else rest[int(rng.random() * len(rest))]
             interests[pick] = round(clamp(rng.gauss(58, 12), 25, 90), 1)
         if "drama" not in interests and rng.random() < 0.15:
             interests["drama"] = round(clamp(rng.gauss(55, 12), 25, 90), 1)
-        extras = [s["id"] for s in self.cat.world["skills"]] + list(self.cat.hobbies)
+        playable = set(sports_for(gender))
+        extras = [s["id"] for s in self.cat.world["skills"] if s["id"] not in SPORTS or s["id"] in playable] + list(self.cat.hobbies)
         for _ in range(2):
             k = rng.choice(extras)
             if k not in interests:
