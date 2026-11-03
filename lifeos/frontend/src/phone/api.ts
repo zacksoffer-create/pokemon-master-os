@@ -115,6 +115,10 @@ export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; na
   new?: { sid: string; title: string; state: string; date?: string; reason?: string; why?: string; detail?: any }[]; new_played?: number;
   changed?: { sid: string; title: string; state: string; date?: string; why?: string; reason?: string }[]; already_there?: string[];
   played_total?: number; before?: number | null; coverage?: Coverage };
+export type UpNextRow = { sid: string; title: string; storyline: string; pack: string; day: number; date: string; in_days: number;
+  importance: string; ready: boolean; waits_for: string[] };
+export type UpNext = { now: { sid: string; title: string } | null; list: UpNextRow[]; date: string;
+  changes: { sid: string; title: string; waits_for: { sid: string; title: string }[] }[]; note?: string | null; undid?: boolean };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
@@ -148,6 +152,11 @@ export const phoneApi = {
   job: (): Promise<any> => api.get("/api/sim/job"),
   control: (patch: any) => api.post("/api/story/control", patch),
   storyContinue: (): Promise<{ moment: Moment | null; note: string | null }> => api.post("/api/story/schedule/continue", {}),
+  // your episode order: what's up next, move one ahead of another, play one next, undo
+  order: (): Promise<UpNext> => api.get("/api/story/order"),
+  orderMove: (sid: string, before: string): Promise<UpNext> => api.post("/api/story/order/move", { sid, before }),
+  orderNext: (sid: string): Promise<{ ok: boolean }> => api.post("/api/story/order/next", { sid }),
+  orderClear: (sid?: string): Promise<UpNext> => api.post("/api/story/order/clear", sid ? { sid } : {}),
   schedule: (): Promise<ScheduleView> => api.get("/api/story/schedule"),
   scheduleReport: (days: number): Promise<ScheduleReport> => api.get(`/api/story/schedule/report?days=${days}&fmt=both`),
   addPrompt: (ask: string): Promise<{ prompt: string; chars: number; suggestions: string[]; checked: boolean; last_check: { coverage: Coverage } | null }> =>

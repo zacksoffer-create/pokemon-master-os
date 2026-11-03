@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useStore } from "../store";
 import MiniGame, { MGConfig, MGResult } from "../minigames/MiniGame";
-import { Chip, Choice, DaySlot, FeedItem, Line, MiniGameRow, Moment, phoneApi, pgo, PlateItem, Today, WeekDay } from "./api";
+import { Chip, Choice, DaySlot, FeedItem, Line, MiniGameRow, Moment, phoneApi, pgo, PlateItem, Today, UpNext, WeekDay } from "./api";
 import { Portrait, Scene } from "./art";
 import { PIcon } from "./icons";
 import { buzz, cx, errText, Face, Lines, money, Sheet, StatChips, useWho } from "./kit";
@@ -47,6 +47,8 @@ export default function StoryTab() {
   const [recap, setRecap] = useState<FeedItem[] | null>(null);
   const [skip, setSkip] = useState<{ done: number; days: number } | null>(null);
   const [between, setBetween] = useState<{ days: number; feed: FeedItem[] } | null>(null);
+  const [upNext, setUpNext] = useState<UpNext | null>(null);
+  const [upOpen, setUpOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [showToday, setShowToday] = useState(false);
   const [playing, setPlaying] = useState<Playing | null>(null);
@@ -231,6 +233,35 @@ export default function StoryTab() {
     await setBinge(true);
     if (!moment) nextEpisode();
   };
+  // Up next: the coming episodes in order, and yours to rearrange
+  const openUpNext = () => run(async () => {
+    setUpOpen(true);
+    setUpNext(null);
+    setUpNext(await phoneApi.order());
+  });
+  const moveEp = (sid: string, before: string) => run(async () => {
+    buzz();
+    const r = await phoneApi.orderMove(sid, before);
+    setUpNext(r);
+    if (r.note) toast(r.note, r.note.startsWith("Heads up") ? "bad" : "good");
+  });
+  const clearOrder = (sid?: string) => run(async () => {
+    buzz();
+    setUpNext(await phoneApi.orderClear(sid));
+  });
+  const playNext = async (sid: string, title: string) => {
+    let ok = false;
+    await run(async () => {
+      buzz();
+      await phoneApi.orderNext(sid);
+      ok = true;
+      setUpOpen(false);
+      toast(moment ? `“${title}” is next, right after this one.` : `Up next: “${title}”.`, "good");
+    });
+    if (!ok) return;
+    if (binge && !moment) nextEpisode();
+    else refresh();
+  };
   const afterOutcome = () => {
     setOutcome(null);
     if (binge && !s.moments.length) nextEpisode();
@@ -259,6 +290,13 @@ export default function StoryTab() {
       <div className="ph-pad ph-story-b">
         {today && !binge && <DayStrip strip={today.strip} />}
         {!moment && !skip && !binge && <SetupNudge />}
+        {binge && !skip && (
+          <div className="ph-binge-bar">
+            <span><PIcon name="story" size={14} /> Episodes, back to back</span>
+            <button className="ph-link" onClick={openUpNext} disabled={busy}>Up next</button>
+            <button className="ph-link" onClick={() => setBinge(false)} disabled={busy}>Day by day</button>
+          </div>
+        )}
         {binge && between && !skip && <Between b={between} onAll={() => setRecap(between.feed)} />}
         {!binge && s.queued && (
           <div className="ph-planned"><PIcon name="clock" size={16} /> Planned: {s.queued.label}</div>
@@ -387,6 +425,10 @@ export default function StoryTab() {
             </button>
           </>
         )}
+      </Sheet>
+
+      <Sheet open={upOpen} onClose={() => setUpOpen(false)} title="Up next" className="ph-upnext">
+        <UpNextList d={upNext} busy={busy} onMove={moveEp} onNext={playNext} onClear={clearOrder} />
       </Sheet>
 
       {playing && <MiniGame config={playing.cfg} onDone={finishPlay} onQuit={quitPlay} />}
@@ -584,6 +626,49 @@ function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number; busy: 
       </div>
       {m.choices.length > 1 && (
         <button className="ph-link center" disabled={busy} onClick={() => onPick(m, null)}>Let it happen</button>
+      )}
+    </div>
+  );
+}
+
+/** The next episodes in the order they'll come. Move one up or down, or play one that's ready next. */
+function UpNextList({ d, busy, onMove, onNext, onClear }: {
+  d: UpNext | null; busy: boolean; onMove: (sid: string, before: string) => void; onNext: (sid: string, title: string) => void;
+  onClear: (sid?: string) => void;
+}) {
+  if (!d) return <div className="ph-choice ghost-load"><span className="ph-spinner small" /> Playing it forward…</div>;
+  const when = (n: number, date: string) => n <= 0 ? "Today" : n === 1 ? "Tomorrow" : n < 14 ? `In ${n} days · ${date.replace(/, \d{4}$/, "")}` : date.replace(/, \d{4}$/, "");
+  return (
+    <div className="ph-up">
+      <p className="ph-dim small">About when each one comes, your character answering the ones before it. Move one up and the one it passes waits for it.</p>
+      {d.now && <div className="ph-up-now"><b>Now</b> {d.now.title}</div>}
+      {d.list.length === 0 && <p className="ph-dim">Nothing else is coming up. Me &gt; Story schedule shows what's waiting and why.</p>}
+      {d.list.map((r, i) => (
+        <div key={r.sid} className={cx("ph-up-row", (r.importance === "major" || r.importance === "finale") && "big")}>
+          <span className="ph-up-n">{i + 1}</span>
+          <div className="ph-up-t">
+            <b>{r.title}</b>
+            <small>{r.storyline}</small>
+            <small className="ph-up-when">{when(r.in_days, r.date)}{r.waits_for.length > 0 && ` · after “${r.waits_for[0]}”`}</small>
+            {r.ready && i > 0 && <button className="ph-up-go" disabled={busy} onClick={() => onNext(r.sid, r.title)}>Play next</button>}
+          </div>
+          <div className="ph-up-arrows">
+            <button aria-label="Move up" disabled={busy || i === 0} onClick={() => onMove(r.sid, d.list[i - 1].sid)}><PIcon name="chevron" size={18} className="up" /></button>
+            <button aria-label="Move down" disabled={busy || i === d.list.length - 1} onClick={() => onMove(d.list[i + 1].sid, r.sid)}><PIcon name="chevron" size={18} className="down" /></button>
+          </div>
+        </div>
+      ))}
+      {d.changes.length > 0 && (
+        <div className="ph-up-changes">
+          <div className="ph-kicker">Your changes</div>
+          {d.changes.map((c) => (
+            <div key={c.sid} className="ph-up-change">
+              <span>“{c.title}” waits for {c.waits_for.map((x) => `“${x.title}”`).join(" and ")}</span>
+              <button className="ph-link" disabled={busy} onClick={() => onClear(c.sid)}>Undo</button>
+            </div>
+          ))}
+          <button className="ph-link center" disabled={busy} onClick={() => onClear()}>Back to the story's own order</button>
+        </div>
       )}
     </div>
   );

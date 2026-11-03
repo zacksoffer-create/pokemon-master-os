@@ -60,6 +60,7 @@ GUARD = 100  # scenes per action, at most (a performance guard, not a story rule
 AGING_DAYS = 3  # a planned scene nobody got to goes back in the pool after this long (it isn't used up)
 PERMANENT = {"played", "year_passed", "exclusive_branch", "after_unreachable", "window_passed", "branch_closed", "skipped_by_plan"}
 REASON_TEXT = {
+    "your_order": "you put another episode first",
     "played": "already happened", "in_progress": "happening now", "cooldown": "on cooldown", "too_early": "not yet",
     "year_passed": "its school years are over", "exclusive_branch": "the other branch happened",
     "missing_fact": "needs something that hasn't happened", "waiting_for_scene": "waiting for another scene",
@@ -574,6 +575,9 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
             return ("waiting_for_scene", a)
         if st == "done":
             last_pre = max(last_pre or -10**9, done_map(w)[a][-1])
+    for a in holds(w).get(sid) or []:  # episodes you moved ahead of this one
+        if a in cat["scenes"] and _done_or_skipped(sim, me, a, cat) == "waiting":
+            return ("your_order", a)
     pk = sc.get("pack")
     gap = when.get("gap_days")
     if pk in cat["ordered"]:
@@ -913,25 +917,32 @@ def deliver(sim, force=False) -> dict | None:
     cur = w.phase if w.phase < len(phs) else len(phs) - 1
     prof = profile(w)
     tries = 0
-    while q["items"] and tries < GUARD:
-        tries += 1
-        it = q["items"][0]
-        ix = phs.index(it["phase"]) if it.get("phase") in phs else 0
-        if ix > cur and not force:
-            return None
-        q["items"].pop(0)
-        sid = it["sid"]
-        if sid not in cat["scenes"] or sid in seen_map(w):
-            continue
-        g = gate(sim, me, sid, cat, w.day, prof)
-        if g is not None:
-            _note(w, sid, "dropped" if g[0] not in PERMANENT else "unreachable", g[0], g[1])
-            continue
-        m = _start(sim, me, sid, cat)
-        if m is not None:
-            q["presented"] = q.get("presented", 0) + 1
-            return m
-    return None
+    held = []
+    try:
+        while q["items"] and tries < GUARD:
+            tries += 1
+            it = q["items"][0]
+            ix = phs.index(it["phase"]) if it.get("phase") in phs else 0
+            if ix > cur and not force:
+                return None
+            q["items"].pop(0)
+            sid = it["sid"]
+            if sid not in cat["scenes"] or sid in seen_map(w):
+                continue
+            g = gate(sim, me, sid, cat, w.day, prof)
+            if g is not None and g[0] == "your_order":
+                held.append(it)  # it comes after the one you put first
+                continue
+            if g is not None:
+                _note(w, sid, "dropped" if g[0] not in PERMANENT else "unreachable", g[0], g[1])
+                continue
+            m = _start(sim, me, sid, cat)
+            if m is not None:
+                q["presented"] = q.get("presented", 0) + 1
+                return m
+        return None
+    finally:
+        q["items"] += held
 
 
 def _start(sim, me, sid, cat):
@@ -984,7 +995,8 @@ def _chain(sim, sid, cat):
     have = {it["sid"] for it in q["items"]}
     room = target is None or prof["name"] == "uncapped" or (q.get("presented", 0) + len(q["items"])) < (target or 0)
     nxt = []
-    for d in sorted(cat["deps"].get(sid, [])):
+    mine = [y for y, xs in holds(w).items() if sid in xs and y in cat["scenes"]]
+    for d in sorted(set(cat["deps"].get(sid, [])) | set(mine)):
         when = cat["scenes"][d].get("when") or {}
         direct = not when.get("gap_days")
         if d in have or d in seen_map(w):
@@ -1006,7 +1018,179 @@ def _chain(sim, sid, cat):
               "pack": cat["scenes"][d].get("pack"), "kind": "chained", "phase": cur} for d in nxt]
     for it in items:
         _note(w, it["sid"], "queued")
-    q["items"] = items + q["items"]  # straight from what just happened
+    picked = [it for it in q["items"] if it.get("kind") == "yours"]  # the one you picked to play next still goes first
+    q["items"] = picked + items + [it for it in q["items"] if it.get("kind") != "yours"]  # then straight from what just happened
+
+
+# ---------------------------------------------------------------------------------------- your order
+
+def holds(w) -> dict:
+    """Episodes you moved: {scene: [scenes it now waits for]}. Your order, on top of the story's own."""
+    return w.meta.setdefault("episode_order", {}).setdefault("holds", {})
+
+
+def _waits_on(sim, cat, x, y, seen=None) -> bool:
+    """Does x have to wait for y: through its after links, its storyline's chapter order, or your order?"""
+    seen = set() if seen is None else seen
+    if x in seen or len(seen) > 400:
+        return False
+    seen.add(x)
+    sc = cat["scenes"].get(x)
+    if not sc:
+        return False
+    pre = list(_after(sc.get("when") or {})) + list(holds(sim.w).get(x) or [])
+    pk = sc.get("pack")
+    if pk in cat["ordered"] and cat["pos"][x] > 0:
+        pre.append(cat["chapters"][pk][cat["pos"][x] - 1])
+    return y in pre or any(_waits_on(sim, cat, p, y, seen) for p in pre if p in cat["scenes"])
+
+
+def move_before(sim, x, y) -> dict:
+    """Put episode x ahead of episode y: y waits for x. Moving it back undoes your earlier move instead of stacking."""
+    cat = catalog(sim)
+    for s in (x, y):
+        if s not in cat["scenes"]:
+            return {"ok": False, "why": f"'{s}' isn't a scene in your story"}
+    if x == y:
+        return {"ok": False, "why": "that's the same episode"}
+    H = holds(sim.w)
+    ix, iy = cat["info"][x], cat["info"][y]
+    if y in (H.get(x) or []):
+        H[x].remove(y)
+        if not H[x]:
+            del H[x]
+        if not _waits_on(sim, cat, x, y):
+            return {"ok": True, "undid": True}
+        H.setdefault(x, []).append(y)
+    if _waits_on(sim, cat, x, y):
+        if ix["pack"] == iy["pack"] and ix["pack"] in cat["ordered"]:
+            return {"ok": False, "why": "chapters of one storyline play in order"}
+        return {"ok": False, "why": f"“{ix['title']}” follows “{iy['title']}” in the story"}
+    if x not in (H.get(y) or []):
+        H.setdefault(y, []).append(x)
+    return {"ok": True, "undid": False}
+
+
+def clear_order(w, sid=None):
+    """Undo your moves: every one, or just what one episode waits for."""
+    H = holds(w)
+    if sid is None:
+        H.clear()
+    else:
+        H.pop(sid, None)
+
+
+WHO_WORDS = {"best_friend": "your best friend", "crush": "your crush", "partner": "your partner", "rival": "your rival",
+             "older_sibling": "your older sibling", "younger_sibling": "your younger sibling", "older_brother": "your brother",
+             "older_sister": "your sister", "teammate": "a teammate", "coach": "your coach", "friend": "a friend"}
+
+
+def display_title(sim, sid, cat) -> str:
+    """A scene's title for a list, before it happens: names filled in where the story already knows who, else who in words."""
+    from . import dialogue
+    t = (cat["info"].get(sid) or {}).get("title") or sid
+    if "{" not in t:
+        return t
+    w = sim.w
+    me = _me(sim)
+    who = cat["scenes"][sid].get("who") or ""
+    them = None
+    if who.startswith("cast:"):
+        cid = dialogue.bound(sim, who[5:])
+        them = w.chars[cid].first if cid else None
+    if not them and who and me is not None:
+        try:
+            cands = dialogue.candidates(sim, me, who)
+        except Exception:  # an unusual kind of person: say it in words
+            cands = []
+        them = w.chars[cands[0]].first if len(cands) == 1 else None
+    them = them or WHO_WORDS.get(who) or "someone"
+    fill = {"them": them, "them_first": them, "me_first": me.first if me else "you", "best_friend": "your best friend",
+            "best_friend_first": "your best friend", "sibling": "your sibling", "sibling_first": "your sibling",
+            "partner": "your partner", "partner_first": "your partner", "sport": "the game", "pet": "your pet"}
+    s = re.sub(r"\{(\w+)\}", lambda m: fill.get(m.group(1)) or m.group(1).replace("_", " "), t)
+    return s[:1].upper() + s[1:]
+
+
+def ready_now(sim, me, sid, cat) -> tuple | None:
+    """None if this scene could start right now (its storyline's turn included); else (reason, detail)."""
+    g = gate(sim, me, sid, cat) or castable(sim, me, sid, cat)
+    pk = cat["scenes"][sid].get("pack")
+    if g is None and pk in cat["ordered"]:
+        nxt = next_chapter(sim, me, pk, cat)[0]
+        if nxt != sid:
+            return ("chapter_order", nxt)
+    return g
+
+
+def play_next(sim, sid) -> dict:
+    """This one next, right now, if it can happen today (ahead of today's plan). Otherwise why it can't."""
+    w = sim.w
+    me = _me(sim)
+    cat = catalog(sim)
+    if me is None or sid not in cat["scenes"]:
+        return {"ok": False, "why": "that isn't a scene in your story"}
+    g = ready_now(sim, me, sid, cat)
+    if g is not None:
+        why = REASON_TEXT.get(g[0], g[0].replace("_", " "))
+        if g[0] in ("waiting_for_scene", "your_order", "chapter_order") and g[1] in cat["info"]:
+            why += f": “{cat['info'][g[1]]['title']}”"
+        elif g[1] and g[0] in ("wrong_season", "too_early"):
+            why += f" ({g[1]})"
+        return {"ok": False, "why": why}
+    q = queue(w)
+    if q.get("day") != w.day:
+        q.update({"day": w.day, "items": [], "presented": 0})
+    q["items"] = [it for it in q["items"] if it["sid"] != sid]
+    phs = _phases(sim, w.day)
+    q["items"].insert(0, {"sid": sid, "queued": w.day, "due": False, "deadline": None, "importance": cat["info"][sid]["importance"],
+                          "pack": cat["info"][sid]["pack"], "kind": "yours", "phase": phs[min(w.phase, len(phs) - 1)]})
+    _note(w, sid, "queued", "your_order")
+    return {"ok": True}
+
+
+def upcoming(sim, n: int = 10, max_days: int = 400, watch: str | None = None) -> dict:
+    """On a copy (pass one): the next n episodes in the order they'd come, with about when, your character answering.
+    Fast: only the calendar and the stories move. With watch, keep going until that one plays (or can't anymore)."""
+    from . import moments
+    w = sim.w
+    control(w)["auto_scenes"] = True
+    cat = catalog(sim)
+    out, got = [], set()
+    start = w.day
+    me = _me(sim)
+
+    def drain():
+        for _ in range(GUARD * 3):
+            pend = moments.pending(w)
+            if not pend:
+                if continue_planned(sim) is None:
+                    return
+                continue
+            m = pend[0]
+            root = _root(sim, m["kind"])
+            if root in cat["scenes"] and root not in got and m["kind"] == root:
+                got.add(root)
+                out.append({"sid": root, "day": w.day})
+            moments.resolve(sim, m["id"], None)
+
+    def done():
+        if len(out) < n:
+            return False
+        if not watch or watch in got:
+            return True
+        return bool(me and (w.day - start) % 7 == 0 and permanent(sim, me, watch, cat))
+
+    drain()
+    while not done() and w.day < start + max_days:
+        _light_day(sim)
+        plan_day(sim)
+        drain()
+    res = {"list": out[:n], "start": start}
+    if watch:
+        hit = next((x for x in out if x["sid"] == watch), None)
+        res["watch"] = {"sid": watch, "day": hit["day"] if hit else None}
+    return res
 
 
 def continue_story(sim) -> dict | None:

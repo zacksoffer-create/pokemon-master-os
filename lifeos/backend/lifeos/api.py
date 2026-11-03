@@ -198,6 +198,8 @@ class Lab:
                             if (w.meta.get("story") or {}).get("complete"):
                                 reason = "end"
                                 break
+                            if scheduler.deliver(sim) is not None:
+                                continue  # today's next one (or the one you picked to play next) is ready now
                         if pend and until != "decision" and all(moments.light(m["kind"]) for m in pend):
                             for m in pend:  # skipping ahead: your character plays the class game or the night themselves
                                 moments.resolve(sim, m["id"], None)
@@ -1127,6 +1129,90 @@ def api_schedule_continue():
     with L.lock:
         m = scheduler.continue_story(L.sim)
         return {"moment": _moment_out(m), "note": None if m else "Nothing else is ready today. Tomorrow brings more."}
+
+
+# --- your episode order: what's up next, and moving episodes ahead of or behind each other -------------------
+
+def _order_view(L, n: int = 10, watch: str | None = None) -> dict:
+    from . import dialogue, moments, scheduler
+    sim, w = L.sim, L.w
+    cat = scheduler.catalog(sim)
+    me = scheduler._me(sim)
+    now = [scheduler._root(sim, m["kind"]) for m in moments.pending(w) if scheduler.is_episode(sim, m["kind"])]
+    up = scheduler.upcoming(_copy_sim(L), n + len(now), watch=watch)
+    H = scheduler.holds(w)
+    title = lambda s: scheduler.display_title(sim, s, cat) if s in cat["scenes"] else s
+    rows = []
+    for u in up["list"]:
+        sid = u["sid"]
+        if sid in now:
+            continue
+        g = scheduler.ready_now(sim, me, sid, cat) if me else ("missing_cast", None)
+        rows.append({"sid": sid, "title": title(sid), "storyline": dialogue.chapter_label(sim, sid) or "", "pack": cat["info"][sid]["pack"],
+                     "day": u["day"],
+                     "date": calm.label(u["day"]), "in_days": u["day"] - w.day, "importance": cat["info"][sid]["importance"],
+                     "ready": g is None, "waits_for": [title(a) for a in H.get(sid) or [] if a not in scheduler.done_map(w)]})
+    out = {"now": ({"sid": now[0], "title": title(now[0])} if now else None), "list": rows[:n], "date": calm.label(w.day),
+           "changes": [{"sid": y, "title": title(y), "waits_for": [{"sid": x, "title": title(x)} for x in xs]}
+                       for y, xs in H.items() if y in cat["scenes"] and y not in scheduler.done_map(w)]}
+    if watch:
+        out["watch"] = dict(up["watch"], title=title(watch), date=calm.label(up["watch"]["day"]) if up["watch"]["day"] is not None else None)
+    return out
+
+
+@app.get("/api/story/order")
+def api_story_order(n: int = 10):
+    """Up next: the next episodes in the order they'll come (about when: played forward on a copy), and your changes."""
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        return _order_view(L, max(1, min(int(n), 30)))
+
+
+@app.post("/api/story/order/move")
+def api_story_order_move(body: dict = Body(...)):
+    """{sid, before}: put sid ahead of before (before waits for it). Moving it back undoes your earlier move."""
+    from . import scheduler
+    L = _story_lab()
+    L.guard()
+    sid, before = body.get("sid"), body.get("before")
+    with L.lock:
+        r = scheduler.move_before(L.sim, sid, before)
+        if not r["ok"]:
+            raise HTTPException(422, r["why"])
+        L.autosave(force=False)
+        out = _order_view(L, max(1, min(int(body.get("n", 10)), 30)), watch=None if r["undid"] else before)
+        out["undid"] = r["undid"]
+        wt = out.get("watch")
+        out["note"] = (None if not wt else f"“{wt['title']}” now comes after it, about {wt['date']}." if wt["day"] is not None
+                       else f"Heads up: “{wt['title']}” won't happen now. Its window closes before the one you put first. Move it back to keep it.")
+        return out
+
+
+@app.post("/api/story/order/next")
+def api_story_order_next(body: dict = Body(...)):
+    """{sid}: play this one next, if it can happen today."""
+    from . import scheduler
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        r = scheduler.play_next(L.sim, body.get("sid"))
+        if not r["ok"]:
+            raise HTTPException(422, f"It can't come yet: {r['why']}.")
+        L.autosave(force=False)
+        return {"ok": True}
+
+
+@app.post("/api/story/order/clear")
+def api_story_order_clear(body: dict = Body(default={})):
+    """{sid}: undo what that episode waits for; nothing: back to the story's own order."""
+    from . import scheduler
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        scheduler.clear_order(L.w, body.get("sid"))
+        L.autosave(force=False)
+        return _order_view(L, max(1, min(int(body.get("n", 10)), 30)))
 
 
 @app.post("/api/story/schedule/step")

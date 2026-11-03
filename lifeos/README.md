@@ -97,6 +97,15 @@ stats, your family and your people.
   invites. The scenes keep their real dates and pacing, so the story has the same shape it would day by day. **Back to
   living day by day** turns it off. API: `POST /api/story/advance {"until": "episode"}`; the mode is
   `{"binge": true}` on `/api/story/control`.
+- **Up next** (the bar at the top in episode mode) is the next ten episodes in the order they'll come, with about when
+  (played forward on a copy, your character answering). Move any one up or down: the episode it passes now waits for
+  it, saved in your story, and the list plays forward again so you see where everything lands. If a move would push an
+  episode past its window, you're told it won't happen and can move it back. Moving one back undoes your earlier move
+  instead of stacking another, and **Your changes** lists every move with Undo (or **Back to the story's own order**).
+  **Play next** pulls an episode that could happen today straight to the front, right after the one on screen. Two
+  things stay put: chapters of one storyline play in their order, and a scene that follows another in the story
+  can't jump ahead of it. API: `GET /api/story/order`, `POST /api/story/order/move {sid, before}`,
+  `/api/story/order/next {sid}`, `/api/story/order/clear {sid?}`.
 - **Next choice** stops at your very next decision so you can pick exactly what you do. You see every
   real option and how likely you'd be to pick it on your own.
 - **Focus** (athletics, academics, social, romance, family, rest, work) tilts what you do when you

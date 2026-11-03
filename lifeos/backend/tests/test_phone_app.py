@@ -41,6 +41,8 @@ def test_local_api_answers_like_the_server(tmp_path):
         assert j['status'] == 'done' and j['stop'] == 'episode', j
         st = js(call('GET', '/api/phone/state'))
         assert st['control']['binge'] and st['stories']['binge'] and st['moments'] and st['moments'][0]['storyline']
+        up = call('GET', '/api/story/order')  # up next, played forward on a copy, on the phone too
+        assert up['status'] == 200 and js(up)['list'], up['body'][:300]
         threads = js(call('GET', '/api/phone/threads'))['threads']
         # the phone screens encode thread ids ("dm:bf" -> "dm%3Abf"), just like a browser talking to the server
         from urllib.parse import quote
