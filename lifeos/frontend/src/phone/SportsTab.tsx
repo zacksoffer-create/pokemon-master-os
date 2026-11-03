@@ -5,6 +5,7 @@ import { pgo, phoneApi, SportsView } from "./api";
 import { PIcon } from "./icons";
 import { cx, errText } from "./kit";
 import { usePhone } from "./PhoneContext";
+import ProSports from "./ProSports";
 
 const SECTIONS = [["season", "Season"], ["league", "League"], ["awards", "Awards"], ["recruiting", "Recruiting"]] as const;
 
@@ -13,7 +14,29 @@ function Move({ m }: { m: number | null | undefined }) {
   return <span className={cx("sp-move", m > 0 ? "up" : "down")}>{m > 0 ? "▲" : "▼"}{Math.abs(m)}</span>;
 }
 
+function Side({ pro }: { pro: boolean }) {
+  return (
+    <div className="sp-side">
+      <button className={cx(!pro && "on")} onClick={() => pgo("sports")}>School</button>
+      <button className={cx(pro && "on")} onClick={() => pgo("sports/pro")}>Pros</button>
+    </div>
+  );
+}
+
 export default function SportsTab({ route }: { route: string[] }) {
+  if (route[0] === "pro") {
+    return (
+      <div className="sp">
+        <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side pro /></div>
+        <ProSports route={route.slice(1)} />
+        <div style={{ height: 30 }} />
+      </div>
+    );
+  }
+  return <SchoolSports route={route} />;
+}
+
+function SchoolSports({ route }: { route: string[] }) {
   const { toast } = usePhone();
   const sec = (SECTIONS.find(([k]) => k === route[0]) || SECTIONS[0])[0];
   const [team, setTeam] = useState("");
@@ -25,7 +48,7 @@ export default function SportsTab({ route }: { route: string[] }) {
   if (!v.teams.length || !v.team) {
     return (
       <div className="sp">
-        <h1 className="sp-h1">Sports</h1>
+        <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side pro={false} /></div>
         <div className="sp-card">
           <b>You're not on a team right now.</b>
           <p className="ph-dim small">Tryouts are on your calendar; make a team and this is where your season lives: the standings, your stats, your playing time, the awards race and recruiting.</p>
@@ -37,7 +60,7 @@ export default function SportsTab({ route }: { route: string[] }) {
   const t = v.team;
   return (
     <div className="sp">
-      <h1 className="sp-h1">Sports</h1>
+      <div className="sp-top"><h1 className="sp-h1">Sports</h1><Side pro={false} /></div>
       {v.teams.length > 1 && (
         <div className="sp-teams">
           {v.teams.map((x) => <button key={x.id} className={cx(x.id === t.id && "on")} onClick={() => setTeam(x.id)}>{x.name}{x.in_season ? "" : " · off"}</button>)}

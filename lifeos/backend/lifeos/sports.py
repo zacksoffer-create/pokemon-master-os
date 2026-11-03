@@ -912,8 +912,11 @@ def mlb_draft(sim):
     mlb = sim.cat.sports["mlb"]
     year = calm.date_of(w.day).year
     rng = sim.streams.get("mlb-draft", year)
-    order = list(mlb["teams"])
-    rng.shuffle(order)
+    from . import mlb as mlb_world
+    order = [t for t in mlb_world.draft_order(sim, year) if t in mlb["teams"]]  # worst record last season picks first
+    if len(order) != len(mlb["teams"]):
+        order = list(mlb["teams"])
+        rng.shuffle(order)
     prot = w.meta.get("protagonist")
     pool = []
     for c in sorted(w.chars.values(), key=lambda c: c.id):

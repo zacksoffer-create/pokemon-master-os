@@ -206,7 +206,8 @@ FOCUS_MODES = ("balanced", "athletics", "academics", "social", "romance", "famil
 REP_TAGS = ("athlete", "star", "legend", "tough", "host", "performer", "gossip", "flaky", "troublemaker", "mean", "embarrassed")
 SCENE_REFS = ("them", "best_friend", "sibling", "partner")
 SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "sibling", "sibling_first", "partner", "partner_first",
-               "me_first", "school", "town", "sport", "pet"}
+               "me_first", "school", "town", "sport", "pet", "my_team", "my_team_record", "my_team_star", "mlb_champ"}
+PRO_NAMES = ("my_team", "my_team_record", "my_team_star", "mlb_champ")  # always there (pro.py)
 DEFAULT_CHANCE = 0.04
 CHAPTER_CHANCE = 0.5    # the relaxed profile's odds a due chapter comes today (pacing lives in scheduler.py now)
 MAX_BEATS = 3           # how deep a scene can keep going with "then"
@@ -629,8 +630,10 @@ def _check_scene(R, where, sc, seen_ids):
                     R.err(w, f"'{d}' isn't a weekday. Use: {', '.join(WEEKDAYS)}")
         elif k == "requires":
             for r in v if isinstance(v, list) else [v]:
-                if r not in REQUIRES:
-                    R.err(w, f"'{r}' isn't something a scene can require.{_suggest(r, REQUIRES)} Use: {', '.join(REQUIRES)}")
+                if r not in REQUIRES and not (isinstance(r, str) and r.startswith("pro:") and _pro().known(r)):
+                    every = {**REQUIRES, **_pro().REQUIRES}
+                    R.err(w, f"'{r}' isn't something a scene can require.{_suggest(r, every)} Use: {', '.join(every)}, "
+                             f"or pro:whatif:<id> ({', '.join(_pro().mlb.WHATIF)})")
         elif k in ("you_feel", "they_feel"):
             if not who:
                 R.err(w, "only works when the scene is about someone (set who)")
@@ -1510,9 +1513,16 @@ def candidates(sim, me, who) -> list:
     return []
 
 
+def _pro():
+    from . import pro
+    return pro
+
+
 def _requirement(sim, me, r) -> bool:
     from . import calendar as calm
     w = sim.w
+    if isinstance(r, str) and r.startswith("pro:"):
+        return _pro().requirement(sim, me, r)  # the pro leagues running in the background (pro.py)
     cal = sim.cat.world["calendar"]
     if r == "dating":
         return bool(me.flags.get("partner"))
@@ -1939,7 +1949,18 @@ def _context(sim, me, who, when, rng, pack=None) -> dict | None:
     pets = [p for p in w.meta.get("pets", {}).values() if p.get("household") == me.household_id and p.get("status") == "home"]
     if pets or h.get("pet"):
         ctx["pet"] = pets[0]["name"] if pets else h["pet"]["name"]
+    ctx.update(_pro_names(sim, me))
     return ctx
+
+
+_PRO_CACHE: dict = {}
+
+
+def _pro_names(sim, me) -> dict:
+    key = (id(sim.w), sim.w.day, me.id)
+    if _PRO_CACHE.get("key") != key:
+        _PRO_CACHE.update(key=key, val=_pro().names(sim, me))
+    return _PRO_CACHE["val"]
 
 
 def _playable(spec, ctx) -> bool:
@@ -2279,6 +2300,10 @@ def guide_markdown() -> str:
     a(f"- `years`: any of {', '.join(YEARS)}.")
     a("- `months`: numbers 1-12. `dates`: like \"10-31\". `weekdays`: " + ", ".join(WEEKDAYS) + ".")
     a("- `requires`: any of " + "; ".join(f"`{k}` ({v[:-1].lower()})" for k, v in REQUIRES.items()) + ".")
+    a("- Pro sports `requires` (the MLB season running in the background; \"your team\" is the Yankees unless you picked another): "
+      + "; ".join(f"`{k}` ({v[:-1].lower()})" for k, v in _pro().REQUIRES.items())
+      + "; and `pro:whatif:<id>` for a world where that piece of history went the other way (" + ", ".join(
+          f"`{w['id']}` = {w['title'].lower()}" for w in _pro().mlb.WHATIFS) + ").")
     a("- `you_feel` / `they_feel`: ranges on how you feel about them / they feel about you, e.g. `{\"affection\": [40, 100]}`. "
       "Fields: " + ", ".join(REL_FIELDS) + ".")
     a("- `me`: ranges on your own stats: " + ", ".join(f"{k} ({v})" for k, v in ME_STATS.items()) + ".")
@@ -2286,7 +2311,9 @@ def guide_markdown() -> str:
       "who the scene was about, so a follow-up scene with the same `who` is about the same person.")
     a("- `once`: true by default (a scene happens once per story). Set false and add `cooldown_days` for things that can recur.\n")
     a("**Placeholders** in scenes: " + ", ".join("{" + n + "}" for n in sorted(SCENE_NAMES)) +
-      ". `{them}` is a full name and `{them_first}` a first name; `{sport}` is your main sport; `{pet}` your pet's name.\n")
+      ". `{them}` is a full name and `{them_first}` a first name; `{sport}` is your main sport; `{pet}` your pet's name; "
+      "`{my_team}` your MLB team (Yankees), `{my_team_record}` its record, `{my_team_star}` its best player right now, "
+      "`{mlb_champ}` the last World Series winner.\n")
     a("**People** ops can refer to in scenes: `them` (needs who), `best_friend`, `sibling`, `partner`. A scene whose title or text "
       "mentions someone (like `{sibling_first}` or `{pet}`) only happens when they exist; a choice that mentions someone only shows "
       "when they exist. Keep at least two choices that work for anybody.\n")

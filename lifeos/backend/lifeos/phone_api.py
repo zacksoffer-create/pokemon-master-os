@@ -335,6 +335,65 @@ def phone_sports(team: str = ""):
         return sportshub.view(L.sim, team or None)
 
 
+@router.get("/api/phone/mlb")
+def phone_mlb():
+    """MLB in the background: your team, the standings, October, the leaders, the news, and the what-ifs (mlb.py)."""
+    A, L = _lab()
+    from . import mlb
+    with L.lock:
+        _me(L)
+        return mlb.view(L.sim)
+
+
+@router.get("/api/phone/mlb/whatif")
+def phone_mlb_whatif(id: str):
+    """One what-if on its own: what moved, and season by season how it changed things (with the odds)."""
+    A, L = _lab()
+    from . import mlb
+    if id not in mlb.WHATIF:
+        raise HTTPException(404, f"no what-if called {id}")
+    with L.lock:
+        return mlb.whatif_view(L.sim, id)
+
+
+@router.post("/api/phone/mlb/whatif")
+def phone_mlb_whatif_set(body: dict = Body(...)):
+    """Turn a what-if on or off in this world: history replays, and players it covers who are still playing move now."""
+    A, L = _lab()
+    from . import mlb
+    wid = body.get("id")
+    if wid not in mlb.WHATIF:
+        raise HTTPException(404, f"no what-if called {wid}")
+    with L.lock:
+        r = mlb.set_whatif(L.sim, wid, bool(body.get("on")))
+        return {**r, "view": mlb.whatif_view(L.sim, wid)}
+
+
+@router.get("/api/phone/mlb/year")
+def phone_mlb_year(y: int):
+    """A past season in this world: final standings, October, the awards."""
+    A, L = _lab()
+    from . import mlb
+    with L.lock:
+        try:
+            return mlb.year_view(L.sim, y)
+        except (ValueError, KeyError) as e:
+            raise HTTPException(404, str(e))
+
+
+@router.post("/api/phone/mlb/team")
+def phone_mlb_team(body: dict = Body(...)):
+    """Pick your MLB team (it's who {my_team} is in scenes, and whose October you feel)."""
+    A, L = _lab()
+    from . import mlb
+    with L.lock:
+        try:
+            mlb.set_team(L.sim, str(body.get("team") or ""))
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        return mlb.view(L.sim)
+
+
 @router.get("/api/phone/ladder")
 def phone_ladder(scope: str = "school"):
     """The Scene tab's ladder: you, the movers and why, what your standing is made of, your storylines' people, the

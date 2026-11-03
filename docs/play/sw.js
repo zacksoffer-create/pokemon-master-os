@@ -1,5 +1,5 @@
 // Offline support: keep the app, the engine and the game files on the phone after the first visit.
-const VERSION = "f2514d1246";
+const VERSION = "f9e83fa8ba";
 const CACHE = "lifeos-story-" + VERSION;
 self.addEventListener("install", (e) => {
   self.skipWaiting();

@@ -369,6 +369,55 @@ one of the things popularity is made of. A standout game, Player of the Week, an
 classmates who'd never met you get to know you and respect you a little (more if they follow the sport, more for the
 rival game), which is what moves the Scene's ladder. `GET /api/phone/sports?team=`.
 
+## The pros: MLB in the background
+
+The Sports tab has two sides: **School** (above) and **Pros**. MLB runs behind your story the whole time. You don't play
+it; it's the world your story lives in, and storylines can use it.
+
+**Real history, then this world's.** The data is real from 1990 through 2025: every team-season, every postseason
+series, the major awards, and every regular's season with a value in wins (an estimate in the spirit of WAR, made from
+the Lahman database by `tools/build_mlb_data.py`; it reads Bonds 2001 at 12.8 and Judge 2022 at 10.7). The story starts
+Sept 1, 2025, so the real 2025 finish and October play out on their real dates (the Yankees' Wild Card win over Boston,
+then Toronto). From 2026 it's this world's: rosters from where everyone finished 2025, talent from each player's last
+three seasons, a 162-game season played series by series, the postseason in the current format, awards, then an
+offseason of aging, retirements, free agency and rookies. It's seeded, so it comes out the same every time you look.
+
+**What-ifs.** Twelve moves that were really on the table, each with the real story of how it fell apart:
+- **The big four:** the Yankees sign Beltrán (2005), trade for Cliff Lee (July 2010), re-sign Canó (2014), sign Harper (2019)
+- **Arms:** Maddux (1992), Lee in free agency (2010), the Santana trade (2008), Cole out of high school (2008)
+- **Bats:** Machado (2019), keep Soto (2024), Crawford (2010), and A-Rod's Boston deal going through (2003)
+
+Turn one on and your world's history replays from that day. Each season, the teams' wins move by what the players were
+worth (and the guy who lost his job, and what the other team did instead). The playoff field is rebuilt in that year's
+format, and October replays with as little change as possible. A series that really happened keeps its result unless the
+new odds flip it, and a matchup that never happened is played fresh, with each team carrying how it really played that
+October. Each what-if's page shows what moved, season by season the real path next to this world's, and the title odds
+both ways (Cliff Lee in 2010: 16% to 27%). Players who are still playing move now: with Harper on, he's a Yankee in 2026.
+
+**On the page:**
+- **My team:** your team (the Yankees unless you pick another), its record and place, where it stands in October, its
+  titles (and which ones this world added or took away), its best players with their lines, the league's news (results,
+  signings, retirements, prospects)
+- **Standings:** both leagues by division (projections before Opening Day), and October as it happens
+- **Leaders:** the live season's leaders in each league
+- **What-ifs** and **History:** every season since 1990 as it went in your world, with its October and awards
+
+**Fans.** Everyone has a team and how much they care. Guilford is split between Yankees and Red Sox country, with some Mets
+fans. A title is a memory and a good week for its fans; a playoff exit stings; a rival's title stings a little. The MLB
+draft in the story goes worst-to-first by last season's real (or this world's) standings.
+
+**For storylines** (the guide and the weave prompt list these, so ChatGPT can write with them):
+- `requires`:
+  - season: `pro:baseball_season`, `pro:october`
+  - your team: `pro:my_team_winning`, `pro:my_team_losing`, `pro:my_team_in_playoffs`, `pro:my_team_alive`,
+    `pro:my_team_missed`, `pro:my_team_champs`
+  - what-ifs: `pro:whatif:<id>`, e.g. `pro:whatif:harper_2019`, for a scene that only happens in a world where it went
+    the other way
+- placeholders: `{my_team}`, `{my_team_record}`, `{my_team_star}`, `{mlb_champ}`
+
+`GET /api/phone/mlb`, `GET|POST /api/phone/mlb/whatif`, `GET /api/phone/mlb/year?y=`, `POST /api/phone/mlb/team`. NBA, NFL
+and the Champions League are next, built the same way (`pro.py` is where each league plugs in).
+
 ## Play on your phone
 
 **The lab is your dashboard; your phone is where you play.** The phone app, *LIFE OS: Story*, runs the whole

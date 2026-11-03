@@ -367,6 +367,8 @@ class Simulation:
         from . import ladder, league
         league.weekly(self)  # power rankings and Player of the Week (before the ladder: it's news that moves people)
         ladder.snapshot(self)  # everyone's rank this week: who's moving on the Scene tab's ladder
+        from . import pro
+        pro.weekly(self)  # the pro leagues in the background: MLB's season to today, and fans react to October
         for kind, cid, qid in social.detect_cliques(self, rng):
             q = w.cliques[qid]
             if kind == "formed":

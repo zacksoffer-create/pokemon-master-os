@@ -164,6 +164,30 @@ export type PlayStep = {
   skipped: { sid: string; chapter: number; title: string; why: string }[];
   chapters?: { sid: string; title: string }[]; path?: { sid: string; title: string; picks: string[] }[];
 };
+export type MlbSeries = { round: string; label: string; lg: string; teams: string[]; wins: number[]; done: boolean; winner: string | null; how: string; next: string | null };
+export type MlbRow = { team: string; nick: string; abbr: string; w: number; l: number; pct: string; gb: string; l10: string | null; streak: string | null; proj: number | null; you: boolean; in: boolean };
+export type MlbDiv = { lg: string; div: string; label: string; rows: MlbRow[] };
+export type MlbStar = { name: string; pos: string; age: number; talent: number; line: string | null; moved?: boolean };
+export type MlbView = {
+  year: number; phase: string; today: string;
+  my_team: { team: string; name: string; nick: string; abbr: string; record: string | null; place: string | null; status: string | null; l10: string | null;
+    streak: string | null; stars: MlbStar[]; titles: { real: number[]; world: number[] }; rival: string[] };
+  standings: MlbDiv[]; october: MlbSeries[];
+  leaders: { stat: string; label: string; lg: string; rows: { name: string; team: string; abbr: string; value: string | number }[] }[];
+  news: { date: string; text: string; kind: string; mine: boolean }[];
+  whatifs: { id: string; title: string; when: string; group: string; on: boolean }[];
+  teams: { team: string; name: string; nick: string; abbr: string }[]; years: number[]; source: string;
+};
+export type MlbWhatIf = {
+  id: string; title: string; when: string; real: string; group: string; on: boolean; how: string;
+  moves: { name: string; to: string | null; years: string; wins: number; now: boolean }[];
+  flat: { team: string; years: string; wins: number; why: string }[];
+  seasons: { year: number; real: string; world: string; change: number; real_path: string[]; world_path: string[]; odds: { real: number; world: number } | null;
+    champ: string | null; real_champ: string | null }[];
+  titles: { real: number[]; world: number[] };
+};
+export type MlbYear = { year: number; standings: MlbDiv[]; october: MlbSeries[]; champ: string | null; real_champ: string | null; changed: boolean;
+  awards: { label: string; name: string; team: string | null }[] };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
@@ -174,6 +198,11 @@ export const phoneApi = {
   episodes: (): Promise<EpisodeGuide> => api.get("/api/phone/episodes"),
   scene: (): Promise<SceneView> => api.get("/api/phone/scene"),
   sports: (team = ""): Promise<SportsView> => api.get(`/api/phone/sports${team ? `?team=${encodeURIComponent(team)}` : ""}`),
+  mlb: (): Promise<MlbView> => api.get("/api/phone/mlb"),
+  mlbWhatIf: (id: string): Promise<MlbWhatIf> => api.get(`/api/phone/mlb/whatif?id=${encodeURIComponent(id)}`),
+  mlbSetWhatIf: (id: string, on: boolean): Promise<{ whatifs: string[]; moved: string[]; view: MlbWhatIf }> => api.post("/api/phone/mlb/whatif", { id, on }),
+  mlbYear: (y: number): Promise<MlbYear> => api.get(`/api/phone/mlb/year?y=${y}`),
+  mlbTeam: (team: string): Promise<MlbView> => api.post("/api/phone/mlb/team", { team }),
   ladder: (scope = "school"): Promise<LadderView> => api.get(`/api/phone/ladder?scope=${encodeURIComponent(scope)}`),
   sceneIntro: (via: string, to: string): Promise<{ lines: Line[]; chips: Chip[]; scene: SceneView }> => api.post("/api/phone/scene/intro", { via, to }),
   scenePlan: (id: string): Promise<{ note: string }> => api.post("/api/phone/scene/plan", { with: id }),
