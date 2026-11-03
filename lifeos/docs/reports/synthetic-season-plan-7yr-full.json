@@ -508,9 +508,9 @@
    "window_text": "Oct 17 to Oct 25",
    "order": 1,
    "state": "unreachable",
-   "reason": "year_passed",
+   "reason": "branch_closed",
    "detail": null,
-   "why": "its school years are over"
+   "why": "a choice already went the other way"
   },
   {
    "sid": "hc_dance_b",
@@ -554,9 +554,9 @@
    "window_text": "Oct 17 to Oct 25",
    "order": 3,
    "state": "unreachable",
-   "reason": "year_passed",
+   "reason": "branch_closed",
    "detail": null,
-   "why": "its school years are over"
+   "why": "a choice already went the other way"
   },
   {
    "sid": "hc_dance_d",
@@ -577,9 +577,9 @@
    "window_text": "Oct 17 to Oct 25",
    "order": 4,
    "state": "unreachable",
-   "reason": "year_passed",
+   "reason": "branch_closed",
    "detail": null,
-   "why": "its school years are over"
+   "why": "a choice already went the other way"
   },
   {
    "sid": "hc_after_a",
@@ -600,9 +600,9 @@
    "window_text": "Oct 18 to Oct 30",
    "order": 5,
    "state": "unreachable",
-   "reason": "year_passed",
+   "reason": "after_unreachable",
    "detail": null,
-   "why": "its school years are over"
+   "why": "needs a scene that can't happen anymore"
   },
   {
    "sid": "hc_after_b",
@@ -646,9 +646,9 @@
    "window_text": "Oct 18 to Oct 30",
    "order": 7,
    "state": "unreachable",
-   "reason": "year_passed",
+   "reason": "after_unreachable",
    "detail": null,
-   "why": "its school years are over"
+   "why": "needs a scene that can't happen anymore"
   },
   {
    "sid": "hc_after_d",
@@ -669,9 +669,9 @@
    "window_text": "Oct 18 to Oct 30",
    "order": 8,
    "state": "unreachable",
-   "reason": "year_passed",
+   "reason": "after_unreachable",
    "detail": null,
-   "why": "its school years are over"
+   "why": "needs a scene that can't happen anymore"
   },
   {
    "sid": "cross_brother_twins",

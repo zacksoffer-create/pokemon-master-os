@@ -54,14 +54,14 @@ Busiest days: Mon, Sep 1, 2025 (2), Fri, Oct 17, 2025 (2), Fri, Oct 31, 2025 (2)
 | `baseball_02_jv_debut` | yours:diamond | major | played | Sat, Mar 7, 2026 |  |
 | `baseball_03_varsity_call` | yours:diamond | major | played | Wed, Apr 1, 2026 |  |
 | `hc_ask` | yours:homecoming | regular | played | Thu, Oct 2, 2025 |  |
-| `hc_dance_a` | yours:homecoming | regular | unreachable |  | year_passed: its school years are over |
+| `hc_dance_a` | yours:homecoming | regular | unreachable |  | branch_closed: a choice already went the other way |
 | `hc_dance_b` | yours:homecoming | regular | played | Fri, Oct 17, 2025 |  |
-| `hc_dance_c` | yours:homecoming | regular | unreachable |  | year_passed: its school years are over |
-| `hc_dance_d` | yours:homecoming | regular | unreachable |  | year_passed: its school years are over |
-| `hc_after_a` | yours:homecoming | regular | unreachable |  | year_passed: its school years are over |
+| `hc_dance_c` | yours:homecoming | regular | unreachable |  | branch_closed: a choice already went the other way |
+| `hc_dance_d` | yours:homecoming | regular | unreachable |  | branch_closed: a choice already went the other way |
+| `hc_after_a` | yours:homecoming | regular | unreachable |  | after_unreachable: needs a scene that can't happen anymore |
 | `hc_after_b` | yours:homecoming | regular | played | Sat, Oct 18, 2025 |  |
-| `hc_after_c` | yours:homecoming | regular | unreachable |  | year_passed: its school years are over |
-| `hc_after_d` | yours:homecoming | regular | unreachable |  | year_passed: its school years are over |
+| `hc_after_c` | yours:homecoming | regular | unreachable |  | after_unreachable: needs a scene that can't happen anymore |
+| `hc_after_d` | yours:homecoming | regular | unreachable |  | after_unreachable: needs a scene that can't happen anymore |
 | `cross_brother_twins` | yours:season_plan | regular | played | Fri, Feb 6, 2026 |  |
 | `twins_first_week` | yours:the_twins | regular | played | Mon, Sep 1, 2025 |  |
 | `twins_homecoming_advice` | yours:the_twins | major | played | Fri, Oct 17, 2025 |  |
