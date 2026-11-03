@@ -632,6 +632,22 @@ def cast_spec(desc: str) -> dict:
     parts = _split(desc, ",")
     head = parts[0].lower().strip()
     head = re.sub(r"^(an?|the|your)\s+", "", head)
+    orig = parts[0].strip()
+    if (re.fullmatch(r"[A-Z][A-Za-z'.\-]*(?:\s+[A-Z][A-Za-z'.\-]*){0,3}", orig) and head not in KIND_ALIASES
+            and head.replace(" ", "_") not in V["castable"] and head not in ("best friend", "friend")):
+        spec = {"who": "named", "name": orig}  # someone in your world, by name: "Ally Soffer" (or "Ally")
+        label = []
+        for p in parts[1:]:
+            low = p.lower().strip()
+            if low in ("from the start", "from day one"):
+                spec["bind"] = "start"
+            elif low in ("close", "tight"):
+                spec["bond"] = {"affection": 65, "trust": 60}
+            else:
+                label.append(p.strip())
+        if label:
+            spec["label"] = ", ".join(label)
+        return spec
     of = re.fullmatch(r"(best friend|friend|teammate|boyfriend|girlfriend|partner)\s+of\s+([a-z][a-z0-9_]*)", head)
     if of:  # someone in another cast member's life: "friend of sis"
         k2 = {"best friend": "best_friend", "boyfriend": "partner", "girlfriend": "partner"}.get(of.group(1), of.group(1))
@@ -660,7 +676,8 @@ def cast_spec(desc: str) -> dict:
     kind = KIND_ALIASES.get(head, head.replace(" ", "_"))
     if kind not in V["castable"]:
         raise Fail(f"'{parts[0]}' isn't a kind of person a storyline can keep.{_suggest(kind, V['castable'])} "
-                   f"Use: {', '.join(k.replace('_', ' ') for k in sorted(V['castable']))}")
+                   f"Use: {', '.join(k.replace('_', ' ') for k in sorted(V['castable']))}, or someone in your story by name "
+                   "(cast: ally = Ally Soffer)")
     spec = {"who": kind}
     label = []
     for p in parts[1:]:
@@ -697,13 +714,20 @@ def cast_spec(desc: str) -> dict:
 
 def cast_line(name: str, spec: dict) -> str:
     """A cast slot back as a script line: cast: bro = older brother, plays basketball, 3 years older"""
-    bits = [str(spec.get("who", "friend")).replace("_", " ")]
+    if spec.get("who") == "named":
+        bits = [str(spec.get("name"))]
+    elif spec.get("of"):
+        bits = [{"best_friend": "best friend", "partner": "boyfriend" if spec.get("gender") == "m" else "girlfriend" if spec.get("gender") == "f"
+                 else "partner"}.get(spec["who"], str(spec["who"]).replace("_", " ")) + f" of {spec['of']}"]
+    else:
+        bits = [str(spec.get("who", "friend")).replace("_", " ")]
     if spec.get("sport"):
         bits.append(f"plays {spec['sport']}")
     off = spec.get("grade_offset")
     if off:
         bits.append(f"{abs(off)} years {'older' if off > 0 else 'younger'}")
-    if spec.get("gender") and not str(spec.get("who", "")).endswith(("brother", "sister")):
+    if spec.get("gender") and not str(spec.get("who", "")).endswith(("brother", "sister")) and spec.get("who") != "named" \
+            and not (spec.get("of") and spec.get("who") == "partner"):
         bits.append("girl" if spec["gender"] == "f" else "guy")
     if spec.get("bond"):
         bits.append("close")
@@ -1327,6 +1351,8 @@ def guide(story_only: bool = False) -> str:
       + ", ".join(k.replace("_", " ") for k in sorted(V["castable"])) + ". Then any of: `plays <sport>` ("
       + ", ".join(sorted(V["sports"])) + "), `3 years older` / `2 years younger`, `girl` / `guy`, `close` (you start close), "
       "`from the start` (picked on day one, not at their first scene), and any words that describe them (\"the one who got away\").")
+    A("- Someone in your story, by name: `cast: ally = Ally Soffer` (or just the first name if it's unique). The storyline is "
+      "about exactly that person, and the same name in another storyline means the same person.")
     A("- Someone in another cast member's life: `cast: kayla = friend of sis, girl` (also `best friend of`, `teammate of`, "
       "`boyfriend of`, `girlfriend of`). The game picks them from that person's own friends (or team), and they stay the "
       "same person.")

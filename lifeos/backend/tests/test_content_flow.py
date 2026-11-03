@@ -242,3 +242,40 @@ def test_thousands_of_scenes_stay_fast(monkeypatch):
     t = time.time()
     scheduler.dry_run(sim, 365, None, full=False)
     assert time.time() - t < 20, "a year with 1,200 scenes"
+
+
+def test_a_storyline_can_name_the_people_in_your_world():
+    from fastapi.testclient import TestClient
+    from lifeos import api
+    from lifeos.storage import Store
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6, siblings=[BROTHER] + TWINS)}).status_code == 200
+    p = c.get("/api/story/add/prompt").json()["prompt"]
+    assert "Danny Kim: my best friend" in p and "Ally Soffer: sister" in p and "cast: ally = Ally Soffer" in p
+    assert c.post("/api/dialogue/packs", json={"text": """=== Danny and Ally
+cast: danny = Danny Kim
+cast: ally = Ally, close
+cast: ghost = Nobody Here
+
+--- Study hall  [freshman · October]
+danny: You're sitting with me, right?
+* "Obviously." | danny affection +
+
+--- Ally's car  [freshman · November]
+ally: Get in.
+* Get in | ally trust +
+
+--- Never  [freshman · November]
+ghost: Boo.
+* Run
+"""}).status_code == 200
+    r = c.get("/api/story/storyline/read", params={"pack": "yours:danny_and_ally"}).json()
+    assert r["plays"] == 2 and r["wont"][0]["titles"] == ["Never"] and "Nobody Here" in [x for x in r["scenes"] if not x["plays"]][0]["detail"]
+    w = api.lab.w
+    slots = c.get("/api/dialogue/cast", params={"pack": "yours:danny_and_ally"}).json()["slots"]
+    assert {s["slot"]: [o["name"] for o in s["options"]] for s in slots} == {"danny": ["Danny Kim"], "ally": ["Ally Soffer"], "ghost": []}
+    # the same name in another storyline is the same person
+    assert dialogue.add_script("=== More Danny\ncast: danny = Danny Kim\n\n--- Lunch  [freshman · December]\ndanny: Fries?\n* Yes\n")["ok"]
+    assert dialogue.merged()["cast"]["danny"]["packs"] == ["yours:danny_and_ally", "yours:more_danny"]
+    assert script.cast_line("ally", script.cast_spec("Ally Soffer, close")) == "cast: ally = Ally Soffer, close"

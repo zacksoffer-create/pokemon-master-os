@@ -107,17 +107,35 @@ def _cast_block(sim) -> str:
 
 
 def _family(sim) -> str:
+    """Me, my family and the people around me right now, by name (what ChatGPT can cast: `cast: ally = Ally Soffer`)."""
+    from . import dialogue
     w = sim.w
     me = w.chars.get(w.meta.get("protagonist") or "")
     if not me:
         return "(no story yet)"
     L = [f"- Me: {me.name}, {me.year_label.lower()} at {sim.cat.world['school']['name']} ({sim.cat.world['town']['name']})"]
+    seen = {me.id}
+
+    def add(cid, what):
+        if cid in w.chars and cid not in seen:
+            seen.add(cid)
+            c = w.chars[cid]
+            L.append(f"- {c.name}: {what}" + (f", {c.year_label.lower()}" if getattr(c, "year_label", None) else ""))
     for s_ in sim.siblings(me.id):
-        c = w.chars[s_]
-        L.append(f"- {c.name}: {'brother' if c.gender == 'm' else 'sister' if c.gender == 'f' else 'sibling'}, {c.year_label.lower()}")
-    p = me.flags.get("partner")
-    if p in w.chars:
-        L.append(f"- Dating: {w.chars[p].name}")
+        add(s_, "brother" if w.chars[s_].gender == "m" else "sister" if w.chars[s_].gender == "f" else "sibling")
+    if me.flags.get("partner") in w.chars:
+        add(me.flags["partner"], "who I'm dating")
+    for who, what in (("best_friend", "my best friend"), ("crush", "my crush"), ("rival", "my rival")):
+        for cid in dialogue.candidates(sim, me, who)[:1]:
+            add(cid, what)
+    friends = sorted(dialogue.candidates(sim, me, "friend"), key=lambda o: -dialogue._rel(w, me.id, o, "affection"))
+    for cid in friends[:6]:
+        add(cid, "a friend")
+    for cid in dialogue.candidates(sim, me, "teammate")[:3]:
+        add(cid, "a teammate")
+    L.append("")
+    L.append("To write about one of them, cast them by name: `cast: ally = Ally Soffer` (the same name in any storyline is "
+             "the same person).")
     return "\n".join(L)
 
 
@@ -174,7 +192,7 @@ they're ready, each in its season. They're written as story scripts (the format 
 - Scenes have 1 to 4 choices that matter, talk that goes back and forth, and `remember` / `if` so later scenes follow from
   what I chose.
 
-## My family
+## My family and the people around me
 
 {family}
 
@@ -297,7 +315,7 @@ In the storyline **{line}**, {where}
 
 {around}
 
-## My family
+## My family and the people around me
 
 {family}
 
@@ -482,7 +500,7 @@ below). An expansion is new scenes that build on a storyline: same people, same 
 
 {facts}
 
-## My family
+## My family and the people around me
 
 {family}
 
@@ -582,6 +600,8 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
     run = scheduler.dry_run(sim, days, None, full=False)
     rows = {r["sid"]: r for r in scheduler.rows(sim) if r.get("pack") in ids}
     notes = scheduler.log(sim.w)
+    me = scheduler._me(sim)
+    cat = scheduler.catalog(sim)
     scenes = []
     for g in group:
         for i, sc in enumerate(g["pack"].get("scenes") or []):
@@ -593,7 +613,10 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
             if not plays:
                 b = before.get(sc["id"]) or {}
                 reason = r.get("reason")
-                if b.get("reason") in ("window_passed", "year_passed") and b.get("state") != "played":
+                cst = scheduler.castable(sim, me, sc["id"], cat) if me is not None and sc["id"] in cat["scenes"] else None
+                if cst:  # nobody in your story is who it's about (a name that isn't in your world, a kind nobody fits)
+                    reason, r = "missing_cast", {**r, "detail": cst[1]}
+                elif b.get("reason") in ("window_passed", "year_passed") and b.get("state") != "played":
                     reason = "already_passed"  # your story was already past its day when it came in
                 elif reason in (None, "year_passed") and (notes.get(sc["id"]) or {}).get("reason") not in (None, "year_passed"):
                     reason = notes[sc["id"]]["reason"]  # what actually kept it out along the way

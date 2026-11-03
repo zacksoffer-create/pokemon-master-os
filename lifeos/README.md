@@ -950,6 +950,10 @@ expansions follow.
   day in that class, and `{teacher}` / `{class}` say your actual teacher and class.
 - Walk-ons: `Mom:`, `Dad:`, `{teacher}:`, `Coach Reyes:` can talk in any scene (the game doesn't track their feelings,
   so effects go on you, your family or the scene's person).
+- Someone in your world, by name: `cast: ally = Ally Soffer` (or just `Ally` if the first name is unique). The storyline
+  is about exactly that person, and the same name in any storyline is the same person: storylines belong to the world,
+  not to one character. The prompts list the people around you by name (family, best friend, closest friends, crush,
+  rival, teammates) so ChatGPT can write about them.
 - Someone in another person's life: `cast: kayla = friend of sis, girl` (also best friend / teammate / boyfriend /
   girlfriend of). The game picks them from your sister's world and makes them actually friends, and they stay the same
   person in every storyline that names them.

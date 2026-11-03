@@ -1912,7 +1912,7 @@ def set_cast(w, pack, who, cid):
 # (never a new or changed one), and stays bound for the whole run: through graduation, college, everything. Every pack that
 # uses the same slot name gets the same person. If nobody fits, those scenes just don't happen.
 
-CAST_FIELDS = ("who", "gender", "sport", "grade_offset", "bind", "bond", "floor", "label", "of")
+CAST_FIELDS = ("who", "gender", "sport", "grade_offset", "bind", "bond", "floor", "label", "of", "name")
 OF_KINDS = ("friend", "best_friend", "teammate", "partner")  # "friend of sis": someone in another cast member's life
 CAST_ALIASES = {"relationship_to_player": "who", "grade_offset_at_player_freshman": "grade_offset", "grade_offset_at_start": "grade_offset"}
 CAST_SPORT_FLAGS = {"basketball_player": "basketball", "football_player": "football", "baseball_player": "baseball", "soccer_player": "soccer",
@@ -1961,7 +1961,11 @@ def _check_cast(R, cast) -> set:
                 R.warn(w, f"'{k}' is ignored. A cast slot has: {', '.join(CAST_FIELDS)}")
         n = normalize_slot(spec)
         who = n.get("who")
-        if n.get("of") is not None:
+        if who == "named":  # someone in your story, by name
+            if not isinstance(n.get("name"), str) or not n["name"].strip():
+                R.err(w + ".name", "is the person's name, like \"Ally Soffer\"")
+                continue
+        elif n.get("of") is not None:
             if who not in OF_KINDS:
                 R.err(w + ".who", f"someone in another person's life is their {', '.join(OF_KINDS)}; not '{who}'")
                 continue
@@ -2006,6 +2010,8 @@ def slot_spec(name):
 def slot_label(spec) -> str:
     if spec.get("label"):
         return spec["label"]
+    if spec.get("who") == "named":
+        return str(spec.get("name"))
     if spec.get("of"):
         kind = {"friend": "a friend", "best_friend": "the best friend", "teammate": "a teammate", "partner": "the boyfriend or girlfriend"}
         return f"{kind.get(spec.get('who'), 'someone')} of {spec['of']}" + (f", who plays {spec['sport']}" if spec.get("sport") else "")
@@ -2058,9 +2064,25 @@ def _people_of(sim, me, who, base) -> list:
     return fr[:1] if who == "best_friend" else fr
 
 
+def named(sim, me, name: str) -> list:
+    """Someone in your story by name: their full name, or a first name (the one you know best if there are several)."""
+    w = sim.w
+    want = " ".join(name.lower().split())
+    if not want:
+        return []
+    act = [c for c in w.chars.values() if c.status == "active" and c.id != me.id]
+    full = [c.id for c in act if c.name.lower() == want]
+    if full:
+        return full[:1]
+    first = [c.id for c in act if c.first.lower() == want]
+    return sorted(first, key=lambda o: (-_rel(w, me.id, o, "familiarity"), o))[:1]
+
+
 def slot_candidates(sim, me, spec) -> list:
     """Everyone in your story who fits a slot right now."""
     w = sim.w
+    if spec.get("who") == "named":
+        return named(sim, me, spec.get("name") or "")
     if spec.get("of"):
         base = bound(sim, spec["of"]) or (bind(sim, me, spec["of"]) if spec["of"] in merged()["cast"] else None)
         out = _people_of(sim, me, spec["who"], base) if base else []
