@@ -5,10 +5,13 @@ through it. Below is a summary of every storyline I have: each one's episodes in
 choices remember.
 
 How it plays:
-- Each storyline's episodes air in the order they're written, a few days apart, woven together with the others. An episode
-  waits until its conditions are true (school year, things remembered...).
-- A "schedule" can place any episode of any storyline: which school years it airs in ("years"), which episodes from other
-  storylines have to air first ("after"), and how long after those it comes ("gap_days").
+- Each storyline's episodes air in the order they're written, as soon as they're ready, woven together with the others:
+  several can happen on one day (two to five on a school day at the default pacing). An episode waits until its
+  conditions are true (school year, season, things remembered...).
+- A "schedule" can place any episode of any storyline: which school years it airs in ("years"), which months ("months",
+  or "not_before"/"not_after" as month-day like "11-15"), which episodes from other storylines have to resolve first
+  ("after"), how long after those it comes ("gap_days": none means it can come the same day), and how big it is
+  ("importance": ambient, regular, major, finale).
 - New "scenes" here are crossover episodes. They're about someone ("who"), can depend on facts remembered in any storyline
   ("when": {"remembered": [...]}), and can remember facts that change other storylines.
 
@@ -224,7 +227,7 @@ Every section is optional; use the ones you need.
 - `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.
 - `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.
 - `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask back, follow-ups, flirt lines by style. See Texting lines.
-- `schedule`: when episodes of any storyline air: `{"scene_id": {"years": ["sophomore"], "after": ["other_scene"], "gap_days": 7}}`. A season plan uses this to weave all your storylines into one story.
+- `schedule`: when episodes of any storyline air: `{"scene_id": {"years": ["sophomore"], "after": ["other_scene"], "gap_days": 7, "months": [11, 12], "importance": "major"}}`, plus optional `not_before` / `not_after` (month-day inside the school year, like `"11-15"`). A season plan uses this to weave all your storylines into one story.
 
 ## Texting lines
 
@@ -246,7 +249,7 @@ When you text someone yourself, the game reads what you typed and answers from t
 
 ## Storylines: chapters, scenes that keep going, choices that matter
 
-Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart (at least 5 days; set `"when": {"gap_days": 7}` on a scene for more). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
+Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters that come as soon as they're ready, the same day if nothing holds them (set `"when": {"gap_days": 7}` on a scene for time in between; `"months": [3, 4]` or `"not_before": "03-01"` / `"not_after": "06-15"` to keep it in its season; `"importance"`: ambient, regular, major or finale). Several scenes can happen in one day: the pacing setting decides how many to aim for (dense by default: two to five on a school day). Scenes that don't say when get a season from the season map (baseball tryouts in March, Homecoming in the fall, graduation in June). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
 
 - **Keep going:** a choice with `then` continues the scene right away: `{"label": "You're on", "then": {"text": "It's 10-10...", "choices": [...]}}`. Up to two `then`s deep (three decisions in one scene).
 - **Branches:** `["remember", "fact"]` in a choice, and a later chapter with `"when": {"remembered": ["fact"]}` (or `not_remembered`) only happens on that path. `"when": {"after": ["scene_id"]}` waits for a specific scene.

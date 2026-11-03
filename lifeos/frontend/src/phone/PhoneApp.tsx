@@ -1,4 +1,5 @@
 // The phone app: your story in first person. Tabs: Story, Phone (texts + contacts), Home (family + pets), Me.
+import { ScheduleScreen } from "./Schedule";
 import "@fontsource/fredoka/latin-600.css";
 import "@fontsource/nunito/latin-400.css";
 import "@fontsource/nunito/latin-700.css";
@@ -85,6 +86,7 @@ function Shell({ route }: { route: string[] }) {
   else if (tab === "home") body = <HomeTab />;
   else if (tab === "me") body = <MeTab />;
   else if (tab === "edit") body = <Editor route={route.slice(1)} />;
+  else if (tab === "schedule") body = <ScheduleScreen />;
   else body = <StoryTab />;
   return (
     <>

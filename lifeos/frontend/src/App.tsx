@@ -7,6 +7,7 @@ import Library from "./pages/Library";
 import Overview from "./pages/Overview";
 import Play from "./pages/Play";
 import Saves from "./pages/Saves";
+import Schedule from "./pages/Schedule";
 import Social from "./pages/Social";
 import Story from "./pages/Story";
 import StoryNew from "./pages/StoryNew";
@@ -24,6 +25,7 @@ const NAV: [string, string, string, string?][] = [
   ["social", "Social Network", "web"],
   ["play", "Live Any Life", "spark"],
   ["history", "History Explorer", "history", "Lab"],
+  ["schedule", "Story Schedule", "history"],
   ["experiments", "Experiment Center", "flask"],
   ["workshop", "Engine Workshop", "sliders"],
   ["library", "Content Library", "book"],
@@ -113,6 +115,7 @@ export default function App() {
       social: <Social route={route} />,
       play: <Play route={route} />,
       history: <History route={route} />,
+      schedule: <Schedule />,
       experiments: <Experiments route={route} />,
       workshop: <Workshop route={route} />,
       library: <Library route={route} />,

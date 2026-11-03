@@ -171,18 +171,25 @@ def test_season_windows_keep_the_calendar_real():
     w, sim, me = _story()
     cat = scheduler.catalog(sim)
     info = cat["info"]
-    assert info["baseball_01_tryouts"]["window"] == [2, 3, 4]
-    assert info["brother_final_13_senior_night"]["window"] == [1, 2, 3] and info["brother_final_13_senior_night"]["importance"] == "finale"
-    assert info["bro_team_17_last_school_game"]["window"] == [1, 2, 3]
-    assert info["bro_graduation_day"]["window"] == [5, 6] and info["college_move_in"]["window"] == [8, 9]
+    # windows come from Guilford's own calendar: baseball tryouts are March 2, basketball ends February 27, graduation June 12
+    assert info["baseball_01_tryouts"]["window"] == {"from": [2, 28], "to": [3, 16]}
+    assert info["brother_final_13_senior_night"]["window"] == {"from": [2, 6], "to": [2, 24]}
+    assert info["brother_final_13_senior_night"]["importance"] == "finale"
+    assert info["bro_team_17_last_school_game"]["window"] == {"from": [2, 20], "to": [3, 20]}
+    assert info["bro_team_05_tryouts"]["window"] == {"from": [11, 16], "to": [12, 2]}
+    assert info["hc_ask"]["window"] == {"from": [10, 2], "to": [10, 23]} and info["hc_dance_a"]["window"] == {"from": [10, 17], "to": [10, 25]}
+    assert info["hc_after_a"]["window"] == {"from": [10, 18], "to": [10, 30]}
+    assert info["bro_graduation_day"]["window"] == {"from": [6, 8], "to": [6, 19]}
+    assert info["college_move_in"]["window"] == {"from": [8, 20], "to": [9, 15]}
     sept = calm.md_to_day(0, (9, 15))
     assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], sept)[0] == "wrong_season"
-    june = calm.md_to_day(1, (6, 20))
+    assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], calm.md_to_day(0, (3, 5))) is None
+    june = calm.md_to_day(0, (6, 20))
     assert scheduler.calendar_ok(sim, "bro_team_17_last_school_game", {}, info["bro_team_17_last_school_game"], june)[0] == "wrong_season"
     assert scheduler.gate(sim, me, "college_move_in", cat) == ("too_early", "school year"), "not before your own graduation"
     w.meta["remembered"] = {}
-    scheduler.done_map(w)["brother_final_13_senior_night"] = [calm.md_to_day(1, (2, 10))]
-    w.day = calm.md_to_day(1, (7, 1))
+    scheduler.done_map(w)["brother_final_13_senior_night"] = [calm.md_to_day(0, (2, 10))]
+    w.day = calm.md_to_day(0, (7, 1))
     g = scheduler.gate(sim, me, "bro_team_17_last_school_game", cat)
     assert g[0] == "window_passed", "his last school game can't happen after his June graduation"
 
@@ -259,9 +266,10 @@ def test_a_seven_year_dry_run_accounts_for_every_scene(tmp_path):
                 "bro_graduation_day", "baseball_01_tryouts", "college_move_in"):
         assert sid in done, (sid, rows[sid])
     assert month("bro_team_01_first_morning") in (8, 9) and month("bro_team_05_tryouts") in (11, 12)
-    assert month("brother_final_13_senior_night") in (1, 2, 3) and month("bro_team_17_last_school_game") in (1, 2, 3)
-    assert done["bro_team_17_last_school_game"][-1] < done["bro_graduation_day"][-1] and month("bro_graduation_day") in (5, 6)
-    assert month("baseball_01_tryouts") in (2, 3, 4) and month("baseball_03_varsity_call") in (4, 5, 6)
+    assert month("brother_final_13_senior_night") == 2 and month("bro_team_17_last_school_game") in (2, 3), "the end of his last season"
+    assert done["brother_final_13_senior_night"][-1] < done["bro_team_17_last_school_game"][-1]
+    assert done["bro_team_17_last_school_game"][-1] < done["bro_graduation_day"][-1] and month("bro_graduation_day") == 6
+    assert month("baseball_01_tryouts") in (2, 3) and month("baseball_03_varsity_call") in (4, 5, 6)
     assert calm.school_year_of(done["college_move_in"][-1]) - calm.school_year_of(done["bro_team_01_first_morning"][-1]) == 4
     assert month("college_move_in") in (8, 9)
     dances = [x for x in "abcd" if f"hc_dance_{x}" in done]
@@ -395,3 +403,42 @@ def test_relaxed_keeps_the_old_spacing_and_pacing_is_a_setting():
     days = [scheduler.done_map(w)[f"slow_{i}"][-1] for i in range(4) if f"slow_{i}" in scheduler.done_map(w)]
     assert len(days) >= 3 and all(b - a >= scheduler.PROFILES["relaxed"]["chapter_gap"] for a, b in zip(days, days[1:])), days
     assert scheduler.control(w)["pacing"] == "relaxed" and set(scheduler.PROFILES) == {"relaxed", "standard", "dense", "uncapped"}
+
+
+def test_the_lab_and_phone_endpoints():
+    from fastapi.testclient import TestClient
+    from lifeos import api
+    from lifeos.storage import Store
+    _install(season_plan() + [_independent(6, "lab")])
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6, siblings=[BROTHER] + TWINS)}).status_code == 200
+    for m in moments.pending(api.lab.w):
+        moments.resolve(api.lab.sim, m["id"], 0)
+    st = c.get("/api/story/schedule").json()
+    assert st["profile"] == "dense" and set(st["profiles"]) == set(scheduler.PROFILES) and st["storylines"] and st["scenes"]
+    assert any(r["state"] == "waiting" and r["reason"] for r in st["scenes"])
+    assert c.post("/api/story/control", json={"pacing": "uncapped"}).json()["pacing"] == "uncapped"
+    assert c.post("/api/story/control", json={"pacing": "turbo"}).status_code == 422
+    st = c.post("/api/story/schedule/settings", json={"pacing": "dense", "overrides": {"school": [3, 3]}, "weights": {"x": 2}}).json()
+    assert st["settings"]["school"] in ((3, 3), [3, 3]) and st["weights"] == {"x": 2.0}
+    assert c.post("/api/story/schedule/settings", json={"overrides": {"nonsense": 1}}).status_code == 422
+    r = c.post("/api/story/schedule/continue").json()
+    assert r["moment"] or r["note"]
+    r = c.post("/api/story/schedule/step", json={"what": "today"}).json()
+    assert isinstance(r["played"], list) and r["status"]["presented_today"] >= 0
+    r = c.post("/api/story/schedule/step", json={"what": "day"}).json()
+    assert "status" in r
+    rel = c.post("/api/story/schedule/release", json={"sid": "baseball_01_tryouts"})
+    assert rel.status_code == 200 and rel.json()["moment"]["kind"] == "baseball_01_tryouts"
+    moments.resolve(api.lab.sim, rel.json()["moment"]["id"], 0)
+    tl = c.get("/api/story/schedule/timeline").json()
+    assert any(i["sid"] == "baseball_01_tryouts" for i in tl["items"])
+    cmp = c.post("/api/story/schedule/compare", json={"profiles": ["relaxed", "dense"], "days": 40}).json()
+    assert [x["profile"] for x in cmp["runs"]] == ["relaxed", "dense"] and len(cmp["runs"][0]["per_day"]) == 40
+    md = c.get("/api/story/schedule/report?days=120&fmt=md")
+    assert md.status_code == 200 and "Every scene" in md.text
+    st = c.post("/api/story/schedule/season_map", json={"scene_windows": {"bro_team_02_lunch_table": [10]},
+                                                        "importance": {"bro_team_02_lunch_table": "major"}}).json()
+    row = next(r for r in st["scenes"] if r["sid"] == "bro_team_02_lunch_table")
+    assert row["window"] == [10] and row["window_rule"] == "your override" and row["importance"] == "major"

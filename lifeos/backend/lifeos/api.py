@@ -1043,10 +1043,209 @@ def api_story_control(body: dict = Body(...)):
             if body["focus"] not in list(FOCUS) + ["balanced"]:
                 raise HTTPException(422, f"focus must be one of balanced, {', '.join(FOCUS)}")
             ctl["focus"] = body["focus"]
-        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games", "editor"):
+        for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games", "editor", "auto_scenes"):
             if k in body:
                 ctl[k] = bool(body[k])
+        if "pacing" in body:
+            from .scheduler import PROFILES
+            if body["pacing"] not in PROFILES:
+                raise HTTPException(422, f"pacing must be one of {', '.join(PROFILES)}")
+            ctl["pacing"] = body["pacing"]
         return ctl
+
+
+# --- the story scheduler: pacing, today's scenes, why anything isn't happening ------------------------------
+
+def _story_lab():
+    L = get_lab()
+    if not L.w.meta.get("protagonist"):
+        raise HTTPException(409, "There is no story yet. Start one first.")
+    return L
+
+
+def _moment_out(m):
+    return {k: m[k] for k in ("id", "kind", "title", "text", "choices")} if m else None
+
+
+@app.get("/api/story/schedule")
+def api_schedule():
+    from . import scheduler
+    L = _story_lab()
+    with L.lock:
+        return scheduler.status(L.sim)
+
+
+@app.post("/api/story/schedule/settings")
+def api_schedule_settings(body: dict = Body(...)):
+    """Pacing profile, Let my character decide, Lab overrides (school/weekend targets, gaps, weekly major beats...) and
+    per-storyline weights."""
+    from . import scheduler
+    L = _story_lab()
+    with L.lock:
+        w = L.w
+        ctl = scheduler.control(w)
+        if "pacing" in body:
+            if body["pacing"] not in scheduler.PROFILES:
+                raise HTTPException(422, f"pacing must be one of {', '.join(scheduler.PROFILES)}")
+            ctl["pacing"] = body["pacing"]
+        if "auto_scenes" in body:
+            ctl["auto_scenes"] = bool(body["auto_scenes"])
+        if "overrides" in body:
+            ov = body["overrides"] or {}
+            bad = [k for k in ov if k not in scheduler.OVERRIDABLE]
+            if bad:
+                raise HTTPException(422, f"can't override {', '.join(bad)} (you can: {', '.join(scheduler.OVERRIDABLE)})")
+            w.meta["pacing_overrides"] = {k: v for k, v in ov.items() if v is not None}
+        if "weights" in body:
+            w.meta["story_weights"] = {k: float(v) for k, v in (body["weights"] or {}).items()}
+        return scheduler.status(L.sim)
+
+
+@app.post("/api/story/schedule/continue")
+def api_schedule_continue():
+    """Continue story: the next scene now, without moving the calendar."""
+    from . import scheduler
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        m = scheduler.continue_story(L.sim)
+        return {"moment": _moment_out(m), "note": None if m else "Nothing else is ready today. Tomorrow brings more."}
+
+
+@app.post("/api/story/schedule/step")
+def api_schedule_step(body: dict = Body(default={})):
+    """Lab testing: one scene, the rest of today, a day or a week, with your character answering (an explicit test action)."""
+    from . import moments, scheduler
+    L = _story_lab()
+    L.guard()
+    what = body.get("what", "scene")
+    if what not in ("scene", "today", "day", "week"):
+        raise HTTPException(422, "what is scene, today, day or week")
+    with L.lock:
+        sim, w = L.sim, L.w
+        played = []
+        if what == "scene":
+            m = scheduler.continue_story(sim)
+            if m:
+                played.append(m["kind"])
+                moments.resolve(sim, m["id"], body.get("index"))
+        elif what == "today":
+            played = scheduler.finish_today(sim, auto=True)
+        else:
+            target = w.day + (1 if what == "day" else 7)
+            guard = 0
+            while w.day < target and guard < 5000:
+                guard += 1
+                for m in moments.pending(w):
+                    if m["kind"] == scheduler._root(sim, m["kind"]) and m["kind"] in scheduler.catalog(sim)["scenes"]:
+                        played.append(m["kind"])
+                    moments.resolve(sim, m["id"], None)
+                sim.step()
+        return {"played": played, "status": scheduler.status(sim)}
+
+
+@app.post("/api/story/schedule/release")
+def api_schedule_release(body: dict = Body(...)):
+    """Lab testing: start a scene now, whatever is holding it (it still needs someone who fits)."""
+    from . import dialogue, scheduler
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        try:
+            m = dialogue.try_scene(L.sim, body.get("sid", ""))
+        except KeyError:
+            raise HTTPException(404, "no such scene")
+        except ValueError as e:
+            raise HTTPException(422, str(e))
+        scheduler._note(L.w, body["sid"], "presented", "released_in_lab")
+        return {"moment": _moment_out(m)}
+
+
+@app.get("/api/story/schedule/timeline")
+def api_schedule_timeline():
+    from . import scheduler
+    L = _story_lab()
+    with L.lock:
+        return scheduler.timeline(L.sim)
+
+
+def _copy_sim(L):
+    from .storage import world_from_bytes, world_to_bytes
+    from .engine import Simulation
+    return Simulation(world_from_bytes(world_to_bytes(L.w)))
+
+
+@app.post("/api/story/schedule/compare")
+def api_schedule_compare(body: dict = Body(default={})):
+    """Run the same seed forward under two (or more) pacing profiles, on copies: scenes per day, totals, contradictions."""
+    from . import scheduler
+    L = _story_lab()
+    profiles = body.get("profiles") or ["relaxed", "dense"]
+    days = max(1, min(int(body.get("days", 60)), 3000))
+    full = bool(body.get("full", False))
+    out = []
+    with L.lock:
+        for prof in profiles:
+            if prof not in scheduler.PROFILES:
+                raise HTTPException(422, f"unknown profile {prof}")
+            sim = _copy_sim(L)
+            run = scheduler.dry_run(sim, days, prof, full=full)
+            rep = scheduler.report(sim, run)
+            counts = [len(run["per_day"].get(d, [])) for d in range(run["start"] + 1, run["end"] + 1)]
+            out.append({"profile": prof, "played": sum(counts), "max_per_day": max(counts, default=0),
+                        "days_with_scenes": sum(1 for c in counts if c), "per_day": counts, "warnings": len(rep["warnings"]),
+                        "deadline_misses": len(rep["deadline_misses"]), "counts": rep["counts"]})
+    return {"days": days, "full": full, "runs": out}
+
+
+@app.get("/api/story/schedule/report")
+def api_schedule_report(days: int = 2565, profile: str = "", full: int = 0, fmt: str = "json"):
+    """A dry run from today on a copy (your character answering every scene): every scene, when it played or why not,
+    deadline misses, contradictions and cast identity. fmt=md for the markdown version."""
+    from . import scheduler
+    L = _story_lab()
+    days = max(1, min(int(days), 3000))
+    with L.lock:
+        sim = _copy_sim(L)
+        run = scheduler.dry_run(sim, days, profile or None, full=bool(full))
+        rep = scheduler.report(sim, run)
+    if fmt == "md":
+        return Response(scheduler.report_markdown(rep), media_type="text/markdown")
+    if fmt == "both":  # the phone saves the markdown itself
+        return dict(rep, markdown=scheduler.report_markdown(rep))
+    return rep
+
+
+@app.post("/api/story/schedule/season_map")
+def api_schedule_season_map(body: dict = Body(...)):
+    """Lab: edit the season map (rules by id; {"id": ..., "off": true} turns one off), pin a scene's months
+    ({"scene_windows": {"sid": [3, 4]}}, [] for no window) or its importance ({"importance": {"sid": "major"}})."""
+    from . import dialogue, scheduler
+    L = _story_lab()
+    st = dialogue._state()
+    for k in ("season_map", "scene_windows", "importance"):
+        if k in body:
+            v = body[k]
+            if k == "season_map" and not isinstance(v, list):
+                raise HTTPException(422, "season_map is a list of rules")
+            if k != "season_map" and not isinstance(v, dict):
+                raise HTTPException(422, f"{k} is an object of scene ids")
+            if k == "importance" and any(x is not None and x not in scheduler.IMPORTANCE for x in v.values()):
+                raise HTTPException(422, f"importance is one of {', '.join(scheduler.IMPORTANCE)}")
+            if k == "season_map":
+                st[k] = v
+            else:  # merge by scene id; null takes a pin off
+                cur = dict(st.get(k) or {})
+                for sid, x in v.items():
+                    if x is None:
+                        cur.pop(sid, None)
+                    else:
+                        cur[sid] = x
+                st[k] = cur
+    dialogue._save_state(st)
+    dialogue.reload()
+    with L.lock:
+        return scheduler.status(L.sim)
 
 
 @app.post("/api/story/moment/{mid}")

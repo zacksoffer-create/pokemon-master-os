@@ -128,6 +128,14 @@ export default function StoryTab() {
     await refresh();
   });
 
+  // Continue story: the next storyline scene now, without moving the calendar
+  const continueStory = () => run(async () => {
+    buzz();
+    const r = await phoneApi.storyContinue();
+    if (!r.moment) toast(r.note || "Nothing else is ready today.", "good");
+    await refresh();
+  });
+
   const playFree = (g: MiniGameRow) => run(async () => {
     buzz();
     setPlaying({ cfg: await phoneApi.minigameStart(g.id) });
@@ -276,6 +284,14 @@ export default function StoryTab() {
               {busy ? <span className="ph-spinner small light" /> : <>What's next <PIcon name="chevron" size={18} /></>}
             </button>
           </div>
+        )}
+
+        {!skip && !moment && (s.stories?.waiting ?? 0) > 0 && (
+          <button className="ph-continue" onClick={continueStory} disabled={busy}>
+            <PIcon name="story" size={18} />
+            <span><b>Continue story</b><small>{s.stories!.waiting} more scene{s.stories!.waiting === 1 ? "" : "s"} today. Play the next one now, or they'll come up through the day.</small></span>
+            <PIcon name="chevron" size={18} />
+          </button>
         )}
 
         {!skip && !moment && (

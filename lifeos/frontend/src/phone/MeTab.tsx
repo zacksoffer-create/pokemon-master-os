@@ -1,6 +1,6 @@
 // Me: who you are right now, how you're doing, and how you want to play.
 import React, { useState } from "react";
-import { EpisodeGuide, phoneApi } from "./api";
+import { EpisodeGuide, pgo, phoneApi } from "./api";
 import { Portrait } from "./art";
 import { PIcon } from "./icons";
 import { Bar, cx, errText, money, Sheet } from "./kit";
@@ -28,6 +28,13 @@ const TOGGLES: [string, string, string][] = [
   ["auto_lunch", "Lunch on autopilot", "Sit with your usual table without stopping. Turn it off to pick every lunch."],
   ["class_games", "Class challenges", "Quick games in class most school days (a few seconds each). Off: just quizzes and tests."],
   ["editor", "Editor", "Change anyone's personality, look, mood and relationships. Turn it off once your world is set up."],
+  ["auto_scenes", "Let my character decide story scenes", "Off: every storyline scene waits for you, however long. On: if you skip past one, your character answers it."],
+];
+const PACING: [string, string, string][] = [
+  ["relaxed", "Relaxed", "A scene every couple of days"],
+  ["standard", "Standard", "One or two a day"],
+  ["dense", "Dense", "Two to five on school days, more on weekends"],
+  ["uncapped", "Uncapped", "Everything that's ready"],
 ];
 const CHAPTERS = ["Fr", "So", "Jr", "Sr", "C1", "C2", "C3"];
 
@@ -155,6 +162,21 @@ export default function MeTab() {
         <ClassesCard />
 
         {s.control.editor && <EditorCard />}
+
+        <div className="ph-section-t">How much story a day?</div>
+        <div className="ph-card ph-pacing">
+          <div className="ph-pace-row">
+            {PACING.map(([k, l, d]) => (
+              <button key={k} className={cx("ph-pace", (s.control.pacing || "dense") === k && "on")} disabled={busy === "pacing"}
+                onClick={() => set({ pacing: k }, "pacing")}>
+                <b>{l}</b><small>{d}</small>
+              </button>
+            ))}
+          </div>
+          <p className="ph-dim small">Storylines only bring scenes they actually have: nothing gets made up to fill a day, and nothing waits just to slow things down.
+            Continue story on the Story tab plays the next one right away.</p>
+          <button className="ph-link" onClick={() => pgo("schedule")}>Story schedule: what's coming and what's waiting</button>
+        </div>
 
         <div className="ph-section-t">When should the story stop?</div>
         <div className="ph-card ph-toggles">

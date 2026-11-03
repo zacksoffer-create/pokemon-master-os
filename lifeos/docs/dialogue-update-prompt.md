@@ -4,8 +4,9 @@ the game could tell real stories. Build it out: make it a story with chapters, s
 later, and people who react like themselves. Make it much bigger.
 
 How storylines work now:
-- A storyline's scenes are chapters: they happen in the order they're written in "scenes", a few days apart (set
-  "when": {"gap_days": 7} on a scene to space it out more). A chapter that can't happen yet (wrong school year, needs a
+- A storyline's scenes are chapters: they happen in the order they're written in "scenes", as soon as they're ready (the
+  same day if nothing holds them; set "when": {"gap_days": 7} on a scene for time in between, and "months" or
+  "not_before"/"not_after" like "11-15" to pin it to its season). A chapter that can't happen yet (wrong school year, needs a
   girlfriend...) waits, and the story moves on to the next one that can.
 - A choice can keep the scene going right away with "then": {"text": "what happens next", "choices": [...]}. Up to two
   "then"s deep, so a scene can be three decisions long.
@@ -240,7 +241,7 @@ Every section is optional; use the ones you need.
 - `scenes`: brand-new story moments. The game decides when they happen from `who` and `when`.
 - `mods`: openers, closers and ways of saying things, by context, that the game puts on lines.
 - `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask back, follow-ups, flirt lines by style. See Texting lines.
-- `schedule`: when episodes of any storyline air: `{"scene_id": {"years": ["sophomore"], "after": ["other_scene"], "gap_days": 7}}`. A season plan uses this to weave all your storylines into one story.
+- `schedule`: when episodes of any storyline air: `{"scene_id": {"years": ["sophomore"], "after": ["other_scene"], "gap_days": 7, "months": [11, 12], "importance": "major"}}`, plus optional `not_before` / `not_after` (month-day inside the school year, like `"11-15"`). A season plan uses this to weave all your storylines into one story.
 
 ## Texting lines
 
@@ -262,7 +263,7 @@ When you text someone yourself, the game reads what you typed and answers from t
 
 ## Storylines: chapters, scenes that keep going, choices that matter
 
-Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart (at least 5 days; set `"when": {"gap_days": 7}` on a scene for more). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
+Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters that come as soon as they're ready, the same day if nothing holds them (set `"when": {"gap_days": 7}` on a scene for time in between; `"months": [3, 4]` or `"not_before": "03-01"` / `"not_after": "06-15"` to keep it in its season; `"importance"`: ambient, regular, major or finale). Several scenes can happen in one day: the pacing setting decides how many to aim for (dense by default: two to five on a school day). Scenes that don't say when get a season from the season map (baseball tryouts in March, Homecoming in the fall, graduation in June). A chapter that can't happen yet waits, and the story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say `"in_order": false` to let its scenes come up in any order.)
 
 - **Keep going:** a choice with `then` continues the scene right away: `{"label": "You're on", "then": {"text": "It's 10-10...", "choices": [...]}}`. Up to two `then`s deep (three decisions in one scene).
 - **Branches:** `["remember", "fact"]` in a choice, and a later chapter with `"when": {"remembered": ["fact"]}` (or `not_remembered`) only happens on that path. `"when": {"after": ["scene_id"]}` waits for a specific scene.

@@ -141,6 +141,59 @@ and the story closes with a look back at your seven years.
 You can open anyone in **Character Studio** (including yourself) to see their full profile and athlete
 page, and **History Explorer** shows the math behind anything that happened.
 
+## Story pacing: many scenes a day
+
+Storylines are paced by a scheduler (`backend/lifeos/scheduler.py`) instead of a fixed throttle. The old rules (at most one
+scene every couple of days, five days between chapters) are gone; they live on only as the **Relaxed** setting.
+
+- **Days and scenes are separate.** Each morning the game plans the day's storyline scenes and spreads them across it
+  (morning, class, lunch, after school, evening, night). They come one at a time: the next one shows up once you've
+  answered the last. **Continue story** on the Story tab plays the next one right away without moving the calendar,
+  even past the day's target. A scene that unlocks another (`after`, no gap) can lead straight into it the same day.
+- **How much story a day** (Me tab, or the Lab): **Relaxed** (the old pace), **Standard** (one or two a day),
+  **Dense** (the default: two to five on a school day, three to seven on a weekend) or **Uncapped** (everything that's
+  ready). These are targets, not quotas: nothing is invented to fill a day, and nothing authored is held back just to
+  slow it down.
+- **Nothing answers for you.** A storyline scene waits for you, however long, unless you turn on **Let my character
+  decide story scenes**. Pending scenes survive closing the app.
+- **The calendar stays real.** A scene is ready only when its school year, its months / dates / weekdays and its season
+  fit. Scenes that don't say when get a season from the **season map**, built from Guilford's own calendar: tryouts the
+  weeks around each team's tryout date, senior night in the last three weeks of that sport's season, playoffs and last
+  games at the end, the Homecoming ask in the two weeks before the dance, the dance that weekend and the aftermath after,
+  prom the same way, graduation the week of June 12, move-in at college in late August and September, summer in the
+  summer. Baseball can't debut in September, the brother's last game can't come after his graduation, and move-in
+  can't come before your own.
+- **after means resolved.** A scene in `after` has to be answered (its last beat included) before what depends on it is
+  ready; `gap_days` counts days from then, and no gap means it can come the same day. A scene whose school years are
+  over counts as skipped (the rule from before), so later chapters don't get stuck.
+- **Branches stay branches.** Remembered facts, `not_remembered` and in-order chapters work as before; when you pick
+  one Homecoming date, the other three dances and aftermaths become unreachable, not forced.
+- **Big moments get room.** Every scene has an importance (ambient, regular, major, finale), from the pack
+  (`"importance"`) or read from its id and title. Dense pacing aims for about one major turn a week across storylines,
+  unless the next follows straight from the last or its window is closing. Deadlines always win: a scene whose window
+  is about to close moves to the front, so a year's leftovers don't pile onto its last day.
+- **New optional fields** in a scene's `when` or a season plan's `schedule`: `not_before` / `not_after` (month-day
+  inside the school year, like `"11-15"`) and `importance`. Everything else loads exactly as before.
+
+**Story Schedule** (Lab, under History Explorer) shows every storyline's counts (played, queued, eligible, waiting,
+expired, unreachable), every scene's state with the exact reason (`wrong_season`, `waiting_for_scene`, `missing_fact`,
+`branch_closed`, `year_passed`, `missing_cast`, `major_breather`...), today's queue, an episode timeline with storyline
+lanes, chain arrows and warnings, and a side-by-side run of all four pacing settings on the same seed. You can step one
+scene, finish today, step a day or a week, release a blocked scene to test it, pin a scene's months or importance, set
+storyline weights and override the targets. The phone has the same view under Me > Story schedule, with **Run the
+check**: seven years forward on a copy, then a report you can save.
+
+**The seeded report** for any set of packs (your season plan included):
+
+```bash
+python lifeos/tools/schedule_report.py "Season plan.json" storyline1.json storyline2.json --seed 1234 --out report
+python lifeos/tools/schedule_report.py ... --full     # simulate the whole town (slower, exact requirements)
+```
+
+It writes `report.md` and `report.json`: every scene id with the day it played or why it didn't, deadline misses,
+contradictions (out of season, before its prerequisite, out of chapter order) and who every cast slot is bound to. With
+no packs it runs the synthetic season plan from the tests; the results are in `docs/reports/`.
+
 ## Knowing who everyone is
 
 Every person has a profile built from what's actually true in the world right now, and the game uses it everywhere.

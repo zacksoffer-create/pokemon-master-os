@@ -56,7 +56,9 @@ export type PhoneState = {
   teams: { id: string; name: string; sport: string; record: { w: number; l: number }; mine?: { w: number; l: number }; level: string; position: string }[];
   squad?: { name: string; members: { id: string; first: string; look: Look }[]; cohesion: number; last: string | null;
     plan: { label: string; when: string; joined: boolean } | null; jokes: string[] } | null;
-  control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean; editor?: boolean };
+  control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean; editor?: boolean;
+    pacing?: string; auto_scenes?: boolean };
+  stories?: { waiting: number; presented_today: number; target: number | null; pacing: string; label: string };
   setting: { town: string; school: string; short: string; mascot: string };
 };
 export type Choice = { index: number; action: string; label: string; category: string; target: string | null; target_name: string | null; prob: number; risk: number; text: string; icon: string; why: string;
@@ -97,6 +99,16 @@ export type MiniGameRow = { id: string; title: string; label: string; blurb: str
 export type ClassRow = { id: string; name: string; subject: string; teacher: string; honors: boolean; pct: number; letter: string; quizzes: number; quiz_avg: number | null;
   games: number; games_won: number };
 export type ClassesView = { gpa: number; year: string; classes: ClassRow[]; upcoming: { name: string; date: string; in_days: number; weight: number }[]; tests_played: number };
+export type ScheduleRow = { sid: string; pack: string; title: string; importance: string; window: any; window_rule: string | null; window_text: string;
+  order: number; state: string; day?: number; date?: string; reason?: string; detail?: any; why: string; last?: any };
+export type ScheduleView = { profile: string; profiles: Record<string, { label: string; about: string }>; auto_scenes: boolean; date: string;
+  queue: { sid: string; title: string; phase: string; importance: string }[]; presented_today: number; target_today: number | null;
+  backlog: number; overdue: number; majors_this_week: number;
+  storylines: { pack: string; name: string; in_order: boolean; played: number; queued: number; eligible: number; waiting: number; unreachable: number; expired: number; presented: number }[];
+  scenes: ScheduleRow[] };
+export type ScheduleReport = { date: string; profile: string; counts: Record<string, number>; warnings: { sid: string; kind: string; text: string }[];
+  deadline_misses: any[]; identity: { slot: string; who: string; name: string | null; problems: string[] }[];
+  busiest_days: { date: string; scenes: number }[]; days_with_scenes: number; markdown?: string };
 export const phoneApi = {
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
@@ -129,6 +141,9 @@ export const phoneApi = {
   advance: (until: string): Promise<any> => api.post("/api/story/advance", { until }),
   job: (): Promise<any> => api.get("/api/sim/job"),
   control: (patch: any) => api.post("/api/story/control", patch),
+  storyContinue: (): Promise<{ moment: Moment | null; note: string | null }> => api.post("/api/story/schedule/continue", {}),
+  schedule: (): Promise<ScheduleView> => api.get("/api/story/schedule"),
+  scheduleReport: (days: number): Promise<ScheduleReport> => api.get(`/api/story/schedule/report?days=${days}&fmt=both`),
   threads: (): Promise<{ threads: ThreadSummary[] }> => api.get("/api/phone/threads"),
   thread: (tid: string): Promise<Thread> => api.get(`/api/phone/thread/${encodeURIComponent(tid)}`),
   reply: (tid: string, msg: string, index: number): Promise<{ thread: Thread }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/reply`, { msg, index }),

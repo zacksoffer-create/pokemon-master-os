@@ -78,30 +78,46 @@ MAJOR_RX = re.compile(r"(^|_)(debut|playoffs?|decision|decides|tryouts?|cut|home
                       r"varsity|captain|rivalry_game|big_game)(_|$)")
 AMBIENT_RX = re.compile(r"(^|_)(texts?|joke|meme|group_chat|hallway|bus|snack|selfie|chatter|banter|small_talk|locker)(_|$)")
 SEASON_RULES = [
-    {"id": "first_day", "label": "First days of school", "match": r"(^|_)(first_(day|morning|week)|orientation|back_to_school)(_|$)", "months": [8, 9]},
-    {"id": "end_of_season", "label": "Senior night, last games, playoffs", "needs_sport": True,
-     "match": r"(^|_)(senior_night|last_(school_)?game|final_game|playoffs?|state_(final|title|tourn\w*)|championship|sectionals?)(_|$)",
-     "sport_months": {"basketball": [1, 2, 3], "football": [10, 11], "soccer": [10, 11], "baseball": [5, 6], "softball": [5, 6]}},
-    {"id": "season_start", "label": "Tryouts, first practice, debut", "needs_sport": True,
-     "match": r"(^|_)(tryouts?|first_practice|debut|opening_day|season_opener|preseason)(_|$)",
-     "sport_months": {"basketball": [11, 12], "football": [8, 9], "soccer": [8, 9], "baseball": [2, 3, 4], "softball": [2, 3, 4]}},
-    {"id": "homecoming", "label": "Homecoming", "match": r"(^|_)homecoming(_|$)", "months": [9, 10]},
-    {"id": "halloween", "label": "Halloween", "match": r"(^|_)halloween(_|$)", "months": [10]},
-    {"id": "thanksgiving", "label": "Thanksgiving", "match": r"(^|_)thanksgiving(_|$)", "months": [11]},
-    {"id": "holidays", "label": "Holidays", "match": r"(^|_)(christmas|holiday_break|winter_break|new_years?)(_|$)", "months": [12, 1]},
-    {"id": "valentines", "label": "Valentine's Day", "match": r"(^|_)valentines?(_|$)", "months": [2]},
-    {"id": "prom", "label": "Prom", "match": r"(^|_)prom(_|$)", "months": [4, 5, 6]},
-    {"id": "graduation", "label": "Graduation", "match": r"(^|_)(graduat\w*|commencement|cap_and_gown|senior_week)(_|$)", "months": [5, 6]},
+    # Windows come from the school's own calendar (world.json): the team schedules, the dances, breaks and graduation.
+    # anchor: school_start | event:<calendar event id> | break:<break name> | sport:start|early|season|end, with days
+    # before/after; or fixed from/to month-days; or months.
+    {"id": "first_day", "label": "First days of school", "match": r"(^|_)(first_(day|morning|week)|orientation|back_to_school)(_|$)",
+     "anchor": "school_start", "before": 7, "after": 20},
+    {"id": "senior_night", "label": "Senior night", "needs_sport": True, "match": r"(^|_)senior_night(_|$)", "anchor": "sport:end",
+     "before": 21, "after": -3},
+    {"id": "end_of_season", "label": "Last games and playoffs", "needs_sport": True,
+     "match": r"(^|_)(last_(school_)?game|final_game|playoffs?|state_(final|title|tourn\w*)|championship|sectionals?|season_ends?)(_|$)",
+     "anchor": "sport:end", "before": 7, "after": 21},
+    {"id": "season_start", "label": "Tryouts and the first practice", "needs_sport": True,
+     "match": r"(^|_)(tryouts?|first_practice|preseason|cuts?|roster)(_|$)", "anchor": "sport:start"},
+    {"id": "debut", "label": "Debuts and openers", "needs_sport": True,
+     "match": r"(^|_)(debut|jv_debut|varsity_debut|opening_day|season_opener|first_game|first_start)(_|$)", "anchor": "sport:early"},
+    {"id": "homecoming_ask", "label": "Homecoming: asking someone", "match": r"(^|_)(homecoming|hoco|hc)(_|$)",
+     "also": r"(^|_)(asks?|asking|asked|invite\w*|propos\w*|hoco_?posal|date_hunt|who_to_take)(_|$)", "anchor": "event:homecoming", "before": 16, "after": 5},
+    {"id": "homecoming_after", "label": "Homecoming: the aftermath", "match": r"(^|_)(homecoming|hoco|hc)(_|$)",
+     "also": r"(^|_)(after\w*|aftermath|morning_after|monday|fallout)(_|$)", "anchor": "event:homecoming", "before": 0, "after": 12},
+    {"id": "homecoming", "label": "Homecoming: the dance", "match": r"(^|_)(homecoming|hoco|hc)(_|$)", "anchor": "event:homecoming", "before": 1, "after": 7},
+    {"id": "halloween", "label": "Halloween", "match": r"(^|_)halloween(_|$)", "from": [10, 18], "to": [10, 31]},
+    {"id": "thanksgiving", "label": "Thanksgiving", "match": r"(^|_)thanksgiving(_|$)", "anchor": "break:Thanksgiving break", "before": 5, "after": 1},
+    {"id": "holidays", "label": "Holidays", "match": r"(^|_)(christmas|holiday_break|winter_break|new_years?)(_|$)", "anchor": "break:Winter break",
+     "before": 5, "after": 0},
+    {"id": "valentines", "label": "Valentine's Day and the Snow Ball", "match": r"(^|_)(valentines?|snow_ball)(_|$)", "anchor": "event:snow_ball",
+     "before": 12, "after": 3},
+    {"id": "prom_ask", "label": "Prom: asking someone", "match": r"(^|_)prom(_|$)", "also": r"(^|_)(asks?|asking|asked|invite\w*|propos\w*|promposal)(_|$)",
+     "anchor": "event:prom", "before": 21, "after": 5},
+    {"id": "prom_after", "label": "Prom: the aftermath", "match": r"(^|_)prom(_|$)", "also": r"(^|_)(after\w*|aftermath|morning_after|fallout)(_|$)",
+     "anchor": "event:prom", "before": 0, "after": 12},
+    {"id": "prom", "label": "Prom night", "match": r"(^|_)(prom|promposal)(_|$)", "anchor": "event:prom", "before": 1, "after": 7},
+    {"id": "graduation", "label": "Graduation", "match": r"(^|_)(graduat\w*|commencement|cap_and_gown|senior_week)(_|$)", "anchor": "event:graduation",
+     "before": 4, "after": 7},
     {"id": "college_move", "label": "Moving in at college", "match": r"(^|_)(move_in|dorm|college_move|campus_(day|arrival)|first_week_at_college)(_|$)",
-     "months": [8, 9]},
-    {"id": "summer", "label": "Summer", "match": r"(^|_)(summer|fourth_of_july|july_4)(_|$)", "months": [6, 7, 8]},
-    {"id": "spring_break", "label": "Spring break", "match": r"(^|_)spring_break(_|$)", "months": [3, 4]},
+     "from": [8, 20], "to": [9, 15]},
+    {"id": "summer", "label": "Summer", "match": r"(^|_)(summer|fourth_of_july|july_4)(_|$)", "anchor": "break:Summer"},
+    {"id": "spring_break", "label": "Spring break", "match": r"(^|_)spring_break(_|$)", "anchor": "break:Spring break", "before": 2, "after": 0},
     {"id": "snow", "label": "Snow", "match": r"(^|_)(snow_day|snowball|blizzard)(_|$)", "months": [12, 1, 2, 3]},
     {"id": "sport_season", "label": "Games and practices, in season", "needs_sport": True,
      "match": r"(^|_)(game|games|practice|scrimmage|tip_?off|hoops|layups?|dunks?|free_throws?|touchdown|kickoff|innings?|at_bat|"
-              r"batting|bullpen|goalie|penalty_kick|road_trip|bus_ride)(_|$)",
-     "sport_months": {"basketball": [11, 12, 1, 2, 3], "football": [8, 9, 10, 11], "soccer": [8, 9, 10, 11], "baseball": [3, 4, 5, 6],
-                      "softball": [3, 4, 5, 6]}},
+              r"batting|bullpen|goalie|penalty_kick|road_trip|bus_ride)(_|$)", "anchor": "sport:season"},
 ]
 BUCKET_RX = [("night", re.compile(r"(^|_)(late_night|midnight|sleepover|party|bonfire|after_party|sneak_out|night)(_|$)")),
              ("evening", re.compile(r"(^|_)(dinner|evening|dance|movie|date|game_night|homecoming|prom)(_|$)")),
@@ -186,7 +202,7 @@ def migrate(sim):
         if days and sid not in done and sid not in pending_roots:
             done[sid] = list(days)
     w.meta["scheduler_version"] = VERSION
-    if w.meta.get("protagonist") in w.chars and w.meta.get("story"):
+    if w.meta.get("protagonist") in w.chars and w.meta.get("story") and seen_map(w):  # an old save with progress
         try:
             ready = [r["sid"] for r in rows(sim) if r["state"] == "eligible"]
         except Exception:  # noqa: BLE001  diagnostics never block loading a save
@@ -258,16 +274,15 @@ def catalog(sim) -> dict:
         if sid in over_win:
             window, rule = (list(over_win[sid]) or None), "your override"
         elif not (when.get("months") or when.get("dates") or when.get("not_before") or when.get("not_after")):
+            ys = _years(when)
+            college = bool(ys) and min(ys) >= 13
             for r in rules:
-                if not re.search(r["match"], key_s):
+                if not re.search(r["match"], key_s) or (r.get("also") and not re.search(r["also"], key_s)):
                     continue
-                if r.get("needs_sport"):
-                    months = (r.get("sport_months") or {}).get(sport or "")
-                    if not months:
-                        continue
-                else:
-                    months = r.get("months")
-                window, rule = list(months), r.get("label") or r["id"]
+                win = rule_window(sim, r, sport, college)
+                if not win:
+                    continue
+                window, rule = win, r.get("label") or r["id"]
                 break
         bucket = None
         req = set(when.get("requires") or [])
@@ -289,6 +304,73 @@ def _settings_key():
     from . import dialogue
     st = dialogue._state()
     return (repr(st.get("importance")), repr(st.get("scene_windows")), repr(st.get("season_map")), repr(st.get("order")))
+
+
+def _md_shift(md, days) -> list:
+    d = calm.date_of(calm.md_to_day(0, tuple(md)) + days)
+    return [d.month, d.day]
+
+
+def _sport_dates(sim, sport, college=False):
+    """(tryout, season start, season end) month-days for a sport at the school (or the college)."""
+    if college:
+        from .college import COLLEGE_TEAMS
+        t = COLLEGE_TEAMS.get(sport)
+        return (t["tryout"], t["season"]["start"], t["season"]["end"]) if t else None
+    for g in sim.cat.world["groups"]:
+        if g.get("kind") == "team" and g.get("skill") == sport and g.get("school", "hchs") == "hchs":
+            return g["tryout"], g["season"]["start"], g["season"]["end"]
+    return None
+
+
+def rule_window(sim, r, sport=None, college=False):
+    """A season-map rule's window for this school's calendar: a list of months, or {"from": [m, d], "to": [m, d]}."""
+    if r.get("months"):
+        return list(r["months"])
+    if r.get("from") and r.get("to"):
+        return {"from": list(r["from"]), "to": list(r["to"])}
+    a = r.get("anchor") or ""
+    cal = sim.cat.world["calendar"]
+    b, af = int(r.get("before", 0)), int(r.get("after", 0))
+    if a == "school_start":
+        md = cal["school_year_start"]
+        return {"from": _md_shift(md, -b), "to": _md_shift(md, af)}
+    if a.startswith("event:"):
+        ev = next((e for e in cal["events"] if e["id"] == a[6:]), None)
+        return {"from": _md_shift(ev["date"], -b), "to": _md_shift(ev["date"], af)} if ev else None
+    if a.startswith("break:"):
+        br = next((x for x in cal["breaks"] if x["name"] == a[6:]), None)
+        return {"from": _md_shift(br["from"], -b), "to": _md_shift(br["to"], af)} if br else None
+    if a.startswith("sport:"):
+        if not sport:
+            return None
+        dates = _sport_dates(sim, sport, college)
+        if not dates:
+            return None
+        tryout, start, end = dates
+        phase = a[6:]
+        if phase == "start":
+            return {"from": _md_shift(tryout, -2), "to": _md_shift(tryout, 14)}
+        if phase == "early":
+            return {"from": list(tryout), "to": _md_shift(tryout, 35)}
+        if phase == "season":
+            return {"from": list(start), "to": list(end)}
+        if phase == "end":
+            b2, a2 = (r.get("before", 21), r.get("after", 0))
+            return {"from": _md_shift(end, -int(b2)), "to": _md_shift(end, int(a2))}
+    return None
+
+
+def window_text(win) -> str:
+    if not win:
+        return "any time"
+    if isinstance(win, dict):
+        f, t = win["from"], win["to"]
+        return f"{MONTH_NAMES[f[0]]} {f[1]} to {MONTH_NAMES[t[0]]} {t[1]}"
+    return ", ".join(MONTH_NAMES[m] for m in win)
+
+
+MONTH_NAMES = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 
 def season_rules() -> list:
@@ -326,6 +408,8 @@ def _in_window(d, nb, na) -> bool:
     def sy(md):  # position in the school year: Sept = 0
         return ((md[0] - 9) % 12) * 31 + md[1]
     x = sy((d.month, d.day))
+    if nb and na and sy(nb) > sy(na):  # a window across the summer (late August into September)
+        return x >= sy(nb) or x <= sy(na)
     if nb and x < sy(nb):
         return False
     if na and x > sy(na):
@@ -339,9 +423,12 @@ def calendar_ok(sim, sid, when, info, day) -> tuple | None:
     d = calm.date_of(day)
     if when.get("dates") and f"{d.month:02d}-{d.day:02d}" not in when["dates"]:
         return ("wrong_date", ", ".join(when["dates"][:3]))
-    months = when.get("months") or (info or {}).get("window")
+    win = (info or {}).get("window")
+    months = when.get("months") or (win if isinstance(win, list) else None)
     if months and d.month not in months:
         return ("wrong_season", months)
+    if isinstance(win, dict) and not when.get("months") and not _in_window(d, tuple(win["from"]), tuple(win["to"])):
+        return ("wrong_season", window_text(win))
     if when.get("weekdays") and WEEKDAYS[d.weekday()] not in when["weekdays"]:
         return ("wrong_weekday", when["weekdays"])
     nb, na = _md(when.get("not_before")), _md(when.get("not_after"))
@@ -378,15 +465,18 @@ def permanent(sim, me, sid, cat, depth=0) -> str | None:
     mem = w.meta.get("remembered", {})
     if sid in done_map(w) and when.get("once", True):
         return "played"
-    for k in when.get("not_remembered") or []:
+    for k in when.get("not_remembered") or []:  # the most telling reason first: a branch beats "its years are over"
         if k in mem:
             return "exclusive_branch"
-    grades = _years(when)
-    if grades and max(grades) < (me.grade or 0):
-        return "year_passed"
     for k in when.get("remembered") or []:
         if k not in mem and _fact_closed(sim, me, k, cat, depth):
             return "branch_closed"
+    for a in _after(when):
+        if depth < 6 and a not in done_map(w) and permanent(sim, me, a, cat, depth + 1) in ("exclusive_branch", "branch_closed", "after_unreachable"):
+            return "after_unreachable"
+    grades = _years(when)
+    if grades and max(grades) < (me.grade or 0):
+        return "year_passed"
     for a in _after(when):
         if depth < 6 and _done_or_skipped(sim, me, a, cat, depth + 1) == "unreachable":
             return "after_unreachable"
@@ -921,8 +1011,14 @@ def rows(sim, day=None) -> list:
     out = []
     for sid, sc in sorted(cat["scenes"].items(), key=lambda kv: (kv[1].get("pack") or "", kv[1].get("order", 0))):
         info = cat["info"][sid]
+        when = sc.get("when") or {}
+        own = when.get("months") or ({"from": [int(x) for x in when["not_before"].split("-")] if when.get("not_before") else [9, 1],
+                                     "to": [int(x) for x in when["not_after"].split("-")] if when.get("not_after") else [8, 31]}
+                                    if (when.get("not_before") or when.get("not_after")) else None)
         r = {"sid": sid, "pack": sc.get("pack"), "title": info["title"], "importance": info["importance"], "window": info["window"],
-             "window_rule": info["window_rule"], "order": sc.get("order", 0)}
+             "window_rule": info["window_rule"] if info["window"] else ("the scene says" if own or when.get("dates") else None),
+             "window_text": window_text(info["window"] or own) if (info["window"] or own) else (", ".join(when["dates"]) if when.get("dates") else ""),
+             "order": sc.get("order", 0)}
         done = done_map(w).get(sid)
         if done:
             r.update({"state": "played", "day": done[-1], "date": calm.label(done[-1])})
@@ -938,7 +1034,7 @@ def rows(sim, day=None) -> list:
             if g is None:
                 r["state"] = "eligible"
             else:
-                p = permanent(sim, me, sid, cat) if g[0] not in PERMANENT else g[0]
+                p = permanent(sim, me, sid, cat) or (g[0] if g[0] in PERMANENT else None)
                 r.update({"state": "unreachable" if p else "waiting", "reason": p or g[0],
                           "detail": g[1] if not p or p == g[0] else None})
             le = lg.get(sid)
@@ -949,6 +1045,15 @@ def rows(sim, day=None) -> list:
         r["why"] = REASON_TEXT.get(r.get("reason", ""), "")
         out.append(r)
     return out
+
+
+def brief(sim) -> dict:
+    """For the phone's Story tab: how many scenes are waiting today and the pacing (cheap: no full scan)."""
+    w = sim.w
+    q = queue(w)
+    today = q.get("day") == w.day
+    return {"waiting": len(q["items"]) if today else 0, "presented_today": q.get("presented", 0) if today else 0,
+            "target": q.get("target") if today else None, "pacing": profile(w)["name"], "label": profile(w)["label"]}
 
 
 def status(sim) -> dict:
@@ -974,7 +1079,14 @@ def status(sim) -> dict:
             "overdue": sum(1 for it in q["items"] if it.get("deadline") is not None and it["deadline"] <= w.day),
             "storylines": sorted(by.values(), key=lambda b: b["name"]), "scenes": rs, "weights": w.meta.get("story_weights") or {},
             "majors_this_week": sum(1 for d in w.meta.get("scene_majors", []) if w.day - d < 7),
-            "migrated": w.meta.get("scheduler_migrated"), "season_map": season_rules()}
+            "migrated": w.meta.get("scheduler_migrated"), "season_map": [dict(r, window_text=_rule_text(sim, r)) for r in season_rules()]}
+
+
+def _rule_text(sim, r) -> str:
+    if r.get("needs_sport") or str(r.get("anchor", "")).startswith("sport:"):
+        from .sports import SPORTS
+        return " · ".join(f"{sp}: {window_text(rule_window(sim, r, sp))}" for sp in SPORTS if rule_window(sim, r, sp))
+    return window_text(rule_window(sim, r))
 
 
 def timeline(sim) -> dict:
@@ -1036,6 +1148,8 @@ def dry_run(sim, days: int, profile_name: str | None = None, full: bool = True, 
     if profile_name:
         c["pacing"] = profile_name
     c["auto_scenes"] = True  # this copy answers for you: it's a dry run
+    q = queue(w)
+    q.update({"items": [], "day": None, "presented": 0})  # the copy plans its own days from here (fair comparisons)
     start = w.day
     per_day: dict = {}
 

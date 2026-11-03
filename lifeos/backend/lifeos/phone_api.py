@@ -11,7 +11,7 @@ from fastapi import APIRouter, Body, HTTPException, Request
 from fastapi.responses import Response
 
 from . import calendar as calm
-from . import knowing, messages, pets, pov
+from . import knowing, messages, pets, pov, scheduler
 from .appearance import look_of
 
 router = APIRouter()
@@ -216,7 +216,7 @@ def phone_state(since: int | None = None):
                  "look": look_of(w.chars[s]), "path": w.chars[s].path} for s in sim.siblings(me.id)],
                 "younger": [x for x in incoming_view(w) if x["kind"] == "sibling"], "style": h.get("style_label"),
                 "trust": round(messages.phone(w)["parent_trust"])},
-            "teams": teams, "control": moments.control(w),
+            "teams": teams, "control": scheduler.control(w), "stories": scheduler.brief(sim),
             "setting": {"town": sim.cat.world["town"]["name"], "school": sim.cat.world["school"]["name"],
                         "short": sim.cat.world["school"]["short"], "mascot": sim.cat.world["school"]["mascot"]},
         }
