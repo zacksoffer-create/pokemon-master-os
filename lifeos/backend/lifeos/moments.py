@@ -273,6 +273,8 @@ def resolve(sim, mid: str, index: int | None, by: str = "player"):
         messages.answered_elsewhere(sim, "moment", m["id"], index)
     m["event"] = ev["id"]
     sim.finish(ev, fx)
+    from . import scheduler
+    scheduler.after_resolve(sim, m)  # a storyline scene that finished unlocks what waits on it; the next scene comes
     return ev
 
 

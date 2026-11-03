@@ -61,8 +61,9 @@ class Simulation:
         self.ctx_practices: list = []
         self._today: list = []
         self.upcoming: list = []
-        from . import teams
+        from . import scheduler, teams
         teams.upgrade(self)  # boys' and girls' teams, soccer and softball, for saves made before them
+        scheduler.migrate(self)  # the story scheduler: what already played counts as resolved
         self._refresh_day()
         self._note_rules()
         if not world.meta.get("initialized"):
@@ -129,6 +130,9 @@ class Simulation:
             self.w.day += 1
             self.w.phase = 0
             self._refresh_day()
+        elif "story" in self.w.meta:
+            from . import scheduler
+            scheduler.deliver(self)  # this part of the day's storyline scene, if one is planned for now
         if "phone" in self.w.meta:
             from . import messages
             messages.tick(self)
@@ -239,7 +243,10 @@ class Simulation:
             waiting = any(m["kind"] in ("mlb_draft", "draft_passed") for m in moments.pending(w))
             if after_draft and not waiting:
                 self.moment_trigger("story_end", prot, {})
+        from . import scheduler
         for m in moments.pending(w):
+            if not scheduler.auto_ok(w, m):
+                continue  # a storyline scene waits for you (unless you turned on Let my character decide)
             if w.day - m["day"] >= (1 if m["kind"] in ("game_day", "class_game") or m["kind"].startswith("night_") else 3):
                 moments.resolve(self, m["id"], None)
         from . import dialogue

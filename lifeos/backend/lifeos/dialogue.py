@@ -208,9 +208,7 @@ SCENE_REFS = ("them", "best_friend", "sibling", "partner")
 SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "sibling", "sibling_first", "partner", "partner_first",
                "me_first", "school", "town", "sport", "pet"}
 DEFAULT_CHANCE = 0.04
-SCENE_GAP_DAYS = 2      # at most one storyline scene every couple of days, across all of them
-CHAPTER_GAP_DAYS = 5    # a storyline's next chapter comes at least this long after its last one (when.gap_days changes it)
-CHAPTER_CHANCE = 0.5    # once it's due, the next chapter comes soon (about every other day)
+CHAPTER_CHANCE = 0.5    # the relaxed profile's odds a due chapter comes today (pacing lives in scheduler.py now)
 MAX_BEATS = 3           # how deep a scene can keep going with "then"
 NO_ADD = {"college_decision"}  # choices are built from your real options
 
@@ -602,7 +600,7 @@ def _check_scene(R, where, sc, seen_ids):
         R.err(where + ".when", "when is an object, like {\"chance\": 0.05, \"years\": [\"freshman\"]}")
         when = {}
     allowed_when = {"chance", "years", "months", "dates", "weekdays", "requires", "you_feel", "they_feel", "me",
-                    "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days"}
+                    "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days", "not_before", "not_after", "importance"}
     for k, v in when.items():
         w = f"{where}.when.{k}"
         if k not in allowed_when:
@@ -663,6 +661,12 @@ def _check_scene(R, where, sc, seen_ids):
                     R.err(w, "is a list of scene ids that have to happen first")
         elif k == "gap_days":
             _num(R, w, v, 0, 365)
+        elif k in ("not_before", "not_after"):
+            if not isinstance(v, str) or not re.match(r"^(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$", v):
+                R.err(w, 'is a month-day inside the school year, like "11-15"')
+        elif k == "importance":
+            if v not in ("ambient", "regular", "major", "finale"):
+                R.err(w, "is ambient, regular, major or finale")
     chs = sc.get("choices")
     if not isinstance(chs, list) or not 2 <= len(chs) <= 4:
         R.err(where + ".choices", "a scene needs 2 to 4 choices")
@@ -905,7 +909,7 @@ def check(pack: dict) -> dict:
     return {"ok": not R.errors, "errors": R.errors, "warnings": R.warnings, "summary": added}
 
 
-SCHEDULE_KEYS = ("years", "after", "gap_days", "months")
+SCHEDULE_KEYS = ("years", "after", "gap_days", "months", "not_before", "not_after", "importance")
 
 
 def _check_schedule(R, sch) -> int:
@@ -940,6 +944,11 @@ def _check_schedule(R, sch) -> int:
             elif k == "months":
                 for mo in x if isinstance(x, list) else [x]:
                     _num(R, f"{w}.months", mo, 1, 12)
+            elif k in ("not_before", "not_after"):
+                if not isinstance(x, str) or not re.match(r"^(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$", x):
+                    R.err(f"{w}.{k}", 'is a month-day inside the school year, like "11-15"')
+            elif k == "importance" and x not in ("ambient", "regular", "major", "finale"):
+                R.err(f"{w}.importance", "is ambient, regular, major or finale")
         n += 1
     return n
 
@@ -1025,10 +1034,31 @@ def _save_state(st):
     os.replace(tmp, _state_path())
 
 
+_dir_cache: dict = {}
+
+
 def _read_dir(folder, source):
-    out = []
+    """The packs in a folder, read and checked once until a file changes (packs() is called often: every scene start)."""
     if not os.path.isdir(folder):
-        return out
+        return []
+    names = sorted(fn for fn in os.listdir(folder) if fn.endswith(".json") and fn != "state.json")
+    sig = []
+    for fn in names:
+        try:
+            st = os.stat(os.path.join(folder, fn))
+            sig.append((fn, st.st_mtime_ns, st.st_size))
+        except OSError:
+            sig.append((fn, 0, 0))
+    hit = _dir_cache.get((folder, source))
+    if hit and hit[0] == sig:
+        return [dict(p) for p in hit[1]]
+    out = _read_dir_now(folder, source)
+    _dir_cache[(folder, source)] = (sig, out)
+    return [dict(p) for p in out]
+
+
+def _read_dir_now(folder, source):
+    out = []
     for fn in sorted(os.listdir(folder)):
         if not fn.endswith(".json") or fn == "state.json":
             continue
@@ -1108,6 +1138,7 @@ _cache: dict = {}
 
 def reload():
     _cache.clear()
+    _dir_cache.clear()
 
 
 NEEDABLE = {"them": "them", "them_first": "them", "best_friend": "best_friend", "best_friend_first": "best_friend",
@@ -1488,12 +1519,13 @@ def _when_ok(sim, me, sid, when, ignore_time=False) -> bool:
     mem = w.meta.get("remembered", {})
     if any(k not in mem for k in when.get("remembered", [])) or any(k in mem for k in when.get("not_remembered", [])):
         return False
-    allseen = w.meta.get("scenes_seen", {})
+    alldone = w.meta.get("scenes_done", {})  # after = those scenes have resolved, not just started
     after = when.get("after") or []
     after = after if isinstance(after, list) else [after]
-    if any(a not in allseen and not _expired(sim, me, a) for a in after):
+    if any(a not in alldone and not _expired(sim, me, a) for a in after):
         return False  # (a chapter whose school years are over counts as skipped, so the story doesn't get stuck)
-    if after and when.get("gap_days") and not ignore_time and w.day - max(allseen[a][-1] for a in after) < when["gap_days"]:
+    done_after = [alldone[a][-1] for a in after if a in alldone]
+    if done_after and when.get("gap_days") and not ignore_time and w.day - max(done_after) < when["gap_days"]:
         return False
     for f, rng in (when.get("me") or {}).items():
         v = me.mood if f == "mood" else me.gpa if f == "gpa" else me.needs.get(f, 50)
@@ -1861,61 +1893,10 @@ def _playable(spec, ctx) -> bool:
 
 
 def maybe_scene(sim):
-    """Once a morning in story mode: maybe one scene from the packs happens today. A storyline played in order offers only its
-    next chapter (the first one that can happen now), a few days after its last; the rest come up now and then."""
-    w = sim.w
-    pid = w.meta.get("protagonist")
-    me = w.chars.get(pid) if pid else None
-    if not me or me.status != "active" or "story" not in w.meta:
-        return None
-    from . import moments as mo
-    for name, d in merged()["cast"].items():  # slots that bind at the start of the story bind now
-        if d["spec"].get("bind") == "start" and name not in w.meta.get("cast_slots", {}):
-            bind(sim, me, name)
-    busy = bool(mo.pending(w))  # another moment is waiting: only a scene with a date (Halloween...) still happens
-    seen = w.meta.get("scenes_seen", {})
-    last = max((d[-1] for d in seen.values() if d), default=-999)
-    scenes = sorted((sid, m) for sid, m in sim.cat.moments.items() if m.get("scene"))
-    if not scenes:
-        return None
-    rng = sim.streams.get("scene", w.day)
-    by_pack = {}
-    for sid, m in scenes:
-        by_pack.setdefault(m["scene"].get("pack"), []).append((m["scene"].get("order", 0), sid, m))
-    ordered = {pk for pk in by_pack if in_order(pk)}
-    chapters_due = []
-    for pk in sorted(ordered):
-        lst = sorted(by_pack[pk], key=lambda x: x[0])
-        nxt = next(((sid, m) for _, sid, m in lst if sid not in seen and _when_ok(sim, me, sid, m["scene"].get("when") or {}, ignore_time=True)), None)
-        if not nxt:
-            continue
-        last_pk = max((seen[s][-1] for _, s, _ in lst if seen.get(s)), default=-999)
-        if w.day - last_pk >= (nxt[1]["scene"].get("when") or {}).get("gap_days", CHAPTER_GAP_DAYS):
-            chapters_due.append((w.day - last_pk, nxt))
-    chapters_due = [x for _, x in sorted(chapters_due, key=lambda t: -t[0])]  # the storyline that's waited longest first
-    free = [(sid, m) for sid, m in scenes if m["scene"].get("pack") not in ordered]
-    rng.shuffle(free)
-    dated_today = []
-    for sid, spec in scenes:
-        when = spec["scene"].get("when") or {}
-        if when.get("dates") and _when_ok(sim, me, sid, when) and (spec["scene"].get("pack") not in ordered or (sid, spec) in chapters_due):
-            dated_today.append((sid, spec))
-    if not dated_today and (busy or w.day - last < SCENE_GAP_DAYS):
-        return None
-    due_ids = {sid for sid, _ in chapters_due}
-    for sid, spec in (dated_today if busy else dated_today + chapters_due + free):
-        when = spec["scene"].get("when") or {}
-        if not _when_ok(sim, me, sid, when):
-            continue
-        chance = when.get("chance", 1.0 if when.get("dates") else CHAPTER_CHANCE if sid in due_ids else DEFAULT_CHANCE)
-        if sid in due_ids:
-            chance = max(chance, CHAPTER_CHANCE)
-        if rng.random() >= chance:
-            continue
-        ctx = _context(sim, me, spec["scene"].get("who"), when, rng, pack=spec["scene"].get("pack"))
-        if ctx is None or not _playable(spec, ctx):
-            continue
-        return fire(sim, sid, ctx)
+    """Each morning in story mode: plan today's storyline scenes and present the first (scheduler.py decides what's ready
+    and how many; the old one-scene-every-couple-of-days and five-days-between-chapters rules are the relaxed profile)."""
+    from . import scheduler
+    scheduler.plan_day(sim)
     return None
 
 
@@ -2046,8 +2027,9 @@ the game could tell real stories. Build it out: make it a story with chapters, s
 later, and people who react like themselves. Make it much bigger.
 
 How storylines work now:
-- A storyline's scenes are chapters: they happen in the order they're written in "scenes", a few days apart (set
-  "when": {"gap_days": 7} on a scene to space it out more). A chapter that can't happen yet (wrong school year, needs a
+- A storyline's scenes are chapters: they happen in the order they're written in "scenes", as soon as they're ready (the
+  same day if nothing holds them; set "when": {"gap_days": 7} on a scene for time in between, and "months" or
+  "not_before"/"not_after" like "11-15" to pin it to its season). A chapter that can't happen yet (wrong school year, needs a
   girlfriend...) waits, and the story moves on to the next one that can.
 - A choice can keep the scene going right away with "then": {"text": "what happens next", "choices": [...]}. Up to two
   "then"s deep, so a scene can be three decisions long.
@@ -2109,7 +2091,8 @@ def guide_markdown() -> str:
     a("- `chat`: lines for texting that goes back and forth (when you text someone yourself): how they answer, what they ask "
       "back, follow-ups, flirt lines by style. See Texting lines.")
     a("- `schedule`: when episodes of any storyline air: `{\"scene_id\": {\"years\": [\"sophomore\"], \"after\": [\"other_scene\"], "
-      "\"gap_days\": 7}}`. A season plan uses this to weave all your storylines into one story.\n")
+      "\"gap_days\": 7, \"months\": [11, 12], \"importance\": \"major\"}}`, plus optional `not_before` / `not_after` (month-day inside "
+      "the school year, like `\"11-15\"`). A season plan uses this to weave all your storylines into one story.\n")
     a("## Texting lines\n")
     a("When you text someone yourself, the game reads what you typed and answers from these lists. Add to any of them in a "
       "`chat` section. Every list is short lines; `{me}` is your first name.\n")
@@ -2131,8 +2114,12 @@ def guide_markdown() -> str:
     a('```json\n"chat": {"topic": {"school": ["mr. hanley gave us a pop quiz AGAIN"]}, "suggest": {"flirt_tease": ["you\'re lucky you\'re cute"]}, '
       '"ask": {"general": [{"q": "you going to the bonfire?", "a": "yesno"}]}}\n```\n')
     a("## Storylines: chapters, scenes that keep going, choices that matter\n")
-    a("Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters a few days apart "
-      f"(at least {CHAPTER_GAP_DAYS} days; set `\"when\": {{\"gap_days\": 7}}` on a scene for more). A chapter that can't happen yet waits, and the "
+    a("Your packs play as storylines: their scenes happen in the order they're written in `scenes`, as chapters that come as soon "
+      "as they're ready, the same day if nothing holds them (set `\"when\": {\"gap_days\": 7}` on a scene for time in between; "
+      "`\"months\": [3, 4]` or `\"not_before\": \"03-01\"` / `\"not_after\": \"06-15\"` to keep it in its season; `\"importance\"`: "
+      "ambient, regular, major or finale). Several scenes can happen in one day: the pacing setting decides how many to aim for "
+      "(dense by default: two to five on a school day). Scenes that don't say when get a season from the season map (baseball "
+      "tryouts in March, Homecoming in the fall, graduation in June). A chapter that can't happen yet waits, and the "
       "story moves on to the next one that can. (On the phone, each storyline has a Play in order switch; a pack can also say "
       "`\"in_order\": false` to let its scenes come up in any order.)\n")
     a("- **Keep going:** a choice with `then` continues the scene right away: `{\"label\": \"You're on\", \"then\": {\"text\": "
@@ -2405,10 +2392,13 @@ through it. Below is a summary of every storyline I have: each one's episodes in
 choices remember.
 
 How it plays:
-- Each storyline's episodes air in the order they're written, a few days apart, woven together with the others. An episode
-  waits until its conditions are true (school year, things remembered...).
-- A "schedule" can place any episode of any storyline: which school years it airs in ("years"), which episodes from other
-  storylines have to air first ("after"), and how long after those it comes ("gap_days").
+- Each storyline's episodes air in the order they're written, as soon as they're ready, woven together with the others:
+  several can happen on one day (two to five on a school day at the default pacing). An episode waits until its
+  conditions are true (school year, season, things remembered...).
+- A "schedule" can place any episode of any storyline: which school years it airs in ("years"), which months ("months",
+  or "not_before"/"not_after" as month-day like "11-15"), which episodes from other storylines have to resolve first
+  ("after"), how long after those it comes ("gap_days": none means it can come the same day), and how big it is
+  ("importance": ambient, regular, major, finale).
 - New "scenes" here are crossover episodes. They're about someone ("who"), can depend on facts remembered in any storyline
   ("when": {"remembered": [...]}), and can remember facts that change other storylines.
 

@@ -391,7 +391,7 @@ def test_a_storyline_plays_in_order_and_scenes_keep_going():
             break
         sim.advance_days(1)
     assert order == ["bro_driveway", "bro_tryouts", "bro_rematch", "bro_senior_night"], order
-    assert all(b - a >= dialogue.CHAPTER_GAP_DAYS for a, b in zip(fired, fired[1:])), fired
+    assert fired == sorted(fired), "chapters in order (dense pacing: as soon as each is ready, no five-day floor)"
     assert dialogue.progress(sim, pid) == {"done": 4, "of": 4, "next": None, "in_order": True}
     from lifeos import chat
     bro = dialogue.candidates(sim, me, "older_brother")[0]
