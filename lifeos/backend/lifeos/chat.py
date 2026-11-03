@@ -585,16 +585,17 @@ def _fit(sim, cid, pool) -> list:
     """The lines that fit who's talking and the moment (a line's `when`), as text. "bro we're already hanging" is
     between guys; a line without `when` fits anyone."""
     from . import lines
-    if not any(isinstance(x, dict) for x in pool):
-        return list(pool)
+    if not any(isinstance(x, dict) and "q" not in x for x in pool):
+        return list(pool)  # plain lines, or questions ({"q": ..., "a": ...}) that their caller reads as they are
     from .messages import _h
     tags = lines.tags_for(sim, cid)
-    es = [lines.entry(x) for x in pool]
-    fit = [e for e in es if set(e["when"]) <= tags]
-    apt = [e["text"] for e in fit if any(t not in lines.IDENTITY for t in e["when"])]  # about this moment ("hurt")
+    pairs = [(x, x if isinstance(x, dict) and "q" in x else lines.entry(x)["text"], list((x.get("when") or []) if isinstance(x, dict) else []))
+             for x in pool]
+    fit = [(out, wh) for _, out, wh in pairs if set(wh) <= tags]
+    apt = [out for out, wh in fit if any(t not in lines.IDENTITY for t in wh)]  # about this moment ("hurt")
     if apt and _h(sim.w.day, cid, len(pool)) % 4:
         return apt
-    return [e["text"] for e in fit] or [e["text"] for e in es if not e["when"]] or [e["text"] for e in es]
+    return [out for out, _ in fit] or [out for _, out, wh in pairs if not wh] or [out for _, out, _ in pairs]
 
 
 def _keen(sim, cid) -> bool:

@@ -660,7 +660,7 @@ def _check_scene(R, where, sc, seen_ids):
                 if not isinstance(a, str) or not SLUG.match(a):
                     R.err(w, "is a list of scene ids that have to happen first")
         elif k == "gap_days":
-            _num(R, w, v, 0, 365)
+            _num(R, w, v, 0, 2600)  # up to the whole seven years: a long authored gap is the author's call
         elif k in ("not_before", "not_after"):
             if not isinstance(v, str) or not re.match(r"^(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$", v):
                 R.err(w, 'is a month-day inside the school year, like "11-15"')
@@ -940,7 +940,7 @@ def _check_schedule(R, sch) -> int:
                     if not isinstance(a, str) or not SLUG.match(a):
                         R.err(f"{w}.after", "is a list of scene ids")
             elif k == "gap_days":
-                _num(R, f"{w}.gap_days", x, 0, 365)
+                _num(R, f"{w}.gap_days", x, 0, 2600)
             elif k == "months":
                 for mo in x if isinstance(x, list) else [x]:
                     _num(R, f"{w}.months", mo, 1, 12)
@@ -1085,8 +1085,10 @@ def packs() -> list:
 
 def pack_summary(p) -> dict:
     pk = p["pack"]
+    load = (merged().get("load_errors") or {}).get(p["id"]) if p["enabled"] else None
     return {"id": p["id"], "name": pk.get("name") or p["file"], "author": pk.get("author"), "notes": pk.get("notes"),
-            "source": p["source"], "enabled": p["enabled"], "ok": p["check"]["ok"], "errors": p["check"]["errors"][:20],
+            "source": p["source"], "enabled": p["enabled"], "ok": p["check"]["ok"] and not load,
+            "errors": ([load] if load else []) + p["check"]["errors"][:20],
             "warnings": p["check"]["warnings"][:20], "summary": p["check"]["summary"],
             "scenes": [{"id": s.get("id"), "title": s.get("title"), "who": s.get("who")} for s in pk.get("scenes", []) if isinstance(s, dict)]}
 
@@ -1174,7 +1176,7 @@ def _with_needs(ch) -> dict:
     return ch
 
 
-def _build() -> dict:
+def _build(only: set | None = None) -> dict:
     texts = copy.deepcopy(_texts_base())
     templates = copy.deepcopy(_base("templates.json")["templates"])
     moments = copy.deepcopy(_base("moments.json")["moments"])
@@ -1190,7 +1192,7 @@ def _build() -> dict:
     chat_people = []  # (pack, {kind: lines}): a storyline's own people text with these
     in_order = {}  # pack -> its scenes happen as chapters, in the order they're written
     for p in packs():
-        if not p["enabled"]:
+        if not p["enabled"] or (only is not None and p["id"] not in only):
             continue
         pk = p["pack"]
         loaded.append(p["id"])
@@ -1232,13 +1234,13 @@ def _build() -> dict:
                                            "needs": needs({"title": sc["title"], "text": sc["text"]})}}
     cast = {}  # named people storylines are about: a slot name means the same person in every pack that uses it
     for p in packs():
-        if p["enabled"]:
+        if p["enabled"] and p["id"] in loaded:
             for name, spec in (p["pack"].get("cast") or {}).items():
                 if isinstance(spec, dict):
                     d = cast.setdefault(name, {"spec": normalize_slot(spec), "packs": []})
                     d["packs"].append(p["id"])
     for p in packs():  # a season plan places any storyline's episodes across the seasons
-        if p["enabled"]:
+        if p["enabled"] and p["id"] in loaded:
             for sid, sch in (p["pack"].get("schedule") or {}).items():
                 sc = (moments.get(sid) or {}).get("scene")
                 if sc is not None and isinstance(sch, dict):
@@ -1250,7 +1252,25 @@ def _build() -> dict:
                             when[k] = v
                     sc["when"] = when
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
-            "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded, "cast": cast}
+            "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded, "cast": cast,
+            "load_errors": {}}
+
+
+def _build_safely() -> dict:
+    """A pack broke loading: find which (adding them one at a time) and leave just those out, with why. The game always
+    opens; the pack's card says what went wrong."""
+    bad, ok = {}, []
+    for p in packs():
+        if not p["enabled"]:
+            continue
+        try:
+            _build(only=set(ok + [p["id"]]))
+            ok.append(p["id"])
+        except Exception as e:  # noqa: BLE001
+            bad[p["id"]] = f"couldn't load it ({type(e).__name__}: {e}). The rest of your packs are on; this one is skipped."
+    m = _build(only=set(ok))
+    m["load_errors"] = bad
+    return m
 
 
 def _with_beats(moments, sid, title, pack, choices, path) -> list:
@@ -1326,12 +1346,20 @@ def _merge_chat(into: dict, add: dict):
         elif isinstance(v, dict) and isinstance(into.get(k), dict):
             _merge_chat(into[k], v)
         elif isinstance(v, list) and isinstance(into.get(k), list):
-            have = {(x["q"] if isinstance(x, dict) else x).lower() for x in into[k]}
+            have = {_line_key(x) for x in into[k]}
             for x in v:
-                key = (x["q"] if isinstance(x, dict) else x).lower()
+                key = _line_key(x)
                 if key not in have:
                     into[k].append(x)
                     have.add(key)
+
+
+def _line_key(x) -> str:
+    """What makes a texting line the same line, whichever way it's written: a plain line, a question {"q": ...}, or a
+    line with a context {"text": ..., "when": [...]}."""
+    if isinstance(x, dict):
+        return str(x.get("q") or x.get("text") or x.get("talk") or "").lower()
+    return str(x).lower()
 
 
 def _merge_people(into: dict, add: dict):
@@ -1340,8 +1368,8 @@ def _merge_people(into: dict, add: dict):
             _merge_people(into.setdefault(k, {}), v)
         elif isinstance(v, list):
             cur = into.setdefault(k, [])
-            have = {(x["q"] if isinstance(x, dict) else x).lower() for x in cur}
-            cur.extend(x for x in v if (x["q"] if isinstance(x, dict) else x).lower() not in have)
+            have = {_line_key(x) for x in cur}
+            cur.extend(x for x in v if _line_key(x) not in have)
 
 
 def chat_people() -> list:
@@ -1364,7 +1392,10 @@ def chat_lines() -> dict:
 
 def merged() -> dict:
     if "m" not in _cache:
-        _cache["m"] = _build()
+        try:
+            _cache["m"] = _build()
+        except Exception:  # noqa: BLE001  never let one pack keep the game from opening
+            _cache["m"] = _build_safely()
     return _cache["m"]
 
 
