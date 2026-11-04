@@ -1148,8 +1148,8 @@ def _read_dir(folder, source):
 def library(recs=None) -> dict:
     """Your storylines by title (lowercase) -> pack: what expansions add to."""
     recs = packs() if recs is None else recs
-    return {str(p["pack"].get("name")).lower(): p["pack"] for p in recs
-            if p["pack"].get("name") and p["pack"].get("scenes") is not None}
+    return {str(p["pack"].get("name")).lower(): p["pack"] for p in recs  # (an outline with nothing written yet counts)
+            if p["pack"].get("name") and (p["pack"].get("scenes") is not None or p["pack"].get("outline"))}
 
 
 def _touched(path):

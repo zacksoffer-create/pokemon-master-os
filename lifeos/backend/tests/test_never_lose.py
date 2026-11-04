@@ -131,3 +131,13 @@ def test_many_expansions_on_one_storyline_all_attach_and_all_play(c):
     assert set(ids) <= played, set(ids) - played
     p = c.get("/api/story/build/outline-prompt", params={"ask": "more", "expand": base}).json()["prompt"]
     assert "Expansions it already has" in p and "Brothers: Same Team: Holidays: Christmas Eve, New Year's" in p
+
+
+def test_a_storyline_with_only_its_outline_so_far_can_be_expanded(c):
+    base = c.post("/api/story/build/outline", json={"text": OUTLINE.replace("=== Brothers: Same Team", "=== Brothers base"),
+                                                     "save": True}).json()["pack"]
+    ck = c.post("/api/story/build/outline", json={"text": OUTLINE, "expand": base}).json()
+    assert ck["expands"] == "Brothers base" and not any("came off" in n for n in ck["notes"]), ck["notes"]
+    sv = c.post("/api/story/build/outline", json={"text": OUTLINE, "expand": base, "save": True}).json()
+    assert sv["expands"] == "Brothers base"
+    assert _rows(c)[sv["title"]]["expands"] == "Brothers base"

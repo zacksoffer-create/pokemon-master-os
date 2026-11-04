@@ -43,12 +43,27 @@ export default function PhoneApp({ route }: { route: string[] }) {
           <Oops route={route.join("/")}>
             <Shell route={route} />
           </Oops>
+          <SlowNotes />
           <div id="ph-portal" />
           <Toasts />
         </div>
       </div>
     </PhoneProvider>
   );
+}
+
+/** The engine is taking a long time on something: say what, instead of a spinner that never explains itself. */
+function SlowNotes() {
+  const { toast } = usePhone();
+  useEffect(() => {
+    const on = (e: Event) => {
+      const d = (e as CustomEvent).detail || {};
+      toast(d.text || "Still working on it…", d.kind === "stuck" ? "bad" : undefined);
+    };
+    window.addEventListener("lifeos-slow", on);
+    return () => window.removeEventListener("lifeos-slow", on);
+  }, [toast]);
+  return null;
 }
 
 /** If something on a screen breaks, say so and offer a way back, instead of the whole app going blank. */
