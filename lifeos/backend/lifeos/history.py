@@ -177,6 +177,10 @@ class Effects:
         self._log(cid, fld, before, value, why)
 
     def rel(self, a: str, b: str, fld: str, delta: float, why: str = ""):
+        if fld == "attraction" and delta > 0:
+            from .social import can_be_into
+            if not can_be_into(self.w, a, b):
+                return 0.0  # family, a teacher, or not who they're into: never, whatever happened
         r = self.w.ensure_rel(a, b, self.w.day)
         before = getattr(r, fld)
         lo, hi = REL_FIELDS[fld]

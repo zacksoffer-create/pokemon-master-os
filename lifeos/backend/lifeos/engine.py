@@ -64,6 +64,8 @@ class Simulation:
         from . import scheduler, teams
         teams.upgrade(self)  # boys' and girls' teams, soccer and softball, for saves made before them
         scheduler.migrate(self)  # the story scheduler: what already played counts as resolved
+        from .social import tidy_romance
+        tidy_romance(self)  # nobody's into family (or a teacher, or outside who they like), in saves made before that rule
         self._refresh_day()
         self._note_rules()
         if not world.meta.get("initialized"):

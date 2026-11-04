@@ -13,6 +13,72 @@ from .rng import clamp
 from .worldgen import chemistry, compatibility, orientation_ok, stage_ok
 
 
+FAMILY_ROLES = ("sibling", "twin", "parent", "child", "guardian")
+
+
+def family(w, x: str, y: str) -> bool:
+    """Same household (siblings, parents) or a family bond."""
+    X, Y = w.chars.get(x), w.chars.get(y)
+    if X is None or Y is None:
+        return False
+    if X.household_id and X.household_id == Y.household_id:
+        return True
+    bd = w.bonds.get(pair_key(x, y))
+    return bool(bd and any(r in bd["roles"] for r in FAMILY_ROLES))
+
+
+def can_be_into(w, x: str, y: str) -> bool:
+    """Whether x could ever be into y at all: x is into y's gender, they aren't family, and it isn't a teacher or coach
+    with a student. Attraction never goes up where this is False, whatever raised it (history.Effects.rel): a party, a
+    hangout, a flirt, a storyline's `into +`."""
+    X, Y = w.chars.get(x), w.chars.get(y)
+    if X is None or Y is None or x == y:
+        return False
+    if not orientation_ok(X, Y) or family(w, x, y):
+        return False
+    return (X.role == "staff") == (Y.role == "staff")
+
+
+def tidy_romance(sim) -> int:
+    """Saves made before the rule above: attraction and crushes toward family, a teacher, or someone outside who they're
+    into go back to nothing, along with dance dates and asks that came from them. Runs once per save. How many it fixed."""
+    w = sim.w
+    if w.meta.get("romance_rules", 0) >= 1:
+        return 0
+    n = 0
+    for (a, b), r in w.rels.items():
+        if (r.attraction > 0 or r.crush) and not can_be_into(w, a, b):
+            r.attraction = 0.0
+            r.crush = False
+            n += 1
+    for cid, c in w.chars.items():
+        p = c.flags.get("partner")
+        if p in w.chars and (family(w, cid, p) or (c.role == "staff") != (w.chars[p].role == "staff")):
+            c.flags.pop("partner", None)
+            w.chars[p].flags.pop("partner", None)
+            n += 1
+    for key, dd in (getattr(w, "dance_dates", None) or {}).items():
+        for a in list(dd):
+            b = dd.get(a)
+            if b in w.chars and a in w.chars and not (can_be_into(w, a, b) or can_be_into(w, b, a)) \
+                    and w.chars[a].flags.get("partner") != b:
+                dd.pop(a, None)
+                dd.pop(b, None)
+                n += 1
+    for m in w.meta.get("moments", []):
+        o = (m.get("ctx") or {}).get("other")
+        if m.get("status") == "pending" and m.get("kind") in ("asked_out", "asked_to_dance") and o in w.chars \
+                and not can_be_into(w, o, m.get("char") or w.meta.get("protagonist")):
+            m["status"] = "resolved"
+            m["dropped"] = "they were never into you that way"
+            if "phone" in w.meta:
+                from .messages import answered_elsewhere
+                answered_elsewhere(sim, "moment", m["id"], None)  # the text stays, without its answer buttons
+            n += 1
+    w.meta["romance_rules"] = 1
+    return n
+
+
 def romance_ok(w, x: str, y: str, chosen: bool = False) -> bool:
     """Whether x could fall for y at all: x is into y's gender, they aren't family, and they're the right age for each
     other (stage_ok). Every place attraction grows on its own or a crush forms asks this. `chosen`: you picked them
@@ -20,7 +86,7 @@ def romance_ok(w, x: str, y: str, chosen: bool = False) -> bool:
     X, Y = w.chars.get(x), w.chars.get(y)
     if X is None or Y is None or not w.rules["romance.enabled"]:
         return False
-    if not orientation_ok(X, Y) or w.has_role(x, y, "sibling") or (X.household_id and X.household_id == Y.household_id):
+    if not orientation_ok(X, Y) or family(w, x, y):
         return False
     if chosen:
         return X.role == Y.role == "student"

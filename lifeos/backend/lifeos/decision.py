@@ -17,7 +17,7 @@ import math
 
 from . import calendar as calm
 from .rng import clamp, softmax_pick
-from .social import grudge_score, is_friend, memory_pull, satisfaction, best_rumor_for
+from .social import grudge_score, is_friend, memory_pull, romance_ok, satisfaction, best_rumor_for
 
 TRACE_TOP = 5
 
@@ -202,9 +202,11 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
             if sel == "crush" and r.crush:
                 cand.append(r)
             elif sel == "dance_date":
+                # a date to the dance: their partner, or someone they're actually into (never family, never just a friend:
+                # friends go to the dance together anyway, as a group)
                 d = ctx.get("dance")
                 if d and _dance_ok(w, w.chars[oid], d) and oid not in w.dance_dates.get(d["key"], {}) and \
-                        (r.crush or r.affection >= R["rel.friend_threshold"] or oid == c.flags.get("partner")):
+                        (oid == c.flags.get("partner") or (romance_ok(w, c.id, oid, chosen=True) and (r.crush or r.attraction >= 30))):
                     cand.append(r)
         cand.sort(key=lambda r: (-(r.attraction + r.affection * 0.3), r.dst))
         return [(r.dst, None, f"attraction to {w.chars[r.dst].short} {r.attraction:.0f}" +
