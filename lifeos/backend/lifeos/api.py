@@ -2177,6 +2177,18 @@ def api_dialogue_update_prompt(pack: str = "", ask: str = ""):
         raise HTTPException(409, str(e))
 
 
+@app.get("/api/dialogue/games-prompt")
+def api_dialogue_games_prompt(pack: str):
+    """The prompt that makes one of your storylines follow your real games (win or loss, how you played, the big moment)."""
+    from . import dialogue
+    try:
+        return {"prompt": dialogue.prompt_for_games(pack)}
+    except KeyError:
+        raise HTTPException(404, "no such storyline")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
+
+
 @app.get("/api/dialogue/current")
 def api_dialogue_current(download: int = 0):
     from . import dialogue

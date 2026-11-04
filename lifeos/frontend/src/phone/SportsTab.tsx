@@ -190,7 +190,8 @@ function Season({ v }: { v: SportsView }) {
             {y.log.map((g, i) => (
               <div key={i} className="sp-game">
                 <span className={cx("sp-wl", g.win ? "w" : "l")}>{g.win ? "W" : "L"}</span>
-                <span className="sp-gm"><b>{g.rivalry ? "Rivalry: " : ""}vs {g.opponent} · {g.score}</b><small>{g.line}{g.started ? "" : " · off the bench"} · {g.date.replace(/^\w+, /, "").replace(/, \d{4}$/, "")}</small></span>
+                <span className="sp-gm"><b>{g.rivalry ? "Rivalry: " : ""}vs {g.opponent} · {g.score}</b><small>{g.line}{g.started ? "" : " · off the bench"} · {g.date.replace(/^\w+, /, "").replace(/, \d{4}$/, "")}</small>
+                  {g.play && <i className={cx("sp-play", g.play_tier || "")}>⚡ {g.play}</i>}</span>
               </div>
             ))}
           </div>

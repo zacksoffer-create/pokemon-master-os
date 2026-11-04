@@ -195,6 +195,11 @@ REQUIRES = {
     "in_season": "One of your teams has a game within a week.", "injured": "You're hurt.", "grounded": "You're grounded.",
     "school_day": "It's a school day.", "weekend": "It's Saturday or Sunday.", "summer": "It's summer break.",
     "in_high_school": "You're in high school.", "in_college": "You're in college.",
+    # your last game (a few days after it): gameplay.py
+    "we_won": "Your team won its last game (in the last few days).", "we_lost": "Your team lost its last game.",
+    "i_played_great": "You played great in your last game.", "i_played_badly": "You had a rough last game.",
+    "i_won_it": "You won your last game yourself, in the big moment.", "i_started": "You started your last game.",
+    "i_was_benched": "You came off the bench (or sat) in your last game.", "rivalry_game": "Your last game was against your rival.",
 }
 ME_STATS = {"stress": "0-100", "energy": "0-100", "social": "0-100 (low = lonely)", "fun": "0-100 (low = bored)",
             "mood": "-100 to 100", "gpa": "0.0-4.0"}
@@ -210,7 +215,8 @@ SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "siblin
                "my_nfl_team", "my_nba_team", "my_college", "my_nfl_record", "my_nba_record", "my_cfb_record", "my_mbb_record",
                "my_wbb_record", "nfl_champ", "nba_champ", "cfb_champ", "mbb_champ", "wbb_champ", "my_club", "epl_champ",
                "ucl_champ", "ballon_dor",  # (the last three rows: pro.py)
-               "teacher", "class"}  # (a scene set in one of your classes: `in biology`)
+               "teacher", "class",  # (a scene set in one of your classes: `in biology`)
+               "last_game", "last_opp", "last_score", "my_line", "big_play", "team_record", "my_season"}  # (your games: gameplay.py)
 DEFAULT_CHANCE = 0.04
 CHAPTER_CHANCE = 0.5    # the relaxed profile's odds a due chapter comes today (pacing lives in scheduler.py now)
 MAX_BEATS = 5           # how deep a scene can keep going with "then" (a script's choices under choices)
@@ -1338,7 +1344,65 @@ def pack_summary(p) -> dict:
             "expands": pk.get("expands"),
             "outline": ({"total": len(pk["outline"]), "written": sum(1 for e in pk["outline"] if e.get("written"))}
                         if pk.get("outline") else None),
-            "cast": [{"name": k, "who": v.get("who"), "label": slot_label(normalize_slot(v))} for k, v in (pk.get("cast") or {}).items()]}
+            "cast": [{"name": k, "who": v.get("who"), "label": slot_label(normalize_slot(v))} for k, v in (pk.get("cast") or {}).items()],
+            "games": _about_games(pk)}
+
+
+GAME_WORDS = re.compile(r"\b(game|games|match|tryouts?|playoffs?|season|scrimmage|homecoming|rivalry|touchdown|scored|coach)\b", re.I)
+
+
+def _about_games(pk) -> bool:
+    """Does this storyline have scenes about your games (so it can follow how they really go)?"""
+    for s_ in pk.get("scenes") or []:
+        if not isinstance(s_, dict):
+            continue
+        words = f"{s_.get('title', '')} {s_.get('text', '') if isinstance(s_.get('text'), str) else ''}"
+        if GAME_WORDS.search(words) or any(re.search(rx, words.lower()) for rx in SPORT_WORDS.values()):
+            return True
+    return False
+
+
+def prompt_for_games(pid: str) -> str:
+    """For ChatGPT: make this storyline's game scenes follow the real games. Keeps every scene; adds the other way."""
+    from . import script as SC
+    p = next((x for x in packs() if x["id"] == pid), None)
+    if p is None:
+        raise KeyError(pid)
+    if p.get("kind") != "script":
+        raise ValueError("that one isn't a story script")
+    g = SC.guide(story_only=True)
+    i = g.find("## Your games")
+    games = g[i:g.find("\n## ", i + 5)].strip() if i >= 0 else ""
+    outlined = bool(p["pack"].get("outline"))
+    return "\n".join([
+        "This is a storyline from LIFE OS, a life-simulation game where I play one person from high school through college. "
+        "My games in it are real now: the score, my stats and the big moment I play myself are decided by playing them. "
+        "Make this storyline follow how my games actually go.",
+        "",
+        "Rewrite it so that:",
+        "- Every scene about a specific game I play (or how a game went) doesn't decide the result. If it assumes one, tag it "
+        "with that ([if we won], [if I played great], [if I started]...) and add a second scene right after it for the other "
+        "way ([if we lost], [if I played badly], [if I was benched]), titled \"<the title>, the other way\". Whichever matches "
+        "the real game plays; the other never does.",
+        ("- It has an outline: put the condition at the end of those outline lines (`| if we won`, `| if we lost`) instead of "
+         "on the scenes, add the other-way scene as a new outline line right after its twin, and renumber everything after "
+         "it, in the outline and in the scenes, so the numbers still match." if outlined else
+         "- Scenes about the next game don't need a tag; scenes about a game that just happened do."),
+        "- Where a line mentions the game, the score or how I did, use the real words: {last_game}, {last_score}, {last_opp}, "
+        "{my_line}, {big_play}, {team_record}, {my_season}.",
+        "- Keep everything else exactly as it is: every scene and its title, every choice, effect and remember line.",
+        "",
+        "Reply with the whole storyline in ONE code block (```), nothing after it.",
+        "",
+        games,
+        "",
+        "The storyline:",
+        "",
+        "```",
+        p["script"].strip(),
+        "```",
+        "",
+    ])
 
 
 def add_pack(data: dict) -> dict:
@@ -2491,6 +2555,10 @@ def _requirement(sim, me, r) -> bool:
     w = sim.w
     if isinstance(r, str) and r.startswith("pro:"):
         return _pro().requirement(sim, me, r)  # the pro leagues running in the background (pro.py)
+    from . import gameplay
+    g = gameplay.requirement(sim, me, r)  # your last game: we won, I played great, I won it...
+    if g is not None:
+        return g
     cal = sim.cat.world["calendar"]
     if r == "dating":
         return bool(me.flags.get("partner"))
@@ -3033,6 +3101,8 @@ def _context(sim, me, who, when, rng, pack=None, cast_refs=None) -> dict | None:
         ctx[f"cast_{name}"] = cid
         ctx[f"cast_{name}_first"] = w.chars[cid].first
     ctx.update(_pro_names(sim, me))
+    from . import gameplay
+    ctx.update(gameplay.names(sim, me))  # your games: {last_game}, {my_line}, {team_record}...
     subj = next((r[6:] for r in (when or {}).get("requires") or [] if isinstance(r, str) and r.startswith("class:")), None)
     cls = my_class(sim, me, subj) if subj else None
     ctx["teacher"] = cls["teacher"] if cls else "your teacher"  # a scene set in one of your classes: its teacher and name

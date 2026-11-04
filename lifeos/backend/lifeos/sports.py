@@ -479,6 +479,12 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
         oname = opponent_name(sim, g, num)
     home = 2 if fans else 0
     margin = strength - opp + rng.gauss(0, 6) + home
+    from . import gameplay
+    you_ = w.meta.get("protagonist")
+    play = gameplay.todays_play(w.chars[you_], w.day, sport) if you_ in players else None
+    before = margin
+    if play:  # your big moment (the mini game) can win a close game, or lose one
+        margin += gameplay.SWING.get(play["tier"], 0) * (1.0 if you_ in starters else 0.6)
     win = margin > 0
     score = inst.score_line(sport, margin, rng)
     tds = None
@@ -504,6 +510,16 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
         box[cid] = {"pos": pos, "starter": cid in starters, "line": line, "perf": round(perf[cid], 1), "approach": appr[cid]}
     if sport == "soccer":
         soccer_box(box, score, win, rng)
+    play_text = None
+    if play:
+        me_ = w.chars[you_]
+        play_text = gameplay.apply_play(sport, box[you_]["pos"], box[you_]["line"], play, me_.first,
+                                        (tds or {}).get("team") if tds is not None else None)
+        if win and before <= 0 and play["tier"] != "miss":
+            play_text += " to win it"
+        elif not win and before > 0 and play["tier"] == "miss":
+            play_text += ", and they lost it late"
+        box[you_]["play"] = play_text
     for cid in players:
         c = w.chars[cid]
         line = box[cid]["line"]
@@ -519,8 +535,14 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     ev = inst.event("game", "win" if win else "loss", players, importance=14 if level == "varsity" else 7, group=g["id"],
                     involved=fans, data={"group": label, "score": score, "opponent": oname, "level": level, "sport": sport,
                                           "box": box, "starters": starters, "fans": len(fans)})
-    ev["text"] = f"{label} {'beat' if win else 'lost to'} {'rival ' if rivalry else ''}{oname}, {score}."
+    ev["text"] = f"{label} {'beat' if win else 'lost to'} {'rival ' if rivalry else ''}{oname}, {score}." + (f" {play_text}." if play_text else "")
     ev["data"]["rivalry"] = rivalry
+    if play_text:
+        ev["data"]["play"] = play_text
+        ev["data"]["play_tier"] = play["tier"]
+    if you_ in players:  # what storylines (and the Sports tab) know about your last game
+        gameplay.record(w.chars[you_], w.day, sport, label, g["id"], oname, score, win, box[you_]["line"], you_ in starters,
+                        gameplay.perf_tier(pre[you_], perf[you_], you_ in starters, play), play_text, rivalry)
     if w.tracing:
         ev["calc"] = [{"step": "game result", "terms": [["team strength (avg of starters' performances)", round(strength, 2)],
                                                          ["opponent strength", round(opp, 2)], ["home crowd", home]],

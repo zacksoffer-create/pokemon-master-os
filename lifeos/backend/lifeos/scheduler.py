@@ -57,6 +57,19 @@ PROFILES = {
 DEFAULT_PROFILE = "dense"
 OVERRIDABLE = ("global_gap", "chapter_gap", "school", "weekend", "chapter_chance", "free_chance", "major_week", "aging_days")
 GUARD = 100  # scenes per action, at most (a performance guard, not a story rule)
+from .gameplay import REQS as GAME_REQS  # noqa: E402
+
+
+def gameplay_last(sim, me):
+    from .gameplay import last
+    return last(sim.w, me)
+
+
+def game_coming(sim, me, day, within=14) -> bool:
+    """You have a game in the next couple of weeks (so a scene about your next game waits for it)."""
+    return any(i.get("kind") == "game" and i.get("group") in me.memberships and day <= i["day"] <= day + within for i in sim.w.calendar)
+
+
 AGING_DAYS = 3  # a planned scene nobody got to goes back in the pool after this long (it isn't used up)
 PERMANENT = {"played", "year_passed", "exclusive_branch", "after_unreachable", "window_passed", "branch_closed", "skipped_by_plan",
              "fact_never_set"}
@@ -74,6 +87,7 @@ REASON_TEXT = {
     "fact_never_set": "it needs a fact that nothing in your storylines ever remembers",
     "never_picked": "ready, but other scenes always came first", "missed": "its year ended first",
     "skipped_by_plan": "retired by a schedule (skip)",
+    "waiting_for_game": "it's about how your next game goes: it waits for the game",
 }
 IMPORTANCE = ("ambient", "regular", "major", "finale")
 FINALE_RX = re.compile(r"(^|_)(finale|culminat\w*|graduat\w*|commencement|senior_night|last_(school_)?game|final_game|state_(final|title|champ\w*)|"
@@ -225,6 +239,21 @@ def _root(sim, kind) -> str:
     return (sim.cat.moments.get(kind) or {}).get("beat_of") or kind
 
 
+def game_twins(scenes, chapters) -> dict:
+    """Chapters that are the two ways one game went: side by side in a storyline, one [if we won] and the other [if we
+    lost] (or played great / badly, started / benched). Whichever matches the game plays; the other retires."""
+    from .gameplay import OTHER_WAY
+    out: dict = {}
+    for pk, sids in chapters.items():
+        for a, b in zip(sids, sids[1:]):
+            ra = set((scenes[a].get("when") or {}).get("requires") or [])
+            rb = set((scenes[b].get("when") or {}).get("requires") or [])
+            if any(OTHER_WAY.get(r) in rb for r in ra):
+                out.setdefault(a, []).append(b)
+                out.setdefault(b, []).append(a)
+    return out
+
+
 def catalog(sim) -> dict:
     """Every storyline scene with what the scheduler needs: its pack and chapter order, who depends on it, importance,
     season window and time-of-day bucket. Built once per set of packs."""
@@ -301,7 +330,7 @@ def catalog(sim) -> dict:
         info[sid] = {"pack": sc.get("pack"), "importance": imp, "window": window, "window_rule": rule, "bucket": bucket, "sport": sport,
                      "title": title}
     cat = {"scenes": scenes, "chapters": chapters, "ordered": ordered, "deps": deps, "info": info,
-           "pos": {sid: i for pk, sids in chapters.items() for i, sid in enumerate(sids)}}
+           "pos": {sid: i for pk, sids in chapters.items() for i, sid in enumerate(sids)}, "twins": game_twins(scenes, chapters)}
     _cat_cache.update({"key": key, "cat": cat})
     return cat
 
@@ -607,7 +636,19 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
                 return ("too_early", f"day {max(prev) + g}")
     if gap and last_pre is not None and day - last_pre < gap:
         return ("too_early", f"day {last_pre + gap}")
+    twin = next((t for t in (cat.get("twins") or {}).get(sid, []) if t in done), None)
+    if twin:
+        return ("exclusive_branch", twin)  # the game went the other way, and that scene happened
     for r in when.get("requires") or []:
+        if r in GAME_REQS:
+            g_ = gameplay_last(sim, me)
+            used = g_ is not None and any(  # another chapter of this storyline already told this game
+                x != sid and x in done and done[x][-1] >= g_["day"] and set((cat["scenes"][x].get("when") or {}).get("requires") or []) & GAME_REQS.keys()
+                for x in cat["chapters"].get(sc.get("pack"), []))
+            if g_ is None or used:
+                if game_coming(sim, me, day):
+                    return ("waiting_for_game", r)  # about your next game: it waits for it
+                return ("missing_requirement", r)
         if not dialogue._requirement(sim, me, r):
             return ("missing_requirement", r)
     for f, rng in (when.get("me") or {}).items():

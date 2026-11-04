@@ -1396,8 +1396,12 @@ def _parse_outline(body: list, sec, warns) -> list:
             continue
         parts = [x.strip() for x in _split(m.group(2), "|")]
         title = parts[0].strip(" \"'“”") or f"Scene {m.group(1)}"
-        cond, rest = None, []
+        cond, rest, game = None, [], None
         for x in parts[1:]:
+            gm = GAME_COND_RE.match(x)
+            if gm:  # how your real game went: `| if we won`
+                game = gm.group(2).lower().replace(" ", "_")
+                continue
             c = COND_RE2.match(x)
             if c:
                 cond = {"neg": c.group(1).lower() == "unless", "n": int(c.group(3)), "label": c.group(2).strip(" \"'“”")}
@@ -1413,6 +1417,10 @@ def _parse_outline(body: list, sec, warns) -> list:
         for tok in [x for x in re.split(r"\s*[·;,]\s*", when_raw) if x.strip()]:
             if tok.strip().lower() in ("any", "anytime", "-", "—", "whenever"):
                 continue
+            gm = GAME_COND_RE.match(tok.strip())
+            if gm:
+                game = gm.group(2).lower().replace(" ", "_")
+                continue
             try:
                 tags(tok, None, ln.n, {}, sec)
                 if re.match(r"(after|if|unless)\s", tok.strip().lower()):
@@ -1420,9 +1428,13 @@ def _parse_outline(body: list, sec, warns) -> list:
                 good.append(tok.strip())
             except Fail:
                 warns.append((ln.n, f"'{tok.strip()}' isn't a time the game knows: scene {m.group(1)} gets its time from the outline"))
-        out.append({"n": int(m.group(1)), "title": title[:90], "when": " · ".join(good), "summary": summary, "if": cond, "line": ln.n})
+        out.append({"n": int(m.group(1)), "title": title[:90], "when": " · ".join(good), "summary": summary, "if": cond, "line": ln.n,
+                    "game": game})
     out.sort(key=lambda e: e["n"])
     return out
+
+
+GAME_COND_RE = re.compile(r"^(only\s+)?if\s+(we won|we lost|i played great|i played badly|i won it|i started|i was benched|rivalry game)\s*$", re.I)
 
 
 def _entry(sec, n, title):
@@ -1529,6 +1541,12 @@ def _built(sec, scenes: list, pack: dict, warns) -> list:
         place(scenes, years, sec.defaults.get("months"), keep, total=len(sec.outline), slot_of=lambda sc: order.get(sec.entry_of.get(sc["id"])))
     except Fail as e:
         warns.append((sec.n, str(e)))
+    for e in sec.outline:  # how your real game went (`| if we won`): the scene waits for a game that went that way
+        sc = by_n.get(e["n"])
+        if e.get("game") and sc is not None:
+            req = sc.setdefault("when", {}).setdefault("requires", [])
+            if e["game"] not in req:
+                req.append(e["game"])
     for e in sec.outline:
         c = e.get("if")
         sc = by_n.get(e["n"])
@@ -1548,7 +1566,8 @@ def _built(sec, scenes: list, pack: dict, warns) -> list:
             ops.append(["remember", fact])
         sc.setdefault("when", {}).setdefault("not_remembered" if c["neg"] else "remembered", []).append(fact)
     pack["outline"] = [{"n": e["n"], "title": e["title"], "when": e["when"], "summary": e["summary"],
-                        "if": (f"{'unless' if e['if']['neg'] else 'only if'} you picked “{e['if']['label']}” in {e['if']['n']}" if e.get("if") else None),
+                        "if": " · ".join(x for x in ((f"{'unless' if e['if']['neg'] else 'only if'} you picked “{e['if']['label']}” in {e['if']['n']}" if e.get("if") else None),
+                                                     ("if " + e["game"].replace("_", " ").replace("i ", "I ", 1) if e.get("game") else None)) if x) or None,
                         "written": e["n"] in by_n, "sid": by_n[e["n"]]["id"] if e["n"] in by_n else None} for e in sec.outline]
     return scenes
 
@@ -2121,6 +2140,21 @@ def guide(story_only: bool = False) -> str:
       "`60% +athletic` write `yes:` and `no:`; after `vibe <style>` write `good:`, `meh:`, `bad:`. Each is a line, then | effects.")
     A("- `memory: <text> (good)` gives you a memory (good, great, bad, awful).")
     A("")
+    A("## Your games")
+    A("")
+    A("Your games are real: the score, your stats and the big moment you play yourself (a mini game) are decided by playing "
+      "them, and scenes can follow how they went.")
+    A("")
+    A("- After a game, on a scene: `[if we won]`, `[if we lost]`, `[if I played great]`, `[if I played badly]`, `[if I won "
+      "it]` (you won it in the big moment), `[if I started]`, `[if I was benched]`, `[if rivalry game]`. The scene comes in the "
+      "few days after a game that went that way; in a storyline played in order, it waits for the next game.")
+    A("- Both ways: two scenes side by side, one `[if we won]` and the next `[if we lost]`. Whichever matches the game plays; "
+      "the other never does. (In an outline: end the lines with `| if we won` and `| if we lost`.)")
+    A("- Words: `{last_game}` (the 24-21 win over Branford), `{last_opp}`, `{last_score}`, `{my_line}` (6 catches for 98 "
+      "yards and a touchdown), `{big_play}` (scored the touchdown late), `{team_record}` (6-2), `{my_season}`.")
+    A("- A choice with `| play football` (or basketball, baseball, soccer_11) on your game day is that game's big moment: how "
+      "you play it goes in your stat line and can decide a close game.")
+    A("")
     A("## Effects")
     A("")
     A("Separate with commas. `+` small, `++` medium, `+++` big, `-` `--` `---` down, or a number like `+5`.")
@@ -2347,6 +2381,9 @@ teachers and other walk-ons don't need a cast line.
 - A branch: add `| only if you picked "<a choice>" in <number>` (or `unless you picked ...`) to a scene that only happens \
 after a certain choice in an earlier scene. Use them for the moments that matter, not everywhere.
 - Make it a story: a beginning, turns, a payoff. Spread it through the year; put holiday and school-day moments on them.
+- Scenes about a game I play: the game is real (score, my stats, the big moment I play myself), so don't decide how it \
+goes. Write the two ways side by side, ending one with `| if we won` and the next with `| if we lost` (or `| if I played \
+great` and `| if I played badly`, or `| if I started` and `| if I was benched`): whichever matches the real game plays.
 """
 
 BATCH_PROMPT = """You're writing scenes for a LIFE OS storyline (a life-simulation game: I play one person from high school \
@@ -2369,7 +2406,8 @@ story script format (below).
 
 Reply with ONE code block (```) holding just those scenes, each starting with `--- <number>. <title>` (like \
 `--- {first}. {first_title}`), nothing after the block. No tags in [ ] and no `after` or `if`: the game times them and \
-plays them in order from the outline. Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
+plays them in order from the outline (and a line ending `| if we won` already waits for a game that went that way, so \
+write it as if it did). Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
 plenty), 2 to 4 choices that matter, and what happens after EVERY choice. Write every scene all the way to its end: if \
 you're running out of room, write fewer scenes, never cut one short.
 
@@ -2409,7 +2447,7 @@ def guide_scenes() -> str:
     keep = []
     for part in re.split(r"(?m)^(?=## )", g):
         head = part.split("\n", 1)[0].strip()
-        if head in ("## People and lines", "## Choices", "## Effects", "## Writing well"):
+        if head in ("## People and lines", "## Choices", "## Your games", "## Effects", "## Writing well"):
             keep.append(part.rstrip())
     return "# LIFE OS story scripts: writing scenes\n\n" + "\n\n".join(keep) + "\n"
 

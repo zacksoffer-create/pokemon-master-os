@@ -16,7 +16,7 @@ type PackRow = {
   errors: string[]; warnings: string[]; summary: Record<string, number>; scenes: { id: string; title: string; who?: string }[];
   in_order?: boolean; progress?: { done: number; of: number; next: string | null; in_order: boolean };
   kind?: "script" | "json"; cast?: { name: string; who: string; label: string }[]; expands?: string | null;
-  outline?: { total: number; written: number } | null; texting?: { flirt: number; group_chats: number; lines: number };
+  outline?: { total: number; written: number } | null; texting?: { flirt: number; group_chats: number; lines: number }; games?: boolean;
 };
 export type { PackRow };
 /** Texting you added (flirt lines, group chats, text lines), not a storyline: no scenes and no outline. */
@@ -303,6 +303,19 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
       setBusy(null);
     }
   };
+  const copyGames = async (pid: string) => {
+    setBusy(`gm:${pid}`);
+    try {
+      const r = await api.get(`/api/dialogue/games-prompt?pack=${encodeURIComponent(pid)}`);
+      const ok = await copyText(r.prompt);
+      toast(ok ? "Copied. Paste it into ChatGPT, then paste its answer with Paste a script: it updates this storyline (the old one stays under Older versions)."
+        : "Couldn't copy.", ok ? "good" : "bad");
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
   const copyShow = async () => {
     setBusy("show");
     try {
@@ -459,6 +472,11 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
                   {!tx && p.source === "yours" && p.ok && p.kind === "script" && !p.expands && (
                     <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id)}>
                       {busy === `up:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Build it out: copy the prompt for ChatGPT
+                    </button>
+                  )}
+                  {!tx && p.games && p.source === "yours" && p.ok && p.kind === "script" && (
+                    <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyGames(p.id)}>
+                      {busy === `gm:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="trophy" size={17} />} Match it to your real games: copy the prompt
                     </button>
                   )}
                   {!tx && p.source === "yours" && p.ok && p.kind === "script" && (

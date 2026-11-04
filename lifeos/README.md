@@ -340,6 +340,32 @@ Guilford has seven high school teams, each with its own coach, tryouts and sched
   of this year's tryouts and games, girls on boys' teams move to the girls' team for that season (keeping varsity or JV),
   a girl's baseball becomes softball, some kids pick up soccer, and a college you're already at gets its women's teams.
 
+## Your games line up: the mini game, the box score, the Sports tab, your storylines
+
+A game is one game everywhere:
+
+- **The big moment.** On game day, **Take over late. Play the big moment yourself** launches your sport's mini game (the
+  option game's goal-line drive, a big at-bat, the last shot, a late chance in soccer). A storyline scene with
+  `| play football` on a day you have a football game is that game's big moment too. However it goes is in your **box
+  score as the play itself**: the touchdown run or catch (with the drive's yards), the homer, the late three, the goal, or
+  the stop, the strikeout, the miss. It **swings a close game**: a great play can win it, a miss can lose it. And the
+  game's write-up says it ("Guilford beat Branford, 24-21. Zack scored the touchdown late to win it."), in your feed and
+  on the **Sports tab**, where your game log shows the play under that game's line (⚡).
+- **The record.** Every game you play leaves its score, win or loss, your line, how you played (great, good, quiet, rough,
+  off the bench) and your big moment, for storylines to read.
+- **Storylines follow it.** A scene tagged `[if we won]`, `[if we lost]`, `[if I played great]`, `[if I played badly]`,
+  `[if I won it]`, `[if I started]`, `[if I was benched]` or `[if rivalry game]` comes in the few days after a game that
+  went that way. Lines can say the real thing: `{last_game}` (the 24-21 win over Branford), `{last_score}`,
+  `{last_opp}`, `{my_line}` (6 catches for 98 yards and a touchdown), `{big_play}`, `{team_record}`, `{my_season}`.
+- **Both ways.** Two scenes side by side, one `[if we won]` and the next `[if we lost]` (in an outline: lines ending
+  `| if we won` and `| if we lost`), are the two ways one game can go: whichever matches the real game plays, and the
+  other never does. In a storyline played in order, they wait for your next game, and each game is told once.
+- **ChatGPT knows.** The outline prompt asks for game scenes both ways instead of deciding the score; the scenes prompt
+  and the guide teach the tags and words. For a storyline you already have, open it in Story Studio → Storylines →
+  **Match it to your real games: copy the prompt**: ChatGPT keeps every scene and adds the other way where a scene
+  assumed a result; paste its answer with **Paste a script** and it updates the storyline (the old version stays under
+  Older versions).
+
 ## The Sports tab and the league
 
 Its own tab (Story · Scene · **Sports** · Phone · Home · Me), one view per team you're on, in four parts.

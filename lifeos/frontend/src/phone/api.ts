@@ -76,7 +76,7 @@ export type SportsView = {
     vs: { name: string; first: string; rating: number; gap: number; diff: Record<string, number>; line: string; how: string } | null;
     depth: { id: string; name: string; first: string; rating: number; pos: string | null; grade: number; you: boolean; starter: boolean }[];
     coach: { name: string; respect: number; label: string } | null; season: string | null; games: number; starts: number;
-    log: { date: string; opponent: string; win: boolean; score: string; line: string; started: boolean; rivalry: boolean }[]; awards: string[] };
+    log: { date: string; opponent: string; win: boolean; score: string; line: string; started: boolean; rivalry: boolean; play?: string | null; play_tier?: string | null }[]; awards: string[] };
   standings?: SportsRow[];
   leaders?: Record<string, { label: string; rows: { id: string; name: string; team: string; ours: boolean; value: number }[] }>;
   potw?: { name: string; team: string; text: string; week_of: string; ours?: boolean }[];

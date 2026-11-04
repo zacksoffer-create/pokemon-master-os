@@ -97,7 +97,8 @@ def _games(sim, me, g, n=8) -> list:
         b = (e["data"].get("box") or {}).get(me.id) or {}
         out.append({"date": calm.label(e["day"]), "opponent": e["data"].get("opponent"), "win": e["outcome"] == "win",
                     "score": e["data"].get("score"), "line": line_text(g["skill"], b.get("line") or {}) if b else "didn't play",
-                    "started": bool(b.get("starter")), "rivalry": bool(e["data"].get("rivalry")), "level": e["data"].get("level")})
+                    "started": bool(b.get("starter")), "rivalry": bool(e["data"].get("rivalry")), "level": e["data"].get("level"),
+                    "play": b.get("play"), "play_tier": e["data"].get("play_tier") if b.get("play") else None})
         if len(out) >= n:
             break
     return out

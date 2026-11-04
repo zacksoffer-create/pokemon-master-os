@@ -429,10 +429,17 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
             ev["data"]["minigame"] = {"game": minigames.resolve_game(op[1], ctx), "tier": tier, "played": bool(played),
                                       "score": played and played["score"], "max": played and played["max"]}
             ev["data"]["outcome"] = {"great": "success", "good": "success", "miss": "setback"}[tier]
+            if c.id == w.meta.get("protagonist"):  # a sport's mini game on your game day: it's the game's big moment
+                from . import gameplay
+                gameplay.scene_play(sim, c, minigames.resolve_game(op[1], ctx), tier, played, m.get("title") or "a scene")
             run_ops(sim, c, tiers.get(tier) or [], ctx, fx, ev, rng, m)
         elif kind == "clutch":
             fx.flag(c.id, "game_clutch", op[1], m["title"])
             fx.flag(c.id, "game_clutch_day", w.day, m["title"])
+            from . import gameplay
+            mg = ctx.get("_mg")
+            tier = "great" if op[1] >= 6 else "good" if op[1] > 0 else "miss"
+            gameplay.note_play(sim, c, (mg or {}).get("tier") or tier, mg, ctx.get("sport_id") or ctx.get("sport"), "game day")
         elif kind == "chance":
             spec, ok_ops, bad_ops = op[1], op[2], op[3]
             terms = [["baseline", spec.get("base", 0.5)]]

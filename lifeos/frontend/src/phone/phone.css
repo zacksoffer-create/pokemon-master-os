@@ -1445,3 +1445,5 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 .dl-more summary::-webkit-details-marker { display: none; }
 .dl-more summary::after { content: " ▾"; }
 .dl-more[open] summary::after { content: " ▴"; }
+.sp-play { display: block; font-style: normal; font-size: 12px; font-weight: 700; color: #1f7a52; margin-top: 2px; }
+.sp-play.miss { color: #b4381f; }
