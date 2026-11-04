@@ -100,3 +100,34 @@ def test_replaced_edited_and_removed_storylines_can_come_back(c):
     for _ in range(12):  # only the last few are kept
         dialogue.add_script(dialogue.script_of(pid), into=pid)
     assert sum(1 for v in dialogue.history() if v["stem"] == "brothers_same_team") == dialogue.HISTORY_KEEP
+
+
+def test_many_expansions_on_one_storyline_all_attach_and_all_play(c):
+    from lifeos import scheduler
+    from lifeos import api
+    base = _brothers(c)
+
+    def add(expand, title, exp, second):
+        text = (f"=== {title}\n{exp}years: freshman\n\noutline:\n1. Christmas Eve | Christmas Eve | Mike comes home late.\n"
+                f"2. {second} | | stuff\n")
+        r = c.post("/api/story/build/outline", json={"text": text, "save": True, "expand": expand}).json()
+        c.post("/api/story/build/scenes", json={"pack": r["pack"], "text": f"--- 1. Christmas Eve\nmike: hi\n* ok\n\n--- 2. {second}\nmike: yo\n* ok\n"})
+        return r["pack"]
+    a = add(base, "Brothers: Same Team: Holidays", "expands: Brothers: Same Team\n", "New Year's")
+    add(base, "Brothers: Same Team", "", "Snow Day")  # ChatGPT reused the storyline's name and forgot expands:
+    add(base, "Brothers: Same Team", "", "Spring Break")  # ...twice
+    add(a, "Brothers: Same Team: Holidays", "expands: Brothers: Same Team: Holidays\n", "Easter")  # more, from an expansion
+    rows = _rows(c)
+    assert len(rows["Brothers: Same Team"]["scenes"]) == 5
+    more = [r for r in rows.values() if r.get("expands")]
+    assert len(more) == 4 and all(r["expands"] == "Brothers: Same Team" for r in more), [(r["name"], r["expands"]) for r in more]
+    ids = [s["id"] for r in rows.values() for s in r["scenes"]]
+    assert len(ids) == 13 and len(set(ids)) == 13, "every scene has its own id, even four Christmas Eves"
+    rd = c.get("/api/story/storyline/read", params={"pack": base}).json()
+    assert rd["total"] == 13 and len(rd["parts"]) == 5
+    sim = api.lab.sim
+    scheduler.dry_run(sim, 365, None, full=False)
+    played = {r["sid"] for r in scheduler.rows(sim) if r.get("day") is not None}
+    assert set(ids) <= played, set(ids) - played
+    p = c.get("/api/story/build/outline-prompt", params={"ask": "more", "expand": base}).json()["prompt"]
+    assert "Expansions it already has" in p and "Brothers: Same Team: Holidays: Christmas Eve, New Year's" in p

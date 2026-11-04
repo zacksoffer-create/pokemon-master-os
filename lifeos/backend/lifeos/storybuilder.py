@@ -775,6 +775,14 @@ def outline_prompt(sim, ask: str = "", size: str = "bunch", expand: str | None =
         L += [f"--- {e['n']}. {e['title']}" if isinstance(e, dict) and "n" in e else "" for e in p["pack"].get("outline") or []] or \
              [(sc.get("src") or "").split("\n")[0] or f"--- {sc.get('title')}" for sc in p["pack"].get("scenes") or []]
         L += ["```", ""]
+        more = [x["pack"] for x in dialogue.packs() if x["pack"].get("expands") == name]
+        if more:  # what's been added to it already: new ground, not the same scenes again
+            L += ["## Expansions it already has (don't repeat these; give yours a different name)", ""]
+            for pk in more:
+                ts = [e.get("title") for e in pk.get("outline") or [] if isinstance(e, dict)] or \
+                     [sc.get("title") for sc in pk.get("scenes") or [] if isinstance(sc, dict)]
+                L.append(f"- {pk.get('name')}: " + (", ".join(t for t in ts if t) or "no scenes yet"))
+            L.append("")
         existing = "\n".join(L)
     else:
         names = [x["pack"].get("name") for x in dialogue.packs() if x["pack"].get("scenes") or x["pack"].get("outline")]

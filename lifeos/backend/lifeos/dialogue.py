@@ -1240,7 +1240,44 @@ def packs() -> list:
     for p in _read_dir(BUILTIN_DIR, "builtin") + mine + [dict(t) for t in _trial]:
         p["enabled"] = p["id"] not in disabled and p["check"]["ok"]
         out.append(p)
+    _unique_scene_ids(out)
     return out
+
+
+def _unique_scene_ids(entries: list):
+    """Every scene has its own id. Ids come from the storyline's name (cut short) and the scene's title, so two expansions
+    of one storyline can land on the same one ("Brothers: Same Team: Holidays" and "...Holidays (2)", each with a
+    Christmas Eve): the later one's scene gets the file's name on the end, everywhere that storyline is read. Ids that are
+    already unique never change (what you've played stays played)."""
+    seen: set = set()
+    for k, p in enumerate(entries):
+        pk = p["pack"]
+        scs = [sc for sc in pk.get("scenes") or [] if isinstance(sc, dict)]
+        clash = {sc.get("id") for sc in scs if sc.get("id") in seen}
+        if clash:
+            stem = re.sub(r"[^a-z0-9]+", "_", p["id"].split(":", 1)[-1].lower()).strip("_")[:24] or "pack"
+            mine = {sc.get("id") for sc in scs}
+            ren = {}
+            for old in sorted(clash):
+                new, n = f"{old}__{stem}", 2
+                while new in seen or new in mine:
+                    new, n = f"{old}__{stem}{n}", n + 1
+                ren[old] = new
+
+            def moved(sc):
+                when = sc.get("when") or {}
+                after = when.get("after")
+                if sc.get("id") not in ren and not (isinstance(after, list) and any(a in ren for a in after)) and after not in ren:
+                    return sc
+                sc = dict(sc, id=ren.get(sc.get("id"), sc.get("id")))
+                if after:
+                    sc["when"] = dict(when, after=[ren.get(a, a) for a in after] if isinstance(after, list) else ren.get(after, after))
+                return sc
+            pk = dict(pk, scenes=[moved(sc) if isinstance(sc, dict) else sc for sc in pk.get("scenes") or []])
+            if pk.get("outline"):
+                pk["outline"] = [dict(e, sid=ren.get(e.get("sid"), e.get("sid"))) if isinstance(e, dict) else e for e in pk["outline"]]
+            entries[k] = dict(p, pack=pk)
+        seen.update(sc.get("id") for sc in entries[k]["pack"].get("scenes") or [] if isinstance(sc, dict))
 
 
 class trial_pack:
@@ -1880,7 +1917,9 @@ def as_expansion(text: str, pid: str) -> str:
         title = _free_title(f"{parent}: more", "")
     head = f"{m.group(1)}{title}"
     rest = src[m.end():]
-    if not re.search(r"^\s*expands\s*:", rest, re.M | re.I):
+    if re.search(r"^\s*expands\s*:", rest, re.M | re.I):  # whatever it said (an expansion's name, a typo): the storyline itself
+        rest = re.sub(r"^(\s*expands\s*:\s*).*$", lambda mm: mm.group(1) + parent, rest, count=1, flags=re.M | re.I)
+    else:
         head += f"\nexpands: {parent}"
     return src[:m.start()] + head + rest
 
