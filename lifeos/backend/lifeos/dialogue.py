@@ -214,6 +214,11 @@ SCENE_NAMES = {"them", "them_first", "best_friend", "best_friend_first", "siblin
 DEFAULT_CHANCE = 0.04
 CHAPTER_CHANCE = 0.5    # the relaxed profile's odds a due chapter comes today (pacing lives in scheduler.py now)
 MAX_BEATS = 5           # how deep a scene can keep going with "then" (a script's choices under choices)
+# how long things can be (a scene's lines are joined into its text: room for a real back-and-forth)
+MAX_SCENE_TEXT = 4000   # a scene's opening lines together (or a beat's)
+MAX_LINE = 800          # one line said after a choice, or an outcome
+MAX_LABEL = 140         # a choice
+MAX_TITLE = 100         # a scene's title
 NO_ADD = {"college_decision"}  # choices are built from your real options
 
 # where each mini game fits in a story, for the guide
@@ -417,7 +422,7 @@ def _check_ops(R, where, ops, refs, names, depth=0):
             continue
         ref_ok = lambda r: r in refs or R.err(w, f"'{r}' isn't someone this can refer to here. Use one of: {', '.join(sorted(refs)) or 'nobody'}")  # noqa: E731
         if name == "say":
-            _check_variants(R, w, args[0], names, 300)
+            _check_variants(R, w, args[0], names, MAX_LINE)
         elif name == "text":
             if args[0] in refs:
                 _check_variants(R, w, args[1], names, 200)
@@ -491,7 +496,7 @@ def _check_ops(R, where, ops, refs, names, depth=0):
                 R.err(w, 'the second value maps good / meh / bad to what happens, like {"good": ["..."], "meh": ["..."], "bad": ["..."]}')
             else:
                 for ok_, lines in outs.items():
-                    _check_variants(R, f"{w} ({ok_})", lines, names, 300)
+                    _check_variants(R, f"{w} ({ok_})", lines, names, MAX_LINE)
         elif name == "minigame":
             from .minigames import reg
             game, tiers, spec = args
@@ -539,14 +544,14 @@ def _check_choice(R, where, ch, refs, names, depth=0):
         elif not isinstance(then, dict) or "text" not in then or "choices" not in then:
             R.err(where + ".then", 'keeps the scene going: {"text": "what happens next", "choices": [2 to 4 choices]}')
         else:
-            _check_variants(R, where + ".then.text", then["text"], names, 700)
+            _check_variants(R, where + ".then.text", then["text"], names, MAX_SCENE_TEXT)
             tch = then["choices"]
             if not isinstance(tch, list) or not 1 <= len(tch) <= 4:
                 R.err(where + ".then.choices", "needs 1 to 4 choices")
             else:
                 for i, c2 in enumerate(tch):
                     _check_choice(R, f"{where}.then.choices[{i}]", c2, refs, names, depth + 1)
-    _check_line(R, where + ".label", ch.get("label"), names, 100)
+    _check_line(R, where + ".label", ch.get("label"), names, MAX_LABEL)
     if ch.get("hint") is not None:
         _check_line(R, where + ".hint", ch["hint"], names, 140)
     fits = ch.get("fits", {})
@@ -610,8 +615,8 @@ def _check_scene(R, where, sc, seen_ids):
     if not who:
         names -= {"them", "them_first"}
         refs -= {"them"}
-    _check_line(R, where + ".title", sc.get("title"), names, 80)
-    _check_variants(R, where + ".text", sc.get("text"), names, 700)
+    _check_line(R, where + ".title", sc.get("title"), names, MAX_TITLE)
+    _check_variants(R, where + ".text", sc.get("text"), names, MAX_SCENE_TEXT)
     if sc.get("by_text") is not None:
         if not who:
             R.warn(where + ".by_text", "is skipped: a texted version needs the scene to be about someone (set who), so the game knows who it's from")

@@ -120,6 +120,9 @@ class Player:
             return "the season plan retired it"
         for f in when.get("remembered") or []:
             if f not in mem:
+                if not self.src.get(f):
+                    return (f"it needs “{f.replace('_', ' ')}”, but no choice in any of your storylines ever remembers that, "
+                            f"so it can't happen. Take the if {f} off this scene, or have a choice remember {f}")
                 return "only if " + _words(f, self.src, self.me)
         for f in when.get("not_remembered") or []:
             if f in mem:

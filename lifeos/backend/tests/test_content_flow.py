@@ -189,7 +189,11 @@ def test_read_a_storyline_the_way_it_plays():
     from fastapi.testclient import TestClient
     from lifeos import api
     from lifeos.storage import Store
-    assert dialogue.add_script(SISTERS + "\n--- Never  [freshman · if some_fact_nobody_remembers]\nsis: Hm.\n* ok\n")["ok"]
+    assert not dialogue.add_script(SISTERS + "\n--- Never  [freshman · if some_fact_nobody_remembers]\nsis: Hm.\n* ok\n")["ok"]
+    os.makedirs(dialogue.USER_DIR, exist_ok=True)  # (one from before the check: it still loads, and says why it won't play)
+    with open(os.path.join(dialogue.USER_DIR, "sisters.story"), "w") as f:
+        f.write(SISTERS + "\n--- Never  [freshman · if some_fact_nobody_remembers]\nsis: Hm.\n* ok\n")
+    dialogue.reload()
     api.lab = api.Lab(Store(":memory:"), fresh=True)
     c = TestClient(api.app)
     assert c.post("/api/story/new", json={"spec": spec(per=6, siblings=[BROTHER] + TWINS)}).status_code == 200
@@ -200,7 +204,8 @@ def test_read_a_storyline_the_way_it_plays():
     assert [x["day"] for x in played] == sorted(x["day"] for x in played), "in the order they play"
     assert played[0]["year"] == "Freshman" and played[0]["src"].startswith("--- ")
     assert r["total"] == 7 and r["plays"] == 6
-    assert r["wont"] == [{"why": "it needs a choice you didn't make", "count": 1, "titles": ["Never"]}]
+    assert r["wont"] == [{"why": "it needs a fact that nothing in your storylines ever remembers (no choice anywhere says remember it)",
+                          "count": 1, "titles": ["Never"]}]
     assert sum(y["total"] for y in r["coverage"]["years"]) == 6
 
 
@@ -343,3 +348,57 @@ def test_a_season_plan_can_retime_a_whole_storyline_and_names_are_checked():
     assert _when("Prom night")["dates"] == ["prom"]
     p = dialogue.prompt_for_show()
     assert "cast: danny = Danny Kim" in p and "[freshman · spread]" in p and "## My season plan now" in p
+
+
+def _brothers(gate="if season_shared_start"):
+    titles = ["Saved You a Seat", "The Passenger Seat", "His Table Is Your Table", "We Are Both Coming"]
+    L = ["=== Brothers: Same Team", "cast: bro = older brother, plays basketball, 3 years older, close, from the start", ""]
+    for i, t in enumerate(titles):
+        tags = ["freshman", gate] if i == 0 else ["freshman", f"after {titles[i - 1]}"]
+        L += [f"--- {t}  [{' · '.join(tags)}]", f"bro: {t}.", "* Okay | bro affection +", ""]
+    return "\n".join(L)
+
+
+def test_one_scene_that_cant_happen_doesnt_take_the_storyline_down():
+    """The brother storyline that wouldn't trigger: chapter 1 waited on a fact nothing remembers, and every chapter was
+    `after` the one before, so none of them ever came."""
+    r = dialogue.add_script(_brothers())
+    assert not r["ok"] and "no choice in this script or your storylines remembers season_shared_start" in r["errors"][0]
+    assert "line 4:" in r["errors"][0], "the scene with the if"
+    typo = dialogue.add_script(_brothers().replace("* Okay | bro affection +\n\n--- The Passenger",
+                                                   "* Okay | bro affection +\n    remember season_shared_start\n\n--- The Passenger", 1)
+                               .replace("if season_shared_start", "if season_shared_strat"))
+    assert "Did you mean season_shared_start?" in typo["errors"][0]
+    # one already on the phone from before loads anyway: its scenes after the dead one still play, and it says why
+    os.makedirs(dialogue.USER_DIR, exist_ok=True)
+    with open(os.path.join(dialogue.USER_DIR, "brothers_same_team.story"), "w") as f:
+        f.write(_brothers())
+    dialogue.reload()
+    sc = {s["title"]: s for s in next(p for p in dialogue.packs() if p["id"] == "yours:brothers_same_team")["pack"]["scenes"]}
+    assert "after" not in sc["The Passenger Seat"]["when"], "in a storyline in order, after the scene before is just the order"
+    sim = _story()
+    from lifeos import preview
+    first = preview.Player(sim, "yours:brothers_same_team").present()
+    assert first["moment"]["title"] == "The Passenger Seat"
+    assert "no choice in any of your storylines ever remembers that" in first["skipped"][0]["why"]
+    rows = _played(sim, 200)
+    assert rows["Saved You a Seat"]["reason"] == "fact_never_set"
+    assert all(rows[t]["state"] == "played" for t in ("The Passenger Seat", "His Table Is Your Table", "We Are Both Coming"))
+    # in a storyline in any order, after still means "only once that one happened"
+    r = script.compile_script("=== Any\norder: any\n\n--- A  [freshman]\nbest friend: a\n* ok\n--- B  [freshman · after A]\nbest friend: b\n* ok\n")
+    assert r["packs"][0]["scenes"][1]["when"]["after"] == ["any_a"]
+
+
+def test_room_for_a_real_back_and_forth_and_a_second_part():
+    long_open = "\n".join(f"best friend: {'Line number ' + str(i) + ' of a long conversation, going back and forth for a while. ' * 2}" for i in range(20))
+    r = script.compile_script(f"=== Talk\n\n--- Long talk  [freshman]\n{long_open}\n* ok\n    best friend: {'x' * 600}\n")
+    assert not r["errors"], r["errors"]
+    assert len(r["packs"][0]["scenes"][0]["text"]) > 2400
+    p = dialogue.prompt_for_ai("a lot of scenes")
+    assert "(part 2)" in p and "never in the middle of one" in p and "4,000 characters" in p
+    part1 = "=== Hoops\ncast: bro = older brother\nwhen: freshman · spread\n\n" + "".join(f"--- C{i}\nbro: {i}.\n* ok\n\n" for i in range(1, 5))
+    part2 = "=== Hoops (part 2)\nexpands: Hoops\nwhen: freshman\n\n--- C5  [after C4 · June]\nbro: 5.\n* ok\n"
+    assert dialogue.add_script(part1)["ok"] and dialogue.add_script(part2)["ok"]
+    rows = _played(_story(), 365)
+    days = [rows[f"C{i}"]["day"] for i in range(1, 6)]
+    assert all(d is not None for d in days) and days == sorted(days), days

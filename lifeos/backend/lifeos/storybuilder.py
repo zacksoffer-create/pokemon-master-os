@@ -38,7 +38,7 @@ IDEAS = [
     "Drama: a fight, a secret, a rumor, making up",
     "Big moments: homecoming, prom, graduation, the night before college",
 ]
-SIZES = {"few": "4 to 6 scenes", "bunch": "12 to 16 scenes", "lot": "30 to 40 scenes, spread over the years"}
+SIZES = {"few": "4 to 6 scenes", "bunch": "12 to 16 scenes", "lot": "25 to 35 scenes, spread over the years (in parts if they won't fit in one reply)"}
 
 
 # ---------------------------------------------------------------------------------------- how the story plays now
@@ -182,6 +182,7 @@ they're ready, each in its season. They're written as story scripts (the format 
 ## Rules for your reply
 
 - Reply with ONE code block (```) holding the script, and nothing after it.
+{long}
 - New storylines get a new `=== Title`. To add to one of mine, send that storyline back COMPLETE with the same `===` title
   (it replaces it): keep its scenes and titles, add yours where they go.
 - Hook new scenes into what I have: `after <Storyline>: <Scene>`, `if <a fact below>`, a cast name from "My cast" (copy its
@@ -216,7 +217,8 @@ def prompt(sim, ask: str = "", size: str = "") -> str:
     ask = (ask or "").strip() or "More scenes where my story is thin, that fit what's already happening then."
     if size in SIZES:
         ask += f"\n\nHow much: {SIZES[size]}."
-    body = PROMPT.format(ask=ask, family=_family(sim), cast=_cast_block(sim), now=_now(sim), lines=_storylines(sim))
+    body = PROMPT.format(ask=ask, family=_family(sim), cast=_cast_block(sim), now=_now(sim), lines=_storylines(sim),
+                         long=script.LONG_RULE.rstrip("\n"))
     return body + "---\n\n" + script.guide(story_only=True)
 
 
@@ -512,6 +514,9 @@ below). An expansion is new scenes that build on a storyline: same people, same 
 
 - Reply with ONE code block (```) and nothing after it. If it's long (more than about 150 lines), also give it to me as a
   downloadable .txt file, so nothing gets cut off.
+- If it won't all fit in one reply, stop after a whole scene (never in the middle of one) and say "say continue for part 2".
+  When I say continue, send the rest as `=== {title}: <the same name> (part 2)` with `expands: {title}`, its first scene
+  tagged `after <the last scene you sent>`. I add each part as it comes.
 - It starts with these two lines:
   === {title}: <a short name for this expansion>
   expands: {title}
@@ -571,6 +576,7 @@ WHY_PLAIN = {
     "missing_requirement": "what it needs (a situation, a class, your team...) never happened", "chapter_order": "an earlier chapter is stuck",
     "too_early": "it never got its turn", "mood": "how you're doing never matched",
     "already_passed": "your story is already past its day (it can only come in a school year still ahead)",
+    "fact_never_set": "it needs a fact that nothing in your storylines ever remembers (no choice anywhere says remember it)",
     "deadline_missed": "its day came, but it was crowded out (too much else that day)", "aged_out": "it was planned but never got its turn",
     "global_gap": "it kept landing on quiet days", "major_breather": "too many big moments around it",
 }

@@ -948,6 +948,18 @@ or a single scene (`Danny: Tryouts [freshman · November]`), and crossover scene
 in a plan is checked against your storylines: a typo comes back as an error with what it probably meant, instead of
 quietly doing nothing.
 
+**When a storyline won't play.** The usual causes, and what the game does about them:
+- A scene that waits on a fact nothing remembers (`if season_shared_start` when no choice anywhere says `remember
+  season_shared_start`) would never come. Pasting one is refused, with the line and the likely typo; one already in
+  your game says so in Read it and Play it start to finish, and the storyline moves on past it.
+- In a storyline in order, `after <the scene before>` is just the order: one scene that can't happen no longer takes
+  every scene after it down with it. (In `order: any` storylines, `after` still means "only once that one happened".)
+- Room: a scene's opening lines can run about 4,000 characters together (15 to 25 lines of back and forth), a line
+  800, a choice 140. The guide tells ChatGPT these numbers.
+- Too long for one ChatGPT reply: the prompts tell it to stop after a whole scene and, when you say continue, send
+  `=== <Title> (part 2)` with `expands: <Title>` and its first scene after the last one sent. Paste each part as it
+  comes; Read it shows them as one storyline.
+
 **Expansions** keep storylines growing without ever resending them: `=== Sisters: Holidays` with `expands: Sisters`
 under it. An expansion already has its storyline's people (no copying cast lines), can say `after <one of its
 scenes>` and `if <a fact it remembers>`, and lives in its own file, so a big storyline never has to be sent back whole

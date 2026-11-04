@@ -58,7 +58,8 @@ DEFAULT_PROFILE = "dense"
 OVERRIDABLE = ("global_gap", "chapter_gap", "school", "weekend", "chapter_chance", "free_chance", "major_week", "aging_days")
 GUARD = 100  # scenes per action, at most (a performance guard, not a story rule)
 AGING_DAYS = 3  # a planned scene nobody got to goes back in the pool after this long (it isn't used up)
-PERMANENT = {"played", "year_passed", "exclusive_branch", "after_unreachable", "window_passed", "branch_closed", "skipped_by_plan"}
+PERMANENT = {"played", "year_passed", "exclusive_branch", "after_unreachable", "window_passed", "branch_closed", "skipped_by_plan",
+             "fact_never_set"}
 REASON_TEXT = {
     "your_order": "you put another episode first",
     "played": "already happened", "in_progress": "happening now", "cooldown": "on cooldown", "too_early": "not yet",
@@ -70,6 +71,7 @@ REASON_TEXT = {
     "chance": "didn't come up today", "major_breather": "giving the last big moment room", "budget": "today is full",
     "missing_cast": "nobody in your story fits", "not_playable": "not enough people for its choices", "global_gap": "a quiet day",
     "branch_closed": "a choice already went the other way",
+    "fact_never_set": "it needs a fact that nothing in your storylines ever remembers",
     "never_picked": "ready, but other scenes always came first", "missed": "its year ended first",
     "skipped_by_plan": "retired by a schedule (skip)",
 }
@@ -489,6 +491,8 @@ def permanent(sim, me, sid, cat, depth=0) -> str | None:
         if k in mem:
             return "exclusive_branch"
     for k in when.get("remembered") or []:
+        if k not in mem and not _fact_sources(sim).get(k):
+            return "fact_never_set"  # no choice in any storyline remembers it: it can never come
         if k not in mem and _fact_closed(sim, me, k, cat, depth):
             return "branch_closed"
     for a in _after(when):
@@ -574,6 +578,8 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
             return ("exclusive_branch", k)
     for k in when.get("remembered") or []:
         if k not in mem:
+            if not _fact_sources(sim).get(k):
+                return ("fact_never_set", k)
             return ("branch_closed", k) if _fact_closed(sim, me, k, cat, 0) else ("missing_fact", k)
     after = _after(when)
     last_pre = None
@@ -638,7 +644,7 @@ def _window_over(sim, when, info, day) -> bool:
 
 # chapter order: which reasons step over a chapter (the story moves on) and which hold the storyline (it waits)
 STEP_OVER = {"too_early_year", "year_passed", "missing_requirement", "missing_fact", "exclusive_branch", "waiting_for_scene",
-             "after_unreachable", "mood", "played", "branch_closed", "missing_cast", "window_passed"}
+             "after_unreachable", "mood", "played", "branch_closed", "missing_cast", "window_passed", "fact_never_set"}
 
 
 def castable(sim, me, sid, cat) -> tuple | None:

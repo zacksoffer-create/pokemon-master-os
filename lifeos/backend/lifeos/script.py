@@ -1386,6 +1386,17 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
                 sid = "@" + ref  # another storyline's scene: it links up when that storyline is loaded
                 warns.append((n, f"'after {ref}' isn't in this script; it links up with a loaded storyline that has it"))
             when.setdefault("after", []).append(sid)
+        if not sec.order_any and pack.get("scenes"):
+            # a storyline plays in order already: `after <an earlier scene of it>` is just the order, not "only if that
+            # one happened" (so one scene that can't happen doesn't take every scene after it down with it)
+            before: set = set()
+            for sc in pack["scenes"]:
+                w = sc.get("when") or {}
+                if w.get("after"):
+                    w["after"] = [a for a in w["after"] if a not in before]
+                    if not w["after"]:
+                        del w["after"]
+                before.add(sc["id"])
         rep = D.check(pack)
         for e in rep["errors"]:
             errs.append((_line_of(e, sec), _plain(e)))
@@ -1394,6 +1405,19 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
                 warns.append((_line_of(wmsg, sec), _plain(wmsg)))
         packs.append(pack)
         summaries.append(rep.get("summary") or {})
+    if library is not None:  # an `if <fact>` that nothing remembers would wait forever: say so now
+        known = set()
+        for pk in list(library.values()) + packs:
+            for sc in (pk.get("scenes") or []) + [{"choices": v} for v in (pk.get("moment_choices") or {}).values()]:
+                if isinstance(sc, dict):
+                    known |= {op[1] for op in D._all_ops(sc) if isinstance(op, list) and len(op) > 1 and op[0] == "remember"}
+        for pk in packs:
+            for sc in pk.get("scenes") or []:
+                for f in (sc.get("when") or {}).get("remembered") or []:
+                    if f not in known:
+                        errs.append((sc.get("line") or 1, f"'if {f}': no choice in this script or your storylines remembers {f}, so "
+                                     f"this scene would never happen.{_suggest(f, sorted(known))} Take the if off, or have a choice "
+                                     f"remember {f} (a line `remember {f}` under it)"))
     errs = sorted(set(errs), key=lambda e: e[0])
     return {"packs": packs, "pack_summaries": summaries, "errors": [{"line": n, "text": t} for n, t in errs],
             "warnings": [{"line": n, "text": t} for n, t in sorted(set(warns), key=lambda e: e[0])],
@@ -1497,8 +1521,9 @@ def guide(story_only: bool = False) -> str:
     A("## Storylines")
     A("")
     A("- `=== Title` starts a storyline. Its scenes play in the order they're written, each one waiting for the one before "
-      "(as soon as it's ready: tags hold it to its season). `order: any` under the title lets them come in any order (good "
-      "for a bag of one-off moments).")
+      "(as soon as it's ready: tags hold it to its season), so don't tag a scene `after` the scene before it. If one can't "
+      "happen, the storyline moves on to the next. `order: any` under the title lets them come in any order (good for a bag "
+      "of one-off moments).")
     A("- `cast: <name> = <who they are>`: a specific person the storyline is about, the same person for the whole story "
       "(across storylines too: the same cast name means the same person). Who: "
       + ", ".join(k.replace("_", " ") for k in sorted(V["castable"])) + ". Then any of: `plays <sport>` ("
@@ -1546,7 +1571,8 @@ def guide(story_only: bool = False) -> str:
     A("- Repeats: scenes happen once; `repeats every 30 days` lets one come back.")
     A("- Order and gaps: `after <scene title>` (or `after <Storyline>: <title>`), `same day`, `next day`, `a week later`, "
       "`3 days later`, `a month later`.")
-    A("- Facts: `if <fact>` / `unless <fact>` (a fact a choice remembered). Situations: `if " + "`, `if ".join(
+    A("- Facts: `if <fact>` / `unless <fact>` (a fact a choice remembered). A fact has to be remembered by a choice "
+      "somewhere (`remember <fact>` under it): never wait on a fact nothing sets, or the scene never comes. Situations: `if " + "`, `if ".join(
         k.replace("_", " ") for k in D.REQUIRES) + "`.")
     A("- Feelings and stats: `if bro trust 40+` (how the scene's person feels about you), `if my affection 60+` (how you "
       "feel about them), `if stress 60+`, `if mood 20-`, `if gpa 3.5+`.")
@@ -1570,6 +1596,9 @@ def guide(story_only: bool = False) -> str:
     A("- `{bro}` says a cast member's name; `{best friend}`, `{sibling}`, `{partner}`, `{me}` too. The game also fills in "
       + ", ".join("{" + n + "}" for n in sorted(V["names"]) if not n.endswith("_first") and n not in ("them", "best_friend", "sibling", "partner")) + ".")
     A("- `{a|b|c}` gives a line versions; the game rotates them so nothing repeats.")
+    A(f"- Room: a scene's opening lines can run about {D.MAX_SCENE_TEXT:,} characters together (15 to 25 lines of back and "
+      f"forth); one line up to {D.MAX_LINE}; a choice up to {D.MAX_LABEL}; a title up to {D.MAX_TITLE}. Longer than that, split "
+      "it: more lines, or a beat (choices under a choice).")
     A("- A scene can involve your best friend, sibling, partner and anyone in the storyline's cast, plus the one person it's with.")
     A("")
     A("## Choices")
@@ -1639,6 +1668,12 @@ def guide(story_only: bool = False) -> str:
     return "\n".join(a)
 
 
+LONG_RULE = """- If it won't all fit in one reply, stop after a whole scene (never in the middle of one) and say "say continue for \
+part 2". When I say continue, send the rest as a new code block that starts with `=== <the same title> (part 2)` and \
+`expands: <the storyline's title>`, its first scene tagged `after <the last scene you sent>` (and part 3 the same way). \
+I add each part as it comes.
+"""
+
 PROMPT_NEW = """You're writing for LIFE OS, a life-simulation game: I play one person from the first day of high school \
 (Guilford High School in Guilford, Connecticut, fall 2010) through college. The game's stories are written as story \
 scripts (the format is below).
@@ -1650,6 +1685,7 @@ scripts (the format is below).
 ## How to answer
 
 - Reply with ONE code block (```) holding the whole script, and nothing after it.
+{long}
 - Write a lot, and make it a story: storylines with scenes in order, talk that goes back and forth, choices that matter \
 later (remember / if), beats where a scene keeps going, the mini games where they fit, versions {{a|b}} on lines that repeat.
 - Follow the format and the lists exactly. The game checks every line and tells me what to fix by line number.
@@ -1723,7 +1759,8 @@ them from the storylines above.
 
 
 def prompt_new(ask: str = "") -> str:
-    return PROMPT_NEW.format(ask=(ask or "").strip() or "[describe it here: who it's about, what happens, which years]") + guide()
+    return PROMPT_NEW.format(ask=(ask or "").strip() or "[describe it here: who it's about, what happens, which years]",
+                             long=LONG_RULE.rstrip("\n")) + guide()
 
 
 def prompt_continue(text: str, title: str, ask: str = "") -> str:
