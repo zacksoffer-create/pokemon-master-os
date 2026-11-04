@@ -1744,7 +1744,7 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
     by_title = {}
     compiled = []
     for sec in sections:
-        pack = {"dialogue_pack": 1, "name": sec.title[:60], "script": {"title": sec.title, "line": sec.n}}
+        pack = {"dialogue_pack": 1, "name": sec.title[:D.MAX_NAME], "script": {"title": sec.title, "line": sec.n}}
         if sec.expands:
             pack["expands"] = sec.expands
         if sec.about:

@@ -219,6 +219,7 @@ MAX_SCENE_TEXT = 4000   # a scene's opening lines together (or a beat's)
 MAX_LINE = 800          # one line said after a choice, or an outcome
 MAX_LABEL = 140         # a choice
 MAX_TITLE = 100         # a scene's title
+MAX_NAME = 160          # a storyline's name (an expansion's is its storyline's plus its own: "<Storyline>: <part>")
 NO_ADD = {"college_decision"}  # choices are built from your real options
 
 # where each mini game fits in a story, for the guide
@@ -742,8 +743,8 @@ def check(pack: dict) -> dict:
     name = pack.get("name")
     if not isinstance(name, str) or not name.strip():
         R.err("name", "give the pack a short name, like \"Freshman fall\"")
-    elif len(name) > 60:
-        R.err("name", "keep the name under 60 characters")
+    elif len(name) > MAX_NAME:
+        R.err("name", f"keep the name under {MAX_NAME} characters")
     for k in pack:
         if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order", "cast", "script", "expands", "outline"):
             R.warn(k, f"isn't part of a pack and is ignored.{_suggest(k, SECTIONS)}")
@@ -1748,9 +1749,10 @@ def add_script(text: str, into: str | None = None, strict: bool = False) -> dict
                 else:
                     # a different storyline (or an expansion) with the same name: never write over what you have
                     title2 = _free_title(title or "Untitled", body)
-                    body = _retitle(body, title2)
-                    path = os.path.join(USER_DIR, f"{_free_stem(_slug(title2))}.story")
-                    kept_notes.append(f"You already have \"{title}\": this was added as \"{title2}\" (nothing of yours was replaced)")
+                    if title2 != title:
+                        body = _retitle(body, title2)
+                        kept_notes.append(f"You already have \"{title}\": this was added as \"{title2}\" (nothing of yours was replaced)")
+                    path = os.path.join(USER_DIR, f"{_free_stem(_slug(title2))}.story")  # its own file, whatever the name
         with open(path + ".tmp", "w", encoding="utf-8") as f:
             f.write(body)
         os.replace(path + ".tmp", path)
@@ -1806,21 +1808,22 @@ def _names_in_use() -> set:
 
 def _free_title(title: str, body: str) -> str:
     """A name nobody's using: an expansion named after its storyline becomes "<Storyline>: more"; anything else gets (2), (3)..."""
+    # (names only: two long names can share a file name, since file names are cut short; _free_stem picks the file)
     used = _names_in_use()
     m = re.search(r"^\s*expands\s*:\s*(.+?)\s*$", body, re.M | re.I)
     base = f"{m.group(1)}: more" if m and m.group(1).strip().lower() == title.strip().lower() else title
-    if base.strip().lower() not in used and not os.path.exists(os.path.join(USER_DIR, f"{_slug(base)}.story")):
+    if base.strip().lower() not in used:
         return base
     n = 2
-    while f"{base} ({n})".lower() in used or os.path.exists(os.path.join(USER_DIR, f"{_slug(f'{base} ({n})')}.story")):
+    while f"{base} ({n})".lower() in used:
         n += 1
     return f"{base} ({n})"
 
 
 def _free_stem(stem: str) -> str:
     n, out = 2, stem
-    while os.path.exists(os.path.join(USER_DIR, f"{out}.story")):
-        out = f"{stem[:36]}_{n}"
+    while os.path.exists(os.path.join(USER_DIR, f"{out}.story")) or os.path.exists(os.path.join(USER_DIR, f"{out}.json")):
+        out = f"{stem[:34]}_{n}"
         n += 1
     return out
 

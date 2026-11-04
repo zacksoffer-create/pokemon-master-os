@@ -141,3 +141,32 @@ def test_a_storyline_with_only_its_outline_so_far_can_be_expanded(c):
     sv = c.post("/api/story/build/outline", json={"text": OUTLINE, "expand": base, "save": True}).json()
     assert sv["expands"] == "Brothers base"
     assert _rows(c)[sv["title"]]["expands"] == "Brothers base"
+
+
+TWINS_BASE = "The Twin Sisters: Popularity, Friends, and Family Reputation"  # 60 characters, file names are cut at 40
+
+
+def test_expansions_of_a_storyline_with_a_long_name_save_right_away(c):
+    import time
+    base = dialogue.add_script(f"=== {TWINS_BASE}\ncast: jen = Jen Soffer\nyears: freshman-junior\n\n"
+                               + "".join(f"--- Twins {i}\njen: line {i}\n* ok\n\n" for i in range(6)))["ids"][0]
+    heist = (f"=== {TWINS_BASE}: The Great Hoodie Heist\nexpands: {TWINS_BASE}\nyears: freshman-junior\nabout: Jen keeps stealing hoodies.\n\n"
+             "outline:\n1. That's Literally My Hoodie | freshman · September · school day | Jen wears your Yankees hoodie.\n"
+             "9. The Unofficial Closet Agreement | freshman · June · weekend · big | You set rules.\n"
+             "10. The Borrowing System Lasts One Day | sophomore · September · first day of school | She finds a loophole. "
+             "| only if you picked \"Make her ask before borrowing\" in 9\n")
+    names = []
+    for _ in range(3):  # the same expansion three times: each its own, none in place of another, none hanging
+        t0 = time.time()
+        r = c.post("/api/story/build/outline", json={"text": heist, "save": True, "expand": base}).json()
+        assert time.time() - t0 < 5, "saving never hangs on a long name"
+        names.append(r["title"])
+        assert r["expands"] == TWINS_BASE
+    assert names == [f"{TWINS_BASE}: The Great Hoodie Heist", f"{TWINS_BASE}: The Great Hoodie Heist (2)",
+                     f"{TWINS_BASE}: The Great Hoodie Heist (3)"], names
+    rows = _rows(c)
+    assert len(rows[TWINS_BASE]["scenes"]) == 6 and all(rows[n]["expands"] == TWINS_BASE for n in names)
+    assert len({rows[n]["file"] for n in names} | {rows[TWINS_BASE]["file"]}) == 4, "each in its own file"
+    pid = next(rows[n]["id"] for n in names[:1])
+    got = c.post("/api/story/build/scenes", json={"pack": pid, "text": "--- 1. That's Literally My Hoodie\njen: Nice hoodie, right?\n* \"That's mine.\"\n"}).json()
+    assert got["got"] == [1] and len(_rows(c)[TWINS_BASE]["scenes"]) == 6
