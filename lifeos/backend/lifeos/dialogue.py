@@ -2949,9 +2949,13 @@ def _fit(sim, cid, words) -> float:
 
 def pick_cast(sim, me, pack, who, cands):
     """The person a storyline is about: the one you picked, else the one it keeps using, else the best fit (and keep them)."""
+    from . import groundwork
     w = sim.w
     if not cands:
         return None
+    mine = groundwork.my_pick(w, pack, who) if pack else None
+    if mine in cands:
+        return mine
     kept = cast_of(w, pack, who) if pack else None
     if kept in cands:
         return kept
@@ -2959,7 +2963,8 @@ def pick_cast(sim, me, pack, who, cands):
         return cands[0]
     words = _story_words(sim, pack)
     best = sorted(cands, key=lambda o: (-_fit(sim, o, words), o))[0]
-    set_cast(w, pack, who, best)
+    if not mine:  # (your pick stays your pick: someone else only for today)
+        set_cast(w, pack, who, best)
     return best
 
 

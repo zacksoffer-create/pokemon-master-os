@@ -1380,3 +1380,19 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 .ed-sport small { color: var(--ph-ink-2); font-weight: 600; margin-left: 4px; }
 .ed-addnew { margin: 4px 0 12px; }
 .ed-new { display: flex; flex-direction: column; gap: 10px; padding: 4px 2px 20px; }
+
+/* start over: what comes along */
+.gw { display: flex; flex-direction: column; gap: 10px; padding: 4px 2px 20px; }
+.gw-h { font-weight: 800; font-size: 14px; margin-top: 4px; }
+.gw-list { display: flex; flex-direction: column; gap: 6px; }
+.gw-row { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 12px; padding: 8px 10px; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05); }
+.gw-m { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.gw-m small { font-size: 11px; font-weight: 700; color: var(--ph-ink-2); text-transform: uppercase; letter-spacing: 0.04em; }
+.gw-m b { font-size: 14px; }
+.gw-m i { font-style: normal; font-size: 12.5px; color: var(--ph-ink-2); }
+.ph-root .gw-x { --btn-bg: transparent; width: 32px; height: 32px; border-radius: 50%; font-size: 20px; line-height: 1; color: var(--ph-ink-2); }
+.cs-carry { display: flex; gap: 10px; align-items: flex-start; background: #fff7e6; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+.cs-carry input { margin-top: 3px; width: 18px; height: 18px; flex: none; }
+.cs-carry span { display: flex; flex-direction: column; gap: 2px; }
+.cs-carry b { font-size: 14px; }
+.cs-carry small { font-size: 12.5px; color: var(--ph-ink-2); line-height: 1.35; }

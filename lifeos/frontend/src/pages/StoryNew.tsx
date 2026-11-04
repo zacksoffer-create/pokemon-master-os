@@ -15,6 +15,11 @@ const STEPS: [string, string][] = [["welcome", "Welcome"], ["you", "You"], ["fam
 export default function StoryNew(_props: { route?: string[] }) {
   const { cat, error: catErr } = useStoryCatalog();
   const { world, refresh, bump, toast } = useStore();
+  const [carry, setCarry] = useState(true);
+  const [gwCount, setGwCount] = useState(0);
+  useEffect(() => {
+    if ((world as any)?.protagonist) api.get("/api/story/groundwork").then((g: any) => setGwCount(g.count || 0)).catch(() => setGwCount(0));
+  }, [(world as any)?.protagonist]); // eslint-disable-line react-hooks/exhaustive-deps
   const [d, setD] = useState<Draft>(loadDraft);
   const [editing, setEditing] = useState<{ kind: "sibling" | "cast"; key: string; section?: string } | null>(null);
   const [youSection, setYouSection] = useState("basics");
@@ -76,10 +81,11 @@ export default function StoryNew(_props: { route?: string[] }) {
     }
     setStarting(true);
     try {
-      await api.post("/api/story/new", { spec });
+      const bring = carry && gwCount > 0;
+      const r: any = await api.post("/api/story/new", { spec, carry: bring });
       await refresh();
       bump();
-      toast(`${spec.title} begins. First day of school.`, "good");
+      toast(`${spec.title} begins. First day of school.` + (bring && r?.carried?.done ? ` ${r.carried.done} of your changes came along.` : ""), "good");
       go("story");
     } catch (e: any) {
       if (e.errors?.length) setCheck({ status: "bad", errors: e.errors, sibOrder });
@@ -254,7 +260,14 @@ export default function StoryNew(_props: { route?: string[] }) {
         {d.step < STEPS.length - 1 ? (
           <button className="primary" onClick={next}>{d.step === 0 ? "Let's build you →" : `Next: ${STEPS[d.step + 1][1]} →`}</button>
         ) : (
-          <button className="primary sn-big" disabled={starting || check.status === "checking"} onClick={start}>{starting ? "Building your world..." : "Start my story"}</button>
+          <>
+            {gwCount > 0 && (
+              <label className="check" title="Who people are, people you added, relationships you set in the editor, who your storylines are about">
+                <input type="checkbox" checked={carry} onChange={(e) => setCarry(e.target.checked)} /> Bring my changes from the story that's open ({gwCount})
+              </label>
+            )}
+            <button className="primary sn-big" disabled={starting || check.status === "checking"} onClick={start}>{starting ? "Building your world..." : "Start my story"}</button>
+          </>
         )}
       </div>
 

@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { api } from "../api";
 import { pgo } from "./api";
 import { PIcon } from "./icons";
-import { cx, errText } from "./kit";
+import { cx, errText, Sheet } from "./kit";
+import StartOver from "./StartOver";
 import { usePhone } from "./PhoneContext";
 
 /** True in the phone app (the game runs on the phone, no computer). */
@@ -103,6 +104,7 @@ export const SAMPLE_SPEC = {
 export function StoryFilesCard({ hasStory }: { hasStory: boolean }) {
   const { refresh, toast } = usePhone();
   const [busy, setBusy] = useState<string | null>(null);
+  const [restart, setRestart] = useState(false);
   const run = async (key: string, fn: () => Promise<string | null>) => {
     setBusy(key);
     try {
@@ -135,6 +137,11 @@ export function StoryFilesCard({ hasStory }: { hasStory: boolean }) {
           </button>
         )}
         {hasStory && (
+          <button className="ph-btn soft block" disabled={!!busy} onClick={() => setRestart(true)}>
+            <PIcon name="sparkle" size={17} /> Start over (keep my changes)
+          </button>
+        )}
+        {hasStory && (
           <button className="ph-btn soft block" disabled={!!busy} onClick={() => pgo("create")}>
             <PIcon name="sparkle" size={17} /> Make a new story
           </button>
@@ -144,6 +151,9 @@ export function StoryFilesCard({ hasStory }: { hasStory: boolean }) {
         </button>
       </div>
       {STANDALONE && <DesktopVersion />}
+      <Sheet open={restart} onClose={() => setRestart(false)} title="Start over" full>
+        {restart && <StartOver onDone={() => setRestart(false)} />}
+      </Sheet>
     </div>
   );
 }

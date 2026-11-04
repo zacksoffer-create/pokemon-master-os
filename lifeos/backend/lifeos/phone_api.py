@@ -560,6 +560,22 @@ def phone_editor_new(body: dict = Body(...)):
         return out
 
 
+@router.post("/api/phone/editor/fit")
+def phone_editor_fit(body: dict = Body(...)):
+    """Someone who fits a storyline's person nobody in your story fits: {slot}. They're made to fit and picked for it."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        from . import editor
+        try:
+            out = editor.create_for_slot(L.sim, str(body.get("slot") or ""))
+        except editor.EditorError as e:
+            raise HTTPException(422, str(e))
+        L.autosave()
+        return out
+
+
 @router.get("/api/phone/editor/pair/{a}/{b}")
 def phone_editor_pair(a: str, b: str):
     A, L = _lab()

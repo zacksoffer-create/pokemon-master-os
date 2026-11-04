@@ -160,6 +160,8 @@ export type ReadScene = { sid: string; title: string; storyline: string; pack: s
   when?: string; outline_n?: number | null; if?: string | null };
 export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
 export type SkippedScene = { n: number; title: string; problems: string[] };
+export type GroundworkRow = { kind: string; key: string; title: string; what: string };
+export type Groundwork = { rows: GroundworkRow[]; count: number };
 export type OldVersion = { file: string; stem: string; title: string; why: string; at: number; scenes: number };
 export type TextingBreakdown = { flirt: { label: string; n: number }[]; flirt_total: number; texting: number;
   group_chats: { chat: string; when: string[]; first: string; lines: number; replies: number }[] };
@@ -252,6 +254,10 @@ export const phoneApi = {
   editorPerson: (id: string): Promise<EdPerson> => api.get(`/api/phone/editor/person/${encodeURIComponent(id)}`),
   editorSavePerson: (id: string, body: any): Promise<EdPerson> => api.post(`/api/phone/editor/person/${encodeURIComponent(id)}`, body),
   editorNew: (body: any): Promise<{ id: string; name: string }> => api.post("/api/phone/editor/new", body),
+  editorFit: (slot: string): Promise<{ id: string; name: string; fits: boolean }> => api.post("/api/phone/editor/fit", { slot }),
+  groundwork: (): Promise<Groundwork> => api.get("/api/story/groundwork"),
+  groundworkRemove: (kind: string, key: string): Promise<Groundwork> => api.post("/api/story/groundwork/remove", { kind, key }),
+  restart: (keep: boolean): Promise<{ carried?: { done: number; skipped: string[] } }> => api.post("/api/story/restart", { keep }),
   editorPair: (a: string, b: string): Promise<EdPair> => api.get(`/api/phone/editor/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`),
   editorSavePair: (a: string, b: string, body: any): Promise<EdPair> =>
     api.post(`/api/phone/editor/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`, body),

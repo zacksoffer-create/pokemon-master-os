@@ -827,6 +827,32 @@ For setting your world up exactly how you want it, or fixing something later. It
   update to match. Each save is one small entry in the lab's History, so you can see what was changed.
 - Everything is checked before anything changes: if one value is off, nothing is saved and it tells you which.
 
+### Start over with your groundwork
+
+Playing is how you find out who people should be, so what you set up about them carries into a replay. **Me → Start over
+(keep my changes)** goes back to the first day in the same town with the same people (a story is built from your setup,
+and the same setup builds the same town), then puts back your **groundwork**:
+
+- **Who people are:** anything you changed in the editor or the lab about who someone is: name, bio, look, gender,
+  pronouns, who they're into, birthday, type, height and build, positions, jersey, after high school, personality,
+  talents, what drives them, interests.
+- **People you added** (Add someone, or Add someone who fits), made again the same way.
+- **Relationships you set** in the editor (Danny and Cole: best friends).
+- **Who your storylines are about**, when you picked: a storyline person you chose, or the sibling a storyline uses. Your
+  pick stays your pick: on a day they don't fit, the storyline uses someone else that day and goes back to them.
+
+Where things stood in the run doesn't come back: mood, energy, grades, money, popularity, and skills grown by practice
+start fresh. The sheet lists everything that comes along; tap × to leave something out (it stays as it is in that run), or
+pick **Just my setup** to start clean. **Make a new story** (change the setup first) has a **Bring my changes from this
+run** box on its last step: anyone who's in the new setup gets them. Groundwork is saved with the story, so backups carry
+it between the phone and the desktop.
+
+**Nobody fits?** A storyline person nobody in your story fits (an older sister who plays soccer, a friend of Kayla's)
+gets an **Add someone who fits** button in the storyline's **Who it's about**: someone is made to fit (grade, gender,
+sport, who they are to you or to Kayla) and picked for it, then they're editable like anyone, and they come along when you
+start over. (A younger sibling while you're a freshman, an older one past high school, or a coach can't be made this way:
+add them in your setup.)
+
 ## Plan your characters first
 
 Open **My Story → Start your story**. The first step has a **Want to plan it first?** panel:

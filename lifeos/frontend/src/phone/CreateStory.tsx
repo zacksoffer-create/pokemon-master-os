@@ -9,7 +9,7 @@ import {
 } from "../components/CharacterBuilder";
 import { useStore } from "../store";
 import { Draft, Problem, TEMPLATES, buildSpec, defaultDraft, familyLast, loadDraft, parseErrors, saveDraft, specToDraft } from "../story/draft";
-import { Look, pgo } from "./api";
+import { Groundwork, Look, phoneApi, pgo } from "./api";
 import { PetArt, Portrait } from "./art";
 import LookPicker from "./art/LookPicker";
 import { PIcon } from "./icons";
@@ -300,6 +300,11 @@ export default function CreateStory({ hasStory }: { hasStory: boolean }) {
       return false;
     }
   };
+  const [gw, setGw] = useState<Groundwork | null>(null);
+  const [carry, setCarry] = useState(true);
+  useEffect(() => {
+    if (hasStory) phoneApi.groundwork().then(setGw).catch(() => setGw(null));
+  }, [hasStory]);
   const start = async () => {
     if (!me.first.trim()) {
       setProblems([{ who: "me", msg: "You need a first name." }]);
@@ -310,11 +315,14 @@ export default function CreateStory({ hasStory }: { hasStory: boolean }) {
     try {
       if (!(await check())) return;
       const { spec } = buildSpec(d);
-      await api.post("/api/story/new", { spec });
+      const bring = !!(gw && gw.count && carry);
+      const r: any = await api.post("/api/story/new", { spec, carry: bring });
       setD((x) => ({ ...x, step: 0 }));
       await refresh();
       lab.refresh();
-      toast(`${spec.title} starts now. First day of freshman year.`, "good");
+      const c = r?.carried;
+      toast(`${spec.title} starts now. First day of freshman year.` + (bring && c?.done ? ` ${c.done} of your changes came along.` : "")
+        + (bring && c?.skipped?.length ? ` ${c.skipped.length} couldn't (someone who isn't in this setup).` : ""), "good");
       pgo("");
     } catch (e) {
       toast(errText(e), "bad");
@@ -444,9 +452,19 @@ export default function CreateStory({ hasStory }: { hasStory: boolean }) {
             {step === 0 && !me.first.trim() ? "Next" : `Next: ${STEPS[step + 1][1]}`}
           </button>
         ) : (
+          <>
+          {gw && gw.count > 0 && (
+            <label className="cs-carry">
+              <input type="checkbox" checked={carry} onChange={(e) => setCarry(e.target.checked)} />
+              <span><b>Bring my changes from this run ({gw.count})</b>
+                <small>Who people are, people you added, relationships you set, who your storylines are about. Anyone who's
+                  in this setup gets them (change someone here and here wins for what you changed).</small></span>
+            </label>
+          )}
           <button type="button" className="ph-btn primary block big" disabled={!!busy} onClick={start}>
             {busy === "start" ? <><span className="ph-spinner small light" /> Building your world…</> : <><PIcon name="sparkle" size={18} /> Start my story</>}
           </button>
+          </>
         )}
       </footer>
       <Sheet open={!!sib} onClose={() => setEditing(null)} full title={sib ? displayName(sib, `New ${sibWord(sib)}`) : ""}>

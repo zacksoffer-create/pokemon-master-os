@@ -529,7 +529,12 @@ def api_create_character(body: dict = Body(...)):
     L = get_lab()
     L.guard()
     with L.lock:
-        c = L.sim.create_custom(body) if body.get("first") and body.get("gender") else L.sim.create_character(body)
+        if body.get("first") and body.get("gender"):
+            from . import groundwork
+            c = L.sim.create_custom(body)
+            groundwork.note_added(L.w, c.id, body)
+        else:
+            c = L.sim.create_character(body)
         L.autosave()
         return char_summary(L, c)
 
@@ -1042,18 +1047,70 @@ def api_story_validate(body: dict = Body(...)):
 
 @app.post("/api/story/new")
 def api_story_new(body: dict = Body(...)):
-    from . import story
+    """Start a story from a setup. carry: bring the groundwork from the story that's open (who people are, people you
+    added, relationships you set, your storyline picks)."""
+    import copy
+    from . import groundwork, story
     L = get_lab()
     L.guard()
+    gw = copy.deepcopy(L.w.meta.get("groundwork") or {}) if body.get("carry") else {}
     try:
         w = story.create_story(body.get("spec") or body)
     except story.StoryError as e:
         return JSONResponse(status_code=422, content={"detail": "The story needs a few fixes", "errors": e.errors})
     with L.lock:
         L.replace_world(w)
+        carried = groundwork.apply(L.sim, gw) if gw else {"done": 0, "skipped": []}
         story.begin(L.sim)
         L.autosave()
-    return world_info(L)
+    return {**world_info(L), "carried": carried}
+
+
+@app.post("/api/story/restart")
+def api_story_restart(body: dict = Body(default={})):
+    """Start over: the same setup (the same town, the same people), back to the first day. keep (on unless false): with
+    your groundwork."""
+    import copy
+    from . import groundwork, story
+    L = get_lab()
+    L.guard()
+    spec = (L.w.meta.get("story") or {}).get("spec")
+    if not spec:
+        raise HTTPException(409, "There's no story to start over.")
+    gw = copy.deepcopy(L.w.meta.get("groundwork") or {}) if body.get("keep", True) else {}
+    try:
+        w = story.create_story(spec)
+    except story.StoryError as e:
+        raise HTTPException(422, "; ".join(e.errors))
+    with L.lock:
+        L.replace_world(w)
+        carried = groundwork.apply(L.sim, gw) if gw else {"done": 0, "skipped": []}
+        story.begin(L.sim)
+        L.autosave()
+    return {**world_info(L), "carried": carried}
+
+
+@app.get("/api/story/groundwork")
+def api_story_groundwork():
+    """What a replay (Start over, or a new story that brings it) carries: each change, to keep or leave out."""
+    from . import groundwork
+    L = get_lab()
+    with L.lock:
+        return groundwork.summary(L.w)
+
+
+@app.post("/api/story/groundwork/remove")
+def api_story_groundwork_remove(body: dict = Body(...)):
+    """Leave something out of the next replay: {kind: added|person|pair|slot|pick, key} (or {all: true})."""
+    from . import groundwork
+    L = get_lab()
+    with L.lock:
+        if body.get("all"):
+            groundwork.clear(L.w)
+        elif not groundwork.remove(L.w, str(body.get("kind")), str(body.get("key"))):
+            raise HTTPException(404, "that isn't in the list")
+        L.autosave()
+        return groundwork.summary(L.w)
 
 
 @app.post("/api/story/advance")
@@ -2021,22 +2078,28 @@ def api_dialogue_set_cast(body: dict = Body(...)):
             d = dialogue.merged()["cast"].get(name)
             if not d:
                 raise HTTPException(404, "no such cast slot")
+            from . import groundwork
             if cid is None:
                 w.meta.get("cast_slots", {}).pop(name, None)
+                groundwork.note_slot(w, name, None)
             elif cid not in dialogue.slot_candidates(L.sim, me, d["spec"]) and cid != dialogue.bound(L.sim, name):
                 raise HTTPException(409, f"they don't fit: this storyline is about {dialogue.slot_label(d['spec'])}")
             else:
                 dialogue.bind(L.sim, me, name, cid, by="you")
+                groundwork.note_slot(w, name, cid)
             L.autosave()
             return api_dialogue_cast(pack)
         if not me or who not in dialogue.WHO:
             raise HTTPException(422, "pick a kind of person")
+        from . import groundwork
         if cid is None:
             (w.meta.get("pack_cast", {}).get(pack) or {}).pop(who, None)
+            groundwork.note_pick(w, pack, who, None)
         elif cid not in dialogue.candidates(L.sim, me, who):
             raise HTTPException(409, "they aren't that to you in this story")
         else:
             dialogue.set_cast(w, pack, who, cid)
+            groundwork.note_pick(w, pack, who, cid)
         L.autosave()
     return api_dialogue_cast(pack)
 
@@ -2075,6 +2138,8 @@ def api_dialogue_lock_cast(pid: str, body: dict = Body(...)):
             d = dialogue.merged()["cast"].get(slot)
             if cid and d and cid in dialogue.slot_candidates(L.sim, me, d["spec"]):
                 bound = dialogue.bind(L.sim, me, slot, cid, by="you")
+                from . import groundwork
+                groundwork.note_slot(L.w, slot, bound)
             else:
                 bound = dialogue.bind(L.sim, me, slot)
             L.autosave()

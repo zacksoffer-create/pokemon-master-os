@@ -138,6 +138,16 @@ function WhoItsAbout({ pack, onChanged }: { pack: string; onChanged: () => void 
       toast(errText(e), "bad");
     }
   };
+  const fit = async (slot: string) => {
+    try {
+      const r = await phoneApi.editorFit(slot);
+      toast(`${r.name} is in your story now, and this storyline is about them. Edit them any time (the editor), and they come along when you start over.`, "good");
+      load();
+      onChanged();
+    } catch (e) {
+      toast(errText(e), "bad");
+    }
+  };
   const doLock = async () => {
     if (!lock) return;
     setBusy(true);
@@ -171,6 +181,9 @@ function WhoItsAbout({ pack, onChanged }: { pack: string; onChanged: () => void 
               </select>
             ) : <em className="dl-none">Nobody in your story fits</em>}
           </label>
+          {s.options.length === 0 && (
+            <button className="dl-lock" onClick={() => fit(s.slot)}><PIcon name="plus" size={14} /> Add someone who fits ({s.label})</button>
+          )}
           {s.shared_with.length > 0 && <small className="dl-shared">Same person in {s.shared_with.join(", ")}</small>}
         </div>
       ))}

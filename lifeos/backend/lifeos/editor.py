@@ -205,6 +205,8 @@ def save_person(sim, cid, body: dict) -> dict:
         from . import social
         w.meta["romance_rules"] = 0
         social.tidy_romance(sim)
+    from . import groundwork
+    groundwork.note_person(w, cid, body)
     ev["text"] = ev["data"]["label"] = f"Editor: changed {c.name} ({', '.join(sorted({k for k, _, _ in plan}))})"  # the new name, if it changed
     sim.finish(ev, fx)
     return person(sim, cid)
@@ -333,8 +335,7 @@ def _who(sim, c, key, val, body, errors):
 
 def create_person(sim, body: dict) -> dict:
     """Someone new, in the middle of the story: a student (a grade) or a teacher/coach (staff), who they are to you, and
-    their type. Everything else is generated, then editable like anyone. {"id"}"""
-    from .engine import EditError
+    their type. Everything else is generated, then editable like anyone. {"id", "name"}"""
     from .story import REL_PRESETS
     errors = []
     first = str(body.get("first") or "").strip()
@@ -365,11 +366,124 @@ def create_person(sim, body: dict) -> dict:
             spec["relationships"] = [{"to": "me", "type": rel}]
     if errors:
         raise EditorError("; ".join(errors))
+    c = make_person(sim, spec)
+    from . import groundwork
+    groundwork.note_added(sim.w, c.id, spec)
+    return {"id": c.id, "name": c.name}
+
+
+def make_person(sim, spec: dict, extra: dict | None = None):
+    """Make someone from a builder spec, then what comes with it (extra): {"rel_with": [[id, kind]], "team": group id}."""
+    from .engine import EditError
+    from .story import apply_relationship
+    w = sim.w
     try:
-        c = sim.create_custom(spec)
+        c = sim.create_custom(dict(spec))
     except EditError as e:
         raise EditorError(str(e))
-    return {"id": c.id, "name": c.name}
+    extra = extra or {}
+    for other, kind in extra.get("rel_with") or []:
+        if other in w.chars and other != c.id:
+            apply_relationship(w, c.id, other, kind, day=w.day)
+    gid = extra.get("team")
+    if gid in w.groups and c.id not in w.groups[gid]["members"]:
+        w.groups[gid]["members"].append(c.id)
+        c.memberships.append(gid)
+    if extra.get("rel_with") or gid:
+        from . import social
+        for (x, y), r in w.rels.items():
+            if c.id in (x, y):
+                r.label = social.label_for(r, w.rules)
+    return c
+
+
+SLOT_TO_ME = {"friend": "friend", "best_friend": "best_friend", "crush": "admirer", "partner": "dating", "ex": "ex", "rival": "rival"}
+SLOT_OF = {"friend": "friend", "best_friend": "best_friend", "teammate": "teammate", "partner": "dating"}
+
+
+def create_for_slot(sim, slot: str) -> dict:
+    """Someone who fits a storyline's person when nobody in your story does: made to fit (their grade, gender, sport, who
+    they are to you or to the person they go with), and picked for it. Then they're editable like anyone. {"id", "name"}"""
+    import random
+    from . import dialogue, groundwork
+    w = sim.w
+    me = w.chars.get(w.meta.get("protagonist") or "")
+    d = dialogue.merged()["cast"].get(slot)
+    if not me or not d:
+        raise EditorError("that storyline person isn't in any of your storylines")
+    sp = d["spec"]
+    who = sp.get("who")
+    rng = random.Random(f"{w.gen_seed}:{slot}:{w.day}")
+    g = me.grade or 9
+    grade = g + sp["grade_offset"] if sp.get("grade_offset") is not None else g
+    gender = sp.get("gender")
+    spec: dict = {"role": "student"}
+    extra: dict = {"slot": slot, "rel_with": []}
+    if who in dialogue.SIBLING_KINDS:
+        spec["household"] = "family"
+        if who.endswith("brother"):
+            gender = "m"
+        elif who.endswith("sister"):
+            gender = "f"
+        if who.startswith("older_") and sp.get("grade_offset") is None:
+            grade = g + 1
+        if who.startswith("younger_") and sp.get("grade_offset") is None:
+            grade = g - 1
+        if who == "twin":
+            grade = g
+            extra["rel_with"].append([me.id, "twin"])
+        if grade < 9:
+            raise EditorError("a younger brother or sister can't join while you're the youngest in high school: add them in "
+                              "your setup instead (they start high school a year after you)")
+        if grade > 12:
+            raise EditorError("an older brother or sister would be past high school: add them in your setup instead")
+    elif who == "coach":
+        raise EditorError("a coach comes with a team: edit one of your coaches instead")
+    elif who == "teammate":
+        teams = [gid for gid in me.memberships if (w.groups.get(gid) or {}).get("skill") in sim.cat.sports["sports"]
+                 and (not sp.get("sport") or w.groups[gid].get("skill") == sp["sport"])]
+        if not teams:
+            raise EditorError("you're not on a team yet" + (f" ({sp['sport']})" if sp.get("sport") else "") + ": make one first")
+        extra["team"] = teams[0]
+        gender = w.groups[teams[0]].get("gender") or gender or me.gender
+    elif sp.get("of"):
+        base = dialogue.bound(sim, sp["of"])
+        if not base:
+            raise EditorError(f"first pick who {sp['of'].replace('_', ' ')} is")
+        extra["rel_with"].append([base, SLOT_OF.get(who, "friend")])
+        if w.chars[base].grade:
+            grade = w.chars[base].grade
+    elif who == "named":
+        name = str(sp.get("name") or slot.replace("_", " ").title())
+        first, _, last = name.partition(" ")
+        spec.update({"first": first, "last": last})
+    elif who in SLOT_TO_ME:
+        spec["relationships"] = [{"to": "me", "type": SLOT_TO_ME[who]}]
+        if who in ("crush", "partner") and not gender:
+            into = [x for x in (me.attracted_to or []) if x in GENDERS] or (["f"] if me.gender == "m" else ["m"])
+            gender = into[0]
+    elif who != "classmate":
+        raise EditorError(f"the game can't make someone for '{who}'")
+    if who == "partner" and me.flags.get("partner"):
+        raise EditorError("you're already dating someone: they're who this storyline is about")
+    grade = max(9, min(12, grade))
+    spec["grade"] = grade
+    gender = gender if gender in GENDERS else rng.choice(["f", "m"])
+    spec["gender"] = gender
+    if not spec.get("first"):
+        names = sim.cat.people["names"]
+        pool = names["female" if gender == "f" else "male" if gender == "m" else "nonbinary"]
+        used = {c.first for c in w.chars.values()}
+        spec["first"] = next((n for n in rng.sample(pool, len(pool)) if n not in used), rng.choice(pool))
+    if sp.get("sport"):
+        spec["interests"] = {sp["sport"]: 85}
+        spec["skills"] = {sp["sport"]: 58}
+    c = make_person(sim, spec, extra)
+    fits = c.id in dialogue.slot_candidates(sim, me, sp)  # (before the pick: a picked person counts as taken)
+    dialogue.bind(sim, me, slot, c.id, by="you")
+    groundwork.note_added(w, c.id, spec, extra)
+    groundwork.note_slot(w, slot, c.id)
+    return {"id": c.id, "name": c.name, "fits": fits}
 
 
 def pair(sim, a, b) -> dict:
@@ -459,6 +573,8 @@ def save_pair(sim, a, b, body: dict) -> dict:
         setattr(r, f, n)
     _settle(sim, a, b)
     sim.finish(ev, fx)
+    from . import groundwork
+    groundwork.note_pair(w, a, b, body)
     me = w.meta.get("protagonist")
     if me in (a, b) and w.meta.get("squad"):
         w.meta["squad"]["updated"] = -99  # your group re-forms around who your friends are now

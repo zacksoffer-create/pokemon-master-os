@@ -920,6 +920,8 @@ class Simulation:
         ev["data"]["label"] = f"{c.name}: " + ", ".join(f"{l}{'.' + k if k else ''} = {v if isinstance(v, str) else round(v, 1)}"
                                                           for l, k, v in plan)
         self.finish(ev, fx)
+        from . import groundwork
+        groundwork.note_person(w, cid, changes)
         return ev
 
     def create_custom(self, spec: dict):
