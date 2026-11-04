@@ -6,8 +6,7 @@ import { PIcon } from "./icons";
 import { Bar, cx, errText, money, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import ClassesCard from "./ClassesCard";
-import DialogueCard from "./DialogueCard";
-import { EditorCard } from "./Editor";
+import { EngineLine } from "./DialogueCard";
 import { STANDALONE, StoryFilesCard } from "./StoryFiles";
 
 const FOCUS: [string, string, string, string][] = [
@@ -38,7 +37,16 @@ const PACING: [string, string, string][] = [
 ];
 const CHAPTERS = ["Fr", "So", "Jr", "Sr", "C1", "C2", "C3"];
 
+function useRoleOpen() {
+  const [n, setN] = React.useState(0);
+  React.useEffect(() => {
+    phoneApi.roles().then((b) => setN(b.open)).catch(() => setN(0));
+  }, []);
+  return n;
+}
+
 export default function MeTab() {
+  const roleOpen = useRoleOpen();
   const { state, refresh, toast } = usePhone();
   const [busy, setBusy] = useState<string | null>(null);
   const [guide, setGuide] = useState<EpisodeGuide | null>(null);
@@ -161,7 +169,20 @@ export default function MeTab() {
 
         <ClassesCard />
 
-        {s.control.editor && <EditorCard />}
+        <div className="ph-section-t">Make it yours</div>
+        <div className="me-tiles">
+          <button className="me-tile" onClick={() => pgo("studio")}>
+            <PIcon name="book" size={22} />
+            <b>Story Studio</b>
+            <small>People, storylines, and the roles they need</small>
+            {roleOpen > 0 && <i className="st-badge">{roleOpen} to fill</i>}
+          </button>
+          <button className="me-tile" onClick={() => pgo("texting")}>
+            <PIcon name="chat" size={22} />
+            <b>Texting</b>
+            <small>Flirt lines and group chats</small>
+          </button>
+        </div>
 
         <div className="ph-section-t">How much story a day?</div>
         <div className="ph-card ph-pacing">
@@ -193,14 +214,13 @@ export default function MeTab() {
 
         <StoryFilesCard hasStory={!!state.active} />
 
-        <DialogueCard />
-
         {!STANDALONE && (
           <div className="ph-links">
             <a className="ph-btn soft block" href="#/story"><PIcon name="laptop" size={17} /> Full dashboard (best on a computer)</a>
             <a className="ph-link center" href="#/overview">Back to the lab</a>
           </div>
         )}
+        <EngineLine />
       </div>
     </div>
   );

@@ -52,7 +52,7 @@ function Breakdown({ c }: { c: TextingCheck["breakdown"] }) {
   );
 }
 
-export default function AddTexting({ open, onClose, onAdded }: { open: boolean; onClose: () => void; onAdded?: () => void }) {
+export default function AddTexting({ open, onClose, onAdded, inline }: { open: boolean; onClose: () => void; onAdded?: () => void; inline?: boolean }) {
   const { toast } = usePhone();
   const [what, setWhat] = useState("flirt");
   const [ask, setAsk] = useState("");
@@ -100,8 +100,7 @@ export default function AddTexting({ open, onClose, onAdded }: { open: boolean; 
     toast("Added. It's live now.", "good");
   });
 
-  return (
-    <Sheet open={open} onClose={onClose} full title="Add texting">
+  const body = (
       <div className="bs">
         {done ? (
           <div className="bs-done">
@@ -157,6 +156,6 @@ export default function AddTexting({ open, onClose, onAdded }: { open: boolean; 
           </>
         )}
       </div>
-    </Sheet>
   );
+  return inline ? body : <Sheet open={open} onClose={onClose} full title="Add texting">{body}</Sheet>;
 }

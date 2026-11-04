@@ -1420,3 +1420,28 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 .rl-near > b { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ph-ink-2); }
 .rl-nrow { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; font-size: 12.5px; color: var(--ph-ink-2); }
 .rl-nrow .ph-btn.small { padding: 6px 10px; font-size: 12.5px; }
+
+/* the Story Studio and Texting pages, and the Me tab's way in */
+.st-tabs { display: flex; gap: 6px; padding: 0 16px 12px; position: sticky; top: 0; z-index: 3; background: var(--ph-bg, #fff6ea); }
+.st-tabs button { flex: 1; --btn-bg: #fff; --btn-bg-hover: #fff; border: 1.5px solid var(--ph-line, #e6dccb); border-radius: 999px; padding: 9px 6px;
+  font-weight: 800; font-size: 13.5px; color: var(--ph-ink); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.ph-root .st-tabs button.on, .ph-root .st-tabs button.on:hover:not(:disabled) { --btn-bg: var(--ph-ink, #2a2340); background: var(--ph-ink, #2a2340); border-color: var(--ph-ink, #2a2340); color: #fff; }
+.st-badge { font-style: normal; background: #e8664a; color: #fff; border-radius: 999px; font-size: 11px; font-weight: 800; padding: 1px 7px; }
+.st-foot { padding: 14px 16px 28px; text-align: center; }
+.studio .dl-card { margin-top: 0; }
+.ed-top2 { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 12px; }
+.me-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ph-root .me-tile { --btn-bg: #fff; --btn-bg-hover: #fff; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
+  border-radius: 18px; padding: 14px; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05); color: var(--ph-ink); position: relative; min-height: 112px; }
+.me-tile b { font-size: 15.5px; }
+.me-tile small { font-size: 12.5px; color: var(--ph-ink-2); line-height: 1.3; }
+.me-tile .st-badge { position: absolute; top: 12px; right: 12px; }
+.tx-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px 12px; }
+.tx-sum span { background: #fff; border-radius: 14px; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+.tx-sum b { font-size: 20px; }
+.tx-sum small { font-size: 11.5px; color: var(--ph-ink-2); }
+.dl-more { margin-top: 12px; border-top: 1px solid var(--ph-line); padding-top: 10px; }
+.dl-more summary { font-weight: 800; font-size: 13.5px; color: var(--ph-coral); cursor: pointer; list-style: none; }
+.dl-more summary::-webkit-details-marker { display: none; }
+.dl-more summary::after { content: " ▾"; }
+.dl-more[open] summary::after { content: " ▴"; }

@@ -63,13 +63,17 @@ function Role({ r, busy, run }: { r: RoleRow; busy: boolean; run: (fn: () => Pro
   );
 }
 
-export default function Roles() {
+/** The Studio's Roles tab. */
+export function RolesBody({ onOpen }: { onOpen?: (n: number) => void }) {
   const { toast, refresh } = usePhone();
   const [b, setB] = useState<RoleBoard | null>(null);
   const [busy, setBusy] = useState(false);
   useEffect(() => {
     phoneApi.roles().then(setB).catch((e) => toast(errText(e), "bad"));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (b) onOpen?.(b.open);
+  }, [b]); // eslint-disable-line react-hooks/exhaustive-deps
   const run = async (fn: () => Promise<RoleBoard>, ok: string) => {
     setBusy(true);
     try {
@@ -84,12 +88,7 @@ export default function Roles() {
   };
   const missing = b?.roles.filter((r) => r.status === "missing") || [];
   return (
-    <div className="ed">
-      <header className="ed-head">
-        <button className="ed-back" onClick={() => (window.history.length > 1 ? window.history.back() : pgo("me"))} aria-label="Back"><PIcon name="back" size={20} /></button>
-        <b>Roles</b>
-        <span><button className="ed-all" onClick={() => pgo("edit")}>Editor</button></span>
-      </header>
+    <>
       <p className="ed-intro">
         Everyone and everything your storylines need, from every storyline that's on. Pick who fills a role, make someone close fit,
         or add someone. All of it comes along when you start over.
@@ -104,7 +103,6 @@ export default function Roles() {
         </>
       )}
       </div>
-      <div style={{ height: 28 }} />
-    </div>
+    </>
   );
 }

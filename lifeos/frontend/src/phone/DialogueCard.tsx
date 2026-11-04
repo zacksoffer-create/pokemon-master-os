@@ -8,7 +8,6 @@ import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { pickFile } from "./StoryFiles";
 import BuildStoryline, { BuildStart } from "./BuildStoryline";
-import AddTexting from "./AddTexting";
 import { applyUpdate, subscribe, updateReady, UpdateState } from "../standalone/update";
 import StorylineRead from "./StorylineRead";
 
@@ -17,8 +16,14 @@ type PackRow = {
   errors: string[]; warnings: string[]; summary: Record<string, number>; scenes: { id: string; title: string; who?: string }[];
   in_order?: boolean; progress?: { done: number; of: number; next: string | null; in_order: boolean };
   kind?: "script" | "json"; cast?: { name: string; who: string; label: string }[]; expands?: string | null;
-  outline?: { total: number; written: number } | null;
+  outline?: { total: number; written: number } | null; texting?: { flirt: number; group_chats: number; lines: number };
 };
+export type { PackRow };
+/** Texting you added (flirt lines, group chats, text lines), not a storyline: no scenes and no outline. */
+export function isTextingPack(p: PackRow) {
+  const t = p.texting;
+  return !p.scenes.length && !p.outline && !!t && t.flirt + t.group_chats + t.lines > 0;
+}
 type Packs = { packs: PackRow[]; scenes: string[]; lines: number };
 type Check = { ok: boolean; errors: string[]; warnings: string[]; summary: Record<string, number>; name?: string; script?: boolean };
 
@@ -227,7 +232,33 @@ function WhoItsAbout({ pack, onChanged }: { pack: string; onChanged: () => void 
   );
 }
 
-export default function DialogueCard() {
+/** Which engine this is, and whether a newer one is out (with the button to get it). */
+export function EngineLine() {
+  const [engine, setEngine] = useState<string>("");
+  const [upd, setUpd] = useState<UpdateState | null>(null);
+  useEffect(() => {
+    api.get("/api/version").then((r) => setEngine(r.engine)).catch(() => undefined);
+    return subscribe(setUpd);
+  }, []);
+  if (!engine) return null;
+  return (
+    <p className="ph-dim small dl-engine">
+      Engine {engine}
+      {upd && upd.latest && (updateReady(upd) ? (
+        <>
+          {" · "}a newer one is out{" "}
+          <button className="dl-engine-go" disabled={upd.updating} onClick={() => applyUpdate()}>
+            {upd.updating ? "Updating…" : "Update"}
+          </button>
+        </>
+      ) : " · the newest")}
+    </p>
+  );
+}
+
+/** Your storylines (mode "storylines": write more, paste a script, every storyline) or your texting packs (mode "texting":
+ * just the list). */
+export default function DialogueCard({ mode = "storylines", onData }: { mode?: "storylines" | "texting"; onData?: (d: Packs) => void }) {
   const { refresh, toast } = usePhone();
   const [data, setData] = useState<Packs | null>(null);
   const [paste, setPaste] = useState(false);
@@ -240,19 +271,8 @@ export default function DialogueCard() {
     return { expand: top?.id || p.id, expandName: top?.name || p.name };
   };
   const [guide, setGuide] = useState<string | null>(null);
-  const [texting, setTexting] = useState(false);
-  const [engine, setEngine] = useState<string>("");
-  const [upd, setUpd] = useState<UpdateState | null>(null);
-  useEffect(() => {
-    api.get("/api/version").then((r) => setEngine(r.engine)).catch(() => undefined);
-    return subscribe(setUpd);
-  }, []);
   const [busy, setBusy] = useState<string | null>(null);
-  const [roleOpen, setRoleOpen] = useState(0);
-  const load = () => {
-    phoneApi.roles().then((b) => setRoleOpen(b.open)).catch(() => setRoleOpen(0));
-    return api.get("/api/dialogue/packs").then(setData).catch(() => setData(null));
-  };
+  const load = () => api.get("/api/dialogue/packs").then((d) => { setData(d); onData?.(d); }).catch(() => setData(null));
   useEffect(() => {
     load();
   }, []);
@@ -348,14 +368,19 @@ export default function DialogueCard() {
     }
   };
 
+  const tx = mode === "texting";
+  const list = ordered(data?.packs || []).filter((p) => isTextingPack(p) === tx);
   return (
     <>
-      <div className="ph-section-t">Storylines</div>
       <div className="ph-card dl-card">
+        {tx ? (
+          !list.length && <p className="ph-dim small" style={{ margin: 0 }}>Nothing added yet. What you add shows up here, to turn on and off, edit or remove.</p>
+        ) : (
+        <>
         <p className="ph-dim small" style={{ marginTop: 0 }}>
-          Storylines, scenes, texts and chat lines, all written as story scripts: plain text, like a screenplay. Have ChatGPT
-          (or Claude) write one, paste it here, and open any storyline to read or edit its script.
-          {data && <> Right now: <b>{data.scenes.length}</b> scenes and <b>{data.lines}</b> text lines.</>}
+          Storylines are written as story scripts: plain text, like a screenplay. <b>Write more</b> walks you through it with
+          ChatGPT; open any storyline to read it, write its next scenes, add an expansion or edit its script.
+          {data && <> Right now: <b>{data.scenes.length}</b> scenes.</>}
         </p>
         <div className="ph-filebtns">
           <button className="ph-btn primary block" disabled={!!busy} onClick={() => setBuild({})}>
@@ -364,27 +389,11 @@ export default function DialogueCard() {
           <button className="ph-btn soft block" disabled={!!busy} onClick={() => setPaste(true)}>
             <PIcon name="plus" size={17} /> Paste a script
           </button>
-          <button className="ph-btn soft block" disabled={!!busy} onClick={() => setTexting(true)}>
-            ✍️ Add texting: flirt lines and group chats
-          </button>
-          <button className="ph-btn soft block" disabled={!!busy} onClick={() => pgo("roles")}>
-            <PIcon name="people" size={17} /> Roles your storylines need{roleOpen ? ` (${roleOpen} nobody fits)` : ""}
-          </button>
         </div>
-        <ol className="dl-how">
-          <li><b>Write more</b>: say what you want. ChatGPT plans it as an outline (one line per scene); you check it and make it.</li>
-          <li>Then the scenes, a few at a time: copy the prompt, paste what ChatGPT writes. The game puts each one in its place and times it through the year.</li>
-          <li>Anything fixable in what ChatGPT wrote is fixed for you (with a note). Tap <b>Read it</b> to read the whole storyline in the order it plays.</li>
-        </ol>
-        <button className="ph-link" onClick={showGuide}>How scripts work</button>
-        <p className="ph-dim small">
-          <button className="ph-btn soft block dl-show" disabled={!!busy} onClick={copyShow}>
-            <PIcon name="book" size={17} /> Make it one story: copy the season plan prompt
-          </button>
-          <span className="ph-dim small">All your storylines at once: ChatGPT plans when each one's scenes come across your seven years and writes crossovers that tie them together.</span>
-        </p>
+        </>
+        )}
         <div className="dl-list">
-          {ordered(data?.packs || []).map((p) => (
+          {list.map((p) => (
             <div key={p.id} className={cx("dl-pack", !p.enabled && "off", p.expands && "exp")}>
               <button className="dl-pack-h" onClick={() => setOpen(open === p.id ? null : p.id)}>
                 <span className="dl-pack-m">
@@ -392,7 +401,7 @@ export default function DialogueCard() {
                   {p.outline && p.outline.written < p.outline.total && <small className="dl-progress">{p.outline.written} of {p.outline.total} scenes written</small>}
                   <small>{p.kind === "json" ? "Old format · " : ""}{p.ok ? (p.progress && p.in_order && p.progress.of
                     ? (p.progress.done >= p.progress.of ? `All ${p.progress.of} chapters done` : `Chapter ${p.progress.done + 1} of ${p.progress.of} next`)
-                    : addsLine(p.summary)) : "has problems"}</small>
+                    : tx ? textingLine(p) : addsLine(p.summary)) : "has problems"}</small>
                 </span>
                 <span className={cx("ph-switch", p.enabled && "on")} role="switch" aria-checked={p.enabled}
                   onClick={(e) => { e.stopPropagation(); if (p.ok && busy !== p.id) toggle(p); }}><i /></span>
@@ -447,39 +456,42 @@ export default function DialogueCard() {
                       ))}
                     </>
                   )}
-                  {p.source === "yours" && p.ok && p.kind === "script" && !p.expands && (
+                  {!tx && p.source === "yours" && p.ok && p.kind === "script" && !p.expands && (
                     <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id)}>
                       {busy === `up:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Build it out: copy the prompt for ChatGPT
                     </button>
                   )}
-                  {p.source === "yours" && p.ok && p.kind === "script" && (
+                  {!tx && p.source === "yours" && p.ok && p.kind === "script" && (
                     <button className="ph-btn soft block" disabled={!!busy} onClick={() => copyUpdate(p.id, "texting")}>
                       {busy === `tx:${p.id}` ? <span className="ph-spinner small" /> : <PIcon name="chat" size={17} />} Upgrade its texting: copy the prompt
                     </button>
                   )}
-                  {p.source === "yours" && <button className="ph-link dl-remove" onClick={() => remove(p)}>Remove this storyline</button>}
+                  {p.source === "yours" && <button className="ph-link dl-remove" onClick={() => remove(p)}>{tx ? "Remove this" : "Remove this storyline"}</button>}
                 </div>
               )}
             </div>
           ))}
         </div>
-      </div>
-      <OlderVersions onRestored={load} />
-      {engine && (
-        <p className="ph-dim small dl-engine">
-          Engine {engine}
-          {upd && upd.latest && (updateReady(upd) ? (
-            <>
-              {" · "}a newer one is out{" "}
-              <button className="dl-engine-go" disabled={upd.updating} onClick={() => applyUpdate()}>
-                {upd.updating ? "Updating…" : "Update"}
-              </button>
-            </>
-          ) : " · the newest")}
+        {!tx && (
+          <details className="dl-more">
+            <summary>How it works and more tools</summary>
+        <ol className="dl-how">
+          <li><b>Write more</b>: say what you want. ChatGPT plans it as an outline (one line per scene); you check it and make it.</li>
+          <li>Then the scenes, a few at a time: copy the prompt, paste what ChatGPT writes. The game puts each one in its place and times it through the year.</li>
+          <li>Anything fixable in what ChatGPT wrote is fixed for you (with a note). Tap <b>Read it</b> to read the whole storyline in the order it plays.</li>
+        </ol>
+        <button className="ph-link" onClick={showGuide}>How scripts work</button>
+        <p className="ph-dim small">
+          <button className="ph-btn soft block dl-show" disabled={!!busy} onClick={copyShow}>
+            <PIcon name="book" size={17} /> Make it one story: copy the season plan prompt
+          </button>
+          <span className="ph-dim small">All your storylines at once: ChatGPT plans when each one's scenes come across your seven years and writes crossovers that tie them together.</span>
         </p>
-      )}
+          </details>
+        )}
+      </div>
+      {!tx && <OlderVersions onRestored={load} />}
       <PasteSheet open={paste} onClose={() => setPaste(false)} onAdded={(d) => { setData(d); setPaste(false); }} />
-      <AddTexting open={texting} onClose={() => setTexting(false)} onAdded={load} />
       <ScriptSheet pack={edit} onClose={() => setEdit(null)} onSaved={(d) => setData(d)} />
       <StorylineRead pack={read} onClose={() => setRead(null)} onExpand={(pid) => {
         setRead(null);
@@ -492,6 +504,13 @@ export default function DialogueCard() {
       </Sheet>
     </>
   );
+}
+
+/** "3 flirt lines · 1 group chat" */
+function textingLine(p: PackRow) {
+  const t = p.texting || { flirt: 0, group_chats: 0, lines: 0 };
+  const bit = (n: number, w: string) => (n ? `${n} ${w}${n === 1 ? "" : "s"}` : "");
+  return [bit(t.flirt, "flirt line"), bit(t.group_chats, "group chat"), bit(t.lines, "text line")].filter(Boolean).join(" · ") || "nothing yet";
 }
 
 export /** Storylines with their expansions right under them. */

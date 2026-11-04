@@ -40,7 +40,7 @@ function Head({ title, onBack, right }: { title: string; onBack: () => void; rig
 
 export default function Editor({ route }: { route: string[] }) {
   const id = route[0];
-  return id ? <PersonEditor key={id} id={decodeURIComponent(id)} /> : <EditorHome />;
+  return <PersonEditor key={id} id={decodeURIComponent(id)} />;
 }
 
 // ------------------------------------------------------------------------------------------------ everyone
@@ -86,27 +86,46 @@ function PeopleList({ people, onPick, exclude }: { people: EdPersonRow[]; onPick
   );
 }
 
-function EditorHome() {
-  const { toast } = usePhone();
+/** The Studio's People tab: add someone, edit yourself, everyone in your world. */
+export function EditorPeople() {
+  const { toast, state, refresh } = usePhone();
   const [all, setAll] = useState<{ schema: EdSchema; people: EdPersonRow[] } | null>(null);
   const [adding, setAdding] = useState(false);
+  const on = !!(state?.control as any)?.editor;
   useEffect(() => {
-    loadAll(true).then(setAll).catch((e) => toast(errText(e), "bad"));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (on) loadAll(true).then(setAll).catch((e) => toast(errText(e), "bad"));
+  }, [on]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (!on) {
+    return (
+      <div className="ph-card">
+        <p className="ph-dim small" style={{ marginTop: 0 }}>The editor is off, so people can't be changed right now.</p>
+        <button className="ph-btn primary block" onClick={async () => {
+          try {
+            await phoneApi.control({ editor: true });
+            await refresh();
+          } catch (e) {
+            toast(errText(e), "bad");
+          }
+        }}>Turn the editor on</button>
+      </div>
+    );
+  }
+  const me = all?.people.find((x) => x.me);
   return (
-    <div className="ed">
-      <Head title="Editor" onBack={() => pgo("me")} />
+    <>
       <p className="ed-intro">
-        Change anyone, any time: who they are, their look, body and sports, personality, talents, what's next after high school
-        and how they're doing, and how they feel about anyone else. Or add someone new. Edits are quiet: no texts, no news.
+        Who everyone is: look, body and sports, personality, what's next after high school, how they feel about each other. Or
+        add someone. Edits are quiet (no texts, no news), and they come along when you start over.
       </p>
-      <button className="ph-btn primary block ed-addnew" onClick={() => setAdding(true)}><PIcon name="plus" size={17} /> Add someone</button>
-      <button className="ph-btn soft block ed-addnew" onClick={() => pgo("roles")}><PIcon name="people" size={17} /> Roles your storylines need</button>
+      <div className="ed-top2">
+        <button className="ph-btn primary block" onClick={() => setAdding(true)}><PIcon name="plus" size={17} /> Add someone</button>
+        {me && <button className="ph-btn soft block" onClick={() => pgo(`edit/${encodeURIComponent(me.id)}`)}>Edit me</button>}
+      </div>
       {all ? <PeopleList people={all.people} onPick={(p) => pgo(`edit/${encodeURIComponent(p.id)}`)} /> : <div className="ed-load"><span className="ph-spinner" /></div>}
       <Sheet open={adding} onClose={() => setAdding(false)} title="Add someone" full>
         {adding && <AddSomeone onDone={() => { setAdding(false); cache = null; }} />}
       </Sheet>
-    </div>
+    </>
   );
 }
 
@@ -165,7 +184,7 @@ function PersonEditor({ id }: { id: string }) {
     }
   };
 
-  if (!p || !schema) return <div className="ed"><Head title="Editor" onBack={() => pgo("edit")} /><div className="ed-load"><span className="ph-spinner" /></div></div>;
+  if (!p || !schema) return <div className="ed"><Head title="Editor" onBack={() => pgo("studio/people")} /><div className="ed-load"><span className="ph-spinner" /></div></div>;
   const me = people.find((x) => x.me);
   const look: Look = { ...p.look, ...(d.look || {}) } as Look;
   const who = p.is_me ? "you" : p.first;
@@ -174,8 +193,8 @@ function PersonEditor({ id }: { id: string }) {
   );
   return (
     <div className="ed">
-      <Head title={p.is_me ? "Edit you" : `Edit ${p.first}`} onBack={() => (window.history.length > 1 ? window.history.back() : pgo("edit"))}
-        right={<button className="ed-all" onClick={() => pgo("edit")}>Everyone</button>} />
+      <Head title={p.is_me ? "Edit you" : `Edit ${p.first}`} onBack={() => (window.history.length > 1 ? window.history.back() : pgo("studio/people"))}
+        right={<button className="ed-all" onClick={() => pgo("studio/people")}>Everyone</button>} />
       <div className="ed-hero">
         <Portrait look={look} size={104} color={p.color} name={p.first} mood="happy" />
         <h2>{(d.first ?? p.first) + " " + (d.last ?? p.last)}</h2>
@@ -361,7 +380,7 @@ export function EditorCard() {
       <div className="ed-card-t"><PIcon name="wand" size={20} /> <b>Editor</b></div>
       <p className="ph-dim small">Change anyone's personality, talents, look and mood, and set who likes who. Quiet: no texts, no news.</p>
       <div className="ed-card-b">
-        <button className="ph-btn primary" onClick={() => pgo("edit")}>Edit anyone</button>
+        <button className="ph-btn primary" onClick={() => pgo("studio/people")}>Edit anyone</button>
         <EditMeButton />
       </div>
     </div>
@@ -400,7 +419,7 @@ export function SetupNudge() {
       <div className="ed-card-t"><PIcon name="wand" size={20} /> <b>Set your world up</b></div>
       <p className="ph-dim small">Before it gets going: change anyone's personality or look, and set who's friends, who has a crush, who's dating.</p>
       <div className="ed-card-b">
-        <button className="ph-btn primary" onClick={() => pgo("edit")}>Open the editor</button>
+        <button className="ph-btn primary" onClick={() => pgo("studio/people")}>Open the editor</button>
         <button className="ph-btn" onClick={hide}>Not now</button>
       </div>
     </div>

@@ -502,7 +502,7 @@ def phone_scene_plan(body: dict = Body(...)):
 def _editor(L):
     from . import editor
     if not editor.on(L.w):
-        raise HTTPException(403, "The editor is off. Turn it on in Me → Editor.")
+        raise HTTPException(403, "The editor is off. Turn it on in Me → Story Studio → People.")
     return editor
 
 

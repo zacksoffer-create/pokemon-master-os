@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Msg, Thread, ThreadSummary, phoneApi, pgo } from "./api";
 import { usePhone } from "./PhoneContext";
-import AddTexting from "./AddTexting";
 import {
   Chevron, GroupAvatar, PersonAvatar, dayLabel, listTime, minutes, pendingCompose, sleep, usePeople,
 } from "./MessagesUtil";
@@ -81,14 +80,10 @@ export function MessagesList() {
 
 /** Add your own flirt lines and group chats (ChatGPT writes them, you paste them in). */
 function AddTextingRow() {
-  const [open, setOpen] = useState(false);
   return (
-    <>
-      <button className="pm-add-texting" onClick={() => setOpen(true)}>
-        <span>✍️</span><b>Add texting</b><small>flirt lines and group chats</small>
-      </button>
-      <AddTexting open={open} onClose={() => setOpen(false)} />
-    </>
+    <button className="pm-add-texting" onClick={() => pgo("texting")}>
+      <span>✍️</span><b>Add texting</b><small>flirt lines and group chats</small>
+    </button>
   );
 }
 

@@ -570,7 +570,7 @@ What's in it:
   land one at a time with typing dots. Jump in with one of a few things to say (defend them, pile on, send the pic): it
   lands differently with each of them, and sometimes the one you roasted DMs you after ("ok be honest. is it actually
   that bad").
-- **Add your own texting.** Phone → Messages → **Add texting** (or Me → Storylines): pick flirting, group chats or both,
+- **Add your own texting.** Phone → Messages → **Add texting** (or Me → **Texting**): pick flirting, group chats or both,
   say what you want ("sarcastic flirting", "the boys roasting each other about fantasy football"), copy the ChatGPT prompt,
   paste what it writes, **Check it** (you see what it adds: flirt openers, how they answer, follow-ups, them flirting
   first, payoffs, and each group chat with how it starts) and **Add it**. It's live right away, fixed rather than refused
@@ -790,7 +790,7 @@ sister" (which could land on one of your twin sisters). That's a **cast slot**.
   come up. It never swaps in someone else.
 - **Missed a season?** A chapter whose school years are over counts as skipped, so the rest of the storyline (the
   college years) still comes.
-- **Lock a pack you already have:** on the pack's card (Me → Dialogue), **Lock its older brother or sister scenes onto
+- **Lock a pack you already have:** on the storyline's card (Me → Story Studio → Storylines), **Lock its older brother or sister scenes onto
   one person**: pick **Your older brother**, the sport, and **Inseparable** if they start close and stay close. Every
   scene that said `older_sibling` now says `cast:older_brother`; names, text, choices and remembered facts don't change.
   Lock a second pack the same way and it's the same person ("Same person in Friday Nights").
@@ -800,13 +800,27 @@ sister" (which could land on one of your twin sisters). That's a **cast slot**.
   same way (checked by the game's own checker). `python lifeos/tools/cast_playthrough.py [packs...]` plays a seeded story
   (you a freshman, twin sisters in 10th, a senior brother) into college and prints who every scene was about.
 
+## The menus: Story Studio and Texting
+
+Everything you put into the game has two homes, both on the **Me** tab under **Make it yours**:
+
+- **Story Studio**, the groundwork for your stories, in three tabs: **People** (add someone, edit yourself or anyone),
+  **Storylines** (Write more, Paste a script, every storyline with its scenes, expansions and script; how it works and
+  the season plan prompt fold away under the list) and **Roles** (what your storylines need, and who fills it; the tab
+  shows how many nobody fits). **Start over** is at the bottom, since all of this comes along.
+- **Texting**: how many flirt lines, group chats and text lines you've added, **Add texting** (pick what, copy the
+  ChatGPT prompt, paste or upload what it writes, check, add) and **What you've added** (each pack, to turn on and off,
+  edit or remove). Texting you add lives here, not in your storylines.
+
+The rest of the Me tab (your focus, classes, pacing, when the story stops, your story file and backups) is where it was.
+
 ## The editor (change anyone, anything)
 
 For setting your world up exactly how you want it, or fixing something later. It's **on when a story starts**, and
-**Me → Editor** turns it off (and back on whenever you want).
+The **Editor** switch on the Me tab turns it off (and back on whenever you want).
 
-- **Where:** the Story tab shows **Set your world up** for the first week; the Me tab has an **Editor** card (**Edit
-  anyone**, **Edit me**); and every contact page gets an **Edit** button while it's on.
+- **Where:** Me → **Story Studio** → **People** (Add someone, Edit me, everyone in your world); the Story tab shows **Set
+  your world up** for the first week; and every contact page gets an **Edit** button while it's on.
 - **Everyone list:** search anyone by name, or filter to your people, your family, your grade, or everyone in the world.
 - **A person:** everything the story builder sets, any time in the story: name and bio; **who they are** (gender,
   pronouns, who they're into, birthday, type); look; **body and sports** (height, build, jersey number, a position sport by
@@ -849,7 +863,7 @@ it between the phone and the desktop.
 
 ### Roles: what your storylines need
 
-**Me → Storylines → Roles your storylines need** (also at the top of the editor) lists everything your storylines that
+**Me → Story Studio → Roles** lists everything your storylines that
 are on need from your story, each role once with every storyline that uses it and how many scenes:
 
 - **Storyline people** a storyline names (`cast: kayla = older sister, soccer`, `cast: jordan = friend of kayla`).
@@ -861,7 +875,7 @@ When nobody fits, it shows who's **close** and what they're missing ("Ally: does
 brother, older"), with a one-tap fix where there is one (**Make Ally play soccer**, **Make you friends**, **Start
 dating**) or **Edit** to change them yourself, and **Add someone who fits**. A role that's about someone in another
 role's life (a friend of Kayla's) waits for that one first. Pick one person for a role and every storyline with it uses
-them. The Storylines card says how many roles nobody fits. Everything you pick, fix or add here is groundwork: it comes
+them. The Studio's Roles tab (and its tile on the Me tab) says how many roles nobody fits. Everything you pick, fix or add here is groundwork: it comes
 back when you start over.
 
 **Nobody fits?** A storyline person nobody in your story fits (an older sister who plays soccer, a friend of Kayla's)
@@ -998,7 +1012,7 @@ bro: You're late. {Again.|Shocker.|Unbelievable.}
 - Blocks for the game's pools: `texts <pool>:`, `replies <set>:`, `chat <path>:`, `narration <key>:`, `mods ...:`,
   `trivia <subject>:`, `choices <moment>:`, and `schedule:` to retime any scene.
 
-**On the phone:** Me → **Storylines** → **Write more**. A storyline is built in two steps, so ChatGPT never has to fit a
+**On the phone:** Me → **Story Studio** → **Storylines** → **Write more**. A storyline is built in two steps, so ChatGPT never has to fit a
 whole storyline into one reply and never has to get the timing right:
 
 1. **Plan it.** Say what you want ("Mike and me on the same team, freshman year", or tap an idea), pick how big (6 to 8
@@ -1041,7 +1055,7 @@ story** work as before, and **Paste a script** still takes a whole script in one
 ChatGPT reuses the storyline's name or forgets the `expands:` line (it becomes "<Storyline>: more"). A paste with the same
 name as a storyline you have replaces it only when it's a newer version of it (it still has every scene the old one had,
 or it's a new season plan); anything else is added alongside it ("... (2)") with a note. And every storyline that gets
-replaced, edited or removed keeps its last few versions: Me → Storylines → **Older versions** → **Restore**.
+replaced, edited or removed keeps its last few versions: Me → Story Studio → Storylines → **Older versions** → **Restore**.
 
 **Updates arrive on their own.** The site publishes `version.json` (the newest engine's id) with every build, and the
 app checks it whenever it opens and whenever you come back to it. Opened on an old copy, it saves and updates right
