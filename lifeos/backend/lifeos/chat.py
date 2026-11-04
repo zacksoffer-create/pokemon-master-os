@@ -85,6 +85,8 @@ STYLES = ("tease", "sweet", "bold", "funny", "cheesy")
 STYLE_WORD = {"tease": ("Teasing", "the teasing"), "sweet": ("Sweet stuff", "sweet stuff"), "bold": ("Being direct", "you being direct"),
               "funny": ("Making them laugh", "the jokes"), "cheesy": ("Cheesy lines", "cheesy lines")}
 STYLE_TONE = {"tease": "😏", "sweet": "🥰", "bold": "🔥", "funny": "😂", "cheesy": "🧀", "playful": "😏"}
+BANTER_TONE = {"cool": "😌", "letdown": "🙂"}
+SPARK = {"landed": 1.0, "playful": 0.5, "awkward": -1.0, "shut": -2.0}  # how a flirt beat moves things along
 YES = r"^(yes+|yeah+|yea|yep|sure|ok(ay)?|down|i'?m down|bet|of course|definitely|deal|sounds good|let'?s do it)\b"
 NO = r"^(no+|nah|nope|can'?t|i can'?t|busy|not today|maybe another|sorry,? (i )?can'?t)\b"
 
@@ -369,6 +371,124 @@ WHY = {
 }
 
 
+def _band(sim, cid) -> str:
+    """Early (still getting to know each other) or close (flirty already): which lines fit."""
+    return "close" if stage(sim, cid) >= 3 else "early"
+
+
+def _banter_mode(sim, cid, c, last):
+    """Mid-flirt, what's next: {"mode": "back", "after": "landed"|"playful"} once they answered a flirt of yours,
+    {"mode": "in"} when they started it. None otherwise."""
+    if last is None or last["from"] != cid:
+        return None
+    if last.get("kind") == "chat_flirt_in":
+        return {"mode": "in"}
+    bt = (c or {}).get("banter") or {}
+    if bt.get("open") and bt.get("after") in ("landed", "playful"):
+        return {"mode": "back", "after": bt["after"]}
+    return None
+
+
+def _banter_suggestions(sim, cid, bm, salt, avoid) -> list:
+    """Two styles (one you know they love, or one you haven't tried on them) and playing it cool; when they started it,
+    letting them down easy too."""
+    from .messages import _fill, _h, phone
+    w = sim.w
+    me = _me(sim)
+    o = w.chars[cid]
+    known = phone(w).get("tastes", {}).get(cid, {})
+    loved = [k for k in STYLES if known.get(k) == 1]
+    rest = [k for k in ("tease", "sweet", "bold", "funny", "cheesy") if k not in loved and known.get(k) != -1]
+    rot = _h(salt, "bt") % max(1, len(rest))
+    order = loved + rest[rot:] + rest[:rot]
+    picks = order[:2] if len(order) >= 2 else (order + ["sweet", "tease"])[:2]
+    if bm["mode"] == "back" and bm["after"] == "landed" and stage(sim, cid) >= 3 and "bold" not in picks and known.get("bold") != -1:
+        picks[1] = "bold"  # it's going well: the direct option's there
+    moves = picks + ["cool"] + (["letdown"] if bm["mode"] == "in" and me.flags.get("partner") != cid else [])
+    out = []
+    for mv in moves:
+        path = ("banter", "in_back", mv) if bm["mode"] == "in" else ("banter", "back", bm["after"], mv)
+        pool = _pool(sim, cid, *path)
+        if not pool:
+            continue
+        out.append({"text": _fill(_pick(sim, pool, f"{salt}:{mv}", avoid), {"them": o.first, "me": me.first}),
+                    "intent": "letdown" if mv == "letdown" else "flirt", "tone": STYLE_TONE.get(mv) or BANTER_TONE.get(mv, "😏"),
+                    "style": mv, "banter": mv})
+    return out
+
+
+def _banter_step(sim, cid, c, out, cool, them_first, prev, fx, salt, avoid) -> str | None:
+    """One beat of a flirt. A few good ones in a row and it goes somewhere; an awkward one and it can fizzle. Returns
+    what to tell you when it went somewhere (or fizzled)."""
+    from .messages import _h
+    o = sim.w.chars[cid]
+    bt = dict(prev) if prev else {"beat": 0, "spark": 0.5 if them_first else 0.0}
+    bt["beat"] += 1
+    bt["spark"] += SPARK[out] * (0.5 if cool else 1.0)
+    bt["open"] = False
+    note = None
+    if out in ("awkward", "shut"):
+        if prev and out == "awkward" and _h(salt, "fz") % 2 == 0:
+            _say(sim, cid, None, None, salt + ":fz", "chat_flirt_awkward", avoid, pool=_pool(sim, cid, "banter", "fizzle"))
+            c["closed"] = True
+            note = f"It fizzled. {o.first} needed a breather; one step at a time."
+    elif (bt["beat"] >= 2 and bt["spark"] >= 2.0) or (bt["beat"] >= 3 and bt["spark"] >= 1.5):
+        note = _payoff(sim, cid, c, fx, salt, avoid)
+    elif bt["beat"] < 3:
+        bt["open"] = True
+        bt["after"] = "landed" if out == "landed" else "playful"
+    c["banter"] = bt
+    return note
+
+
+def _payoff(sim, cid, c, fx, salt, avoid) -> str:
+    """A flirt that went somewhere: they say so, and it leads somewhere (bed, plans, or ask me out in person)."""
+    w = sim.w
+    me = _me(sim)
+    o = w.chars[cid]
+    rt = w.rels.get((cid, me.id))
+    partner = me.flags.get("partner") == cid
+    ctl = w.meta.setdefault("control", {})
+    q = ctl.get("queued")
+    if sim.current_phase() == "night":
+        kind = "goodnight"
+    elif not partner and stage(sim, cid) >= 3 and rt and rt.attraction >= 50 and not o.flags.get("partner") \
+            and (not q or q.get("action") == "ask_out"):
+        kind = "ask"
+    elif not q and o.status == "active" and o.location == me.location:
+        kind = "plans"
+    else:
+        kind = "blush"
+    _say(sim, cid, None, None, salt + ":po", "chat_flirt_landed", avoid, pool=_pool(sim, cid, "banter", "payoff", kind))
+    _gain(sim, cid, fx, cid, "attraction", 3.0, "a flirt that went somewhere")
+    _gain(sim, cid, fx, cid, "affection", 1.0, "a flirt that went somewhere")
+    fx.mood(me.id, 3, f"texting {o.first}")
+    fx.need(me.id, "fun", 3, "texting")
+    if kind == "goodnight":
+        c["closed"] = True
+        return f"That went somewhere. {o.first} went to bed smiling."
+    if kind == "ask":
+        o.flags["told_to_ask"] = {"by": me.id, "day": w.day}
+        r_me = w.ensure_rel(me.id, cid, w.day)
+        need = w.rules["rel.crush_threshold"] + 2 - r_me.attraction
+        if need > 0:
+            fx.rel(me.id, cid, "attraction", need, "you're into them")
+        ctl["queued"] = {"action": "ask_out", "target": cid, "day": w.day, "expires": w.day + 4}
+        return f"That went somewhere: {o.first} wants you to ask them out in person. Plan made: you'll ask the next time you see them."
+    if kind == "plans":
+        ctl["queued"] = {"action": "hang_out", "target": cid, "agreed": True, "day": w.day}
+        return f"That went somewhere: plans made. You'll hang out with {o.first} at your next free time."
+    return f"That went somewhere: {o.first} is into this."
+
+
+def flirt_in_line(sim, cid) -> str:
+    """Them flirting first: a line that fits where you two are."""
+    from .messages import _fill, _h
+    w = sim.w
+    pool = _pool(sim, cid, "banter", "in", _band(sim, cid))
+    return _fill(pool[_h(w.day, cid, "in") % len(pool)], {"me": _me(sim).first}) if pool else "hey 😏"
+
+
 def flirt_check(sim, cid, strength: int, effort: float, momentum: float, rng, style: str | None = None) -> dict:
     """Did the flirt land? Five readable parts, the two that mattered most become the reason."""
     w = sim.w
@@ -650,6 +770,7 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         sug_style, sug_yn = sug[suggestion].get("style"), sug[suggestion].get("yn")
     else:
         forced = sug_style = sug_yn = None
+    cool = sug_style == "cool"  # playing it cool: a flirt that doesn't push
     text = (text or "").strip()[:240]
     if not text:
         raise ValueError("say something")
@@ -664,6 +785,8 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         intent = "chat"
     if forced == "ask_out":
         intent = "ask_out"
+    if forced == "letdown":
+        intent = "letdown"
     style = sug_style or f.get("style")
     tid = f"dm:{cid}"
     # they asked you a yes-or-no question: a yes or a no is an answer to it
@@ -884,10 +1007,23 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
             plans, result = True, "plans"
         else:
             _say(sim, cid, "plans", "no" if ok != "cold" else "cold", salt, "chat_react", avoid)
+    elif intent == "letdown":
+        # they flirted, you're not into it: kind beats cold
+        _say(sim, cid, None, None, salt, "chat_react", avoid, pool=_pool(sim, cid, "banter", "letdown"))
+        fx.rel(cid, me.id, "attraction", -12, "you let them down easy")
+        _gain(sim, cid, fx, cid, "affection", 0.5, "you were nice about it")
+        c["banter"] = None
+        why = f"You let {o.first} down easy. No hard feelings."
+        result = "letdown"
     elif intent in ("flirt", "ask_out", "love"):
-        res = flirt_check(sim, cid, 2 if intent in ("ask_out", "love") else max(1, f["flirt"]), f["effort"], c["momentum"], rng,
-                          style=style if intent == "flirt" else None)
+        prev = c.get("banter") if (c.get("banter") or {}).get("open") else None
+        them_first = last_q is not None and last_q["from"] == cid and last_q.get("kind") == "chat_flirt_in"
+        lift = (0.2 if them_first else 0.0) + (0.1 * prev["beat"] if prev and prev.get("after") == "landed" else 0.0)
+        res = flirt_check(sim, cid, 1 if cool else 2 if intent in ("ask_out", "love") else max(1, f["flirt"]), 0.0 if cool else f["effort"],
+                          c["momentum"] + lift, rng, style=style if intent == "flirt" else None)
         out = res["outcome"]
+        if cool and out == "shut" and _open_to_you(sim, cid) is None:
+            out = "awkward"  # playing it cool never gets you shut down
         why = res["why"]
         if intent == "flirt":
             _learn(sim, cid, style)
@@ -911,7 +1047,12 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
                 (tastes(o)[style] > 0 and out == "landed") or (tastes(o)[style] < 0 and out in ("awkward", "shut"))):
             _say(sim, cid, "style", "loves" if out == "landed" else "hates", salt, f"chat_flirt_{out}", avoid)
         else:
-            _say(sim, cid, "flirt", out, salt, f"chat_flirt_{out}", avoid)
+            key = "cool" if cool else style if style in STYLES else None
+            pool = _pool(sim, cid, "banter", "them", key, out) if key and intent == "flirt" else None
+            if pool and _h(salt, "bp") % 10 < 8:
+                _say(sim, cid, None, None, salt, f"chat_flirt_{out}", avoid, pool=pool)  # answered in the flavor of what you sent
+            else:
+                _say(sim, cid, "flirt", out, salt, f"chat_flirt_{out}", avoid)
         if out == "landed":
             _gain(sim, cid, fx, cid, "attraction", 4.0, "flirting")
             _gain(sim, cid, fx, me.id, "attraction", 3.0, "flirting")
@@ -931,12 +1072,20 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
             fx.rel(cid, me.id, "attraction", -1.5, "a flirt that didn't land")
             c["momentum"] -= 0.3
             cost = 2.0
+        if intent == "flirt":
+            went = _banter_step(sim, cid, c, out, cool, them_first, prev, fx, salt, avoid)
+            if went:
+                why, ask = went, False  # the payoff is the last word
+            if (c.get("banter") or {}).get("open"):
+                ask = False  # they don't change the subject mid-flirt
         ev["importance"] = 8
         ev["outcome"] = out
         ev["data"]["why"] = why
         result = f"flirt_{out}"
     else:
         _say(sim, cid, "chat", ok, salt, "chat_react", avoid)
+    if intent not in ("flirt", "letdown") and (c.get("banter") or {}).get("open"):
+        c["banter"]["open"] = False  # you changed the subject
     c["turns"] += 1
     c["energy"] -= cost
     good = result not in ("rude", "flirt_awkward", "flirt_shut") and intent not in ("dry", "bye")
@@ -984,6 +1133,14 @@ def suggestions(sim, cid) -> list:
     st = stage(sim, cid)
     sib = cid in sim.siblings(me.id)
     partner = me.flags.get("partner") == cid
+    bm = None if (sib or o.role == "staff") else _banter_mode(sim, cid, c, last)
+    if bm:
+        # mid-flirt: what you say next builds on what they just said
+        out = _banter_suggestions(sim, cid, bm, f"{w.day}:{cid}:{len(t['msgs'])}", _avoid(sim, f"dm:{cid}"))
+        if talking and c["turns"] >= 2:
+            out.append({"text": _pick(sim, _pool(sim, cid, "suggest", "bye"), f"{w.day}:{cid}:bye", _avoid(sim, f"dm:{cid}")),
+                        "intent": "bye", "tone": TONE["bye"]})
+        return out
     cands = []  # (rank to pick, rank to show, suggestion)
 
     def add(pick, show, intent, pool, tone=None, **extra):
@@ -1049,6 +1206,8 @@ def suggestions(sim, cid) -> list:
     out = []
     for show, sug in sorted(picked, key=lambda x: x[0]):
         pool = _pool(sim, cid, "answer", sug["pool"]) if sug["intent"] == "answer" else _pool(sim, cid, "suggest", sug["pool"])
+        if sug["intent"] == "flirt" and sug.get("style") in STYLES:  # openers that fit where you two are
+            pool = (_pool(sim, cid, "banter", "open", _band(sim, cid), sug["style"]) or []) + pool
         if not pool:
             continue
         item = {"text": _pick(sim, pool, f"{salt}:{sug['pool']}", avoid), "intent": sug["intent"], "tone": sug["tone"]}

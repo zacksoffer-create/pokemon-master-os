@@ -331,7 +331,8 @@ def on_event(sim, ev):
         g = w.groups.get(ev.get("group"))
         if g and p in actors:
             mates = sorted([m for m in g["members"] if m != p and m in w.chars], key=lambda m: -w.chars[m].traits["sociability"])
-            if mates:
+            from . import groupchat
+            if mates and not (_h(salt, "gc") % 10 < 5 and groupchat.start(sim, "team", {out}, group=g, opp=d.get("opponent", "them"), phase="night")):
                 s = mates[_h(salt, "mate") % min(3, len(mates))]
                 post(sim, f"team:{g['id']}", s, pick(f"team_{out}", salt, sim=sim, frm=s, opp=d.get("opponent", "them"), _group=list(g["members"])), kind="team",
                      title=g["name"], members=[m for m in g["members"] if m != p], tkind="group", phase="night")
@@ -378,6 +379,8 @@ def tick(sim):
     ph = w.meta.get("phone")
     if not ph or not w.meta.get("protagonist"):
         return
+    from . import groupchat
+    groupchat.tick(sim)  # tonight's group chat
     now = w.day * 10 + w.phase
     due = [x for x in ph["pending"] if x["due"] <= now]
     if not due:
@@ -412,8 +415,9 @@ def daily(sim):
     rng_base = _h(w.day, "chatter")
     partner = me.flags.get("partner")
     sent = 0
-    from . import chat
+    from . import chat, groupchat
     chat.follow_ups(sim)  # "how'd the test go??"
+    groupchat.plan_day(sim)  # maybe a group chat starts up tonight
     pr = w.rels.get((me.id, partner)) if partner in w.chars else None
     if pr and pr.last_day >= 0 and w.day - pr.last_day >= 3 and rng_base % 100 < 60:
         pool = chat.D()["reply"]["partner"]["miss"]
@@ -434,9 +438,21 @@ def daily(sim):
             crush = back is not None and back.attraction >= 45 and not me.flags.get("partner") and not w.chars[o].flags.get("partner")
             cats = ["chatter_plans", "chatter_plans", "chatter_school", "chatter_vent", "chatter_funny", "chatter_game"]
             cat = cats[_h(w.day, o, "cat") % len(cats)]
-            key = "flirt_in" if crush and _h(w.day, o) % 3 == 0 else cat
-            later(sim, o, key, delay_phases=2 + _h(o, w.day) % 5, replies="flirt" if key == "flirt_in" else cat)
+            if crush and _h(w.day, o) % 3 == 0:
+                # they flirt first: you can flirt back (it's the start of a back-and-forth), play it cool or let them down easy
+                later(sim, o, "chat_flirt_in", delay_phases=2 + _h(o, w.day) % 5, text=chat.flirt_in_line(sim, o), ctx={"fast": True})
+            else:
+                later(sim, o, cat, delay_phases=2 + _h(o, w.day) % 5, replies=cat)
             sent += 1
+    if sent < 2 and not partner:
+        # someone into you who isn't one of your closest friends yet can still shoot their shot
+        ph = phone(w)
+        keen = sorted(o for o in ph["contacts"] if o in w.chars and w.chars[o].status == "active" and not w.chars[o].flags.get("partner")
+                      and (r := w.rels.get((o, me.id))) and r.attraction >= 50 and r.familiarity >= 25
+                      and o not in [x for _, x in friends] and ph.get("texted", {}).get(o, -9) < w.day - 1)
+        if keen and _h(w.day, "keen") % 100 < 14:
+            o = keen[_h(w.day, "keen-who") % len(keen)]
+            later(sim, o, "chat_flirt_in", delay_phases=3 + _h(o, w.day) % 4, text=chat.flirt_in_line(sim, o), ctx={"fast": True})
     sibs = [s for s in sim.siblings(me.id) if w.chars[s].status == "active"]
     if sibs and rng_base % 100 < 8:
         s = sibs[rng_base % len(sibs)]
@@ -464,9 +480,12 @@ def pregame(sim):
         if it["day"] == tomorrow and it["kind"] == "game" and it.get("group") in me.memberships:
             g = w.groups[it["group"]]
             mates = sorted([m for m in g["members"] if m != me.id and m in w.chars], key=lambda m: -w.chars[m].traits["sociability"])
+            from .sports import opponent_name
+            from . import groupchat
+            n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
+            if mates and _h(w.day, g["id"], "gc") % 10 < 6 and groupchat.start(sim, "team", {"pregame"}, group=g, opp=opponent_name(sim, g, n), phase="evening"):
+                mates = []  # the team chat's going: they're talking about it
             if mates:
-                from .sports import opponent_name
-                n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
                 s = mates[_h(w.day, g["id"]) % min(2, len(mates))]
                 post(sim, f"team:{g['id']}", s, pick("team_pregame", f"{w.day}:{g['id']}", sim=sim, frm=s, opp=opponent_name(sim, g, n), _group=list(g["members"])), kind="team",
                      title=g["name"], members=[m for m in g["members"] if m != me.id], tkind="group", phase="evening")
@@ -628,6 +647,10 @@ def reply(sim, tid, mid, index) -> dict:
         scene = next((x for x in w.meta.get("moments", []) if x["id"] == mo), {}).get("by_text")
         moments.resolve(sim, mo, int(i))
         answer = None if scene else "react_flirt_yes" if int(i) == 0 else "react_dry"
+    elif fx_key.startswith("burst:"):
+        _, inst, k = fx_key.split(":")
+        from . import groupchat
+        groupchat.answer(sim, tid, inst, int(k), fx)
     elif fx_key.startswith("group:"):
         _, gid, yn = fx_key.split(":")
         from . import squad
@@ -803,6 +826,7 @@ def _reply_open(sim, msg) -> bool:
 def thread_view(sim, tid, mark_read=False) -> dict:
     w = sim.w
     t = phone(w)["threads"][tid]
+    fresh = t["unread"] if mark_read else 0  # new since you last looked: the app plays these in, one at a time
     if mark_read:
         t["unread"] = 0
     msgs = []
@@ -811,7 +835,7 @@ def thread_view(sim, tid, mark_read=False) -> dict:
                      "day": m["day"], "date": calm.label(m["day"]), "kind": m["kind"], "read": m.get("read", False),
                      "replies": [r["label"] for r in m["replies"]] if _reply_open(sim, m) else None,
                      "chosen": m.get("chosen"), "fast": bool((m.get("ctx") or {}).get("fast"))})
-    out = {"id": tid, "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"], "msgs": msgs,
+    out = {"id": tid, "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"], "msgs": msgs, "fresh": fresh,
            "can_text": t["kind"] == "dm" and bool(text_options(sim, t["members"][0])) if t["members"] else False,
            "text_options": text_options(sim, t["members"][0]) if t["kind"] == "dm" and t["members"] else []}
     if t["kind"] == "dm" and t["members"] and t["members"][0] in w.chars:

@@ -124,11 +124,24 @@ export function Conversation({ tid }: { tid: string }) {
   const otherId = kind === "dm" ? tid.slice(3) : null;
   const other = otherId ? people[otherId] : null;
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (live = false) => {
     try {
       const t = await phoneApi.thread(tid);
       setThread(t);
-      setShown(t.msgs);
+      // opening a chat with new messages: what you'd seen shows right away, the new ones land one at a time
+      let cut = t.msgs.length;
+      let n = live ? Math.min(t.fresh || 0, 8) : 0;
+      while (cut > 0 && n > 0 && t.msgs[cut - 1].from !== ME) {
+        cut--;
+        if (t.msgs[cut].kind !== "note") n--;
+      }
+      if (cut < t.msgs.length) {
+        const seen = t.msgs.slice(0, cut);
+        setShown(seen);
+        stage(t, seen, null);
+      } else {
+        setShown(t.msgs);
+      }
       setErr(null);
       refresh();
       return t;
@@ -142,7 +155,7 @@ export function Conversation({ tid }: { tid: string }) {
     setThread(null);
     setShown([]);
     setNotes([]);
-    load().then((t) => {
+    load(true).then((t) => {
       if (t && pendingCompose.tid === tid && pendingCompose.kind) {
         const k = pendingCompose.kind;
         pendingCompose.tid = null;

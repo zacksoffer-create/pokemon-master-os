@@ -548,6 +548,17 @@ What's in it:
   their contact page keeps track under **What works with them** ("Teasing: they love it", "Cheesy lines: not into it",
   "Being direct: not tried yet"). Flirt suggestions offer a style you know they love, or one you haven't tried. Teasing
   with a 😂 is teasing; the same words without it are rude.
+- **Flirting goes back and forth.** A flirt that lands (or gets a laugh) isn't the end: they answer in the flavor of what
+  you sent, and your next options build on it, in two styles plus playing it cool. A few good beats in a row and it goes
+  somewhere: they're blushing, they want to hang out (plans made), they tell you to ask them out in person, or, late at
+  night, they go to bed smiling. An awkward beat can fizzle it. Someone into you can start it too ("you looked happy
+  today. it was cute"), and you can flirt back, play it cool, or let them down easy (kind, and they take it fine). Nobody
+  flirts with family, and nobody's into you who couldn't be.
+- **Group chats talk.** Your crew, your team and your family have conversations of their own: roasting someone's haircut,
+  the night before a game, who ate the leftovers. They talk to each other, and when you open the chat the new messages
+  land one at a time with typing dots. Jump in with one of a few things to say (defend them, pile on, send the pic): it
+  lands differently with each of them, and sometimes the one you roasted DMs you after ("ok be honest. is it actually
+  that bad").
 - **From text to in person.** When you ask someone out by text and they say "ask me in person 😳", the game plans it
   ("Asking Sophie out, next time you see them"), and they meant it: they'll say yes when you do.
 - **Dating takes showing up.** Go a few days without talking to your partner and it shows: "Feeling distant: 5 days since
