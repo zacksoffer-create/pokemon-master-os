@@ -1754,6 +1754,13 @@ def api_dialogue_guide(download: int = 0):
     return Response(dialogue.guide_markdown(), media_type="text/markdown; charset=utf-8", headers=headers)
 
 
+@app.get("/api/version")
+def api_version():
+    """Which engine is running (the phone's engine.zip build, or "lab" running from the source)."""
+    from .local_api import engine_build
+    return {"engine": engine_build()}
+
+
 @app.get("/api/dialogue/guide")
 def api_dialogue_guide_json(story: int = 0):
     """How to write a story script (to read on the phone)."""

@@ -220,6 +220,10 @@ export default function DialogueCard() {
   const [read, setRead] = useState<string | null>(null);
   const [write, setWrite] = useState<{ expand: string } | null>(null);
   const [guide, setGuide] = useState<string | null>(null);
+  const [engine, setEngine] = useState<string>("");
+  useEffect(() => {
+    api.get("/api/version").then((r) => setEngine(r.engine)).catch(() => undefined);
+  }, []);
   const [busy, setBusy] = useState<string | null>(null);
   const load = () => api.get("/api/dialogue/packs").then(setData).catch(() => setData(null));
   useEffect(() => {
@@ -419,6 +423,7 @@ export default function DialogueCard() {
           ))}
         </div>
       </div>
+      {engine && <p className="ph-dim small dl-engine">Engine {engine}</p>}
       <PasteSheet open={paste} onClose={() => setPaste(false)} onAdded={(d) => { setData(d); setPaste(false); }} />
       <ScriptSheet pack={edit} onClose={() => setEdit(null)} onSaved={(d) => setData(d)} />
       <StorylineRead pack={read} onClose={() => setRead(null)} onExpand={(pid) => { setRead(null); setWrite({ expand: pid }); }} />

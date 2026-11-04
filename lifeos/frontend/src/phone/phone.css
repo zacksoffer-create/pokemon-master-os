@@ -1300,3 +1300,4 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 .rd-chips button { border: 1.5px solid var(--ph-line); background: var(--ph-card); border-radius: 999px; padding: 7px 12px; font: 800 13px var(--ph-body); color: var(--ph-ink-2); }
 .rd-chips button.on { background: var(--ph-grape); border-color: var(--ph-grape); color: #fff; }
 .rd-tsheet .dl-sub small { font-weight: 600; color: var(--ph-dim); text-transform: none; letter-spacing: 0; }
+.dl-engine { text-align: center; margin: 6px 0 0; font-size: 11.5px; letter-spacing: .04em; }

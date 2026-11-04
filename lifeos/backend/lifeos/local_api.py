@@ -36,7 +36,16 @@ def boot(data_dir: str = "/data/saves"):
     for method, path, fn in fastapi.ROUTES:
         rx = "^" + re.sub(r"\{(\w+)(?::path)?\}", lambda m: f"(?P<{m.group(1)}>[^/]+)", path) + "$"
         _compiled.append((method, re.compile(rx), fn))
-    return {"routes": len(_compiled), "day": lab.w.day, "story": bool(lab.w.meta.get("protagonist"))}
+    return {"routes": len(_compiled), "day": lab.w.day, "story": bool(lab.w.meta.get("protagonist")), "engine": engine_build()}
+
+
+def engine_build() -> str:
+    """Which engine this is (stamped into the phone's engine.zip when it's built; "lab" when running from the source)."""
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "engine_build.txt"), encoding="utf-8") as f:
+            return f.read().strip() or "lab"
+    except OSError:
+        return "lab"
 
 
 def _lean(lab):

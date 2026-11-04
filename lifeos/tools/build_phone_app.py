@@ -32,8 +32,10 @@ def run(cmd, cwd):
 
 
 def engine_zip() -> bytes:
-    buf = io.BytesIO()
-    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+    """The engine, with its own build stamp inside (lifeos/engine_build.txt: a hash of everything in it), so the phone can
+    show which engine it's actually running."""
+    raw = io.BytesIO()
+    with zipfile.ZipFile(raw, "w", zipfile.ZIP_DEFLATED) as z:
         for sub, exts in (("lifeos", (".py",)), ("data", (".json",))):
             for dirpath, dirs, files in os.walk(os.path.join(BACK, sub)):  # data/ includes data/dialogue/ (built-in packs)
                 dirs[:] = sorted(d for d in dirs if d != "__pycache__")
@@ -53,6 +55,16 @@ def engine_zip() -> bytes:
                 for name in w.namelist():
                     if name.endswith(".py") or name.endswith(".typed"):
                         z.writestr("vendor/" + name, w.read(name))
+    h = hashlib.sha1()
+    with zipfile.ZipFile(io.BytesIO(raw.getvalue())) as z:
+        for name in sorted(z.namelist()):
+            h.update(name.encode() + b"\0" + z.read(name))
+    eid = h.hexdigest()[:10]
+    buf = io.BytesIO()
+    with zipfile.ZipFile(io.BytesIO(raw.getvalue())) as src, zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        for info in src.infolist():
+            z.writestr(info, src.read(info.filename))
+        z.writestr("lifeos/engine_build.txt", eid)
     return buf.getvalue()
 
 
