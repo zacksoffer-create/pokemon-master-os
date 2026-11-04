@@ -966,6 +966,12 @@ written yet ("6. Making Up · spaced out · only if you picked "Say sorry" in 5"
 storyline's row picks up where you left off. **Add an expansion**, **Edit the script**, **Play now** and **Make it one
 story** work as before, and **Paste a script** still takes a whole script in one go (fixed the same way, with notes).
 
+**Nothing you add can wipe out what you have.** An expansion is always its own piece under its storyline, even when
+ChatGPT reuses the storyline's name or forgets the `expands:` line (it becomes "<Storyline>: more"). A paste with the same
+name as a storyline you have replaces it only when it's a newer version of it (it still has every scene the old one had,
+or it's a new season plan); anything else is added alongside it ("... (2)") with a note. And every storyline that gets
+replaced, edited or removed keeps its last few versions: Me → Storylines → **Older versions** → **Restore**.
+
 **Updates arrive on their own.** The site publishes `version.json` (the newest engine's id) with every build, and the
 app checks it whenever it opens and whenever you come back to it. Opened on an old copy, it saves and updates right
 away; if it was already open (say you just came back from ChatGPT with scenes to paste), a banner says *A newer version

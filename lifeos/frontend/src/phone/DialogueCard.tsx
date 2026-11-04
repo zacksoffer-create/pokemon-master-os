@@ -2,7 +2,7 @@
 // paste its answer back, read and edit any storyline's script, turn them on and off, try a scene.
 import React, { useEffect, useState } from "react";
 import { api } from "../api";
-import { pgo } from "./api";
+import { OldVersion, pgo, phoneApi } from "./api";
 import { PIcon } from "./icons";
 import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
@@ -444,6 +444,7 @@ export default function DialogueCard() {
           ))}
         </div>
       </div>
+      <OlderVersions onRestored={load} />
       {engine && (
         <p className="ph-dim small dl-engine">
           Engine {engine}
@@ -502,6 +503,49 @@ function Problems({ errors, warnings, onLine }: { errors: string[]; warnings: st
       })}
       {errors.length > 12 && <div className="dl-err">…and {errors.length - 12} more</div>}
       {warnings.slice(0, 6).map((e, i) => <div key={`w${i}`} className="dl-warn">{e}</div>)}
+    </div>
+  );
+}
+
+/** What was replaced, edited or removed, the last few of each storyline: bring any of them back. */
+function OlderVersions({ onRestored }: { onRestored: () => void }) {
+  const { toast } = usePhone();
+  const [open, setOpen] = useState(false);
+  const [list, setList] = useState<OldVersion[] | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  useEffect(() => {
+    if (open) phoneApi.history().then((r) => setList(r.versions)).catch(() => setList([]));
+  }, [open]);
+  const restore = async (v: OldVersion) => {
+    setBusy(v.file);
+    try {
+      await phoneApi.restore(v.file);
+      toast(`${v.title} is back (what was there is kept as an older version).`, "good");
+      onRestored();
+      setList((await phoneApi.history()).versions);
+    } catch (e: any) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
+  return (
+    <div className="dl-older">
+      <button className="dl-older-head" onClick={() => setOpen(!open)}>
+        <b>Older versions</b><small>replaced, edited or removed storylines: bring one back</small><span>{open ? "▾" : "▸"}</span>
+      </button>
+      {open && (
+        list === null ? <span className="ph-spinner small" /> : list.length === 0 ? <p className="ph-dim small">Nothing yet.</p> : (
+          <ul>
+            {list.slice(0, 15).map((v) => (
+              <li key={v.file}>
+                <span><b>{v.title}</b><small>{v.scenes} scene{v.scenes === 1 ? "" : "s"} · {v.why} · {new Date(v.at * 1000).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</small></span>
+                <button className="ph-btn soft" disabled={!!busy} onClick={() => restore(v)}>{busy === v.file ? <span className="ph-spinner small" /> : "Restore"}</button>
+              </li>
+            ))}
+          </ul>
+        )
+      )}
     </div>
   );
 }

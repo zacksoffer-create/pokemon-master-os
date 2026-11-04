@@ -1353,6 +1353,8 @@ def api_build_outline(body: dict = Body(...)):
     storyline now (nothing plays until its scenes are written)."""
     from . import dialogue, script, scriptfix
     text = str(body.get("text") or "")
+    if body.get("expand"):  # more of a storyline: it's an expansion of it, whatever ChatGPT called it
+        text = dialogue.as_expansion(text, str(body["expand"]))
     fx = scriptfix.repair(text, library=dialogue.library())
     packs = [pk for pk in fx["result"]["packs"] if pk.get("outline")]
     if not packs:
@@ -1369,7 +1371,9 @@ def api_build_outline(body: dict = Body(...)):
         if not r["ok"]:
             return JSONResponse({"detail": "couldn't add it", "errors": r["errors"]}, status_code=422)
         _dialogue_changed(get_lab())
-        out.update({"pack": r["ids"][0], "packs": _dialogue_list()["packs"]})
+        saved = next((p["pack"] for p in dialogue.packs() if p["id"] == r["ids"][0]), {})
+        out.update({"pack": r["ids"][0], "packs": _dialogue_list()["packs"], "title": saved.get("name") or out["title"],
+                    "expands": saved.get("expands"), "notes": r.get("notes") or out["notes"]})
     return out
 
 
@@ -1779,7 +1783,8 @@ def api_dialogue_add(body: dict = Body(...)):
     from . import dialogue, script
     L = get_lab()
     if isinstance(body.get("text"), str) and script.looks_like_script(script.extract(body["text"])):
-        r = dialogue.add_script(body["text"])
+        text = dialogue.as_expansion(body["text"], str(body["expand"])) if body.get("expand") else body["text"]
+        r = dialogue.add_script(text)
         if not r["ok"]:
             return JSONResponse({"detail": "the script has a few problems", "errors": r["errors"], "error_lines": r["error_lines"],
                                  "warnings": r["warnings"]}, status_code=422)
@@ -1795,6 +1800,24 @@ def api_dialogue_add(body: dict = Body(...)):
         return JSONResponse({"detail": "the pack has a few problems", "errors": r["errors"], "warnings": r["warnings"]}, status_code=422)
     _dialogue_changed(L)
     return {**_dialogue_list(), "added": r["id"], "warnings": r["warnings"], "summary": r["summary"]}
+
+
+@app.get("/api/dialogue/history")
+def api_dialogue_history():
+    """Older versions of your storylines: what was replaced, edited or removed (the last few of each)."""
+    from . import dialogue
+    return {"versions": dialogue.history()[:40]}
+
+
+@app.post("/api/dialogue/history/restore")
+def api_dialogue_restore(body: dict = Body(...)):
+    from . import dialogue
+    try:
+        pid = dialogue.restore(str(body.get("file") or ""))
+    except KeyError:
+        raise HTTPException(404, "that older version isn't there anymore")
+    _dialogue_changed(get_lab())
+    return {**_dialogue_list(), "restored": pid}
 
 
 @app.get("/api/dialogue/packs/{pid}/script")

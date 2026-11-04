@@ -97,9 +97,9 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
     toast(ok ? "Copied. Paste it into ChatGPT, then paste its outline below." : "Couldn't copy. Try Share.", ok ? "good" : "bad");
   });
   const shareOutline = () => run("share", async () => share((await phoneApi.outlinePrompt(ask, size, start?.expand)).prompt, "LIFE OS: plan a storyline"));
-  const checkOutline = () => run("check", async () => setCheck(await phoneApi.outline(paste, false)));
+  const checkOutline = () => run("check", async () => setCheck(await phoneApi.outline(paste, false, start?.expand)));
   const create = () => run("create", async () => {
-    const r = await phoneApi.outline(paste, true);
+    const r = await phoneApi.outline(paste, true, start?.expand);
     setPack(r.pack!);
     setPaste("");
     setCheck(null);

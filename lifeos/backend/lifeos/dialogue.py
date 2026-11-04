@@ -1341,6 +1341,7 @@ def remove_pack(pid: str):
     for ext in (".story", ".json"):
         path = os.path.join(USER_DIR, f"{name}{ext}")
         if os.path.exists(path):
+            _backup(path, "removed")
             os.remove(path)
             _touched(path)
             try:
@@ -1695,11 +1696,24 @@ def add_script(text: str, into: str | None = None, strict: bool = False) -> dict
     os.makedirs(USER_DIR, exist_ok=True)
     secs = SC.split_sections(src)
     ids = []
+    kept_notes = []
     for i, (title, body) in enumerate(secs):
         if into and i == 0:
             path = _script_path(into)
+            _backup(path, "edited")
         else:
             path = os.path.join(USER_DIR, f"{_slug(title or 'untitled')}.story")
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as f:
+                    old = f.read()
+                if _is_update(old, body):
+                    _backup(path, "replaced by a newer version")
+                else:
+                    # a different storyline (or an expansion) with the same name: never write over what you have
+                    title2 = _free_title(title or "Untitled", body)
+                    body = _retitle(body, title2)
+                    path = os.path.join(USER_DIR, f"{_free_stem(_slug(title2))}.story")
+                    kept_notes.append(f"You already have \"{title}\": this was added as \"{title2}\" (nothing of yours was replaced)")
         with open(path + ".tmp", "w", encoding="utf-8") as f:
             f.write(body)
         os.replace(path + ".tmp", path)
@@ -1710,7 +1724,165 @@ def add_script(text: str, into: str | None = None, strict: bool = False) -> dict
     _save_state(st)
     reload()
     return {"ok": True, "ids": ids, "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]], "summary": r["summary"],
-            "notes": [f"line {n['line']}: {n['text']}" for n in notes], "text": src}
+            "notes": kept_notes + [f"line {n['line']}: {n['text']}" for n in notes], "text": src}
+
+
+# ---------------------------------------------------------------------------------------- never lose a storyline
+HISTORY_KEEP = 8  # older versions kept per storyline
+
+
+def _scene_titles(body: str) -> list:
+    out = []
+    for ln in body.split("\n"):
+        m = re.match(r"^\s*---\s*(.+?)\s*$", ln)
+        if m:
+            t = re.sub(r"#\S+\s*$", "", m.group(1))
+            t = re.sub(r"\[[^\]]*\]", "", t)
+            t = re.sub(r"^\d+\s*[.):\-]\s*", "", t).strip().lower()
+            if t:
+                out.append(t)
+    return out
+
+
+def _schedule_only(body: str) -> bool:
+    return bool(re.search(r"^\s*schedule\s*:", body, re.M | re.I)) and not re.search(
+        r"^\s*(---|outline\s*:|(texts|replies|chat|flirt|group\s+chat|trivia|narration|mods|choices)\s+\S)", body, re.M | re.I)
+
+
+def _is_update(old: str, new: str) -> bool:
+    """A paste with the same name as one you have replaces it only when it's that storyline again, newer: a season plan, or a
+    version that still has every scene the old one had. Anything else is kept alongside it."""
+    if _schedule_only(old) and _schedule_only(new):
+        return True
+    plan = lambda b: bool(re.search(r"^\s*===\s*season plan\s*$", b, re.M | re.I))  # noqa: E731  (Make it one story: the newest plan)
+    if plan(old) and plan(new):
+        return True
+    was, now = _scene_titles(old), set(_scene_titles(new))
+    if re.search(r"^\s*expands\s*:", new, re.M | re.I) and not re.search(r"^\s*expands\s*:", old, re.M | re.I):
+        return False  # an expansion never takes its storyline's place
+    return bool(was) and set(was) <= now
+
+
+def _names_in_use() -> set:
+    return {str(p["pack"].get("name") or "").strip().lower() for p in packs()}
+
+
+def _free_title(title: str, body: str) -> str:
+    """A name nobody's using: an expansion named after its storyline becomes "<Storyline>: more"; anything else gets (2), (3)..."""
+    used = _names_in_use()
+    m = re.search(r"^\s*expands\s*:\s*(.+?)\s*$", body, re.M | re.I)
+    base = f"{m.group(1)}: more" if m and m.group(1).strip().lower() == title.strip().lower() else title
+    if base.strip().lower() not in used and not os.path.exists(os.path.join(USER_DIR, f"{_slug(base)}.story")):
+        return base
+    n = 2
+    while f"{base} ({n})".lower() in used or os.path.exists(os.path.join(USER_DIR, f"{_slug(f'{base} ({n})')}.story")):
+        n += 1
+    return f"{base} ({n})"
+
+
+def _free_stem(stem: str) -> str:
+    n, out = 2, stem
+    while os.path.exists(os.path.join(USER_DIR, f"{out}.story")):
+        out = f"{stem[:36]}_{n}"
+        n += 1
+    return out
+
+
+def _retitle(body: str, title: str) -> str:
+    return re.sub(r"^(\s*===\s*).+$", lambda m: m.group(1) + title, body, count=1, flags=re.M) if re.search(r"^\s*===", body, re.M) \
+        else f"=== {title}\n{body}"
+
+
+def _history_dir() -> str:
+    return os.path.join(USER_DIR, ".history")
+
+
+def _history_index() -> dict:
+    try:
+        with open(os.path.join(_history_dir(), "index.json"), encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
+def _backup(path: str, why: str):
+    """Keep the version that's about to be replaced or removed (the last few per storyline), so it can come back."""
+    import shutil
+    import time
+    if not os.path.exists(path) or not path.endswith(".story"):
+        return
+    d = _history_dir()
+    os.makedirs(d, exist_ok=True)
+    stem = os.path.basename(path)[:-6]
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+    m = re.search(r"^\s*===\s*(.+?)\s*$", text, re.M)
+    now = time.time()
+    fn = f"{stem}~{int(now * 1000)}.story"
+    shutil.copyfile(path, os.path.join(d, fn))
+    idx = _history_index()
+    idx[fn] = {"stem": stem, "title": m.group(1) if m else stem, "why": why, "at": now, "scenes": len(_scene_titles(text))}
+    mine = sorted((k for k, v in idx.items() if v.get("stem") == stem), key=lambda k: idx[k]["at"])
+    for k in mine[:-HISTORY_KEEP]:
+        idx.pop(k, None)
+        try:
+            os.remove(os.path.join(d, k))
+        except OSError:
+            pass
+    with open(os.path.join(d, "index.json.tmp"), "w", encoding="utf-8") as f:
+        json.dump(idx, f)
+    os.replace(os.path.join(d, "index.json.tmp"), os.path.join(d, "index.json"))
+
+
+def history() -> list:
+    """Older versions of your storylines (replaced, edited or removed), newest first."""
+    idx = _history_index()
+    out = [{"file": k, **v} for k, v in idx.items() if os.path.exists(os.path.join(_history_dir(), k))]
+    return sorted(out, key=lambda x: -x["at"])
+
+
+def restore(fn: str) -> str:
+    """Bring an older version back. If that storyline is still there it's kept as an older version itself. Its pack id."""
+    idx = _history_index()
+    meta = idx.get(fn)
+    src = os.path.join(_history_dir(), os.path.basename(fn))
+    if not meta or not os.path.exists(src):
+        raise KeyError(fn)
+    with open(src, encoding="utf-8") as f:
+        text = f.read()
+    path = os.path.join(USER_DIR, f"{meta['stem']}.story")
+    _backup(path, "replaced by an older version")
+    with open(path + ".tmp", "w", encoding="utf-8") as f:
+        f.write(text)
+    os.replace(path + ".tmp", path)
+    _touched(path)
+    st = _state()
+    st["disabled"] = [d for d in st.get("disabled", []) if d != f"yours:{meta['stem']}"]
+    _save_state(st)
+    reload()
+    return f"yours:{meta['stem']}"
+
+
+def as_expansion(text: str, pid: str) -> str:
+    """What ChatGPT wrote as more of a storyline, made sure to be an expansion of it: `expands:` added if it's missing, and
+    a name of its own if it reused the storyline's (so it can never take the storyline's place)."""
+    from . import script as SC
+    p = _script_pack(pid)
+    if p["pack"].get("expands"):  # more of an expansion is more of its storyline
+        p = _script_pack(next(x["id"] for x in packs() if x["pack"].get("name") == p["pack"]["expands"]))
+    parent = p["pack"].get("name") or ""
+    src = SC.extract(text)
+    m = re.search(r"^(\s*===\s*)(.+?)\s*$", src, re.M)
+    if not m:
+        return f"=== {parent}: more\nexpands: {parent}\n" + src
+    title = m.group(2)
+    if title.strip().lower() == parent.strip().lower():
+        title = _free_title(f"{parent}: more", "")
+    head = f"{m.group(1)}{title}"
+    rest = src[m.end():]
+    if not re.search(r"^\s*expands\s*:", rest, re.M | re.I):
+        head += f"\nexpands: {parent}"
+    return src[:m.start()] + head + rest
 
 
 # ---------------------------------------------------------------------------------------- merged content

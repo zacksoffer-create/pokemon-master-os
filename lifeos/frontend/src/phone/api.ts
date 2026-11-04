@@ -157,6 +157,7 @@ export type ReadScene = { sid: string; title: string; storyline: string; pack: s
   day: number | null; why: string | null; detail: any; year: string | null; dated: boolean; unwritten?: boolean; summary?: string;
   when?: string; outline_n?: number | null; if?: string | null };
 export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
+export type OldVersion = { file: string; stem: string; title: string; why: string; at: number; scenes: number };
 export type TextingBreakdown = { flirt: { label: string; n: number }[]; flirt_total: number; texting: number;
   group_chats: { chat: string; when: string[]; first: string; lines: number; replies: number }[] };
 export type TextingCheck = { ok: boolean; breakdown: TextingBreakdown; notes: string[]; text: string; scenes: number };
@@ -280,7 +281,10 @@ export const phoneApi = {
   readStoryline: (pack: string): Promise<StorylineRead> => api.get(`/api/story/storyline/read?pack=${encodeURIComponent(pack)}`),
   outlinePrompt: (ask: string, size: string, expand?: string): Promise<{ prompt: string; chars: number }> =>
     api.get(`/api/story/build/outline-prompt?ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}&expand=${encodeURIComponent(expand || "")}`),
-  outline: (text: string, save: boolean): Promise<OutlineCheck> => api.post("/api/story/build/outline", { text, save }),
+  outline: (text: string, save: boolean, expand?: string): Promise<OutlineCheck> =>
+    api.post("/api/story/build/outline", { text, save, expand: expand || undefined }),
+  history: (): Promise<{ versions: OldVersion[] }> => api.get("/api/dialogue/history"),
+  restore: (file: string): Promise<{ restored: string }> => api.post("/api/dialogue/history/restore", { file }),
   textingPrompt: (what: string, ask: string, size: string): Promise<{ prompt: string; chars: number }> =>
     api.get(`/api/texting/prompt?what=${encodeURIComponent(what)}&ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`),
   textingCheck: (text: string): Promise<TextingCheck> => api.post("/api/texting/check", { text }),
@@ -304,7 +308,7 @@ export const phoneApi = {
   playChoose: (index: number | null): Promise<PlayRead> => api.post("/api/story/playline/choose", { index }),
   playNext: (): Promise<PlayStep> => api.post("/api/story/playline/next", {}),
   playStop: () => api.post("/api/story/playline/stop", {}),
-  addPack: (text: string) => api.post("/api/dialogue/packs", { text }),
+  addPack: (text: string, expand?: string) => api.post("/api/dialogue/packs", { text, expand: expand || undefined }),
   threads: (): Promise<{ threads: ThreadSummary[] }> => api.get("/api/phone/threads"),
   thread: (tid: string): Promise<Thread> => api.get(`/api/phone/thread/${encodeURIComponent(tid)}`),
   reply: (tid: string, msg: string, index: number): Promise<{ thread: Thread }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/reply`, { msg, index }),

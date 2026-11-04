@@ -231,7 +231,7 @@ export function AddToStory({ onAdded, target, expand }: { onAdded: () => void; t
   };
   const add = () => run("add", async () => {
     if (target) await phoneApi.addInsert(target.pack, target.after, paste);
-    else await phoneApi.addPack(paste);
+    else await phoneApi.addPack(paste, expand);
     toast(target ? "Added. It's in the storyline's script now, right where it goes." : `Added: ${pv?.name || "your new scenes"}.`, "good");
     setPv(null);
     setPaste("");
