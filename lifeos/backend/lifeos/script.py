@@ -115,8 +115,8 @@ BLOCKS = ("texts", "replies", "narration", "mods", "chat", "trivia", "choices")
 
 SECTION_RE = re.compile(r"^===\s*(.+?)\s*$")
 SCENE_RE = re.compile(r"^---\s*(.+?)\s*$")
-BLOCK_RE = re.compile(r"^(texts|replies|narration|mods|chat|trivia|choices)\s+(.+?)\s*:\s*$|^(schedule)\s*:\s*$", re.I)
-ATTR_RE = re.compile(r"^(cast|when|order|about|notes?|expands)\s*:\s*(.*)$", re.I)
+BLOCK_RE = re.compile(r"^(texts|replies|narration|mods|chat|trivia|choices)\s+(.+?)\s*:\s*$|^(schedule|outline)\s*:\s*$", re.I)
+ATTR_RE = re.compile(r"^(cast|when|years|order|about|notes?|expands)\s*:\s*(.*)$", re.I)
 SPEAKER_RE = re.compile(r"^([A-Za-z][\w .'-]{0,24}?):\s+(.+)$")
 OUTCOME_RE = re.compile(r"^(great|good|miss|yes|no|meh|bad)\s*:\s*(.*)$", re.I)
 TEXTS_RE = re.compile(r"^(.+?)\s+texts(?: you)?\s*:\s*(.+)$", re.I)
@@ -429,7 +429,7 @@ def effects(text: str, sc: Scene, n: int, out: dict) -> list:
         elif head.startswith("family "):
             f = REL_ALIASES.get(head[7:].strip())
             if not f:
-                raise Fail(f"'{head[7:]}' isn't part of a relationship. Use: affection, trust, respect, rivalry")
+                raise Fail(f"'{head[7:]}' isn't part of a relationship.{_suggest(head[7:], ['affection', 'trust', 'respect', 'rivalry'])} Use: affection, trust, respect, rivalry")
             ops.append(["family", f, _amount(tok, "family")])
         elif head.startswith("into "):
             k = head[5:].strip().replace(" ", "_")
@@ -899,6 +899,18 @@ def _scene(sec: Section, head: Line, body: list, errs: list, idx: int, ids: set)
     title = (m.group(1) if m else SCENE_RE.match(head.text).group(1)).strip()
     tag_text = " · ".join(re.findall(r"\[([^\]]*)\]", m.group(3) if m else ""))
     sid = (m.group(2) or m.group(4)) if m else None
+    entry = None
+    if getattr(sec, "outline", None) is not None:
+        num = re.match(r"(?:scene\s*|chapter\s*|#)?(\d+)\s*[.):\-]\s*(.+)$", title, re.I)
+        entry = _entry(sec, int(num.group(1)) if num else None, num.group(2) if num else title)
+        if num:
+            title = num.group(2).strip()
+        kept = [t for t in re.split(r"\s*[·;,]\s*", tag_text) if t.strip().lower() in IMPORTANCE or t.strip().lower().startswith("with ")]
+        if entry is not None:
+            title = entry["title"]
+            tag_text = " · ".join([x for x in [entry["when"]] + kept if x])
+        else:
+            tag_text = " · ".join(kept)  # (a scene the outline doesn't have: it comes after the outlined ones)
     sc = Scene(sec)
     when = {k: (list(v) if isinstance(v, list) else dict(v) if isinstance(v, dict) else v) for k, v in sec.defaults.items()
             if k != "spread"}
@@ -929,6 +941,8 @@ def _scene(sec: Section, head: Line, body: list, errs: list, idx: int, ids: set)
     while sid in ids:
         sid, k = f"{base}_{k}", k + 1
     ids.add(sid)
+    if entry is not None:
+        sec.entry_of[sid] = entry["n"]
     path = f"scenes[{idx}]"
     sec.lines_map[path] = head.n
     roots = _tree(body)
@@ -1179,6 +1193,192 @@ def spread(scenes: list, years, months, keep=()):
             w["years"], w["months"] = [y], [m]
 
 
+# ---------------------------------------------------------------------------------------------------- outlined storylines
+OUTLINE_RE = re.compile(r"^(?:[-*]\s*)?(?:scene\s*|chapter\s*|#)?(\d+)\s*[.):\-]\s*(.+)$", re.I)
+COND_RE = re.compile(r"^(only if|if|unless)\s+(?:you\s+(?:picked|chose|choose|pick)\s+)?(?:scene\s*|#)?(\d+)\s*[:,\-]?\s*(.+)$", re.I)
+COND_RE2 = re.compile(r"^(only if|if|unless)\s+you\s+(?:picked|chose|choose|pick)\s+[\"“']?(.+?)[\"”']?\s+in\s+(?:scene\s*|#)?(\d+)\s*$", re.I)
+
+
+def _parse_outline(body: list, sec, warns) -> list:
+    """`7. The Apology | March | Mike won't talk to you | only if you picked "Apologize" in 5` -> outline entries. Anything
+    it can't read is left out with a note; the when part keeps the words the game knows and drops the rest."""
+    out = []
+    for ln in body:
+        t = ln.text.strip()
+        m = OUTLINE_RE.match(t)
+        if not m:
+            warns.append((ln.n, "an outline line looks like: 7. The Apology | March | what happens (this one was left out)"))
+            continue
+        parts = [x.strip() for x in _split(m.group(2), "|")]
+        title = parts[0].strip(" \"'“”") or f"Scene {m.group(1)}"
+        cond, rest = None, []
+        for x in parts[1:]:
+            c = COND_RE2.match(x)
+            if c:
+                cond = {"neg": c.group(1).lower() == "unless", "n": int(c.group(3)), "label": c.group(2).strip(" \"'“”")}
+                continue
+            c = COND_RE.match(x)
+            if c and x.lower().startswith(("only if", "unless")):
+                cond = {"neg": c.group(1).lower() == "unless", "n": int(c.group(2)), "label": c.group(3).strip(" \"'“”")}
+                continue
+            rest.append(x)
+        when_raw = rest[0] if rest else ""
+        summary = " | ".join(rest[1:]) if len(rest) > 1 else ""
+        good = []
+        for tok in [x for x in re.split(r"\s*[·;,]\s*", when_raw) if x.strip()]:
+            if tok.strip().lower() in ("any", "anytime", "-", "—", "whenever"):
+                continue
+            try:
+                tags(tok, None, ln.n, {}, sec)
+                if re.match(r"(after|if|unless)\s", tok.strip().lower()):
+                    raise Fail("order and conditions come from the outline")
+                good.append(tok.strip())
+            except Fail:
+                warns.append((ln.n, f"'{tok.strip()}' isn't a time the game knows: scene {m.group(1)} gets its time from the outline"))
+        out.append({"n": int(m.group(1)), "title": title[:90], "when": " · ".join(good), "summary": summary, "if": cond, "line": ln.n})
+    out.sort(key=lambda e: e["n"])
+    return out
+
+
+def _entry(sec, n, title):
+    """The outline entry a written scene belongs to: by its number, else by its title (close enough)."""
+    import difflib
+    if n is not None:
+        hit = next((e for e in sec.outline if e["n"] == n), None)
+        if hit:
+            return hit
+    low = (title or "").strip().lower()
+    for e in sec.outline:
+        if e["title"].lower() == low:
+            return e
+    near = difflib.get_close_matches(low, [e["title"].lower() for e in sec.outline], n=1, cutoff=0.75)
+    return next((e for e in sec.outline if e["title"].lower() == near[0]), None) if near else None
+
+
+def _choices_in(sc) -> list:
+    out = []
+
+    def walk(chs):
+        for ch in chs or []:
+            if isinstance(ch, dict):
+                out.append(ch)
+                if isinstance(ch.get("then"), dict):
+                    walk(ch["then"].get("choices"))
+    walk(sc.get("choices"))
+    return out
+
+
+def _built(sec, scenes: list, pack: dict, warns) -> list:
+    """An outlined storyline: its scenes in outline order (unwritten ones simply aren't there yet), each placed in the
+    school year: holidays and named months keep their day, the rest are spaced evenly by date; "only if you picked X in 5"
+    wired both ends. Nothing here can stop the storyline: a branch that can't be found plays either way."""
+    import difflib
+    order = {e["n"]: i for i, e in enumerate(sec.outline)}
+    scenes.sort(key=lambda sc: order.get(sec.entry_of.get(sc["id"]), 10**6))
+    by_n = {sec.entry_of[sc["id"]]: sc for sc in scenes if sc["id"] in sec.entry_of}
+    for sc in scenes:  # the outline decides order and branches: no after / if of the scene's own
+        w = sc.get("when") or {}
+        for k in ("after", "remembered", "not_remembered"):
+            w.pop(k, None)
+    years = sec.defaults.get("years") or ["freshman"]
+    if not sec.defaults.get("years"):
+        warns.append((sec.n, "no years: line, so it's freshman year (add years: sophomore, or freshman-junior)"))
+    keep = {sc["id"] for sc in scenes if (sc.get("when") or {}).keys() & {"months", "dates", "not_before", "not_after"}
+            and not _same_months(sc, sec)}
+    try:
+        place(scenes, years, sec.defaults.get("months"), keep, total=len(sec.outline), slot_of=lambda sc: order.get(sec.entry_of.get(sc["id"])))
+    except Fail as e:
+        warns.append((sec.n, str(e)))
+    for e in sec.outline:
+        c = e.get("if")
+        sc = by_n.get(e["n"])
+        if not c or sc is None:
+            continue
+        src = by_n.get(c["n"])
+        if src is None:
+            warns.append((e["line"], f"scene {e['n']}: only if a choice in scene {c['n']}, which isn't written yet: it plays either way for now"))
+            continue
+        chs = _choices_in(src)
+        want = re.sub(r"[^a-z0-9 ]", "", c["label"].lower()).strip()
+        labels = [re.sub(r"[^a-z0-9 ]", "", str(ch.get("label", "")).lower()).strip() for ch in chs]
+        k = next((i for i, lb in enumerate(labels) if lb == want or (want and (want in lb or lb in want))), None)
+        if k is None:
+            near = difflib.get_close_matches(want, labels, n=1, cutoff=0.55)
+            k = labels.index(near[0]) if near else None
+        if k is None:
+            warns.append((e["line"], f"scene {e['n']}: scene {c['n']} has no choice like \"{c['label']}\": it plays either way"))
+            continue
+        fact = f"{slug(sec.title, 20)}_{c['n']}_{slug(c['label'], 24)}"
+        ops = chs[k].setdefault("ops", [])
+        if ["remember", fact] not in ops:
+            ops.append(["remember", fact])
+        sc.setdefault("when", {}).setdefault("not_remembered" if c["neg"] else "remembered", []).append(fact)
+    pack["outline"] = [{"n": e["n"], "title": e["title"], "when": e["when"], "summary": e["summary"],
+                        "if": (f"{'unless' if e['if']['neg'] else 'only if'} you picked “{e['if']['label']}” in {e['if']['n']}" if e.get("if") else None),
+                        "written": e["n"] in by_n, "sid": by_n[e["n"]]["id"] if e["n"] in by_n else None} for e in sec.outline]
+    return scenes
+
+
+def _same_months(sc, sec) -> bool:
+    """True if the scene's months are just the storyline's own (from years:), not one of its own."""
+    w = sc.get("when") or {}
+    return bool(w.get("months")) and w.get("months") == sec.defaults.get("months") and not w.get("dates")
+
+
+def place(scenes: list, years, months, keep=(), total=None, slot_of=None):
+    """Space scenes out by date across their school years, in order: each gets its year and a day it can come from
+    (not before), evenly. Scenes in keep stay on their own month or day, and the ones between them are spaced between them.
+    total/slot_of: an outlined storyline spaces by its outline (unwritten scenes keep their place)."""
+    from . import calendar as calm
+    ys = concrete_years(years) or ["freshman"]
+    ms = [m for m in SCHOOL_MONTHS + [7, 8] if m in (months or SCHOOL_MONTHS)]
+    days = []  # every day it could be, in order: (year, month, day)
+    for y in ys:
+        for mo in ms:
+            for d in range(1, (30 if mo in (4, 6, 9, 11) else 28 if mo == 2 else 31) + 1):
+                days.append((y, mo, d))
+    n_total = total or len(scenes)
+    pos = (lambda sc, i: slot_of(sc)) if slot_of else (lambda sc, i: i)
+
+    def anchor(sc, i):
+        w = sc.get("when") or {}
+        mo = (w.get("months") or [None])[0]
+        if mo is None and w.get("dates"):
+            d = w["dates"][0]
+            mo = int((calm.APPROX_MD.get(d) or d)[:2])
+        if mo is None and w.get("not_before"):
+            mo = int(w["not_before"][:2])
+        if mo is None:
+            return None
+        mine = [x for x in (w.get("years") or []) if x in ys] or ys
+        ideal = (pos(sc, i) or 0) * len(days) / max(1, n_total)
+        cands = [k for k, (y, m, d) in enumerate(days) if y in mine and m == mo]
+        if not cands:
+            cands = [k for k, (y, m, d) in enumerate(days) if y in mine] or [0]
+        k = min(cands, key=lambda c: abs(c - ideal))
+        y = days[k][0]
+        if len(mine) > 1 or not w.get("years"):
+            w["years"] = [y]
+        return min(c for c in cands if days[c][0] == y)
+    marks = [(i, anchor(sc, i)) for i, sc in enumerate(scenes) if sc["id"] in keep]
+    marks = [(i, k) for i, k in marks if k is not None]
+    bounds = [(-1, -1)] + marks + [(len(scenes), len(days))]
+    for (i0, k0), (i1, k1) in zip(bounds, bounds[1:]):
+        free = [(i, sc) for i, sc in enumerate(scenes[i0 + 1:i1], start=i0 + 1) if sc["id"] not in keep]
+        lo, hi = k0, max(k1, k0 + 1)
+        for j, (i, sc) in enumerate(free):
+            if slot_of and i0 < 0 and i1 >= len(scenes):  # no anchors: space by the outline itself
+                k = int((pos(sc, i) or 0) * len(days) / max(1, n_total))
+            else:
+                k = int(round(lo + (hi - lo) * (j + 1) / (len(free) + 1)))
+            y, mo, d = days[min(len(days) - 1, max(0, k))]
+            w = sc.setdefault("when", {})
+            w["years"] = [y]
+            for key in ("months", "not_after"):
+                w.pop(key, None)
+            w["not_before"] = f"{mo:02d}-{d:02d}"
+
+
 def _expands(sec, title: str, library, here=None):
     """`expands: Sisters`: this storyline adds to that one. It gets its cast (the same people) and can name its scenes."""
     title = title.strip()
@@ -1272,7 +1472,7 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
                     sec.inherited.discard(mm.group(1))
                     sec.cast[mm.group(1)] = cast_spec(mm.group(2))
                     sec.lines_map[f"cast.{mm.group(1)}"] = ln.n
-                elif k == "when":
+                elif k in ("when", "years"):  # (years: is how an outlined storyline says when it happens)
                     tags(v, None, ln.n, sec.defaults, sec)
                 elif k == "order":
                     sec.order_any = v.lower() in ("any", "any order", "loose", "free")
@@ -1341,6 +1541,11 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
             pack["notes"] = sec.about
         if sec.cast:
             pack["cast"] = sec.cast
+        ob = [b for b in sec.blocks if str(b[1]).lower() == "outline"]
+        if ob:  # an outlined storyline: the game owns its order, timing and branches
+            sec.blocks = [b for b in sec.blocks if str(b[1]).lower() != "outline"]
+            sec.outline = _parse_outline(ob[0][3], sec, warns)
+            sec.entry_of = {}
         scenes = []
         for idx, (head, body) in enumerate(sec.scenes):
             sc = _scene(sec, head, body, errs, idx, ids)
@@ -1350,7 +1555,9 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
                 by_title[f"{sec.title.lower()}: {sc['title'].lower()}"] = sc["id"]
                 sec.local[sc["title"].lower()] = sc["id"]
                 sec.local[f"{sec.title.lower()}: {sc['title'].lower()}"] = sc["id"]
-        if scenes and sec.defaults.get("spread"):
+        if getattr(sec, "outline", None) is not None:
+            scenes = _built(sec, scenes, pack, warns)
+        elif scenes and sec.defaults.get("spread"):
             try:
                 spread(scenes, sec.defaults.get("years"), sec.defaults.get("months"),
                        keep={sc["id"] for sc in scenes if sc.get("line") in getattr(sec, "own_time", set())})
@@ -1510,7 +1717,9 @@ def guide(story_only: bool = False) -> str:
     A("# LIFE OS story scripts")
     A("")
     A("Everything you add to LIFE OS (storylines, one-off scenes, texting lines) is a story script: plain text, like a "
-      "screenplay. The game reads it, checks every line, and tells you what to fix by line number.")
+      "screenplay. The game reads it and checks every line. What it can fix (a typo, a tag it doesn't know, a line that's "
+      "too long, a fact nothing sets) it fixes, and tells you what it changed by line number; it only refuses a paste with "
+      "nothing usable left in it.")
     A("")
     A("## The shape")
     A("")
@@ -1544,6 +1753,42 @@ def guide(story_only: bool = False) -> str:
       "Scenes with their own timing keep it.")
     A("- `about: <notes>`: what the storyline is about, for you and for ChatGPT.")
     A("- A scene in another storyline: `after Same Team: Cut day`.")
+    A("")
+    A("## Outlines (big storylines)")
+    A("")
+    A("For a storyline with more than a handful of scenes, plan it first: an `outline:` block under the title, one line per "
+      "scene, then write the scenes a few at a time. The outline owns the order, the timing and the branches, so the scenes "
+      "themselves are just people and choices.")
+    A("")
+    A("```")
+    A("=== Brothers: Same Team")
+    A("cast: mike = Mike Soffer")
+    A("years: freshman")
+    A("")
+    A("outline:")
+    A("1. Saved You a Seat | September | Mike saves you a seat on the bus.")
+    A("2. The Passenger Seat | | Mike drives you to school for the first time.")
+    A("3. Tryouts | November · big | You both try out.")
+    A("4. Turkey Day | Thanksgiving | Mike is weird at dinner.")
+    A("5. The Fight | December | You fight about playing time.")
+    A("6. Making Up | | Mike apologizes. | only if you picked \"Say sorry\" in 5")
+    A("")
+    A("--- 1. Saved You a Seat")
+    A("mike: Sit. Don't make it weird.")
+    A("* \"Thanks.\" | mike affection +")
+    A("* Sit in the back")
+    A("```")
+    A("")
+    A("- Each line: `number. Title | when | what happens`, and optionally `| only if you picked \"<choice>\" in <number>`.")
+    A("- `when` is a month, a holiday (Halloween, Thanksgiving, Christmas), a school day (homecoming, prom, winter break, "
+      "the first or last day of school), `big` for a major scene, or blank: blank scenes are spaced out between the ones "
+      "around them. `years:` under the title says which school year(s). A time the game doesn't know is left out, with a note.")
+    A("- A scene is `--- <number>. <Title>` and matches its outline line by number (or title). Tags on it are ignored, "
+      "except `big` and `with`: its time and place come from the outline. Scenes not written yet just don't play.")
+    A("- `only if you picked \"Say sorry\" in 5`: the game finds the choice in scene 5 most like \"Say sorry\", has it "
+      "remember that, and plays the scene only if you picked it. If scene 5 has nothing like it, the scene plays either way.")
+    A("- On the phone: Me > Storylines > Write more makes the outline prompt, then a prompt for the next few scenes at a "
+      "time, and shows how many are written.")
     A("")
     A("## Scenes")
     A("")
@@ -1779,3 +2024,104 @@ def prompt_plan(headers: str, ask: str = "", current: str | None = None) -> str:
     return PROMPT_PLAN.format(headers=headers, current=cur, keep=keep, ask=(ask or "").strip() or "Make all of it one story "
                               "across the years: spread the scenes over the seasons and link storylines where they'd cross.") \
         + guide(story_only=True)
+
+
+# ---------------------------------------------------------------------------------------------------- outline, then batches
+WHEN_WORDS = ("a month (September ... August), a season (fall, winter, spring, summer), a holiday (Halloween, Thanksgiving, "
+              "Christmas Eve, New Year's Eve, Valentine's Day, Easter, Mother's Day, July 4th...), a school day (first day of "
+              "school, homecoming, homecoming week, prom, finals week, spring break, winter break, last day of school, "
+              "graduation), weekend, a school year (sophomore) if it's not the storyline's, and big for a turning point. Or "
+              "leave it empty and the game spaces it out.")
+
+OUTLINE_PROMPT = """You're planning a storyline for LIFE OS, a life-simulation game: I play one person from the first day of \
+high school (Guilford High School in Guilford, Connecticut, fall 2010) through college. First we make an OUTLINE: one line \
+per scene. Then I'll ask you to write the scenes a few at a time.
+
+## What I want
+
+{ask}
+
+## The people around me (cast them by name)
+
+{people}
+{existing}
+## How to answer
+
+Reply with ONE code block (```) and nothing after it, exactly in this shape:
+
+```
+=== {title_hint}
+{expands_line}cast: mike = Mike Soffer
+years: freshman
+about: one or two sentences: what this storyline is about.
+
+outline:
+1. Saved You a Seat | September | Mike saves you a seat on the bus on the first day.
+2. The Passenger Seat | | Mike drives you to school for the first time and lays down the rules.
+3. Tryouts | November · big | You both try out; only one of you is sure to make it.
+4. Turkey Day | Thanksgiving | Mike is off at dinner and won't say why.
+5. The Fight | December | You fight about playing time.
+6. Making Up | | Mike comes around. | only if you picked "Say sorry" in 5
+```
+
+- {size}. Number them in the order they happen.
+- `cast:` lines for the people in it: a short lowercase name, then their full name from the list above (`cast: mike = Mike \
+Soffer`), or who they are if they aren't on it (`cast: kayla = friend of ally, girl`; `cast: coach = coach`). Mom, Dad, \
+teachers and other walk-ons don't need a cast line.
+- `years:` the school years it covers: {years_words} (or a range: freshman-sophomore).
+- Each line: number, title, when, what happens. When is {when_words}
+- A branch: add `| only if you picked "<a choice>" in <number>` (or `unless you picked ...`) to a scene that only happens \
+after a certain choice in an earlier scene. Use them for the moments that matter, not everywhere.
+- Make it a story: a beginning, turns, a payoff. Spread it through the year; put holiday and school-day moments on them.
+"""
+
+BATCH_PROMPT = """You're writing scenes for a LIFE OS storyline (a life-simulation game: I play one person from high school \
+in Guilford, Connecticut, fall 2010, through college). Here's its outline; write the scenes I ask for, in the game's \
+story script format (below).
+
+## The storyline
+
+```
+{header}
+```
+
+## The outline
+
+{outline}
+{previous}
+## Write now
+
+Scenes {first} to {last}: {which}.{needs}
+
+Reply with ONE code block (```) holding just those scenes, each starting with `--- <number>. <title>` (like \
+`--- {first}. {first_title}`), nothing after the block. No tags in [ ] and no `after` or `if`: the game times them and \
+plays them in order from the outline. Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
+plenty), 2 to 4 choices that matter, and what happens after each.
+
+---
+
+"""
+
+
+def guide_scenes() -> str:
+    """The parts of the guide a batch of scenes needs: people and lines, choices, effects, writing well (no tags, timing
+    or storyline wiring: an outlined storyline gets those from its outline)."""
+    g = guide(story_only=True)
+    keep = []
+    for part in re.split(r"(?m)^(?=## )", g):
+        head = part.split("\n", 1)[0].strip()
+        if head in ("## People and lines", "## Choices", "## Effects", "## Writing well"):
+            keep.append(part.rstrip())
+    return "# LIFE OS story scripts: writing scenes\n\n" + "\n\n".join(keep) + "\n"
+
+
+def outline_entries(pack: dict) -> list:
+    return pack.get("outline") or []
+
+
+def batch_plan(pack: dict, count: int = 6) -> tuple:
+    """The next scenes to write: the first unwritten ones in the outline, up to count. (first, last, [entries])"""
+    todo = [e for e in outline_entries(pack) if not e.get("written")]
+    take = todo[:count]
+    return (take[0]["n"], take[-1]["n"], take) if take else (None, None, [])
+

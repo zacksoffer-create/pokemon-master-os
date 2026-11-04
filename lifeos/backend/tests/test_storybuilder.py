@@ -130,8 +130,8 @@ def test_a_broken_pack_comes_back_with_a_fix_prompt():
     assert not r["ok"] and r["errors"] and "fix exactly these problems" in r["fix_prompt"].lower()
     r = c.post("/api/story/add/preview", json={"text": "no json here"}).json()
     assert not r["ok"] and r["errors"]
-    r = c.post("/api/story/add/preview", json={"text": SOPH.replace("| mood +", "| mod +")}).json()
-    assert not r["ok"] and r["error_lines"][0]["line"] == 13 and "line 13" in r["fix_prompt"], r["errors"]
+    r = c.post("/api/story/add/preview", json={"text": SOPH.replace("| mood +", "| zzqx +")}).json()
+    assert r["ok"] and r["notes"] == ["line 13: the effect 'zzqx +' came off ('zzqx +' isn't an effect I know)"], r["notes"]
 
 
 def test_coverage_finds_the_quiet_stretches():

@@ -1333,6 +1333,80 @@ def api_story_add_prompt(ask: str = "", size: str = ""):
                 "sizes": storybuilder.SIZES, "checked": bool(L.w.meta.get("last_check")), "last_check": L.w.meta.get("last_check")}
 
 
+# --- outline, then batches: the way to build a storyline ----------------------------------------------------------
+
+@app.get("/api/story/build/outline-prompt")
+def api_build_outline_prompt(ask: str = "", size: str = "bunch", expand: str = ""):
+    """Step 1: the ChatGPT prompt for a storyline's outline (or an expansion's, with expand=<storyline id>)."""
+    from . import storybuilder
+    L = _story_lab()
+    with L.lock:
+        try:
+            return storybuilder.outline_prompt(L.sim, ask, size, expand or None)
+        except KeyError:
+            raise HTTPException(404, "no such storyline")
+
+
+@app.post("/api/story/build/outline")
+def api_build_outline(body: dict = Body(...)):
+    """{text, save}: ChatGPT's outline. Without save: what it would be (its scenes, what got fixed). With save: it's a
+    storyline now (nothing plays until its scenes are written)."""
+    from . import dialogue, script, scriptfix
+    text = str(body.get("text") or "")
+    fx = scriptfix.repair(text, library=dialogue.library())
+    packs = [pk for pk in fx["result"]["packs"] if pk.get("outline")]
+    if not packs:
+        return JSONResponse({"detail": "there's no outline in that: it starts with === and a title, then outline: and numbered "
+                                       "lines like 1. Title | September | what happens", "errors": fx["result"]["errors"] or ["no outline"]},
+                            status_code=422)
+    pk = packs[0]
+    out = {"ok": True, "title": pk.get("name"), "expands": pk.get("expands"), "about": pk.get("notes"),
+           "cast": [{"name": n, "label": dialogue.slot_label(dialogue.normalize_slot(sp))} for n, sp in (pk.get("cast") or {}).items()],
+           "outline": pk["outline"], "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]],
+           "warnings": [f"line {w['line']}: {w['text']}" for w in fx["result"]["warnings"]]}
+    if body.get("save"):
+        r = dialogue.add_script(fx["text"])
+        if not r["ok"]:
+            return JSONResponse({"detail": "couldn't add it", "errors": r["errors"]}, status_code=422)
+        _dialogue_changed(get_lab())
+        out.update({"pack": r["ids"][0], "packs": _dialogue_list()["packs"]})
+    return out
+
+
+@app.get("/api/story/build/batch-prompt")
+def api_build_batch_prompt(pack: str, count: int = 6):
+    """Step 2 (again and again): the ChatGPT prompt for the next scenes of an outlined storyline."""
+    from . import storybuilder
+    L = _story_lab()
+    with L.lock:
+        try:
+            return storybuilder.batch_prompt(L.sim, pack, max(1, min(int(count), 12)))
+        except KeyError:
+            raise HTTPException(404, "no such storyline")
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+
+
+@app.post("/api/story/build/scenes")
+def api_build_scenes(body: dict = Body(...)):
+    """{pack, text}: a batch of scenes ChatGPT wrote: each goes in its place in the outline (fixing what's fixable)."""
+    from . import dialogue, script
+    pid = str(body.get("pack") or "")
+    try:
+        r = dialogue.merge_scenes(pid, str(body.get("text") or ""))
+    except KeyError:
+        raise HTTPException(404, "no such storyline")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
+    if not r["ok"]:
+        return JSONResponse({"detail": r["errors"][0] if r.get("errors") else "couldn't add those", "errors": r.get("errors", [])}, status_code=422)
+    _dialogue_changed(get_lab())
+    p = dialogue._script_pack(pid)
+    entries = script.outline_entries(p["pack"])
+    return {"ok": True, "got": r.get("got", []), "notes": r.get("notes", []), "written": sum(1 for e in entries if e.get("written")),
+            "total": len(entries), "outline": entries, "packs": _dialogue_list()["packs"]}
+
+
 @app.get("/api/story/storyline/read")
 def api_storyline_read(pack: str):
     """Read a storyline and its expansions the way they'd play (your seven years forward on a copy): every scene in order
@@ -1629,9 +1703,12 @@ def api_dialogue_packs():
 def api_dialogue_check(body: dict = Body(...)):
     from . import dialogue, script
     if isinstance(body.get("text"), str) and script.looks_like_script(script.extract(body["text"])):
-        r = script.compile_script(script.extract(body["text"]), library=dialogue.library())
+        from . import scriptfix
+        fx = scriptfix.repair(body["text"], library=dialogue.library())  # (what adding it would do: fix what's fixable)
+        r = fx["result"]
         return {"ok": not r["errors"], "script": True, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]],
                 "error_lines": r["errors"], "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]],
+                "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]], "fixed": fx["text"],
                 "summary": r["summary"], "name": ", ".join(p["name"] for p in r["packs"])}
     try:
         pack = _pack_from(body)
@@ -1650,7 +1727,8 @@ def api_dialogue_add(body: dict = Body(...)):
             return JSONResponse({"detail": "the script has a few problems", "errors": r["errors"], "error_lines": r["error_lines"],
                                  "warnings": r["warnings"]}, status_code=422)
         _dialogue_changed(L)
-        return {**_dialogue_list(), "added": r["ids"][0], "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"]}
+        return {**_dialogue_list(), "added": r["ids"][0], "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"],
+                "notes": r.get("notes", [])}
     try:
         pack = _pack_from(body)
     except ValueError as e:
@@ -1686,7 +1764,8 @@ def api_dialogue_script_save(pid: str, body: dict = Body(...)):
         return JSONResponse({"detail": "the script has a few problems", "errors": r["errors"], "error_lines": r["error_lines"],
                              "warnings": r["warnings"]}, status_code=422)
     _dialogue_changed(L)
-    return {**_dialogue_list(), "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"]}
+    return {**_dialogue_list(), "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"], "notes": r.get("notes", []),
+            "text": dialogue.script_of(pid)}
 
 
 @app.post("/api/dialogue/packs/{pid}/timing")

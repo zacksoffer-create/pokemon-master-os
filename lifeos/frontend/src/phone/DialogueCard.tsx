@@ -7,7 +7,7 @@ import { PIcon } from "./icons";
 import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { pickFile } from "./StoryFiles";
-import { AddToStory } from "./Schedule";
+import BuildStoryline, { BuildStart } from "./BuildStoryline";
 import StorylineRead from "./StorylineRead";
 
 type PackRow = {
@@ -15,6 +15,7 @@ type PackRow = {
   errors: string[]; warnings: string[]; summary: Record<string, number>; scenes: { id: string; title: string; who?: string }[];
   in_order?: boolean; progress?: { done: number; of: number; next: string | null; in_order: boolean };
   kind?: "script" | "json"; cast?: { name: string; who: string; label: string }[]; expands?: string | null;
+  outline?: { total: number; written: number } | null;
 };
 type Packs = { packs: PackRow[]; scenes: string[]; lines: number };
 type Check = { ok: boolean; errors: string[]; warnings: string[]; summary: Record<string, number>; name?: string; script?: boolean };
@@ -218,7 +219,11 @@ export default function DialogueCard() {
   const [open, setOpen] = useState<string | null>(null);
   const [edit, setEdit] = useState<PackRow | null>(null);
   const [read, setRead] = useState<string | null>(null);
-  const [write, setWrite] = useState<{ expand: string } | null>(null);
+  const [build, setBuild] = useState<BuildStart>(null);
+  const expandOf = (p: PackRow): BuildStart => {
+    const top = p.expands ? data?.packs.find((x) => x.name === p.expands && !x.expands) : p;
+    return { expand: top?.id || p.id, expandName: top?.name || p.name };
+  };
   const [guide, setGuide] = useState<string | null>(null);
   const [engine, setEngine] = useState<string>("");
   useEffect(() => {
@@ -331,7 +336,7 @@ export default function DialogueCard() {
           {data && <> Right now: <b>{data.scenes.length}</b> scenes and <b>{data.lines}</b> text lines.</>}
         </p>
         <div className="ph-filebtns">
-          <button className="ph-btn primary block" disabled={!!busy} onClick={() => setWrite({ expand: "" })}>
+          <button className="ph-btn primary block" disabled={!!busy} onClick={() => setBuild({})}>
             <PIcon name="chat" size={17} /> Write more
           </button>
           <button className="ph-btn soft block" disabled={!!busy} onClick={() => setPaste(true)}>
@@ -339,9 +344,9 @@ export default function DialogueCard() {
           </button>
         </div>
         <ol className="dl-how">
-          <li><b>Write more</b>: say what you want (a new storyline, or more of one you have), copy the prompt into ChatGPT.</li>
-          <li>Paste its answer (or upload the file it gives you). The game plays your seven years with it in and shows what plays.</li>
-          <li>Add it. Open any storyline and tap <b>Read it</b> to read the whole thing, in order, with what won't play and why.</li>
+          <li><b>Write more</b>: say what you want. ChatGPT plans it as an outline (one line per scene); you check it and make it.</li>
+          <li>Then the scenes, a few at a time: copy the prompt, paste what ChatGPT writes. The game puts each one in its place and times it through the year.</li>
+          <li>Anything fixable in what ChatGPT wrote is fixed for you (with a note). Tap <b>Read it</b> to read the whole storyline in the order it plays.</li>
         </ol>
         <button className="ph-link" onClick={showGuide}>How scripts work</button>
         <p className="ph-dim small">
@@ -356,6 +361,7 @@ export default function DialogueCard() {
               <button className="dl-pack-h" onClick={() => setOpen(open === p.id ? null : p.id)}>
                 <span className="dl-pack-m">
                   <b>{p.expands ? <><i className="dl-plus">+</i>{p.name.replace(`${p.expands}: `, "")}</> : p.name}</b>
+                  {p.outline && p.outline.written < p.outline.total && <small className="dl-progress">{p.outline.written} of {p.outline.total} scenes written</small>}
                   <small>{p.kind === "json" ? "Old format · " : ""}{p.ok ? (p.progress && p.in_order && p.progress.of
                     ? (p.progress.done >= p.progress.of ? `All ${p.progress.of} chapters done` : `Chapter ${p.progress.done + 1} of ${p.progress.of} next`)
                     : addsLine(p.summary)) : "has problems"}</small>
@@ -368,10 +374,17 @@ export default function DialogueCard() {
                   {p.notes && <p className="ph-dim small">{p.notes}</p>}
                   {p.cast && p.cast.length > 0 && <p className="ph-dim small dl-castline">{p.cast.map((c) => `${c.name}: ${c.label}`).join(" · ")}</p>}
                   {!p.ok && <Problems errors={p.errors} warnings={[]} />}
+                  {p.outline && p.outline.written < p.outline.total && (
+                    <button className="ph-btn primary block" onClick={() => setBuild({ pack: p.id })}>
+                      <PIcon name="chat" size={16} /> Write the next scenes ({p.outline.written} of {p.outline.total} written)
+                    </button>
+                  )}
                   {p.kind === "script" && p.ok && (
                     <div className="dl-acts">
-                      <button className="ph-btn primary" onClick={() => setRead(p.id)}><PIcon name="book" size={16} /> Read it</button>
-                      <button className="ph-btn soft" onClick={() => setWrite({ expand: p.expands ? (data?.packs.find((x) => x.name === p.expands)?.id || p.id) : p.id })}>
+                      <button className={cx("ph-btn", p.outline && p.outline.written < p.outline.total ? "soft" : "primary")} onClick={() => setRead(p.id)}>
+                        <PIcon name="book" size={16} /> Read it
+                      </button>
+                      <button className="ph-btn soft" onClick={() => setBuild(expandOf(p))}>
                         <PIcon name="plus" size={16} /> Add an expansion
                       </button>
                     </div>
@@ -426,24 +439,12 @@ export default function DialogueCard() {
       {engine && <p className="ph-dim small dl-engine">Engine {engine}</p>}
       <PasteSheet open={paste} onClose={() => setPaste(false)} onAdded={(d) => { setData(d); setPaste(false); }} />
       <ScriptSheet pack={edit} onClose={() => setEdit(null)} onSaved={(d) => setData(d)} />
-      <StorylineRead pack={read} onClose={() => setRead(null)} onExpand={(pid) => { setRead(null); setWrite({ expand: pid }); }} />
-      <Sheet open={!!write} onClose={() => setWrite(null)} full title="Write more">
-        {write && (
-          <>
-            <div className="dl-target">
-              <label className="dl-cast-row"><span>What to write</span>
-                <select className="ph-input" value={write.expand} onChange={(e) => setWrite({ expand: e.target.value })}>
-                  <option value="">A new storyline</option>
-                  {(data?.packs || []).filter((p) => p.kind === "script" && p.ok && !p.expands && p.scenes.length > 0).map((p) => (
-                    <option key={p.id} value={p.id}>More of {p.name} (an expansion)</option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <AddToStory key={write.expand || "new"} expand={write.expand || undefined} onAdded={() => { setWrite(null); load(); }} />
-          </>
-        )}
-      </Sheet>
+      <StorylineRead pack={read} onClose={() => setRead(null)} onExpand={(pid) => {
+        setRead(null);
+        const p = data?.packs.find((x) => x.id === pid);
+        setBuild(p ? expandOf(p) : { expand: pid });
+      }} />
+      <BuildStoryline start={build} onClose={() => { setBuild(null); load(); }} onChanged={load} onRead={(pid) => { setBuild(null); setRead(pid); }} />
       <Sheet open={guide !== null} onClose={() => setGuide(null)} full title="How scripts work">
         <pre className="dl-guide">{guide}</pre>
       </Sheet>

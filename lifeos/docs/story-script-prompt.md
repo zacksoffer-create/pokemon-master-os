@@ -15,7 +15,7 @@ You're writing for LIFE OS, a life-simulation game: I play one person from the f
 
 # LIFE OS story scripts
 
-Everything you add to LIFE OS (storylines, one-off scenes, texting lines) is a story script: plain text, like a screenplay. The game reads it, checks every line, and tells you what to fix by line number.
+Everything you add to LIFE OS (storylines, one-off scenes, texting lines) is a story script: plain text, like a screenplay. The game reads it and checks every line. What it can fix (a typo, a tag it doesn't know, a line that's too long, a fact nothing sets) it fixes, and tells you what it changed by line number; it only refuses a paste with nothing usable left in it.
 
 ## The shape
 
@@ -69,6 +69,35 @@ The roster's on the gym door.
 - `about: <notes>`: what the storyline is about, for you and for ChatGPT.
 - A scene in another storyline: `after Same Team: Cut day`.
 
+## Outlines (big storylines)
+
+For a storyline with more than a handful of scenes, plan it first: an `outline:` block under the title, one line per scene, then write the scenes a few at a time. The outline owns the order, the timing and the branches, so the scenes themselves are just people and choices.
+
+```
+=== Brothers: Same Team
+cast: mike = Mike Soffer
+years: freshman
+
+outline:
+1. Saved You a Seat | September | Mike saves you a seat on the bus.
+2. The Passenger Seat | | Mike drives you to school for the first time.
+3. Tryouts | November · big | You both try out.
+4. Turkey Day | Thanksgiving | Mike is weird at dinner.
+5. The Fight | December | You fight about playing time.
+6. Making Up | | Mike apologizes. | only if you picked "Say sorry" in 5
+
+--- 1. Saved You a Seat
+mike: Sit. Don't make it weird.
+* "Thanks." | mike affection +
+* Sit in the back
+```
+
+- Each line: `number. Title | when | what happens`, and optionally `| only if you picked "<choice>" in <number>`.
+- `when` is a month, a holiday (Halloween, Thanksgiving, Christmas), a school day (homecoming, prom, winter break, the first or last day of school), `big` for a major scene, or blank: blank scenes are spaced out between the ones around them. `years:` under the title says which school year(s). A time the game doesn't know is left out, with a note.
+- A scene is `--- <number>. <Title>` and matches its outline line by number (or title). Tags on it are ignored, except `big` and `with`: its time and place come from the outline. Scenes not written yet just don't play.
+- `only if you picked "Say sorry" in 5`: the game finds the choice in scene 5 most like "Say sorry", has it remember that, and plays the scene only if you picked it. If scene 5 has nothing like it, the scene plays either way.
+- On the phone: Me > Storylines > Write more makes the outline prompt, then a prompt for the next few scenes at a time, and shows how many are written.
+
 ## Scenes
 
 `--- Title  [tags]` starts a scene. Tags (separate with · or commas):
@@ -116,7 +145,7 @@ Separate with commas. `+` small, `++` medium, `+++` big, `-` `--` `---` down, or
 - Reputation: `rep <tag> +` with athlete, embarrassed, flaky, gossip, host, legend, mean, performer, star, tough, troublemaker. Family: `family affection +` (you and every sibling).
 - `play <game>`: `baseball` (a big at-bat, batting practice, a home run derby with friends); `basketball` (shooting around in the driveway, HORSE with a sibling, open gym, a dare from half court); `cup_pong` (a friend's basement, a party (beer pong in college)); `flash` (remembering a pattern, ear training in band, a memory bet); `football` (a goal-line stand at practice, a backyard game, a bet on one play); `golf` (a round with a parent, a golf outing, a bet on one hole); `hold` (a steady pour in chem lab, one brushstroke, a power throw in gym, holding a note (press, hold, let go on the line)); `lineup` (a timeline review, ranking things with friends, putting cards in order); `mathdash` (mental math with a friend, splitting a check, making change at a register job, counting atoms); `oddone` (proofreading a friend's essay, spot the difference, a typo on a sign); `paper_toss` (bored in class, the trash can across the room); `playmaker` (running the offense at the park, a pickup run where you have to find the open man); `reflex` (catching something falling, a reaction test, first hand up, a quick-draw bet); `soccer_11` (a pickup match, gym class, a game where your team needs a goal); `soccer_pk` (penalties at the park, settling an argument, a gym-class shootout); `sweep` (stopping a pendulum, hitting the beat, timing a jump rope, any "tap at the right moment"); `swing_lab` (the batting cages, a hitting lesson); `trivia` (a pop quiz, a study session, trivia night at a restaurant, a bet over who knows more); `sport` = your sport's game.
 - `60% +charisma -impulsivity`: a roll on your talents (academic, athletic, charisma, creativity, technical) and traits.
-- `vibe <style>`: chill, tease, funny, cheesy, bold, sweet (lands or misses by what they like).
+- `vibe <style>`: tease, funny, chill, cheesy, bold, sweet (lands or misses by what they like).
 - `focus <mode>` (academics, athletics, balanced, family, rest, romance, social), `hang out with <person>`, `text <person> "<line>"`, `fits loyalty` / `fits -discipline` (who'd pick this when the game picks for you; trait effects count too).
 
 ## Lines for the game's pools

@@ -735,7 +735,7 @@ def check(pack: dict) -> dict:
     if not isinstance(pack, dict):
         R.err("", "a dialogue pack is a JSON object")
         return {"ok": False, "errors": R.errors, "warnings": R.warnings, "summary": {}}
-    if not any(k in pack for k in SECTIONS):
+    if not any(k in pack for k in SECTIONS) and not pack.get("outline"):  # (an outline with no scenes written yet is fine)
         R.err("", f"there's nothing in this pack. Add at least one of: {', '.join(SECTIONS)}")
     if pack.get("dialogue_pack") not in (1, None):
         R.warn("dialogue_pack", "should be 1")
@@ -745,7 +745,7 @@ def check(pack: dict) -> dict:
     elif len(name) > 60:
         R.err("name", "keep the name under 60 characters")
     for k in pack:
-        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order", "cast", "script"):
+        if k not in SECTIONS + ("dialogue_pack", "name", "author", "notes", "version", "in_order", "cast", "script", "expands", "outline"):
             R.warn(k, f"isn't part of a pack and is ignored.{_suggest(k, SECTIONS)}")
     base_texts = _texts_base()
     added = {"texts": 0, "replies": 0, "narration": 0, "moment_choices": 0, "scenes": 0, "duplicates": 0}
@@ -1277,6 +1277,8 @@ def pack_summary(p) -> dict:
             "scenes": [{"id": s.get("id"), "title": s.get("title"), "who": s.get("who")} for s in pk.get("scenes", []) if isinstance(s, dict)],
             "kind": kind, "file": p.get("file"), "lines": sum(len(v) for v in (pk.get("texts") or {}).values()),
             "expands": pk.get("expands"),
+            "outline": ({"total": len(pk["outline"]), "written": sum(1 for e in pk["outline"] if e.get("written"))}
+                        if pk.get("outline") else None),
             "cast": [{"name": k, "who": v.get("who"), "label": slot_label(normalize_slot(v))} for k, v in (pk.get("cast") or {}).items()]}
 
 
@@ -1355,6 +1357,92 @@ def with_inserted(pid: str, after: str | None, text: str) -> tuple:
     return "\n".join(new).rstrip("\n") + "\n", k + 2, len(snippet)
 
 
+def merge_scenes(pid: str, text: str) -> dict:
+    """A batch of scenes for an outlined storyline: each goes in its place by its outline number (or title), replacing
+    that scene if it was written before; anything else in the paste (a === line, the outline again) is left out."""
+    import difflib
+    from . import script as SC
+    p = _script_pack(pid)
+    entries = SC.outline_entries(p["pack"])
+    if not entries:
+        raise ValueError("this storyline doesn't have an outline")
+    src = p["script"].rstrip("\n").split("\n")
+    k0 = next((i for i, ln in enumerate(src) if SC.SCENE_RE.match(ln.strip())), len(src))
+    head, body = src[:k0], src[k0:]
+
+    def blocks(lines):
+        out, cur = [], None
+        for ln in lines:
+            t = ln.strip()
+            if SC.SECTION_RE.match(t) or (t.lower().startswith("outline:") and cur is None):
+                cur = None
+                continue
+            if SC.SCENE_RE.match(t):
+                cur = [ln]
+                out.append(cur)
+            elif cur is not None:
+                cur.append(ln)
+        return out
+
+    def number(block):
+        t = SC.SCENE_RE.match(block[0].strip()).group(1)
+        t = re.sub(r"\s*(\[.*|#[a-z].*)$", "", t).strip()
+        m = re.match(r"(?:scene\s*|chapter\s*|#)?(\d+)\s*[.):\-]\s*(.+)$", t, re.I)
+        if m and any(e["n"] == int(m.group(1)) for e in entries):
+            return int(m.group(1))
+        title = (m.group(2) if m else t).strip().lower()
+        hit = next((e["n"] for e in entries if e["title"].lower() == title), None)
+        if hit is None:
+            near = difflib.get_close_matches(title, [e["title"].lower() for e in entries], n=1, cutoff=0.75)
+            hit = next((e["n"] for e in entries if near and e["title"].lower() == near[0]), None)
+        return hit
+    have = {}
+    extra = []
+    for b in blocks(body):
+        n = number(b)
+        (have.__setitem__(n, b) if n is not None else extra.append(b))
+    new = blocks(SC.extract(text).replace("\r\n", "\n").split("\n"))
+    if not new:
+        return {"ok": False, "errors": ["there are no scenes in that: each starts with --- and its number and title"], "notes": []}
+    got = []
+    for b in new:
+        n = number(b)
+        if n is None:
+            extra.append(b)
+            continue
+        e = next(x for x in entries if x["n"] == n)
+        b[0] = f"--- {n}. {e['title']}"  # (its title as the outline has it: the scene keeps its place)
+        while len(b) > 1 and not b[-1].strip():
+            b.pop()
+        have[n] = b
+        got.append(n)
+    out = list(head)
+    while out and not out[-1].strip():
+        out.pop()
+    starts = []  # (the line a scene starts on, its number): so notes can say which scene
+    for n in sorted(have):
+        out += [""]
+        starts.append((len(out) + 1, n))
+        out += have[n]
+    for b in extra:
+        out += [""]
+        starts.append((len(out) + 1, None))
+        out += b
+    r = add_script("\n".join(out) + "\n", into=pid)
+    r["got"] = got
+    titles = {e["n"]: e["title"] for e in entries}
+
+    def where(note):
+        m = re.match(r"line (\d+): (.*)$", note)
+        if not m:
+            return note
+        ln = int(m.group(1))
+        n = next((n for st, n in reversed(starts) if st <= ln), "head")
+        return (f"scene {n} ({titles.get(n, '')}): " if isinstance(n, int) else "the storyline's top: " if n == "head" else "") + m.group(2)
+    r["notes"] = [where(x) for x in r.get("notes", [])]
+    return r
+
+
 def insert_scenes(pid: str, after: str | None, text: str) -> dict:
     """Put new scenes into a storyline right where they go: its file gets them, in order, and they play there."""
     new, first, n = with_inserted(pid, after, text)
@@ -1424,7 +1512,7 @@ def timing_of(pid: str) -> dict:
     lines = _script_pack(pid)["script"].split("\n")
     for ln in lines[:_header_end(lines)]:
         m = SC.ATTR_RE.match(ln.strip())
-        if m and m.group(1).lower() == "when":
+        if m and m.group(1).lower() in ("when", "years"):
             d: dict = {}
             try:
                 SC.tags(m.group(2), None, 0, d, SC.Section("x", 0))
@@ -1451,7 +1539,10 @@ def set_timing(pid: str, years: list, seasons: list, spread: bool, every_scene: 
     other tags. every_scene: its scenes' own school years go (they all follow this), and their months too unless
     keep_months (holidays and school days always keep their day). Saved like any edit (checked first)."""
     from . import script as SC
-    src = _script_pack(pid)["script"].rstrip("\n").split("\n")
+    p = _script_pack(pid)
+    if p["pack"].get("outline"):
+        return _set_outlined_timing(p, pid, years, seasons, every_scene, keep_months)
+    src = p["script"].rstrip("\n").split("\n")
     end = _header_end(src)
     if every_scene and years:
         stop = next((i for i in range(end, len(src)) if SC.SECTION_RE.match(src[i].strip())), len(src))
@@ -1478,10 +1569,74 @@ def set_timing(pid: str, years: list, seasons: list, spread: bool, every_scene: 
     return add_script("\n".join(src) + "\n", into=pid)
 
 
+def _outline_lines(src: list) -> tuple:
+    """Where an outlined storyline's outline block is: (its first line, the line after it)."""
+    from . import script as SC
+    a = next((i for i, ln in enumerate(src) if ln.strip().lower() == "outline:"), None)
+    if a is None:
+        return None, None
+    b = a + 1
+    while b < len(src) and not (SC.SCENE_RE.match(src[b].strip()) or SC.SECTION_RE.match(src[b].strip())):
+        b += 1
+    return a, b
+
+
+def _retime_outline_line(line: str, year: str | None, month: int | None, drop_years: bool, drop_months: bool) -> str:
+    """An outline line with its when part changed: `7. Title | <when> | what happens | only if ...`."""
+    from . import script as SC
+    m = SC.OUTLINE_RE.match(line.strip())
+    if not m:
+        return line
+    parts = [x.strip() for x in SC._split(m.group(2), "|")]
+    while len(parts) < 2:
+        parts.append("")
+    toks = [t for t in re.split(r"\s*[·;,]\s*", parts[1]) if t.strip()]
+    toks = [t for t in toks if not ((drop_years and _timing_token(t) == "year") or (drop_months and _timing_token(t) == "season"))]
+    names = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    new = ([_year_word(year)] if year in YEARS else []) + ([names[int(month)]] if month and 1 <= int(month) <= 12 else []) + toks
+    parts[1] = " · ".join(new)
+    return f"{m.group(1)}. " + " | ".join(parts).rstrip(" |")
+
+
+def _set_outlined_timing(p, pid, years, seasons, every_scene, keep_months) -> dict:
+    """An outlined storyline's timing: its years: line (school years and seasons; it's always spaced out), and its outline's
+    own years (and months, unless keep_months) come off so everything follows it."""
+    from . import script as SC
+    src = p["script"].rstrip("\n").split("\n")
+    end = _header_end(src)
+    toks = [_year_word(y) for y in years if y in YEARS] + [x for x in seasons if x in SC.SEASONS]
+    at = next((i for i in range(end) if (SC.ATTR_RE.match(src[i].strip()) or [None, ""])[0] and
+               SC.ATTR_RE.match(src[i].strip()).group(1).lower() in ("years", "when")), None)
+    line = ("years: " + " · ".join(toks)) if toks else None
+    if at is not None:
+        if line:
+            src[at] = line
+        else:
+            del src[at]
+    elif line:
+        src.insert(1, line)
+    if every_scene and years:
+        a, b = _outline_lines(src)
+        if a is not None:
+            for i in range(a + 1, b):
+                src[i] = _retime_outline_line(src[i], None, None, True, not keep_months)
+    return add_script("\n".join(src) + "\n", into=pid)
+
+
 def set_scene_timing(pid: str, sid: str, year: str | None, month: int | None) -> dict:
     """Move one scene: its school year and month (None leaves that part to the storyline). Its other tags stay."""
     from . import script as SC
     p = _script_pack(pid)
+    entry = next((e for e in p["pack"].get("outline") or [] if e.get("sid") == sid or f"{pid}#{e['n']}" == sid), None)
+    if entry is not None:  # an outlined storyline: its outline line says when
+        src = p["script"].rstrip("\n").split("\n")
+        a, b = _outline_lines(src)
+        for i in range(a + 1, b):
+            m = SC.OUTLINE_RE.match(src[i].strip())
+            if m and int(m.group(1)) == entry["n"]:
+                src[i] = _retime_outline_line(src[i], year, month, True, bool(month))
+                return add_script("\n".join(src) + "\n", into=pid)
+        raise KeyError(sid)
     sc = next((x for x in p["pack"].get("scenes") or [] if isinstance(x, dict) and x.get("id") == sid), None)
     if sc is None or not sc.get("line"):
         raise KeyError(sid)
@@ -1499,15 +1654,23 @@ def set_scene_timing(pid: str, sid: str, year: str | None, month: int | None) ->
     return add_script("\n".join(src) + "\n", into=pid)
 
 
-def add_script(text: str, into: str | None = None) -> dict:
+def add_script(text: str, into: str | None = None, strict: bool = False) -> dict:
     """Add scripts: each === storyline goes to its own file (a storyline with the same title is replaced: that's how
-    you update one). into=<pack id> saves the text as that storyline's file instead (editing it in place)."""
+    you update one). into=<pack id> saves the text as that storyline's file instead (editing it in place).
+    Anything fixable is fixed (scriptfix: an unknown effect or tag comes off, an unknown speaker talks as a walk-on...)
+    and each fix comes back as a note; the fixed script is what's saved. strict=True refuses instead."""
     from . import script as SC
-    src = SC.extract(text)
-    r = SC.compile_script(src, library=library())
+    from . import scriptfix
+    if strict:
+        src = SC.extract(text)
+        r = SC.compile_script(src, library=library())
+        notes = []
+    else:
+        fx = scriptfix.repair(text, library=library())
+        src, r, notes = fx["text"], fx["result"], fx["notes"]
     if r["errors"]:
         return {"ok": False, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]], "warnings": r["warnings"],
-                "error_lines": r["errors"]}
+                "error_lines": r["errors"], "notes": notes}
     os.makedirs(USER_DIR, exist_ok=True)
     secs = SC.split_sections(src)
     ids = []
@@ -1525,7 +1688,8 @@ def add_script(text: str, into: str | None = None) -> dict:
     st["disabled"] = [d for d in st.get("disabled", []) if d not in ids]
     _save_state(st)
     reload()
-    return {"ok": True, "ids": ids, "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]], "summary": r["summary"]}
+    return {"ok": True, "ids": ids, "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]], "summary": r["summary"],
+            "notes": [f"line {n['line']}: {n['text']}" for n in notes], "text": src}
 
 
 # ---------------------------------------------------------------------------------------- merged content

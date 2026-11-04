@@ -197,7 +197,7 @@ export default function StorylineRead({ pack, onClose, onExpand }: { pack: strin
       ) : (
         <>
           <div className={cx("rd-health", v.plays === v.total ? "ok" : v.plays === 0 ? "bad" : "mid")}>
-            <b>{v.plays} of {v.total}</b> scenes play in your seven years
+            <b>{v.plays} of {v.total}</b> scenes play in your seven years{v.unwritten ? ` · ${v.unwritten} more planned, not written yet` : ""}
             {v.wont.length > 0 && (
               <div className="rd-wont">
                 {v.wont.map((w) => <div key={w.why}><b>{w.count} won't:</b> {w.why} <small>({w.titles.join(", ")}{w.count > w.titles.length ? "…" : ""})</small></div>)}
@@ -227,6 +227,20 @@ export default function StorylineRead({ pack, onClose, onExpand }: { pack: strin
           {onExpand && <button className="ph-btn soft block" onClick={() => onExpand(v.pack)}>Add an expansion</button>}
           <CoverageGrid c={v.coverage} />
           {shown.map((x) => {
+            if (x.unwritten) {
+              const showU = lastYear !== "Not written yet";
+              lastYear = "Not written yet";
+              return (
+                <React.Fragment key={x.sid}>
+                  {showU && <div className="rd-year">Not written yet</div>}
+                  <div className="rd-scene unwritten">
+                    <div className="rd-head"><b>{x.outline_n}. {x.title}</b><span className="rd-when">{x.when || "spaced out"}</span></div>
+                    {x.summary && <p className="ph-dim small">{x.summary}</p>}
+                    {x.if && <p className="ph-dim small">{x.if}</p>}
+                  </div>
+                </React.Fragment>
+              );
+            }
             const head = x.plays ? x.year : "Won't play";
             const show = head !== lastYear;
             lastYear = head;

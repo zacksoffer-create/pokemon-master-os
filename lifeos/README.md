@@ -879,8 +879,9 @@ is registered as "coming" and appears once its file lands.
 ## Story scripts (with ChatGPT, Claude, or by hand)
 
 Everything you add to the story (storylines, one-off scenes, texts, reply buttons, texting lines, story-feed lines,
-trivia) is a **story script**: plain text, like a screenplay. The game reads it, checks every line, and tells you what to
-fix by line number. The game ships with none: you write them.
+trivia) is a **story script**: plain text, like a screenplay. The game reads it and checks every line; what it can fix
+(a typo, a tag it doesn't know, a line that's too long, a fact nothing sets) it fixes, and tells you what it changed by
+line number. It only refuses a paste with nothing usable left in it. The game ships with none: you write them.
 
 ```
 === Same Team
@@ -918,24 +919,40 @@ bro: You're late. {Again.|Shocker.|Unbelievable.}
 - Blocks for the game's pools: `texts <pool>:`, `replies <set>:`, `chat <path>:`, `narration <key>:`, `mods ...:`,
   `trivia <subject>:`, `choices <moment>:`, and `schedule:` to retime any scene.
 
-**On the phone:** Me → **Storylines**. The loop is: write more, check it, add it, read it, repeat.
+**On the phone:** Me → **Storylines** → **Write more**. A storyline is built in two steps, so ChatGPT never has to fit a
+whole storyline into one reply and never has to get the timing right:
 
-1. **Write more.** Pick *a new storyline* or *more of one you have* (an expansion), say what you want ("a bunch of scenes
-   in biology class", "my sister's friends hanging out at the house", "holidays with them") or tap an idea, and pick how
-   much (a few, a bunch, a lot). **Make my ChatGPT prompt**, copy it (or share it straight to the ChatGPT app).
-2. **Paste what ChatGPT gives you**, or upload the file it gives you for long ones, and **Check it**. The game plays
-   your seven years forward on a copy with it in: which new scenes play and when, which won't and why, the month grid.
-   Problems come back by line number with a fix-it message for ChatGPT.
-3. **Add it.** A new storyline is its own script; an expansion is its own small piece, listed under its storyline.
-4. **Read it.** Open any storyline and tap **Read it**: the storyline and all its expansions laid out in the order
-   they'll play in your seven years, school year by school year, each scene with its date (and its tags, lines, choices,
-   rolls and effects), and a health line at the top: how many play, and for the rest, why not ("it needs a choice you
-   didn't make", "nobody in your story fits who it's about"). That's how you check what ChatGPT wrote.
-5. **Add an expansion** right from there, and keep going. **Edit the script** to fix anything by hand; **Play now** to
-   see a scene in your story; **Make it one story** for a season plan across every storyline.
+1. **Plan it.** Say what you want ("Mike and me on the same team, freshman year", or tap an idea), pick how big (6 to 8
+   scenes, 12 to 18, or 30 to 45 through the whole year), and copy the outline prompt (about 3,000 characters). ChatGPT
+   sends back an **outline**: one line per scene, `3. Tryouts | November · big | You both try out.`, with branches like
+   `| only if you picked "Say sorry" in 5`. Paste it (or upload the file) and **Check it**: you see every scene, its
+   time and its branch before anything is written. **Make it** saves the storyline (nothing plays yet).
+2. **Write the scenes.** Pick how many per prompt (3, 6 or 10) and copy the prompt for the next ones. It holds only what
+   ChatGPT needs for those scenes: the outline lines, the scene right before them, which choices the branches need, and
+   the short version of the guide. Paste what comes back and **Add these scenes**; the bar shows how many are written
+   (5 of 8). Repeat until it's done. A scene written again replaces the old one.
+
+The game owns the order, the timing and the branches, not ChatGPT: scenes go in outline order whatever order they're
+pasted in; a scene with a month or holiday gets it, and the blank ones are spaced out between them through the school
+year; a branch becomes a fact the right choice remembers. Whatever tags ChatGPT puts on a scene are ignored (except
+`big` and `with`). Scenes not written yet just don't play, so you can play the first half while the rest gets written.
+
+**Nothing gets rejected for something fixable.** A typo (`afection`, `Thanksgivng`, `dany:`), an effect the game doesn't
+have, a line that's too long, a fifth choice, an `if` on a fact nothing sets: each is fixed or dropped, and the notes say
+what changed ("scene 4 (Turkey Day): 'afection' read as 'affection'"). Only a paste with no storyline, scene or lines in
+it comes back.
+
+**Read it** shows the storyline in the order it'll play, each scene with its date, plus the outline's scenes that aren't
+written yet ("6. Making Up · spaced out · only if you picked "Say sorry" in 5"). **Write the next scenes** on a
+storyline's row picks up where you left off. **Add an expansion**, **Edit the script**, **Play now** and **Make it one
+story** work as before, and **Paste a script** still takes a whole script in one go (fixed the same way, with notes).
+
+**Which engine is the phone running?** The bottom of Storylines says *Engine <id>*. The app now always fetches the
+newest engine when it's online (it used to keep an old one cached), so after an update, reopen the app once and the id
+changes.
 
 **Timing, by hand or with ChatGPT.** In **Read it**, *When it happens* shows each storyline's (and expansion's)
-timing; **Change** it to pick its school years (and seasons), and **Spread them out** to space its scenes evenly across
+timing (for an outlined storyline, changing it rewrites the outline's `years:` and its lines); **Change** it to pick its school years (and seasons), and **Spread them out** to space its scenes evenly across
 that time, in order. Every scene moves into those years: tick *Keep each scene's own month* to leave Tryouts in
 November and spread the rest around it, or untick it and the spread decides every month. Holidays and school days keep
 their day. Tap any scene's date to move just that scene to a year and month. Everything you change is written into the
@@ -950,15 +967,15 @@ quietly doing nothing.
 
 **When a storyline won't play.** The usual causes, and what the game does about them:
 - A scene that waits on a fact nothing remembers (`if season_shared_start` when no choice anywhere says `remember
-  season_shared_start`) would never come. Pasting one is refused, with the line and the likely typo; one already in
-  your game says so in Read it and Play it start to finish, and the storyline moves on past it.
+  season_shared_start`) would never come. Pasting one takes the `if` off (with a note, and the likely typo); one
+  already in your game says so in Read it and Play it start to finish, and the storyline moves on past it.
 - In a storyline in order, `after <the scene before>` is just the order: one scene that can't happen no longer takes
   every scene after it down with it. (In `order: any` storylines, `after` still means "only once that one happened".)
 - Room: a scene's opening lines can run about 4,000 characters together (15 to 25 lines of back and forth), a line
   800, a choice 140. The guide tells ChatGPT these numbers.
-- Too long for one ChatGPT reply: the prompts tell it to stop after a whole scene and, when you say continue, send
-  `=== <Title> (part 2)` with `expands: <Title>` and its first scene after the last one sent. Paste each part as it
-  comes; Read it shows them as one storyline.
+- Too long for one ChatGPT reply: build it with an outline (above) and a few scenes per prompt. In the one-paste flow
+  the prompts still tell it to stop after a whole scene and send `=== <Title> (part 2)` with `expands: <Title>` when you
+  say continue.
 
 **Expansions** keep storylines growing without ever resending them: `=== Sisters: Holidays` with `expands: Sisters`
 under it. An expansion already has its storyline's people (no copying cast lines), can say `after <one of its

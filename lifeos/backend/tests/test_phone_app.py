@@ -99,8 +99,8 @@ def test_local_api_answers_like_the_server(tmp_path):
         assert call('GET', '/api/characters/zack-soffer')['status'] == 200
         # read and edit a script on the phone; a bad edit is refused with its line number
         src = js(call('GET', '/api/dialogue/packs/yours%3Aphone_story/script'))['text']
-        bad = call('POST', '/api/dialogue/packs/yours%3Aphone_story/script', {{'text': src.replace('mood +', 'mod +', 1)}})
-        assert bad['status'] == 422 and js(bad)['errors'][0].startswith('line 6:'), bad['body'][:300]
+        fixed = call('POST', '/api/dialogue/packs/yours%3Aphone_story/script', {{'text': src.replace('mood +', 'zzqx +', 1)}})
+        assert fixed['status'] == 200 and js(fixed)['notes'][0].startswith('line 6: the effect'), fixed['body'][:300]
         assert call('POST', '/api/dialogue/packs/yours%3Aphone_story/enabled', {{'enabled': False}})['status'] == 200
         assert not any(p['id'] == 'yours:phone_story' and p['enabled'] for p in js(call('GET', '/api/dialogue/packs'))['packs'])
         assert call('GET', '/api/nope')['status'] == 404

@@ -177,7 +177,7 @@ def test_an_expansion_adds_to_a_storyline_in_its_own_piece():
     assert exp["pack"]["cast"]["sis"]["sport"] == "soccer"
     # an expansion of something that isn't there says so
     bad = c.post("/api/dialogue/check", json={"text": "=== Nope: More\nexpands: Nope\n\n--- A  [freshman]\nbest friend: hi\n* ok\n"}).json()
-    assert not bad["ok"] and "no storyline called 'Nope'" in bad["errors"][0]
+    assert bad["ok"] and any("expands: came off" in n for n in bad["notes"]), bad  # fixed, not refused: its own storyline
     # a new storyline and its expansion in one paste
     both = "=== Brothers\ncast: bro = older brother\n\n--- Hoops  [freshman · fall]\nbro: Ball.\n* Play\n\n" \
            "=== Brothers: Road trip\nexpands: Brothers\n\n--- The van  [sophomore · summer]\nbro: Shotgun.\n* Fine\n"
@@ -189,7 +189,8 @@ def test_read_a_storyline_the_way_it_plays():
     from fastapi.testclient import TestClient
     from lifeos import api
     from lifeos.storage import Store
-    assert not dialogue.add_script(SISTERS + "\n--- Never  [freshman · if some_fact_nobody_remembers]\nsis: Hm.\n* ok\n")["ok"]
+    r = dialogue.add_script(SISTERS + "\n--- Never  [freshman · if some_fact_nobody_remembers]\nsis: Hm.\n* ok\n")
+    assert r["ok"] and any("if some_fact_nobody_remembers' came off" in n for n in r["notes"]), r  # pasted: the dead if comes off
     os.makedirs(dialogue.USER_DIR, exist_ok=True)  # (one from before the check: it still loads, and says why it won't play)
     with open(os.path.join(dialogue.USER_DIR, "sisters.story"), "w") as f:
         f.write(SISTERS + "\n--- Never  [freshman · if some_fact_nobody_remembers]\nsis: Hm.\n* ok\n")
@@ -362,13 +363,14 @@ def _brothers(gate="if season_shared_start"):
 def test_one_scene_that_cant_happen_doesnt_take_the_storyline_down():
     """The brother storyline that wouldn't trigger: chapter 1 waited on a fact nothing remembers, and every chapter was
     `after` the one before, so none of them ever came."""
-    r = dialogue.add_script(_brothers())
-    assert not r["ok"] and "no choice in this script or your storylines remembers season_shared_start" in r["errors"][0]
-    assert "line 4:" in r["errors"][0], "the scene with the if"
+    r = dialogue.add_script(_brothers())  # pasted today: the if nothing remembers comes off, and says so
+    assert r["ok"] and r["notes"][0].startswith("line 4: the tag 'if season_shared_start' came off"), r["notes"]
+    assert "season_shared_start" not in dialogue.script_of("yours:brothers_same_team")
     typo = dialogue.add_script(_brothers().replace("* Okay | bro affection +\n\n--- The Passenger",
                                                    "* Okay | bro affection +\n    remember season_shared_start\n\n--- The Passenger", 1)
                                .replace("if season_shared_start", "if season_shared_strat"))
-    assert "Did you mean season_shared_start?" in typo["errors"][0]
+    assert typo["ok"] and "'season_shared_strat' read as 'season_shared_start'" in " ".join(typo["notes"])
+    dialogue.remove_pack("yours:brothers_same_team")
     # one already on the phone from before loads anyway: its scenes after the dead one still play, and it says why
     os.makedirs(dialogue.USER_DIR, exist_ok=True)
     with open(os.path.join(dialogue.USER_DIR, "brothers_same_team.story"), "w") as f:

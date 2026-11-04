@@ -237,9 +237,12 @@ def preview(new_sim, pack, days: int = 7 * 365 + 10, last: dict | None = None, t
     stands in for it. Nothing is saved."""
     from . import dialogue, scheduler, script
     if text is not None:
-        r = script.compile_script(script.extract(text), library=dialogue.library())
+        from . import scriptfix
+        fx = scriptfix.repair(text, library=dialogue.library())  # (what adding it would do: fix what's fixable, with notes)
+        r = fx["result"]
         errs = [f"line {e['line']}: {e['text']}" for e in r["errors"]]
         out = {"ok": not errs, "errors": errs, "error_lines": r["errors"], "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]],
+               "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]],
                "summary": r["summary"], "name": ", ".join(p.get("name", "") for p in r["packs"]), "script": True}
         if errs:
             out["fix_prompt"] = fix_prompt(errs, script.extract(text))
@@ -630,25 +633,114 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
             scenes.append({"sid": sc["id"], "title": sc.get("title"), "storyline": names[g["id"]], "pack": g["id"], "src": sc.get("src") or "",
                            "plays": plays, "date": r.get("date") if plays else None, "day": r.get("day") if plays else None,
                            "why": why, "detail": None if plays else r.get("detail"), "n": i,
-                           "dated": bool((sc.get("when") or {}).get("dates"))})
+                           "dated": bool((sc.get("when") or {}).get("dates")),
+                           "outline_n": next((e["n"] for e in g["pack"].get("outline") or [] if e.get("sid") == sc["id"]), None)})
     y0 = calm.school_year_of(((sim.w.meta.get("story") or {}).get("start_day", 0)))
     for x in scenes:
         yi = calm.school_year_of(x["day"]) - y0 if x["plays"] else -1
         x["year"] = YEAR_LABEL[yi] if 0 <= yi < len(YEAR_LABEL) else None
     scenes.sort(key=lambda x: (not x["plays"], x["day"] if x["plays"] else 0, x["pack"] != group[0]["id"], x["n"]))
+    for g in group:  # an outlined storyline: the scenes it plans that aren't written yet
+        for e in g["pack"].get("outline") or []:
+            if not e.get("written"):
+                scenes.append({"sid": f"{g['id']}#{e['n']}", "title": e["title"], "storyline": names[g["id"]], "pack": g["id"],
+                               "src": "", "plays": False, "date": None, "day": None, "why": None, "detail": None, "n": e["n"],
+                               "dated": False, "year": None, "unwritten": True, "summary": e.get("summary"), "when": e.get("when"),
+                               "outline_n": e["n"], "if": e.get("if")})
     mine = {d: [k for k in v if k in rows] for d, v in (run.get("per_day") or {}).items()}
     cov = coverage(sim, {**run, "per_day": {d: v for d, v in mine.items() if v}})
     lost: dict = {}
     for x in scenes:
-        if not x["plays"]:
+        if not x["plays"] and not x.get("unwritten"):
             lost.setdefault(x["why"], []).append(x["title"])
     from . import dialogue
     parts = [{"pack": g["id"], "name": g["pack"].get("name"), "expands": g["pack"].get("expands"),
               "scenes": sum(1 for x in scenes if x["pack"] == g["id"]), "plays": sum(1 for x in scenes if x["pack"] == g["id"] and x["plays"]),
               "timing": dialogue.timing_of(g["id"]) if g.get("kind") == "script" else None}
              for g in group]
+    written = [x for x in scenes if not x.get("unwritten")]
     return {"title": group[0]["pack"].get("name"), "pack": group[0]["id"], "parts": parts, "scenes": scenes,
-            "total": len(scenes), "plays": sum(1 for x in scenes if x["plays"]),
+            "total": len(written), "plays": sum(1 for x in written if x["plays"]),
+            "unwritten": sum(1 for x in scenes if x.get("unwritten")),
             "wont": [{"why": k, "count": len(v), "titles": v[:8]} for k, v in sorted(lost.items(), key=lambda kv: -len(kv[1]))],
             "coverage": cov}
+
+
+# ---------------------------------------------------------------------------------------- outline, then batches
+
+OUTLINE_SIZES = {"few": "6 to 8 scenes", "bunch": "12 to 18 scenes", "lot": "30 to 45 scenes, through the whole year (or years)"}
+
+
+def outline_prompt(sim, ask: str = "", size: str = "bunch", expand: str | None = None) -> dict:
+    """Step 1: the ChatGPT prompt for a storyline's outline (one line per scene). Short on purpose: the format, the people,
+    what you have; no scene-writing rules yet."""
+    from . import dialogue, script
+    ask = (ask or "").strip() or "A storyline about someone in my life: whatever my story is missing."
+    existing, title_hint, exp_line = "", "<a title for it>", ""
+    if expand:
+        p = dialogue._script_pack(expand)
+        if p["pack"].get("expands"):
+            p = dialogue._script_pack(next(x["id"] for x in dialogue.packs() if x["pack"].get("name") == p["pack"]["expands"]))
+        name = p["pack"].get("name")
+        title_hint, exp_line = f"{name}: <a name for this part>", f"expands: {name}\n"
+        L = ["", f"## The storyline this adds to: {name}", "", "It already has these people and scenes (yours comes on top: same people, "
+             "more of their story). Its cast is already there: only add cast lines for new people.", "", "```"]
+        L += [script.cast_line(n, sp) for n, sp in (p["pack"].get("cast") or {}).items()]
+        L += [f"--- {e['n']}. {e['title']}" if isinstance(e, dict) and "n" in e else "" for e in p["pack"].get("outline") or []] or \
+             [(sc.get("src") or "").split("\n")[0] or f"--- {sc.get('title')}" for sc in p["pack"].get("scenes") or []]
+        L += ["```", ""]
+        existing = "\n".join(L)
+    else:
+        names = [x["pack"].get("name") for x in dialogue.packs() if x["pack"].get("scenes") or x["pack"].get("outline")]
+        if names:
+            existing = "\n## Storylines I already have (don't repeat them)\n\n" + "\n".join(f"- {n}" for n in names[:60]) + "\n"
+    body = script.OUTLINE_PROMPT.format(
+        ask=ask, people=_family(sim) + "\n\nAlready cast in my storylines:\n" + _cast_block(sim), existing=existing,
+        title_hint=title_hint, expands_line=exp_line, size=f"Plan {OUTLINE_SIZES.get(size, size or OUTLINE_SIZES['bunch'])}",
+        years_words="freshman, sophomore, junior, senior, college freshman, college sophomore, college junior",
+        when_words=script.WHEN_WORDS)
+    return {"prompt": body, "chars": len(body)}
+
+
+def batch_prompt(sim, pack: str, count: int = 6) -> dict:
+    """Step 2, again and again: the ChatGPT prompt for the next few scenes of an outlined storyline: the outline, the scene
+    right before them (for continuity), the choices later scenes depend on, and how to write a scene."""
+    from . import dialogue, script
+    p = dialogue._script_pack(pack)
+    entries = script.outline_entries(p["pack"])
+    if not entries:
+        raise ValueError("this storyline doesn't have an outline: paste one first (Write more makes the prompt)")
+    first, last, take = script.batch_plan(p["pack"], count)
+    total, written = len(entries), sum(1 for e in entries if e.get("written"))
+    if not take:
+        return {"done": True, "total": total, "written": written}
+    src_lines = p["script"].split("\n")
+    head = []
+    for ln in src_lines:
+        if ln.strip().lower().startswith("outline:") or script.SCENE_RE.match(ln.strip()):
+            break
+        head.append(ln)
+    out_lines = []
+    for e in entries:
+        bits = [f"{e['n']}. {e['title']}", e.get("when") or "", e.get("summary") or ""]
+        line = " | ".join(bits).rstrip(" |") + (f" | {e['if']}" if e.get("if") else "")
+        out_lines.append(line + ("   (written)" if e.get("written") else "   ← write now" if e in take else ""))
+    by_sid = {sc["id"]: sc for sc in p["pack"].get("scenes") or [] if isinstance(sc, dict)}
+    prev = next((e for e in reversed(entries) if e["n"] < first and e.get("written") and e.get("sid") in by_sid), None)
+    previous = ""
+    if prev:
+        previous = (f"\n## The scene right before these (so yours pick up from it)\n\n```\n{by_sid[prev['sid']].get('src', '').strip()}\n```\n")
+    ns = {e["n"] for e in take}
+    needs = []
+    for e in entries:
+        m = re.search(r"you picked “(.+?)” in (\d+)", e.get("if") or "")
+        if m and int(m.group(2)) in ns:
+            needs.append(f"Scene {m.group(2)} must have a choice like “{m.group(1)}” (scene {e['n']} depends on it).")
+    body = script.BATCH_PROMPT.format(
+        header="\n".join(head).strip(), outline="\n".join(out_lines), previous=previous, first=first, last=last,
+        first_title=take[0]["title"], which="; ".join(f"{e['n']}. {e['title']}" for e in take),
+        needs=("\n\n" + "\n".join(needs)) if needs else "")
+    text = body + script.guide_scenes()
+    return {"prompt": text, "chars": len(text), "first": first, "last": last, "total": total, "written": written,
+            "titles": [e["title"] for e in take], "done": False}
 

@@ -215,11 +215,14 @@ def test_dialogue_api_and_the_phone_engine_layer(tmp_path):
     assert any(p["id"] == "yours:everyday_life" and p["enabled"] and p["kind"] == "script" for p in j["packs"]) and "test_tomorrow" in j["scenes"]
     src = c.get("/api/dialogue/packs/yours%3Aeveryday_life/script").json()["text"]
     assert src.startswith("=== Everyday life")
-    bad = c.post("/api/dialogue/packs/yours%3Aeveryday_life/script", json={"text": src.replace("| fun +", "| fnu +", 1)})
-    assert bad.status_code == 422 and bad.json()["error_lines"][0]["line"] > 5
+    typo = c.post("/api/dialogue/packs/yours%3Aeveryday_life/script", json={"text": src.replace("| fun +", "| fnu +", 1)})
+    assert typo.status_code == 200 and "'fnu' read as 'fun'" in " ".join(typo.json()["notes"]) and "fnu" not in typo.json()["text"]
+    bad = c.post("/api/dialogue/packs/yours%3Aeveryday_life/script", json={"text": src.replace("| fun +", "| zzqx +", 1)})
+    assert bad.status_code == 200 and "the effect 'zzqx +' came off" in " ".join(bad.json()["notes"])
     ok = c.post("/api/dialogue/packs/yours%3Aeveryday_life/script", json={"text": src.replace("Lunch line", "The lunch line")})
     assert ok.status_code == 200 and ok.json()["ids"] == ["yours:everyday_life"]
-    assert c.post("/api/dialogue/check", json={"text": EVERYDAY.replace("with best friend]", "with besty]")}).json()["ok"] is False
+    chk = c.post("/api/dialogue/check", json={"text": EVERYDAY.replace("with best friend]", "with besty]")}).json()
+    assert chk["ok"] and chk["notes"] and "with besty" not in chk["fixed"], chk["notes"]  # what adding it would fix
     bad = c.post("/api/dialogue/packs", json={"text": '{"name": "x", "texts": {"nope": ["hi"]}}'})
     assert bad.status_code == 422 and bad.json()["errors"]
     good = {"name": "Snow day", "scenes": [{

@@ -153,9 +153,14 @@ export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; na
   changed?: { sid: string; title: string; state: string; date?: string; why?: string; reason?: string }[]; already_there?: string[];
   played_total?: number; before?: number | null; coverage?: Coverage; replaces?: string[]; script?: boolean };
 export type ReadScene = { sid: string; title: string; storyline: string; pack: string; src: string; plays: boolean; date: string | null;
-  day: number | null; why: string | null; detail: any; year: string | null; dated: boolean };
+  day: number | null; why: string | null; detail: any; year: string | null; dated: boolean; unwritten?: boolean; summary?: string;
+  when?: string; outline_n?: number | null; if?: string | null };
+export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
+export type OutlineCheck = { ok: boolean; title: string; expands: string | null; about: string | null; cast: { name: string; label: string }[];
+  outline: OutlineEntry[]; notes: string[]; warnings: string[]; pack?: string };
+export type BatchPrompt = { prompt?: string; chars?: number; first?: number; last?: number; total: number; written: number; titles?: string[]; done: boolean };
 export type Timing = { years: string[]; months: number[]; spread: boolean; line: string };
-export type StorylineRead = { title: string; pack: string; total: number; plays: number; scenes: ReadScene[]; coverage: Coverage;
+export type StorylineRead = { title: string; pack: string; total: number; plays: number; unwritten?: number; scenes: ReadScene[]; coverage: Coverage;
   parts: { pack: string; name: string; expands: string | null; scenes: number; plays: number; timing: Timing | null }[];
   wont: { why: string; count: number; titles: string[] }[] };
 export type UpNextRow = { sid: string; title: string; storyline: string; pack: string; day: number; date: string; in_days: number;
@@ -269,6 +274,13 @@ export const phoneApi = {
     ideas: string[]; sizes: Record<string, string> }> =>
     api.get(`/api/story/add/expand?pack=${encodeURIComponent(pack)}&ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`),
   readStoryline: (pack: string): Promise<StorylineRead> => api.get(`/api/story/storyline/read?pack=${encodeURIComponent(pack)}`),
+  outlinePrompt: (ask: string, size: string, expand?: string): Promise<{ prompt: string; chars: number }> =>
+    api.get(`/api/story/build/outline-prompt?ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}&expand=${encodeURIComponent(expand || "")}`),
+  outline: (text: string, save: boolean): Promise<OutlineCheck> => api.post("/api/story/build/outline", { text, save }),
+  batchPrompt: (pack: string, count = 6): Promise<BatchPrompt> =>
+    api.get(`/api/story/build/batch-prompt?pack=${encodeURIComponent(pack)}&count=${count}`),
+  addScenes: (pack: string, text: string): Promise<{ ok: boolean; got: number[]; notes: string[]; written: number; total: number; outline: OutlineEntry[] }> =>
+    api.post("/api/story/build/scenes", { pack, text }),
   setTiming: (pack: string, years: string[], seasons: string[], spread: boolean, keepMonths = true) =>
     api.post(`/api/dialogue/packs/${encodeURIComponent(pack)}/timing`, { years, seasons, spread, keep_months: keepMonths }),
   moveScene: (pack: string, sid: string, year: string, month: number) =>

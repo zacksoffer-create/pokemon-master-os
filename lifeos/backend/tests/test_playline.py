@@ -117,8 +117,8 @@ def test_add_a_scene_right_here_prompt():
     assert pv["ok"], pv
     assert [x["title"] for x in pv["new"]] == ["Benched"] and pv["new"][0]["state"] == "played", pv["new"]
     assert bro in pv["replaces"] and "Benched" not in dialogue.script_of(bro), "nothing saved"
-    bad = c.post("/api/story/add/preview", json={"pack": bro, "after": "bro_team_02_lunch_table", "text": BENCHED.replace("* Leave it", "* Leave it | fnu +")}).json()
-    assert not bad["ok"] and bad["error_lines"][0]["yours"] and bad["error_lines"][0]["line"] == 5, bad["error_lines"]
+    fixed = c.post("/api/story/add/preview", json={"pack": bro, "after": "bro_team_02_lunch_table", "text": BENCHED.replace("* Leave it", "* Leave it | fnu +")}).json()
+    assert fixed["ok"] and any("'fnu' read as 'fun'" in n for n in fixed["notes"]), fixed
     ins = c.post("/api/story/add/insert", json={"pack": bro, "after": "bro_team_02_lunch_table", "text": BENCHED})
     assert ins.status_code == 200, ins.text
     src = dialogue.script_of(bro)
