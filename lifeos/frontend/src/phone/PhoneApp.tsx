@@ -40,13 +40,38 @@ export default function PhoneApp({ route }: { route: string[] }) {
     <PhoneProvider>
       <div className="ph-root">
         <div className="ph-frame">
-          <Shell route={route} />
+          <Oops route={route.join("/")}>
+            <Shell route={route} />
+          </Oops>
           <div id="ph-portal" />
           <Toasts />
         </div>
       </div>
     </PhoneProvider>
   );
+}
+
+/** If something on a screen breaks, say so and offer a way back, instead of the whole app going blank. */
+class Oops extends React.Component<{ route: string; children: React.ReactNode }, { err: string | null; at: string }> {
+  state = { err: null as string | null, at: "" };
+  static getDerivedStateFromError(e: any) {
+    return { err: String(e?.message || e).slice(0, 300) };
+  }
+  componentDidUpdate(prev: { route: string }) {
+    if (prev.route !== this.props.route && this.state.err) this.setState({ err: null });  // a new screen: try again
+  }
+  render() {
+    if (!this.state.err) return this.props.children;
+    return (
+      <div className="ph-oops">
+        <b>Something went wrong on this screen.</b>
+        <p>Your story is fine and nothing was lost. Go back and try again.</p>
+        <small>{this.state.err}</small>
+        <button className="ph-btn primary block" onClick={() => { this.setState({ err: null }); window.location.hash = "#/m/me"; }}>Back</button>
+        <button className="ph-btn soft block" onClick={() => window.location.reload()}>Restart the app</button>
+      </div>
+    );
+  }
 }
 
 function Shell({ route }: { route: string[] }) {

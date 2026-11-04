@@ -1352,14 +1352,15 @@ def api_build_outline(body: dict = Body(...)):
     """{text, save}: ChatGPT's outline. Without save: what it would be (its scenes, what got fixed). With save: it's a
     storyline now (nothing plays until its scenes are written)."""
     from . import dialogue, script, scriptfix
-    text = str(body.get("text") or "")
+    text = script.normalize_outline(str(body.get("text") or ""))  # the ways ChatGPT bends the format, read as meant
     if body.get("expand"):  # more of a storyline: it's an expansion of it, whatever ChatGPT called it
         text = dialogue.as_expansion(text, str(body["expand"]))
     fx = scriptfix.repair(text, library=dialogue.library())
     packs = [pk for pk in fx["result"]["packs"] if pk.get("outline")]
     if not packs:
-        return JSONResponse({"detail": "there's no outline in that: it starts with === and a title, then outline: and numbered "
-                                       "lines like 1. Title | September | what happens", "errors": fx["result"]["errors"] or ["no outline"]},
+        why = ("There's no outline in that. It's a title (=== Title), then outline: and one numbered line per scene, like "
+               "1. Saved You a Seat | September | Mike saves you a seat on the bus.")
+        return JSONResponse({"detail": why, "errors": [why] + [f"line {e['line']}: {e['text']}" for e in fx["result"]["errors"]]},
                             status_code=422)
     pk = packs[0]
     out = {"ok": True, "title": pk.get("name"), "expands": pk.get("expands"), "about": pk.get("notes"),
@@ -1404,8 +1405,9 @@ def api_texting_check(body: dict = Body(...)):
     bd = [dialogue.texting_breakdown(pk) for pk in packs]
     total = sum(b["flirt_total"] + b["texting"] + len(b["group_chats"]) for b in bd)
     if not fx["ok"] or not total:
-        return JSONResponse({"detail": "there's no texting in that: flirt lines go under blocks like flirt tease:, group chats "
-                                       "under group chat crew:", "errors": fx["result"]["errors"][:8]}, status_code=422)
+        why = "There's no texting in that. Flirt lines go under blocks like flirt tease:, group chats under group chat crew:"
+        return JSONResponse({"detail": why, "errors": [why] + [f"line {e['line']}: {e['text']}" for e in fx["result"]["errors"][:8]]},
+                            status_code=422)
     return {"ok": True, "breakdown": bd[0] if len(bd) == 1 else _merge_breakdowns(bd),
             "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]], "text": fx["text"],
             "scenes": sum(len(pk.get("scenes") or []) for pk in packs)}

@@ -1606,6 +1606,32 @@ def split_sections(text: str) -> list:
     return out
 
 
+def normalize_outline(text: str) -> str:
+    """An outline the way ChatGPT sometimes writes it, the way the game reads it: the numbered lines without `outline:`
+    above them, dashes instead of | between the parts, **bold** titles, or a table."""
+    src = extract(text)
+    out, saw_numbered, has_header = [], False, bool(re.search(r"^\s*outline\s*:\s*$", src, re.M | re.I))
+    num = re.compile(r"^\s*(?:[-*]\s*)?(?:scene\s*)?(\d{1,3})\s*[.):]\s+(.+)$", re.I)
+    for raw in src.split("\n"):
+        ln = raw.rstrip()
+        cells = [c.strip() for c in ln.strip().strip("|").split("|")] if ln.strip().startswith("|") else None
+        if cells is not None:  # a table: | 1 | Title | When | What happens |
+            if all(re.fullmatch(r":?-{2,}:?", c) or not c for c in cells) or not (cells and cells[0].rstrip(".").isdigit()):
+                continue  # its header and the --- line under it
+            ln = f"{cells[0].rstrip('.')}. " + " | ".join(cells[1:])
+        m = num.match(ln)
+        if m:
+            body = m.group(2).replace("**", "").replace("__", "")
+            if "|" not in body:
+                body = re.sub(r"\s+[—–-]\s+", " | ", body, count=3)  # Title — September — what happens
+            if not saw_numbered and not has_header:
+                out.append("outline:")
+            saw_numbered = True
+            ln = f"{m.group(1)}. {body.strip()}"
+        out.append(ln)
+    return "\n".join(out) + ("\n" if src.endswith("\n") else "")
+
+
 def looks_like_script(text: str) -> bool:
     return bool(re.search(r"^\s*(===|---)\s*\S", text, re.M)) or bool(
         re.search(r"^\s*(texts|replies|chat|trivia|flirt|group\s+chat)\s+\S.*:\s*$", text, re.M))

@@ -213,3 +213,29 @@ def test_the_engine_says_which_build_it_is():
     from fastapi.testclient import TestClient
     from lifeos import api
     assert TestClient(api.app).get("/api/version").json() == {"engine": "lab"}
+
+
+def test_an_outline_written_a_little_differently_still_reads():
+    from lifeos import script
+    for text in ("1. Opening - September - Mike drives you\n2. Close - June - done",
+                 "=== Holidays\n| # | Title | When | What |\n|---|---|---|---|\n| 1 | Opening | September | Mike drives you |\n| 2 | Close | June | done |",
+                 "=== X\noutline:\n1. **Opening** | September | Mike drives you\n2. Close | June | done",
+                 "```\n=== X\n- 1) Opening — September — Mike drives you\n- 2) Close — June — done\n```"):
+        r = script.compile_script(script.normalize_outline(text))
+        assert not r["errors"], (text, r["errors"])
+        assert [(e["n"], e["title"], e["when"]) for e in r["packs"][0]["outline"]] == [(1, "Opening", "September"), (2, "Close", "June")], text
+
+
+def test_a_paste_that_isnt_an_outline_says_what_one_looks_like_in_words():
+    from fastapi.testclient import TestClient
+    from lifeos import api
+    from lifeos.storage import Store
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6, siblings=[BROTHER] + TWINS)}).status_code == 200
+    r = c.post("/api/story/build/outline", json={"text": "here's a story about my brother, hope you like it"})
+    assert r.status_code == 422
+    errs = r.json()["errors"]
+    assert all(isinstance(e, str) for e in errs) and errs[0].startswith("There's no outline in that"), errs
+    r = c.post("/api/texting/check", json={"text": "just words"})
+    assert r.status_code == 422 and all(isinstance(e, str) for e in r.json()["errors"])
