@@ -485,6 +485,14 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     before = margin
     if play:  # your big moment (the mini game) can win a close game, or lose one
         margin += gameplay.SWING.get(play["tier"], 0) * (1.0 if you_ in starters else 0.6)
+    call = gameplay.storyline_calls(sim, w.chars[you_], sport) if you_ in players else None
+    if call:  # a storyline says how this game goes: it goes that way (by about as much as it would have)
+        if call["result"] == "win" and margin <= 0:
+            margin = abs(margin) * 0.6 + 1 + rng.random() * 4
+        elif call["result"] == "loss" and margin > 0:
+            margin = -(abs(margin) * 0.6 + 1 + rng.random() * 4)
+        if call["great"]:
+            perf[you_] = max(perf[you_], pre[you_] + 7)
     win = margin > 0
     score = inst.score_line(sport, margin, rng)
     tds = None
@@ -510,14 +518,20 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
         box[cid] = {"pos": pos, "starter": cid in starters, "line": line, "perf": round(perf[cid], 1), "approach": appr[cid]}
     if sport == "soccer":
         soccer_box(box, score, win, rng)
+    if not play and call and call.get("won_it") and win:  # "I won it": the storyline's big moment, in the box score
+        play = {"tier": "great", "stats": {}}
     play_text = None
     if play:
         me_ = w.chars[you_]
         play_text = gameplay.apply_play(sport, box[you_]["pos"], box[you_]["line"], play, me_.first,
                                         (tds or {}).get("team") if tds is not None else None)
-        if win and before <= 0 and play["tier"] != "miss":
+        if win and play["tier"] == "miss":
+            play_text += ", but they held on"
+        elif not win and play["tier"] == "great":
+            play_text += ", but it wasn't enough"
+        elif win and before <= 0:
             play_text += " to win it"
-        elif not win and before > 0 and play["tier"] == "miss":
+        elif not win and before > 0:
             play_text += ", and they lost it late"
         box[you_]["play"] = play_text
     for cid in players:
@@ -540,9 +554,15 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     if play_text:
         ev["data"]["play"] = play_text
         ev["data"]["play_tier"] = play["tier"]
+    if call:
+        ev["data"]["storyline"] = call["storyline"]  # (the lab can see the storyline called this one)
     if you_ in players:  # what storylines (and the Sports tab) know about your last game
+        tier_ = gameplay.perf_tier(pre[you_], perf[you_], you_ in starters, play)
+        if call and call["great"]:
+            tier_ = "great"
         gameplay.record(w.chars[you_], w.day, sport, label, g["id"], oname, score, win, box[you_]["line"], you_ in starters,
-                        gameplay.perf_tier(pre[you_], perf[you_], you_ in starters, play), play_text, rivalry)
+                        tier_, play_text, rivalry)
+
     if w.tracing:
         ev["calc"] = [{"step": "game result", "terms": [["team strength (avg of starters' performances)", round(strength, 2)],
                                                          ["opponent strength", round(opp, 2)], ["home crowd", home]],

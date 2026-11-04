@@ -181,7 +181,112 @@ def test_match_it_to_your_games_prompt():
     row = next(p for p in dialogue.packs() if p["id"] == r["ids"][0])
     assert dialogue.pack_summary(row)["games"]
     p = dialogue.prompt_for_games(r["ids"][0])
-    for must in ("[if we won]", "the other way", "{my_line}", "Keep everything else", "--- The Big Game", "## Your games"):
+    for must in ("[if we won]", "The game will go that way", "{my_line}", "Keep everything else", "--- The Big Game", "## Your games"):
         assert must in p, must
     quiet = dialogue.add_script("=== Rainy Days\nyears: freshman\n\n--- Puzzle\nMom: Want to do a puzzle?\n* \"Sure.\"\nMom: Great.\n")
     assert not dialogue.pack_summary(next(p for p in dialogue.packs() if p["id"] == quiet["ids"][0]))["games"]
+
+
+# --- the storyline decides: a chapter that says how the game went makes the game go that way -----------------------------
+
+ORDERED = """=== Friday Lights
+years: freshman
+
+outline:
+1. The Week Before | September | Practice is intense.
+2. {title} | September | {summary}
+3. Moving On | September | The next week.
+
+--- 1. The Week Before
+Coach: Big one Friday.
+* "Ready."
+Coach: Good.
+
+--- 2. {title}
+{line}
+* "Yeah."
+Coach: Okay.
+
+--- 3. Moving On
+Coach: New week.
+* "Let's go."
+Coach: Good.
+"""
+
+
+def _ordered(sim, me, text):
+    from lifeos import scheduler as sch
+    r = dialogue.add_script(text)
+    assert r["ok"], r.get("errors")
+    sim.cat = sim.cat.__class__(sim.w.action_overrides)
+    sch._cat_cache.clear()
+    cat = sch.catalog(sim)
+    pk = r["ids"][0]
+    ch = cat["chapters"][pk]
+    sch.done_map(sim.w)[ch[0]] = [sim.w.day]
+    return pk, ch, cat
+
+
+def _results(text, seeds=12):
+    out = []
+    for seed in range(seeds):
+        sim, me, gid = world()
+        pk, ch, cat = _ordered(sim, me, text)
+        it = game_today(sim, gid, n=seed + 1)
+        play(sim, it, seed=seed)
+        out.append((me.flags["last_game"]["win"], scheduler.next_chapter(sim, me, pk, scheduler.catalog(sim))[0] == ch[1]))
+    return out
+
+
+def test_a_storyline_that_says_we_won_makes_the_game_a_win():
+    text = ORDERED.format(title="Victory Lap", summary="The town goes nuts.", line="Coach: What a win! The whole town is buzzing.")
+    res = _results(text)
+    assert all(win for win, _ in res), res
+    assert all(nxt for _, nxt in res), "and the chapter is right there, ready to play"
+
+
+def test_a_storyline_that_says_we_lost_makes_it_a_loss():
+    text = ORDERED.format(title="The Bus Home", summary="Nobody talks.", line="Nobody talks on the bus. We lost 21-14.")
+    assert not any(win for win, _ in _results(text))
+
+
+def test_a_tag_or_an_outline_line_calls_it_too_and_both_ways_lets_the_game_decide():
+    tagged = ORDERED.format(title="Celebration", summary="Pizza after. | if we won", line="Coach: Pizza's on me.")
+    assert all(win for win, _ in _results(tagged))
+    both = """=== Coin Flip
+years: freshman
+
+outline:
+1. The Week Before | September | Practice.
+2. We Did It | September | Party. | if we won
+3. It Stings | September | Quiet bus. | if we lost
+
+--- 1. The Week Before
+Coach: Big one.
+* "Ready."
+Coach: Good.
+
+--- 2. We Did It
+Coach: Party.
+* "Yes."
+Coach: Go.
+
+--- 3. It Stings
+Coach: Head up.
+* "Okay."
+Coach: Good.
+"""
+    wins = [w for w, _ in _results(both, seeds=16)]
+    assert any(wins) and not all(wins), "both ways written: the real game decides"
+
+
+def test_reading_the_result_a_scene_takes_for_granted():
+    a = gameplay.assumed_result
+    assert a("Victory Lap", "Coach: Huge night.") == "we_won"
+    assert a("The Bus Home", "Nobody talks. We lost 21-14.") == "we_lost"
+    assert a("Film", "Coach: That loss is on all of us.", True) == "we_lost"
+    assert a("The Next Morning", "Dad: We beat them!", True) == "we_won"
+    for t, x in (("The Big Game", "Coach: We win this, we're in."), ("Rematch", "Last year we lost to them by 30."),
+                 ("Hope", "We need a win so bad."), ("Dog", "We lost the dog at the park."), ("Debate", "We won the debate!"),
+                 ("Mixed", "We won the opener but we lost the second game.")):
+        assert a(t, x, t != "Dog" and t != "Debate") is None, (t, x)

@@ -10,6 +10,8 @@
 """
 from __future__ import annotations
 
+import re
+
 # which sport a mini game is the big moment for
 GAME_SPORTS = {"football": ("football",), "basketball": ("basketball",), "playmaker": ("basketball",),
                "baseball": ("baseball", "softball"), "swing_lab": ("baseball", "softball"), "soccer_11": ("soccer",),
@@ -245,3 +247,68 @@ NAMES = {"last_game": "your last game, like \"the 24-21 win over Branford\"", "l
          "last_score": "the score (24-21)", "my_line": "how you did (6 catches for 98 yards and a touchdown)",
          "big_play": "your big moment (scored the touchdown late)", "team_record": "your team's record (6-2)",
          "my_season": "your season so far (41 catches for 612 yards and 7 touchdowns in 8 games)"}
+
+
+# --- the storyline decides: a scene that says how the game went makes the game go that way ------------------------------
+
+PAST_SEASON = re.compile(r"\b(last (year|season|time|week|game)|years? ago|ever since|never|haven't|hasn't|didn't|if we|when we|"
+                         r"we could|we can|we'll|we will|gonna|going to|need (a|to)|want (a|to))\b", re.I)
+WON = re.compile(r"\b(we|you guys|you all|y'all|the team|our team|the boys|the girls)\s+(just\s+|actually\s+|really\s+)?"
+                 r"(won|beat|crushed|destroyed|pulled it off)\b|\b(that|what a|big|huge|after the)\s+win\b|\bvictory\b|"
+                 r"\bwinning (touchdown|td|shot|goal|run|hit|basket|kick)\b|\bwon the (game|big game|championship|title|rivalry|opener)\b", re.I)
+LOST = re.compile(r"\b(we|you guys|you all|y'all|the team|our team|the boys|the girls)\s+(just\s+|actually\s+|really\s+)?"
+                  r"(lost|got (crushed|blown out|beat|smoked|destroyed))\b|\b(that|tough|brutal|bad|ugly|after the)\s+loss\b|"
+                  r"\blost the (game|big game|championship|title|rivalry|opener)\b|\bdefeat\b", re.I)
+GAME_WORDS = re.compile(r"\b(game|games|match|playoffs?|season|scrimmage|homecoming|rivalry|touchdown|scored|coach|score|"
+                        r"football|basketball|baseball|soccer|softball)\b", re.I)
+
+
+STRONG = re.compile(r"\b(what a|that|huge|big|after the|tough|brutal|ugly)\s+(win|loss)\b|\bvictory\b|\bdefeat\b|"
+                    r"\b(won|lost) the (game|big game|championship|title|rivalry|opener)\b", re.I)
+SCORE = re.compile(r"\b\d{1,3}\s?(-|to)\s?\d{1,3}\b")
+
+
+def assumed_result(title: str, text: str, sporty: bool = False) -> str | None:
+    """The result a scene takes for granted, from its words ("we won", "that loss"): we_won, we_lost, or None. A scene
+    counts as about a game if it says so, has a score, or is in a storyline about a sport (sporty); anything about another
+    season, the future or a maybe doesn't count, and both ways is neither."""
+    words = f"{title}. {text}"
+    about = sporty or bool(GAME_WORDS.search(words) or SCORE.search(words))
+    w = l = 0
+    for sent in re.split(r"(?<=[.!?])\s+|\n", words):
+        if PAST_SEASON.search(sent):
+            continue
+        strong = STRONG.search(sent)
+        if not (about or strong):
+            continue
+        w += bool(WON.search(sent))
+        l += bool(LOST.search(sent))
+    return "we_won" if w and not l else "we_lost" if l and not w else None
+
+
+DECIDES = {"we_won": "win", "i_won_it": "win", "we_lost": "loss"}
+
+
+def storyline_calls(sim, me, sport) -> dict | None:
+    """Does a storyline need your next game to go a certain way? The next chapter of a storyline played in order that's
+    waiting only on a game, says (or takes for granted) how it went, and has no other-way twin: {"result": win|loss,
+    "great": you played great, "storyline": its name}. None if nothing calls it, or two storylines disagree."""
+    from . import dialogue, scheduler
+    cat = scheduler.catalog(sim)
+    calls = []
+    for pk in sorted(cat["ordered"]):
+        sid, why = scheduler.next_chapter(sim, me, pk, cat)
+        if not sid or not why or why[0] != "waiting_for_game" or (cat.get("twins") or {}).get(sid):
+            continue
+        info = cat["info"].get(sid) or {}
+        if info.get("sport") and info["sport"] != sport:
+            continue
+        reqs = set((cat["scenes"][sid].get("when") or {}).get("requires") or []) | ({info["assumes"]} if info.get("assumes") else set())
+        res = {DECIDES[r] for r in reqs if r in DECIDES}
+        if len(res) == 1:
+            p = next((x for x in dialogue.packs() if x["id"] == pk), None)
+            calls.append({"result": res.pop(), "great": bool(reqs & {"i_played_great", "i_won_it"}), "won_it": "i_won_it" in reqs,
+                          "storyline": (p or {}).get("pack", {}).get("name") or pk, "scene": sid})
+    if not calls or len({c["result"] for c in calls}) > 1:
+        return None
+    return calls[0]

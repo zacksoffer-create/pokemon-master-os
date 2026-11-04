@@ -1376,20 +1376,17 @@ def prompt_for_games(pid: str) -> str:
     outlined = bool(p["pack"].get("outline"))
     return "\n".join([
         "This is a storyline from LIFE OS, a life-simulation game where I play one person from high school through college. "
-        "My games in it are real now: the score, my stats and the big moment I play myself are decided by playing them. "
-        "Make this storyline follow how my games actually go.",
+        "Its scenes decide how my games go: the score, my stats and my team's record follow what a scene says happened. "
+        "Make that clear and exact.",
         "",
         "Rewrite it so that:",
-        "- Every scene about a specific game I play (or how a game went) doesn't decide the result. If it assumes one, tag it "
-        "with that ([if we won], [if I played great], [if I started]...) and add a second scene right after it for the other "
-        "way ([if we lost], [if I played badly], [if I was benched]), titled \"<the title>, the other way\". Whichever matches "
-        "the real game plays; the other never does.",
-        ("- It has an outline: put the condition at the end of those outline lines (`| if we won`, `| if we lost`) instead of "
-         "on the scenes, add the other-way scene as a new outline line right after its twin, and renumber everything after "
-         "it, in the outline and in the scenes, so the numbers still match." if outlined else
-         "- Scenes about the next game don't need a tag; scenes about a game that just happened do."),
-        "- Where a line mentions the game, the score or how I did, use the real words: {last_game}, {last_score}, {last_opp}, "
-        "{my_line}, {big_play}, {team_record}, {my_season}.",
+        "- Every scene that comes after one of my games and takes a result for granted is tagged with it: [if we won], "
+        "[if we lost], [if I played great], [if I won it] (I won it in the big moment). The game will go that way.",
+        ("- It has an outline: put the tag at the end of that scene's outline line instead (`| if we won`), not on the scene."
+         if outlined else "- Scenes before a game (getting ready, nerves) don't need a tag."),
+        "- Where a line mentions the game, the score or how I did, use the real words so they match the box score: {last_game} "
+        "(the 24-21 win over Branford), {last_score}, {last_opp}, {my_line} (6 catches for 98 yards and a touchdown), "
+        "{big_play}, {team_record}, {my_season}. Don't make up a different score or stats.",
         "- Keep everything else exactly as it is: every scene and its title, every choice, effect and remember line.",
         "",
         "Reply with the whole storyline in ONE code block (```), nothing after it.",

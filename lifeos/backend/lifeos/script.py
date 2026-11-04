@@ -2142,14 +2142,14 @@ def guide(story_only: bool = False) -> str:
     A("")
     A("## Your games")
     A("")
-    A("Your games are real: the score, your stats and the big moment you play yourself (a mini game) are decided by playing "
-      "them, and scenes can follow how they went.")
+    A("A storyline decides its games: the scores, your stats and the team's record follow what its scenes say happened.")
     A("")
-    A("- After a game, on a scene: `[if we won]`, `[if we lost]`, `[if I played great]`, `[if I played badly]`, `[if I won "
-      "it]` (you won it in the big moment), `[if I started]`, `[if I was benched]`, `[if rivalry game]`. The scene comes in the "
-      "few days after a game that went that way; in a storyline played in order, it waits for the next game.")
-    A("- Both ways: two scenes side by side, one `[if we won]` and the next `[if we lost]`. Whichever matches the game plays; "
-      "the other never does. (In an outline: end the lines with `| if we won` and `| if we lost`.)")
+    A("- A scene after a game says how it went: `[if we won]`, `[if we lost]`, `[if I played great]`, `[if I won it]` (you won "
+      "it in the big moment), or just its words (\"we won\", \"that loss\"). In a storyline played in order, your next game "
+      "goes that way and the scene comes right after it. (In an outline: end the line with `| if we won`.)")
+    A("- Or let the real game decide: two scenes side by side, one `[if we won]` and the next `[if we lost]` (or `[if I played "
+      "great]` / `[if I played badly]`, `[if I started]` / `[if I was benched]`). Whichever matches the game plays; the other "
+      "never does. `[if rivalry game]` waits for the rival game.")
     A("- Words: `{last_game}` (the 24-21 win over Branford), `{last_opp}`, `{last_score}`, `{my_line}` (6 catches for 98 "
       "yards and a touchdown), `{big_play}` (scored the touchdown late), `{team_record}` (6-2), `{my_season}`.")
     A("- A choice with `| play football` (or basketball, baseball, soccer_11) on your game day is that game's big moment: how "
@@ -2381,9 +2381,9 @@ teachers and other walk-ons don't need a cast line.
 - A branch: add `| only if you picked "<a choice>" in <number>` (or `unless you picked ...`) to a scene that only happens \
 after a certain choice in an earlier scene. Use them for the moments that matter, not everywhere.
 - Make it a story: a beginning, turns, a payoff. Spread it through the year; put holiday and school-day moments on them.
-- Scenes about a game I play: the game is real (score, my stats, the big moment I play myself), so don't decide how it \
-goes. Write the two ways side by side, ending one with `| if we won` and the next with `| if we lost` (or `| if I played \
-great` and `| if I played badly`, or `| if I started` and `| if I was benched`): whichever matches the real game plays.
+- A scene after one of my games: say how it went by ending the line with `| if we won` or `| if we lost` (or `| if I \
+played great`): the game goes that way, and the score, my stats and the record match. (Want the real game to decide \
+instead? Write both ways side by side, `| if we won` then `| if we lost`, and whichever happens plays.)
 """
 
 BATCH_PROMPT = """You're writing scenes for a LIFE OS storyline (a life-simulation game: I play one person from high school \
@@ -2406,8 +2406,7 @@ story script format (below).
 
 Reply with ONE code block (```) holding just those scenes, each starting with `--- <number>. <title>` (like \
 `--- {first}. {first_title}`), nothing after the block. No tags in [ ] and no `after` or `if`: the game times them and \
-plays them in order from the outline (and a line ending `| if we won` already waits for a game that went that way, so \
-write it as if it did). Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
+plays them in order from the outline (and a line ending `| if we won` makes the game go that way: write it as if it did). Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
 plenty), 2 to 4 choices that matter, and what happens after EVERY choice. Write every scene all the way to its end: if \
 you're running out of room, write fewer scenes, never cut one short.
 

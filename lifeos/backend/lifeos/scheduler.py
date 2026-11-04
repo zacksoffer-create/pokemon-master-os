@@ -239,15 +239,23 @@ def _root(sim, kind) -> str:
     return (sim.cat.moments.get(kind) or {}).get("beat_of") or kind
 
 
-def game_twins(scenes, chapters) -> dict:
+def game_reqs(sc, info) -> list:
+    """A scene's requirements, with the result its words take for granted (if it isn't tagged)."""
+    req = list((sc.get("when") or {}).get("requires") or [])
+    if (info or {}).get("assumes"):
+        req.append(info["assumes"])
+    return req
+
+
+def game_twins(scenes, chapters, info=None) -> dict:
     """Chapters that are the two ways one game went: side by side in a storyline, one [if we won] and the other [if we
     lost] (or played great / badly, started / benched). Whichever matches the game plays; the other retires."""
     from .gameplay import OTHER_WAY
     out: dict = {}
     for pk, sids in chapters.items():
         for a, b in zip(sids, sids[1:]):
-            ra = set((scenes[a].get("when") or {}).get("requires") or [])
-            rb = set((scenes[b].get("when") or {}).get("requires") or [])
+            ra = set(game_reqs(scenes[a], (info or {}).get(a)))
+            rb = set(game_reqs(scenes[b], (info or {}).get(b)))
             if any(OTHER_WAY.get(r) in rb for r in ra):
                 out.setdefault(a, []).append(b)
                 out.setdefault(b, []).append(a)
@@ -329,8 +337,13 @@ def catalog(sim) -> dict:
             bucket = "night"
         info[sid] = {"pack": sc.get("pack"), "importance": imp, "window": window, "window_rule": rule, "bucket": bucket, "sport": sport,
                      "title": title}
+        if not set(when.get("requires") or []) & GAME_REQS.keys():  # untagged: the result its words take for granted
+            from .gameplay import assumed_result
+            a = assumed_result(title, text or "", sporty=bool(sport))
+            if a:
+                info[sid]["assumes"] = a
     cat = {"scenes": scenes, "chapters": chapters, "ordered": ordered, "deps": deps, "info": info,
-           "pos": {sid: i for pk, sids in chapters.items() for i, sid in enumerate(sids)}, "twins": game_twins(scenes, chapters)}
+           "pos": {sid: i for pk, sids in chapters.items() for i, sid in enumerate(sids)}, "twins": game_twins(scenes, chapters, info)}
     _cat_cache.update({"key": key, "cat": cat})
     return cat
 
@@ -639,11 +652,11 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
     twin = next((t for t in (cat.get("twins") or {}).get(sid, []) if t in done), None)
     if twin:
         return ("exclusive_branch", twin)  # the game went the other way, and that scene happened
-    for r in when.get("requires") or []:
+    for r in game_reqs(sc, cat["info"].get(sid)):
         if r in GAME_REQS:
             g_ = gameplay_last(sim, me)
             used = g_ is not None and any(  # another chapter of this storyline already told this game
-                x != sid and x in done and done[x][-1] >= g_["day"] and set((cat["scenes"][x].get("when") or {}).get("requires") or []) & GAME_REQS.keys()
+                x != sid and x in done and done[x][-1] >= g_["day"] and set(game_reqs(cat["scenes"][x], cat["info"].get(x))) & GAME_REQS.keys()
                 for x in cat["chapters"].get(sc.get("pack"), []))
             if g_ is None or used:
                 if game_coming(sim, me, day):
