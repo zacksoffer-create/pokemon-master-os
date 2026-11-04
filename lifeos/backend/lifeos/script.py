@@ -775,6 +775,8 @@ def _choice(node: Node, sc: Scene, depth: int, errs, path, sec) -> dict:
     label = parts[0].strip()
     extra = {}
     sec.lines_map[path] = node.line.n
+    if not label.strip('"\' '):
+        errs.append((node.line.n, "a choice needs words (what you say or do), like: * Front row | nicole affection +"))
     try:
         ops = effects(", ".join(parts[1:]), sc, node.line.n, extra) if len(parts) > 1 else []
     except Fail as e:
@@ -2317,6 +2319,24 @@ Reply with ONE code block (```) holding just those scenes, each starting with `-
 `--- {first}. {first_title}`), nothing after the block. No tags in [ ] and no `after` or `if`: the game times them and \
 plays them in order from the outline. Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
 plenty), 2 to 4 choices that matter, and what happens after each.
+
+Before you send it, check every scene:
+- A line starting with `* ` is a choice, nothing else: narration is a plain line, no *italics* and no **bold** names.
+- Effects go after `|` on the choice (`* "Front row." | nicole affection +`), never in parentheses or after an arrow.
+- Everything after a choice (their answer, `remember` lines, a second round of choices) goes indented under that choice \
+(4 spaces). Nothing at the left edge after the choices.
+
+```
+--- 1. Example
+nicole: You actually came.
+* "Wouldn't miss it." | nicole affection +
+    nicole: Front row, then.
+    * "Lead the way." | nicole affection +
+        remember sat_front_row
+    * "I'm good in the back."
+* "My mom made me."
+    nicole: Wow. Thanks.
+```
 
 ---
 

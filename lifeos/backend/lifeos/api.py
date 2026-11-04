@@ -1462,12 +1462,14 @@ def api_build_scenes(body: dict = Body(...)):
     except ValueError as e:
         raise HTTPException(409, str(e))
     if not r["ok"]:
-        return JSONResponse({"detail": r["errors"][0] if r.get("errors") else "couldn't add those", "errors": r.get("errors", [])}, status_code=422)
+        return JSONResponse({"detail": r["errors"][0] if r.get("errors") else "couldn't add those", "errors": r.get("errors", []),
+                             "skipped": r.get("skipped", []), "fix_prompt": dialogue.fix_prompt(r.get("skipped", []))}, status_code=422)
     _dialogue_changed(get_lab())
     p = dialogue._script_pack(pid)
     entries = script.outline_entries(p["pack"])
-    return {"ok": True, "got": r.get("got", []), "notes": r.get("notes", []), "written": sum(1 for e in entries if e.get("written")),
-            "total": len(entries), "outline": entries, "packs": _dialogue_list()["packs"]}
+    return {"ok": True, "got": r.get("got", []), "skipped": r.get("skipped", []), "notes": r.get("notes", []),
+            "written": sum(1 for e in entries if e.get("written")), "total": len(entries), "outline": entries,
+            "packs": _dialogue_list()["packs"], "fix_prompt": dialogue.fix_prompt(r.get("skipped", []))}
 
 
 @app.get("/api/story/storyline/read")

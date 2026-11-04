@@ -297,21 +297,133 @@ def _fix(lines: list, i: int, msg: str, level: int) -> str | None:
     return ("the scene came off" if is_scene else "the line came off") + f" ({msg.split('.')[0]})"
 
 
+# ---------------------------------------------------------------------------------------- ChatGPT's habits, read as meant
+ITALIC_RE = re.compile(r"^(\s*)(?:\*(?![\s*])(.+?)(?<![\s*])\*|_(?![\s_])(.+?)(?<![\s_])_)\s*$")  # *She smiles.*
+BOLD_SPEAKER_RE = re.compile(r"^(\s*)\*\*([A-Za-z][\w .'-]{0,24}?)\s*:?\s*\*\*\s*:?\s*(.+)$")  # **Nicole:** hi
+ARROW_FX_RE = re.compile(r"^(\s*\*\s+.+?)\s+(?:->|→|=>)\s+(.+)$")  # * "Sure." -> nicole affection +
+PAREN_FX_RE = re.compile(r"^(\s*\*\s+.+?)\s*\(([^()]+)\)\s*$")  # * "Sure." (nicole affection +), if it reads as effects
+LOOKS_FX_RE = re.compile(r"(^|\s)[+-]{1,3}(\s|$|,)|[+-]\d|\bremember\b", re.I)
+
+
+def _is_choice(t: str) -> bool:
+    return t.startswith("* ") or t == "*"
+
+
+def _restage(body: list) -> tuple:
+    """A scene's lines (each (text, origin)) with what ChatGPT put after the choices moved to where it plays: talk after
+    the choices follows whichever choice you pick, and a second round of choices after more talk comes after each first
+    choice. Returns (lines, what happened or None)."""
+    real = [x for x in body if x[0].strip()]
+    if not real:
+        return body, None
+    base = min(_indent(x[0]) for x in real)
+    items = []  # top-level lines with what's under them
+    for x in body:
+        if x[0].strip() and _indent(x[0]) <= base:
+            items.append([x])
+        elif items:
+            items[-1].append(x)
+        else:
+            items.append([x])
+    kinds = ["c" if _is_choice(it[0][0].strip()) else "l" for it in items]
+    if "c" not in kinds:
+        return body, None
+    first = kinds.index("c")
+    groups, cur, cur_k = [], [], None
+    for it, k in zip(items[first:], kinds[first:]):
+        if k != cur_k and cur:
+            groups.append((cur_k, cur))
+            cur = []
+        cur_k = k
+        cur.append(it)
+    groups.append((cur_k, cur))
+    if len(groups) == 1:
+        return body, None  # the usual: talk, then choices
+
+    def shift(lines, by):
+        return [(" " * by + x[0][base:] if x[0].strip() else x[0], x[1]) for x in lines]
+
+    def nest(gs):  # gs starts with a set of choices
+        cont = []
+        if len(gs) > 1:
+            tail = [x for it in gs[1][1] for x in it]
+            cont = tail + (nest(gs[2:]) if len(gs) > 2 else [])
+        out = []
+        for it in gs[0][1]:
+            out += it
+            if cont:
+                kids = [x for x in it[1:] if x[0].strip()]
+                under = _indent(kids[0][0]) - base if kids else 4
+                out += shift(cont, under)
+        return out
+    stages = sum(1 for k, _ in groups if k == "c")
+    opening = [x for it in items[:first] for x in it]
+    what = ("a second round of choices (after more talk) now comes after each first choice" if stages > 1
+            else "the lines after the choices now follow whichever choice you pick")
+    return opening + nest(groups), what
+
+
+def habits(src: str) -> tuple:
+    """What ChatGPT often writes, the way it meant it: *narration in italics* and **Name:** in bold are plain lines, effects
+    after an arrow or in parentheses go after |, and a scene's talk or choices after its choices go where they play.
+    Returns (lines, origin: each line's number in what was pasted, notes)."""
+    out, notes = [], []
+    for n, ln in enumerate(src.split("\n"), start=1):
+        t = ln.strip()
+        m = BOLD_SPEAKER_RE.match(ln)
+        if m:
+            ln = f"{m.group(1)}{m.group(2).strip()}: {m.group(3).strip()}"
+            notes.append({"line": n, "text": "a **bold** name became a plain speaker"})
+        elif ITALIC_RE.match(ln) and " | " not in t and not _is_choice(t):
+            m = ITALIC_RE.match(ln)
+            ln = f"{m.group(1)}{(m.group(2) or m.group(3)).strip()}"
+            notes.append({"line": n, "text": "*narration in italics* became a plain line (a * at the start is a choice)"})
+        elif _is_choice(t) and " | " not in t:
+            m = ARROW_FX_RE.match(ln)
+            if not m:
+                m = PAREN_FX_RE.match(ln)
+                m = m if m and LOOKS_FX_RE.search(m.group(2)) else None  # ("(sarcastically)" stays part of what you say)
+            if m:
+                ln = f"{m.group(1).rstrip()} | {m.group(2).strip()}"
+                notes.append({"line": n, "text": "the effects after an arrow (or in parentheses) went after |"})
+        out.append((ln, n))
+    # scenes: what comes after the choices
+    res, i = [], 0
+    while i < len(out):
+        t = out[i][0].strip()
+        if SC.SCENE_RE.match(t):
+            j = i + 1
+            while j < len(out) and not (SC.SCENE_RE.match(out[j][0].strip()) or SC.SECTION_RE.match(out[j][0].strip())
+                                        or (SC.BLOCK_RE.match(out[j][0].strip()) and _indent(out[j][0]) == 0)):
+                j += 1
+            body, what = _restage(out[i + 1:j])
+            if what:
+                notes.append({"line": out[i][1], "text": f"in this scene, {what}"})
+            res.append(out[i])
+            res += body
+            i = j
+        else:
+            res.append(out[i])
+            i += 1
+    return [x[0] for x in res], [x[1] for x in res], notes
+
+
 def repair(text: str, library=None, default_title: str = "Untitled", passes: int = 14) -> dict:
     """Compile the script, fixing what's broken until it compiles. {"text": the fixed script, "notes": [{"line", "text"}],
     "result": the compile, "ok": it compiled}. Notes use the line numbers of the script as pasted."""
-    src = SC.extract(text).replace("\r\n", "\n")
-    notes: list = []
+    src0 = SC.extract(text).replace("\r\n", "\n")
+    lines0, origin, notes = habits(src0)
+    src = "\n".join(lines0)
     level: dict = {}  # (line text, problem) -> how far we've gone with it
-    origin = list(range(1, src.count("\n") + 2))  # each current line's number in the script as pasted
+    # (origin: each current line's number in the script as pasted)
     r = None
     for _ in range(passes):
         r = SC.compile_script(src, default_title=default_title, library=library)
         if not r["errors"]:
             if not r["packs"]:  # nothing left to add: say so instead of adding nothing
                 r = {**r, "errors": [{"line": 1, "text": "there's nothing in that: no storyline, scene or lines the game can use"}]}
-                return {"ok": False, "text": src, "notes": notes, "result": r}
-            return {"ok": True, "text": src, "notes": notes, "result": r}
+                return {"ok": False, "text": src, "notes": notes, "result": r, "origin": origin}
+            return {"ok": True, "text": src, "notes": notes, "result": r, "origin": origin}
         lines = src.split("\n")
         by_line: dict = {}
         errors = r["errors"]
@@ -348,4 +460,7 @@ def repair(text: str, library=None, default_title: str = "Untitled", passes: int
                 out.append(piece)
                 new_origin.append(origin[k] if k < len(origin) else k + 1)
         src, origin = "\n".join(out), new_origin
-    return {"ok": False, "text": src, "notes": notes, "result": r}
+        r = None
+    if r is None:  # (the last pass changed the script: its problems are the ones left in it now)
+        r = SC.compile_script(src, default_title=default_title, library=library)
+    return {"ok": not r["errors"] and bool(r["packs"]), "text": src, "notes": notes, "result": r, "origin": origin}

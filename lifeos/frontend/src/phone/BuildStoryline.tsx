@@ -2,7 +2,7 @@
 // storyline; (2) ChatGPT writes the scenes a few at a time, each batch dropped into its place. The game owns the order,
 // the timing and the branches, and anything fixable in what ChatGPT wrote is fixed (with a note), never refused.
 import React, { useEffect, useState } from "react";
-import { BatchPrompt, OutlineCheck, OutlineEntry, phoneApi } from "./api";
+import { BatchPrompt, OutlineCheck, OutlineEntry, SkippedScene, phoneApi } from "./api";
 import { copyText } from "./DialogueCard";
 import { PIcon } from "./icons";
 import { cx, errText, Sheet } from "./kit";
@@ -29,6 +29,30 @@ function Notes({ notes }: { notes: string[] }) {
       <b>Fixed for you ({notes.length})</b>
       {notes.slice(0, 12).map((n, i) => <div key={i}>{n}</div>)}
       {notes.length > 12 && <div>…and {notes.length - 12} more</div>}
+    </div>
+  );
+}
+
+/** Scenes that didn't go in (they stay as they were), with exactly what to fix, and a message for ChatGPT that asks for it. */
+function LeftOut({ x }: { x: { scenes: SkippedScene[]; fix: string; errors?: string[] } }) {
+  const { toast } = usePhone();
+  return (
+    <div className="bs-left">
+      <b>{x.scenes.length ? `Didn't go in (${x.scenes.length})` : "Couldn't add those"}</b>
+      {x.scenes.map((sc) => (
+        <div key={sc.n} className="bs-left-sc">
+          <span>Scene {sc.n}{sc.title ? ` (${sc.title})` : ""}</span>
+          {sc.problems.slice(0, 6).map((p, i) => <small key={i}>{p}</small>)}
+        </div>
+      ))}
+      {!x.scenes.length && (x.errors || []).slice(0, 6).map((p, i) => <small key={i}>{p}</small>)}
+      {x.fix && (
+        <button className="ph-btn soft block" onClick={async () => {
+          const ok = await copyText(x.fix);
+          toast(ok ? "Copied. Paste it to ChatGPT and paste its answer back here." : "Couldn't copy.", ok ? "good" : "bad");
+        }}>Copy a fix-it message for ChatGPT</button>
+      )}
+      <p className="ph-dim small">Everything else went in. These stay as they were (an earlier version, or not written yet).</p>
     </div>
   );
 }
@@ -61,6 +85,7 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
   const [notes, setNotes] = useState<string[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
   const [count, setCount] = useState(6);
+  const [leftOut, setLeftOut] = useState<{ scenes: SkippedScene[]; fix: string; errors?: string[] } | null>(null);
   useEffect(() => {
     setPack(start?.pack || null);
     setAsk("");
@@ -115,16 +140,33 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
     const ok = await copyText(batch.prompt);
     toast(ok ? `Copied: scenes ${batch.first} to ${batch.last}. Paste ChatGPT's answer below.` : "Couldn't copy. Try Share.", ok ? "good" : "bad");
   });
-  const addBatch = () => run("add", async () => {
+  const addBatch = async () => {
     if (!pack) return;
-    const r = await phoneApi.addScenes(pack, paste);
-    setNotes(r.notes);
-    setEntries(r.outline);
-    setPaste("");
-    onChanged();
-    await loadBatch(pack, count);
-    toast(r.got.length ? `Added scene${r.got.length === 1 ? "" : "s"} ${r.got.join(", ")}. ${r.written} of ${r.total} written.` : "Added.", "good");
-  });
+    setBusy("add");
+    try {
+      const r = await phoneApi.addScenes(pack, paste);
+      setNotes(r.notes);
+      setEntries(r.outline);
+      setLeftOut(r.skipped?.length ? { scenes: r.skipped, fix: r.fix_prompt } : null);
+      setPaste("");
+      onChanged();
+      await loadBatch(pack, count);
+      const n = r.skipped?.length || 0;
+      if (r.got.length) {
+        toast(`Added scene${r.got.length === 1 ? "" : "s"} ${r.got.join(", ")}. ${r.written} of ${r.total} written.`
+          + (n ? ` ${n} didn't go in: see below.` : ""), n ? undefined : "good");
+      } else {
+        toast(n ? "None of those went in: see below for what to fix." : "Added.", n ? "bad" : "good");
+      }
+    } catch (e: any) {
+      const d = e?.data;
+      if (d?.skipped?.length || d?.fix_prompt) setLeftOut({ scenes: d.skipped || [], fix: d.fix_prompt || "", errors: e.errors });
+      else if (e?.errors?.length) setLeftOut({ scenes: [], fix: "", errors: e.errors });
+      toast(e?.errors?.[0] || errText(e), "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
 
   const title = pack ? "Write the scenes" : start?.expand ? `More of ${start.expandName || "it"}` : "Write more";
   return (
@@ -177,7 +219,7 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
           )}
           {batch && !batch.done ? (
             <>
-              <div className="sch-step"><i>1</i><b>Copy the prompt for scenes {batch.first} to {batch.last}</b></div>
+              <div className="sch-step"><i>1</i><b>Copy the prompt for {batch.first === batch.last ? `scene ${batch.first}` : `scenes ${batch.first} to ${batch.last}`}</b></div>
               <p className="ph-dim small">{(batch.titles || []).join(" · ")}</p>
               <div className="sch-size"><span>Scenes per prompt</span>
                 {[3, 6, 10].map((n) => <button key={n} className={cx(count === n && "on")} onClick={() => { setCount(n); if (pack) run("load", () => loadBatch(pack, n)); }}>{n}</button>)}
@@ -192,6 +234,7 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
                 <button className="ph-btn primary block" disabled={!!busy || !paste.trim()} onClick={addBatch}>{busy === "add" ? <span className="ph-spinner small light" /> : "Add these scenes"}</button>
                 <button className="ph-btn soft block" disabled={!!busy} onClick={fromFile}><PIcon name="upload" size={15} /> Or a file</button>
               </div>
+              {leftOut && <LeftOut x={leftOut} />}
             </>
           ) : batch?.done ? (
             <div className="bs-done">

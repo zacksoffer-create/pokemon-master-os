@@ -3,10 +3,12 @@
 export class ApiError extends Error {
   status: number;
   errors: string[];
-  constructor(status: number, message: string, errors: string[] = []) {
+  data: any; // the whole answer (some carry more than errors: what didn't go in, a fix-it message)
+  constructor(status: number, message: string, errors: string[] = [], data: any = null) {
     super(message);
     this.status = status;
     this.errors = errors;
+    this.data = data;
   }
 }
 
@@ -25,15 +27,18 @@ async function request(method: string, path: string, body?: any, raw = false): P
   if (!res.ok) {
     let msg = res.statusText;
     let errors: string[] = [];
+    let data: any = null;
     try {
       const j = await res.json();
+      data = j;
       if (typeof j.detail === "string") msg = j.detail;
       else if (Array.isArray(j.detail)) msg = j.detail.map((d: any) => d.msg).join("; ");
-      if (Array.isArray(j.errors)) errors = j.errors;
+      // always words (an error can come as {line, text})
+      if (Array.isArray(j.errors)) errors = j.errors.map((e: any) => (typeof e === "string" ? e : e && e.text ? `${e.line ? `line ${e.line}: ` : ""}${e.text}` : JSON.stringify(e)));
     } catch {
       /* not json */
     }
-    throw new ApiError(res.status, msg, errors);
+    throw new ApiError(res.status, msg, errors, data);
   }
   if (raw) return res;
   return res.json();

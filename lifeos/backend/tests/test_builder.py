@@ -150,7 +150,7 @@ def test_build_a_storyline_through_the_api():
     assert "No tags in [ ]" in bp["prompt"] and "## Choices" in bp["prompt"] and "## Retiming" not in bp["prompt"]
     r = c.post("/api/story/build/scenes", json={"pack": pid, "text": SCENES_1}).json()
     assert r["got"] == [1, 2, 3, 4, 5] and (r["written"], r["total"]) == (5, 8)
-    assert any(n.startswith("scene 4 (Turkey Day): ") and "'afection' read as 'affection'" in n for n in r["notes"]), r["notes"]
+    assert any(n.startswith("scene 4 (Turkey Day), line 4: ") and "'afection' read as 'affection'" in n for n in r["notes"]), r["notes"]
     src = dialogue.script_of(pid)
     assert "--- 2. The Passenger Seat\n" in src and "if nope" not in src, "its line as the outline has it (the outline says when)"
     bp = c.get("/api/story/build/batch-prompt", params={"pack": pid, "count": 5}).json()

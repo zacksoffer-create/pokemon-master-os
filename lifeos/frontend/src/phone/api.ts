@@ -157,6 +157,7 @@ export type ReadScene = { sid: string; title: string; storyline: string; pack: s
   day: number | null; why: string | null; detail: any; year: string | null; dated: boolean; unwritten?: boolean; summary?: string;
   when?: string; outline_n?: number | null; if?: string | null };
 export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
+export type SkippedScene = { n: number; title: string; problems: string[] };
 export type OldVersion = { file: string; stem: string; title: string; why: string; at: number; scenes: number };
 export type TextingBreakdown = { flirt: { label: string; n: number }[]; flirt_total: number; texting: number;
   group_chats: { chat: string; when: string[]; first: string; lines: number; replies: number }[] };
@@ -292,7 +293,8 @@ export const phoneApi = {
     api.post("/api/texting/add", { text }),
   batchPrompt: (pack: string, count = 6): Promise<BatchPrompt> =>
     api.get(`/api/story/build/batch-prompt?pack=${encodeURIComponent(pack)}&count=${count}`),
-  addScenes: (pack: string, text: string): Promise<{ ok: boolean; got: number[]; notes: string[]; written: number; total: number; outline: OutlineEntry[] }> =>
+  addScenes: (pack: string, text: string): Promise<{ ok: boolean; got: number[]; notes: string[]; written: number; total: number; outline: OutlineEntry[];
+    skipped: SkippedScene[]; fix_prompt: string }> =>
     api.post("/api/story/build/scenes", { pack, text }),
   setTiming: (pack: string, years: string[], seasons: string[], spread: boolean, keepMonths = true) =>
     api.post(`/api/dialogue/packs/${encodeURIComponent(pack)}/timing`, { years, seasons, spread, keep_months: keepMonths }),

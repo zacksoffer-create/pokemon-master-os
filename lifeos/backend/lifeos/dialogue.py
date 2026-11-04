@@ -1461,6 +1461,7 @@ def merge_scenes(pid: str, text: str) -> dict:
     for b in blocks(body):
         n = number(b)
         (have.__setitem__(n, b) if n is not None else extra.append(b))
+    before = dict(have)  # (what each scene was: a new version that can't go in leaves this one)
     new = blocks(SC.extract(text).replace("\r\n", "\n").split("\n"))
     if not new:
         return {"ok": False, "errors": ["there are no scenes in that: each starts with --- and its number and title"], "notes": []}
@@ -1476,30 +1477,91 @@ def merge_scenes(pid: str, text: str) -> dict:
             b.pop()
         have[n] = b
         got.append(n)
-    out = list(head)
-    while out and not out[-1].strip():
-        out.pop()
-    starts = []  # (the line a scene starts on, its number): so notes can say which scene
-    for n in sorted(have):
-        out += [""]
-        starts.append((len(out) + 1, n))
-        out += have[n]
-    for b in extra:
-        out += [""]
-        starts.append((len(out) + 1, None))
-        out += b
-    r = add_script("\n".join(out) + "\n", into=pid)
-    r["got"] = got
     titles = {e["n"]: e["title"] for e in entries}
+    skipped: dict = {}  # scene number -> what's wrong with it (it stays as it was)
+    for n in got:  # nothing under its title: a scene that never got written, not one to add
+        if not any(ln.strip() for ln in have[n][1:]):
+            skipped[n] = ["it's empty: there are no lines or choices under its title"]
 
-    def where(note):
+    def build():
+        out = list(head)
+        while out and not out[-1].strip():
+            out.pop()
+        starts = []  # (the line a scene starts on, its number): so notes and problems can say which scene, which line
+        for n in sorted(set(have) | set(before)):
+            blk = before.get(n) if n in skipped else have.get(n)
+            if not blk:
+                continue
+            out += [""]
+            starts.append((len(out) + 1, n))
+            out += blk
+        for b in extra:
+            out += [""]
+            starts.append((len(out) + 1, None))
+            out += b
+        return out, starts
+
+    def scene_at(ln, starts):
+        hit = next(((st, n) for st, n in reversed(starts) if st <= ln), None)
+        return (hit[1], ln - hit[0] + 1) if hit else ("head", ln)
+
+    def where(note, starts):
+        note = _note_text(note)
         m = re.match(r"line (\d+): (.*)$", note)
         if not m:
             return note
-        ln = int(m.group(1))
-        n = next((n for st, n in reversed(starts) if st <= ln), "head")
-        return (f"scene {n} ({titles.get(n, '')}): " if isinstance(n, int) else "the storyline's top: " if n == "head" else "") + m.group(2)
-    r["notes"] = [where(x) for x in r.get("notes", [])]
+        n, k = scene_at(int(m.group(1)), starts)
+        return (f"scene {n} ({titles.get(n, '')}), line {k}: " if isinstance(n, int) else "the storyline's top: " if n == "head" else "") + m.group(2)
+    r: dict = {}
+    for _ in range(2 * len(got) + 2):  # (each pass leaves at least one more scene out, or stops)
+        out, starts = build()
+        r = add_script("\n".join(out) + "\n", into=pid)
+        if r["ok"]:
+            # a scene the fixer had to take out entirely isn't in: it stays as it was, and you hear why
+            p2 = _script_pack(pid)
+            ents = SC.outline_entries(p2["pack"])
+            by_id = {sc.get("id"): sc for sc in p2["pack"].get("scenes") or [] if isinstance(sc, dict)}
+            # (a scene left with nothing after its fixes, just "..." and Continue, isn't in either)
+            blank = {e["n"] for e in ents if (sc := by_id.get(e.get("sid"))) is not None and str(sc.get("text", "")).strip() in ("", "...")
+                     and [c.get("label") for c in sc.get("choices") or []] in ([], ["Continue"])}
+            done = {e["n"] for e in ents if e.get("written")} - blank
+            gone = [n for n in got if n not in skipped and n not in done]
+            if not gone:
+                break
+            for n in gone:
+                said = [w for w in (where(x, starts) for x in r.get("notes", [])) if w.startswith(f"scene {n} (")]
+                skipped[n] = [re.sub(r"^scene \d+ \([^)]*\), ", "", w) for w in said] or ["nothing in it was something the game could use"]
+            continue
+        # a scene you just pasted that still has a problem stays out (as it was); a problem anywhere else stops it all
+        bad, other = {}, []
+        for msg, at, quote in zip(r["errors"], r.get("error_at") or [], r.get("error_quote") or []):
+            n, k = scene_at(at, starts)
+            text_ = re.sub(r"^line \d+: ", "", msg)
+            said = f' "{quote[:90]}"' if quote else ""
+            if n in got and n not in skipped:
+                bad.setdefault(n, []).append(f"line {k}{said}: {text_}")
+            else:
+                other.append((n, k, said, text_))
+        if other and not bad:
+            # a problem with the storyline as a whole: find which new scene brings it (leave each out in turn)
+            from . import scriptfix
+            for n in [x for x in got if x not in skipped]:
+                skipped[n] = []
+                trial, _ = build()
+                ok = scriptfix.repair("\n".join(trial) + "\n", library=library())["ok"]
+                del skipped[n]
+                if ok:
+                    bad[n] = [f"with this scene the storyline has a problem: {t}" for _, _, _, t in other]
+                    break
+        if not bad:
+            msgs = [f"{'the storyline' if n == 'head' else f'scene {n}'}, line {k}{said}: {t}" for n, k, said, t in other] or \
+                [where(x, starts) for x in r["errors"]]
+            return {"ok": False, "errors": msgs, "notes": [where(x, starts) for x in r.get("notes", [])], "got": [],
+                    "skipped": [{"n": n, "title": titles.get(n, ""), "problems": ps} for n, ps in sorted(skipped.items())]}
+        skipped.update(bad)
+    r["got"] = [n for n in got if n not in skipped]
+    r["skipped"] = [{"n": n, "title": titles.get(n, ""), "problems": ps} for n, ps in sorted(skipped.items())]
+    r["notes"] = [where(x, starts) for x in r.get("notes", [])]
     return r
 
 
@@ -1729,8 +1791,12 @@ def add_script(text: str, into: str | None = None, strict: bool = False) -> dict
         fx = scriptfix.repair(text, library=library())
         src, r, notes = fx["text"], fx["result"], fx["notes"]
     if r["errors"]:
+        org, now = (fx.get("origin") or []) if not strict else [], src.split("\n")
         return {"ok": False, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]], "warnings": r["warnings"],
-                "error_lines": r["errors"], "notes": notes}
+                "error_lines": r["errors"], "notes": [_note_text(n) for n in notes],
+                # each problem's line in the script as it came in, and that line as it reads
+                "error_at": [org[e["line"] - 1] if 0 < e["line"] <= len(org) else e["line"] for e in r["errors"]],
+                "error_quote": [now[e["line"] - 1].strip() if 0 < e["line"] <= len(now) else "" for e in r["errors"]]}
     os.makedirs(USER_DIR, exist_ok=True)
     secs = SC.split_sections(src)
     ids = []
@@ -1764,6 +1830,32 @@ def add_script(text: str, into: str | None = None, strict: bool = False) -> dict
     reload()
     return {"ok": True, "ids": ids, "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]], "summary": r["summary"],
             "notes": kept_notes + [f"line {n['line']}: {n['text']}" for n in notes], "text": src}
+
+
+def fix_prompt(skipped: list) -> str:
+    """What to tell ChatGPT when some of its scenes couldn't go in: which, the exact lines and what's wrong, and the three
+    rules that cover nearly every mistake. Empty when everything went in."""
+    if not skipped:
+        return ""
+    L = ["Some of the LIFE OS scenes you wrote couldn't go into the game. Fix just these and send them again in ONE code "
+         "block, same format (each starts with --- <number>. <title>), nothing after it.", ""]
+    for sk in skipped:
+        L.append(f"Scene {sk['n']} ({sk.get('title') or ''}):")
+        L += [f"- {p}" for p in sk.get("problems") or []]
+        L.append("")
+    L += ["Rules that fix most of these:",
+          "- A line starting with * is a choice, nothing else: narration is a plain line (no *italics*, no **bold** names).",
+          "- Effects go after | on a choice: * \"Front row.\" | nicole affection +",
+          "- Everything after a choice (their answer, remember lines, more choices) goes indented under that choice (4 spaces).",
+          "- Only the people in the storyline's cast talk by their cast name; anyone else talks by name (Mom:, Coach Reyes:)."]
+    return "\n".join(L) + "\n"
+
+
+def _note_text(n) -> str:
+    """A fix or a problem, as words: "line 4: ..." (they come as {line, text} from the fixer)."""
+    if isinstance(n, dict):
+        return f"line {n.get('line')}: {n.get('text')}" if n.get("line") else str(n.get("text", ""))
+    return str(n)
 
 
 # ---------------------------------------------------------------------------------------- never lose a storyline
