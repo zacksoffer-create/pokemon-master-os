@@ -8,6 +8,7 @@ import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { pickFile } from "./StoryFiles";
 import BuildStoryline, { BuildStart } from "./BuildStoryline";
+import AddTexting from "./AddTexting";
 import { applyUpdate, subscribe, updateReady, UpdateState } from "../standalone/update";
 import StorylineRead from "./StorylineRead";
 
@@ -226,6 +227,7 @@ export default function DialogueCard() {
     return { expand: top?.id || p.id, expandName: top?.name || p.name };
   };
   const [guide, setGuide] = useState<string | null>(null);
+  const [texting, setTexting] = useState(false);
   const [engine, setEngine] = useState<string>("");
   const [upd, setUpd] = useState<UpdateState | null>(null);
   useEffect(() => {
@@ -345,6 +347,9 @@ export default function DialogueCard() {
           <button className="ph-btn soft block" disabled={!!busy} onClick={() => setPaste(true)}>
             <PIcon name="plus" size={17} /> Paste a script
           </button>
+          <button className="ph-btn soft block" disabled={!!busy} onClick={() => setTexting(true)}>
+            ✍️ Add texting: flirt lines and group chats
+          </button>
         </div>
         <ol className="dl-how">
           <li><b>Write more</b>: say what you want. ChatGPT plans it as an outline (one line per scene); you check it and make it.</li>
@@ -453,6 +458,7 @@ export default function DialogueCard() {
         </p>
       )}
       <PasteSheet open={paste} onClose={() => setPaste(false)} onAdded={(d) => { setData(d); setPaste(false); }} />
+      <AddTexting open={texting} onClose={() => setTexting(false)} onAdded={load} />
       <ScriptSheet pack={edit} onClose={() => setEdit(null)} onSaved={(d) => setData(d)} />
       <StorylineRead pack={read} onClose={() => setRead(null)} onExpand={(pid) => {
         setRead(null);

@@ -30,7 +30,7 @@ BUILTIN_DIR = os.path.join(DATA_DIR, "dialogue")
 USER_DIR = os.environ.get("LIFEOS_DIALOGUE") or os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "var", "dialogue")
 
-SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia", "mods", "chat", "schedule")
+SECTIONS = ("texts", "replies", "narration", "moment_choices", "scenes", "trivia", "mods", "chat", "schedule", "groupchat")
 MOD_KINDS = {"open": "said before a text (\"ok so\", \"u up?\")", "close": "tacked on after a text (\"lol\")",
              "talk": "how a line is said in person: \"{them_first} {says}, grinning\" ({says} becomes says or asks)"}
 PH = re.compile(r"\{(\w+)\}")
@@ -1266,6 +1266,25 @@ class trial_pack:
         return False
 
 
+FLIRT_AREAS = (("open", "flirt openers"), ("them", "how they answer"), ("back", "follow-ups"), ("in", "them flirting first"),
+               ("in_back", "ways to answer them"), ("payoff", "payoffs"))
+
+
+def _leaf_count(v) -> int:
+    return len(v) if isinstance(v, list) else sum(_leaf_count(x) for x in v.values()) if isinstance(v, dict) else 0
+
+
+def texting_breakdown(pk: dict) -> dict:
+    """What a pack adds to texting: flirt lines by kind, other texting lines, and its group chats (by how they start)."""
+    ch = pk.get("chat") or {}
+    banter = ch.get("banter") or {}
+    flirt = [{"label": label, "n": _leaf_count(banter.get(k))} for k, label in FLIRT_AREAS if _leaf_count(banter.get(k))]
+    other = _leaf_count({k: v for k, v in ch.items() if k != "banter"})
+    chats = [{"chat": b.get("chat"), "when": b.get("when") or [], "first": (b.get("lines") or [["", ""]])[0][1],
+              "lines": len(b.get("lines") or []), "replies": len(b.get("you") or [])} for b in pk.get("groupchat") or []]
+    return {"flirt": flirt, "flirt_total": sum(x["n"] for x in flirt), "texting": other, "group_chats": chats}
+
+
 def pack_summary(p) -> dict:
     pk = p["pack"]
     kind = p.get("kind", "json")
@@ -1276,6 +1295,8 @@ def pack_summary(p) -> dict:
             "warnings": p["check"]["warnings"][:20], "summary": p["check"]["summary"],
             "scenes": [{"id": s.get("id"), "title": s.get("title"), "who": s.get("who")} for s in pk.get("scenes", []) if isinstance(s, dict)],
             "kind": kind, "file": p.get("file"), "lines": sum(len(v) for v in (pk.get("texts") or {}).values()),
+            "texting": {"flirt": _leaf_count((pk.get("chat") or {}).get("banter")), "group_chats": len(pk.get("groupchat") or []),
+                        "lines": _leaf_count({k: v for k, v in (pk.get("chat") or {}).items() if k != "banter"})},
             "expands": pk.get("expands"),
             "outline": ({"total": len(pk["outline"]), "written": sum(1 for e in pk["outline"] if e.get("written"))}
                         if pk.get("outline") else None),
@@ -1749,6 +1770,7 @@ def _build(only: set | None = None) -> dict:
     trivia_extra: dict = {}
     chat_lines = copy.deepcopy(_base("chat.json"))
     chat_people = []  # (pack, {kind: lines}): a storyline's own people text with these
+    group_chats, gc_seen = [], set()  # group chat conversations from your packs (groupchat.py)
     in_order = {}  # pack -> its scenes happen as chapters, in the order they're written
     for p in packs():
         if not p["enabled"] or (only is not None and p["id"] not in only):
@@ -1780,6 +1802,10 @@ def _build(only: set | None = None) -> dict:
         _merge_chat(chat_lines, {k: v for k, v in (pk.get("chat") or {}).items() if k != "people"})
         if (pk.get("chat") or {}).get("people"):
             chat_people.append((p["id"], pk["chat"]["people"]))
+        for b in pk.get("groupchat") or []:
+            if isinstance(b, dict) and b.get("id") not in gc_seen:
+                gc_seen.add(b["id"])
+                group_chats.append(b)
         for sub, qs in (pk.get("trivia") or {}).items():
             trivia_extra.setdefault(sub, []).extend({"q": q["q"], "a": q["a"], "w": list(q["w"]), "g": q.get("g", 9)} for q in qs)
         st_order = _state().get("order", {})
@@ -1840,7 +1866,7 @@ def _build(only: set | None = None) -> dict:
                     sc["when"] = when
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
             "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded, "cast": cast,
-            "load_errors": {}}
+            "groupchat": group_chats, "load_errors": {}}
 
 
 def _retime_all(moments, sids, sch, resolve):

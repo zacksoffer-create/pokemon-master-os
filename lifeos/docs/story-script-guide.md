@@ -132,8 +132,59 @@ Separate with commas. `+` small, `++` medium, `+++` big, `-` `--` `---` down, or
 - Reputation: `rep <tag> +` with athlete, embarrassed, flaky, gossip, host, legend, mean, performer, star, tough, troublemaker. Family: `family affection +` (you and every sibling).
 - `play <game>`: `baseball` (a big at-bat, batting practice, a home run derby with friends); `basketball` (shooting around in the driveway, HORSE with a sibling, open gym, a dare from half court); `cup_pong` (a friend's basement, a party (beer pong in college)); `flash` (remembering a pattern, ear training in band, a memory bet); `football` (a goal-line stand at practice, a backyard game, a bet on one play); `golf` (a round with a parent, a golf outing, a bet on one hole); `hold` (a steady pour in chem lab, one brushstroke, a power throw in gym, holding a note (press, hold, let go on the line)); `lineup` (a timeline review, ranking things with friends, putting cards in order); `mathdash` (mental math with a friend, splitting a check, making change at a register job, counting atoms); `oddone` (proofreading a friend's essay, spot the difference, a typo on a sign); `paper_toss` (bored in class, the trash can across the room); `playmaker` (running the offense at the park, a pickup run where you have to find the open man); `reflex` (catching something falling, a reaction test, first hand up, a quick-draw bet); `soccer_11` (a pickup match, gym class, a game where your team needs a goal); `soccer_pk` (penalties at the park, settling an argument, a gym-class shootout); `sweep` (stopping a pendulum, hitting the beat, timing a jump rope, any "tap at the right moment"); `swing_lab` (the batting cages, a hitting lesson); `trivia` (a pop quiz, a study session, trivia night at a restaurant, a bet over who knows more); `sport` = your sport's game.
 - `60% +charisma -impulsivity`: a roll on your talents (academic, athletic, charisma, creativity, technical) and traits.
-- `vibe <style>`: tease, funny, chill, cheesy, bold, sweet (lands or misses by what they like).
+- `vibe <style>`: funny, tease, bold, chill, cheesy, sweet (lands or misses by what they like).
 - `focus <mode>` (academics, athletics, balanced, family, rest, romance, social), `hang out with <person>`, `text <person> "<line>"`, `fits loyalty` / `fits -discipline` (who'd pick this when the game picks for you; trait effects count too).
+
+## Texting: flirting and group chats
+
+Flirt lines and group chat conversations go in their own blocks, in any script (on the phone: Phone > Add texting writes the ChatGPT prompt for you). They go live as soon as they're added, alongside the game's own.
+
+### Flirting
+
+Each block is a header line ending in a colon, then its lines under it, indented two spaces, one line each.
+
+- `flirt <style>:` what I can send to start flirting while we're still getting to know each other; `flirt <style> later:` the same, once we're already flirty. Styles: tease, sweet, bold, funny, cheesy.
+- `flirt answers <style>, <how it went>:` how they answer a flirt in that style. How it went: lands (they're into it), laughs (they liked it but play it off), awkward, no (they shut it down, kindly).
+- `flirt follow-ups <style>:` what I can say next after it landed; `flirt follow-ups <style> after a laugh:` after they laughed it off. Here the style can also be cool (playing it cool).
+- `flirt first:` them flirting with me first (`flirt first later:` once we're flirty).
+- `flirt back <style>:` what I can answer when they flirt first. Also `flirt back cool:` and `flirt back letdown:` (letting them down easy, kindly).
+- `flirt payoff <blush|plans|goodnight|ask>:` how they end it when it really went somewhere: blushing, making plans, going to bed smiling, or telling me to ask them out in person.
+
+```
+flirt tease:
+  ok who said you could be this funny
+flirt answers tease, lands:
+  oh so we're doing this 😏
+flirt follow-ups bold:
+  so are we hanging out or what
+flirt payoff plans:
+  ok diner friday. you're buying fries
+```
+
+### Group chats
+
+```
+group chat crew, weekend:
+  A: fantasy draft is tonight. who's in
+  B: i'm taking the jets defense first
+  C: why would you do that
+  B: because i believe
+  * {B} you're gonna finish last | A +, B -, fun +
+      A: LMAO
+      B: watch me
+      dm B: ok be honest is the jets thing bad
+  * i'm in. i'm winning the whole thing | A +, crew +
+      C: we'll see about that
+  * i'll be the commissioner | crew ++
+      A: finally someone responsible
+```
+
+- `group chat <crew|team|family>, <when>:` then 3 to 6 lines of them talking to each other, then 2 or 3 things I can say (`* what I say | effects`), each a different kind of answer, with what they say back indented under it.
+- crew is my friend group and team is my teammates: they're A, B and C. family is parent, other parent, sibling, other sibling (the game knows which is Mom or Dad).
+- when (optional, after a comma): weekend, school day, school night, winter, pet, game tomorrow, after a win, after a loss. Team chats are best around games.
+- Effects: who it lands with (`A +`, `B -`, `++` for a lot), `fun +`, `stress -`, `mood +`, `crew +` (the group gets closer), `trust +` (my parents trust me more).
+- `dm B: ...` under a reply: that person texts me privately afterward (optional, once in a while).
+- In what anyone says, names are {A}, {B}, {C} and {me}; {opp} is the other team and {pet} our pet.
 
 ## Lines for the game's pools
 

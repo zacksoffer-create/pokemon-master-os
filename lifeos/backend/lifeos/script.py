@@ -111,11 +111,11 @@ STEP = {"rel": (3, 6, 10), "need": (5, 10, 18), "mood": (3, 6, 10), "trait": (1,
         "rep": (2, 4, 8), "family": (3, 6, 10)}
 GAME_STAT = {"trivia": "academic", "mathdash": "academic", "flash": "academic", "oddone": "academic", "lineup": "academic",
              "hold": "athletic", "sweep": "athletic", "reflex": "athletic"}
-BLOCKS = ("texts", "replies", "narration", "mods", "chat", "trivia", "choices")
+BLOCKS = ("texts", "replies", "narration", "mods", "chat", "trivia", "choices", "flirt", "group chat")
 
 SECTION_RE = re.compile(r"^===\s*(.+?)\s*$")
 SCENE_RE = re.compile(r"^---\s*(.+?)\s*$")
-BLOCK_RE = re.compile(r"^(texts|replies|narration|mods|chat|trivia|choices)\s+(.+?)\s*:\s*$|^(schedule|outline)\s*:\s*$", re.I)
+BLOCK_RE = re.compile(r"^(texts|replies|narration|mods|chat|trivia|choices|flirt|group\s+chat)\s+(.+?)\s*:\s*$|^(schedule|outline)\s*:\s*$", re.I)
 ATTR_RE = re.compile(r"^(cast|when|years|order|about|notes?|expands)\s*:\s*(.*)$", re.I)
 SPEAKER_RE = re.compile(r"^([A-Za-z][\w .'-]{0,24}?):\s+(.+)$")
 OUTCOME_RE = re.compile(r"^(great|good|miss|yes|no|meh|bad)\s*:\s*(.*)$", re.I)
@@ -991,10 +991,193 @@ def _scene(sec: Section, head: Line, body: list, errs: list, idx: int, ids: set)
     return out
 
 
-def _block(kind: str, key: str, nodes: list, pack: dict, errs: list, sec: Section):
+# ---------------------------------------------------------------------------------------------------- texting blocks
+FLIRT_STYLES = ("tease", "sweet", "bold", "funny", "cheesy")
+FLIRT_OUT = {"lands": "landed", "land": "landed", "landed": "landed", "laughs": "playful", "laugh": "playful", "laughs it off": "playful",
+             "playful": "playful", "awkward": "awkward", "no": "shut", "shut down": "shut", "shut": "shut", "nope": "shut"}
+FLIRT_PAYOFF = {"blush": "blush", "blushing": "blush", "plans": "plans", "goodnight": "goodnight", "good night": "goodnight",
+                "night": "goodnight", "ask": "ask", "ask me out": "ask", "ask out": "ask"}
+FLIRT_BACK = {**{x: x for x in FLIRT_STYLES}, "cool": "cool", "play it cool": "cool", "letdown": "letdown", "let down": "letdown",
+              "let them down": "letdown", "let them down easy": "letdown"}
+FLIRT_HELP = ("flirt blocks: flirt tease: (openers; styles tease, sweet, bold, funny, cheesy; add later for once you're flirty), "
+              "flirt answers bold, lands: (lands, laughs, awkward, no), flirt follow-ups tease: (add after a laugh), flirt first:, "
+              "flirt back sweet: (or cool, letdown), flirt payoff blush: (blush, plans, goodnight, ask)")
+
+
+FLIRT_SAY = {"way a flirt goes": "lands, laughs, awkward or no", "way a flirt can end": "blush, plans, goodnight or ask",
+             "way to answer a flirt": "tease, sweet, bold, funny, cheesy, cool or letdown", "flirt style": "tease, sweet, bold, funny, cheesy or cool"}
+
+
+def _flirt_word(word, table, what):
+    w = word.strip()
+    if w in table:
+        return table[w]
+    raise Fail(f"'{w}' isn't a {what}.{_suggest(w, list(table))} Use: {FLIRT_SAY.get(what, ', '.join(dict.fromkeys(table.values())))}")
+
+
+def flirt_path(key: str) -> list:
+    """`flirt answers bold, lands` -> where those lines go in the texting lines (chat.json "banter")."""
+    k = re.sub(r"\s+", " ", key.lower().replace(",", " ")).strip()
+    later = k.endswith(" later")
+    if later:
+        k = k[:-6].strip()
+    band = "close" if later else "early"
+    if k in ("first", "them first", "they flirt first"):
+        return ["banter", "in", band]
+    m = re.fullmatch(r"(?:answers?|they answer|replies) (\w+) (.+)", k)
+    if m:
+        return ["banter", "them", _flirt_word(m.group(1), {**{x: x for x in FLIRT_STYLES}, "cool": "cool"}, "flirt style"),
+                _flirt_word(m.group(2), FLIRT_OUT, "way a flirt goes")]
+    m = re.fullmatch(r"(?:follow-?ups?|follow ups?|next) (\w+)( after a laugh| after they laugh)?", k)
+    if m:
+        return ["banter", "back", "playful" if m.group(2) else "landed",
+                _flirt_word(m.group(1), {**{x: x for x in FLIRT_STYLES}, "cool": "cool"}, "flirt style")]
+    m = re.fullmatch(r"back (.+)", k)
+    if m:
+        return ["banter", "in_back", _flirt_word(m.group(1), FLIRT_BACK, "way to answer a flirt")]
+    m = re.fullmatch(r"(?:payoff|it goes somewhere|ending) (.+)", k)
+    if m:
+        return ["banter", "payoff", _flirt_word(m.group(1), FLIRT_PAYOFF, "way a flirt can end")]
+    if k in FLIRT_STYLES:
+        return ["banter", "open", band, k]
+    near = _suggest(k.split(" ")[0], list(FLIRT_STYLES) + ["answers", "follow-ups", "first", "back", "payoff"])
+    raise Fail(f"'flirt {key}' isn't a kind of flirt line.{near} {FLIRT_HELP}")
+
+
+GROUP_CHATS = {"crew": "crew", "friends": "crew", "squad": "crew", "the boys": "crew", "the girls": "crew", "the crew": "crew",
+               "team": "team", "teammates": "team", "the team": "team", "family": "family", "the family": "family", "parents": "family"}
+GROUP_WHEN = {"weekend": "weekend", "school day": "school_day", "school_day": "school_day", "school night": "school_night",
+              "school_night": "school_night", "winter": "winter", "pet": "has_pet", "has pet": "has_pet", "has_pet": "has_pet",
+              "pregame": "pregame", "game tomorrow": "pregame", "before a game": "pregame", "win": "win", "after a win": "win",
+              "loss": "loss", "after a loss": "loss"}
+GROUP_ROLES = {"crew": {"a": "A", "b": "B", "c": "C"}, "team": {"a": "A", "b": "B", "c": "C"},
+               "family": {"p": "P", "q": "Q", "s": "S", "t": "T", "parent": "P", "mom": "P", "other parent": "Q", "dad": "Q",
+                          "sibling": "S", "brother": "S", "sister": "S", "other sibling": "T"}}
+GROUP_FX_ME = ("fun", "stress", "mood")
+AMOUNT = {"+": 1.5, "++": 3.0, "+++": 4.5, "-": -1.0, "--": -2.0, "---": -3.0}
+
+
+def _group_fx(text: str, roles: dict, n: int) -> dict:
+    """`A +, B -, fun ++, crew +` -> {"A": {"affection": 1.5}, "B": {...}, "me": {"fun": 3}, "crew": {"cohesion": 1.5}}"""
+    out: dict = {}
+    for tok in _split(text, ","):
+        tok = tok.strip()
+        if not tok:
+            continue
+        m = re.fullmatch(r"(.+?)\s*(?:affection|likes you|happy)?\s*([+-]{1,3}|[+-]\d+(?:\.\d+)?)", tok, re.I)
+        if not m:
+            raise Fail(f"'{tok}' isn't an effect. Effects look like: A +, B -, fun ++, stress -, crew +, trust +")
+        who, amt = m.group(1).strip().lower(), m.group(2)
+        v = AMOUNT.get(amt) if amt in AMOUNT else float(amt)
+        if who in roles:
+            out.setdefault(roles[who], {})["affection"] = v
+        elif who in GROUP_FX_ME:
+            out.setdefault("me", {})[who] = v
+        elif who in ("crew", "cohesion", "group", "the group"):
+            out.setdefault("crew", {})["cohesion"] = v
+        elif who in ("trust", "parents", "parent trust"):
+            out.setdefault("parents", {})["trust"] = v
+        else:
+            raise Fail(f"'{who}' isn't someone in this chat or something an effect changes.{_suggest(who, list(roles) + list(GROUP_FX_ME) + ['crew', 'trust'])} "
+                       f"Use the people ({', '.join(sorted({r for r in roles.values()}))}), fun, stress, mood, crew or trust")
+    return out
+
+
+def _group_chat(key: str, nodes: list, pack: dict, errs: list, head_n: int):
+    """`group chat crew, weekend:` and a little conversation: who says what (A:, B:...), then what you can jump in with
+    (`* what you say | effects`, with their answers indented under it, and `dm B: ...` for someone DMing you after)."""
+    bits = [b.strip().lower() for b in _split(key, ",") if b.strip()]
+    if not bits or bits[0] not in GROUP_CHATS:
+        errs.append((head_n, f"'group chat {key}' needs which chat first: crew, team or family.{_suggest(bits[0] if bits else '', GROUP_CHATS)}"))
+        return
+    chat = GROUP_CHATS[bits[0]]
+    when = []
+    for b in bits[1:]:
+        if b in GROUP_WHEN:
+            when.append(GROUP_WHEN[b])
+        else:
+            errs.append((head_n, f"'{b}' isn't a time a group chat can wait for.{_suggest(b, GROUP_WHEN)} "
+                                 f"Use: weekend, school day, school night, winter, pet, game tomorrow, after a win, after a loss"))
+            return
+    roles = GROUP_ROLES[chat]
+    speak = re.compile(r"^(dm\s+)?([A-Za-z][A-Za-z ]{0,13}?)\s*:\s*(.+)$")
+
+    def said(nd):
+        m = speak.match(nd.text)
+        if not m:
+            raise Fail(f"in a group chat, a line is who's talking and what they say, like A: yo what's the move")
+        who = m.group(2).strip().lower()
+        if who not in roles:
+            raise Fail(f"'{m.group(2)}' isn't someone in the {chat} chat.{_suggest(who, roles)} Use "
+                       + (", ".join(sorted(set(roles.values()))) if chat != "family" else "parent, other parent, sibling, other sibling"))
+        t = m.group(3).strip().strip('"')
+        if len(t) > 200:
+            raise Fail(f"a text is short: keep it under 200 characters (this one is {len(t)})")
+        return bool(m.group(1)), roles[who], t
+    lines, you = [], []
+    before = len(errs)
+    for nd in nodes:
+        try:
+            if nd.text.startswith("*"):
+                label, _, fx = nd.text[1:].partition("|")
+                label = label.strip().strip('"')
+                if not label:
+                    raise Fail("a reply needs what you say: * honestly it's not that bad | B +")
+                opt = {"say": label, "then": [], "fx": _group_fx(fx, roles, nd.line.n) if fx.strip() else {}}
+                for ch in _flatten(nd.children):
+                    try:
+                        dm, role, t = said(ch)
+                    except Fail as e:
+                        errs.append((ch.line.n, str(e)))
+                        continue
+                    if dm:
+                        opt["dm"] = {"from": role, "text": t}
+                    else:
+                        opt["then"].append([role, t])
+                if len(you) >= 4:
+                    raise Fail("that's past the fourth reply: three is plenty, four at most")
+                you.append(opt)
+            else:
+                if you:
+                    raise Fail("the conversation comes first, then your replies (* ...): this line is after them")
+                dm, role, t = said(nd)
+                lines.append([role, t])
+        except Fail as e:
+            errs.append((nd.line.n, str(e)))
+    if len(errs) > before:
+        return  # fix those first: then see whether there's enough left
+    if len(lines) < 2 or not you:
+        errs.append((head_n, "a group chat needs at least two lines of them talking and at least one thing you can say (* ...)"))
+        return
+    import hashlib
+    bid = "pk_" + hashlib.sha1(("|".join(t for _, t in lines)).encode()).hexdigest()[:10]
+    pack.setdefault("groupchat", []).append({"id": bid, "chat": chat, "when": when, "lines": lines, "you": you, "line": head_n})
+
+
+def _block(kind: str, key: str, nodes: list, pack: dict, errs: list, sec: Section, head_n: int = 0):
     V = _vocab()
-    kind = kind.lower()
+    kind = re.sub(r"\s+", " ", kind.lower())
     key = key.strip()
+    if kind == "flirt":
+        try:
+            path = flirt_path(key)
+        except Fail as e:
+            errs.append((head_n, str(e)))
+            return
+        cur = pack.setdefault("chat", {})
+        for k in path[:-1]:
+            cur = cur.setdefault(k, {})
+        lst = cur.setdefault(path[-1], [])
+        for nd in _flatten(nodes):
+            t = nd.text.strip().strip('"')
+            if len(t) > 200:
+                errs.append((nd.line.n, f"a text is short: keep it under 200 characters (this one is {len(t)})"))
+            elif t:
+                lst.extend(variants(t))
+        return
+    if kind == "group chat":
+        _group_chat(key, nodes, pack, errs, head_n)
+        return
     flat = []
     for nd in nodes:
         flat.append(nd)
@@ -1424,7 +1607,8 @@ def split_sections(text: str) -> list:
 
 
 def looks_like_script(text: str) -> bool:
-    return bool(re.search(r"^\s*(===|---)\s*\S", text, re.M)) or bool(re.search(r"^\s*(texts|replies|chat|trivia)\s+\S+\s*:\s*$", text, re.M))
+    return bool(re.search(r"^\s*(===|---)\s*\S", text, re.M)) or bool(
+        re.search(r"^\s*(texts|replies|chat|trivia|flirt|group\s+chat)\s+\S.*:\s*$", text, re.M))
 
 
 def extract(text: str) -> str:
@@ -1567,7 +1751,7 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
             pack["scenes"] = scenes
             pack["in_order"] = not sec.order_any
         for head, kind, key, body in sec.blocks:
-            _block(kind, key, _tree(body), pack, errs, sec)
+            _block(kind, key, _tree(body), pack, errs, sec, head.n)
         compiled.append((sec, pack))
     for sec, pack in compiled:
         for when, ref, n in sec.pending_after:
@@ -1875,6 +2059,16 @@ def guide(story_only: bool = False) -> str:
     A("- `focus <mode>` (" + ", ".join(sorted(V["focus"])) + "), `hang out with <person>`, `text <person> \"<line>\"`, "
       "`fits loyalty` / `fits -discipline` (who'd pick this when the game picks for you; trait effects count too).")
     if not story_only:
+        A("")
+        from .storybuilder import TEXTING_FLIRT, TEXTING_GROUP
+        A("## Texting: flirting and group chats")
+        A("")
+        A("Flirt lines and group chat conversations go in their own blocks, in any script (on the phone: Phone > Add texting "
+          "writes the ChatGPT prompt for you). They go live as soon as they're added, alongside the game's own.")
+        A("")
+        A(TEXTING_FLIRT.replace("## Flirting", "### Flirting").rstrip())
+        A("")
+        A(TEXTING_GROUP.replace("## Group chats", "### Group chats").rstrip())
         A("")
         A("## Lines for the game's pools")
         A("")

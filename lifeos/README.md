@@ -559,6 +559,14 @@ What's in it:
   land one at a time with typing dots. Jump in with one of a few things to say (defend them, pile on, send the pic): it
   lands differently with each of them, and sometimes the one you roasted DMs you after ("ok be honest. is it actually
   that bad").
+- **Add your own texting.** Phone → Messages → **Add texting** (or Me → Storylines): pick flirting, group chats or both,
+  say what you want ("sarcastic flirting", "the boys roasting each other about fantasy football"), copy the ChatGPT prompt,
+  paste what it writes, **Check it** (you see what it adds: flirt openers, how they answer, follow-ups, them flirting
+  first, payoffs, and each group chat with how it starts) and **Add it**. It's live right away, fixed rather than refused
+  like everything else you paste, and listed with your storylines to edit or remove. You can write them by hand too:
+  `flirt tease:` with lines under it, `flirt answers bold, lands:`, `flirt first:`, `flirt payoff plans:`, and
+  `group chat crew, weekend:` with the conversation (`A: ...`), what you can say (`* {B} you're gonna finish last | A +,
+  B -, fun +`), their answers under it, and `dm B: ...` for someone texting you after. The guide has every block.
 - **From text to in person.** When you ask someone out by text and they say "ask me in person 😳", the game plans it
   ("Asking Sophie out, next time you see them"), and they meant it: they'll say yes when you do.
 - **Dating takes showing up.** Go a few days without talking to your partner and it shows: "Feeling distant: 5 days since

@@ -157,6 +157,9 @@ export type ReadScene = { sid: string; title: string; storyline: string; pack: s
   day: number | null; why: string | null; detail: any; year: string | null; dated: boolean; unwritten?: boolean; summary?: string;
   when?: string; outline_n?: number | null; if?: string | null };
 export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
+export type TextingBreakdown = { flirt: { label: string; n: number }[]; flirt_total: number; texting: number;
+  group_chats: { chat: string; when: string[]; first: string; lines: number; replies: number }[] };
+export type TextingCheck = { ok: boolean; breakdown: TextingBreakdown; notes: string[]; text: string; scenes: number };
 export type OutlineCheck = { ok: boolean; title: string; expands: string | null; about: string | null; cast: { name: string; label: string }[];
   outline: OutlineEntry[]; notes: string[]; warnings: string[]; pack?: string };
 export type BatchPrompt = { prompt?: string; chars?: number; first?: number; last?: number; total: number; written: number; titles?: string[]; done: boolean };
@@ -278,6 +281,11 @@ export const phoneApi = {
   outlinePrompt: (ask: string, size: string, expand?: string): Promise<{ prompt: string; chars: number }> =>
     api.get(`/api/story/build/outline-prompt?ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}&expand=${encodeURIComponent(expand || "")}`),
   outline: (text: string, save: boolean): Promise<OutlineCheck> => api.post("/api/story/build/outline", { text, save }),
+  textingPrompt: (what: string, ask: string, size: string): Promise<{ prompt: string; chars: number }> =>
+    api.get(`/api/texting/prompt?what=${encodeURIComponent(what)}&ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`),
+  textingCheck: (text: string): Promise<TextingCheck> => api.post("/api/texting/check", { text }),
+  textingAdd: (text: string): Promise<{ ok: boolean; pack: string; breakdown: TextingBreakdown; notes: string[] }> =>
+    api.post("/api/texting/add", { text }),
   batchPrompt: (pack: string, count = 6): Promise<BatchPrompt> =>
     api.get(`/api/story/build/batch-prompt?pack=${encodeURIComponent(pack)}&count=${count}`),
   addScenes: (pack: string, text: string): Promise<{ ok: boolean; got: number[]; notes: string[]; written: number; total: number; outline: OutlineEntry[] }> =>

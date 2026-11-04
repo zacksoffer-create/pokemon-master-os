@@ -79,6 +79,11 @@
 .pm-root .pm-row:active:not(:disabled) { background: #f4f2fb; }
 .pm-row + .pm-row::before { content: ""; position: absolute; top: 0; left: 78px; right: 0; height: 1px; background: var(--pm-line); }
 .pm-row-av { position: relative; flex: none; }
+.pm-root .pm-add-texting, .pm-root .pm-add-texting:hover:not(:disabled) { display: flex; align-items: center; gap: 8px; width: 100%; border: 0; background: transparent; padding: 12px 16px;
+  border-bottom: 1px solid var(--pm-line); font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.pm-add-texting span { font-size: 18px; }
+.pm-add-texting b { font-size: 14.5px; color: var(--pm-accent, #5b4bdb); }
+.pm-add-texting small { color: var(--pm-dim, #8a84a3); font-size: 12.5px; margin-left: auto; }
 .pm-reply-dot { position: absolute; right: -1px; top: 1px; width: 13px; height: 13px; border-radius: 50%; background: var(--pm-dot); border: 2.5px solid #fff; }
 .pm-row-main { flex: 1; min-width: 0; }
 .pm-row-top { display: flex; align-items: baseline; gap: 8px; }

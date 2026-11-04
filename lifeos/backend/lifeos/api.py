@@ -1373,6 +1373,63 @@ def api_build_outline(body: dict = Body(...)):
     return out
 
 
+@app.get("/api/texting/prompt")
+def api_texting_prompt(what: str = "flirt", ask: str = "", size: str = "bunch"):
+    """The ChatGPT prompt for new texting: flirt lines, group chats, or both."""
+    from . import storybuilder
+    p = storybuilder.texting_prompt(get_lab().sim, what, ask, size)
+    return {"prompt": p, "chars": len(p)}
+
+
+def _texting_text(text: str) -> str:
+    """What ChatGPT sent, with a title on top if it didn't give one (a pack needs a name)."""
+    import re
+    from . import script
+    t = script.extract(text)
+    if not re.search(r"^\s*===\s*\S", t, re.M):
+        t = "=== Texting\n" + t
+    return t
+
+
+@app.post("/api/texting/check")
+def api_texting_check(body: dict = Body(...)):
+    """{text}: what it would add (flirt lines by kind, group chats) and what got fixed. Nothing's saved."""
+    from . import dialogue, scriptfix
+    fx = scriptfix.repair(_texting_text(str(body.get("text") or "")), library=dialogue.library())
+    packs = fx["result"]["packs"]
+    bd = [dialogue.texting_breakdown(pk) for pk in packs]
+    total = sum(b["flirt_total"] + b["texting"] + len(b["group_chats"]) for b in bd)
+    if not fx["ok"] or not total:
+        return JSONResponse({"detail": "there's no texting in that: flirt lines go under blocks like flirt tease:, group chats "
+                                       "under group chat crew:", "errors": fx["result"]["errors"][:8]}, status_code=422)
+    return {"ok": True, "breakdown": bd[0] if len(bd) == 1 else _merge_breakdowns(bd),
+            "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]], "text": fx["text"],
+            "scenes": sum(len(pk.get("scenes") or []) for pk in packs)}
+
+
+def _merge_breakdowns(bd):
+    flirt = {}
+    for b in bd:
+        for x in b["flirt"]:
+            flirt[x["label"]] = flirt.get(x["label"], 0) + x["n"]
+    return {"flirt": [{"label": k, "n": v} for k, v in flirt.items()], "flirt_total": sum(flirt.values()),
+            "texting": sum(b["texting"] for b in bd), "group_chats": [c for b in bd for c in b["group_chats"]]}
+
+
+@app.post("/api/texting/add")
+def api_texting_add(body: dict = Body(...)):
+    """{text}: add it. It goes live right away; it's listed with your storylines (edit or remove it there)."""
+    from . import dialogue
+    r = dialogue.add_script(_texting_text(str(body.get("text") or "")))
+    if not r["ok"]:
+        return JSONResponse({"detail": "couldn't add it", "errors": r.get("errors") or []}, status_code=422)
+    _dialogue_changed(get_lab())
+    pid = r["ids"][0]
+    pk = next((p["pack"] for p in dialogue.packs() if p["id"] == pid), {})
+    return {"ok": True, "pack": pid, "breakdown": dialogue.texting_breakdown(pk), "notes": r.get("notes") or [],
+            "packs": _dialogue_list()["packs"]}
+
+
 @app.get("/api/story/build/batch-prompt")
 def api_build_batch_prompt(pack: str, count: int = 6):
     """Step 2 (again and again): the ChatGPT prompt for the next scenes of an outlined storyline."""

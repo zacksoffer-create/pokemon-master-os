@@ -22,12 +22,15 @@ P_CREW, P_CREW_WEEKEND, P_FAMILY, P_PRACTICE = 0.35, 0.45, 0.12, 0.08
 
 
 def D() -> dict:
+    """The built-in conversations plus the ones from your packs (`group chat crew:` blocks in a script)."""
     global _DATA
     if _DATA is None:
         from .catalogs import DATA_DIR
         with open(os.path.join(DATA_DIR, "groupchat.json"), encoding="utf-8") as f:
             _DATA = json.load(f)
-    return _DATA
+    from . import dialogue
+    extra = dialogue.merged().get("groupchat") or []
+    return {**_DATA, "bursts": _DATA["bursts"] + extra} if extra else _DATA
 
 
 def _h(*parts) -> int:
@@ -218,8 +221,8 @@ def answer(sim, tid: str, inst: str, k: int, fx) -> None:
         elif key == "parents":
             ph = phone(w)
             ph["parent_trust"] = clamp(ph.get("parent_trust", 60) + ch.get("trust", 0), 0, 100)
-    side = b.get("side")
-    if side and (side.get("after") is None or k in side["after"]) and cast.get(side["from"]) in w.chars:
+    side = opt.get("dm") or b.get("side")
+    if side and (opt.get("dm") or side.get("after") is None or k in side["after"]) and cast.get(side["from"]) in w.chars:
         later(sim, cast[side["from"]], "chat_side", delay_phases=1, text=_fill(side["text"], fill))
 
 

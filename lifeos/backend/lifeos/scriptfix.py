@@ -258,6 +258,17 @@ def _fix(lines: list, i: int, msg: str, level: int) -> str | None:
         if "there's no storyline called" in msg or "is itself an expansion" in msg:
             lines[i] = None
             return "expands: came off (that storyline isn't there): it's a storyline of its own"
+        if "isn't a time a group chat can wait for" in msg and q:  # group chat crew, weekend, full moon: -> without it
+            new = re.sub(r"\s*,\s*" + re.escape(q) + r"(?=\s*[,:])", "", line, count=1, flags=re.I)
+            if new != line:
+                lines[i] = new
+                return f"'{q}' came off the group chat (it isn't a time the game knows)"
+        if "isn't someone in this chat or something an effect changes" in msg and q:
+            head, items = _split_bar(t)
+            keep = [x for x in items if not re.match(re.escape(q) + r"\b", x.strip(), re.I)]
+            if items and len(keep) < len(items):
+                lines[i] = " " * _indent(line) + _join_bar(head, keep)
+                return f"the effect '{', '.join(x for x in items if x not in keep)}' came off (it isn't something a group chat changes)"
         if "a reply ends with its tone" in msg:
             lines[i] = line.rstrip() + " (ok)"
             return "a reply without a tone got (ok)"
@@ -303,7 +314,10 @@ def repair(text: str, library=None, default_title: str = "Untitled", passes: int
             return {"ok": True, "text": src, "notes": notes, "result": r}
         lines = src.split("\n")
         by_line: dict = {}
-        for e in r["errors"]:
+        errors = r["errors"]
+        if len(errors) > 1:  # "nothing in this pack" is because of the others: fix those first
+            errors = [e for e in errors if "there's nothing in this pack" not in e["text"]] or errors
+        for e in errors:
             by_line.setdefault(e["line"], []).append(e["text"])
         done_any = False
         for n in sorted(by_line, reverse=True):  # bottom up: a fix never moves the lines above it
