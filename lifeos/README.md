@@ -947,9 +947,13 @@ written yet ("6. Making Up · spaced out · only if you picked "Say sorry" in 5"
 storyline's row picks up where you left off. **Add an expansion**, **Edit the script**, **Play now** and **Make it one
 story** work as before, and **Paste a script** still takes a whole script in one go (fixed the same way, with notes).
 
-**Which engine is the phone running?** The bottom of Storylines says *Engine <id>*. The app now always fetches the
-newest engine when it's online (it used to keep an old one cached), so after an update, reopen the app once and the id
-changes.
+**Updates arrive on their own.** The site publishes `version.json` (the newest engine's id) with every build, and the
+app checks it whenever it opens and whenever you come back to it. Opened on an old copy, it saves and updates right
+away; if it was already open (say you just came back from ChatGPT with scenes to paste), a banner says *A newer version
+of LIFE OS is out* and waits for you to tap **Update**, so it never restarts in the middle of something. The bottom of
+Storylines says *Engine <id> · the newest* (or *a newer one is out*, with an Update button). The page, the engine and
+its worker are always checked with the server first (past the browser's own 10-minute copy), and the saved copy is
+only for when you're offline.
 
 **Timing, by hand or with ChatGPT.** In **Read it**, *When it happens* shows each storyline's (and expansion's)
 timing (for an outlined storyline, changing it rewrites the outline's `years:` and its lines); **Change** it to pick its school years (and seasons), and **Spread them out** to space its scenes evenly across

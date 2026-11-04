@@ -1,5 +1,5 @@
 // Offline support: keep the app, the engine and the game files on the phone after the first visit.
-const VERSION = "bbd59fd869";
+const VERSION = "2b0c8935e4";
 const CACHE = "lifeos-story-" + VERSION;
 self.addEventListener("install", (e) => {
   self.skipWaiting();
@@ -12,17 +12,25 @@ self.addEventListener("activate", (e) => {
   e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith("lifeos-story-") && k !== CACHE).map((k) => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
-// the page, the engine and its worker: always the newest (checked with the server every time the app opens; only the
-// changed bytes come down), the saved copy when offline. Everything else (Pyodide, the hashed app files): saved copy first.
+// the page, the engine and its worker: always the newest (checked with the server every time the app opens, past the
+// browser's own 10-minute copy; only the changed bytes come down), the saved copy when offline. Everything else
+// (Pyodide, the hashed app files): saved copy first.
 const FRESH = /\/(engine\.zip|engine-worker\.js|index\.html|sw\.js)$/;
+function fromServer(e, url) {
+  const req = new Request(url.href, { cache: "no-cache" });
+  if (e.request.mode !== "navigate") return fetch(req);
+  // a page load: asked for by its address (a navigation request can't change how it's cached); if that comes back
+  // redirected (which a page load can't use) or fails, the page load as it was
+  return fetch(req).then((r) => (r.redirected ? fetch(e.request) : r)).catch(() => fetch(e.request));
+}
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin) return;
+  if (/\/version\.json$/.test(url.pathname)) return; // how the app knows there's an update: always the network
   const fresh = e.request.mode === "navigate" || FRESH.test(url.pathname);
   e.respondWith(
     fresh
-      // (a page load goes as it is: some phones refuse options on it; the engine files are checked with the server)
-      ? (e.request.mode === "navigate" ? fetch(e.request) : fetch(new Request(url.href, { cache: "no-cache" }))).then((r) => {
+      ? fromServer(e, url).then((r) => {
           if (r.ok) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); }
           return r;
         }).catch(() => caches.match(e.request, { ignoreSearch: true }).then((r) => r || caches.match("./index.html")))

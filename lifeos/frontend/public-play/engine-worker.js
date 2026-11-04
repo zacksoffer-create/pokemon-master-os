@@ -97,7 +97,7 @@ function maybeFlush() {
 onmessage = (e) => {
   const m = e.data;
   if (m.type === "req") { queue.push(m); drain(); }
-  else if (m.type === "flush") flush(true);
+  else if (m.type === "flush") flush(true).then(() => postMessage({ type: "flushed" }));
 };
 
 boot();

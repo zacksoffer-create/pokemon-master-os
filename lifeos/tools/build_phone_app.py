@@ -91,10 +91,16 @@ def main():
         s = f.read().replace("__BUILD__", build)
     with open(sw, "w") as f:
         f.write(s)
+    # what's newest, for the app to check against what it's running (always fetched from the network, never cached)
+    import json
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        eid = z.read("lifeos/engine_build.txt").decode()
+    with open(os.path.join(OUT, "version.json"), "w") as f:
+        json.dump({"engine": eid, "build": build}, f)
     # GitHub Pages serves docs/ as-is (no Jekyll), so the app's files are published exactly as built
     open(os.path.join(REPO, "docs", ".nojekyll"), "a").close()
     total = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)
-    print(f"Phone app built in {OUT}: {total / 1e6:.1f} MB, engine {len(data) / 1e3:.0f} KB, build {build}")
+    print(f"Phone app built in {OUT}: {total / 1e6:.1f} MB, engine {eid} ({len(data) / 1e3:.0f} KB), build {build}")
 
 
 if __name__ == "__main__":

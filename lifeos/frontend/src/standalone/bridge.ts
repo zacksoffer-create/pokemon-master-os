@@ -5,6 +5,7 @@ let worker: Worker | null = null;
 let seq = 0;
 const pending = new Map<number, Pending>();
 let onProgress: (msg: string) => void = () => {};
+let flushed: (() => void)[] = [];
 let readyResolve: (info: any) => void;
 let readyReject: (e: any) => void;
 export const ready = new Promise<any>((res, rej) => {
@@ -21,6 +22,7 @@ export function startEngine(progress: (msg: string) => void) {
     if (m.type === "progress") onProgress(m.text);
     else if (m.type === "ready") readyResolve(m.info);
     else if (m.type === "fatal") readyReject(new Error(m.message));
+    else if (m.type === "flushed") flushed.splice(0).forEach((f) => f());
     else if (m.type === "res") {
       const p = pending.get(m.id);
       if (!p) return;
@@ -53,4 +55,14 @@ export function startEngine(progress: (msg: string) => void) {
     if (document.visibilityState === "hidden") worker?.postMessage({ type: "flush" });
   });
   window.addEventListener("pagehide", () => worker?.postMessage({ type: "flush" }));
+}
+
+/** Write the save to the phone's storage now, and wait until it's written (or a few seconds, whichever comes first). */
+export function flushNow(timeoutMs = 4000): Promise<void> {
+  return new Promise((resolve) => {
+    if (!worker) return resolve();
+    flushed.push(resolve);
+    worker.postMessage({ type: "flush" });
+    setTimeout(resolve, timeoutMs);
+  });
 }

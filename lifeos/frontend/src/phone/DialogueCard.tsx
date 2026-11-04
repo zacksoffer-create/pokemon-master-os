@@ -8,6 +8,7 @@ import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { pickFile } from "./StoryFiles";
 import BuildStoryline, { BuildStart } from "./BuildStoryline";
+import { applyUpdate, subscribe, updateReady, UpdateState } from "../standalone/update";
 import StorylineRead from "./StorylineRead";
 
 type PackRow = {
@@ -226,8 +227,10 @@ export default function DialogueCard() {
   };
   const [guide, setGuide] = useState<string | null>(null);
   const [engine, setEngine] = useState<string>("");
+  const [upd, setUpd] = useState<UpdateState | null>(null);
   useEffect(() => {
     api.get("/api/version").then((r) => setEngine(r.engine)).catch(() => undefined);
+    return subscribe(setUpd);
   }, []);
   const [busy, setBusy] = useState<string | null>(null);
   const load = () => api.get("/api/dialogue/packs").then(setData).catch(() => setData(null));
@@ -436,7 +439,19 @@ export default function DialogueCard() {
           ))}
         </div>
       </div>
-      {engine && <p className="ph-dim small dl-engine">Engine {engine}</p>}
+      {engine && (
+        <p className="ph-dim small dl-engine">
+          Engine {engine}
+          {upd && upd.latest && (updateReady(upd) ? (
+            <>
+              {" · "}a newer one is out{" "}
+              <button className="dl-engine-go" disabled={upd.updating} onClick={() => applyUpdate()}>
+                {upd.updating ? "Updating…" : "Update"}
+              </button>
+            </>
+          ) : " · the newest")}
+        </p>
+      )}
       <PasteSheet open={paste} onClose={() => setPaste(false)} onAdded={(d) => { setData(d); setPaste(false); }} />
       <ScriptSheet pack={edit} onClose={() => setEdit(null)} onSaved={(d) => setData(d)} />
       <StorylineRead pack={read} onClose={() => setRead(null)} onExpand={(pid) => {

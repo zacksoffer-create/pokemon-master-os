@@ -6,6 +6,7 @@ import { StoreProvider, useRoute } from "../store";
 import "../styles.css";
 import "./standalone.css";
 import { ready, startEngine } from "./bridge";
+import { applyUpdate, subscribe, updateReady, UpdateState, watchForUpdates } from "./update";
 
 (window as any).__LIFEOS_STANDALONE__ = true;
 
@@ -18,13 +19,37 @@ function Root() {
   return <PhoneApp route={route.slice(1)} />;
 }
 
+// "a newer version is out": shown when you come back to the app while it was open (it never restarts on its own then)
+function UpdateBanner() {
+  const [s, setS] = useState<UpdateState | null>(null);
+  const [later, setLater] = useState("");
+  useEffect(() => subscribe(setS), []);
+  if (!s || !updateReady(s) || later === s.latest) return null;
+  return (
+    <div className="sa-update" role="status">
+      <span>{s.updating ? "Updating… (your game is saved)" : "A newer version of LIFE OS is out."}</span>
+      {!s.updating && (
+        <>
+          <button className="sa-update-go" onClick={() => applyUpdate()}>Update</button>
+          <button className="sa-update-x" aria-label="Later" onClick={() => setLater(s.latest)}>×</button>
+        </>
+      )}
+    </div>
+  );
+}
+
 function Boot() {
   const [msg, setMsg] = useState("Getting ready…");
   const [err, setErr] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
   useEffect(() => {
     startEngine(setMsg);
-    ready.then(() => setOk(true)).catch((e) => setErr(e.message || String(e)));
+    ready
+      .then((info) => {
+        setOk(true);
+        if (info && info.engine) watchForUpdates(info.engine);
+      })
+      .catch((e) => setErr(e.message || String(e)));
     try {
       (navigator as any).storage?.persist?.();
     } catch {
@@ -34,6 +59,7 @@ function Boot() {
   if (ok) {
     return (
       <StoreProvider>
+        <UpdateBanner />
         <Root />
       </StoreProvider>
     );
@@ -59,7 +85,8 @@ function Boot() {
 }
 
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
-  navigator.serviceWorker.register("./sw.js").catch(() => {});
+  // updateViaCache "none": the browser checks sw.js itself with the server, never its own saved copy
+  navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).catch(() => {});
 }
 
 createRoot(document.getElementById("root")!).render(<Boot />);
