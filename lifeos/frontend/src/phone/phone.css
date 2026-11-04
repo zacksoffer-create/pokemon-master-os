@@ -1356,3 +1356,27 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 .bs-left-sc { display: flex; flex-direction: column; gap: 2px; }
 .bs-left-sc span { font-weight: 800; font-size: 13px; }
 .bs-left small { color: var(--ph-ink-2); font-size: 12.5px; line-height: 1.35; }
+.bs-left.soft { background: #fff7e6; }
+.bs-left > b.bs-gap-h { color: #9a6200; margin-top: 4px; }
+
+/* where to get the desktop version */
+.ph-desk { margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: var(--ph-soft, #f4efe6); display: flex; flex-direction: column; gap: 6px; }
+.ph-desk b { font-size: 14px; }
+.ph-desk ol { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.4; color: var(--ph-ink-2); }
+.ph-desk ol b { font-size: inherit; color: var(--ph-ink); }
+.ph-desk code { font-size: 11.5px; word-break: break-all; background: rgba(0, 0, 0, 0.05); padding: 4px 6px; border-radius: 6px; }
+.ph-desk .ph-filebtns.row { flex-direction: row; gap: 8px; }
+
+/* the full editor: who they are, body and sports, add someone */
+.ed-bd { display: flex; gap: 8px; }
+.ed-bd > * { flex: 1; min-width: 0; }
+.ed-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ed-chips button { --btn-bg: #fff; --btn-bg-hover: #fff; border: 1.5px solid var(--ph-line, #e6dccb); background: var(--btn-bg); border-radius: 999px; padding: 6px 11px; font-size: 13px; font-weight: 700; color: var(--ph-ink); }
+.ed-chips button.on { --btn-bg: var(--ph-ink, #2a2340); --btn-bg-hover: var(--ph-ink, #2a2340); border-color: var(--ph-ink, #2a2340); color: #fff; }
+.ph-root .ed-chips button:hover:not(:disabled) { border-color: var(--ph-line, #e6dccb); }
+.ph-root .ed-chips button.on:hover:not(:disabled) { border-color: var(--ph-ink, #2a2340); background: var(--ph-ink, #2a2340); color: #fff; }
+.ed-sport { display: flex; flex-direction: column; gap: 6px; margin: 8px 0 4px; }
+.ed-sport > b { font-size: 13.5px; }
+.ed-sport small { color: var(--ph-ink-2); font-weight: 600; margin-left: 4px; }
+.ed-addnew { margin: 4px 0 12px; }
+.ed-new { display: flex; flex-direction: column; gap: 10px; padding: 4px 2px 20px; }

@@ -5,6 +5,8 @@ second-person text, natural choice wording, the scene you're in, your texts, con
 """
 from __future__ import annotations
 
+import re
+
 import socket
 
 from fastapi import APIRouter, Body, HTTPException, Request
@@ -536,6 +538,22 @@ def phone_editor_save_person(cid: str, body: dict = Body(...)):
         ed = _editor(L)
         try:
             out = ed.save_person(L.sim, cid, body)
+        except ed.EditorError as e:
+            raise HTTPException(422, str(e))
+        L.autosave()
+        return out
+
+
+@router.post("/api/phone/editor/new")
+def phone_editor_new(body: dict = Body(...)):
+    """Someone new: {first, last, gender, grade (or role: staff), archetype, to_me (friend, crush, rival...), family}."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        ed = _editor(L)
+        try:
+            out = ed.create_person(L.sim, body)
         except ed.EditorError as e:
             raise HTTPException(422, str(e))
         L.autosave()
@@ -1102,29 +1120,41 @@ def phone_pet_adopt(body: dict = Body(...)):
 
 @router.get("/api/phone/backup")
 def phone_backup():
-    from .storage import world_to_bytes
+    """Your whole story in one file: the world and everything you wrote for it (storylines, expansions, texting)."""
+    from . import backup
     A, L = _lab()
     with L.lock:
         w = L.w
-        title = (w.meta.get("story", {}).get("title") or "LIFE OS story").replace("/", "-")
-        data = world_to_bytes(w)
+        title = re.sub(r'[\\/:*?"<>|]+', "-", w.meta.get("story", {}).get("title") or "LIFE OS story").strip() or "LIFE OS story"
+        data = backup.make(w)
         name = f"{title} - {calm.date_of(w.day).isoformat()}.lifeos"
     return Response(data, media_type="application/octet-stream", headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
 @router.post("/api/phone/restore")
-async def phone_restore(request: Request):
-    from .storage import world_from_bytes
+async def phone_restore(request: Request, keep: int = 0):
+    """Open a backup: its world becomes this one, and what you wrote for it joins your storylines. keep=1 (the desktop):
+    the story that was open is kept under Saves first."""
+    from . import backup
     A, L = _lab()
     data = await request.body()
     try:
-        w = world_from_bytes(data)
-    except Exception:  # noqa: BLE001
-        raise HTTPException(422, "That file isn't a LIFE OS story backup.")
+        w, b = backup.read(data)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    with L.lock:
+        kept = None
+        if keep and L.w.meta.get("protagonist"):
+            old = L.w.meta.get("story", {}).get("title") or "Your story"
+            kept = L.store.save_world(L.w, f"{old} - before loading a backup ({calm.label(L.w.day)})"[:120], notes="kept when a backup was loaded")
+    got = backup.install(b)
     with L.lock:
         L.replace_world(w)
-        p = w.meta.get("protagonist")
-        return {"ok": True, "story": bool(p), "name": w.chars[p].name if p in w.chars else None, "date": calm.label(w.day)}
+    A._dialogue_changed(L)
+    p = w.meta.get("protagonist")
+    return {"ok": True, "story": bool(p), "name": w.chars[p].name if p in w.chars else None, "date": calm.label(w.day),
+            "title": w.meta.get("story", {}).get("title"), "storylines": got, "said": backup.summary(got),
+            "newer": backup.newer_note(b), "kept": kept}
 
 
 # --- playing on your phone ------------------------------------------------------------------------

@@ -27,6 +27,7 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin) return;
   if (/\/version\.json$/.test(url.pathname)) return; // how the app knows there's an update: always the network
+  if (/\.zip$/.test(url.pathname) && !/engine\.zip$/.test(url.pathname)) return; // the desktop version: a download, never kept
   const fresh = e.request.mode === "navigate" || FRESH.test(url.pathname);
   e.respondWith(
     fresh

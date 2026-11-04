@@ -498,8 +498,19 @@ or fill in the Excel worksheet, or use ChatGPT's JSON answer. Send the file to y
 and tap **Load a cast file or backup**. Or tap **Try a sample story**.
 
 **Your story lives on your phone.** It saves by itself. **Me → Back up my story** saves a `.lifeos` file
-(to Files, iCloud, AirDrop). To look under the hood, import that file in the lab under **Saves & Worlds**, load it, and
-the whole history, every decision and the math behind it are there. A lab save loads on the phone the same way.
+(to Files, iCloud, AirDrop): the whole story in one file, meaning everyone, everything that's happened, and your storylines,
+expansions and texting (and which are switched off).
+
+**See it on a computer.** The phone's Me tab has a **See it on a computer** box with the link to the **desktop version**
+(`play/LIFE-OS-desktop.zip`, published with every phone build, so it's always the same engine as the app; get it again
+after updates). Unzip it, double-click **Start LIFE OS**, and on **My Story** click **Load a cast file or backup** and pick
+the backup: the story opens in one step, with its storylines and texting, and whatever was open before is kept under
+Saves & Worlds. (Saves & Worlds → **Open a backup or save file** does the same, with a box to open it right away or just
+import it.) The whole history, every decision and the math behind it are there. Going back: Saves & Worlds →
+**Download** gives a backup with your storylines in it, and the phone's **Restore** opens it. A storyline that's different
+in the backup becomes the backup's version (the one it replaces is kept under **Older versions**); one that's the same is
+left alone. Older desktop copies still open new backups (they read the story and skip the rest), and a desktop copy older
+than the backup says so.
 
 **How it works:** the same Python engine, compiled for the browser (Pyodide), runs in a background worker on the phone.
 The phone screens talk to it exactly as they talk to the server on a computer. Saves go to the phone's own storage.
@@ -797,9 +808,15 @@ For setting your world up exactly how you want it, or fixing something later. It
 - **Where:** the Story tab shows **Set your world up** for the first week; the Me tab has an **Editor** card (**Edit
   anyone**, **Edit me**); and every contact page gets an **Edit** button while it's on.
 - **Everyone list:** search anyone by name, or filter to your people, your family, your grade, or everyone in the world.
-- **A person:** name and bio, look, personality (all ten traits), talents, what drives them, skills, interests, and how
-  they're doing right now (mood, energy, social, fun, stress, popularity, GPA, money). Change as much as you want, then
-  **Save changes** (or **Undo**). Works on you too.
+- **A person:** everything the story builder sets, any time in the story: name and bio; **who they are** (gender,
+  pronouns, who they're into, birthday, type); look; **body and sports** (height, build, jersey number, a position sport by
+  sport); personality (all ten traits), talents, what drives them, skills, interests; **after high school** (let it play
+  out, a college, a college to play a sport, or work); and how they're doing right now (mood, energy, social, fun, stress,
+  popularity, GPA, money). Change as much as you want, then **Save changes** (or **Undo**). Works on you too. Changing who
+  someone's into takes effect right away: a crush that no longer fits goes (dating stays until you change it). A new
+  birthday keeps them in their own class.
+- **Add someone:** at the top of the editor. A new kid at school (a grade), a sibling, or a teacher or coach; who they are
+  to you (a friend, a crush, a rival, dating...); their type. Then you're on their page to set everything else.
 - **Any two people:** **You and Danny** on a person's page, or tap anyone in their people list, or **Someone else…** to
   pick any pair. Set both sides separately (how Danny feels about you, how you feel about Danny): closeness, attraction,
   trust, respect, rivalry, how well they know each other. Or one tap: strangers, friends, close friends, best friends,
@@ -946,10 +963,21 @@ whole storyline into one reply and never has to get the timing right:
    sends back an **outline**: one line per scene, `3. Tryouts | November · big | You both try out.`, with branches like
    `| only if you picked "Say sorry" in 5`. Paste it (or upload the file) and **Check it**: you see every scene, its
    time and its branch before anything is written. **Make it** saves the storyline (nothing plays yet).
-2. **Write the scenes.** Pick how many per prompt (3, 6 or 10) and copy the prompt for the next ones. It holds only what
-   ChatGPT needs for those scenes: the outline lines, the scene right before them, which choices the branches need, and
-   the short version of the guide. Paste what comes back and **Add these scenes**; the bar shows how many are written
-   (5 of 8). Repeat until it's done. A scene written again replaces the old one.
+2. **Write the scenes.** Pick how many per prompt (1, 3 or 6; 3 is the default, since ChatGPT cuts long replies short)
+   and copy the prompt for the next ones. It holds only what ChatGPT needs for those scenes: the outline lines, the scene
+   right before them, which choices the branches need (and, for a scene that follows a choice, that choice in the words
+   the earlier scene actually used), and the short version of the guide. Paste what comes back and **Add these scenes**;
+   the bar shows how many are written (5 of 8). Repeat until it's done. A scene written again replaces the old one.
+
+**Every choice keeps what happens after it.** ChatGPT is asked for choices with no indenting: `* ` starts a choice and
+the lines after it, down to the next `* `, are what happens when you pick it; `** ` is a choice inside the choice above it;
+`either way:` starts what plays whichever you picked. The old indented way works too, and so do the ways ChatGPT writes
+them anyway: outcomes flush left under each choice, `Choice 1:` / `Option A:` / `A)` lines, `Outcome:` labels, effects in
+parentheses or after an arrow (`(+Nicole affection)`). A reply that got **cut off** (its code block never closed, or its
+last scene stops right after a choice or before its choices) doesn't save half a scene: that scene stays out and the next
+prompt asks for it again. Scenes that went in with **missing pieces** (a choice with nothing after it, or no choice like
+the one a later scene follows) are listed under **Went in, but missing pieces**, and **Copy a fix-it message for ChatGPT**
+asks for just those scenes, whole.
 
 The game owns the order, the timing and the branches, not ChatGPT: scenes go in outline order whatever order they're
 pasted in; a scene with a month or holiday gets it, and the blank ones are spaced out between them through the school

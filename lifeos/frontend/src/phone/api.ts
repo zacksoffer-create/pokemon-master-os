@@ -18,6 +18,8 @@ export type EdPerson = EdMini & { last: string; bio: string; gender: string; gra
   traits: Record<string, number>; aptitudes: Record<string, number>; motives: Record<string, number>; skills: Record<string, number>;
   interests: Record<string, number>; needs: Record<string, number>; mood: number; popularity: number; money: number; gpa: number; student: boolean;
   partner: string | null; with_me: { ab: EdRel | null; ba: EdRel | null } | null;
+  pronouns: string; attracted_to: string[]; birthday: [number, number]; archetype: string; body: { height_in?: number; build?: string };
+  positions: Record<string, string>; jersey: number | null; path: { kind?: string; college?: string; sport?: string }; staff: boolean; role?: string;
   rels: (EdMini & { roles: string[]; ab: EdRel | null; ba: EdRel | null })[] };
 export type EdPair = { a: EdMini; b: EdMini; ab: EdRel | null; ba: EdRel | null; roles: string[]; dating: boolean; presets: { id: string; label: string }[] };
 export type SceneMini = { id: string; name: string; first: string; color: string; look: Look; year: string };
@@ -249,6 +251,7 @@ export const phoneApi = {
   editor: (): Promise<{ schema: EdSchema; people: EdPersonRow[] }> => api.get("/api/phone/editor"),
   editorPerson: (id: string): Promise<EdPerson> => api.get(`/api/phone/editor/person/${encodeURIComponent(id)}`),
   editorSavePerson: (id: string, body: any): Promise<EdPerson> => api.post(`/api/phone/editor/person/${encodeURIComponent(id)}`, body),
+  editorNew: (body: any): Promise<{ id: string; name: string }> => api.post("/api/phone/editor/new", body),
   editorPair: (a: string, b: string): Promise<EdPair> => api.get(`/api/phone/editor/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`),
   editorSavePair: (a: string, b: string, body: any): Promise<EdPair> =>
     api.post(`/api/phone/editor/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`, body),
@@ -291,10 +294,10 @@ export const phoneApi = {
   textingCheck: (text: string): Promise<TextingCheck> => api.post("/api/texting/check", { text }),
   textingAdd: (text: string): Promise<{ ok: boolean; pack: string; breakdown: TextingBreakdown; notes: string[] }> =>
     api.post("/api/texting/add", { text }),
-  batchPrompt: (pack: string, count = 6): Promise<BatchPrompt> =>
+  batchPrompt: (pack: string, count = 3): Promise<BatchPrompt> =>
     api.get(`/api/story/build/batch-prompt?pack=${encodeURIComponent(pack)}&count=${count}`),
   addScenes: (pack: string, text: string): Promise<{ ok: boolean; got: number[]; notes: string[]; written: number; total: number; outline: OutlineEntry[];
-    skipped: SkippedScene[]; fix_prompt: string }> =>
+    skipped: SkippedScene[]; gaps: SkippedScene[]; fix_prompt: string }> =>
     api.post("/api/story/build/scenes", { pack, text }),
   setTiming: (pack: string, years: string[], seasons: string[], spread: boolean, keepMonths = true) =>
     api.post(`/api/dialogue/packs/${encodeURIComponent(pack)}/timing`, { years, seasons, spread, keep_months: keepMonths }),

@@ -65,7 +65,7 @@ def test_the_crash_a_scene_the_fixer_cant_fix_is_reported_not_a_type_error(story
     assert j["got"] == [13, 15, 16, 17, 18] and j["written"] == 17
     assert [(s["n"], s["title"]) for s in j["skipped"]] == [(14, "The Banner")]
     assert "nicole_hype" in j["skipped"][0]["problems"][0]
-    assert "Scene 14 (The Banner):" in j["fix_prompt"] and "A line starting with * is a choice" in j["fix_prompt"]
+    assert "Scene 14 (The Banner):" in j["fix_prompt"] and "`* ` starts a choice" in j["fix_prompt"]
     assert all(isinstance(n, str) for n in j["notes"])
 
 

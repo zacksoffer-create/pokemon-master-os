@@ -300,67 +300,157 @@ def _fix(lines: list, i: int, msg: str, level: int) -> str | None:
 # ---------------------------------------------------------------------------------------- ChatGPT's habits, read as meant
 ITALIC_RE = re.compile(r"^(\s*)(?:\*(?![\s*])(.+?)(?<![\s*])\*|_(?![\s_])(.+?)(?<![\s_])_)\s*$")  # *She smiles.*
 BOLD_SPEAKER_RE = re.compile(r"^(\s*)\*\*([A-Za-z][\w .'-]{0,24}?)\s*:?\s*\*\*\s*:?\s*(.+)$")  # **Nicole:** hi
-ARROW_FX_RE = re.compile(r"^(\s*\*\s+.+?)\s+(?:->|→|=>)\s+(.+)$")  # * "Sure." -> nicole affection +
-PAREN_FX_RE = re.compile(r"^(\s*\*\s+.+?)\s*\(([^()]+)\)\s*$")  # * "Sure." (nicole affection +), if it reads as effects
-LOOKS_FX_RE = re.compile(r"(^|\s)[+-]{1,3}(\s|$|,)|[+-]\d|\bremember\b", re.I)
+ARROW_FX_RE = re.compile(r"^(\s*\*{1,2}\s+.+?)\s+(?:->|→|=>)\s+(.+)$")  # * "Sure." -> nicole affection +
+PAREN_FX_RE = re.compile(r"^(\s*\*{1,2}\s+.+?)\s*\(([^()]+)\)\s*$")  # * "Sure." (nicole affection +), if it reads as effects
+LOOKS_FX_RE = re.compile(r"(^|\s)[+-]{1,3}(\s|$|,)|[+-]\d|(^|[\s,])[+-]{1,3}\s?[A-Za-z]|\bremember\b", re.I)
+# inside a scene: choices and outcomes the way ChatGPT labels them
+CHOICE_LABEL_RE = re.compile(r"^(\s*)(?:[-•]\s*)?(?:(?:choice|option)\s*#?\s*[0-9A-Da-d]{0,2}\s*[:.)\-–]|\(?[A-Da-d1-4]\))\s*(.+)$", re.I)
+OUTCOME_RE = re.compile(r"^(\s*)(?:[-•]\s*)?(?:outcome|result|response|reaction|what happens)\s*[0-9A-Da-d]{0,2}\s*(?:\([^)]*\))?\s*:\s*(.+)$", re.I)
+EITHER_RE = re.compile(r"^\s*(?:either way|whichever you pick(?:ed)?|no matter (?:what|which)(?: you pick(?:ed)?)?|afterwards?|"
+                       r"after (?:either|any|all the|the) choices?)\s*[:.]?\s*$", re.I)
+
+
+def _level(t: str) -> int:
+    """1 for a choice (`* `), 2 for a choice inside a choice (`** `), 0 for anything else."""
+    if t.startswith("** ") or t == "**":
+        return 2
+    return 1 if t.startswith("* ") or t == "*" else 0
 
 
 def _is_choice(t: str) -> bool:
-    return t.startswith("* ") or t == "*"
+    return _level(t) > 0
+
+
+def _fx_terms(s: str) -> str:
+    """Effects the way ChatGPT writes them, the game's way: "+Nicole affection, -stress" -> "nicole affection +, stress -"."""
+    out = []
+    for term in re.split(r"\s*[,;]\s*|\s+and\s+", s.strip()):
+        m = re.match(r"^([+-]{1,3}|[+-]\d+)\s*([A-Za-z][\w']*?)(?:'s)?(?:\s+([A-Za-z]+))?$", term)
+        if m:
+            term = " ".join(x.lower() for x in (m.group(2), m.group(3)) if x) + " " + m.group(1)
+        out.append(term)
+    return ", ".join(t for t in out if t)
+
+
+def _fx_fix(ln: str):
+    """A choice with its effects after an arrow or in parentheses -> effects after |. (None if there's nothing to fix.)"""
+    t = ln.strip()
+    if not _is_choice(t) or " | " in t:
+        return None
+    m = ARROW_FX_RE.match(ln)
+    if not m:
+        m = PAREN_FX_RE.match(ln)
+        m = m if m and LOOKS_FX_RE.search(m.group(2)) else None  # ("(sarcastically)" stays part of what you say)
+    return f"{m.group(1).rstrip()} | {_fx_terms(m.group(2))}" if m else None
+
+
+def _scene_line(ln: str):
+    """One line of a scene as ChatGPT labels it -> the game's way, and what was done (or None)."""
+    m = CHOICE_LABEL_RE.match(ln)
+    if m and m.group(2).strip():
+        ln = f"{m.group(1)}* {m.group(2).strip()}"
+        return (_fx_fix(ln) or ln), "a numbered or lettered choice (Choice 1:, Option A:, A)) became a choice (* )"
+    m = OUTCOME_RE.match(ln)
+    if m and m.group(2).strip():
+        return f"{m.group(1)}{m.group(2).strip()}", "an Outcome: label came off (the line plays after its choice)"
+    return ln, None
 
 
 def _restage(body: list) -> tuple:
-    """A scene's lines (each (text, origin)) with what ChatGPT put after the choices moved to where it plays: talk after
-    the choices follows whichever choice you pick, and a second round of choices after more talk comes after each first
-    choice. Returns (lines, what happened or None)."""
+    """A scene's lines (each (text, origin)), with everything after a choice put where it plays:
+    - the lines written right under a choice (flush left, down to the next choice) are that choice's;
+    - `** ` choices come right after the choice above them;
+    - talk after choices whose own lines are indented (or after an `either way:` line) follows whichever you pick,
+      and a round of choices after that talk comes after each of the first ones.
+    Returns (lines, what happened or None)."""
+    lead = 0
+    while lead < len(body) and not body[lead][0].strip():
+        lead += 1
     real = [x for x in body if x[0].strip()]
     if not real:
         return body, None
     base = min(_indent(x[0]) for x in real)
+    rel = [((x[0][base:] if x[0].strip() else ""), x[1]) for x in body[lead:]]  # (base indent off)
     items = []  # top-level lines with what's under them
-    for x in body:
-        if x[0].strip() and _indent(x[0]) <= base:
+    for x in rel:
+        if x[0].strip() and _indent(x[0]) == 0:
             items.append([x])
         elif items:
             items[-1].append(x)
-        else:
-            items.append([x])
-    kinds = ["c" if _is_choice(it[0][0].strip()) else "l" for it in items]
-    if "c" not in kinds:
+    kinds = ["e" if EITHER_RE.match(it[0][0]) else ("l", "c1", "c2")[_level(it[0][0].strip())] for it in items]
+    if not any(k in ("c1", "c2") for k in kinds):
         return body, None
-    first = kinds.index("c")
-    groups, cur, cur_k = [], [], None
+    first = next(i for i, k in enumerate(kinds) if k in ("c1", "c2"))
+    rounds, shared = [[]], [[]]
+    mode, marker, cur, sub = None, False, None, None
+    used = set()
     for it, k in zip(items[first:], kinds[first:]):
-        if k != cur_k and cur:
-            groups.append((cur_k, cur))
-            cur = []
-        cur_k = k
-        cur.append(it)
-    groups.append((cur_k, cur))
-    if len(groups) == 1:
-        return body, None  # the usual: talk, then choices
+        if k == "e":
+            mode, marker, sub = "shared", True, None
+            used.add("either")
+            continue
+        if k == "c1" or (k == "c2" and cur is None):
+            if mode == "shared" and (shared[-1] or marker):
+                rounds.append([])
+                shared.append([])
+                used.add("rounds")
+            mode, marker, sub = None, False, None
+            cur = {"head": it, "own": [], "subs": []}
+            rounds[-1].append(cur)
+        elif k == "c2":
+            sub = {"head": it, "own": [], "subs": []}
+            cur["subs"].append(sub)
+            used.add("subs")
+        elif mode == "shared":
+            shared[-1].append(it)
+        elif sub is not None:
+            sub["own"].append(it)
+            used.add("own")
+        elif not any(x[0].strip() for ch in rounds[-1] for x in ch["head"][1:]):
+            cur["own"].append(it)  # nothing indented under any choice here: the lines right under a choice are its own
+            used.add("own")
+        else:  # the choices have their lines indented under them: talk after them is for whichever you pick
+            mode = "shared"
+            shared[-1].append(it)
+            used.add("shared")
+    if not used:
+        return body, None  # the usual: talk, then choices with what follows each indented under it
 
-    def shift(lines, by):
-        return [(" " * by + x[0][base:] if x[0].strip() else x[0], x[1]) for x in lines]
+    def push(lines, by):
+        return [((" " * by + x[0]) if x[0].strip() else x[0], x[1]) for x in lines]
 
-    def nest(gs):  # gs starts with a set of choices
-        cont = []
-        if len(gs) > 1:
-            tail = [x for it in gs[1][1] for x in it]
-            cont = tail + (nest(gs[2:]) if len(gs) > 2 else [])
-        out = []
-        for it in gs[0][1]:
-            out += it
-            if cont:
-                kids = [x for x in it[1:] if x[0].strip()]
-                under = _indent(kids[0][0]) - base if kids else 4
-                out += shift(cont, under)
+    def emit(ch, cont):
+        h = ch["head"]
+        t = h[0][0].strip()
+        out = [("* " + t[2:].lstrip() if _level(t) == 2 else h[0][0], h[0][1])] + h[1:]
+        kids = [x for x in h[1:] if x[0].strip()]
+        under = _indent(kids[0][0]) if kids else 4
+        for it in ch["own"]:
+            out += push(it, under)
+        if ch["subs"]:
+            for s_ in ch["subs"]:
+                out += push(emit(s_, cont), under)
+        elif cont:
+            out += push(cont, under)
         return out
-    stages = sum(1 for k, _ in groups if k == "c")
-    opening = [x for it in items[:first] for x in it]
-    what = ("a second round of choices (after more talk) now comes after each first choice" if stages > 1
-            else "the lines after the choices now follow whichever choice you pick")
-    return opening + nest(groups), what
+
+    def round_lines(r):
+        cont = [x for it in shared[r] for x in it] + (round_lines(r + 1) if r + 1 < len(rounds) else [])
+        out = []
+        for ch in rounds[r]:
+            out += emit(ch, cont)
+        return out
+    what = []
+    if "own" in used:
+        what.append("the lines written right under each choice now play after that choice")
+    if "subs" in used:
+        what.append("the ** choices now come right after the choice above them")
+    if "shared" in used or "either" in used:
+        what.append("the lines after the choices now follow whichever choice you pick")
+    if "rounds" in used:
+        what.append("a second round of choices now comes after each first choice")
+    opening = body[:lead] + push([x for it in items[:first] for x in it], base)
+    return opening + push(round_lines(0), base), "; ".join(what)
 
 
 def habits(src: str) -> tuple:
@@ -378,14 +468,9 @@ def habits(src: str) -> tuple:
             m = ITALIC_RE.match(ln)
             ln = f"{m.group(1)}{(m.group(2) or m.group(3)).strip()}"
             notes.append({"line": n, "text": "*narration in italics* became a plain line (a * at the start is a choice)"})
-        elif _is_choice(t) and " | " not in t:
-            m = ARROW_FX_RE.match(ln)
-            if not m:
-                m = PAREN_FX_RE.match(ln)
-                m = m if m and LOOKS_FX_RE.search(m.group(2)) else None  # ("(sarcastically)" stays part of what you say)
-            if m:
-                ln = f"{m.group(1).rstrip()} | {m.group(2).strip()}"
-                notes.append({"line": n, "text": "the effects after an arrow (or in parentheses) went after |"})
+        elif _fx_fix(ln):
+            ln = _fx_fix(ln)
+            notes.append({"line": n, "text": "the effects after an arrow (or in parentheses) went after |"})
         out.append((ln, n))
     # scenes: what comes after the choices
     res, i = [], 0
@@ -396,7 +481,13 @@ def habits(src: str) -> tuple:
             while j < len(out) and not (SC.SCENE_RE.match(out[j][0].strip()) or SC.SECTION_RE.match(out[j][0].strip())
                                         or (SC.BLOCK_RE.match(out[j][0].strip()) and _indent(out[j][0]) == 0)):
                 j += 1
-            body, what = _restage(out[i + 1:j])
+            body = []
+            for ln, o in out[i + 1:j]:
+                ln2, did = _scene_line(ln)
+                if did:
+                    notes.append({"line": o, "text": did})
+                body.append((ln2, o))
+            body, what = _restage(body)
             if what:
                 notes.append({"line": out[i][1], "text": f"in this scene, {what}"})
             res.append(out[i])

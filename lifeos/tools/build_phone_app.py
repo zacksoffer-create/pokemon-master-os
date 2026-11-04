@@ -12,6 +12,7 @@ Needs Node (npm install in lifeos/frontend first).
 import hashlib
 import io
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -68,7 +69,54 @@ def engine_zip() -> bytes:
     return buf.getvalue()
 
 
+DESKTOP_ZIP = "LIFE-OS-desktop.zip"
+DESKTOP_TOP = ["Start LIFE OS (Mac).command", "Start LIFE OS (Windows).bat", "Play on Phone (Mac).command",
+               "Play on Phone (Windows).bat", "README.md", "run.py", "demo.py", "requirements.txt"]
+
+
+def stamp_release():
+    """Today's date in lifeos/release.py: a backup says which version made it, and an older desktop copy can tell."""
+    import datetime
+    path = os.path.join(BACK, "lifeos", "release.py")
+    with open(path, encoding="utf-8") as f:
+        s = f.read()
+    s2 = re.sub(r'RELEASE = "[^"]*"', f'RELEASE = "{datetime.date.today().isoformat()}"', s)
+    if s2 != s:
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(s2)
+
+
+def desktop_zip() -> bytes:
+    """The desktop version (the lab), the same engine as the phone's: the launchers, the engine and its data, the built
+    screens, the docs. Published next to the phone app, so it's always the newest."""
+    lifeos = os.path.dirname(BACK)
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        def add(full, arc):
+            info = zipfile.ZipInfo.from_file(full, "LIFE OS/" + arc)
+            if arc.endswith((".command", ".sh")):
+                info.external_attr = (0o100755 & 0xFFFF) << 16
+            info.compress_type = zipfile.ZIP_DEFLATED
+            with open(full, "rb") as f:
+                z.writestr(info, f.read())
+        for f in DESKTOP_TOP:
+            if os.path.exists(os.path.join(lifeos, f)):
+                add(os.path.join(lifeos, f), f)
+        for sub in ("backend/lifeos", "backend/data", "frontend/dist", "docs", "tools"):
+            root = os.path.join(lifeos, sub)
+            for dirpath, dirs, files in os.walk(root):
+                dirs[:] = sorted(d for d in dirs if d not in ("__pycache__", "node_modules"))
+                for f in sorted(files):
+                    if f.endswith((".pyc", ".tmp")) or f.startswith("."):
+                        continue
+                    full = os.path.join(dirpath, f)
+                    add(full, os.path.relpath(full, lifeos).replace(os.sep, "/"))
+    return buf.getvalue()
+
+
 def main():
+    stamp_release()
+    run(["npx", "vite", "build"], FRONT)  # the desktop's screens (frontend/dist), for the desktop version
     run(["npx", "vite", "build", "--config", "vite.play.config.ts"], FRONT)
     os.replace(os.path.join(OUT, "play.html"), os.path.join(OUT, "index.html"))
     pyo_src = os.path.join(FRONT, "node_modules", "pyodide")
@@ -97,6 +145,11 @@ def main():
         eid = z.read("lifeos/engine_build.txt").decode()
     with open(os.path.join(OUT, "version.json"), "w") as f:
         json.dump({"engine": eid, "build": build}, f)
+    # the desktop version, next to the phone app (the phone's backup card links to it)
+    dz = desktop_zip()
+    with open(os.path.join(OUT, DESKTOP_ZIP), "wb") as f:
+        f.write(dz)
+    print(f"Desktop version: {DESKTOP_ZIP} ({len(dz) / 1e6:.1f} MB)")
     # GitHub Pages serves docs/ as-is (no Jekyll), so the app's files are published exactly as built
     open(os.path.join(REPO, "docs", ".nojekyll"), "a").close()
     total = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)

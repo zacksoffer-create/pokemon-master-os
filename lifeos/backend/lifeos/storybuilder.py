@@ -796,7 +796,7 @@ def outline_prompt(sim, ask: str = "", size: str = "bunch", expand: str | None =
     return {"prompt": body, "chars": len(body)}
 
 
-def batch_prompt(sim, pack: str, count: int = 6) -> dict:
+def batch_prompt(sim, pack: str, count: int = 3) -> dict:
     """Step 2, again and again: the ChatGPT prompt for the next few scenes of an outlined storyline: the outline, the scene
     right before them (for continuity), the choices later scenes depend on, and how to write a scene."""
     from . import dialogue, script
@@ -825,13 +825,25 @@ def batch_prompt(sim, pack: str, count: int = 6) -> dict:
     if prev:
         previous = (f"\n## The scene right before these (so yours pick up from it)\n\n```\n{by_sid[prev['sid']].get('src', '').strip()}\n```\n")
     ns = {e["n"] for e in take}
+    by_n = {e["n"]: e for e in entries}
     needs = []
     for e in entries:
-        m = re.search(r"you picked “(.+?)” in (\d+)", e.get("if") or "")
-        if m and int(m.group(2)) in ns:
-            needs.append(f"Scene {m.group(2)} must have a choice like “{m.group(1)}” (scene {e['n']} depends on it).")
+        m = re.search(r"(only if|unless) you picked “(.+?)” in (\d+)", e.get("if") or "")
+        if not m:
+            continue
+        neg, label, src = m.group(1) == "unless", m.group(2), int(m.group(3))
+        if src in ns:  # the scene with the choice is in this batch: it has to have it
+            needs.append(f"Scene {src} must have a choice like “{label}” (scene {e['n']} depends on it), with what happens "
+                         f"after it written out.")
+        if e["n"] in ns:  # a scene that follows a choice: say which, in the words that scene actually has
+            w = by_n.get(src) or {}
+            got = script.find_choice(by_sid[w["sid"]], label) if w.get("written") and w.get("sid") in by_sid else None
+            said = got[1].get("label") if got else f"“{label}”"
+            needs.append(f"Scene {e['n']} only happens if I {'did NOT pick' if neg else 'picked'} {said} in scene {src}: "
+                         f"pick up from {'not doing that' if neg else 'that'}.")
     body = script.BATCH_PROMPT.format(
-        header="\n".join(head).strip(), outline="\n".join(out_lines), previous=previous, first=first, last=last,
+        header="\n".join(head).strip(), outline="\n".join(out_lines), previous=previous,
+        scenes=f"Scene {first}" if first == last else f"Scenes {first} to {last}", first=first,
         first_title=take[0]["title"], which="; ".join(f"{e['n']}. {e['title']}" for e in take),
         needs=("\n\n" + "\n".join(needs)) if needs else "")
     text = body + script.guide_scenes()

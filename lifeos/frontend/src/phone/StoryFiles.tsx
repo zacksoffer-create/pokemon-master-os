@@ -35,7 +35,8 @@ async function postRaw(path: string, data: ArrayBuffer) {
 export async function startFromFile(f: File): Promise<string> {
   if (/\.lifeos$/i.test(f.name)) {
     const r = await postRaw("/api/phone/restore", await f.arrayBuffer());
-    return r.name ? `Welcome back, ${r.name.split(" ")[0]}. Picking up on ${r.date}.` : "Backup restored.";
+    return [r.name ? `Welcome back, ${r.name.split(" ")[0]}. Picking up on ${r.date}.` : "Backup restored.", r.said, r.newer]
+      .filter(Boolean).join(" ");
   }
   let spec: any;
   if (/\.xlsx$/i.test(f.name)) {
@@ -124,7 +125,7 @@ export function StoryFilesCard({ hasStory }: { hasStory: boolean }) {
       <div className="ph-card-t">{STANDALONE ? "Your story on this phone" : "Your story as a file"}</div>
       <p className="ph-dim small" style={{ marginTop: 0 }}>
         {STANDALONE
-          ? "Your progress saves on this phone by itself. Back it up now and then (Save to Files or iCloud), and to see it in the lab, upload the backup on your computer under Saves & Worlds."
+          ? "Your progress saves on this phone by itself. A backup is the whole story in one file: everyone, everything that's happened, and your storylines and texting. Back up now and then (Save to Files, iCloud or AirDrop)."
           : "Back up your story to move it to the phone app, or load a backup from your phone to look at it here."}
       </p>
       <div className="ph-filebtns">
@@ -142,6 +143,49 @@ export function StoryFilesCard({ hasStory }: { hasStory: boolean }) {
           {busy === "load" ? <span className="ph-spinner small" /> : <PIcon name="upload" size={17} />} {hasStory ? "Restore or start a different story" : "Load a cast file or backup"}
         </button>
       </div>
+      {STANDALONE && <DesktopVersion />}
+    </div>
+  );
+}
+
+/** Where to get the desktop version (the lab, for Mac and Windows): the same engine as this app, always the newest. */
+export const DESKTOP_URL = (() => {
+  try {
+    return new URL("LIFE-OS-desktop.zip", window.location.href.split("#")[0]).href;
+  } catch {
+    return "LIFE-OS-desktop.zip";
+  }
+})();
+
+function DesktopVersion() {
+  const { toast } = usePhone();
+  const copy = async () => {
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(DESKTOP_URL);
+      ok = true;
+    } catch { /* not allowed */ }
+    toast(ok ? "Copied. Open it on your computer (or AirDrop it to your Mac)." : DESKTOP_URL, ok ? "good" : undefined);
+  };
+  const share = async () => {
+    try {
+      await (navigator as any).share({ title: "LIFE OS desktop version", url: DESKTOP_URL });
+    } catch { /* cancelled */ }
+  };
+  return (
+    <div className="ph-desk">
+      <b>See it on a computer</b>
+      <ol>
+        <li>Get the <b>desktop version</b> on the computer (link below). It's the same engine as this app, so it's always the newest: get it again after updates.</li>
+        <li>Unzip it and double-click <b>Start LIFE OS</b> (Mac or Windows).</li>
+        <li>On <b>My Story</b>, click <b>Load a cast file or backup</b> and pick your backup. Your storylines and texting come with it.</li>
+      </ol>
+      <code>{DESKTOP_URL.replace(/^https?:\/\//, "")}</code>
+      <div className="ph-filebtns row">
+        <button className="ph-btn soft block" onClick={copy}>Copy the link</button>
+        {"share" in navigator && <button className="ph-btn soft block" onClick={share}>Send it to my computer</button>}
+      </div>
+      <p className="ph-dim small">Changed something there? Download its save (Saves &amp; Worlds → Download) and load it here with Restore.</p>
     </div>
   );
 }

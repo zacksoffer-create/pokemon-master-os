@@ -93,7 +93,12 @@ def person(sim, cid) -> dict:
         rels.append({**_mini(w, o), "roles": (bond or {}).get("roles", []), "ab": _rel_view(r), "ba": _rel_view(back),
                      "score": abs(r.affection) + r.familiarity + (200 if bond and bond.get("roles") else 0) + (300 if o == me else 0)})
     rels.sort(key=lambda x: -x["score"])
+    from . import calendar as calm
+    bd = calm.date_of(c.birth_day)
     return {**_mini(w, cid), "last": c.last, "bio": c.bio, "gender": c.gender, "grade": c.grade, "is_me": cid == me,
+            "pronouns": c.pronouns, "attracted_to": list(c.attracted_to or []), "birthday": [bd.month, bd.day],
+            "archetype": c.archetype, "body": dict(c.body or {}), "positions": dict(c.positions or {}), "jersey": c.jersey or None,
+            "path": dict(c.path or {}), "staff": c.role == "staff",
             "look_locked": dict(c.look or {}), "traits": _round(c.traits), "aptitudes": _round(c.aptitudes), "motives": _round(c.motives),
             "skills": _round(c.skills), "interests": _round(c.interests), "needs": _round(c.needs),
             "mood": round(c.mood, 1), "popularity": round(c.popularity, 1), "money": round(c.money, 2), "gpa": round(c.gpa, 2),
@@ -167,6 +172,10 @@ def save_person(sim, cid, body: dict) -> dict:
             else:
                 appearance.validate(val, "look", errors)
                 plan.append(("look", None, dict(val)))
+        elif key in WHO:
+            x = _who(sim, c, key, val, body, errors)
+            if x is not None:
+                plan.append((key, None, x))
         else:
             errors.append(f"{key} can't be edited here")
     if errors:
@@ -182,15 +191,185 @@ def save_person(sim, cid, body: dict) -> dict:
                 fx.attr(cid, key, k, v - before, "editor")
             if key == "traits" and k == "confidence":
                 c.flags["confidence_base"] = v
-        elif key in ("first", "last", "bio", "look"):
+        elif key in ("first", "last", "bio", "look") or key in WHO:
+            attr = {"birthday": "birth_day"}.get(key, key)
             if w.tracing:
-                ev["changes"].append([cid, key, getattr(c, key), v, "editor"])
-            setattr(c, key, v)
+                ev["changes"].append([cid, attr, getattr(c, attr), v, "editor"])
+            setattr(c, attr, v)
+            if key == "gender" and "pronouns" not in body:
+                from .worldgen import pronouns_for
+                c.pronouns = pronouns_for(v)
         else:
             fx.scalar(cid, key, v, "editor")
+    if {"gender", "attracted_to"} & {k for k, _, _ in plan}:  # who can be into who changed: what no longer fits goes
+        from . import social
+        w.meta["romance_rules"] = 0
+        social.tidy_romance(sim)
     ev["text"] = ev["data"]["label"] = f"Editor: changed {c.name} ({', '.join(sorted({k for k, _, _ in plan}))})"  # the new name, if it changed
     sim.finish(ev, fx)
     return person(sim, cid)
+
+
+# --- who they are: what the story builder sets (gender, who they're into, birthday, body, sports, what's next) ----------
+
+WHO = ("gender", "pronouns", "attracted_to", "birthday", "archetype", "body", "positions", "jersey", "path")
+GENDERS = ("f", "m", "nb")
+
+
+def _who(sim, c, key, val, body, errors):
+    """One of WHO, checked the way the story builder checks it -> the value to set (None: something's wrong, said in errors)."""
+    import datetime as dt
+    from . import calendar as calm
+    from .story import BUILDS
+    cat = sim.cat
+    if key == "gender":
+        if val not in GENDERS:
+            errors.append("gender must be f, m or nb")
+            return None
+        return val
+    if key == "pronouns":
+        if not isinstance(val, str) or not val.strip() or len(val) > 20:
+            errors.append("pronouns must be 1 to 20 characters")
+            return None
+        return val.strip()
+    if key == "attracted_to":
+        if not isinstance(val, list) or any(x not in GENDERS for x in val):
+            errors.append("attracted_to must be a list of f, m, nb (or empty)")
+            return None
+        return sorted(set(val))
+    if key == "birthday":
+        try:
+            m, d = int(val[0]), int(val[1])
+            dt.date(2000, m, d)
+        except (TypeError, ValueError, IndexError):
+            errors.append("birthday must be [month, day]")
+            return None
+        old = calm.date_of(c.birth_day)
+        cohort = old.year + (1 if old.month >= 9 else 0)  # (they stay in their own class)
+        year = cohort - (1 if m >= 9 else 0)
+        try:
+            return calm.day_of(dt.date(year, m, d))
+        except ValueError:
+            return calm.day_of(dt.date(year, m, 28))
+    if key == "archetype":
+        if val not in {a["id"] for a in cat.people["archetypes"]}:
+            errors.append(f"unknown type {val}")
+            return None
+        return val
+    if key == "body":
+        if not isinstance(val, dict):
+            errors.append("body must be an object")
+            return None
+        out = dict(c.body or {})
+        for k, v in val.items():
+            if k == "height_in":
+                if v in (None, ""):
+                    out.pop(k, None)
+                    continue
+                x = _num(v, 54, 90, "height", errors)
+                if x is not None:
+                    out[k] = int(round(x))
+            elif k == "build":
+                if v in (None, ""):
+                    out.pop(k, None)
+                elif v not in BUILDS:
+                    errors.append(f"build must be one of {', '.join(BUILDS)}")
+                else:
+                    out[k] = v
+            else:
+                errors.append(f"body.{k} can't be edited")
+        return out
+    if key == "positions":
+        if not isinstance(val, dict):
+            errors.append("positions must be an object")
+            return None
+        sp = cat.sports["sports"]
+        out = dict(c.positions or {})
+        for sport, pos in val.items():
+            if sport not in sp:
+                errors.append(f"unknown sport {sport}")
+            elif pos in (None, ""):
+                out.pop(sport, None)
+            elif pos not in sp[sport]["positions"]:
+                errors.append(f"{pos} isn't a {sport} position")
+            else:
+                out[sport] = pos
+        return out
+    if key == "jersey":
+        if val in (None, ""):
+            return 0
+        x = _num(val, 0, 99, "jersey", errors)
+        return None if x is None else int(x)
+    if key == "path":
+        if c.role == "staff":
+            errors.append("staff don't go to college")
+            return None
+        if not val:
+            return {}
+        if not isinstance(val, dict):
+            errors.append("path must be an object")
+            return None
+        if val.get("kind") == "work":
+            return {"kind": "work"}
+        if val.get("college") not in cat.college_by_id:
+            errors.append(f"unknown college {val.get('college')}")
+            return None
+        out = {"kind": "college", "college": val["college"]}
+        if val.get("sport"):
+            from . import sports as sp_
+            gender = body.get("gender") or c.gender or "m"
+            col = cat.college_by_id[val["college"]]
+            fit = sp_.fit_sport(val["sport"], gender)
+            if val["sport"] not in sp_.SPORTS:
+                errors.append(f"unknown sport {val['sport']}")
+                return None
+            if not sp_.offers_side(col, fit, gender) or fit not in sp_.sports_for(gender):
+                errors.append(f"{col['short']} doesn't have that {fit} team")
+                return None
+            out["sport"] = val["sport"]
+        return out
+    return None
+
+
+def create_person(sim, body: dict) -> dict:
+    """Someone new, in the middle of the story: a student (a grade) or a teacher/coach (staff), who they are to you, and
+    their type. Everything else is generated, then editable like anyone. {"id"}"""
+    from .engine import EditError
+    from .story import REL_PRESETS
+    errors = []
+    first = str(body.get("first") or "").strip()
+    if not first or len(first) > 40:
+        errors.append("a first name (up to 40 characters) is needed")
+    if body.get("gender") not in GENDERS:
+        errors.append("pick a gender")
+    staff = body.get("role") == "staff"
+    spec = {"first": first, "last": str(body.get("last") or "").strip()[:40], "gender": body.get("gender"),
+            "role": "staff" if staff else "student"}
+    if not staff:
+        try:
+            g = int(body.get("grade", 9))
+        except (TypeError, ValueError):
+            g = 0
+        if g not in (9, 10, 11, 12):
+            errors.append("grade must be 9, 10, 11 or 12")
+        spec["grade"] = g
+        if body.get("family"):
+            spec["household"] = "family"
+    if body.get("archetype"):
+        spec["archetype"] = body["archetype"]
+    rel = body.get("to_me")
+    if rel:
+        if rel not in REL_PRESETS:
+            errors.append(f"unknown relationship {rel}")
+        else:
+            spec["relationships"] = [{"to": "me", "type": rel}]
+    if errors:
+        raise EditorError("; ".join(errors))
+    try:
+        c = sim.create_custom(spec)
+    except EditError as e:
+        raise EditorError(str(e))
+    return {"id": c.id, "name": c.name}
 
 
 def pair(sim, a, b) -> dict:

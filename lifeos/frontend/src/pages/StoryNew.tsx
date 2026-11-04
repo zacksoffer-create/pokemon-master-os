@@ -104,6 +104,23 @@ export default function StoryNew(_props: { route?: string[] }) {
   };
   const loadFile = async (f: File | undefined) => {
     if (!f) return;
+    if (/\.lifeos$/i.test(f.name)) {  // a backup (from the phone, or a save): open the story itself, with its storylines
+      if (fileRef.current) fileRef.current.value = "";
+      if (hasStory && !window.confirm(`Open the story in ${f.name}? The story that's open now is kept under Saves & Worlds.`)) return;
+      try {
+        const res = await fetch("/api/phone/restore?keep=1", { method: "POST", body: await f.arrayBuffer(), headers: { "Content-Type": "application/octet-stream" } });
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.detail || res.statusText);
+        await refresh();
+        bump();
+        toast([`${body.title || "Your story"} is open, on ${body.date}.`, body.said].filter(Boolean).join(" "), "good");
+        if (body.newer) toast(body.newer, "warn");
+        go("story");
+      } catch (e: any) {
+        toast(`Couldn't open that backup: ${e.message}`, "bad");
+      }
+      return;
+    }
     try {
       let j: any;
       if (/\.xlsx$/i.test(f.name)) {
@@ -181,9 +198,9 @@ export default function StoryNew(_props: { route?: string[] }) {
           <h1>{d.title.trim() || (familyLast(d) ? `The ${familyLast(d)} Years` : "Build your story")}</h1>
         </div>
         <div className="row">
-          <button className="small ghost" onClick={() => fileRef.current?.click()} title="Load people you saved before">Load a cast file</button>
+          <button className="small ghost" onClick={() => fileRef.current?.click()} title="Load people you saved before, or open a backup from the phone (.lifeos)">Load a cast file or backup</button>
           <button className="small ghost" onClick={download} title="Save everyone you've made to a file">Download cast</button>
-          <input ref={fileRef} type="file" accept=".json,.xlsx,.txt,application/json" style={{ display: "none" }} onChange={(e) => loadFile(e.target.files?.[0])} />
+          <input ref={fileRef} type="file" accept=".json,.xlsx,.txt,.lifeos,application/json" style={{ display: "none" }} onChange={(e) => loadFile(e.target.files?.[0])} />
         </div>
       </div>
 
@@ -779,7 +796,7 @@ function Review({ d, cat, spec, check, problems, onFix, onRecheck, onStart, star
         </div>
         <div className="row">
           <button onClick={onDownload} title="Save everyone you made to a file you can load again later">Download this cast (.json)</button>
-          <button onClick={onLoad}>Load a cast file</button>
+          <button onClick={onLoad}>Load a cast file or a phone backup</button>
           <button className="ghost" onClick={onStartOver}>Start over</button>
           <button className="primary sn-big" disabled={starting || check.status === "checking"} onClick={onStart}>{starting ? "Building..." : "Start my story"}</button>
         </div>

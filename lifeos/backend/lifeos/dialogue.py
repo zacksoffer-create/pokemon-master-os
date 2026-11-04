@@ -1482,6 +1482,9 @@ def merge_scenes(pid: str, text: str) -> dict:
     for n in got:  # nothing under its title: a scene that never got written, not one to add
         if not any(ln.strip() for ln in have[n][1:]):
             skipped[n] = ["it's empty: there are no lines or choices under its title"]
+    last = got[-1] if got else None  # (the scene a reply that ran out of room stops in)
+    if last is not None and last not in skipped and cut_off(text):
+        skipped[last] = [CUT + " (its code block never closed)"]
 
     def build():
         out = list(head)
@@ -1526,6 +1529,14 @@ def merge_scenes(pid: str, text: str) -> dict:
                      and [c.get("label") for c in sc.get("choices") or []] in ([], ["Continue"])}
             done = {e["n"] for e in ents if e.get("written")} - blank
             gone = [n for n in got if n not in skipped and n not in done]
+            if not gone and last is not None and last not in skipped:
+                # the last scene of the reply stops partway: ChatGPT ran out of room
+                sc_of = {e["n"]: by_id.get(e.get("sid")) for e in ents}
+                others = any(SC.real_choices(sc_of[n] or {}) for n in got if n != last and n not in skipped)
+                why = SC.stops_short(sc_of.get(last) or {}, others) if sc_of.get(last) else None
+                if why:
+                    skipped[last] = [f"{CUT}: {why}"]
+                    continue
             if not gone:
                 break
             for n in gone:
@@ -1562,7 +1573,37 @@ def merge_scenes(pid: str, text: str) -> dict:
     r["got"] = [n for n in got if n not in skipped]
     r["skipped"] = [{"n": n, "title": titles.get(n, ""), "problems": ps} for n, ps in sorted(skipped.items())]
     r["notes"] = [where(x, starts) for x in r.get("notes", [])]
+    r["gaps"] = scene_gaps(pid, r["got"]) if r.get("ok") else []
     return r
+
+
+CUT = "ChatGPT's reply got cut off in this scene"
+
+
+def cut_off(text: str) -> bool:
+    """A reply that ran out of room: its code block was opened and never closed."""
+    return sum(1 for ln in text.split("\n") if ln.strip().startswith("```")) % 2 == 1
+
+
+def scene_gaps(pid: str, ns: list) -> list:
+    """Scenes that went in with pieces missing: a choice with nothing after it, or no choice like the one a later scene
+    follows. [{n, title, problems}]"""
+    from . import script as SC
+    p = _script_pack(pid)
+    ents = SC.outline_entries(p["pack"])
+    by_id = {sc.get("id"): sc for sc in p["pack"].get("scenes") or [] if isinstance(sc, dict)}
+    sc_of = {e["n"]: by_id.get(e.get("sid")) for e in ents if e.get("written")}
+    out: dict = {}
+    for n in ns:
+        if sc_of.get(n):
+            out.setdefault(n, []).extend(SC.choice_gaps(sc_of[n]))
+    for e in ents:
+        m = re.search(r"you picked “(.+?)” in (\d+)", e.get("if") or "")
+        if m and int(m.group(2)) in ns and sc_of.get(int(m.group(2))) and SC.find_choice(sc_of[int(m.group(2))], m.group(1)) is None:
+            out.setdefault(int(m.group(2)), []).append(
+                f"it needs a choice like “{m.group(1)}”: scene {e['n']} only happens after it (until then scene {e['n']} plays either way)")
+    titles = {e["n"]: e["title"] for e in ents}
+    return [{"n": n, "title": titles.get(n, ""), "problems": ps} for n, ps in sorted(out.items()) if ps]
 
 
 def insert_scenes(pid: str, after: str | None, text: str) -> dict:
@@ -1832,21 +1873,33 @@ def add_script(text: str, into: str | None = None, strict: bool = False) -> dict
             "notes": kept_notes + [f"line {n['line']}: {n['text']}" for n in notes], "text": src}
 
 
-def fix_prompt(skipped: list) -> str:
-    """What to tell ChatGPT when some of its scenes couldn't go in: which, the exact lines and what's wrong, and the three
-    rules that cover nearly every mistake. Empty when everything went in."""
-    if not skipped:
+def fix_prompt(skipped: list, gaps: list | None = None) -> str:
+    """What to tell ChatGPT when scenes couldn't go in or went in with pieces missing: which, the exact lines and what's
+    wrong, and the rules that cover nearly every mistake. Empty when everything went in whole."""
+    gaps = gaps or []
+    if not skipped and not gaps:
         return ""
-    L = ["Some of the LIFE OS scenes you wrote couldn't go into the game. Fix just these and send them again in ONE code "
-         "block, same format (each starts with --- <number>. <title>), nothing after it.", ""]
-    for sk in skipped:
-        L.append(f"Scene {sk['n']} ({sk.get('title') or ''}):")
-        L += [f"- {p}" for p in sk.get("problems") or []]
-        L.append("")
-    L += ["Rules that fix most of these:",
-          "- A line starting with * is a choice, nothing else: narration is a plain line (no *italics*, no **bold** names).",
+    L = []
+    if skipped:
+        L += ["Some of the LIFE OS scenes you wrote couldn't go into the game:", ""]
+        for sk in skipped:
+            L.append(f"Scene {sk['n']} ({sk.get('title') or ''}):")
+            L += [f"- {p}" for p in sk.get("problems") or []]
+            L.append("")
+    if gaps:
+        L += ["These went in, but with pieces missing:", ""]
+        for g in gaps:
+            L.append(f"Scene {g['n']} ({g.get('title') or ''}):")
+            L += [f"- {p}" for p in g.get("problems") or []]
+            L.append("")
+    L += ["Send just these scenes again, each one complete from its first line to its last, in ONE code block, same format "
+          "(each starts with --- <number>. <title>), nothing after it. If they don't all fit, send fewer: never cut one short.", "",
+          "Rules that fix most of these:",
+          "- `* ` starts a choice; the lines after it, down to the next `* `, are what happens after it. Every choice gets at "
+          "least one line.",
+          "- `** ` is a choice inside the choice above it. `either way:` on its own line: what follows plays whichever you picked.",
           "- Effects go after | on a choice: * \"Front row.\" | nicole affection +",
-          "- Everything after a choice (their answer, remember lines, more choices) goes indented under that choice (4 spaces).",
+          "- Narration is a plain line: no *italics*, no **bold** names, no Choice 1: or Outcome: labels.",
           "- Only the people in the storyline's cast talk by their cast name; anyone else talks by name (Mom:, Coach Reyes:)."]
     return "\n".join(L) + "\n"
 

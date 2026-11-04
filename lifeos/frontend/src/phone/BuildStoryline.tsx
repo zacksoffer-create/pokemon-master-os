@@ -33,26 +33,33 @@ function Notes({ notes }: { notes: string[] }) {
   );
 }
 
-/** Scenes that didn't go in (they stay as they were), with exactly what to fix, and a message for ChatGPT that asks for it. */
-function LeftOut({ x }: { x: { scenes: SkippedScene[]; fix: string; errors?: string[] } }) {
+type LeftOutInfo = { scenes: SkippedScene[]; gaps?: SkippedScene[]; fix: string; errors?: string[] };
+
+/** Scenes that didn't go in (they stay as they were) and scenes that went in with pieces missing, each with exactly what's
+ * wrong, and a message for ChatGPT that asks for just those, whole. */
+function LeftOut({ x }: { x: LeftOutInfo }) {
   const { toast } = usePhone();
+  const gaps = x.gaps || [];
+  const one = (sc: SkippedScene) => (
+    <div key={sc.n} className="bs-left-sc">
+      <span>Scene {sc.n}{sc.title ? ` (${sc.title})` : ""}</span>
+      {sc.problems.slice(0, 6).map((p, i) => <small key={i}>{p}</small>)}
+    </div>
+  );
   return (
-    <div className="bs-left">
-      <b>{x.scenes.length ? `Didn't go in (${x.scenes.length})` : "Couldn't add those"}</b>
-      {x.scenes.map((sc) => (
-        <div key={sc.n} className="bs-left-sc">
-          <span>Scene {sc.n}{sc.title ? ` (${sc.title})` : ""}</span>
-          {sc.problems.slice(0, 6).map((p, i) => <small key={i}>{p}</small>)}
-        </div>
-      ))}
-      {!x.scenes.length && (x.errors || []).slice(0, 6).map((p, i) => <small key={i}>{p}</small>)}
+    <div className={cx("bs-left", !x.scenes.length && !x.errors?.length && "soft")}>
+      {(x.scenes.length > 0 || !gaps.length) && <b>{x.scenes.length ? `Didn't go in (${x.scenes.length})` : "Couldn't add those"}</b>}
+      {x.scenes.map(one)}
+      {!x.scenes.length && !gaps.length && (x.errors || []).slice(0, 6).map((p, i) => <small key={i}>{p}</small>)}
+      {x.scenes.length > 0 && <p className="ph-dim small">These stay as they were (an earlier version, or not written yet). The next prompt asks for them again.</p>}
+      {gaps.length > 0 && <b className="bs-gap-h">Went in, but missing pieces ({gaps.length})</b>}
+      {gaps.map(one)}
       {x.fix && (
         <button className="ph-btn soft block" onClick={async () => {
           const ok = await copyText(x.fix);
-          toast(ok ? "Copied. Paste it to ChatGPT and paste its answer back here." : "Couldn't copy.", ok ? "good" : "bad");
+          toast(ok ? "Copied. Paste it to ChatGPT and paste its answer back here: the scenes it sends replace these." : "Couldn't copy.", ok ? "good" : "bad");
         }}>Copy a fix-it message for ChatGPT</button>
       )}
-      <p className="ph-dim small">Everything else went in. These stay as they were (an earlier version, or not written yet).</p>
     </div>
   );
 }
@@ -84,8 +91,8 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
   const [entries, setEntries] = useState<OutlineEntry[]>([]);
   const [notes, setNotes] = useState<string[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
-  const [count, setCount] = useState(6);
-  const [leftOut, setLeftOut] = useState<{ scenes: SkippedScene[]; fix: string; errors?: string[] } | null>(null);
+  const [count, setCount] = useState(3);
+  const [leftOut, setLeftOut] = useState<LeftOutInfo | null>(null);
   useEffect(() => {
     setPack(start?.pack || null);
     setAsk("");
@@ -138,7 +145,7 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
   const copyBatch = () => run("copy", async () => {
     if (!batch?.prompt) return;
     const ok = await copyText(batch.prompt);
-    toast(ok ? `Copied: scenes ${batch.first} to ${batch.last}. Paste ChatGPT's answer below.` : "Couldn't copy. Try Share.", ok ? "good" : "bad");
+    toast(ok ? `Copied: ${batch.first === batch.last ? `scene ${batch.first}` : `scenes ${batch.first} to ${batch.last}`}. Paste ChatGPT's answer below.` : "Couldn't copy. Try Share.", ok ? "good" : "bad");
   });
   const addBatch = async () => {
     if (!pack) return;
@@ -147,14 +154,15 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
       const r = await phoneApi.addScenes(pack, paste);
       setNotes(r.notes);
       setEntries(r.outline);
-      setLeftOut(r.skipped?.length ? { scenes: r.skipped, fix: r.fix_prompt } : null);
+      setLeftOut(r.skipped?.length || r.gaps?.length ? { scenes: r.skipped || [], gaps: r.gaps || [], fix: r.fix_prompt } : null);
       setPaste("");
       onChanged();
       await loadBatch(pack, count);
       const n = r.skipped?.length || 0;
+      const g = r.gaps?.length || 0;
       if (r.got.length) {
         toast(`Added scene${r.got.length === 1 ? "" : "s"} ${r.got.join(", ")}. ${r.written} of ${r.total} written.`
-          + (n ? ` ${n} didn't go in: see below.` : ""), n ? undefined : "good");
+          + (n ? ` ${n} didn't go in: see below.` : g ? ` ${g} ${g === 1 ? "is" : "are"} missing pieces: see below.` : ""), n || g ? undefined : "good");
       } else {
         toast(n ? "None of those went in: see below for what to fix." : "Added.", n ? "bad" : "good");
       }
@@ -222,7 +230,7 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
               <div className="sch-step"><i>1</i><b>Copy the prompt for {batch.first === batch.last ? `scene ${batch.first}` : `scenes ${batch.first} to ${batch.last}`}</b></div>
               <p className="ph-dim small">{(batch.titles || []).join(" · ")}</p>
               <div className="sch-size"><span>Scenes per prompt</span>
-                {[3, 6, 10].map((n) => <button key={n} className={cx(count === n && "on")} onClick={() => { setCount(n); if (pack) run("load", () => loadBatch(pack, n)); }}>{n}</button>)}
+                {[1, 3, 6].map((n) => <button key={n} className={cx(count === n && "on")} onClick={() => { setCount(n); if (pack) run("load", () => loadBatch(pack, n)); }}>{n}</button>)}
               </div>
               <div className="sch-row2">
                 <button className="ph-btn primary block" disabled={!!busy} onClick={copyBatch}>{busy === "copy" ? <span className="ph-spinner small light" /> : "Copy the prompt"}</button>

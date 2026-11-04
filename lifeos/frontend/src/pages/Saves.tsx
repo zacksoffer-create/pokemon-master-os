@@ -13,6 +13,7 @@ function size(n: number) {
 
 export default function Saves() {
   const { world, refresh, bump, toast } = useStore();
+  const [openNow, setOpenNow] = useState(true);
   const { data, error, reload } = useApi<any[]>("/api/saves");
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
@@ -64,8 +65,14 @@ export default function Saves() {
   const upload = (f: File | undefined) => {
     if (!f) return;
     run("upload", async () => {
-      const r = await api.upload("/api/saves/upload", f);
-      toast(`Imported as save #${r.id}. Load it from the list to switch to it.`, "good");
+      const r = await api.upload(`/api/saves/upload${openNow ? "?load=1" : ""}`, f);
+      if (r.loaded) {
+        await refresh();
+        bump();
+      }
+      toast([r.loaded ? `${r.title || "The story"} is open, on ${r.date}.` : `Imported as save #${r.id}. Load it from the list to switch to it.`,
+        r.said, r.kept ? "What was open before is kept here under Saves." : ""].filter(Boolean).join(" "), "good");
+      if (r.newer) toast(r.newer, "warn");
       reload();
     });
   };
@@ -175,11 +182,14 @@ export default function Saves() {
               <div><button className="primary" disabled={!!busy || locked} onClick={save}><Icon name="save" size={15} /> Save snapshot</button></div>
             </div>
           </Panel>
-          <Panel title="Import a save file" sub="A .lifeos file from this lab or a backup from the phone app (Me → Back up my story). Import it, then Load it to see everything under the hood.">
+          <Panel title="Open a backup or save file" sub="A .lifeos file: a backup from the phone app (Me → Back up my story) or a save from a lab. Its storylines and texting come with it.">
             <div className="filebox">
               <input type="file" accept=".lifeos,.json" disabled={!!busy || locked} onChange={(e) => { upload(e.target.files?.[0]); e.target.value = ""; }} />
               {busy === "upload" && <span className="hint">Importing...</span>}
             </div>
+            <label className="check" style={{ marginTop: 8 }}>
+              <input type="checkbox" checked={openNow} onChange={(e) => setOpenNow(e.target.checked)} /> Open it right away (what's open now is kept here first)
+            </label>
           </Panel>
         </div>
       </div>

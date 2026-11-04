@@ -6,6 +6,7 @@ import { EdPair, EdPerson, EdPersonRow, EdRel, EdSchema, Look, phoneApi, pgo } f
 import { Portrait } from "./art";
 import LookPicker from "./art/LookPicker";
 import { Field, Fold, Slider } from "./CreateStory";
+import { AddSomeone, BodyFold, NextFold, WhoFold } from "./EditorWho";
 import { PIcon } from "./icons";
 import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
@@ -88,6 +89,7 @@ function PeopleList({ people, onPick, exclude }: { people: EdPersonRow[]; onPick
 function EditorHome() {
   const { toast } = usePhone();
   const [all, setAll] = useState<{ schema: EdSchema; people: EdPersonRow[] } | null>(null);
+  const [adding, setAdding] = useState(false);
   useEffect(() => {
     loadAll(true).then(setAll).catch((e) => toast(errText(e), "bad"));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -95,10 +97,14 @@ function EditorHome() {
     <div className="ed">
       <Head title="Editor" onBack={() => pgo("me")} />
       <p className="ed-intro">
-        Change anyone. Tap a person to edit their personality, talents, look and how they're doing, and set how they feel about
-        anyone else. Edits are quiet: no texts, no news. Turn the editor off on the Me tab when you're set.
+        Change anyone, any time: who they are, their look, body and sports, personality, talents, what's next after high school
+        and how they're doing, and how they feel about anyone else. Or add someone new. Edits are quiet: no texts, no news.
       </p>
+      <button className="ph-btn primary block ed-addnew" onClick={() => setAdding(true)}><PIcon name="plus" size={17} /> Add someone</button>
       {all ? <PeopleList people={all.people} onPick={(p) => pgo(`edit/${encodeURIComponent(p.id)}`)} /> : <div className="ed-load"><span className="ph-spinner" /></div>}
+      <Sheet open={adding} onClose={() => setAdding(false)} title="Add someone" full>
+        {adding && <AddSomeone onDone={() => { setAdding(false); cache = null; }} />}
+      </Sheet>
     </div>
   );
 }
@@ -191,13 +197,15 @@ function PersonEditor({ id }: { id: string }) {
           <Field label="Last name"><input className="ph-input" value={val("last", null)} maxLength={40} onChange={(e) => put("last", null, e.target.value)} /></Field>
           <Field label="Bio"><textarea className="ph-input ed-bio" value={val("bio", null) || ""} maxLength={500} rows={3} onChange={(e) => put("bio", null, e.target.value)} /></Field>
         </Fold>
+        <WhoFold p={p} val={val} put={put} />
         <Fold title="Look" sub={Object.keys(d.look || p.look_locked || {}).length ? "Set" : "Natural"}>
           <div className="cs-look">
             <LookPicker value={d.look ?? p.look_locked} base={p.look} onChange={(l) => put("look", null, l || {})} gender={p.gender} color={p.color}
               adult={p.role === "staff"} name={p.first} />
           </div>
         </Fold>
-        <Fold title="Personality" sub="Who they are">
+        <BodyFold p={p} val={val} put={put} />
+        <Fold title="Personality" sub="What they're like">
           {schema.traits.map((k) => slider("traits", k, cap(k), TRAIT_WORDS[k] ? [cap(TRAIT_WORDS[k][1]), cap(TRAIT_WORDS[k][0])] : undefined))}
         </Fold>
         <Fold title="Talents" sub="What comes naturally">
@@ -212,6 +220,7 @@ function PersonEditor({ id }: { id: string }) {
         <Fold title="Interests" sub="How into things they are">
           {[...schema.interests].sort((a, b) => (Number(p.interests[b.id] || 0) - Number(p.interests[a.id] || 0))).map((s) => slider("interests", s.id, s.label))}
         </Fold>
+        <NextFold p={p} val={val} put={put} />
         <Fold title="Right now" sub="Mood, energy, stress, money">
           <Slider label="Mood" value={Number(val("mood", null))} onChange={(v) => put("mood", null, v)} left="Miserable" rightWord="Great" />
           {schema.needs.map((k) => {

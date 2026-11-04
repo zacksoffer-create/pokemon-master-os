@@ -828,28 +828,44 @@ def api_delete_save(sid: int):
 
 @app.get("/api/saves/{sid}/download")
 def api_download(sid: int):
+    """A save as a backup file (with your storylines and texting), to open on the phone or another computer."""
+    from . import backup
     b = get_lab().store.load_blob(sid)
     if b is None:
         raise HTTPException(404, "save not found")
-    return Response(b, media_type="application/octet-stream",
+    try:
+        data = backup.wrap(b)
+    except Exception:  # noqa: BLE001
+        data = b
+    return Response(data, media_type="application/octet-stream",
                     headers={"Content-Disposition": f"attachment; filename=lifeos-save-{sid}.lifeos"})
 
 
 @app.post("/api/saves/upload")
-async def api_upload(request: Request):
+async def api_upload(request: Request, load: int = 0):
+    """Import a .lifeos file (a phone backup or a lab save): it goes under Saves, what was written for it joins your
+    storylines, and load=1 opens it right away (the story that was open is kept under Saves first)."""
+    from . import backup
     L = get_lab()
     L.guard()
     data = await request.body()
     try:
-        w = world_from_bytes(data)
-    except Exception:
-        try:
-            from .model import World
-            w = World.from_dict(json.loads(data.decode("utf-8")))
-        except Exception:
-            raise HTTPException(422, "That file is not a LIFE OS save.")
-    sid = L.store.save_world(w, f"Imported - {calm.label(w.day)}", notes="uploaded file")
-    return {"id": sid}
+        w, b = backup.read(data)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    got = backup.install(b)
+    title = (w.meta.get("story") or {}).get("title")
+    sid = L.store.save_world(w, f"{title or 'Imported'} - {calm.label(w.day)}"[:120], notes="uploaded file")
+    kept = None
+    if load:
+        with L.lock:
+            if L.w.meta.get("protagonist"):
+                old = L.w.meta.get("story", {}).get("title") or "Your story"
+                kept = L.store.save_world(L.w, f"{old} - before loading a backup ({calm.label(L.w.day)})"[:120], notes="kept when a backup was loaded")
+            L.replace_world(w)
+    _dialogue_changed(L)
+    return {"id": sid, "loaded": bool(load), "kept": kept, "title": title, "date": calm.label(w.day),
+            "storylines": got, "said": backup.summary(got), "newer": backup.newer_note(b)}
 
 
 # --- experiments --------------------------------------------------------------------------
@@ -1437,7 +1453,7 @@ def api_texting_add(body: dict = Body(...)):
 
 
 @app.get("/api/story/build/batch-prompt")
-def api_build_batch_prompt(pack: str, count: int = 6):
+def api_build_batch_prompt(pack: str, count: int = 3):
     """Step 2 (again and again): the ChatGPT prompt for the next scenes of an outlined storyline."""
     from . import storybuilder
     L = _story_lab()
@@ -1463,13 +1479,14 @@ def api_build_scenes(body: dict = Body(...)):
         raise HTTPException(409, str(e))
     if not r["ok"]:
         return JSONResponse({"detail": r["errors"][0] if r.get("errors") else "couldn't add those", "errors": r.get("errors", []),
-                             "skipped": r.get("skipped", []), "fix_prompt": dialogue.fix_prompt(r.get("skipped", []))}, status_code=422)
+                             "skipped": r.get("skipped", []), "gaps": [], "fix_prompt": dialogue.fix_prompt(r.get("skipped", []))}, status_code=422)
     _dialogue_changed(get_lab())
     p = dialogue._script_pack(pid)
     entries = script.outline_entries(p["pack"])
     return {"ok": True, "got": r.get("got", []), "skipped": r.get("skipped", []), "notes": r.get("notes", []),
             "written": sum(1 for e in entries if e.get("written")), "total": len(entries), "outline": entries,
-            "packs": _dialogue_list()["packs"], "fix_prompt": dialogue.fix_prompt(r.get("skipped", []))}
+            "packs": _dialogue_list()["packs"], "gaps": r.get("gaps", []),
+            "fix_prompt": dialogue.fix_prompt(r.get("skipped", []), r.get("gaps", []))}
 
 
 @app.get("/api/story/storyline/read")

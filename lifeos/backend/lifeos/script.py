@@ -1453,11 +1453,66 @@ def _choices_in(sc) -> list:
     return out
 
 
+def find_choice(sc, label: str):
+    """The choice in a scene (any depth) most like these words: (index in _choices_in, the choice) or None."""
+    import difflib
+    chs = _choices_in(sc)
+    want = re.sub(r"[^a-z0-9 ]", "", str(label).lower()).strip()
+    labels = [re.sub(r"[^a-z0-9 ]", "", str(ch.get("label", "")).lower()).strip() for ch in chs]
+    k = next((i for i, lb in enumerate(labels) if lb == want or (want and lb and (want in lb or lb in want))), None)
+    if k is None:
+        near = difflib.get_close_matches(want, labels, n=1, cutoff=0.55)
+        k = labels.index(near[0]) if near else None
+    return None if k is None else (k, chs[k])
+
+
+AFTER_OPS = ("say", "remember", "forget", "memory", "text", "minigame", "chance", "hang_out", "play", "vibe")
+
+
+def _has_after(ch: dict) -> bool:
+    """Something happens after you pick it: lines, more choices, or something it sets up."""
+    t = ch.get("then")
+    if isinstance(t, dict) and (str(t.get("text") or "").strip() not in ("", "...") or t.get("choices")):
+        return True
+    return any(isinstance(op, list) and op and str(op[0]) in AFTER_OPS for op in ch.get("ops") or [])
+
+
+def real_choices(sc) -> list:
+    """A scene's own choices (not the "Continue" a scene with none gets)."""
+    chs = [c for c in sc.get("choices") or [] if isinstance(c, dict)]
+    return [] if [c.get("label") for c in chs] == ["Continue"] else chs
+
+
+def choice_gaps(sc) -> list:
+    """Choices with nothing after them while the ones beside them have something: what ChatGPT left out."""
+    out = []
+
+    def walk(chs):
+        chs = [c for c in chs or [] if isinstance(c, dict)]
+        if any(_has_after(c) for c in chs):
+            out.extend(f"nothing happens after the choice {c.get('label')} (the others have lines after them)"
+                       for c in chs if not _has_after(c) and c.get("label") != "Continue")
+        for c in chs:
+            if isinstance(c.get("then"), dict):
+                walk(c["then"].get("choices"))
+    walk(real_choices(sc))
+    return out
+
+
+def stops_short(sc, others_have_choices: bool):
+    """The last scene of a reply that stops partway (ChatGPT ran out of room): why, or None."""
+    chs = real_choices(sc)
+    if not chs and others_have_choices:
+        return "it stops before its choices"
+    if len(chs) > 1 and not _has_after(chs[-1]) and any(_has_after(c) for c in chs[:-1]):
+        return f"it stops right after the choice {chs[-1].get('label')}, with nothing after it"
+    return None
+
+
 def _built(sec, scenes: list, pack: dict, warns) -> list:
     """An outlined storyline: its scenes in outline order (unwritten ones simply aren't there yet), each placed in the
     school year: holidays and named months keep their day, the rest are spaced evenly by date; "only if you picked X in 5"
     wired both ends. Nothing here can stop the storyline: a branch that can't be found plays either way."""
-    import difflib
     order = {e["n"]: i for i, e in enumerate(sec.outline)}
     scenes.sort(key=lambda sc: order.get(sec.entry_of.get(sc["id"]), 10**6))
     by_n = {sec.entry_of[sc["id"]]: sc for sc in scenes if sc["id"] in sec.entry_of}
@@ -1483,18 +1538,12 @@ def _built(sec, scenes: list, pack: dict, warns) -> list:
         if src is None:
             warns.append((e["line"], f"scene {e['n']}: only if a choice in scene {c['n']}, which isn't written yet: it plays either way for now"))
             continue
-        chs = _choices_in(src)
-        want = re.sub(r"[^a-z0-9 ]", "", c["label"].lower()).strip()
-        labels = [re.sub(r"[^a-z0-9 ]", "", str(ch.get("label", "")).lower()).strip() for ch in chs]
-        k = next((i for i, lb in enumerate(labels) if lb == want or (want and (want in lb or lb in want))), None)
-        if k is None:
-            near = difflib.get_close_matches(want, labels, n=1, cutoff=0.55)
-            k = labels.index(near[0]) if near else None
-        if k is None:
+        hit = find_choice(src, c["label"])
+        if hit is None:
             warns.append((e["line"], f"scene {e['n']}: scene {c['n']} has no choice like \"{c['label']}\": it plays either way"))
             continue
         fact = f"{slug(sec.title, 20)}_{c['n']}_{slug(c['label'], 24)}"
-        ops = chs[k].setdefault("ops", [])
+        ops = hit[1].setdefault("ops", [])
         if ["remember", fact] not in ops:
             ops.append(["remember", fact])
         sc.setdefault("when", {}).setdefault("not_remembered" if c["neg"] else "remembered", []).append(fact)
@@ -2061,10 +2110,13 @@ def guide(story_only: bool = False) -> str:
     A("## Choices")
     A("")
     A("- `* <what you say or do>  | <effects>`. 1 to 4 per scene (none at all makes a \"Continue\"). Quotes for things you say.")
-    A("- Lines indented under a choice play after you pick it. `remember <fact>` / `forget <fact>` on their own line work too, "
+    A("- The lines after a choice, down to the next `* `, play after you pick it (indenting them under it works too). Give every "
+      "choice at least one line. `remember <fact>` / `forget <fact>` on their own line work too, "
       "and `bro texts: <line>` sends you a text later that day. A line can end in effects too: `bro: Fine. | bro respect +`. "
       "(The scene's opening lines can't: effects only happen when you choose.)")
-    A("- Choices indented under a choice keep the scene going: the lines right before them are the next beat. Up to five deep.")
+    A("- `** <choice>` is a choice inside the choice above it: a second round right after it, its lines following it the same "
+      "way. (Or indent choices under a choice, up to five deep.)")
+    A("- `either way:` on its own line, after the choices: what comes after it plays whichever choice you picked.")
     A("- Outcomes, indented under the choice: after `play <game>` write `great:`, `good:`, `miss:`; after a chance like "
       "`60% +athletic` write `yes:` and `no:`; after `vibe <style>` write `good:`, `meh:`, `bad:`. Each is a line, then | effects.")
     A("- `memory: <text> (good)` gives you a memory (good, great, bad, awful).")
@@ -2313,29 +2365,36 @@ story script format (below).
 {previous}
 ## Write now
 
-Scenes {first} to {last}: {which}.{needs}
+{scenes}: {which}.{needs}
 
 Reply with ONE code block (```) holding just those scenes, each starting with `--- <number>. <title>` (like \
 `--- {first}. {first_title}`), nothing after the block. No tags in [ ] and no `after` or `if`: the game times them and \
 plays them in order from the outline. Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
-plenty), 2 to 4 choices that matter, and what happens after each.
+plenty), 2 to 4 choices that matter, and what happens after EVERY choice. Write every scene all the way to its end: if \
+you're running out of room, write fewer scenes, never cut one short.
 
-Before you send it, check every scene:
-- A line starting with `* ` is a choice, nothing else: narration is a plain line, no *italics* and no **bold** names.
+How choices work (no indenting needed):
+- `* ` starts a choice. The lines after it, down to the next `* `, are what happens after you pick it: their answer, \
+`remember` lines. Every choice gets at least one line.
+- `** ` is a choice inside the choice above it (a second round right after it); its lines follow it the same way.
+- `either way:` on its own line: what comes after it plays whichever choice you picked.
 - Effects go after `|` on the choice (`* "Front row." | nicole affection +`), never in parentheses or after an arrow.
-- Everything after a choice (their answer, `remember` lines, a second round of choices) goes indented under that choice \
-(4 spaces). Nothing at the left edge after the choices.
+- Narration is a plain line: no *italics*, no **bold** names, no "Choice 1:" or "Outcome:" labels.
 
 ```
 --- 1. Example
 nicole: You actually came.
-* "Wouldn't miss it." | nicole affection +
-    nicole: Front row, then.
-    * "Lead the way." | nicole affection +
-        remember sat_front_row
-    * "I'm good in the back."
+nicole: Where are we sitting?
+* "Front row." | nicole affection +
+nicole: Front row, then. Come on.
+** "Lead the way." | nicole affection +
+remember sat_front_row
+** "Actually, the back's fine."
+nicole: You're impossible.
 * "My mom made me."
-    nicole: Wow. Thanks.
+nicole: Wow. Thanks.
+either way:
+nicole: Anyway. The game's starting.
 ```
 
 ---
