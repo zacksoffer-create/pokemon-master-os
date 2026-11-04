@@ -847,6 +847,23 @@ pick **Just my setup** to start clean. **Make a new story** (change the setup fi
 run** box on its last step: anyone who's in the new setup gets them. Groundwork is saved with the story, so backups carry
 it between the phone and the desktop.
 
+### Roles: what your storylines need
+
+**Me → Storylines → Roles your storylines need** (also at the top of the editor) lists everything your storylines that
+are on need from your story, each role once with every storyline that uses it and how many scenes:
+
+- **Storyline people** a storyline names (`cast: kayla = older sister, soccer`, `cast: jordan = friend of kayla`).
+- **People in your life** its scenes are about (your older sister, a friend, your girlfriend or boyfriend, your rival).
+- **Things about you** it needs (you're dating someone, your family has a pet, you're on a team, you have a sibling).
+
+Each says who fills it (your pick, the game's pick, or who it is right now), or **Nobody fits** (those scenes wait).
+When nobody fits, it shows who's **close** and what they're missing ("Ally: doesn't play soccer", "Nico: is your
+brother, older"), with a one-tap fix where there is one (**Make Ally play soccer**, **Make you friends**, **Start
+dating**) or **Edit** to change them yourself, and **Add someone who fits**. A role that's about someone in another
+role's life (a friend of Kayla's) waits for that one first. Pick one person for a role and every storyline with it uses
+them. The Storylines card says how many roles nobody fits. Everything you pick, fix or add here is groundwork: it comes
+back when you start over.
+
 **Nobody fits?** A storyline person nobody in your story fits (an older sister who plays soccer, a friend of Kayla's)
 gets an **Add someone who fits** button in the storyline's **Who it's about**: someone is made to fit (grade, gender,
 sport, who they are to you or to Kayla) and picked for it, then they're editable like anyone, and they come along when you

@@ -101,6 +101,7 @@ function EditorHome() {
         and how they're doing, and how they feel about anyone else. Or add someone new. Edits are quiet: no texts, no news.
       </p>
       <button className="ph-btn primary block ed-addnew" onClick={() => setAdding(true)}><PIcon name="plus" size={17} /> Add someone</button>
+      <button className="ph-btn soft block ed-addnew" onClick={() => pgo("roles")}><PIcon name="people" size={17} /> Roles your storylines need</button>
       {all ? <PeopleList people={all.people} onPick={(p) => pgo(`edit/${encodeURIComponent(p.id)}`)} /> : <div className="ed-load"><span className="ph-spinner" /></div>}
       <Sheet open={adding} onClose={() => setAdding(false)} title="Add someone" full>
         {adding && <AddSomeone onDone={() => { setAdding(false); cache = null; }} />}

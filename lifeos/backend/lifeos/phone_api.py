@@ -560,6 +560,39 @@ def phone_editor_new(body: dict = Body(...)):
         return out
 
 
+@router.get("/api/phone/roles")
+def phone_roles():
+    """Everything your storylines need from your story, by role: who fills it, or who's close and what would make them fit."""
+    A, L = _lab()
+    with L.lock:
+        from . import roles
+        return roles.board(L.sim)
+
+
+@router.post("/api/phone/roles/{action}")
+def phone_roles_do(action: str, body: dict = Body(...)):
+    """pick {role, char|null}, fix {role, char, how: {sport} | {pair}}, add {role}."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        from . import editor, roles
+        key = str(body.get("role") or "")
+        try:
+            if action == "pick":
+                out = roles.pick(L.sim, key, body.get("char"))
+            elif action == "fix":
+                out = roles.fix(L.sim, key, str(body.get("char") or ""), body.get("how") or {})
+            elif action == "add":
+                out = roles.add(L.sim, key)
+            else:
+                raise HTTPException(404, "no such action")
+        except editor.EditorError as e:
+            raise HTTPException(422, str(e))
+        L.autosave()
+        return out
+
+
 @router.post("/api/phone/editor/fit")
 def phone_editor_fit(body: dict = Body(...)):
     """Someone who fits a storyline's person nobody in your story fits: {slot}. They're made to fit and picked for it."""

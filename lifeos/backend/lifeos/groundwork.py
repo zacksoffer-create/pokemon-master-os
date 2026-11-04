@@ -123,7 +123,8 @@ def summary(w) -> dict:
     g = w.meta.get("groundwork") or {}
     rows = []
     for a in g.get("added") or []:
-        slot = (a.get("extra") or {}).get("slot")
+        x = a.get("extra") or {}
+        slot = x.get("slot") or x.get("role")
         rows.append({"kind": "added", "key": a["id"], "title": a["name"], "what": f"for {slot.replace('_', ' ')}" if slot else ""})
     for cid, rec in (g.get("people") or {}).items():
         what = []

@@ -248,7 +248,11 @@ export default function DialogueCard() {
     return subscribe(setUpd);
   }, []);
   const [busy, setBusy] = useState<string | null>(null);
-  const load = () => api.get("/api/dialogue/packs").then(setData).catch(() => setData(null));
+  const [roleOpen, setRoleOpen] = useState(0);
+  const load = () => {
+    phoneApi.roles().then((b) => setRoleOpen(b.open)).catch(() => setRoleOpen(0));
+    return api.get("/api/dialogue/packs").then(setData).catch(() => setData(null));
+  };
   useEffect(() => {
     load();
   }, []);
@@ -362,6 +366,9 @@ export default function DialogueCard() {
           </button>
           <button className="ph-btn soft block" disabled={!!busy} onClick={() => setTexting(true)}>
             ✍️ Add texting: flirt lines and group chats
+          </button>
+          <button className="ph-btn soft block" disabled={!!busy} onClick={() => pgo("roles")}>
+            <PIcon name="people" size={17} /> Roles your storylines need{roleOpen ? ` (${roleOpen} nobody fits)` : ""}
           </button>
         </div>
         <ol className="dl-how">

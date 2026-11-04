@@ -16,6 +16,7 @@ import HomeTab from "./HomeTab";
 import { PIcon } from "./icons";
 import { cx, errText, Toasts } from "./kit";
 import MeTab from "./MeTab";
+import Roles from "./Roles";
 import Editor from "./Editor";
 import { PhoneProvider, usePhone } from "./PhoneContext";
 import PhoneTab from "./PhoneTab";
@@ -131,6 +132,7 @@ function Shell({ route }: { route: string[] }) {
   else if (tab === "sports") body = <SportsTab route={route.slice(1)} />;
   else if (tab === "me") body = <MeTab />;
   else if (tab === "edit") body = <Editor route={route.slice(1)} />;
+  else if (tab === "roles") body = <Roles />;
   else if (tab === "schedule") body = <ScheduleScreen />;
   else if (tab === "playline") body = <PlayLine route={route.slice(1)} />;
   else body = <StoryTab />;

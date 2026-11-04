@@ -404,21 +404,34 @@ SLOT_OF = {"friend": "friend", "best_friend": "best_friend", "teammate": "teamma
 def create_for_slot(sim, slot: str) -> dict:
     """Someone who fits a storyline's person when nobody in your story does: made to fit (their grade, gender, sport, who
     they are to you or to the person they go with), and picked for it. Then they're editable like anyone. {"id", "name"}"""
+    from . import dialogue
+    d = dialogue.merged()["cast"].get(slot)
+    if not d:
+        raise EditorError("that storyline person isn't in any of your storylines")
+    return create_fit(sim, d["spec"], slot=slot)
+
+
+def create_fit(sim, sp: dict, slot: str | None = None, role: str | None = None) -> dict:
+    """Someone made to fit a description ({who, gender, sport, grade_offset, of, name}, as a storyline person has): a
+    named storyline person (slot: then picked for it) or a kind of person your storylines use (role, like older_sister).
+    {"id", "name", "fits"}"""
     import random
     from . import dialogue, groundwork
     w = sim.w
     me = w.chars.get(w.meta.get("protagonist") or "")
-    d = dialogue.merged()["cast"].get(slot)
-    if not me or not d:
-        raise EditorError("that storyline person isn't in any of your storylines")
-    sp = d["spec"]
+    if not me:
+        raise EditorError("there's no story")
     who = sp.get("who")
-    rng = random.Random(f"{w.gen_seed}:{slot}:{w.day}")
+    rng = random.Random(f"{w.gen_seed}:{slot or role}:{w.day}:{len(w.chars)}")
     g = me.grade or 9
     grade = g + sp["grade_offset"] if sp.get("grade_offset") is not None else g
     gender = sp.get("gender")
     spec: dict = {"role": "student"}
-    extra: dict = {"slot": slot, "rel_with": []}
+    extra: dict = {"rel_with": []}
+    if slot:
+        extra["slot"] = slot
+    if role:
+        extra["role"] = role
     if who in dialogue.SIBLING_KINDS:
         spec["household"] = "family"
         if who.endswith("brother"):
@@ -454,7 +467,7 @@ def create_for_slot(sim, slot: str) -> dict:
         if w.chars[base].grade:
             grade = w.chars[base].grade
     elif who == "named":
-        name = str(sp.get("name") or slot.replace("_", " ").title())
+        name = str(sp.get("name") or (slot or "someone").replace("_", " ").title())
         first, _, last = name.partition(" ")
         spec.update({"first": first, "last": last})
     elif who in SLOT_TO_ME:
@@ -480,9 +493,10 @@ def create_for_slot(sim, slot: str) -> dict:
         spec["skills"] = {sp["sport"]: 58}
     c = make_person(sim, spec, extra)
     fits = c.id in dialogue.slot_candidates(sim, me, sp)  # (before the pick: a picked person counts as taken)
-    dialogue.bind(sim, me, slot, c.id, by="you")
     groundwork.note_added(w, c.id, spec, extra)
-    groundwork.note_slot(w, slot, c.id)
+    if slot:
+        dialogue.bind(sim, me, slot, c.id, by="you")
+        groundwork.note_slot(w, slot, c.id)
     return {"id": c.id, "name": c.name, "fits": fits}
 
 

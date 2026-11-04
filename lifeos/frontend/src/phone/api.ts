@@ -160,6 +160,11 @@ export type ReadScene = { sid: string; title: string; storyline: string; pack: s
   when?: string; outline_n?: number | null; if?: string | null };
 export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
 export type SkippedScene = { n: number; title: string; problems: string[] };
+export type RolePerson = { id: string; name: string; first: string; year: string; why?: string; fix?: { sport?: string; pair?: string; label: string } };
+export type RoleRow = { key: string; type: "slot" | "kind" | "req"; title: string; label: string; status: "missing" | "open" | "set";
+  storylines: { id: string; name: string; scenes: number }[]; scenes: number; who: RolePerson | null; by: string | null;
+  options: RolePerson[]; near: RolePerson[]; can_add: boolean; note: string | null; single?: boolean; after?: string };
+export type RoleBoard = { roles: RoleRow[]; open: number };
 export type GroundworkRow = { kind: string; key: string; title: string; what: string };
 export type Groundwork = { rows: GroundworkRow[]; count: number };
 export type OldVersion = { file: string; stem: string; title: string; why: string; at: number; scenes: number };
@@ -255,6 +260,10 @@ export const phoneApi = {
   editorSavePerson: (id: string, body: any): Promise<EdPerson> => api.post(`/api/phone/editor/person/${encodeURIComponent(id)}`, body),
   editorNew: (body: any): Promise<{ id: string; name: string }> => api.post("/api/phone/editor/new", body),
   editorFit: (slot: string): Promise<{ id: string; name: string; fits: boolean }> => api.post("/api/phone/editor/fit", { slot }),
+  roles: (): Promise<RoleBoard> => api.get("/api/phone/roles"),
+  rolePick: (role: string, char: string | null): Promise<RoleBoard> => api.post("/api/phone/roles/pick", { role, char }),
+  roleFix: (role: string, char: string, how: any): Promise<RoleBoard> => api.post("/api/phone/roles/fix", { role, char, how }),
+  roleAdd: (role: string): Promise<{ id: string; name: string; board: RoleBoard }> => api.post("/api/phone/roles/add", { role }),
   groundwork: (): Promise<Groundwork> => api.get("/api/story/groundwork"),
   groundworkRemove: (kind: string, key: string): Promise<Groundwork> => api.post("/api/story/groundwork/remove", { kind, key }),
   restart: (keep: boolean): Promise<{ carried?: { done: number; skipped: string[] } }> => api.post("/api/story/restart", { keep }),
