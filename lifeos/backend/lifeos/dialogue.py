@@ -937,7 +937,7 @@ def check(pack: dict) -> dict:
     return {"ok": not R.errors, "errors": R.errors, "warnings": R.warnings, "summary": added}
 
 
-SCHEDULE_KEYS = ("years", "after", "gap_days", "months", "not_before", "not_after", "importance", "replace_after", "skip")
+SCHEDULE_KEYS = ("years", "after", "gap_days", "months", "not_before", "not_after", "importance", "replace_after", "skip", "spread")
 
 
 def _check_schedule(R, sch) -> int:
@@ -967,6 +967,9 @@ def _check_schedule(R, sch) -> int:
                 for a in x if isinstance(x, list) else [x]:
                     if not isinstance(a, str) or not (SLUG.match(a) or a.startswith("@")):
                         R.err(f"{w}.after", "is a list of scene ids")
+            elif k == "spread":
+                if not isinstance(x, bool):
+                    R.err(f"{w}.spread", "is true or false")
             elif k == "gap_days":
                 _num(R, f"{w}.gap_days", x, 0, 2600)
             elif k == "months":
@@ -1141,7 +1144,7 @@ def library(recs=None) -> dict:
     """Your storylines by title (lowercase) -> pack: what expansions add to."""
     recs = packs() if recs is None else recs
     return {str(p["pack"].get("name")).lower(): p["pack"] for p in recs
-            if p["pack"].get("name") and p["pack"].get("scenes") is not None and not p["pack"].get("expands")}
+            if p["pack"].get("name") and p["pack"].get("scenes") is not None}
 
 
 def _touched(path):
@@ -1194,7 +1197,9 @@ def _read_file(folder, fn, source, lib=None, sig="") -> list:
         except (OSError, ValueError, KeyError):
             recs = None
         if recs is None:
-            r = SC.compile_script(text, default_title=stem.replace("_", " ").title(), library=lib if lib is not None else {})
+            # (references to other storylines were checked when it was added; loading just links them up. An expansion
+            # gets the storylines it can add to.)
+            r = SC.compile_script(text, default_title=stem.replace("_", " ").title(), library=lib)
             errs = [f"line {e['line']}: {e['text']}" for e in r["errors"]]
             warns = [f"line {e['line']}: {e['text']}" for e in r["warnings"]]
             sums = r.get("pack_summaries") or []
@@ -1377,6 +1382,118 @@ def script_of(pid: str) -> str:
     return p["script"]
 
 
+# ---------------------------------------------------------------------------------------------------- timing, by hand
+
+def _year_word(y: str) -> str:
+    return y.replace("_", " ")
+
+
+def _timing_token(tok: str) -> str | None:
+    """What a tag is about: "year", "season" (months or a season), "spread", or None (anything else: keep it)."""
+    from . import script as SC
+    low = tok.strip().lower()
+    if not low:
+        return None
+    if SC._years(low) or low in ("high school", "college"):
+        return "year"
+    if low in SC.MONTHS or low in SC.MON3 or low in SC.SEASONS:
+        return "season"
+    if low.startswith("spread"):
+        return "spread"
+    return None
+
+
+def _header_end(lines: list) -> int:
+    """Where a storyline's header (=== title, cast:, when:...) ends: its first scene or block."""
+    from . import script as SC
+    for i, ln in enumerate(lines):
+        t = ln.strip()
+        if i and (SC.SCENE_RE.match(t) or SC.SECTION_RE.match(t) or (SC.BLOCK_RE.match(t) and not ln.startswith(" "))):
+            return i
+    return len(lines)
+
+
+def timing_of(pid: str) -> dict:
+    """A storyline's own timing (its when: line): its school years, months, and whether it's spread out."""
+    from . import script as SC
+    lines = _script_pack(pid)["script"].split("\n")
+    for ln in lines[:_header_end(lines)]:
+        m = SC.ATTR_RE.match(ln.strip())
+        if m and m.group(1).lower() == "when":
+            d: dict = {}
+            try:
+                SC.tags(m.group(2), None, 0, d, SC.Section("x", 0))
+            except SC.Fail:
+                pass
+            return {"years": SC.concrete_years(d.get("years")), "months": d.get("months") or [], "spread": bool(d.get("spread")),
+                    "line": m.group(2).strip()}
+    return {"years": [], "months": [], "spread": False, "line": ""}
+
+
+def _retag(header: str, drop_months: bool) -> str:
+    """A scene line without its own school year (and month, if asked): the storyline's timing decides those."""
+    m = re.fullmatch(r"(\s*---\s*)(.+?)((?:\s*\[[^\]]*\])*)\s*(#[a-z][a-z0-9_]{2,79})?\s*", header)
+    if not m:
+        return header
+    toks = [t.strip() for t in re.split(r"\s*[·;,]\s*", " · ".join(re.findall(r"\[([^\]]*)\]", m.group(3) or ""))) if t.strip()]
+    keep = [t for t in toks if not (_timing_token(t) == "year" or (drop_months and (_timing_token(t) == "season" or
+                                    re.fullmatch(r"(after|before)\s+\w+\.?\s+\d{1,2}(st|nd|rd|th)?", t.lower()))))]
+    return f"{m.group(1)}{m.group(2).rstrip()}" + (f"  [{' · '.join(keep)}]" if keep else "") + (f" {m.group(4)}" if m.group(4) else "")
+
+
+def set_timing(pid: str, years: list, seasons: list, spread: bool, every_scene: bool = True, keep_months: bool = True) -> dict:
+    """Set a storyline's timing by hand: its when: line gets these school years and seasons (and spread), keeping its
+    other tags. every_scene: its scenes' own school years go (they all follow this), and their months too unless
+    keep_months (holidays and school days always keep their day). Saved like any edit (checked first)."""
+    from . import script as SC
+    src = _script_pack(pid)["script"].rstrip("\n").split("\n")
+    end = _header_end(src)
+    if every_scene and years:
+        stop = next((i for i in range(end, len(src)) if SC.SECTION_RE.match(src[i].strip())), len(src))
+        for i in range(end, stop):
+            if SC.SCENE_RE.match(src[i].strip()):
+                src[i] = _retag(src[i], drop_months=not keep_months)
+    at, keep = None, []
+    for i in range(end):
+        m = SC.ATTR_RE.match(src[i].strip())
+        if m and m.group(1).lower() == "when":
+            at = i
+            keep = [t for t in re.split(r"\s*[·;,]\s*", m.group(2)) if t.strip() and _timing_token(t) is None]
+    toks = [_year_word(y) for y in years if y in YEARS] + [x for x in seasons if x in SC.SEASONS] + keep
+    if spread and years:
+        toks.append("spread")
+    line = ("when: " + " · ".join(toks)) if toks else None
+    if at is not None:
+        if line:
+            src[at] = line
+        else:
+            del src[at]
+    elif line:
+        src.insert(1, line)
+    return add_script("\n".join(src) + "\n", into=pid)
+
+
+def set_scene_timing(pid: str, sid: str, year: str | None, month: int | None) -> dict:
+    """Move one scene: its school year and month (None leaves that part to the storyline). Its other tags stay."""
+    from . import script as SC
+    p = _script_pack(pid)
+    sc = next((x for x in p["pack"].get("scenes") or [] if isinstance(x, dict) and x.get("id") == sid), None)
+    if sc is None or not sc.get("line"):
+        raise KeyError(sid)
+    src = p["script"].rstrip("\n").split("\n")
+    i = sc["line"] - 1
+    m = re.fullmatch(r"(\s*---\s*)(.+?)((?:\s*\[[^\]]*\])*)\s*(#[a-z][a-z0-9_]{2,79})?\s*", src[i])
+    if not m:
+        raise KeyError(sid)
+    toks = [t.strip() for t in re.split(r"\s*[·;,]\s*", " · ".join(re.findall(r"\[([^\]]*)\]", m.group(3) or ""))) if t.strip()]
+    keep = [t for t in toks if not (_timing_token(t) in ("year", "season") or
+                                    (month and re.fullmatch(r"(after|before)\s+\w+\.?\s+\d{1,2}(st|nd|rd|th)?", t.lower())))]
+    names = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    new = ([_year_word(year)] if year in YEARS else []) + ([names[int(month)]] if month and 1 <= int(month) <= 12 else []) + keep
+    src[i] = f"{m.group(1)}{m.group(2).rstrip()}" + (f"  [{' · '.join(new)}]" if new else "") + (f" {m.group(4)}" if m.group(4) else "")
+    return add_script("\n".join(src) + "\n", into=pid)
+
+
 def add_script(text: str, into: str | None = None) -> dict:
     """Add scripts: each === storyline goes to its own file (a storyline with the same title is replaced: that's how
     you update one). into=<pack id> saves the text as that storyline's file instead (editing it in place)."""
@@ -1528,9 +1645,17 @@ def _build(only: set | None = None) -> dict:
         if scn and (scn.get("when") or {}).get("after"):
             a = scn["when"]["after"]
             scn["when"] = {**scn["when"], "after": [x for x in (resolve(y) for y in (a if isinstance(a, list) else [a])) if x]}
+    by_name = {}  # a storyline's title -> its scenes, in order (a season plan can retime all of one)
+    for p in packs():
+        if p["enabled"] and p["id"] in loaded and p["pack"].get("name"):
+            by_name[str(p["pack"]["name"]).lower()] = [sc["id"] for sc in p["pack"].get("scenes") or [] if isinstance(sc, dict) and sc.get("id") in moments]
     for p in packs():  # a season plan places any storyline's episodes across the seasons
         if p["enabled"] and p["id"] in loaded:
             for sid0, sch in (p["pack"].get("schedule") or {}).items():
+                whole = by_name.get(sid0[1:].strip().lower()) if isinstance(sid0, str) and sid0.startswith("@") and not resolve(sid0) else None
+                if whole and isinstance(sch, dict):  # "Danny [freshman · spread]": the whole storyline
+                    _retime_all(moments, whole, sch, resolve)
+                    continue
                 sid = resolve(sid0)
                 if isinstance(sch, dict) and sch.get("after"):
                     sch = {**sch, "after": [x for x in (resolve(y) for y in (sch["after"] if isinstance(sch["after"], list) else [sch["after"]])) if x]}
@@ -1547,6 +1672,32 @@ def _build(only: set | None = None) -> dict:
     return {"texts": texts, "templates": templates, "moments": moments, "replies": replies, "trivia": trivia_extra, "mods": mods,
             "chat": chat_lines, "chat_people": chat_people, "in_order": in_order, "loaded": loaded, "cast": cast,
             "load_errors": {}}
+
+
+def _retime_all(moments, sids, sch, resolve):
+    """A season plan line for a whole storyline: its years (and months) for every scene; spread puts them in order across
+    those years. Dated scenes (holidays, school days) keep their day."""
+    from . import script as SC
+    sch = dict(sch)
+    spread = sch.pop("spread", False)
+    if sch.get("after"):
+        sch["after"] = [x for x in (resolve(y) for y in (sch["after"] if isinstance(sch["after"], list) else [sch["after"]])) if x]
+    free = [s_ for s_ in sids if not (moments[s_]["scene"].get("when") or {}).get("dates")]
+    slots = dict(zip(free, SC.spread_slots(sch.get("years"), sch.get("months"), len(free)))) if spread and sch.get("years") else {}
+    for i, s_ in enumerate(sids):
+        sc = moments[s_]["scene"]
+        when = dict(sc.get("when") or {})
+        for k, v in sch.items():
+            if k == "after":
+                if i == 0:  # the storyline starts after it
+                    when["after"] = sorted(set(v if sch.get("replace_after") else (when.get("after") or []) + v))
+            elif k in SCHEDULE_KEYS and k != "replace_after":
+                when[k] = v
+        if s_ in slots:
+            when["years"], when["months"] = [slots[s_][0]], [slots[s_][1]]
+            for k in ("not_before", "not_after"):
+                when.pop(k, None)
+        sc["when"] = when
 
 
 def _build_safely() -> dict:
@@ -2485,6 +2636,11 @@ def storyline_headers(skip=()) -> str:
         if not p["enabled"] or not p["pack"].get("scenes") or (p["pack"].get("name") or "").lower() in skip:
             continue
         out.append(f"=== {p['pack'].get('name')}" + ("" if in_order(p["id"]) else "  (any order)"))
+        if p["pack"].get("expands"):
+            out.append(f"expands: {p['pack']['expands']}")
+        else:
+            from . import script as SC
+            out += [SC.cast_line(n, spec) for n, spec in (p["pack"].get("cast") or {}).items()]
         for sc in p["pack"]["scenes"]:
             src = (sc.get("src") or "").split("\n")[0] if isinstance(sc, dict) else ""
             out.append(src or f"--- {sc.get('title')}")

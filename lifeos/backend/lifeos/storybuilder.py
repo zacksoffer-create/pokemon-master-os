@@ -623,7 +623,8 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
                 why = WHY_PLAIN.get(reason) or r.get("why") or (reason or "it never got its turn").replace("_", " ")
             scenes.append({"sid": sc["id"], "title": sc.get("title"), "storyline": names[g["id"]], "pack": g["id"], "src": sc.get("src") or "",
                            "plays": plays, "date": r.get("date") if plays else None, "day": r.get("day") if plays else None,
-                           "why": why, "detail": None if plays else r.get("detail"), "n": i})
+                           "why": why, "detail": None if plays else r.get("detail"), "n": i,
+                           "dated": bool((sc.get("when") or {}).get("dates"))})
     y0 = calm.school_year_of(((sim.w.meta.get("story") or {}).get("start_day", 0)))
     for x in scenes:
         yi = calm.school_year_of(x["day"]) - y0 if x["plays"] else -1
@@ -635,8 +636,10 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
     for x in scenes:
         if not x["plays"]:
             lost.setdefault(x["why"], []).append(x["title"])
+    from . import dialogue
     parts = [{"pack": g["id"], "name": g["pack"].get("name"), "expands": g["pack"].get("expands"),
-              "scenes": sum(1 for x in scenes if x["pack"] == g["id"]), "plays": sum(1 for x in scenes if x["pack"] == g["id"] and x["plays"])}
+              "scenes": sum(1 for x in scenes if x["pack"] == g["id"]), "plays": sum(1 for x in scenes if x["pack"] == g["id"] and x["plays"]),
+              "timing": dialogue.timing_of(g["id"]) if g.get("kind") == "script" else None}
              for g in group]
     return {"title": group[0]["pack"].get("name"), "pack": group[0]["id"], "parts": parts, "scenes": scenes,
             "total": len(scenes), "plays": sum(1 for x in scenes if x["plays"]),

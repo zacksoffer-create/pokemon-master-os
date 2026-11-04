@@ -279,3 +279,67 @@ ghost: Boo.
     assert dialogue.add_script("=== More Danny\ncast: danny = Danny Kim\n\n--- Lunch  [freshman · December]\ndanny: Fries?\n* Yes\n")["ok"]
     assert dialogue.merged()["cast"]["danny"]["packs"] == ["yours:danny_and_ally", "yours:more_danny"]
     assert script.cast_line("ally", script.cast_spec("Ally Soffer, close")) == "cast: ally = Ally Soffer, close"
+
+
+DANNY = "=== Danny\ncast: danny = Danny Kim\n\n" + "".join(
+    f"--- {t}  [{tag}]\ndanny: {t}.\n* Sure\n\n" for t, tag in [
+        ("Lunch table", "freshman"), ("The bet", "freshman"), ("Tryouts", "sophomore · November"), ("The fight", "sophomore"),
+        ("Making up", "sophomore"), ("Road trip", "junior"), ("Prom night", "junior · prom"), ("Last game", "junior")])
+
+
+def _when(title):
+    m = dialogue.merged()["moments"]
+    return next(v["scene"]["when"] for v in m.values() if v.get("title") == title)
+
+
+def test_a_scenes_own_timing_wins_and_a_storyline_can_spread_out():
+    r = script.compile_script("=== Year one\nwhen: freshman-junior · spread\n\n--- A\nbest friend: one\n* ok\n--- B  [sophomore · March]\n"
+                              "best friend: two\n* ok\n--- C  [junior]\nbest friend: three\n* ok\n")
+    assert not r["errors"], r["errors"]
+    a, b, c = (sc["when"] for sc in r["packs"][0]["scenes"])
+    assert b == {"years": ["sophomore"], "months": [3]}, "its own year and month, not the storyline's range"
+    assert c["years"] == ["junior"] and a["years"] == ["freshman"]
+    bad = script.compile_script("=== X\n\n--- A  [spread]\nbest friend: hi\n* ok\n")
+    assert "goes on the storyline" in bad["errors"][0]["text"]
+
+
+def test_put_a_whole_storyline_in_one_year_by_hand():
+    assert dialogue.add_script(DANNY)["ok"]
+    r = dialogue.set_timing("yours:danny", ["freshman"], [], True)  # keep each scene's own month
+    assert r["ok"], r["errors"]
+    src = dialogue.script_of("yours:danny")
+    assert "when: freshman · spread" in src and "--- Tryouts  [November]" in src and "--- Prom night  [prom]" in src
+    months = [(_when(t).get("months") or [None])[0] for t in ("Lunch table", "The bet", "Tryouts", "The fight", "Making up", "Road trip")]
+    assert months == [9, 10, 11, 1, 2, 3], months
+    assert all(_when(t)["years"] == ["freshman"] for t in ("Lunch table", "Tryouts", "Prom night", "Last game"))
+    assert _when("Prom night")["dates"] == ["prom"], "a school day keeps its day"
+    assert dialogue.timing_of("yours:danny") == {"years": ["freshman"], "months": [], "spread": True, "line": "freshman · spread"}
+    # one scene, moved by hand
+    sid = next(k for k, v in dialogue.merged()["moments"].items() if v.get("title") == "The fight")
+    assert dialogue.set_scene_timing("yours:danny", sid, "freshman", 2)["ok"]
+    assert "--- The fight  [freshman · February]" in dialogue.script_of("yours:danny") and _when("The fight")["months"] == [2]
+    assert _when("Making up")["months"][0] in (3, 4), "the ones after it spread out after it"
+    # and it all plays in order in freshman year
+    sim = _story()
+    from lifeos.catalogs import Catalogs
+    sim.cat = Catalogs(sim.w.action_overrides)
+    rows = _played(sim, 365)
+    days = [rows[t]["day"] for t in ("Lunch table", "The bet", "Tryouts", "The fight", "Making up", "Road trip", "Prom night", "Last game")]
+    assert all(d is not None for d in days) and days == sorted(days), [(t, rows[t].get("date")) for t in rows]
+
+
+def test_a_season_plan_can_retime_a_whole_storyline_and_names_are_checked():
+    assert dialogue.add_script(DANNY)["ok"]
+    lib = dialogue.library()
+    bad = script.compile_script("=== Season plan\n\nschedule:\nDanny: Tryout [freshman]\nDany [junior]\n", library=lib)
+    texts = " | ".join(e["text"] for e in bad["errors"])
+    assert "Danny has no scene called 'tryout'. Did you mean tryouts?" in texts and "no scene or storyline called 'Dany'" in texts
+    bad = script.compile_script("=== X\n\n--- A  [freshman · after Danny: Lunch tabel]\nbest friend: hi\n* ok\n", library=lib)
+    assert "Did you mean lunch table?" in bad["errors"][0]["text"]
+    bad = script.compile_script("=== X\ncast: danny = Danny Kim\n\n--- A  [freshman]\ndany: hi\n* ok\n")
+    assert "nobody here is called that" in bad["errors"][0]["text"] and "danny" in bad["errors"][0]["text"]
+    assert dialogue.add_script("=== Season plan\n\nschedule:\nDanny [sophomore · spread]\n")["ok"]
+    assert [_when(t)["years"] for t in ("Lunch table", "Last game")] == [["sophomore"], ["sophomore"]]
+    assert _when("Prom night")["dates"] == ["prom"]
+    p = dialogue.prompt_for_show()
+    assert "cast: danny = Danny Kim" in p and "[freshman · spread]" in p and "## My season plan now" in p

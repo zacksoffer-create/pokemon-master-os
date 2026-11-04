@@ -153,9 +153,10 @@ export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; na
   changed?: { sid: string; title: string; state: string; date?: string; why?: string; reason?: string }[]; already_there?: string[];
   played_total?: number; before?: number | null; coverage?: Coverage; replaces?: string[]; script?: boolean };
 export type ReadScene = { sid: string; title: string; storyline: string; pack: string; src: string; plays: boolean; date: string | null;
-  day: number | null; why: string | null; detail: any; year: string | null };
+  day: number | null; why: string | null; detail: any; year: string | null; dated: boolean };
+export type Timing = { years: string[]; months: number[]; spread: boolean; line: string };
 export type StorylineRead = { title: string; pack: string; total: number; plays: number; scenes: ReadScene[]; coverage: Coverage;
-  parts: { pack: string; name: string; expands: string | null; scenes: number; plays: number }[];
+  parts: { pack: string; name: string; expands: string | null; scenes: number; plays: number; timing: Timing | null }[];
   wont: { why: string; count: number; titles: string[] }[] };
 export type UpNextRow = { sid: string; title: string; storyline: string; pack: string; day: number; date: string; in_days: number;
   importance: string; ready: boolean; waits_for: string[] };
@@ -268,6 +269,10 @@ export const phoneApi = {
     ideas: string[]; sizes: Record<string, string> }> =>
     api.get(`/api/story/add/expand?pack=${encodeURIComponent(pack)}&ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`),
   readStoryline: (pack: string): Promise<StorylineRead> => api.get(`/api/story/storyline/read?pack=${encodeURIComponent(pack)}`),
+  setTiming: (pack: string, years: string[], seasons: string[], spread: boolean, keepMonths = true) =>
+    api.post(`/api/dialogue/packs/${encodeURIComponent(pack)}/timing`, { years, seasons, spread, keep_months: keepMonths }),
+  moveScene: (pack: string, sid: string, year: string, month: number) =>
+    api.post(`/api/dialogue/packs/${encodeURIComponent(pack)}/scene-timing`, { sid, year, month }),
   addPreview: (text: string, target?: { pack: string; after: string | null }): Promise<AddPreview> =>
     api.post("/api/story/add/preview", target ? { text, pack: target.pack, after: target.after || "" } : { text }),
   addInsert: (pack: string, after: string | null, text: string) => api.post("/api/story/add/insert", { pack, after: after || "", text }),

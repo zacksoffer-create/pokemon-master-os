@@ -1689,6 +1689,40 @@ def api_dialogue_script_save(pid: str, body: dict = Body(...)):
     return {**_dialogue_list(), "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"]}
 
 
+@app.post("/api/dialogue/packs/{pid}/timing")
+def api_dialogue_timing(pid: str, body: dict = Body(...)):
+    """{years, seasons, spread, keep_months}: a storyline's timing, set by hand (its when: line). Its scenes all follow it
+    (their own school years go; their own months too unless keep_months)."""
+    from . import dialogue
+    try:
+        r = dialogue.set_timing(pid, list(body.get("years") or []), list(body.get("seasons") or []), bool(body.get("spread")),
+                                every_scene=body.get("every_scene", True) is not False, keep_months=body.get("keep_months", True) is not False)
+    except KeyError:
+        raise HTTPException(404, "no such storyline")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
+    if not r["ok"]:
+        return JSONResponse({"detail": "that timing doesn't work for this storyline", "errors": r["errors"]}, status_code=422)
+    _dialogue_changed(get_lab())
+    return {**_dialogue_list(), "timing": dialogue.timing_of(pid)}
+
+
+@app.post("/api/dialogue/packs/{pid}/scene-timing")
+def api_dialogue_scene_timing(pid: str, body: dict = Body(...)):
+    """{sid, year, month}: move one scene to a school year and month (empty: leave that to the storyline)."""
+    from . import dialogue
+    try:
+        r = dialogue.set_scene_timing(pid, str(body.get("sid") or ""), body.get("year") or None, body.get("month") or None)
+    except KeyError:
+        raise HTTPException(404, "no such scene")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
+    if not r["ok"]:
+        return JSONResponse({"detail": "that timing doesn't work for this scene", "errors": r["errors"]}, status_code=422)
+    _dialogue_changed(get_lab())
+    return _dialogue_list()
+
+
 @app.post("/api/dialogue/packs/{pid}/enabled")
 def api_dialogue_enable(pid: str, body: dict = Body(...)):
     from . import dialogue

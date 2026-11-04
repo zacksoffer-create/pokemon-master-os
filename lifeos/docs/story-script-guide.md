@@ -51,7 +51,8 @@ The roster's on the gym door.
 - Someone in your story, by name: `cast: ally = Ally Soffer` (or just the first name if it's unique). The storyline is about exactly that person, and the same name in another storyline means the same person.
 - Someone in another cast member's life: `cast: kayla = friend of sis, girl` (also `best friend of`, `teammate of`, `boyfriend of`, `girlfriend of`). The game picks them from that person's own friends (or team), and they stay the same person.
 - `expands: <Storyline>` (under the title, like `=== Sisters: Holidays` then `expands: Sisters`): an expansion, more scenes for a storyline you have, in its own piece. It already has that storyline's cast (don't copy the cast: lines) and can say `after <one of its scenes>`.
-- `when: <tags>`: tags every scene in the storyline gets (like `freshman-junior`).
+- `when: <tags>`: tags every scene in the storyline gets (like `freshman-junior`). A scene's own year, month or day wins over these.
+- `when: freshman · spread` spreads the storyline's scenes across that school year, in order, about evenly from September to June (or across several years: `freshman-sophomore · spread`; or a season: `junior · spring · spread`). Scenes with their own timing keep it.
 - `about: <notes>`: what the storyline is about, for you and for ChatGPT.
 - A scene in another storyline: `after Same Team: Cut day`.
 
@@ -101,7 +102,7 @@ Separate with commas. `+` small, `++` medium, `+++` big, `-` `--` `---` down, or
 - Reputation: `rep <tag> +` with athlete, embarrassed, flaky, gossip, host, legend, mean, performer, star, tough, troublemaker. Family: `family affection +` (you and every sibling).
 - `play <game>`: `baseball` (a big at-bat, batting practice, a home run derby with friends); `basketball` (shooting around in the driveway, HORSE with a sibling, open gym, a dare from half court); `cup_pong` (a friend's basement, a party (beer pong in college)); `flash` (remembering a pattern, ear training in band, a memory bet); `football` (a goal-line stand at practice, a backyard game, a bet on one play); `golf` (a round with a parent, a golf outing, a bet on one hole); `hold` (a steady pour in chem lab, one brushstroke, a power throw in gym, holding a note (press, hold, let go on the line)); `lineup` (a timeline review, ranking things with friends, putting cards in order); `mathdash` (mental math with a friend, splitting a check, making change at a register job, counting atoms); `oddone` (proofreading a friend's essay, spot the difference, a typo on a sign); `paper_toss` (bored in class, the trash can across the room); `playmaker` (running the offense at the park, a pickup run where you have to find the open man); `reflex` (catching something falling, a reaction test, first hand up, a quick-draw bet); `soccer_11` (a pickup match, gym class, a game where your team needs a goal); `soccer_pk` (penalties at the park, settling an argument, a gym-class shootout); `sweep` (stopping a pendulum, hitting the beat, timing a jump rope, any "tap at the right moment"); `swing_lab` (the batting cages, a hitting lesson); `trivia` (a pop quiz, a study session, trivia night at a restaurant, a bet over who knows more); `sport` = your sport's game.
 - `60% +charisma -impulsivity`: a roll on your talents (academic, athletic, charisma, creativity, technical) and traits.
-- `vibe <style>`: chill, bold, sweet, cheesy, tease, funny (lands or misses by what they like).
+- `vibe <style>`: chill, funny, tease, sweet, cheesy, bold (lands or misses by what they like).
 - `focus <mode>` (academics, athletics, balanced, family, rest, romance, social), `hang out with <person>`, `text <person> "<line>"`, `fits loyalty` / `fits -discipline` (who'd pick this when the game picks for you; trait effects count too).
 
 ## Lines for the game's pools
@@ -119,6 +120,8 @@ A block is a header line and then one entry per line under it (until a blank lin
 ## Retiming scenes
 
 `schedule:` (a line on its own inside a storyline) and then one line per scene to retime, from any storyline: `Same Team: Cut day [sophomore · March · after Prom night]`; `[replace]` replaces its after-links, `[skip]` retires it.
+
+A line can retime a whole storyline: `Same Team [freshman · spread]` puts all of it in freshman year, spread out in order (holidays and school days keep their day). Names have to match: a scene or storyline that isn't there is an error, with what it might have meant.
 
 ## Writing well
 

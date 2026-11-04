@@ -1285,3 +1285,18 @@ html.ph-html body { color-scheme: light; }
 .rd-fx { font-style: normal; font-size: 11.5px; font-weight: 700; color: var(--ph-dim); background: var(--ph-bg); border-radius: 6px; padding: 1px 6px; margin-left: 6px; }
 .rd-var { color: var(--ph-ink-2); background: #f1ecff; border-radius: 6px; padding: 0 4px; }
 .rd-name { font-weight: 800; color: var(--ph-ink); }
+
+/* timing by hand */
+.rd-timing { background: var(--ph-card); border-radius: 16px; padding: 10px 12px; margin-bottom: 10px; box-shadow: var(--ph-shadow); }
+.rd-trow { all: unset; box-sizing: border-box; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--ph-line); cursor: pointer; }
+.rd-trow:first-of-type { border-top: 0; }
+.rd-trow span { display: flex; flex-direction: column; }
+.rd-trow b { font-weight: 800; color: var(--ph-ink); font-size: 14.5px; }
+.rd-trow small { color: var(--ph-dim); font-weight: 700; font-size: 12.5px; }
+.rd-trow em { font-style: normal; font-weight: 800; font-size: 12.5px; color: var(--ph-grape); display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
+.rd-tsheet { display: flex; flex-direction: column; gap: 10px; }
+.rd-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.rd-chips button { border: 1.5px solid var(--ph-line); background: var(--ph-card); border-radius: 999px; padding: 7px 12px; font: 800 13px var(--ph-body); color: var(--ph-ink-2); }
+.rd-chips button.on { background: var(--ph-grape); border-color: var(--ph-grape); color: #fff; }
+.rd-tsheet .dl-sub small { font-weight: 600; color: var(--ph-dim); text-transform: none; letter-spacing: 0; }

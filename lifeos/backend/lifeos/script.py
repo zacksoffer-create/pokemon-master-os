@@ -323,6 +323,10 @@ class Scene:
             return who.strip()  # Mom, Coach Reyes: just a label
         if low in WALKONS:
             return who.strip()[:1].upper() + who.strip()[1:]  # mom: -> Mom:
+        if re.fullmatch(r"[a-z][a-z0-9_]{1,30}", low):
+            raise Fail(f"'{who.strip()}' talks, but nobody here is called that.{_suggest(low, list(self.sec.cast) + list(PEOPLE))} "
+                       f"Add them to the cast (cast: {low} = <who they are, or their name>), or write a walk-on with a capital "
+                       f"({who.strip().title()}:)")
         return None
 
     def line(self, s: str, n: int) -> list:
@@ -531,6 +535,9 @@ def tags(text: str, sc: Scene | None, n: int, when: dict, sec) -> dict:
             continue
         if low in ("in class", "during class"):
             when.setdefault("requires", []).append("school_day")
+            continue
+        if low in ("spread", "spread out", "spread it out", "spread over the year", "spread across the year"):
+            when["spread"] = True  # (the storyline's scenes, in order, across its school years)
             continue
         if low in CHANCES:
             when["chance"] = CHANCES[low]
@@ -893,11 +900,30 @@ def _scene(sec: Section, head: Line, body: list, errs: list, idx: int, ids: set)
     tag_text = " · ".join(re.findall(r"\[([^\]]*)\]", m.group(3) if m else ""))
     sid = (m.group(2) or m.group(4)) if m else None
     sc = Scene(sec)
-    when = {k: (list(v) if isinstance(v, list) else dict(v) if isinstance(v, dict) else v) for k, v in sec.defaults.items()}
+    when = {k: (list(v) if isinstance(v, list) else dict(v) if isinstance(v, dict) else v) for k, v in sec.defaults.items()
+            if k != "spread"}
+    own: dict = {}
     try:
-        tags(tag_text, sc, head.n, when, sec)
+        tags(tag_text, sc, head.n, own, sec)
     except Fail as e:
         errs.append((head.n, str(e)))
+    if own.pop("spread", None):
+        errs.append((head.n, "spread goes on the storyline (when: freshman · spread), not on one scene"))
+    timed = {"years", "months", "dates", "not_before", "not_after"}
+    if own.keys() & {"months", "dates", "not_before", "not_after"}:  # its own season replaces the storyline's
+        for k in ("months", "dates", "not_before", "not_after"):
+            when.pop(k, None)
+    for k, v in own.items():  # the scene's own tags win; conditions add up
+        if k in ("requires", "remembered", "not_remembered", "after") and isinstance(v, list):
+            when[k] = list(dict.fromkeys((when.get(k) or []) + v))
+        else:
+            when[k] = v
+    for i, (wd, ref, n) in enumerate(sec.pending_after):
+        if wd is own:
+            sec.pending_after[i] = (when, ref, n)  # (an `after` it names links up into the merged tags)
+    sec.own_time = getattr(sec, "own_time", set())
+    if own.keys() & timed:
+        sec.own_time.add(head.n)
     sid = sid or f"{slug(sec.title, 28)}_{slug(title, 40)}"
     base, k = sid, 2
     while sid in ids:
@@ -1026,8 +1052,13 @@ def _block(kind: str, key: str, nodes: list, pack: dict, errs: list, sec: Sectio
                     elif low:
                         keep.append(tok)
                 w2: dict = {}
-                tags(" · ".join(keep), None, nd.line.n, w2, sec)
-                bad = [k for k in w2 if k not in ("years", "after", "gap_days", "months", "not_before", "not_after", "importance")]
+                try:
+                    tags(" · ".join(keep), None, nd.line.n, w2, sec)
+                    _check_ref(ref, sec, nd.line.n)
+                except Fail as e:
+                    errs.append((nd.line.n, str(e)))
+                    continue
+                bad = [k for k in w2 if k not in ("years", "after", "gap_days", "months", "not_before", "not_after", "importance", "spread")]
                 if bad:
                     errs.append((nd.line.n, f"a schedule can set the school year, months, after, a gap, before/after a date and how big; not {', '.join(bad)}"))
                     continue
@@ -1053,6 +1084,99 @@ def _flatten(nodes):
         out.append(n)
         out.extend(_flatten(n.children))
     return out
+
+
+SCHOOL_MONTHS = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6]
+YEAR_ORDER = ["freshman", "sophomore", "junior", "senior", "college_freshman", "college_sophomore", "college_junior", "college_senior"]
+
+
+def _head_title(h) -> str:
+    """A scene line's title, in lowercase (without its [tags] and #id)."""
+    return re.sub(r"\s*(\[.*|#.*)$", "", SCENE_RE.match(h.text).group(1)).strip().lower()
+
+
+def _check_ref(ref: str, sec, n):
+    """A schedule line's scene (or whole storyline) has to be one you have, or one in this script."""
+    names = getattr(sec, "lib_names", None)
+    if names is None:
+        return  # (no storylines at hand to check against: checked again when it's added)
+    low = ref.strip().lower()
+    if (low in sec.lib_titles or low in getattr(sec, "here_scene_titles", set()) or low in getattr(sec, "here_full", set())
+            or low in names or re.fullmatch(r"[a-z][a-z0-9_]{2,79}", ref.strip())):
+        return
+    if ":" in low:
+        st, _, ti = low.rpartition(":")
+        if st.strip() in names:
+            opts = [t.split(": ", 1)[1] for t in list(sec.lib_titles) + list(getattr(sec, "here_full", ())) if t.startswith(st.strip() + ": ")]
+            raise Fail(f"{ref.rpartition(':')[0].strip()} has no scene called '{ti.strip()}'.{_suggest(ti.strip(), opts)}")
+    opts = [t for t in sec.lib_titles if ": " in t] + sorted(names)
+    raise Fail(f"there's no scene or storyline called '{ref.strip()}'.{_suggest(low, opts)} Write it as <Storyline>: <scene title>, "
+               "or a storyline's title to retime all of it")
+
+
+def concrete_years(years) -> list:
+    """freshman, high_school, college... -> the school years themselves, in order."""
+    from . import dialogue as D
+    grades = sorted({g for y in (years or []) for g in D.YEARS.get(y, ())})
+    return [y for y in YEAR_ORDER if D.YEARS[y][0] in grades]
+
+
+def spread_slots(years, months, n: int) -> list:
+    """n scenes in order across these school years (and months: the school year, Sept to June, if none): (year, month) each."""
+    ys = concrete_years(years)
+    if not ys:
+        raise Fail("spread needs the school years to spread across, like when: freshman · spread (or freshman-junior · spread)")
+    ms = [m for m in SCHOOL_MONTHS + [7, 8] if m in (months or SCHOOL_MONTHS)]
+    slots = [(y, m) for y in ys for m in ms]
+    return [slots[min(len(slots) - 1, (k * len(slots)) // max(1, n))] for k in range(n)]
+
+
+def spread(scenes: list, years, months, keep=()):
+    """Give each scene that doesn't have its own timing a school year and month, in order, evenly across the years. Scenes
+    that keep their own month (or day: Thanksgiving, prom) stay put, and the ones between them are spaced out between them,
+    so the order holds."""
+    from . import calendar as calm
+    ys = concrete_years(years)
+    if not ys:
+        raise Fail("spread needs the school years to spread across, like when: freshman · spread (or freshman-junior · spread)")
+    ms = [m for m in SCHOOL_MONTHS + [7, 8] if m in (months or SCHOOL_MONTHS)]
+    slots = [(y, m) for y in ys for m in ms]
+    order = [m for m in SCHOOL_MONTHS + [7, 8]]
+
+    def place(y, mo):
+        exact = [i for i, (sy, sm) in enumerate(slots) if sy == y and sm == mo]
+        if exact:
+            return exact[0]
+        later = [i for i, (sy, sm) in enumerate(slots) if sy == y and order.index(sm) >= order.index(mo)]
+        return later[0] if later else max(i for i, (sy, _) in enumerate(slots) if sy == y)
+
+    def where(i, sc):  # a kept scene's place among the slots
+        w = sc.get("when") or {}
+        mo = (w.get("months") or [None])[0]
+        if mo is None and w.get("dates"):
+            d = w["dates"][0]
+            mo = int((calm.APPROX_MD.get(d) or d)[:2])
+        if mo is None:
+            return None
+        mine = [x for x in (w.get("years") or []) if x in ys] or ys
+        if len(mine) > 1:  # no year of its own: the year where it falls in the run of scenes
+            ideal = i * len(slots) / max(1, len(scenes))
+            y = min(mine, key=lambda x: abs(place(x, mo) - ideal))
+            w["years"] = [y]
+        else:
+            y = mine[0]
+        return place(y, mo)
+    marks = [(i, where(i, sc)) for i, sc in enumerate(scenes) if sc["id"] in keep]
+    marks = [(i, p) for i, p in marks if p is not None]
+    bounds = [(-1, -1)] + marks + [(len(scenes), len(slots))]
+    for (i0, p0), (i1, p1) in zip(bounds, bounds[1:]):
+        free = [sc for sc in scenes[i0 + 1:i1] if sc["id"] not in keep]
+        lo, hi = p0, max(p1, p0 + 1)
+        for j, sc in enumerate(free):
+            k = int(round(lo + (hi - lo) * (j + 1) / (len(free) + 1)))
+            y, m = slots[min(len(slots) - 1, max(0, k))]
+            w = sc.setdefault("when", {})
+            w["years"], w["months"] = [y], [m]
 
 
 def _expands(sec, title: str, library, here=None):
@@ -1190,6 +1314,20 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
                 _expands(x, x.expands, library, here)
             except Fail as e:
                 errs.append((x.expands_line, str(e)))
+    if library is not None:  # your storylines' scene titles, for "after <Storyline>: <scene>" and schedule lines
+        lib_titles, lib_names = {}, set()
+        for pk in library.values():
+            nm = str(pk.get("name") or "").lower()
+            lib_names.add(nm)
+            for sc in pk.get("scenes") or []:
+                if isinstance(sc, dict) and sc.get("title"):
+                    lib_titles[f"{nm}: {str(sc['title']).lower()}"] = sc["id"]
+                    lib_titles.setdefault(str(sc["title"]).lower(), sc["id"])
+        here_titles = {x.title.lower() for x in sections}
+        for x in sections:
+            x.lib_titles, x.lib_names = lib_titles, lib_names | here_titles
+            x.here_scene_titles = {_head_title(h) for y in sections for h, _ in y.scenes}
+            x.here_full = {y.title.lower() + ": " + _head_title(h) for y in sections for h, _ in y.scenes}
     # titles across the whole script, for "after <scene>"
     summaries: list = []
     packs = []
@@ -1212,6 +1350,12 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
                 by_title[f"{sec.title.lower()}: {sc['title'].lower()}"] = sc["id"]
                 sec.local[sc["title"].lower()] = sc["id"]
                 sec.local[f"{sec.title.lower()}: {sc['title'].lower()}"] = sc["id"]
+        if scenes and sec.defaults.get("spread"):
+            try:
+                spread(scenes, sec.defaults.get("years"), sec.defaults.get("months"),
+                       keep={sc["id"] for sc in scenes if sc.get("line") in getattr(sec, "own_time", set())})
+            except Fail as e:
+                errs.append((sec.n, str(e)))
         if scenes:
             pack["scenes"] = scenes
             pack["in_order"] = not sec.order_any
@@ -1221,6 +1365,15 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
     for sec, pack in compiled:
         for when, ref, n in sec.pending_after:
             sid = by_title.get(ref.lower()) or sec.parent_titles.get(ref.lower())
+            if sid is None and getattr(sec, "lib_titles", None) is not None:
+                hit = sec.lib_titles.get(ref.lower())
+                if hit:
+                    sid = hit  # a scene in a storyline you have
+                elif ":" in ref and ref.split(":")[0].strip().lower() in sec.lib_names:
+                    st, _, ti = ref.rpartition(":")
+                    near = _suggest(ti.strip().lower(), [t.split(": ", 1)[1] for t in sec.lib_titles if t.startswith(st.strip().lower() + ": ")])
+                    errs.append((n, f"'after {ref}': {st.strip()} has no scene called '{ti.strip()}'.{near}"))
+                    continue
             if sid is None and re.fullmatch(r"[a-z][a-z0-9_]{2,79}", ref):
                 sid = ref  # a scene id from another storyline
             if sid is None:
@@ -1359,7 +1512,11 @@ def guide(story_only: bool = False) -> str:
     A("- `expands: <Storyline>` (under the title, like `=== Sisters: Holidays` then `expands: Sisters`): an expansion, more "
       "scenes for a storyline you have, in its own piece. It already has that storyline's cast (don't copy the cast: lines) "
       "and can say `after <one of its scenes>`.")
-    A("- `when: <tags>`: tags every scene in the storyline gets (like `freshman-junior`).")
+    A("- `when: <tags>`: tags every scene in the storyline gets (like `freshman-junior`). A scene's own year, month or day "
+      "wins over these.")
+    A("- `when: freshman · spread` spreads the storyline's scenes across that school year, in order, about evenly from "
+      "September to June (or across several years: `freshman-sophomore · spread`; or a season: `junior · spring · spread`). "
+      "Scenes with their own timing keep it.")
     A("- `about: <notes>`: what the storyline is about, for you and for ChatGPT.")
     A("- A scene in another storyline: `after Same Team: Cut day`.")
     A("")
@@ -1468,6 +1625,10 @@ def guide(story_only: bool = False) -> str:
     A("`schedule:` (a line on its own inside a storyline) and then one line per scene to retime, from any storyline: "
       "`Same Team: Cut day [sophomore · March · after Prom night]`; `[replace]` replaces its after-links, `[skip]` retires it.")
     A("")
+    A("A line can retime a whole storyline: `Same Team [freshman · spread]` puts all of it in freshman year, spread out in "
+      "order (holidays and school days keep their day). Names have to match: a scene or storyline that isn't there is an "
+      "error, with what it might have meant.")
+    A("")
     A("## Writing well")
     A("")
     A("- Real people, real voices: short lines, specific details, how teenagers actually talk. PG-13.")
@@ -1552,9 +1713,11 @@ Reply with ONE code block (```) that starts with `=== Season plan`, and nothing 
 
 - a `schedule:` block: a line per scene you want to move or link, `<Storyline>: <Scene title> [new tags]` (school year, \
 months, after <Storyline>: <Scene>, a gap, before/after a date, how big; [replace] replaces its after-links, [skip] \
-retires it). Only the scenes that change.
+retires it). Only the scenes that change. To move a whole storyline into one year, one line does it: \
+`<Storyline> [freshman · spread]` (all of it in that year, spread out in order). Use the titles exactly as listed.
 - crossover scenes where storylines meet, if they'd help: `--- Title [tags · after <Storyline>: <Scene>]`, written like \
-any scene (with `order: any` under the title if they don't go in a row).
+any scene (with `order: any` under the title if they don't go in a row). Copy the cast: lines of anyone who talks in \
+them from the storylines above.
 {keep}
 """
 

@@ -934,6 +934,20 @@ bro: You're late. {Again.|Shocker.|Unbelievable.}
 5. **Add an expansion** right from there, and keep going. **Edit the script** to fix anything by hand; **Play now** to
    see a scene in your story; **Make it one story** for a season plan across every storyline.
 
+**Timing, by hand or with ChatGPT.** In **Read it**, *When it happens* shows each storyline's (and expansion's)
+timing; **Change** it to pick its school years (and seasons), and **Spread them out** to space its scenes evenly across
+that time, in order. Every scene moves into those years: tick *Keep each scene's own month* to leave Tryouts in
+November and spread the rest around it, or untick it and the spread decides every month. Holidays and school days keep
+their day. Tap any scene's date to move just that scene to a year and month. Everything you change is written into the
+script (`when: freshman · spread`, `--- Tryouts [freshman · November]`), so what you read is what plays. In a script,
+a scene's own year or month always wins over its storyline's.
+
+**Make it one story** still works across everything: ChatGPT gets every storyline (expansions included) with its cast
+lines and scene lines, and sends back a season plan. One line can move a whole storyline (`Danny [freshman · spread]`)
+or a single scene (`Danny: Tryouts [freshman · November]`), and crossover scenes tie storylines together. Every name
+in a plan is checked against your storylines: a typo comes back as an error with what it probably meant, instead of
+quietly doing nothing.
+
 **Expansions** keep storylines growing without ever resending them: `=== Sisters: Holidays` with `expands: Sisters`
 under it. An expansion already has its storyline's people (no copying cast lines), can say `after <one of its
 scenes>` and `if <a fact it remembers>`, and lives in its own file, so a big storyline never has to be sent back whole
