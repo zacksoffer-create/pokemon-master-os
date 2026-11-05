@@ -174,6 +174,12 @@ export type TextingBreakdown = { flirt: { label: string; n: number }[]; flirt_to
 export type TextingCheck = { ok: boolean; breakdown: TextingBreakdown; notes: string[]; text: string; scenes: number };
 export type OutlineCheck = { ok: boolean; title: string; expands: string | null; about: string | null; cast: { name: string; label: string }[];
   outline: OutlineEntry[]; notes: string[]; warnings: string[]; pack?: string };
+export type ReviseScene = { key: string; n: number | null; title: string; problems: string[]; src?: string };
+export type CastLine = { name: string; value: string; named: boolean };
+export type ReviseView = { pack: string; name: string; outlined: boolean; scenes: ReviseScene[]; scene_count: number; warnings: string[];
+  cast: CastLine[]; can_undo: boolean; roles: string[] };
+export type ReviseResult = { ok: boolean; replaced: string[]; head: string[]; skipped: { title: string; problems: string[] }[]; notes: string[];
+  still: ReviseScene[]; fix_prompt: string; errors: string[] };
 export type WritingRow = { pack: string; name: string; written: number; total: number; played: number; needs_fixing: number; stuck: number;
   stuck_why: string | null; on: boolean };
 export type Checkup = { pack: string; name: string; written: number; total: number; gaps: SkippedScene[]; fix_prompt: string };
@@ -315,6 +321,12 @@ export const phoneApi = {
   textingCheck: (text: string): Promise<TextingCheck> => api.post("/api/texting/check", { text }),
   textingAdd: (text: string): Promise<{ ok: boolean; pack: string; breakdown: TextingBreakdown; notes: string[];
     skipped: { header: string; why: string }[]; fix_prompt: string | null }> => api.post("/api/texting/add", { text }),
+  revise: (pack: string): Promise<ReviseView> => api.get(`/api/story/revise?pack=${encodeURIComponent(pack)}`),
+  reviseFixPrompt: (pack: string): Promise<{ prompt: string }> => api.get(`/api/story/revise/fix-prompt?pack=${encodeURIComponent(pack)}`),
+  reviseChangePrompt: (pack: string, ask: string): Promise<{ prompt: string }> => api.post("/api/story/revise/change-prompt", { pack, ask }),
+  reviseApply: (pack: string, text: string): Promise<ReviseResult> => api.post("/api/story/revise/apply", { pack, text }),
+  reviseUndo: (pack: string): Promise<ReviseView> => api.post("/api/story/revise/undo", { pack }),
+  reviseCast: (pack: string, name: string, value: string): Promise<{ cast: CastLine[] }> => api.post("/api/story/revise/cast", { pack, name, value }),
   writing: (): Promise<{ storylines: WritingRow[] }> => api.get("/api/story/build/writing"),
   checkup: (pack: string): Promise<Checkup> => api.get(`/api/story/build/checkup?pack=${encodeURIComponent(pack)}`),
   batchPrompt: (pack: string, count = 3): Promise<BatchPrompt> =>

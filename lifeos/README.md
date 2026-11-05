@@ -1084,6 +1084,24 @@ write screen shows them under the prompt, and a finished storyline has **Check i
 open it). A storyline whose scenes can't come in your story as it stands says so on its chip ("done · 2 can't come"); Read
 it says why.
 
+**Fix or change a storyline you already have.** Story Studio → Storylines → open one → **Fix or change it**. Nothing
+about writing new scenes changes; this is for what's already in:
+
+1. **What's broken**: every scene that never asks you anything, gives only one choice, or has a choice with nothing after
+   it (tap one to see it as it is). **Copy the fix-it prompt** gives ChatGPT just those scenes, as they are now, with
+   what's wrong with each.
+2. **Or change something**: say it in your own words ("make Danny any friend instead of one set person", "move it to
+   junior year", "make Nicole nicer in scene 4") and **Copy the change prompt**. ChatGPT gets the storyline as it is and
+   sends back only the cast lines and scenes that change (and fixes anything broken on the way), so a long storyline
+   never gets cut off.
+3. **Paste ChatGPT's reply** and **Put it in**: each scene replaces the one with the same number (or title) in place,
+   `cast:` and `years:` lines replace theirs, and everything else stays as it was. A scene that still can't go in stays
+   as it was and says why. You see what went in and what's still broken, with a fix-it message for just what's left.
+   **Undo my last paste** puts back the storyline from before.
+4. **Who's in it**: each cast line, tagged **One person** or **A role**. **Change** switches it right there, no ChatGPT:
+   a name makes it that one person; a role (friend, teammate, classmate, ex, coach, a brother or sister...) lets the game
+   pick whoever fits in your story and keep them. Their lines don't change.
+
 **Every choice keeps what happens after it.** ChatGPT is asked for choices with no indenting: `* ` starts a choice and
 the lines after it, down to the next `* `, are what happens when you pick it; `** ` is a choice inside the choice above it;
 `either way:` starts what plays whichever you picked. The old indented way works too, and so do the ways ChatGPT writes

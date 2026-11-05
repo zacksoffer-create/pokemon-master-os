@@ -8,6 +8,7 @@ import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { pickFile } from "./StoryFiles";
 import BuildStoryline, { BuildStart } from "./BuildStoryline";
+import ReviseSheet from "./ReviseSheet";
 import { applyUpdate, subscribe, updateReady, UpdateState } from "../standalone/update";
 import StorylineRead from "./StorylineRead";
 
@@ -266,6 +267,7 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
   const [edit, setEdit] = useState<PackRow | null>(null);
   const [read, setRead] = useState<string | null>(null);
   const [build, setBuild] = useState<BuildStart>(null);
+  const [revise, setRevise] = useState<string | null>(null);
   const expandOf = (p: PackRow): BuildStart => {
     const top = p.expands ? data?.packs.find((x) => x.name === p.expands && !x.expands) : p;
     return { expand: top?.id || p.id, expandName: top?.name || p.name };
@@ -444,6 +446,11 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
                       </button>
                     </div>
                   )}
+                  {p.kind === "script" && p.ok && !tx && p.id.startsWith("yours:") && (
+                    <button className="ph-btn soft block" onClick={() => setRevise(p.id)}>
+                      <PIcon name="check" size={16} /> Fix or change it
+                    </button>
+                  )}
                   {p.kind === "script" && (
                     <button className="ph-btn soft block" onClick={() => setEdit(p)}>
                       <PIcon name="chat" size={17} /> Edit the script
@@ -521,6 +528,7 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
         const p = data?.packs.find((x) => x.id === pid);
         setBuild(p ? expandOf(p) : { expand: pid });
       }} />
+      <ReviseSheet pack={revise} onClose={() => { setRevise(null); load(); }} onChanged={load} />
       <BuildStoryline start={build} onClose={() => { setBuild(null); load(); }} onChanged={load} onRead={(pid) => { setBuild(null); setRead(pid); }} />
       <Sheet open={guide !== null} onClose={() => setGuide(null)} full title="How scripts work">
         <pre className="dl-guide">{guide}</pre>

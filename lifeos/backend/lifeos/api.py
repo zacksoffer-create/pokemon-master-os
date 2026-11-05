@@ -1548,6 +1548,67 @@ def api_build_batch_prompt(pack: str, count: int = 3):
             raise HTTPException(409, str(e))
 
 
+# --- Fix or change it: a storyline you already have, revised in place ---------------------------------------------
+
+def _revise(fn):
+    try:
+        return fn()
+    except KeyError:
+        raise HTTPException(404, "no such storyline (or nothing to undo)")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
+@app.get("/api/story/revise")
+def api_revise(pack: str):
+    """What's broken in a storyline (scene by scene), who's in it, and whether there's a paste to undo."""
+    from . import revise
+    return _revise(lambda: revise.problems(pack))
+
+
+@app.get("/api/story/revise/fix-prompt")
+def api_revise_fix_prompt(pack: str):
+    from . import revise
+    t = _revise(lambda: revise.fix_prompt(pack))
+    if not t:
+        raise HTTPException(409, "nothing's broken: every scene asks you something")
+    return {"prompt": t, "chars": len(t)}
+
+
+@app.post("/api/story/revise/change-prompt")
+def api_revise_change_prompt(body: dict = Body(...)):
+    from . import revise
+    t = _revise(lambda: revise.change_prompt(str(body.get("pack") or ""), str(body.get("ask") or "")))
+    return {"prompt": t, "chars": len(t)}
+
+
+@app.post("/api/story/revise/apply")
+def api_revise_apply(body: dict = Body(...)):
+    """{pack, text}: ChatGPT's fixed or changed scenes (and cast lines) go in place of what's there."""
+    from . import revise
+    r = _revise(lambda: revise.apply(str(body.get("pack") or ""), str(body.get("text") or "")))
+    if r.get("ok"):
+        _dialogue_changed(get_lab())
+    return r
+
+
+@app.post("/api/story/revise/undo")
+def api_revise_undo(body: dict = Body(...)):
+    from . import revise
+    r = _revise(lambda: revise.undo(str(body.get("pack") or "")))
+    _dialogue_changed(get_lab())
+    return r
+
+
+@app.post("/api/story/revise/cast")
+def api_revise_cast(body: dict = Body(...)):
+    """{pack, name, value}: who someone in a storyline is (one set person, or a role)."""
+    from . import revise
+    r = _revise(lambda: revise.set_cast(str(body.get("pack") or ""), str(body.get("name") or ""), str(body.get("value") or "")))
+    _dialogue_changed(get_lab())
+    return {"cast": r}
+
+
 @app.get("/api/story/build/writing")
 def api_build_writing():
     """Your outlined storylines with how far along each is (for switching between them while you write)."""

@@ -2127,6 +2127,7 @@ def _backup(path: str, why: str):
     with open(os.path.join(d, "index.json.tmp"), "w", encoding="utf-8") as f:
         json.dump(idx, f)
     os.replace(os.path.join(d, "index.json.tmp"), os.path.join(d, "index.json"))
+    return fn
 
 
 def history() -> list:
