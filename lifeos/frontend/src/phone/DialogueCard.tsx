@@ -242,9 +242,12 @@ export function EngineLine() {
     return subscribe(setUpd);
   }, []);
   if (!engine) return null;
+  // the screens' own build (their file name), so an update that only changes screens shows here too
+  const screens = [...document.querySelectorAll("script[src]")].map((e) => (e as HTMLScriptElement).src.split("/").pop() || "")
+    .find((n) => /^play-/.test(n))?.replace(/^play-|\.js$/g, "");
   return (
     <p className="ph-dim small dl-engine">
-      Engine {engine}
+      Engine {engine}{screens ? ` · screens ${screens}` : ""}
       {upd && upd.latest && (updateReady(upd) ? (
         <>
           {" · "}a newer one is out{" "}
