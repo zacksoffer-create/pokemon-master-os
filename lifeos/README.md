@@ -103,6 +103,15 @@ stats, your family and your people.
   which sport) is kept until that scene changes, so adding a batch or opening Storylines doesn't redo every scene you
   have; the phone saves at most every 45 seconds while you play (and right away when you leave the app), since a save
   holds everything else up for a moment.
+- **If a screen goes blank (iPhone).** Tap the same tab five times fast (the tab bar always shows) for **Diagnostics**,
+  a plain panel about that screen: the build running and the latest online, the phone, the engine's memory, the story's
+  size, what's on the Story page (and anything oversized), what's waiting, and whether the engine is busy. **Copy all
+  of it** to send it. Switches, all remembered: **Simple look** (no animations, blur, shadows or blend), **Page
+  scrolling** (the page scrolls instead of a box inside the app) and **Story page: hide a part** (the picture, the pills,
+  today's strip/plate/week, the scene card, the choices, the setup card), to find what the phone won't draw. The Story
+  page itself avoids what iPhone Safari stopped drawing: the scene card doesn't clip its contents and only fades in, the
+  scene picture is a flat image (drawn once per place, season and time of day) with a plain tint, and nothing that
+  scrolls has a backdrop blur. Also at `#/m/diag`.
 - **Up next** (the bar at the top in episode mode) is the next ten episodes in the order they'll come, with about when
   (played forward on a copy, your character answering). Move any one up or down: the episode it passes now waits for
   it, saved in your story, and the list plays forward again so you see where everything lands. If a move would push an
