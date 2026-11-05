@@ -430,9 +430,24 @@ def api_job():
 
 
 @app.get("/api/sim/memory")
-def api_memory():
-    """How much memory the engine holds (on the phone: the engine's whole heap, which only ever grows)."""
+def api_memory(full: int = 0):
+    """How much memory the engine holds (on the phone: the engine's whole heap, which only ever grows), and how big your
+    story is (full=1 also measures the save, which takes a moment)."""
     out = {}
+    try:
+        from . import dialogue
+        L = get_lab()
+        w = L.w
+        mine = [p for p in dialogue.packs() if str(p["id"]).startswith("yours:")]
+        out.update({"day": w.day, "days_played": w.day - ((w.meta.get("story") or {}).get("start_day") or 0),
+                    "people": len(w.chars), "events": len(w.history.events), "storylines": len(mine),
+                    "scenes": sum(len(p["pack"].get("scenes") or []) for p in mine),
+                    "script_kb": round(sum(len(p.get("script") or "") for p in mine) / 1e3)})
+        if full:
+            from .storage import world_to_bytes
+            out["save_mb"] = round(len(world_to_bytes(w)) / 1e6, 2)
+    except Exception as e:  # noqa: BLE001
+        out["story_error"] = str(e)[:200]
     try:
         import pyodide_js  # (only on the phone)
         out["heap_mb"] = round(pyodide_js._module.HEAPU8.length / 1e6, 1)

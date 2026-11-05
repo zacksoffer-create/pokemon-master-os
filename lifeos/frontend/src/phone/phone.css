@@ -1496,3 +1496,20 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 .rv-tag.one { background: #efe7ff; color: #5b3fc4; }
 .rv-tag.role { background: #e3f6ee; color: #137a52; }
 .rv-cast-b { margin-top: 8px; display: flex; flex-direction: column; gap: 8px; }
+
+/* Diagnostics: plain on purpose (no animation, blur or shadow), above everything, so it shows when nothing else will */
+.ph-diag { position: fixed; inset: 0; z-index: 10000; background: #fff; color: #111; overflow-y: auto; font: 14px/1.4 -apple-system, system-ui, sans-serif;
+  padding: calc(14px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)); }
+.ph-diag-in { max-width: 520px; margin: 0 auto; }
+.ph-diag-h { display: flex; justify-content: space-between; align-items: center; font-size: 18px; margin-bottom: 6px; }
+.ph-root .ph-diag button, .ph-diag button { --btn-bg: #f0f0f0; background: #f0f0f0; border: 1px solid #ccc; border-radius: 10px; padding: 9px 14px; font: inherit; color: #111; }
+.ph-diag pre { white-space: pre-wrap; word-break: break-word; background: #f6f6f6; border: 1px solid #ddd; border-radius: 10px; padding: 10px; font-size: 12px; }
+.ph-diag-sw { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin: 10px 0; }
+.ph-diag-sw input { width: 22px; height: 22px; margin-top: 2px; }
+.ph-diag-b { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Simple look (Diagnostics): every visual effect off, for phones that stop drawing the screen */
+.ph-plain *, .ph-plain *::before, .ph-plain *::after { animation: none !important; transition: none !important;
+  -webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: none !important; filter: none !important;
+  text-shadow: none !important; will-change: auto !important; }
+.ph-plain .ph-sheet-wrap { background: rgba(42, 33, 64, 0.5) !important; }

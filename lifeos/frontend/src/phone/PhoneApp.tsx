@@ -20,6 +20,7 @@ import Studio from "./Studio";
 import TextingHub from "./TextingHub";
 import Editor from "./Editor";
 import { PhoneProvider, usePhone } from "./PhoneContext";
+import Diagnostics, { applyPlain, plainOn } from "./Diagnostics";
 import PhoneTab from "./PhoneTab";
 import PlayLine from "./PlayLine";
 import SceneTab from "./SceneTab";
@@ -27,7 +28,28 @@ import SportsTab from "./SportsTab";
 import StoryTab from "./StoryTab";
 import "./phone.css";
 
+// five quick taps on the Me tab (the tab bar always shows, even when a screen won't): diagnostics
+let meTaps: number[] = [];
+function tapMe() {
+  const now = Date.now();
+  meTaps = [...meTaps.filter((t) => now - t < 2500), now];
+  if (meTaps.length >= 5) {
+    meTaps = [];
+    window.dispatchEvent(new Event("lifeos-diag"));
+  }
+}
+
 export default function PhoneApp({ route }: { route: string[] }) {
+  const [diag, setDiag] = useState(false);
+  useEffect(() => {
+    applyPlain(plainOn());
+    const open = () => setDiag(true);
+    window.addEventListener("lifeos-diag", open);
+    return () => window.removeEventListener("lifeos-diag", open);
+  }, []);
+  useEffect(() => {
+    if (route[0] === "diag") setDiag(true);
+  }, [route[0]]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     document.documentElement.classList.add("ph-html");
     const meta = document.querySelector('meta[name="theme-color"]');
@@ -48,6 +70,7 @@ export default function PhoneApp({ route }: { route: string[] }) {
           <SlowNotes />
           <div id="ph-portal" />
           <Toasts />
+          {diag && <Diagnostics onClose={() => { setDiag(false); if (route[0] === "diag") pgo(""); }} />}
         </div>
       </div>
     </PhoneProvider>
@@ -160,7 +183,7 @@ function TabBar({ tab }: { tab: string }) {
   return (
     <nav className="ph-tabbar">
       {items.map(([k, label, icon, badge]) => (
-        <button key={k} className={cx("ph-tab", tab === k && "on")} onClick={() => pgo(k === "story" ? "" : k)}>
+        <button key={k} className={cx("ph-tab", tab === k && "on")} onClick={() => { if (k === "me") tapMe(); pgo(k === "story" ? "" : k); }}>
           <span className="ph-tab-i"><PIcon name={icon} size={23} stroke={tab === k ? 2.4 : 2} />{badge}</span>
           <span className="ph-tab-l">{label}</span>
         </button>
