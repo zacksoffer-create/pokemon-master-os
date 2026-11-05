@@ -429,6 +429,22 @@ def api_job():
     return L.job or {"status": "idle"}
 
 
+@app.get("/api/sim/memory")
+def api_memory():
+    """How much memory the engine holds (on the phone: the engine's whole heap, which only ever grows)."""
+    out = {}
+    try:
+        import pyodide_js  # (only on the phone)
+        out["heap_mb"] = round(pyodide_js._module.HEAPU8.length / 1e6, 1)
+    except Exception:  # noqa: BLE001
+        try:
+            import resource
+            out["max_rss_mb"] = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1e3, 1)
+        except Exception:  # noqa: BLE001
+            pass
+    return out
+
+
 @app.post("/api/sim/new")
 def api_new(body: dict = Body(default={})):
     L = get_lab()
