@@ -19,6 +19,20 @@ export function applyPlain(on: boolean) {
   document.documentElement.classList.toggle("ph-plain", on);
 }
 
+const PAGE_KEY = "lifeos.pagescroll";
+
+export function pageScrollOn(): boolean {
+  try {
+    return localStorage.getItem(PAGE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function applyPageScroll(on: boolean) {
+  document.documentElement.classList.toggle("ph-docscroll", on);
+}
+
 function screenReport(): Record<string, string> {
   const out: Record<string, string> = {};
   const scr = document.querySelector(".ph-screen") as HTMLElement | null;
@@ -26,7 +40,8 @@ function screenReport(): Record<string, string> {
   const cs = getComputedStyle(scr);
   out.screen = `opacity ${cs.opacity}, visibility ${cs.visibility}, display ${cs.display}, transform ${cs.transform}, `
     + `animation ${cs.animationName} ${cs.animationFillMode}`;
-  out.size = `${Math.round(scr.clientWidth)}x${Math.round(scr.clientHeight)}, content ${scr.scrollHeight} tall, scrolled ${Math.round(scr.scrollTop)}`;
+  out.size = `${Math.round(scr.clientWidth)}x${Math.round(scr.clientHeight)}, content ${scr.scrollHeight} tall, scrolled ${Math.round(scr.scrollTop)}`
+    + (document.documentElement.classList.contains("ph-docscroll") ? ` (page scrolled ${Math.round(window.scrollY)})` : "");
   out.inside = `${scr.querySelectorAll("*").length} elements`;
   const x = window.innerWidth / 2;
   const y = window.innerHeight / 3;
@@ -40,6 +55,7 @@ function screenReport(): Record<string, string> {
 export default function Diagnostics({ onClose }: { onClose: () => void }) {
   const [info, setInfo] = useState<Record<string, any>>({});
   const [plain, setPlain] = useState(plainOn());
+  const [page, setPage] = useState(pageScrollOn());
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     const base: Record<string, any> = {
@@ -67,9 +83,17 @@ export default function Diagnostics({ onClose }: { onClose: () => void }) {
     } catch { /* private mode */ }
     applyPlain(on);
   };
+  const flipPage = () => {
+    const on = !page;
+    setPage(on);
+    try {
+      localStorage.setItem(PAGE_KEY, on ? "1" : "0");
+    } catch { /* private mode */ }
+    applyPageScroll(on);
+  };
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(`LIFE OS diagnostics\n${text}\nsimple look: ${plain ? "on" : "off"}`);
+      await navigator.clipboard.writeText(`LIFE OS diagnostics\n${text}\nsimple look: ${plain ? "on" : "off"}\npage scrolling: ${page ? "on" : "off"}`);
       setCopied(true);
     } catch {
       setCopied(false);
@@ -86,6 +110,11 @@ export default function Diagnostics({ onClose }: { onClose: () => void }) {
         <label className="ph-diag-sw">
           <input type="checkbox" checked={plain} onChange={flip} />
           <span><b>Simple look</b><br />No animations, blur or shadows. If the screen stops going blank with this on, it's how the phone draws the effects.</span>
+        </label>
+        <label className="ph-diag-sw">
+          <input type="checkbox" checked={page} onChange={flipPage} />
+          <span><b>Page scrolling</b><br />The whole page scrolls instead of a box inside the app. If the screen stops going blank with this on, it's the
+            scrolling box (and this becomes the normal way).</span>
         </label>
         <pre>{text || "Reading…"}</pre>
         <div className="ph-diag-b">

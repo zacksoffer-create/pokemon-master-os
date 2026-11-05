@@ -20,7 +20,7 @@ import Studio from "./Studio";
 import TextingHub from "./TextingHub";
 import Editor from "./Editor";
 import { PhoneProvider, usePhone } from "./PhoneContext";
-import Diagnostics, { applyPlain, plainOn } from "./Diagnostics";
+import Diagnostics, { applyPageScroll, applyPlain, pageScrollOn, plainOn } from "./Diagnostics";
 import PhoneTab from "./PhoneTab";
 import PlayLine from "./PlayLine";
 import SceneTab from "./SceneTab";
@@ -43,13 +43,16 @@ export default function PhoneApp({ route }: { route: string[] }) {
   const [diag, setDiag] = useState(false);
   useEffect(() => {
     applyPlain(plainOn());
+    applyPageScroll(pageScrollOn());
     const open = () => setDiag(true);
     window.addEventListener("lifeos-diag", open);
     return () => window.removeEventListener("lifeos-diag", open);
   }, []);
   useEffect(() => {
     if (route[0] === "diag") setDiag(true);
-  }, [route[0]]); // eslint-disable-line react-hooks/exhaustive-deps
+    // page scrolling: a new screen starts at the top (a scrolling box did that by being new)
+    if (document.documentElement.classList.contains("ph-docscroll")) window.scrollTo(0, 0);
+  }, [route.join("/")]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     document.documentElement.classList.add("ph-html");
     const meta = document.querySelector('meta[name="theme-color"]');

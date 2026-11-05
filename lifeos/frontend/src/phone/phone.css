@@ -1513,3 +1513,14 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
   -webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: none !important; filter: none !important;
   text-shadow: none !important; will-change: auto !important; }
 .ph-plain .ph-sheet-wrap { background: rgba(42, 33, 64, 0.5) !important; }
+
+/* Page scrolling (Diagnostics): the page itself scrolls, like a website, instead of a box inside a frame pinned to the
+   screen. iOS can stop drawing a scrolling box inside a pinned frame (the content goes blank but still takes taps). */
+html.ph-docscroll, html.ph-docscroll body, html.ph-docscroll #root { height: auto; min-height: 100%; }
+html.ph-docscroll body { overflow-x: hidden; }
+.ph-docscroll .ph-root { position: relative; inset: auto; display: block; min-height: 100vh; min-height: 100dvh; }
+.ph-docscroll .ph-frame { height: auto; min-height: 100vh; min-height: 100dvh; overflow: visible; margin: 0 auto; }
+.ph-docscroll .ph-screen { flex: none; overflow: visible; }
+.ph-docscroll .ph-tabbar { position: fixed; left: 0; right: 0; max-width: 430px; margin: 0 auto; }
+.ph-docscroll .ph-sheet-wrap, .ph-docscroll .ph-toasts { position: fixed; }
+.ph-docscroll .ph-sheet-wrap { max-width: 430px; margin: 0 auto; }
