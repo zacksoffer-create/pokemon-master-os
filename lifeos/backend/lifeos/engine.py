@@ -615,6 +615,33 @@ class Simulation:
         ev["trace"] = self.slot.traces.get(c.id)
         self.finish(ev, fx)
 
+    def _asked_first(self, target, inviter) -> str | None:
+        """They asked you (by text, along with their people, as your group's plan): picking them from your choices is a
+        yes to that, never a fresh ask they can turn down."""
+        w = self.w
+        if inviter != w.meta.get("protagonist"):
+            return None
+        slot = self.slot.slot
+        for inv in w.meta.get("inbox", []):
+            if inv["from"] == target and inv["to"] == inviter and inv["status"] == "pending" \
+                    and inv.get("day", w.day) >= w.day - 1:
+                inv["status"] = "accepted"
+                return "they asked you to hang out"
+        gi = w.meta.get("group_invite")
+        if gi and gi.get("day") == w.day and gi.get("host") == target and gi.get("slot") == slot and gi.get("answer") != "no":
+            gi["answer"] = "yes"
+            return "they asked you along"
+        q = w.meta.get("control", {}).get("queued") or {}
+        if q.get("agreed") and q.get("target") == target and q.get("day", w.day) <= w.day:
+            w.meta["control"].pop("queued", None)
+            return "you already made these plans by text"
+        from . import squad
+        p = squad.plan(self)
+        s = squad.state(self)
+        if p and s and p.get("slot") == slot and target in s.get("ids", []):
+            return "your group made plans for now"
+        return None
+
     def respond(self, target, inviter, cand, rng, ev) -> str:
         """The invited person decides whether to accept, weighing it against their own plan."""
         w = self.w
@@ -638,9 +665,11 @@ class Simulation:
                 ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "waiting for you",
                                    "rule": "invitations to your character wait in your inbox"})
             return "invited"
-        if (inviter, target) in self.slot.agreed and target not in self.slot.engaged:
+        asked = self._asked_first(target, inviter)
+        if ((inviter, target) in self.slot.agreed or asked) and target not in self.slot.engaged:
             if ev.get("calc") is not None:
-                ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "accepted", "rule": "you already made these plans by text"})
+                ev["calc"].append({"step": f"{T.short}'s answer", "outcome": "accepted",
+                                   "rule": asked or "you already made these plans by text"})
             if target not in self.slot.done and self.slot.planned.get(target):
                 self.cancel_plan(target, f"had plans with {w.chars[inviter].short}")
             return "accepted"

@@ -620,6 +620,16 @@ def _context(sim, c, cand, ctx):
             rej = [m for m in c.memories if m["kind"] == "rejected" and cand.target in m["with"] and w.day - m["day"] < 120]
             if rej:
                 out.append(("was turned down before", -12.0, rej[-1]["text"]))
+            T = w.chars.get(cand.target)
+            bar = float(w.rules.get("romance.girl_asks_guy", 1.0))
+            if bar > 0 and c.gender == "f" and T is not None and T.gender == "m":
+                # it takes more for a girl to make the move on a guy: she has to be really into him, and pretty sure he's
+                # into her too. Short of that she waits for him to ask.
+                need = 60 + 15 * bar
+                sure = r.perceived / 100
+                v = -6.0 * bar - max(0.0, need - r.attraction) / 10 * 3 * bar + (sure - 0.5) * 4 * bar
+                out.append(("she'd rather he asked", v, f"her attraction {r.attraction:.0f} (it takes about {need:.0f}), "
+                                                       f"how sure she is he likes her {r.perceived:.0f}"))
     elif aid == "break_up":
         other = [r for oid, r in w.out.get(c.id, {}).items() if r.crush and oid != cand.target]
         if other:

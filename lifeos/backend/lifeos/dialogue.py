@@ -1649,14 +1649,20 @@ def cut_off(text: str) -> bool:
 def scene_gaps(pid: str, ns: list) -> list:
     """Scenes that went in with pieces missing: a choice with nothing after it, or no choice like the one a later scene
     follows. [{n, title, problems}]"""
+    return _gaps_of(_script_pack(pid), ns)
+
+
+def _gaps_of(p: dict, ns: list) -> list:
     from . import script as SC
-    p = _script_pack(pid)
     ents = SC.outline_entries(p["pack"])
     by_id = {sc.get("id"): sc for sc in p["pack"].get("scenes") or [] if isinstance(sc, dict)}
     sc_of = {e["n"]: by_id.get(e.get("sid")) for e in ents if e.get("written")}
     out: dict = {}
     for n in ns:
         if sc_of.get(n):
+            q = SC.no_question(sc_of[n])
+            if q:
+                out.setdefault(n, []).append(q)
             out.setdefault(n, []).extend(SC.choice_gaps(sc_of[n]))
     for e in ents:
         m = re.search(r"you picked “(.+?)” in (\d+)", e.get("if") or "")
@@ -1665,6 +1671,48 @@ def scene_gaps(pid: str, ns: list) -> list:
                 f"it needs a choice like “{m.group(1)}”: scene {e['n']} only happens after it (until then scene {e['n']} plays either way)")
     titles = {e["n"]: e["title"] for e in ents}
     return [{"n": n, "title": titles.get(n, ""), "problems": ps} for n, ps in sorted(out.items()) if ps]
+
+
+def checkup(pid: str) -> dict:
+    """An outlined storyline's written scenes, checked: any that never ask you anything (or give only one choice), a
+    choice with nothing after it, a choice a later scene needs that isn't there. With a fix-it message that asks ChatGPT
+    for just those, whole. {pack, name, written, total, gaps, fix_prompt}"""
+    from . import script as SC
+    p = _script_pack(pid)
+    ents = SC.outline_entries(p["pack"])
+    ns = [e["n"] for e in ents if e.get("written")]
+    gaps = scene_gaps(pid, ns) if ents else []
+    return {"pack": pid, "name": p["pack"].get("name") or pid, "written": len(ns), "total": len(ents), "gaps": gaps,
+            "fix_prompt": fix_prompt([], gaps)}
+
+
+def writing(sim) -> list:
+    """Your outlined storylines, for switching between them while you write: how far along each is, how many written
+    scenes need fixing, and how many can't come in your story as it stands (with the usual why)."""
+    from collections import Counter
+    from . import scheduler, script as SC
+    by: dict = {}
+    try:
+        for r in scheduler.rows(sim):
+            by.setdefault(r.get("pack"), []).append(r)
+    except Exception:  # noqa: BLE001  (no story yet: progress only)
+        by = {}
+    out = []
+    for p in packs():
+        if p.get("kind") != "script" or not str(p["id"]).startswith("yours:"):
+            continue
+        ents = SC.outline_entries(p["pack"])
+        if not ents:
+            continue
+        ns = [e["n"] for e in ents if e.get("written")]
+        gaps = _gaps_of(p, ns)
+        mine = by.get(p["id"], [])
+        stuck = [r for r in mine if r.get("state") in ("unreachable", "expired")]
+        top = Counter(r.get("why") or (r.get("reason") or "").replace("_", " ") for r in stuck).most_common(1)
+        out.append({"pack": p["id"], "name": p["pack"].get("name") or p["id"], "written": len(ns), "total": len(ents),
+                    "played": sum(1 for r in mine if r.get("state") == "played"), "needs_fixing": len(gaps),
+                    "stuck": len(stuck), "stuck_why": top[0][0] if top else None, "on": bool(p.get("enabled", True))})
+    return sorted(out, key=lambda x: (x["written"] >= x["total"] and not x["needs_fixing"], x["name"].lower()))
 
 
 def insert_scenes(pid: str, after: str | None, text: str) -> dict:
@@ -1956,6 +2004,7 @@ def fix_prompt(skipped: list, gaps: list | None = None) -> str:
     L += ["Send just these scenes again, each one complete from its first line to its last, in ONE code block, same format "
           "(each starts with --- <number>. <title>), nothing after it. If they don't all fit, send fewer: never cut one short.", "",
           "Rules that fix most of these:",
+          "- Every scene ends on a question (someone asks me something, or it's my move), then 2 to 4 choices.",
           "- `* ` starts a choice; the lines after it, down to the next `* `, are what happens after it. Every choice gets at "
           "least one line.",
           "- `** ` is a choice inside the choice above it. `either way:` on its own line: what follows plays whichever you picked.",

@@ -69,6 +69,41 @@ export function WhoFold({ p, val, put }: { p: EdPerson; val: Val; put: Put }) {
   );
 }
 
+const FLIRT: [string, string][] = [["1", "Loves it"], ["0", "It's fine"], ["-1", "Not into it"]];
+
+/** What works when you flirt with them: each style, from their personality unless you set it. */
+export function FlirtFold({ p, val, put }: { p: EdPerson; val: Val; put: Put }) {
+  if (!p.flirt) return null;
+  const now = (s: { style: string; value: number; personality: number; set: boolean }) => {
+    const v = val("flirt", null)?.[s.style];
+    return v === undefined ? s.value : v === null ? s.personality : Number(v);
+  };
+  const mine = (s: { style: string; set: boolean }) => {
+    const v = val("flirt", null)?.[s.style];
+    return v === undefined ? s.set : v !== null;
+  };
+  const loves = p.flirt.styles.filter((s) => now(s) === 1).map((s) => s.label.toLowerCase());
+  const any = p.flirt.styles.some(mine);
+  return (
+    <Fold title="Flirting" sub={loves.length ? `Loves ${loves.join(" and ")}` : "Nothing in particular"}>
+      <p className="ph-dim small ed-flirt-hint">
+        What works when you flirt with {p.first}: what lands, gets a laugh, or falls flat. It starts from their personality; set any of it
+        and that's how it goes. What you've already figured out about them updates too.
+      </p>
+      {p.flirt.styles.map((s) => (
+        <Field key={s.style} label={s.label} right={<small className="ed-flirt-src">{mine(s) ? "set by you" : "their personality"}</small>}>
+          <Seg value={String(now(s))} options={FLIRT} onChange={(v) => put("flirt", s.style, Number(v))} />
+        </Field>
+      ))}
+      {any && (
+        <button type="button" className="ph-btn soft block" onClick={() => put("flirt", null, Object.fromEntries(p.flirt!.styles.map((s) => [s.style, null])))}>
+          Back to their personality
+        </button>
+      )}
+    </Fold>
+  );
+}
+
 /** Height, build, jersey, and which sports they play (a position) or don't. */
 export function BodyFold({ p, val, put }: { p: EdPerson; val: Val; put: Put }) {
   const { cat } = useStoryCatalog();

@@ -139,7 +139,14 @@ def classify(text: str) -> dict:
 
 
 def tastes(o) -> dict:
-    """What works on this person: their personality decides it. +1 they love it, -1 they're not into it."""
+    """What works on this person: what you set in the editor, else their personality decides it. +1 they love it,
+    -1 they're not into it."""
+    base = personality_tastes(o)
+    mine = (o.flags or {}).get("tastes") or {}
+    return {k: int(mine[k]) if mine.get(k) in (-1, 0, 1) else v for k, v in base.items()}
+
+
+def personality_tastes(o) -> dict:
     t = o.traits
     raw = {"tease": (t["competitiveness"] + t["impulsivity"]) / 2 - t["volatility"] * 0.3 + 15,
            "sweet": (t["empathy"] + t["loyalty"]) / 2,

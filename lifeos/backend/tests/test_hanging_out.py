@@ -96,3 +96,42 @@ def test_a_friend_asks_you_along_with_their_people_and_you_say_yes_by_text():
     q = w.meta["control"]["queued"]
     assert q["target"] == gi["host"] and q["agreed"] and w.meta["control"]["crew"]["ids"] == gi["crew"]
     assert squad.invite(sim)["answer"] == "yes"
+
+
+def test_when_they_asked_you_picking_their_plan_is_a_yes_never_a_fresh_ask_they_can_pass_on():
+    """A friend asked you along ("me and Cole are getting food. you in?") and you took it from your choices instead of
+    texting back: they said yes, because they asked. Before, it went out as you asking them, and they could pass."""
+    c, api, me, ppl = _story()
+    sim, w = api.lab.sim, api.lab.w
+    for _ in range(40):
+        ch = c.get("/api/phone/choices").json()
+        if ch.get("ready") and len([o for o in ch["options"] if o["action"] == "hang_out" and o.get("target")]) >= 2:
+            break
+        for m in c.get("/api/phone/state").json()["moments"]:
+            c.post(f"/api/phone/moment/{m['id']}", json={"index": None})
+        c.post("/api/story/advance", json={"until": "decision"})
+    hang = [o for o in ch["options"] if o["action"] == "hang_out" and o.get("target")]
+    host, pal = hang[0]["target"], hang[1]["target"]
+    from lifeos import squad
+    st = squad.state(sim)
+    if st:
+        st["plan"] = None  # (so it's the invite that counts, not your group's plans)
+    # a normal ask would get a no: no requirement passes for them, so only "they asked you" can make it a yes
+    w.meta["group_invite"] = {"day": w.day, "slot": ch["slot"], "host": host, "crew": [pal], "act": "food", "id": f"gi{w.day}",
+                              "answer": None}
+    ch = c.get("/api/phone/choices").json()
+    opt = next(o for o in ch["options"] if o.get("key", "").startswith("invite:"))
+    import lifeos.engine as E
+    orig = E.requirement
+    E.requirement = lambda *a, **k: None  # every requirement fails: an ordinary ask is turned down
+    try:
+        r = c.post("/api/phone/choose", json={"index": opt["index"], "crew": opt.get("crew", []), "act": opt.get("act")})
+    finally:
+        E.requirement = orig
+    assert r.status_code == 200, r.text
+    lines = r.json()["lines"]
+    assert not any(l["type"] == "swap" for l in lines), lines
+    evs = [e for e in w.history.events.values() if e["type"].startswith("interact.hang_out") and me.id in e["actors"]
+           and host in e["targets"] and e["day"] == w.day]
+    assert evs and evs[-1]["outcome"] not in ("declined", "busy", "invited"), evs[-1]
+    assert w.meta["group_invite"]["answer"] == "yes"

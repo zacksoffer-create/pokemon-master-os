@@ -18,6 +18,7 @@ export type EdPerson = EdMini & { last: string; bio: string; gender: string; gra
   traits: Record<string, number>; aptitudes: Record<string, number>; motives: Record<string, number>; skills: Record<string, number>;
   interests: Record<string, number>; needs: Record<string, number>; mood: number; popularity: number; money: number; gpa: number; student: boolean;
   partner: string | null; with_me: { ab: EdRel | null; ba: EdRel | null } | null;
+  flirt?: { styles: { style: string; label: string; value: number; say: string; set: boolean; personality: number }[]; custom: boolean };
   pronouns: string; attracted_to: string[]; birthday: [number, number]; archetype: string; body: { height_in?: number; build?: string };
   positions: Record<string, string>; jersey: number | null; path: { kind?: string; college?: string; sport?: string }; staff: boolean; role?: string;
   rels: (EdMini & { roles: string[]; ab: EdRel | null; ba: EdRel | null })[] };
@@ -95,7 +96,7 @@ export type PhoneState = {
   teams: { id: string; name: string; sport: string; record: { w: number; l: number }; mine?: { w: number; l: number }; level: string; position: string }[];
   squad?: { name: string; members: { id: string; first: string; look: Look }[]; cohesion: number; last: string | null;
     plan: { label: string; when: string; joined: boolean } | null; jokes: string[] } | null;
-  control: { focus: string; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean; editor?: boolean;
+  control: { focus: string; girl_asks_guy?: number; ask_invites: boolean; ask_romance: boolean; stop_before_games: boolean; stop_on_big: boolean; auto_lunch?: boolean; class_games?: boolean; editor?: boolean;
     pacing?: string; auto_scenes?: boolean; binge?: boolean };
   stories?: { waiting: number; presented_today: number; target: number | null; pacing: string; label: string; played?: number; binge?: boolean };
   setting: { town: string; school: string; short: string; mascot: string };
@@ -173,6 +174,9 @@ export type TextingBreakdown = { flirt: { label: string; n: number }[]; flirt_to
 export type TextingCheck = { ok: boolean; breakdown: TextingBreakdown; notes: string[]; text: string; scenes: number };
 export type OutlineCheck = { ok: boolean; title: string; expands: string | null; about: string | null; cast: { name: string; label: string }[];
   outline: OutlineEntry[]; notes: string[]; warnings: string[]; pack?: string };
+export type WritingRow = { pack: string; name: string; written: number; total: number; played: number; needs_fixing: number; stuck: number;
+  stuck_why: string | null; on: boolean };
+export type Checkup = { pack: string; name: string; written: number; total: number; gaps: SkippedScene[]; fix_prompt: string };
 export type BatchPrompt = { prompt?: string; chars?: number; first?: number; last?: number; total: number; written: number; titles?: string[]; done: boolean };
 export type Timing = { years: string[]; months: number[]; spread: boolean; line: string };
 export type StorylineRead = { title: string; pack: string; total: number; plays: number; unwritten?: number; scenes: ReadScene[]; coverage: Coverage;
@@ -311,6 +315,8 @@ export const phoneApi = {
   textingCheck: (text: string): Promise<TextingCheck> => api.post("/api/texting/check", { text }),
   textingAdd: (text: string): Promise<{ ok: boolean; pack: string; breakdown: TextingBreakdown; notes: string[];
     skipped: { header: string; why: string }[]; fix_prompt: string | null }> => api.post("/api/texting/add", { text }),
+  writing: (): Promise<{ storylines: WritingRow[] }> => api.get("/api/story/build/writing"),
+  checkup: (pack: string): Promise<Checkup> => api.get(`/api/story/build/checkup?pack=${encodeURIComponent(pack)}`),
   batchPrompt: (pack: string, count = 3): Promise<BatchPrompt> =>
     api.get(`/api/story/build/batch-prompt?pack=${encodeURIComponent(pack)}&count=${count}`),
   addScenes: (pack: string, text: string): Promise<{ ok: boolean; got: number[]; notes: string[]; written: number; total: number; outline: OutlineEntry[];

@@ -524,12 +524,19 @@ def _group_names(block: list) -> tuple:
     return out, "the names in the group chat became A, B and C (the game picks who): " + ", ".join(f"{k} is {v}" for k, v in names.items())
 
 
+# a template line left as it was: "<what happens after it>", "* \"<choice 3>\"", "* <choice 3> | ..."
+PLACEHOLDER_RE = re.compile(r'^\s*(\*{1,2}\s*)?["“]?<[^<>]{1,80}>["”]?\s*(\|.*)?$')
+
+
 def habits(src: str) -> tuple:
     """What ChatGPT often writes, the way it meant it: *narration in italics* and **Name:** in bold are plain lines, effects
     after an arrow or in parentheses go after |, and a scene's talk or choices after its choices go where they play.
     Returns (lines, origin: each line's number in what was pasted, notes)."""
     out, notes = [], []
     for n, ln in enumerate(src.split("\n"), start=1):
+        if PLACEHOLDER_RE.match(ln):  # a line of the template ChatGPT left as it was ("<what happens after it>")
+            notes.append({"line": n, "text": f"a template line left unfilled came out ({ln.strip()[:40]})"})
+            continue
         h = _texting_header(ln)
         if h:
             notes.append({"line": n, "text": f"read '{ln.strip()}' as {h}"})

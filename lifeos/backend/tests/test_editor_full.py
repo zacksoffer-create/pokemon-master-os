@@ -99,3 +99,38 @@ def test_add_someone_mid_story(c):
     assert w.chars[coach["id"]].role == "staff"
     for bad in ({"gender": "f"}, {"first": "A", "gender": "f", "grade": 7}, {"first": "A", "gender": "f", "to_me": "nemesis"}):
         assert c.post("/api/phone/editor/new", json=bad).status_code == 422
+
+
+def test_what_works_flirting_is_yours_to_set_and_it_carries_into_a_replay(c):
+    from lifeos import api
+    from lifeos.chat import personality_tastes, tastes
+    from lifeos.messages import phone
+    w = api.lab.w
+    me = w.meta["protagonist"]
+    o = _someone(c, me)["id"]
+    p = c.get(f"/api/phone/editor/person/{o}").json()
+    assert [s["style"] for s in p["flirt"]["styles"]] == ["tease", "sweet", "bold", "funny", "cheesy"]
+    assert not p["flirt"]["custom"] and all(not s["set"] for s in p["flirt"]["styles"])
+    base = personality_tastes(w.chars[o])
+    flip = {k: (-1 if v >= 0 else 1) for k, v in base.items()}
+    phone(w).setdefault("tastes", {})[o] = {"tease": base["tease"]}  # you'd already figured out how teasing goes over
+    r = c.post(f"/api/phone/editor/person/{o}", json={"flirt": {"tease": flip["tease"], "sweet": flip["sweet"]}})
+    assert r.status_code == 200, r.text
+    got = {s["style"]: s for s in r.json()["flirt"]["styles"]}
+    assert got["tease"]["value"] == flip["tease"] and got["tease"]["set"] and got["bold"]["value"] == base["bold"] and not got["bold"]["set"]
+    assert tastes(w.chars[o])["tease"] == flip["tease"] and tastes(w.chars[o])["sweet"] == flip["sweet"]
+    assert phone(w)["tastes"][o]["tease"] == flip["tease"]  # what you knew about them is what's true now
+    # one more style on top keeps the others; null puts one back
+    c.post(f"/api/phone/editor/person/{o}", json={"flirt": {"bold": flip["bold"], "sweet": None}})
+    assert tastes(w.chars[o]) == dict(base, tease=flip["tease"], bold=flip["bold"])
+    assert c.post(f"/api/phone/editor/person/{o}", json={"flirt": {"sarcasm": 1}}).status_code == 422
+    assert c.post(f"/api/phone/editor/person/{o}", json={"flirt": {"tease": 2}}).status_code == 422
+    # Start over: the same person, the same tastes
+    name = w.chars[o].name
+    assert c.post("/api/story/restart", json={}).status_code == 200
+    w = api.lab.w
+    o2 = next(x for x, ch in w.chars.items() if ch.name == name)
+    assert tastes(w.chars[o2]) == dict(personality_tastes(w.chars[o2]), tease=flip["tease"], bold=flip["bold"])
+    # and back to their personality
+    c.post(f"/api/phone/editor/person/{o2}", json={"flirt": None})
+    assert tastes(w.chars[o2]) == personality_tastes(w.chars[o2]) and not c.get(f"/api/phone/editor/person/{o2}").json()["flirt"]["custom"]

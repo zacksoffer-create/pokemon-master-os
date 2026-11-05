@@ -6,7 +6,7 @@ import { EdPair, EdPerson, EdPersonRow, EdRel, EdSchema, Look, phoneApi, pgo } f
 import { Portrait } from "./art";
 import LookPicker from "./art/LookPicker";
 import { Field, Fold, Slider } from "./CreateStory";
-import { AddSomeone, BodyFold, NextFold, WhoFold } from "./EditorWho";
+import { AddSomeone, BodyFold, FlirtFold, NextFold, WhoFold } from "./EditorWho";
 import { PIcon } from "./icons";
 import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
@@ -228,6 +228,7 @@ function PersonEditor({ id }: { id: string }) {
         <Fold title="Personality" sub="What they're like">
           {schema.traits.map((k) => slider("traits", k, cap(k), TRAIT_WORDS[k] ? [cap(TRAIT_WORDS[k][1]), cap(TRAIT_WORDS[k][0])] : undefined))}
         </Fold>
+        {!p.is_me && !p.staff && <FlirtFold p={p} val={val} put={put} />}
         <Fold title="Talents" sub="What comes naturally">
           {schema.aptitudes.map((k) => slider("aptitudes", k, APT_LABEL[k] || cap(k)))}
         </Fold>

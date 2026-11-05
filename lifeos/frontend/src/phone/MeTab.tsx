@@ -36,6 +36,13 @@ const PACING: [string, string, string][] = [
   ["uncapped", "Uncapped", "Everything that's ready"],
 ];
 const CHAPTERS = ["Fr", "So", "Jr", "Sr", "C1", "C2", "C3"];
+// how much more it takes for a girl to ask a guy out than the other way around
+const ASK_BAR: [number, string, string][] = [
+  [0, "Same", "Girls ask guys out as easily as guys ask girls."],
+  [1, "Harder", "She has to be a lot more into him, and fairly sure he likes her back."],
+  [2, "Much harder", "Only when she's really into him. Mostly she waits for him to ask."],
+  [3, "Rare", "Almost never, unless she's crazy about him."],
+];
 
 function useRoleOpen() {
   const [n, setN] = React.useState(0);
@@ -210,6 +217,18 @@ export default function MeTab() {
               </button>
             );
           })}
+        </div>
+
+        <div className="ph-section-t">Girls asking guys out</div>
+        <div className="ph-card">
+          <div className="ph-seg cs-seg wrap">
+            {ASK_BAR.map(([v, l]) => (
+              <button key={v} type="button" disabled={busy === "ask_bar"} className={cx(Math.round(s.control.girl_asks_guy ?? 1) === v && "on")}
+                onClick={() => set({ girl_asks_guy: v }, "ask_bar")}>{l}</button>
+            ))}
+          </div>
+          <p className="ph-dim small">{(ASK_BAR.find(([v]) => v === Math.round(s.control.girl_asks_guy ?? 1)) || ASK_BAR[1])[2]} Asking someone out
+            yourself works the same either way.</p>
         </div>
 
         <StoryFilesCard hasStory={!!state.active} />

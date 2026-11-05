@@ -587,6 +587,16 @@ What's in it:
   their contact page keeps track under **What works with them** ("Teasing: they love it", "Cheesy lines: not into it",
   "Being direct: not tried yet"). Flirt suggestions offer a style you know they love, or one you haven't tried. Teasing
   with a 😂 is teasing; the same words without it are rude.
+- **Set what works on someone.** In the editor (Story Studio → People → anyone), **Flirting** has each style with
+  **Loves it / It's fine / Not into it**. It starts from their personality ("their personality"); set any of it and that's
+  how it goes ("set by you"), including what you'd already figured out about them. **Back to their personality** undoes
+  it, and it carries into Start over like the rest of who they are.
+- **It takes more for a girl to ask a guy out.** Same feelings, a guy will make the move sooner: she has to be a lot more
+  into him and fairly sure he likes her back. Me → **Girls asking guys out**: Same, Harder (the default), Much harder or
+  Rare. (In the lab it's the rule romance.girl_asks_guy, 0 to 3.) Asking someone out yourself works the same either way.
+- **When they asked, it's a yes.** A friend who asked you along ("me and Cole are getting food. you in?"), invited you
+  by text, or your group's plans for now: pick it from your choices instead of texting back and they're in. It used to go
+  out as you asking them, so they could pass on their own invite.
 - **Flirting goes back and forth.** A flirt that lands (or gets a laugh) isn't the end: they answer in the flavor of what
   you sent, and your next options build on it, in two styles plus playing it cool. A few good beats in a row and it goes
   somewhere: they're blushing, they want to hang out (plans made), they tell you to ask them out in person, or, late at
@@ -881,7 +891,7 @@ and the same setup builds the same town), then puts back your **groundwork**:
 
 - **Who people are:** anything you changed in the editor or the lab about who someone is: name, bio, look, gender,
   pronouns, who they're into, birthday, type, height and build, positions, jersey, after high school, personality,
-  talents, what drives them, interests.
+  talents, what drives them, interests, what works when you flirt with them.
 - **People you added** (Add someone, or Add someone who fits), made again the same way.
 - **Relationships you set** in the editor (Danny and Cole: best friends).
 - **Who your storylines are about**, when you picked: a storyline person you chose, or the sibling a storyline uses. Your
@@ -1057,6 +1067,22 @@ whole storyline into one reply and never has to get the timing right:
    right before them, which choices the branches need (and, for a scene that follows a choice, that choice in the words
    the earlier scene actually used), and the short version of the guide. Paste what comes back and **Add these scenes**;
    the bar shows how many are written (5 of 8). Repeat until it's done. A scene written again replaces the old one.
+   The prompt ends with a **template to fill in**: each scene's exact `--- 4. Title` line, then the shape every scene has
+   (setup, the back-and-forth, the question, then 2 or 3 choices with what happens after each). Template lines ChatGPT
+   leaves unfilled (`<choice 3>`) just come out.
+
+**Working on several at once.** The storylines you're writing sit side by side at the top of the screen, each with how
+far along it is ("3/12 written", "2 to fix"): tap one to switch to it, no closing and reopening. After you add a batch, the
+screen scrolls back up to the next prompt, and **Next storyline** takes you to the next one that still has scenes to
+write. Scenes per prompt is remembered. Write more on its own also lists them under **Or keep writing one of yours**. The
+title and the X stay put at the top (below the status bar) however far down you scroll.
+
+**Every scene asks you something.** A storyline scene ends on a question with 2 to 4 choices, so you always get to decide
+how it goes before the next one comes. A scene that comes back with no choices ("it never asks you anything") or just one
+is flagged under **missing pieces** with a fix-it message for ChatGPT, and so is any earlier scene of that storyline: the
+write screen shows them under the prompt, and a finished storyline has **Check its scenes** (Story Studio → Storylines →
+open it). A storyline whose scenes can't come in your story as it stands says so on its chip ("done · 2 can't come"); Read
+it says why.
 
 **Every choice keeps what happens after it.** ChatGPT is asked for choices with no indenting: `* ` starts a choice and
 the lines after it, down to the next `* `, are what happens when you pick it; `** ` is a choice inside the choice above it;
@@ -1064,8 +1090,8 @@ the lines after it, down to the next `* `, are what happens when you pick it; `*
 them anyway: outcomes flush left under each choice, `Choice 1:` / `Option A:` / `A)` lines, `Outcome:` labels, effects in
 parentheses or after an arrow (`(+Nicole affection)`). A reply that got **cut off** (its code block never closed, or its
 last scene stops right after a choice or before its choices) doesn't save half a scene: that scene stays out and the next
-prompt asks for it again. Scenes that went in with **missing pieces** (a choice with nothing after it, or no choice like
-the one a later scene follows) are listed under **Went in, but missing pieces**, and **Copy a fix-it message for ChatGPT**
+prompt asks for it again. Scenes that went in with **missing pieces** (no choices, one choice, a choice with nothing after it,
+or no choice like the one a later scene follows) are listed under **Went in, but missing pieces**, and **Copy a fix-it message for ChatGPT**
 asks for just those scenes, whole.
 
 The game owns the order, the timing and the branches, not ChatGPT: scenes go in outline order whatever order they're

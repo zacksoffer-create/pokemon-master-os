@@ -19,12 +19,12 @@ from __future__ import annotations
 import copy
 
 CARRY = ("first", "last", "bio", "look", "traits", "aptitudes", "motives", "interests", "gender", "pronouns", "attracted_to",
-         "birthday", "archetype", "body", "positions", "jersey", "path")
+         "birthday", "archetype", "body", "positions", "jersey", "path", "flirt")
 LAYERS = ("traits", "aptitudes", "motives", "interests")
 LABEL = {"first": "name", "last": "name", "bio": "bio", "look": "look", "traits": "personality", "aptitudes": "talents",
          "motives": "what drives them", "interests": "interests", "gender": "gender", "pronouns": "pronouns",
          "attracted_to": "who they're into", "birthday": "birthday", "archetype": "type", "body": "height and build",
-         "positions": "positions", "jersey": "jersey", "path": "after high school"}
+         "positions": "positions", "jersey": "jersey", "path": "after high school", "flirt": "what works flirting"}
 
 _replaying = False
 
@@ -56,6 +56,8 @@ def note_person(w, cid: str, body: dict):
             s[k] = list(body[k])
         elif k in ("body", "positions", "look"):
             s[k] = copy.deepcopy(getattr(c, k))
+        elif k == "flirt":
+            s[k] = dict(c.flags.get("tastes") or {})
         else:
             s[k] = copy.deepcopy(getattr(c, k))
 

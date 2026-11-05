@@ -429,6 +429,11 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
                       <PIcon name="chat" size={16} /> Write the next scenes ({p.outline.written} of {p.outline.total} written)
                     </button>
                   )}
+                  {p.outline && p.outline.total > 0 && p.outline.written >= p.outline.total && (
+                    <button className="ph-btn soft block" onClick={() => setBuild({ pack: p.id })}>
+                      <PIcon name="check" size={16} /> Check its scenes (every one asks you something)
+                    </button>
+                  )}
                   {p.kind === "script" && p.ok && (
                     <div className="dl-acts">
                       <button className={cx("ph-btn", p.outline && p.outline.written < p.outline.total ? "soft" : "primary")} onClick={() => setRead(p.id)}>

@@ -1138,12 +1138,20 @@ def api_story_control(body: dict = Body(...)):
         for k in ("ask_invites", "ask_romance", "stop_before_games", "stop_on_big", "auto_lunch", "class_games", "editor", "auto_scenes", "binge"):
             if k in body:
                 ctl[k] = bool(body[k])
+        if "girl_asks_guy" in body:  # how much more it takes for a girl to ask a guy out (a rule, so it's in the Workshop too)
+            try:
+                v = float(body["girl_asks_guy"])
+            except (TypeError, ValueError):
+                raise HTTPException(422, "girl_asks_guy must be a number from 0 to 3")
+            if not 0 <= v <= 3:
+                raise HTTPException(422, "girl_asks_guy must be a number from 0 to 3")
+            L.sim.set_rules({"romance.girl_asks_guy": v}, "phone: girls asking guys out")
         if "pacing" in body:
             from .scheduler import PROFILES
             if body["pacing"] not in PROFILES:
                 raise HTTPException(422, f"pacing must be one of {', '.join(PROFILES)}")
             ctl["pacing"] = body["pacing"]
-        return ctl
+        return dict(ctl, girl_asks_guy=L.w.rules.get("romance.girl_asks_guy", 1.0))
 
 
 # --- the story scheduler: pacing, today's scenes, why anything isn't happening ------------------------------
@@ -1538,6 +1546,28 @@ def api_build_batch_prompt(pack: str, count: int = 3):
             raise HTTPException(404, "no such storyline")
         except ValueError as e:
             raise HTTPException(409, str(e))
+
+
+@app.get("/api/story/build/writing")
+def api_build_writing():
+    """Your outlined storylines with how far along each is (for switching between them while you write)."""
+    from . import dialogue
+    L = get_lab()
+    with L.lock:
+        return {"storylines": dialogue.writing(L.sim) if L.w.meta.get("protagonist") else dialogue.writing(None)}
+
+
+@app.get("/api/story/build/checkup")
+def api_build_checkup(pack: str):
+    """An outlined storyline's written scenes, checked (no question, one choice, a choice with nothing after it), with a
+    fix-it message for just those."""
+    from . import dialogue
+    try:
+        return dialogue.checkup(pack)
+    except KeyError:
+        raise HTTPException(404, "no such storyline")
+    except ValueError as e:
+        raise HTTPException(409, str(e))
 
 
 @app.post("/api/story/build/scenes")

@@ -102,7 +102,7 @@ def person(sim, cid) -> dict:
             "look_locked": dict(c.look or {}), "traits": _round(c.traits), "aptitudes": _round(c.aptitudes), "motives": _round(c.motives),
             "skills": _round(c.skills), "interests": _round(c.interests), "needs": _round(c.needs),
             "mood": round(c.mood, 1), "popularity": round(c.popularity, 1), "money": round(c.money, 2), "gpa": round(c.gpa, 2),
-            "student": c.role in ("student", "alumni"), "partner": c.flags.get("partner"),
+            "student": c.role in ("student", "alumni"), "partner": c.flags.get("partner"), "flirt": flirt_view(c),
             "with_me": None if cid == me or not me else {"ab": _rel_view(w.rels.get((me, cid))), "ba": _rel_view(w.rels.get((cid, me)))},
             "rels": rels[:24]}
 
@@ -172,6 +172,10 @@ def save_person(sim, cid, body: dict) -> dict:
             else:
                 appearance.validate(val, "look", errors)
                 plan.append(("look", None, dict(val)))
+        elif key == "flirt":
+            x = _flirt(c, val, errors)
+            if x is not None:
+                plan.append(("flirt", None, x))
         elif key in WHO:
             x = _who(sim, c, key, val, body, errors)
             if x is not None:
@@ -191,6 +195,21 @@ def save_person(sim, cid, body: dict) -> dict:
                 fx.attr(cid, key, k, v - before, "editor")
             if key == "traits" and k == "confidence":
                 c.flags["confidence_base"] = v
+        elif key == "flirt":
+            if w.tracing:
+                ev["changes"].append([cid, "tastes", dict(c.flags.get("tastes") or {}), v, "editor"])
+            if v:
+                c.flags["tastes"] = v
+            else:
+                c.flags.pop("tastes", None)
+            from .chat import tastes
+            from .messages import phone
+            known = phone(w).get("tastes", {}).get(cid)
+            if known:  # what you'd learned about them is what's true now
+                now = tastes(c)
+                for k in list(known):
+                    if k in now:
+                        known[k] = now[k]
         elif key in ("first", "last", "bio", "look") or key in WHO:
             attr = {"birthday": "birth_day"}.get(key, key)
             if w.tracing:
@@ -210,6 +229,44 @@ def save_person(sim, cid, body: dict) -> dict:
     ev["text"] = ev["data"]["label"] = f"Editor: changed {c.name} ({', '.join(sorted({k for k, _, _ in plan}))})"  # the new name, if it changed
     sim.finish(ev, fx)
     return person(sim, cid)
+
+
+# --- what works when you flirt with them ---------------------------------------------------------------------------
+
+FLIRT_SAY = {1: "Loves it", 0: "It's fine", -1: "Not into it"}
+
+
+def flirt_view(c) -> dict:
+    """Each style: how it goes over with them, and whether that's you (set in the editor) or their personality."""
+    from .chat import STYLE_WORD, STYLES, personality_tastes, tastes
+    now, base, mine = tastes(c), personality_tastes(c), (c.flags or {}).get("tastes") or {}
+    return {"styles": [{"style": k, "label": STYLE_WORD[k][0], "value": now[k], "say": FLIRT_SAY[now[k]], "set": k in mine,
+                        "personality": base[k]} for k in STYLES], "custom": bool(mine)}
+
+
+def _flirt(c, val, errors):
+    """{"tease": 1, "sweet": -1, ...} on top of what's set; a style set to null goes back to their personality, and null
+    for the whole thing puts every style back. -> the new set (None: something's wrong, said in errors)."""
+    from .chat import STYLES
+    if val is None:
+        return {}
+    if not isinstance(val, dict):
+        errors.append("flirt must be an object of style: 1, 0 or -1")
+        return None
+    out = dict((c.flags or {}).get("tastes") or {})
+    bad = False
+    for k, v in val.items():
+        if k not in STYLES:
+            errors.append(f"{k} isn't a way to flirt (use {', '.join(STYLES)})")
+            bad = True
+        elif v is None:
+            out.pop(k, None)
+        elif isinstance(v, bool) or v not in (-1, 0, 1):
+            errors.append(f"flirt.{k} must be 1 (loves it), 0 (fine) or -1 (not into it)")
+            bad = True
+        else:
+            out[k] = int(v)
+    return None if bad else out
 
 
 # --- who they are: what the story builder sets (gender, who they're into, birthday, body, sports, what's next) ----------

@@ -1526,6 +1526,17 @@ def choice_gaps(sc) -> list:
     return out
 
 
+def no_question(sc) -> str | None:
+    """A scene that never asks you anything (no choices: it just ends), or asks with only one answer: why, or None. Every
+    storyline scene should end on a question with 2 to 4 choices, so you get to decide how it goes."""
+    chs = real_choices(sc)
+    if not chs:
+        return "it never asks you anything: it needs to end on a question with 2 to 4 choices (and what happens after each)"
+    if len(chs) == 1:
+        return f"it only has one choice ({chs[0].get('label')}): give it 2 to 4, so you actually get to pick"
+    return None
+
+
 def stops_short(sc, others_have_choices: bool):
     """The last scene of a reply that stops partway (ChatGPT ran out of room): why, or None."""
     chs = real_choices(sc)
@@ -2419,10 +2430,21 @@ story script format (below).
 
 {scenes}: {which}.{needs}
 
+## Fill in this template
+
+Keep every `---` line exactly as it is. Replace each <...> with the real thing (no brackets left), add as many lines as \
+the scene needs, and keep the shape: setup, the back-and-forth, then the question, then the choices with what happens \
+after each.
+
+```
+{template}
+```
+
 Reply with ONE code block (```) holding just those scenes, each starting with `--- <number>. <title>` (like \
 `--- {first}. {first_title}`), nothing after the block. No tags in [ ] and no `after` or `if`: the game times them and \
 plays them in order from the outline (and a line ending `| if we won` makes the game go that way: write it as if it did). Each scene: a couple of lines of setup, real back-and-forth (15 to 25 lines is \
-plenty), 2 to 4 choices that matter, and what happens after EVERY choice. Write every scene all the way to its end: if \
+plenty), then it ENDS ON A QUESTION (someone asks me something, or it's my move) with 2 to 4 choices that matter, and \
+what happens after EVERY choice. A scene with no choices, or only one, doesn't count as written. Write every scene all the way to its end: if \
 you're running out of room, write fewer scenes, never cut one short.
 
 How choices work (no indenting needed):
@@ -2452,6 +2474,16 @@ nicole: Anyway. The game's starting.
 ---
 
 """
+
+
+def scene_template(n: int, title: str, choices: int = 3, must: str | None = None) -> str:
+    """One scene to fill in: its exact header, then the shape every scene has (setup, talk, the question, the choices)."""
+    L = [f"--- {n}. {title}", "<a line or two of setup>", "<the back-and-forth: who says what, 10 to 20 lines>",
+         "<the question: someone asks me something, or it's my move>"]
+    for i in range(1, choices + 1):
+        lab = f"<a choice like “{must}”>" if must and i == 1 else f"<choice {i}>"
+        L += [f'* "{lab}"', "<what happens after it: their answer, 2 to 5 lines>"]
+    return "\n".join(L)
 
 
 def guide_scenes() -> str:

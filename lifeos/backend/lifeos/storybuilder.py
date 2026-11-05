@@ -814,7 +814,14 @@ def batch_prompt(sim, pack: str, count: int = 3) -> dict:
             said = got[1].get("label") if got else f"“{label}”"
             needs.append(f"Scene {e['n']} only happens if I {'did NOT pick' if neg else 'picked'} {said} in scene {src}: "
                          f"pick up from {'not doing that' if neg else 'that'}.")
+    musts = {}
+    for e in entries:
+        m = re.search(r"you picked “(.+?)” in (\d+)", e.get("if") or "")
+        if m and int(m.group(2)) in ns:
+            musts.setdefault(int(m.group(2)), m.group(1))
+    template = "\n\n".join(script.scene_template(e["n"], e["title"], 3, musts.get(e["n"])) for e in take)
     body = script.BATCH_PROMPT.format(
+        template=template,
         header="\n".join(head).strip(), outline="\n".join(out_lines), previous=previous,
         scenes=f"Scene {first}" if first == last else f"Scenes {first} to {last}", first=first,
         first_title=take[0]["title"], which="; ".join(f"{e['n']}. {e['title']}" for e in take),

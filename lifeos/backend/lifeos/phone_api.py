@@ -218,7 +218,7 @@ def phone_state(since: int | None = None):
                  "look": look_of(w.chars[s]), "path": w.chars[s].path} for s in sim.siblings(me.id)],
                 "younger": [x for x in incoming_view(w) if x["kind"] == "sibling"], "style": h.get("style_label"),
                 "trust": round(messages.phone(w)["parent_trust"])},
-            "teams": teams, "control": scheduler.control(w), "stories": scheduler.brief(sim),
+            "teams": teams, "control": dict(scheduler.control(w), girl_asks_guy=w.rules.get("romance.girl_asks_guy", 1.0)), "stories": scheduler.brief(sim),
             "setting": {"town": sim.cat.world["town"]["name"], "school": sim.cat.world["school"]["name"],
                         "short": sim.cat.world["school"]["short"], "mascot": sim.cat.world["school"]["mascot"]},
         }

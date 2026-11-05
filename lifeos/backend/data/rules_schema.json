@@ -577,6 +577,16 @@
      "max": 3,
      "step": 0.1,
      "description": "How strongly partners react to flirting they hear about."
+    },
+    {
+     "key": "romance.girl_asks_guy",
+     "label": "Girls asking guys out",
+     "type": "float",
+     "default": 1.0,
+     "min": 0,
+     "max": 3,
+     "step": 0.1,
+     "description": "How much more it takes for a girl to ask a guy out (or to a dance) than the other way around. 0 = the same as a guy asking; 1 = she has to be a lot more into him and fairly sure he likes her back; 2-3 = only when she's crazy about him."
     }
    ]
   },
