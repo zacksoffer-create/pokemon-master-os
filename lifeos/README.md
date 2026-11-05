@@ -515,7 +515,7 @@ cfb, mbb, wbb), `{nfl_champ}` (and nba, cfb, mbb, wbb). European soccer: `pro:ep
 game on the phone itself: no computer, no server, no monthly bill, and it works offline after the first visit.
 
 **Install it (once):**
-1. Open **https://zacksoffer-create.github.io/pokemon-master-os/play/** in Safari on your iPhone (or Chrome on Android).
+1. Open **https://zacksoffer-create.github.io/Life-OS/play/** in Safari on your iPhone (or Chrome on Android).
    The lab's **Play on Your Phone** page shows the same link as a QR code.
 2. Tap **Share → Add to Home Screen**. It gets its own icon and opens full screen.
 3. The first launch downloads about 12 MB (the game engine). After that it starts in a few seconds.
