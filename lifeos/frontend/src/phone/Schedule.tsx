@@ -223,7 +223,7 @@ export function AddToStory({ onAdded, target, expand }: { onAdded: () => void; t
   };
   const check = (t = paste) => run("check", async () => setPv(await phoneApi.addPreview(t, target)));
   const fromFile = async () => {
-    const f = await pickFile(".txt,.story,.md,text/plain");
+    const f = await pickFile();
     if (!f) return;
     const t = await f.text();
     setPaste(t);

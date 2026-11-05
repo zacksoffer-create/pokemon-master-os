@@ -108,10 +108,13 @@ stats, your family and your people.
   size, what's on the Story page (and anything oversized), what's waiting, and whether the engine is busy. **Copy all
   of it** to send it. Switches, all remembered: **Simple look** (no animations, blur, shadows or blend), **Page
   scrolling** (the page scrolls instead of a box inside the app) and **Story page: hide a part** (the picture, the pills,
-  today's strip/plate/week, the scene card, the choices, the setup card), to find what the phone won't draw. The Story
-  page itself avoids what iPhone Safari stopped drawing: the scene card doesn't clip its contents and only fades in, the
-  scene picture is a flat image (drawn once per place, season and time of day) with a plain tint, and nothing that
-  scrolls has a backdrop blur. Also at `#/m/diag`.
+  today's strip/plate/week, the scene card, and within the scene card its face, words or choices, the free-time choices,
+  the setup card), to find what the phone won't draw. The Story page itself avoids what iPhone Safari stopped drawing:
+  the scene card doesn't clip its contents and nothing about it animates (it, its choices, the picture above it shrinking
+  and the text over the picture all simply appear), faces everywhere are pictures (drawn once per face and mood) rather
+  than live drawings, the scene picture is a flat image (drawn once per place, season and time of day) with a plain
+  tint, and nothing has a backdrop blur (the tab bar is solid). A phone low on memory makes all of this likelier, so
+  restarting the phone can clear it too. Also at `#/m/diag`.
 - **Up next** (the bar at the top in episode mode) is the next ten episodes in the order they'll come, with about when
   (played forward on a copy, your character answering). Move any one up or down: the episode it passes now waits for
   it, saved in your story, and the list plays forward again so you see where everything lands. If a move would push an
@@ -542,7 +545,9 @@ and tap **Load a cast file or backup**. Or tap **Try a sample story**.
 
 **Your story lives on your phone.** It saves by itself. **Me → Back up my story** saves a `.lifeos` file
 (to Files, iCloud, AirDrop): the whole story in one file, meaning everyone, everything that's happened, and your storylines,
-expansions and texting (and which are switched off).
+expansions and texting (and which are switched off). **Me → Restore or start a different story** opens it again. The
+file pickers show every file (iPhone greys out a file type it doesn't know, like `.lifeos` or `.story`, when a picker asks
+for particular types), and a backup is recognized by what's in it, so one that got renamed along the way still restores.
 
 **See it on a computer.** The phone's Me tab has a **See it on a computer** box with the link to the **desktop version**
 (`play/LIFE-OS-desktop.zip`, published with every phone build, so it's always the same engine as the app; get it again

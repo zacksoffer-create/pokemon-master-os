@@ -1,6 +1,7 @@
 // Portraits: a head-and-shoulders bust drawn in SVG from a Look.
 // Coordinates live in a 200x200 box; the face is centered at x=100.
 import React, { useId } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import type { Look, Mood } from "../api";
 import { EYE_PAL, HAIR_PAL, LONG_STYLES, SKIN_PAL, fullLook, hashStr, shade } from "./looks";
 
@@ -240,7 +241,26 @@ function FacialHair({ kind, c, ink }: { kind: string; c: [string, string, string
   return null;
 }
 
-export function Portrait({ look, size = 56, mood = "neutral", color, name, ring, shirt, jersey }: PortraitProps) {
+// A face is shown as a picture (an <img> of the drawing), not as a live SVG: iPhone Safari could stop drawing the whole
+// Story screen when the scene card brought in a face drawn with clip paths and a gradient while it faded in. A picture is
+// drawn once per face and mood and reused everywhere. A jersey number needs the app's own font, which a picture can't
+// load, so those stay live.
+const FACE_IMG = new Map<string, string>();
+
+export function Portrait(props: PortraitProps) {
+  const { size = 56, name, jersey } = props;
+  if (typeof jersey === "number") return <PortraitSvg {...props} />;
+  const key = JSON.stringify([props.look ?? null, props.mood ?? "neutral", props.color ?? "", name ?? "", props.ring ?? "", props.shirt ?? ""]);
+  let url = FACE_IMG.get(key);
+  if (!url) {
+    url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(renderToStaticMarkup(<PortraitSvg {...props} size={200} />));
+    if (FACE_IMG.size > 400) FACE_IMG.clear();
+    FACE_IMG.set(key, url);
+  }
+  return <img src={url} width={size} height={size} alt={name || "portrait"} draggable={false} className="ph-face-img" style={{ display: "block", flexShrink: 0 }} />;
+}
+
+function PortraitSvg({ look, size = 56, mood = "neutral", color, name, ring, shirt, jersey }: PortraitProps) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const L = look && look.skin ? look : fullLook(look as any, name || "someone");
   const [skin, skinShade, skinLine, blush] = SKIN_PAL[L.skin] || SKIN_PAL.light;
@@ -257,7 +277,7 @@ export function Portrait({ look, size = 56, mood = "neutral", color, name, ring,
   const lip = shade(skinLine, -0.05);
   const clip = `pc${uid}`, faceClip = `pf${uid}`, bg = `pb${uid}`;
   return (
-    <svg width={size} height={size} viewBox="17 15 166 166" role="img" aria-label={name || "portrait"} style={{ display: "block", flexShrink: 0 }}>
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="17 15 166 166" role="img" aria-label={name || "portrait"} style={{ display: "block", flexShrink: 0 }}>
       <defs>
         <clipPath id={clip}><circle cx={100} cy={98} r={83} /></clipPath>
         <clipPath id={faceClip}><path d={FACE} /></clipPath>

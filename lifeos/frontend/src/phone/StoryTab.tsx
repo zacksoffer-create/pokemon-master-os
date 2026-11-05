@@ -616,7 +616,7 @@ export function MomentCard({ m, more, busy, onPick }: { m: Moment; more: number;
       <Talk className="ph-moment-t" text={m.text} />
       <div className="ph-moment-c">
         {m.choices.map((c, i) => (
-          <button key={i} className={cx("ph-mchoice", c.game && "is-game")} disabled={busy} onClick={() => onPick(m, i)} style={{ animationDelay: `${i * 70}ms` }}>
+          <button key={i} className={cx("ph-mchoice", c.game && "is-game")} disabled={busy} onClick={() => onPick(m, i)}>
             {c.game && (
               <span className="ph-mgame"><PIcon name="skip" size={12} /> Play · {c.game.title}</span>
             )}

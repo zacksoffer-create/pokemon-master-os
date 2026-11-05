@@ -111,7 +111,7 @@ export default function AddTexting({ open, onClose, onAdded, inline }: { open: b
     toast(ok ? "Copied. Paste it into ChatGPT, then paste what it writes below." : "Couldn't copy. Try Share.", ok ? "good" : "bad");
   });
   const fromFile = async () => {
-    const f = await pickFile(".txt,.story,.md,text/plain");
+    const f = await pickFile();
     if (f) {
       setPaste(await f.text());
       setProblem(null);

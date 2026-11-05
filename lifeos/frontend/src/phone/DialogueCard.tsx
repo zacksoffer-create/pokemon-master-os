@@ -671,7 +671,7 @@ function PasteSheet({ open, onClose, onAdded }: { open: boolean; onClose: () => 
     }
   };
   const fromFile = async () => {
-    const f = await pickFile(".story,.txt,.md,.json,text/plain,application/json");
+    const f = await pickFile();
     if (!f) return;
     const t = await f.text();
     setText(t);

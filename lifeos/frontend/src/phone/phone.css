@@ -120,9 +120,7 @@ html.ph-html body { color-scheme: light; }
   z-index: 30;
   display: flex;
   padding: 7px 8px calc(8px + env(safe-area-inset-bottom));
-  background: rgba(255, 249, 241, 0.9);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  backdrop-filter: blur(16px) saturate(1.4);
+  background: rgba(255, 249, 241, 0.98);
   border-top: 1px solid rgba(213, 186, 152, 0.35);
 }
 .ph-root .ph-tab {
@@ -154,7 +152,7 @@ html.ph-html body { color-scheme: light; }
 .ph-spinner.light { border-color: rgba(255, 255, 255, 0.4); border-top-color: #fff; }
 
 /* ---------- hero scene ---------- */
-.ph-hero { position: relative; height: 312px; overflow: hidden; flex-shrink: 0; transition: height 0.35s ease; }
+.ph-hero { position: relative; height: 312px; overflow: hidden; flex-shrink: 0; }
 .ph-hero.compact { height: 232px; }
 .ph-hero.compact .ph-hero-text h1 { font-size: 24px; }
 .ph-hero.short { height: 236px; }
@@ -166,7 +164,7 @@ html.ph-html body { color-scheme: light; }
   background: linear-gradient(to bottom, rgba(255, 244, 230, 0) 0%, rgba(255, 244, 230, 0.55) 45%, var(--ph-bg) 92%);
   pointer-events: none;
 }
-.ph-hero-text { position: absolute; left: 20px; right: 20px; bottom: 14px; animation: ph-rise 0.45s ease backwards; }
+.ph-hero-text { position: absolute; left: 20px; right: 20px; bottom: 14px; }
 .ph-hero-text p { color: var(--ph-ink-2); font-size: 15.5px; margin-top: 6px; font-weight: 600; }
 .ph-kicker { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ph-coral); margin-bottom: 4px; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7); }
 
@@ -296,13 +294,14 @@ html.ph-html body { color-scheme: light; }
 .ph-feed-dot { width: 10px; height: 10px; border-radius: 50%; background: #f3c9b5; margin: 6px 10px 0 10px; flex-shrink: 0; }
 
 /* ---------- moments ---------- */
-/* The scene card. iPhone Safari blanked the whole Story screen the moment this appeared: it clipped its contents to its
-   rounded corners (overflow: hidden) while it and its choices animated with transforms, which makes WebKit build a
-   rounded clipping layer it can fail to draw. So nothing is clipped (the glow up top has its own rounded corners) and
-   the card and its choices only fade in. */
+/* The scene card. iPhone Safari blanked the whole Story screen (drawn for a moment, then gone, still taking taps) when
+   this appeared. First it clipped its contents to its rounded corners while it and its choices animated with transforms;
+   with that gone it still happened now and then, so now nothing about it animates: it, its choices, the picture shrinking
+   above it and the tab bar's blur all made iPhone build and drop layers at the moment the card arrived, and the face is a
+   picture rather than a live drawing (see portrait.tsx). It simply appears. */
 .ph-moment {
   position: relative; background: #fff; border-radius: 28px; padding: 22px 18px 12px; box-shadow: var(--ph-shadow-lg);
-  animation: ph-fade 0.3s ease backwards; margin-top: 2px;
+  margin-top: 2px;
 }
 .ph-moment::before {
   content: ""; position: absolute; inset: 0 0 auto 0; height: 120px; pointer-events: none; border-radius: 28px 28px 0 0;
@@ -324,7 +323,7 @@ html.ph-html body { color-scheme: light; }
 .ph-root .ph-mchoice {
   --btn-bg: var(--ph-bg);
   display: flex; flex-direction: column; gap: 2px; width: 100%; padding: 13px 15px; border-radius: 18px;
-  box-shadow: inset 0 0 0 2px var(--ph-line); animation: ph-fade 0.3s ease backwards; color: var(--ph-ink);
+  box-shadow: inset 0 0 0 2px var(--ph-line); color: var(--ph-ink);
 }
 .ph-root .ph-mchoice:hover:not(:disabled) { box-shadow: inset 0 0 0 2px #ffc2ae; }
 .ph-root .ph-mchoice:active:not(:disabled) { box-shadow: inset 0 0 0 2px var(--ph-coral); transform: scale(0.98); }
@@ -1534,6 +1533,9 @@ html.ph-docscroll body { overflow-x: hidden; }
 .ph-hide-topbar .ph-topbar { display: none !important; }
 .ph-hide-day .ph-day, .ph-hide-day .ph-plate, .ph-hide-day .ph-week-wrap { display: none !important; }
 .ph-hide-scene .ph-moment { display: none !important; }
+.ph-hide-face .ph-moment-who { display: none !important; }
+.ph-hide-mtext .ph-moment-t, .ph-hide-mtext .ph-moment-prev { display: none !important; }
+.ph-hide-mchoices .ph-moment-c { display: none !important; }
 .ph-hide-choices .ph-choices { display: none !important; }
 .ph-hide-nudge .ed-nudge { display: none !important; }
 .ph-diag-parts { flex-direction: column; }

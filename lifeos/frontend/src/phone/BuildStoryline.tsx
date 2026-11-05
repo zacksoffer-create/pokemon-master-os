@@ -189,7 +189,7 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
     setBatch(b);
   }
   const fromFile = async () => {
-    const f = await pickFile(".txt,.story,.md,text/plain");
+    const f = await pickFile();
     if (f) setPaste(await f.text());
   };
 

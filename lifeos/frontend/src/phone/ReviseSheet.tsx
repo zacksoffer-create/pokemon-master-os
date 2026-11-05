@@ -129,7 +129,7 @@ export default function ReviseSheet({ pack, onClose, onChanged }: { pack: string
     toast("Put back.", "good");
   });
   const fromFile = async () => {
-    const f = await pickFile(".txt,.story,.md,text/plain");
+    const f = await pickFile();
     if (f) setPaste(await f.text());
   };
   const ideas = view ? [

@@ -10,11 +10,14 @@ import { usePhone } from "./PhoneContext";
 /** True in the phone app (the game runs on the phone, no computer). */
 export const STANDALONE = typeof window !== "undefined" && (window as any).__LIFEOS_STANDALONE__ === true;
 
-export function pickFile(accept: string): Promise<File | null> {
+// iPhone greys out any file whose kind it doesn't know when the picker names the kinds it wants, and it has never heard
+// of a .lifeos backup, so a backup couldn't be picked at all. The story pickers ask for any file and the app works out
+// what it is (pass no accept).
+export function pickFile(accept = ""): Promise<File | null> {
   return new Promise((resolve) => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = accept;
+    if (accept) input.accept = accept;
     input.style.display = "none";
     input.onchange = () => {
       resolve(input.files?.[0] || null);
@@ -32,9 +35,17 @@ async function postRaw(path: string, data: ArrayBuffer) {
   return body;
 }
 
+/** A backup is compressed (zlib), so it starts 0x78 0x01/5e/9c/da, whatever the file ended up named
+ * ("story.lifeos", "story.lifeos.txt", "story-2", ...). */
+async function isBackup(f: File): Promise<boolean> {
+  if (/\.lifeos(\.\w+)?$/i.test(f.name)) return true;
+  const head = new Uint8Array(await f.slice(0, 2).arrayBuffer());
+  return head.length === 2 && head[0] === 0x78 && [0x01, 0x5e, 0x9c, 0xda].includes(head[1]);
+}
+
 /** Start a story from a file: a backup (.lifeos), a worksheet (.xlsx) or a cast file (.json / ChatGPT's answer as .txt). */
 export async function startFromFile(f: File): Promise<string> {
-  if (/\.lifeos$/i.test(f.name)) {
+  if (await isBackup(f)) {
     const r = await postRaw("/api/phone/restore", await f.arrayBuffer());
     return [r.name ? `Welcome back, ${r.name.split(" ")[0]}. Picking up on ${r.date}.` : "Backup restored.", r.said, r.newer]
       .filter(Boolean).join(" ");
@@ -119,7 +130,7 @@ export function StoryFilesCard({ hasStory }: { hasStory: boolean }) {
   };
   const load = () => run("load", async () => {
     if (hasStory && !window.confirm("Start a different story? Back up this one first if you want to keep it.")) return null;
-    const f = await pickFile(".json,.txt,.xlsx,.lifeos,application/json,text/plain");
+    const f = await pickFile();
     return f ? startFromFile(f) : null;
   });
   return (

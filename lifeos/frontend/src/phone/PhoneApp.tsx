@@ -219,7 +219,7 @@ function Welcome() {
     }
   };
   const fromFile = async () => {
-    const f = await pickFile(".json,.txt,.xlsx,.lifeos,application/json,text/plain");
+    const f = await pickFile();
     if (!f) return;
     setBusy("file");
     try {

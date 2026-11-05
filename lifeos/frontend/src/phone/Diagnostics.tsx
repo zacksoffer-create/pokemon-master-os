@@ -21,7 +21,8 @@ export function applyPlain(on: boolean) {
 
 // the Story page, a part at a time: if hiding one part stops the blank screen, that part is it
 export const PARTS: [string, string][] = [["art", "The picture at the top"], ["topbar", "The date and energy pills"],
-  ["day", "Today's strip, plate and week"], ["scene", "The scene card"], ["choices", "Free-time choices"], ["nudge", "Set your world up card"]];
+  ["day", "Today's strip, plate and week"], ["scene", "The scene card"], ["face", "Scene card: the face"], ["mtext", "Scene card: the words"],
+  ["mchoices", "Scene card: the choices"], ["choices", "Free-time choices"], ["nudge", "Set your world up card"]];
 const HIDE_KEY = "lifeos.hide";
 
 export function hiddenParts(): string[] {
