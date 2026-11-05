@@ -1676,7 +1676,8 @@ def _gaps_of(p: dict, ns: list) -> list:
         m = re.search(r"you picked “(.+?)” in (\d+)", e.get("if") or "")
         if m and int(m.group(2)) in ns and sc_of.get(int(m.group(2))) and SC.find_choice(sc_of[int(m.group(2))], m.group(1)) is None:
             out.setdefault(int(m.group(2)), []).append(
-                f"it needs a choice like “{m.group(1)}”: scene {e['n']} only happens after it (until then scene {e['n']} plays either way)")
+                f"it needs a choice like “{m.group(1)}” (use those words in the choice, so the game can find it): scene {e['n']} "
+                f"only happens after it (until then scene {e['n']} plays either way)")
     titles = {e["n"]: e["title"] for e in ents}
     return [{"n": n, "title": titles.get(n, ""), "problems": ps} for n, ps in sorted(out.items()) if ps]
 

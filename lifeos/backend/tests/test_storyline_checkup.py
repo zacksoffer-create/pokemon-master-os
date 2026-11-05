@@ -139,3 +139,61 @@ sis: I said move.
     assert not r["ok"] and "didn't go in" in r["errors"][0]
     r = dialogue.insert_scenes(pid, None, "--- Parking Lot\nsis: Get in.\n* \"Shotgun.\"\nsis: Fine.\n* \"I'll walk.\"\nsis: Bye.\n")
     assert r["ok"] and "Parking Lot" in dialogue.script_of(pid)
+
+
+def test_a_branch_finds_its_choice_when_the_scene_says_it_in_a_line(story):
+    """The outline says "Ask her on a proper date"; the scene says "Nikki, I really like you. Will you go on a proper date
+    with me?". That's the choice: no fix-it needed, and the next scene only comes after it."""
+    c, _, _ = story
+    outline = """=== Proper Date
+cast: jen = Jennifer Soffer
+years: freshman
+
+outline:
+1. The Talk | September | You and Jen on the beach.
+2. The Date | October | Your first real date. | only if you picked "Ask her on a proper date" in 1
+"""
+    pid = c.post("/api/story/build/outline", json={"text": outline, "save": True}).json()["pack"]
+    scenes = """--- 1. The Talk
+jen: So where do we go from here?
+* "Jen, I really like you. Will you go on a proper date with me?" | jen attraction ++
+jen: Yes!
+* "I want to see where this goes. We don't have to rush anything."
+jen: I like that.
+* "I need a little more time before we change anything."
+jen: Okay.
+
+--- 2. The Date
+jen: You actually wore a collared shirt.
+* "For you."
+jen: Stop.
+* "My mom made me."
+jen: Of course she did.
+"""
+    r = c.post("/api/story/build/scenes", json={"pack": pid, "text": scenes}).json()
+    assert r["got"] == [1, 2] and r["gaps"] == [], r["gaps"]
+    assert c.get(f"/api/story/build/checkup?pack={pid}").json()["gaps"] == []
+    p = dialogue_pack(pid)
+    first, date = p["scenes"][0], p["scenes"][1]
+    fact = (date.get("when") or {}).get("remembered")
+    assert fact  # the date waits for the choice
+    ops = [op for op in first["choices"][0].get("ops") or [] if op and op[0] == "remember"]
+    assert any(fact[0] in op for op in ops) or any(fact in op for op in ops)
+    others = [op for ch in first["choices"][1:] for op in ch.get("ops") or [] if op and op[0] == "remember"]
+    assert not any(str(fact[0] if isinstance(fact, list) else fact) in map(str, op) for op in others)
+
+
+def dialogue_pack(pid):
+    from lifeos import dialogue
+    return dialogue._script_pack(pid)["pack"]
+
+
+def test_choice_words_match_only_when_its_clear():
+    from lifeos import script as SC
+    sc = {"choices": [{"label": '"Nikki, I really like you. Will you go on a proper date with me?"'},
+                      {"label": '"I want to see where this goes with you. We don\'t have to rush anything."'},
+                      {"label": '"I like you more than a friend, but I need a little more time before we change anything."'}]}
+    assert SC.find_choice(sc, "Ask her on a proper date")[0] == 0
+    assert SC.find_choice(sc, "Ask for more time")[0] == 2
+    assert SC.find_choice(sc, "Tell her you like her") is None  # two of them say "like you": not clear, so no guess
+    assert SC.find_choice({"choices": [{"label": '"Back row\'s fine."'}, {"label": '"I can\'t stay long."'}]}, "Front row") is None

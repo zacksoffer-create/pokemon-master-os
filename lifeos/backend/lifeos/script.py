@@ -1490,7 +1490,37 @@ def find_choice(sc, label: str):
     if k is None:
         near = difflib.get_close_matches(want, labels, n=1, cutoff=0.55)
         k = labels.index(near[0]) if near else None
+    if k is None:
+        k = _by_words(want, labels)
     return None if k is None else (k, chs[k])
+
+
+_PLAIN = set("a an the to on in at of for with and or but so if it its is be am are was do did not no yes i me my you your "
+             "we us our he him his she her they them their this that these those just really very go going get got will would "
+             "can could should want let lets ask tell say said".split())
+
+
+def _stem(w: str) -> str:
+    for suf in ("ing", "ly", "ed", "es", "s", "e"):
+        if w.endswith(suf) and len(w) - len(suf) >= 3:
+            return w[:-len(suf)]
+    return w
+
+
+def _by_words(want: str, labels: list):
+    """The outline names a choice in its own words ("Ask her on a proper date") and the scene says it in a line ("Nikki,
+    will you go on a proper date with me?"): the choice that shares the most of its meaningful words, if it clearly
+    does (most of them, and more than any other choice)."""
+    key = {_stem(w) for w in want.split() if w not in _PLAIN and len(w) > 1}
+    if not key:
+        return None
+    scores = [len(key & {_stem(w) for w in lb.split() if w not in _PLAIN}) for lb in labels]
+    if not scores:
+        return None
+    best = max(scores)
+    if best == 0 or best * 2 <= len(key) or scores.count(best) > 1:  # (most of them: "Back row's fine" isn't "Front row")
+        return None
+    return scores.index(best)
 
 
 AFTER_OPS = ("say", "remember", "forget", "memory", "text", "minigame", "chance", "hang_out", "play", "vibe")
