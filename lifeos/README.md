@@ -96,7 +96,13 @@ stats, your family and your people.
   In between, your character handles the rest the way they would on their own: practices, games, classes, tryouts,
   invites. The scenes keep their real dates and pacing, so the story has the same shape it would day by day. **Back to
   living day by day** turns it off. API: `POST /api/story/advance {"until": "episode"}`; the mode is
-  `{"binge": true}` on `/api/story/control`.
+  `{"binge": true}` on `/api/story/control`. It never lives a year forward looking: if none of your storyline scenes
+  can come right now it stops at once and says why ("12 scenes: nobody in your story fits"), and otherwise it looks
+  about two months ahead at most ("No storyline scene in the next two months"; tap again to keep going).
+- **A big library stays quick.** What the game works out about each scene (who it needs, whether it's about a game,
+  which sport) is kept until that scene changes, so adding a batch or opening Storylines doesn't redo every scene you
+  have; the phone saves at most every 45 seconds while you play (and right away when you leave the app), since a save
+  holds everything else up for a moment.
 - **Up next** (the bar at the top in episode mode) is the next ten episodes in the order they'll come, with about when
   (played forward on a copy, your character answering). Move any one up or down: the episode it passes now waits for
   it, saved in your story, and the list plays forward again so you see where everything lands. If a move would push an

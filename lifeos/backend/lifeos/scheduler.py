@@ -32,6 +32,7 @@ decide (control `auto_scenes`). Everything here is deterministic for a seed and 
 """
 from __future__ import annotations
 
+import functools
 import re
 import zlib
 
@@ -232,6 +233,13 @@ def migrate(sim):
 
 # ---------------------------------------------------------------------------------------- the catalog
 
+@functools.lru_cache(maxsize=16384)
+def _sport_counts(words: str) -> tuple:
+    """How often a scene's words name each sport ((sport, count), ...): counted once per text, not every rebuild."""
+    from . import dialogue
+    return tuple((s, len(re.findall(rx, words))) for s, rx in dialogue.SPORT_WORDS.items())
+
+
 _cat_cache: dict = {}
 
 
@@ -298,8 +306,8 @@ def catalog(sim) -> dict:
         for sid in sids:
             mm = sim.cat.moments[sid]
             words = f"{mm.get('title', '')} {mm.get('text', '') if isinstance(mm.get('text'), str) else ''}".lower()
-            for s, rx in dialogue.SPORT_WORDS.items():
-                counts[s] = counts.get(s, 0) + len(re.findall(rx, words))
+            for s, k in _sport_counts(words):
+                counts[s] = counts.get(s, 0) + k
         best = max(counts, key=lambda s: counts[s]) if counts and max(counts.values()) >= 3 else None
         pack_sport[pk] = slot_sport.get(pk) or best
     for sid, sc in scenes.items():
@@ -308,7 +316,7 @@ def catalog(sim) -> dict:
         text = mm.get("text") if isinstance(mm.get("text"), str) else " ".join(mm.get("text") or [])
         key_s = _norm(f"{sid} {title}")
         when = sc.get("when") or {}
-        own = {s: len(re.findall(rx, f"{title} {text}".lower())) for s, rx in dialogue.SPORT_WORDS.items()}
+        own = dict(_sport_counts(f"{title} {text}".lower()))
         sport = max(own, key=lambda s: own[s]) if own and max(own.values()) >= 2 else pack_sport.get(sc.get("pack"))
         imp = over_imp.get(sid) or when.get("importance")
         if imp not in IMPORTANCE:
@@ -1354,6 +1362,21 @@ def finish_today(sim, auto=True, limit=GUARD) -> list:
 def auto_ok(w, m) -> bool:
     """May the game answer this moment for the player? Not a storyline scene, unless they turned on Let my character decide."""
     return bool(control(w).get("auto_scenes")) or not _is_story(m.get("kind"))
+
+
+def ahead(sim) -> dict:
+    """Can any storyline scene still come? {"open": how many could (now or later), "why": the most common reason the
+    rest are held up, in plain words}. Next episode checks this before living days forward looking for one."""
+    from collections import Counter
+    try:
+        rs = rows(sim)
+    except Exception:  # noqa: BLE001
+        return {"open": 1, "why": None}
+    live = [r for r in rs if r.get("state") in ("eligible", "queued", "presented", "waiting")]
+    held = Counter(r.get("why") for r in rs if r.get("state") in ("waiting", "unreachable", "expired") and r.get("why"))
+    top = held.most_common(1)
+    return {"open": len(live), "ready": sum(1 for r in live if r.get("state") in ("eligible", "queued", "presented")),
+            "why": (f"{top[0][1]} scene{'s' if top[0][1] != 1 else ''}: {top[0][0]}" if top else None)}
 
 
 def is_episode(sim, kind) -> bool:

@@ -218,7 +218,8 @@ export default function StoryTab() {
     const st = await phoneApi.state(before);
     const days = Math.max(0, (j.end_day ?? 0) - (j.start_day ?? 0));
     setBetween(days > 0 || st.feed.length ? { days, feed: st.feed.slice().reverse() } : null);
-    if (j.stop === "time") toast("No scene came up for a long stretch. Me > Story schedule shows what's waiting.", "bad");
+    if (j.stop === "time") toast(`No storyline scene in the next two months${j.why ? ` (${j.why})` : ""}. Tap again to keep going, or see Me > Story schedule.`, "bad");
+    if (j.stop === "nothing_left") toast(`None of your storyline scenes can come right now${j.why ? ` (${j.why})` : ""}. Me > Story schedule shows why.`, "bad");
     if (j.stop === "end") toast("That's your whole story.", "good");
     await refresh();
     lab.refresh();

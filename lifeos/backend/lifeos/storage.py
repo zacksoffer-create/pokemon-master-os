@@ -22,7 +22,8 @@ def world_to_bytes(w: World, with_history: bool = True) -> bytes:
     d = w.to_dict()
     if not with_history:
         d["history"] = None
-    return zlib.compress(json.dumps(d, separators=(",", ":")).encode("utf-8"), 6)
+    # level 1: a few times faster than 6 for a slightly bigger file (the phone saves every half minute while you play)
+    return zlib.compress(json.dumps(d, separators=(",", ":")).encode("utf-8"), 1)
 
 
 def world_from_bytes(b: bytes) -> World:

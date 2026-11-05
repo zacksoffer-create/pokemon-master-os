@@ -10,6 +10,7 @@
 """
 from __future__ import annotations
 
+import functools
 import re
 
 # which sport a mini game is the big moment for
@@ -268,6 +269,7 @@ STRONG = re.compile(r"\b(what a|that|huge|big|after the|tough|brutal|ugly)\s+(wi
 SCORE = re.compile(r"\b\d{1,3}\s?(-|to)\s?\d{1,3}\b")
 
 
+@functools.lru_cache(maxsize=16384)
 def assumed_result(title: str, text: str, sporty: bool = False) -> str | None:
     """The result a scene takes for granted, from its words ("we won", "that loss"): we_won, we_lost, or None. A scene
     counts as about a game if it says so, has a score, or is in a storyline about a sport (sporty); anything about another

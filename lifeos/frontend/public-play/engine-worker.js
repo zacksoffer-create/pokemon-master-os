@@ -7,6 +7,10 @@ let py = null;
 let api = null;
 let pumping = false;
 let dirtySince = 0;
+let lastFlush = 0;
+// While you play, saving waits at least this long between saves: a save blocks the engine for a few seconds on a phone,
+// so every 8 seconds made menus and scenes lag. Leaving the app (or a backup) still saves right away.
+const SAVE_EVERY = 45000;
 const queue = [];
 let busy = false;
 
@@ -87,11 +91,12 @@ async function flush(force) {
     // sync whenever anything changed (a save, a dialogue pack...), not only when the autosave wrote just now
     if (wrote || force || dirtySince) await syncfs(false);
     dirtySince = 0;
+    lastFlush = Date.now();
   } catch (e) { /* try again next time */ }
 }
 
 function maybeFlush() {
-  if (!pumping && dirtySince && Date.now() - dirtySince > 6000) flush(false);
+  if (!pumping && dirtySince && Date.now() - dirtySince > 6000 && Date.now() - lastFlush > SAVE_EVERY) flush(false);
 }
 
 onmessage = (e) => {

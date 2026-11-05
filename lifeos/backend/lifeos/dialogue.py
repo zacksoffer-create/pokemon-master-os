@@ -1351,8 +1351,22 @@ def pack_summary(p) -> dict:
 GAME_WORDS = re.compile(r"\b(game|games|match|tryouts?|playoffs?|season|scrimmage|homecoming|rivalry|touchdown|scored|coach)\b", re.I)
 
 
+_games_memo: dict = {}  # id(compiled pack) -> (that pack, the answer): a storyline is read for games once until it changes
+
+
 def _about_games(pk) -> bool:
     """Does this storyline have scenes about your games (so it can follow how they really go)?"""
+    hit = _games_memo.get(id(pk))
+    if hit is not None and hit[0] is pk:
+        return hit[1]
+    if len(_games_memo) > 2000:
+        _games_memo.clear()
+    v = _about_games_now(pk)
+    _games_memo[id(pk)] = (pk, v)
+    return v
+
+
+def _about_games_now(pk) -> bool:
     for s_ in pk.get("scenes") or []:
         if not isinstance(s_, dict):
             continue
@@ -2281,9 +2295,21 @@ def needs(obj) -> list:
     return sorted(out)
 
 
+_needs_memo: dict = {}  # (id of a choice's ops, label, hint) -> (those ops, who it needs): a scene's choices are walked once
+
+
 def _with_needs(ch) -> dict:
-    ch = dict(ch, fits=ch.get("fits", {}), ops=ch.get("ops", []))
-    n = needs({"label": ch.get("label"), "hint": ch.get("hint"), "ops": ch["ops"]})
+    ops = ch.get("ops", [])
+    k = (id(ops), ch.get("label"), ch.get("hint"))
+    hit = _needs_memo.get(k)
+    if hit is not None and hit[0] is ops:
+        n = hit[1]
+    else:
+        n = needs({"label": ch.get("label"), "hint": ch.get("hint"), "ops": ops})
+        if len(_needs_memo) > 60000:
+            _needs_memo.clear()
+        _needs_memo[k] = (ops, n)
+    ch = dict(ch, fits=ch.get("fits", {}), ops=ops)
     if n:
         ch["requires"] = n
     return ch

@@ -160,7 +160,9 @@ class Lab:
         from .calendar import DECISION_SLOTS
         self.guard()
         # episode: straight to the next storyline scene; everything in between, your character lives and decides
-        limits = {"decision": 4, "day": 1, "week": 7, "month": 31, "moment": 400, "episode": 800}
+        # (episode: about two months at most. Living days forward is the slow part on a phone, so it never searches for
+        # a year when nothing's coming: it says what's holding things up instead)
+        limits = {"decision": 4, "day": 1, "week": 7, "month": 31, "moment": 400, "episode": 60}
         if until not in limits:
             raise HTTPException(422, f"until must be one of {', '.join(limits)}")
         self.job_seq += 1
@@ -200,6 +202,13 @@ class Lab:
                                 break
                             if scheduler.deliver(sim) is not None:
                                 continue  # today's next one (or the one you picked to play next) is ready now
+                            if (w.day - start) % 20 == 0 and w.day != job.get("_checked"):
+                                job["_checked"] = w.day  # (now and every few weeks: is anything still coming at all?)
+                                ah = scheduler.ahead(sim)
+                                job["why"] = ah.get("why")
+                                if not ah["open"]:
+                                    reason = "nothing_left"
+                                    break
                         if pend and until != "decision" and all(moments.light(m["kind"]) for m in pend):
                             for m in pend:  # skipping ahead: your character plays the class game or the night themselves
                                 moments.resolve(sim, m["id"], None)
