@@ -1043,7 +1043,9 @@ export function SceneArt({ art, season = "fall", phase = "day" }: { art: string;
   return (
     <svg viewBox="0 0 390 480" preserveAspectRatio="xMidYMid slice" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} aria-hidden="true">
       {sc.base}
-      {o > 0 && <rect width={390} height={480} fill={tc} opacity={o} style={{ mixBlendMode: "multiply" }} />}
+      {/* time-of-day tint: a plain see-through layer. (It was mix-blend-mode: multiply, which iPhone Safari can fail to
+          draw: the whole Story screen went blank a moment after it loaded, everywhere but midday.) */}
+      {o > 0 && <rect width={390} height={480} fill={tc} opacity={o * 0.85} />}
       {sc.lights}
     </svg>
   );

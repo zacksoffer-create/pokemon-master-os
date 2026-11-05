@@ -1511,7 +1511,7 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 /* Simple look (Diagnostics): every visual effect off, for phones that stop drawing the screen */
 .ph-plain *, .ph-plain *::before, .ph-plain *::after { animation: none !important; transition: none !important;
   -webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: none !important; filter: none !important;
-  text-shadow: none !important; will-change: auto !important; }
+  text-shadow: none !important; will-change: auto !important; mix-blend-mode: normal !important; isolation: auto !important; }
 .ph-plain .ph-sheet-wrap { background: rgba(42, 33, 64, 0.5) !important; }
 
 /* Page scrolling (Diagnostics): the page itself scrolls, like a website, instead of a box inside a frame pinned to the
