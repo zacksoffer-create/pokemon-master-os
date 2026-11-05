@@ -1,7 +1,8 @@
 // Scene illustrations: layered flat-vector backgrounds for every place in the story.
 // Composition box is 390x480 (preserveAspectRatio slice), so it fills any phone-width card.
 // Season changes foliage, snow and sky; the phase of the day tints everything and turns lights on.
-import React, { useId } from "react";
+import React, { useMemo } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 export type SceneProps = { art: string; season?: string; phase?: string; className?: string; children?: React.ReactNode };
 type Time = "morning" | "day" | "golden" | "dusk" | "night";
@@ -1034,20 +1035,43 @@ export const SCENES: Record<string, S> = {
 };
 export const SCENE_KEYS = Object.keys(SCENES);
 
-export function SceneArt({ art, season = "fall", phase = "day" }: { art: string; season?: string; phase?: string }) {
-  const id = useId().replace(/[^a-zA-Z0-9]/g, "");
+function sceneSvg(art: string, season: string, phase: string, id: string) {
   const c: Ctx = { t: timeOf(phase), s: ["spring", "summer", "fall", "winter"].includes(season) ? season : "fall", id };
   const sc = (SCENES[art] || SCENES.town_green)(c);
   const [tc, oOut, oIn] = TINT[c.t];
   const o = sc.indoor ? oIn : oOut;
   return (
-    <svg viewBox="0 0 390 480" preserveAspectRatio="xMidYMid slice" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width={390} height={480} viewBox="0 0 390 480" preserveAspectRatio="xMidYMid slice">
       {sc.base}
-      {/* time-of-day tint: a plain see-through layer. (It was mix-blend-mode: multiply, which iPhone Safari can fail to
-          draw: the whole Story screen went blank a moment after it loaded, everywhere but midday.) */}
+      {/* time-of-day tint: a plain see-through layer (mix-blend-mode: multiply here made iPhone Safari stop drawing) */}
       {o > 0 && <rect width={390} height={480} fill={tc} opacity={o * 0.85} />}
       {sc.lights}
     </svg>
+  );
+}
+
+// Each scene is drawn once (per place, season and time of day) and shown as a flat image. As a live drawing (hundreds of
+// shapes) iPhone Safari could fail to redraw it when the page changed around it, leaving the whole Story screen blank a
+// moment after it loaded; an image redraws for free.
+const IMG_CACHE = new Map<string, string>();
+
+function sceneImage(art: string, season: string, phase: string): string {
+  const key = `${art}|${season}|${phase}`;
+  let url = IMG_CACHE.get(key);
+  if (!url) {
+    const markup = renderToStaticMarkup(sceneSvg(art, season, phase, "s" + key.replace(/[^a-zA-Z0-9]/g, "")));
+    url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(markup);
+    if (IMG_CACHE.size > 60) IMG_CACHE.clear();
+    IMG_CACHE.set(key, url);
+  }
+  return url;
+}
+
+export function SceneArt({ art, season = "fall", phase = "day" }: { art: string; season?: string; phase?: string }) {
+  const src = useMemo(() => sceneImage(art, season, phase), [art, season, phase]);
+  return (
+    <img src={src} alt="" aria-hidden="true" draggable={false} decoding="async"
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
   );
 }
 
