@@ -668,9 +668,6 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
 
 # ---------------------------------------------------------------------------------------- outline, then batches
 
-TEXT_SIZES = {"few": ("about 15 flirt lines in all", "2 group chats"), "bunch": ("about 40 flirt lines in all, spread over the blocks", "4 group chats"),
-              "lot": ("about 80 flirt lines in all, spread over every block", "8 group chats")}
-
 TEXTING_FLIRT = """## Flirting
 
 Each block is a header line ending in a colon, then its lines under it, indented two spaces, one line each.
@@ -728,34 +725,6 @@ closer), `trust +` (my parents trust me more).
 - `dm B: ...` under a reply: that person texts me privately afterward (optional, once in a while).
 - In what anyone says, names are {A}, {B}, {C} and {me}; {opp} is the other team and {pet} our pet.
 """
-
-
-def texting_prompt(sim, what: str = "flirt", ask: str = "", size: str = "bunch") -> str:
-    """The ChatGPT prompt for new texting: flirt lines (by kind), group chat conversations, or both."""
-    me = sim.w.chars.get(sim.w.meta.get("protagonist") or "") if sim else None
-    name = me.first if me else "me"
-    what = what if what in ("flirt", "group", "both") else "flirt"
-    flirt_n, group_n = TEXT_SIZES.get(size, TEXT_SIZES["bunch"])
-    want = [flirt_n] if what == "flirt" else [group_n] if what == "group" else [flirt_n, group_n]
-    parts = [f"I'm adding texting to LIFE OS, a life-simulation game: I play {name}, starting high school in Guilford, "
-             "Connecticut in fall 2010, through college. The game decides who sends these and when; you write how people text.",
-             "", "## What I want", "", (ask.strip() or "[describe it here: the vibe, who it's for, what you want more of]"), "",
-             "## How to answer", "",
-             "- One code block (```) with only the blocks below, and nothing after it.",
-             "- How teenagers actually text: lowercase, short (under 120 characters), specific, funny when it fits. PG-13. "
-             "Most lines without emoji; a few with one.",
-             "- No names of real people. Use {me} for me" + ("; in group chats {A}, {B}, {C} for the others (the game picks who)."
-                                                          if what != "flirt" else "."),
-             "- How much: " + "; ".join(want) + ".",
-             "- Use the block headers exactly as they're written below: plain text (no bold, no #, no parentheses), and only "
-             "the style words listed (sarcastic flirting is tease, cute is sweet, confident is bold)."
-             + (" In group chats, whoever's talking is A, B or C (family: mom, dad, sibling), never a name." if what != "flirt" else ""),
-             ""]
-    if what in ("flirt", "both"):
-        parts.append(TEXTING_FLIRT)
-    if what in ("group", "both"):
-        parts.append(TEXTING_GROUP)
-    return "\n".join(parts).rstrip() + "\n"
 
 
 OUTLINE_SIZES = {"few": "6 to 8 scenes", "bunch": "12 to 18 scenes", "lot": "30 to 45 scenes, through the whole year (or years)"}

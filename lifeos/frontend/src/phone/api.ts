@@ -304,11 +304,13 @@ export const phoneApi = {
     api.post("/api/story/build/outline", { text, save, expand: expand || undefined }),
   history: (): Promise<{ versions: OldVersion[] }> => api.get("/api/dialogue/history"),
   restore: (file: string): Promise<{ restored: string }> => api.post("/api/dialogue/history/restore", { file }),
-  textingPrompt: (what: string, ask: string, size: string): Promise<{ prompt: string; chars: number }> =>
-    api.get(`/api/texting/prompt?what=${encodeURIComponent(what)}&ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`),
+  textingPrompt: (what: string, ask: string, size: string, parts: string[] = [], style = "all"):
+    Promise<{ prompt: string; chars: number; sections: number; lines: number; group_chats: number }> =>
+    api.get(`/api/texting/prompt?what=${encodeURIComponent(what)}&ask=${encodeURIComponent(ask)}&size=${encodeURIComponent(size)}`
+      + `&parts=${encodeURIComponent(parts.join(","))}&style=${encodeURIComponent(style)}`),
   textingCheck: (text: string): Promise<TextingCheck> => api.post("/api/texting/check", { text }),
-  textingAdd: (text: string): Promise<{ ok: boolean; pack: string; breakdown: TextingBreakdown; notes: string[] }> =>
-    api.post("/api/texting/add", { text }),
+  textingAdd: (text: string): Promise<{ ok: boolean; pack: string; breakdown: TextingBreakdown; notes: string[];
+    skipped: { header: string; why: string }[]; fix_prompt: string | null }> => api.post("/api/texting/add", { text }),
   batchPrompt: (pack: string, count = 3): Promise<BatchPrompt> =>
     api.get(`/api/story/build/batch-prompt?pack=${encodeURIComponent(pack)}&count=${count}`),
   addScenes: (pack: string, text: string): Promise<{ ok: boolean; got: number[]; notes: string[]; written: number; total: number; outline: OutlineEntry[];

@@ -1452,11 +1452,14 @@ def api_build_outline(body: dict = Body(...)):
 
 
 @app.get("/api/texting/prompt")
-def api_texting_prompt(what: str = "flirt", ask: str = "", size: str = "bunch"):
-    """The ChatGPT prompt for new texting: flirt lines, group chats, or both."""
-    from . import storybuilder
-    p = storybuilder.texting_prompt(get_lab().sim, what, ask, size)
-    return {"prompt": p, "chars": len(p)}
+def api_texting_prompt(what: str = "flirt", ask: str = "", size: str = "bunch", parts: str = "", style: str = "all"):
+    """The ChatGPT prompt for new texting: a template to fill in, for the parts of flirting (start, react, keep, first, end;
+    comma-separated, all if empty) and style you pick, and/or group chats."""
+    from . import texting
+    w = get_lab().w
+    me = w.chars.get(w.meta.get("protagonist") or "")
+    out = texting.prompt(me.first if me else "me", what, ask, size, [x for x in parts.split(",") if x] or None, style)
+    return {**out, "chars": len(out["prompt"])}
 
 
 def _texting_text(text: str) -> str:
@@ -1471,44 +1474,28 @@ def _texting_text(text: str) -> str:
 
 @app.post("/api/texting/check")
 def api_texting_check(body: dict = Body(...)):
-    """{text}: what it would add (flirt lines by kind, group chats) and what got fixed. Nothing's saved."""
-    from . import dialogue, scriptfix
-    fx = scriptfix.repair(_texting_text(str(body.get("text") or "")), library=dialogue.library())
-    packs = fx["result"]["packs"]
+    """{text}: what it would add (flirt lines by kind, group chats), what got fixed, and the sections that can't go in (each
+    with why). Nothing's saved."""
+    from . import dialogue, scriptfix, texting
+    t = texting.take(str(body.get("text") or ""))
+    if not t["text"]:
+        return JSONResponse(_texting_none(t), status_code=422)
+    packs = scriptfix.repair(t["text"], library=dialogue.library())["result"]["packs"]
     bd = [dialogue.texting_breakdown(pk) for pk in packs]
-    total = sum(b["flirt_total"] + b["texting"] + len(b["group_chats"]) for b in bd)
-    if not fx["ok"] or not total:
-        return JSONResponse(_texting_problem(fx, str(body.get("text") or "")), status_code=422)
-    return {"ok": True, "breakdown": bd[0] if len(bd) == 1 else _merge_breakdowns(bd),
-            "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]], "text": fx["text"],
+    return {"ok": True, "breakdown": bd[0] if len(bd) == 1 else _merge_breakdowns(bd), "notes": t["notes"], "text": t["text"],
+            "skipped": t["skipped"], "fix_prompt": texting.fix_prompt(t["skipped"]) if t["skipped"] else None,
             "scenes": sum(len(pk.get("scenes") or []) for pk in packs)}
 
 
-TEXTING_HEADERS = ("flirt tease: / flirt sweet: / flirt bold: / flirt funny: / flirt cheesy:  (add later, like flirt tease later:, "
-                   "for once we're already flirty)\n"
-                   "flirt answers <tease|sweet|bold|funny|cheesy>, <lands|laughs|awkward|no>:\n"
-                   "flirt follow-ups <tease|sweet|bold|funny|cheesy|cool>:  (or ... after a laugh:)\n"
-                   "flirt first:  /  flirt back <tease|sweet|bold|funny|cheesy|cool|letdown>:  /  flirt payoff <blush|plans|goodnight|ask>:\n"
-                   "group chat <crew|team|family>, <when>:  (who's talking: A, B, C; family: mom, dad, sibling; never names)")
-
-
-def _texting_problem(fx, src: str = "") -> dict:
-    """Nothing in a paste could go in as texting: what was wrong (from what the fixer had to take out), and a message for
-    ChatGPT that asks for it again with the exact headers."""
-    import re as _re
-    if not _re.search(r"(?im)^[\s#*>\-•_]*(flirt|group\s+chat)\b", src or fx.get("text") or ""):
-        fx = {**fx, "notes": [], "result": {**fx["result"], "errors": []}}  # (no blocks at all: nothing line by line to say)
-    took = [f"line {n['line']}: {n['text']}" for n in fx["notes"] if "came off" in n["text"]]
-    errs = [f"line {e['line']}: {e['text']}" for e in fx["result"]["errors"] if "nothing in this pack" not in e["text"]
-            and "nothing in that" not in e["text"]]
-    reasons = (took + errs)[:8]
-    why = ("None of that could go in as texting." if reasons else
-           "There's no texting in that: no flirt or group chat blocks. Did ChatGPT answer with something else?")
-    fix = ("The LIFE OS game couldn't use your texting reply" + (": these parts didn't work:\n- " + "\n- ".join(reasons) if reasons else
-           ": it didn't have any texting blocks in it.") +
-           "\n\nSend it again as ONE code block, nothing after it, using only these block headers, written exactly like this "
-           "(plain text, no bold, no #), each line under its header indented two spaces:\n\n" + TEXTING_HEADERS + "\n")
-    return {"detail": why, "errors": [why] + reasons, "fix_prompt": fix}
+def _texting_none(t) -> dict:
+    """Nothing in a paste could go in: why (each section that didn't work, or no sections at all), and a fix-it message."""
+    from . import texting
+    if t["skipped"]:
+        why = "None of that could go in."
+        return {"detail": why, "errors": [why] + [f"{s_['header']} {s_['why']}" for s_ in t["skipped"][:8]],
+                "skipped": t["skipped"], "fix_prompt": texting.fix_prompt(t["skipped"])}
+    why = "There's no texting in that: none of the template's sections. Did ChatGPT answer with something else?"
+    return {"detail": why, "errors": [why], "skipped": [], "fix_prompt": texting.fix_prompt([], none_at_all=True)}
 
 
 def _merge_breakdowns(bd):
@@ -1522,18 +1509,21 @@ def _merge_breakdowns(bd):
 
 @app.post("/api/texting/add")
 def api_texting_add(body: dict = Body(...)):
-    """{text}: add it. It goes live right away; it's listed with your storylines (edit or remove it there)."""
-    from . import dialogue
-    r = dialogue.add_script(_texting_text(str(body.get("text") or "")))
+    """{text}: add every section that works, right away (live now, listed under Texting to turn off, edit or remove);
+    the ones that can't go in come back with why and a fix-it message for ChatGPT."""
+    from . import dialogue, texting
+    t = texting.take(str(body.get("text") or ""))
+    if not t["text"]:
+        return JSONResponse(_texting_none(t), status_code=422)
+    r = dialogue.add_script(t["text"])
     if not r["ok"]:
-        from . import scriptfix
-        return JSONResponse(_texting_problem(scriptfix.repair(_texting_text(str(body.get("text") or "")), library=dialogue.library()),
-                                             str(body.get("text") or "")), status_code=422)
+        return JSONResponse({"detail": "couldn't add it", "errors": [str(e) for e in r.get("errors") or []], "skipped": t["skipped"],
+                             "fix_prompt": texting.fix_prompt(t["skipped"]) if t["skipped"] else None}, status_code=422)
     _dialogue_changed(get_lab())
     pid = r["ids"][0]
     pk = next((p["pack"] for p in dialogue.packs() if p["id"] == pid), {})
-    return {"ok": True, "pack": pid, "breakdown": dialogue.texting_breakdown(pk), "notes": r.get("notes") or [],
-            "packs": _dialogue_list()["packs"]}
+    return {"ok": True, "pack": pid, "breakdown": dialogue.texting_breakdown(pk), "notes": t["notes"], "skipped": t["skipped"],
+            "fix_prompt": texting.fix_prompt(t["skipped"]) if t["skipped"] else None, "packs": _dialogue_list()["packs"]}
 
 
 @app.get("/api/story/build/batch-prompt")

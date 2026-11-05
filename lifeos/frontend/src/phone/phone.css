@@ -1447,3 +1447,5 @@ button.rd-when { border: 0; cursor: pointer; font-family: var(--ph-body); }
 .dl-more[open] summary::after { content: " ▴"; }
 .sp-play { display: block; font-style: normal; font-size: 12px; font-weight: 700; color: #1f7a52; margin-top: 2px; }
 .sp-play.miss { color: #b4381f; }
+.tx-pick-l { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ph-ink-2); margin: 10px 0 6px; }
+.tx-job { margin: 6px 0 2px; }

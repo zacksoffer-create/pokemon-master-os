@@ -111,7 +111,7 @@ def test_add_texting_through_the_phone_and_it_plays():
     c = TestClient(api.app)
     assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
     p = c.get("/api/texting/prompt", params={"what": "both", "ask": "sarcastic flirting, the boys roasting each other", "size": "few"}).json()
-    for must in ("sarcastic flirting", "Zack", "flirt answers <style>, <how it went>:", "group chat <crew|team|family>", "{A}", "2 group chats"):
+    for must in ("sarcastic flirting", "Zack", "flirt answers tease, lands:", "group chat <crew|team|family>", "{A}", "write 2"):
         assert must in p["prompt"], must
     assert c.get("/api/texting/prompt", params={"what": "flirt"}).json()["prompt"].count("group chat") == 0
     ck = c.post("/api/texting/check", json={"text": SAMPLE}).json()
@@ -200,8 +200,92 @@ def test_when_nothing_goes_in_it_says_why_and_how_to_ask_again():
     c = TestClient(api.app)
     assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
     prose = c.post("/api/texting/check", json={"text": "Sure! Here are some ideas for flirty texts in your game."}).json()
-    assert "no flirt or group chat blocks" in prose["errors"][0] and "flirt tease:" in prose["fix_prompt"]
+    assert "none of the template's sections" in prose["errors"][0] and "flirt tease:" in prose["fix_prompt"]
     bad = c.post("/api/texting/check", json={"text": "```\nflirt mysterious:\n  hmm\n```"}).json()
     assert any("mysterious" in e for e in bad["errors"]) and "group chat <crew|team|family>" in bad["fix_prompt"]
     p = c.get("/api/texting/prompt", params={"what": "both"}).json()["prompt"]
-    assert "never a name" in p and "sarcastic flirting is tease" in p
+    assert "never a name" in p and "Keep every header line exactly" in p
+
+
+def test_every_flirt_header_the_prompt_allows_has_a_place_in_the_game():
+    """A header that compiles but has no slot in the game's texting lines fails the whole paste ("isn't a place for
+    lines"): flirt back cheesy did. Every combination the prompt offers has to land somewhere real."""
+    base = dialogue._base("chat.json")["banter"]
+    styles = script.FLIRT_STYLES + ("cool",) + tuple(script.STYLE_WORDS)
+    keys = ["first", "first later", "back letdown", "back cool"] + [f"payoff {x}" for x in script.FLIRT_PAYOFF]
+    for st in styles:
+        keys += [st, f"{st} later", f"follow-ups {st}", f"follow-ups {st} after a laugh", f"back {st}"]
+        keys += [f"answers {st}, {how}" for how in script.FLIRT_OUT]
+    missing = []
+    for k in keys:
+        try:
+            path = script.flirt_path(k)
+        except script.Fail:
+            continue
+        d = {"banter": base}
+        for x in path:
+            if not isinstance(d, dict) or x not in d:
+                missing.append((k, path))
+                break
+            d = d[x]
+    assert not missing, missing[:10]
+    fx = scriptfix.repair("flirt back cheesy:\n  is this a pickup line or are you just happy to see me\n", library={})
+    assert fx["ok"] and fx["result"]["packs"][0]["chat"]["banter"]["in_back"]["funny"]
+
+
+
+def _client():
+    from fastapi.testclient import TestClient
+    from lifeos import api
+    from lifeos.storage import Store
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
+    return c
+
+
+def test_the_prompt_is_a_template_of_the_games_own_slots_for_what_you_pick():
+    from lifeos import texting
+    c = _client()
+    r = c.get("/api/texting/prompt", params={"what": "flirt", "size": "few", "parts": "start,end", "style": "tease"}).json()
+    blk = r["prompt"].split("## The template")[1].split("```")[1]
+    heads = [ln for ln in blk.strip().split("\n") if not ln.startswith(" ")]
+    assert heads == ["flirt tease:", "flirt tease later:", "flirt payoff blush:", "flirt payoff plans:", "flirt payoff goodnight:",
+                     "flirt payoff ask:"], heads
+    assert r["sections"] == 6 and r["lines"] == 12 and "replace the ... with 2 lines" in r["prompt"]
+    everything = c.get("/api/texting/prompt", params={"what": "both"}).json()
+    assert everything["sections"] == len(texting.sections()) and everything["group_chats"] == 4
+    # every header the template can ever show has a real place in the game
+    base = dialogue._base("chat.json")["banter"]
+    for h, _ in texting.sections():
+        d = {"banter": base}
+        for x in script.flirt_path(h[len("flirt "):-1]):
+            assert isinstance(d, dict) and x in d, h
+            d = d[x]
+
+
+def test_a_filled_in_template_goes_in_and_a_bad_section_doesnt_stop_the_rest():
+    c = _client()
+    filled = """Here you go!
+```
+flirt tease:
+  ok who said you could be this funny
+  bold of you to text first
+flirt tease later:
+  ...
+flirt mysterious:
+  hmm
+flirt answers tease, perhaps:
+  ok
+flirt payoff plans:
+  diner friday. you're buying fries
+```"""
+    ck = c.post("/api/texting/check", json={"text": filled}).json()
+    assert ck["breakdown"]["flirt_total"] == 3, ck
+    assert [s["header"] for s in ck["skipped"]] == ["flirt mysterious:", "flirt answers tease, perhaps:"], ck["skipped"]
+    assert "Send just those sections again" in ck["fix_prompt"] and "flirt mysterious:" in ck["fix_prompt"]
+    r = c.post("/api/texting/add", json={"text": filled}).json()
+    assert r["ok"] and r["breakdown"]["flirt_total"] == 3 and len(r["skipped"]) == 2 and r["fix_prompt"]
+    ban = chat.D()["banter"]
+    assert "bold of you to text first" in ban["open"]["early"]["tease"] and "diner friday. you're buying fries" in ban["payoff"]["plans"]
+    assert "..." not in ban["open"]["close"]["tease"], "a section nobody filled in isn't added"

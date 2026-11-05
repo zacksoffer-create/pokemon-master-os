@@ -599,13 +599,17 @@ What's in it:
   lands differently with each of them, and sometimes the one you roasted DMs you after ("ok be honest. is it actually
   that bad").
 - **Add your own texting.** Phone → Messages → **Add texting** (or Me → **Texting**): pick flirting, group chats or both,
-  say what you want ("sarcastic flirting", "the boys roasting each other about fantasy football"), copy the ChatGPT prompt,
-  paste what it writes, **Check it** (you see what it adds: flirt openers, how they answer, follow-ups, them flirting
-  first, payoffs, and each group chat with how it starts) and **Add it**. It's live right away, fixed rather than refused
-  like everything else you paste, and listed with your storylines to edit or remove. You can write them by hand too:
-  `flirt tease:` with lines under it, `flirt answers bold, lands:`, `flirt first:`, `flirt payoff plans:`, and
-  `group chat crew, weekend:` with the conversation (`A: ...`), what you can say (`* {B} you're gonna finish last | A +,
-  B -, fun +`), their answers under it, and `dm B: ...` for someone texting you after. The guide has every block.
+  pick which parts (openers, how they answer, follow-ups, them flirting first, payoffs) and a style (every style, teasing /
+  sarcastic, sweet, bold, funny, cheesy), say what you want ("the boys roasting each other about fantasy football"), and
+  you see the size of the job before you copy anything ("ChatGPT fills in 12 flirt sections, about 36 lines, and 4 group
+  chats"). The prompt is a fill-in template built from the game's own texting slots, so every header ChatGPT is handed
+  has a place in the game, and it's told to keep the headers exactly as written. Paste what it writes and tap **Add it**
+  (one step, no Check): every section that works goes in, and any that don't are listed under **Didn't go in** with why,
+  plus **Copy a fix-it message for just these** so ChatGPT only redoes those. It's live right away and listed with your
+  storylines to edit or remove. You can write them by hand too: `flirt tease:` with lines under it,
+  `flirt answers bold, lands:`, `flirt first:`, `flirt payoff plans:`, and `group chat crew, weekend:` with the
+  conversation (`A: ...`), what you can say (`* {B} you're gonna finish last | A +, B -, fun +`), their answers under it,
+  and `dm B: ...` for someone texting you after. The guide has every block.
 - **From text to in person.** When you ask someone out by text and they say "ask me in person 😳", the game plans it
   ("Asking Sophie out, next time you see them"), and they meant it: they'll say yes when you do.
 - **Dating takes showing up.** Go a few days without talking to your partner and it shows: "Feeling distant: 5 days since

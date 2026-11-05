@@ -1013,7 +1013,8 @@ FLIRT_OUT = {"lands": "landed", "land": "landed", "landed": "landed", "laughs": 
 FLIRT_PAYOFF = {"blush": "blush", "blushing": "blush", "plans": "plans", "goodnight": "goodnight", "good night": "goodnight",
                 "night": "goodnight", "ask": "ask", "ask me out": "ask", "ask out": "ask"}
 FLIRT_BACK = {**{x: x for x in FLIRT_STYLES}, "cool": "cool", "play it cool": "cool", "letdown": "letdown", "let down": "letdown",
-              "let them down": "letdown", "let them down easy": "letdown"}
+              "let them down": "letdown", "let them down easy": "letdown",
+              "cheesy": "funny"}  # (answering a first flirt has no cheesy option: those lines go with the funny ones)
 FLIRT_HELP = ("flirt blocks: flirt tease: (openers; styles tease, sweet, bold, funny, cheesy; add later for once you're flirty), "
               "flirt answers bold, lands: (lands, laughs, awkward, no), flirt follow-ups tease: (add after a laugh), flirt first:, "
               "flirt back sweet: (or cool, letdown), flirt payoff blush: (blush, plans, goodnight, ask)")
