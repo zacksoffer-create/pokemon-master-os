@@ -122,7 +122,6 @@ export function Conversation({ tid }: { tid: string }) {
   const parents = state?.family?.guardians || [];
   const [thread, setThread] = useState<Thread | null>(null);
   const [shown, setShown] = useState<Msg[]>([]);
-  const [typing, setTyping] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
   const [openTs, setOpenTs] = useState<string | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
@@ -195,29 +194,10 @@ export function Conversation({ tid }: { tid: string }) {
     if (!shown.length) return;
     scrollDown(!first.current);
     first.current = false;
-  }, [shown.length, typing, notes.length, scrollDown]);
+  }, [shown.length, notes.length, scrollDown]);
 
-  /** Show the server's new messages in order: yours right away, then dots, then theirs. */
-  const stage = useCallback(async (next: Thread, before: Msg[], optimisticId: string | null) => {
-    const known = new Set(before.map((m) => m.id));
-    const fresh = next.msgs.filter((m) => !known.has(m.id));
-    const mine = fresh.filter((m) => m.from === ME);
-    const theirs = fresh.filter((m) => m.from !== ME);
-    const base = before.filter((m) => m.id !== optimisticId).map((m) => next.msgs.find((x) => x.id === m.id) || m);
-    setShown([...base, ...mine]);
-    for (const m of theirs) {
-      if (m.kind === "note") {
-        await sleep(260);
-        setShown((s) => [...s, m]);
-        continue;
-      }
-      setTyping(m.from);
-      // someone into you answers fast; everyone else takes their time
-      await sleep(m.fast ? 380 + Math.min(300, m.text.length * 10) + Math.random() * 120 : 800 + Math.min(800, m.text.length * 22) + Math.random() * 250);
-      setTyping(null);
-      setShown((s) => [...s, m]);
-      await sleep(120);
-    }
+  /** Show the server's new messages: everything at once (no typing dots, no waiting). */
+  const stage = useCallback(async (next: Thread, _before: Msg[], _optimisticId: string | null) => {
     setThread(next);
     setShown(next.msgs);
   }, []);
@@ -338,12 +318,6 @@ export function Conversation({ tid }: { tid: string }) {
         <Bubbles
           msgs={shown} kind={kind} today={state?.day} openTs={openTs} setOpenTs={setOpenTs} people={people} parents={parents} notes={notes}
         />
-        {typing && (
-          <div className={`pm-msgrow them${kind !== "dm" ? " group" : ""}`}>
-            {kind !== "dm" && <div className="pm-msg-av"><PersonAvatar id={typing} people={people} parents={parents} size={28} /></div>}
-            <div className="pm-bubble them tail pm-typing" aria-label="typing"><span /><span /><span /></div>
-          </div>
-        )}
       </div>
 
       <footer className="pm-compose">
@@ -358,7 +332,7 @@ export function Conversation({ tid }: { tid: string }) {
             ) : thread.chat.suggestions.length ? (
               <div className="pm-chips sugg">
                 {thread.chat.suggestions.map((s, i) => (
-                  <button key={i} className="pm-chip sugg" disabled={sending || !!typing} onClick={() => say({ suggestion: i }, s.text)}>
+                  <button key={i} className="pm-chip sugg" disabled={sending} onClick={() => say({ suggestion: i }, s.text)}>
                     <span className="pm-tone" aria-hidden>{s.tone}</span>{s.text}
                   </button>
                 ))}
@@ -390,7 +364,7 @@ export function Conversation({ tid }: { tid: string }) {
             <div className="pm-compose-label">Text {other?.first || "them"}</div>
             <div className="pm-chips">
               {thread.text_options.map((o) => (
-                <button key={o.kind} className="pm-chip" disabled={sending || !!typing} onClick={() => send(o.kind)}>{o.label}</button>
+                <button key={o.kind} className="pm-chip" disabled={sending} onClick={() => send(o.kind)}>{o.label}</button>
               ))}
             </div>
           </>
