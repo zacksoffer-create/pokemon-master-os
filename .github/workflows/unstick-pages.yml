@@ -1,0 +1,42 @@
+# Clears a phone app publish that GitHub left stuck, then publishes again.
+# A "pages build and deployment" run that fails with "in progress deployment. Please cancel <commit> first", while the
+# run for that commit sits on Queued and can't be cancelled (a re-run GitHub never started), holds the site until the
+# deployment itself is cancelled. This runs whenever this file is pushed (edit the date below to run it again), and
+# from the Actions tab if it is ever on the default branch.
+# Last run: 2026-11-05
+name: Unstick the phone app publish
+on:
+  push:
+    paths: [".github/workflows/unstick-pages.yml"]
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: The commit GitHub says to cancel first (leave empty to cancel every unfinished publish)
+        required: false
+permissions:
+  pages: write
+  actions: read
+  contents: read
+jobs:
+  unstick:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      COMMIT: ${{ inputs.commit }}
+    steps:
+      - name: Cancel unfinished publishes
+        run: |
+          shas="$COMMIT"
+          if [ -z "$shas" ]; then
+            shas=$(gh api "repos/$REPO/actions/runs?per_page=50" \
+              --jq '.workflow_runs[] | select(.name == "pages build and deployment" and .status != "completed") | .head_sha' | sort -u)
+          fi
+          for sha in $shas; do
+            echo "== $sha: $(gh api "repos/$REPO/pages/deployments/$sha" 2>&1 || true)"
+            gh api -X POST "repos/$REPO/pages/deployments/$sha/cancel" && echo "   cancelled" || echo "   (nothing to cancel)"
+          done
+      - name: Publish the latest again
+        run: |
+          sleep 10
+          gh api -X POST "repos/$REPO/pages/builds"
