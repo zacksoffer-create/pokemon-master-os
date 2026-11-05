@@ -144,3 +144,64 @@ def test_add_texting_through_the_phone_and_it_plays():
     assert last["replies"][0]["label"] == f"{w.chars[cast['B']].first} you're gonna finish last"
     messages.reply(sim, "squad", last["id"], 0)
     assert any(x["key"] == "chat_side" and x["from"] == cast["B"] for x in messages.phone(w)["pending"])
+
+
+CHATGPT_STYLE = """Here's your texting pack! 😄
+
+```
+**flirt sarcastic:**
+  wow you're so funny (not)
+  ok that was actually kind of good
+### Flirt (cute)
+  you were the best part of my day ngl
+flirt answers sarcastic, into it:
+  oh so we're doing this
+**group chat crew, weekend:**
+  Jake: draft tonight. Tyler you're picking last
+  Tyler: jets defense first
+  Marcus: why would you do that
+  * Tyler you're finishing last | Jake +, Tyler -
+      Jake: LMAO
+      dm Tyler: be honest is the jets thing bad
+  * i'm in | crew +
+      Marcus: we'll see
+```
+Let me know if you want more!"""
+
+
+def test_what_chatgpt_actually_sends_goes_in():
+    from fastapi.testclient import TestClient
+    from lifeos import api
+    from lifeos.storage import Store
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
+    ck = c.post("/api/texting/check", json={"text": CHATGPT_STYLE})
+    assert ck.status_code == 200, ck.json()
+    b = ck.json()["breakdown"]
+    assert b["flirt_total"] == 4 and len(b["group_chats"]) == 1, b
+    assert any("Jake is A" in n for n in ck.json()["notes"])
+    r = c.post("/api/texting/add", json={"text": CHATGPT_STYLE}).json()
+    assert r["ok"]
+    ban = chat.D()["banter"]
+    assert "wow you're so funny (not)" in ban["open"]["early"]["tease"], "sarcastic is teasing"
+    assert "you were the best part of my day ngl" in ban["open"]["early"]["sweet"], "cute is sweet"
+    assert "oh so we're doing this" in ban["them"]["tease"]["landed"]
+    b0 = next(x for x in groupchat.D()["bursts"] if x["id"].startswith("pk_"))
+    assert [r_ for r_, _ in b0["lines"]] == ["A", "B", "C"] and b0["lines"][0][1] == "draft tonight. {B} you're picking last"
+    assert b0["you"][0]["fx"] == {"A": {"affection": 1.5}, "B": {"affection": -1.0}} and b0["you"][0]["dm"]["from"] == "B"
+
+
+def test_when_nothing_goes_in_it_says_why_and_how_to_ask_again():
+    from fastapi.testclient import TestClient
+    from lifeos import api
+    from lifeos.storage import Store
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
+    prose = c.post("/api/texting/check", json={"text": "Sure! Here are some ideas for flirty texts in your game."}).json()
+    assert "no flirt or group chat blocks" in prose["errors"][0] and "flirt tease:" in prose["fix_prompt"]
+    bad = c.post("/api/texting/check", json={"text": "```\nflirt mysterious:\n  hmm\n```"}).json()
+    assert any("mysterious" in e for e in bad["errors"]) and "group chat <crew|team|family>" in bad["fix_prompt"]
+    p = c.get("/api/texting/prompt", params={"what": "both"}).json()["prompt"]
+    assert "never a name" in p and "sarcastic flirting is tease" in p

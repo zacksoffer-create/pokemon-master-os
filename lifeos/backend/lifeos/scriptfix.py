@@ -453,12 +453,87 @@ def _restage(body: list) -> tuple:
     return opening + push(round_lines(0), base), "; ".join(what)
 
 
+HEADER_RE = re.compile(r"^\s*(?:[#>\-•]+\s*)?\**_*\s*((?:flirt|group\s+chat)\b[^\n]*?)\s*_*\**\s*(:)?\s*_*\**\s*$", re.I)
+SPEAKER_RE = re.compile(r"^(\s*)(dm\s+)?([A-Za-z][\w'.]*(?:\s[A-Za-z][\w'.]*)?)\s*:\s*(.*)$")
+
+
+def _texting_header(ln: str):
+    """`**flirt tease:**`, `### Flirt (tease)`, `- group chat crew, weekend:` -> the block header the game reads (or None)."""
+    raw = ln.rstrip()
+    if not raw.strip() or raw[:1] in (" ", "\t"):
+        return None
+    m = HEADER_RE.match(raw)
+    if not m:
+        return None
+    decorated = raw.strip()[:1] in "#*>-•_" or raw.strip()[:2] == "**"
+    if not (m.group(2) or decorated):
+        return None  # a plain line that just starts with "flirt": not a header
+    inner = re.sub(r"[()*_]", " ", m.group(1))
+    inner = re.sub(r"\s+", " ", inner).strip().rstrip(":").strip()
+    inner = re.sub(r"(?i)^flirt\s*[-–—:]\s*", "flirt ", inner)
+    out = inner[0].lower() + inner[1:] + ":"
+    return out if out != raw.strip() else None
+
+
+def _group_names(block: list) -> tuple:
+    """A group chat with people's names in it (Jake:, Tyler:) -> the roles the game casts (A:, B:, C:), everywhere in the
+    block: who's talking, dm Jake:, effects (Jake +) and the names in what they say. (lines, what it did or None)"""
+    from . import script as SC
+    head = block[0][0].strip().lower()
+    m = re.match(r"group\s+chat\s+([^,:]+)", head)
+    chat = SC.GROUP_CHATS.get((m.group(1).strip() if m else ""), None)
+    if chat not in ("crew", "team"):
+        return block, None
+    roles = SC.GROUP_ROLES[chat]
+    names: dict = {}
+    taken = set()  # the roles already speaking as themselves (A:, B:)
+    for ln, _ in block[1:]:
+        sm = SPEAKER_RE.match(ln) if not ln.strip().startswith("*") else None
+        if sm and sm.group(3).strip().lower() in roles:
+            taken.add(roles[sm.group(3).strip().lower()])
+    for ln, _ in block[1:]:
+        t = ln.strip()
+        if t.startswith("*"):
+            continue
+        sm = SPEAKER_RE.match(ln)
+        if not sm:
+            continue
+        who = sm.group(3).strip()
+        if who.lower() in roles or who.lower() in ("me", "you", "i", "{me}") or len(who) == 1:
+            continue  # (a role, me, or a letter the game doesn't have: that's left to the fixer)
+        free = [r for r in ("A", "B", "C") if r not in taken and r not in names.values()]
+        if who not in names and free:
+            names[who] = free[0]
+    if not names:
+        return block, None
+    out = []
+    for ln, o in block:
+        new = ln
+        sm = SPEAKER_RE.match(ln) if not ln.strip().startswith("*") else None
+        if sm and sm.group(3).strip() in names:
+            new = f"{sm.group(1)}{sm.group(2) or ''}{names[sm.group(3).strip()]}: {sm.group(4)}"
+        for nm, r in names.items():
+            if " | " in new:  # effects: Jake + -> A +
+                a, b = new.split(" | ", 1)
+                b = re.sub(rf"\b{re.escape(nm)}\b", r, b)
+                new = f"{a} | {b}"
+            head_, sep, rest = new.partition(": ") if re.match(r"^\s*(dm\s+)?[A-Z]:\s", new) else ("", "", new)
+            rest = re.sub(rf"\b{re.escape(nm)}\b", "{" + r + "}", rest)
+            new = head_ + sep + rest
+        out.append((new, o))
+    return out, "the names in the group chat became A, B and C (the game picks who): " + ", ".join(f"{k} is {v}" for k, v in names.items())
+
+
 def habits(src: str) -> tuple:
     """What ChatGPT often writes, the way it meant it: *narration in italics* and **Name:** in bold are plain lines, effects
     after an arrow or in parentheses go after |, and a scene's talk or choices after its choices go where they play.
     Returns (lines, origin: each line's number in what was pasted, notes)."""
     out, notes = [], []
     for n, ln in enumerate(src.split("\n"), start=1):
+        h = _texting_header(ln)
+        if h:
+            notes.append({"line": n, "text": f"read '{ln.strip()}' as {h}"})
+            ln = h
         t = ln.strip()
         m = BOLD_SPEAKER_RE.match(ln)
         if m:
@@ -472,6 +547,20 @@ def habits(src: str) -> tuple:
             ln = _fx_fix(ln)
             notes.append({"line": n, "text": "the effects after an arrow (or in parentheses) went after |"})
         out.append((ln, n))
+    # group chats with people's names: the roles the game casts
+    i = 0
+    while i < len(out):
+        if re.match(r"(?i)^group\s+chat\b", out[i][0]):
+            j = i + 1
+            while j < len(out) and not (out[j][0][:1] not in (" ", "\t", "") and re.match(r"(?i)^(flirt|group\s+chat|texts?|chat|===|---)\b", out[j][0])):
+                j += 1
+            blk, what = _group_names(out[i:j])
+            if what:
+                out[i:j] = blk
+                notes.append({"line": out[i][1], "text": what})
+            i = j
+        else:
+            i += 1
     # scenes: what comes after the choices
     res, i = [], 0
     while i < len(out):

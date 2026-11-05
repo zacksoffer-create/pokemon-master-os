@@ -61,6 +61,7 @@ export default function AddTexting({ open, onClose, onAdded, inline }: { open: b
   const [check, setCheck] = useState<TextingCheck | null>(null);
   const [done, setDone] = useState<TextingCheck["breakdown"] | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const [problem, setProblem] = useState<{ errors: string[]; fix: string } | null>(null);
   useEffect(() => {
     if (open) {
       setPaste("");
@@ -73,6 +74,7 @@ export default function AddTexting({ open, onClose, onAdded, inline }: { open: b
     try {
       await fn();
     } catch (e: any) {
+      if (e?.data?.fix_prompt) setProblem({ errors: e.errors || [], fix: e.data.fix_prompt });
       toast(e?.errors?.[0] || errText(e), "bad");
     } finally {
       setBusy(null);
@@ -90,7 +92,10 @@ export default function AddTexting({ open, onClose, onAdded, inline }: { open: b
       setCheck(null);
     }
   };
-  const doCheck = () => run("check", async () => setCheck(await phoneApi.textingCheck(paste)));
+  const doCheck = () => run("check", async () => {
+    setProblem(null);
+    setCheck(await phoneApi.textingCheck(paste));
+  });
   const add = () => run("add", async () => {
     const r = await phoneApi.textingAdd(paste);
     setDone(r.breakdown);
@@ -133,11 +138,21 @@ export default function AddTexting({ open, onClose, onAdded, inline }: { open: b
             <div className="sch-step"><i>2</i><b>Paste what ChatGPT wrote</b></div>
             <textarea className="ph-input mono" rows={6} value={paste}
               placeholder={what === "group" ? "group chat crew, weekend:\n  A: ...\n  B: ...\n  * what you say | A +\n      A: ..." : "flirt tease:\n  ok who said you could be this funny\nflirt answers tease, lands:\n  oh so we're doing this 😏"}
-              onChange={(e) => { setPaste(e.target.value); setCheck(null); }} />
+              onChange={(e) => { setPaste(e.target.value); setCheck(null); setProblem(null); }} />
             <div className="sch-row2">
               <button className="ph-btn block" disabled={!!busy || !paste.trim()} onClick={doCheck}>{busy === "check" ? <span className="ph-spinner small" /> : "Check it"}</button>
               <button className="ph-btn soft block" disabled={!!busy} onClick={fromFile}><PIcon name="upload" size={15} /> Or a file</button>
             </div>
+            {problem && (
+              <div className="bs-left">
+                <b>{problem.errors[0] || "That couldn't go in"}</b>
+                {problem.errors.slice(1, 7).map((x, i) => <small key={i}>{x}</small>)}
+                <button className="ph-btn soft block" onClick={async () => {
+                  const ok = await copyText(problem.fix);
+                  toast(ok ? "Copied. Send it to ChatGPT, then paste its new answer here." : "Couldn't copy.", ok ? "good" : "bad");
+                }}>Copy a fix-it message for ChatGPT</button>
+              </div>
+            )}
             {check && (
               <div className="bs-check">
                 <Breakdown c={check.breakdown} />

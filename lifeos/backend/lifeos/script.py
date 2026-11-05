@@ -995,8 +995,21 @@ def _scene(sec: Section, head: Line, body: list, errs: list, idx: int, ids: set)
 
 # ---------------------------------------------------------------------------------------------------- texting blocks
 FLIRT_STYLES = ("tease", "sweet", "bold", "funny", "cheesy")
+# the styles ChatGPT tends to invent, as the game's: "flirt sarcastic:" is teasing
+STYLE_WORDS = {"sarcastic": "tease", "teasing": "tease", "teasy": "tease", "playful": "tease", "flirty": "tease", "snarky": "tease",
+               "banter": "tease", "roast": "tease", "roasting": "tease", "witty": "funny", "silly": "funny", "goofy": "funny",
+               "joking": "funny", "jokey": "funny", "dry": "funny", "humor": "funny", "humorous": "funny", "cute": "sweet",
+               "soft": "sweet", "wholesome": "sweet", "romantic": "sweet", "shy": "sweet", "genuine": "sweet", "nice": "sweet",
+               "confident": "bold", "direct": "bold", "forward": "bold", "smooth": "bold", "spicy": "bold", "daring": "bold",
+               "corny": "cheesy", "pickup": "cheesy", "pick-up": "cheesy", "cringe": "cheesy", "cringey": "cheesy",
+               "chill": "cool", "casual": "cool", "nonchalant": "cool"}
 FLIRT_OUT = {"lands": "landed", "land": "landed", "landed": "landed", "laughs": "playful", "laugh": "playful", "laughs it off": "playful",
-             "playful": "playful", "awkward": "awkward", "no": "shut", "shut down": "shut", "shut": "shut", "nope": "shut"}
+             "playful": "playful", "awkward": "awkward", "no": "shut", "shut down": "shut", "shut": "shut", "nope": "shut",
+             "works": "landed", "worked": "landed", "goes well": "landed", "went well": "landed", "good": "landed", "yes": "landed",
+             "into it": "landed", "success": "landed", "positive": "landed", "laughed": "playful", "laughed it off": "playful",
+             "lol": "playful", "deflects": "playful", "weird": "awkward", "cringe": "awkward", "fail": "awkward", "flops": "awkward",
+             "rejected": "shut", "rejection": "shut", "not into it": "shut", "not interested": "shut", "shuts it down": "shut",
+             "turned down": "shut", "negative": "shut"}
 FLIRT_PAYOFF = {"blush": "blush", "blushing": "blush", "plans": "plans", "goodnight": "goodnight", "good night": "goodnight",
                 "night": "goodnight", "ask": "ask", "ask me out": "ask", "ask out": "ask"}
 FLIRT_BACK = {**{x: x for x in FLIRT_STYLES}, "cool": "cool", "play it cool": "cool", "letdown": "letdown", "let down": "letdown",
@@ -1019,7 +1032,8 @@ def _flirt_word(word, table, what):
 
 def flirt_path(key: str) -> list:
     """`flirt answers bold, lands` -> where those lines go in the texting lines (chat.json "banter")."""
-    k = re.sub(r"\s+", " ", key.lower().replace(",", " ")).strip()
+    k = re.sub(r"\s+", " ", key.lower().replace(",", " ").replace("(", " ").replace(")", " ")).strip()
+    k = " ".join(STYLE_WORDS.get(x, x) for x in k.split(" "))  # (sarcastic -> tease...)
     later = k.endswith(" later")
     if later:
         k = k[:-6].strip()

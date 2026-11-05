@@ -746,7 +746,11 @@ def texting_prompt(sim, what: str = "flirt", ask: str = "", size: str = "bunch")
              "Most lines without emoji; a few with one.",
              "- No names of real people. Use {me} for me" + ("; in group chats {A}, {B}, {C} for the others (the game picks who)."
                                                           if what != "flirt" else "."),
-             "- How much: " + "; ".join(want) + ".", ""]
+             "- How much: " + "; ".join(want) + ".",
+             "- Use the block headers exactly as they're written below: plain text (no bold, no #, no parentheses), and only "
+             "the style words listed (sarcastic flirting is tease, cute is sweet, confident is bold)."
+             + (" In group chats, whoever's talking is A, B or C (family: mom, dad, sibling), never a name." if what != "flirt" else ""),
+             ""]
     if what in ("flirt", "both"):
         parts.append(TEXTING_FLIRT)
     if what in ("group", "both"):
