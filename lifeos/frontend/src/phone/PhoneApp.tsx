@@ -20,7 +20,7 @@ import Studio from "./Studio";
 import TextingHub from "./TextingHub";
 import Editor from "./Editor";
 import { PhoneProvider, usePhone } from "./PhoneContext";
-import Diagnostics, { applyPageScroll, applyPlain, pageScrollOn, plainOn } from "./Diagnostics";
+import Diagnostics, { applyHidden, applyPageScroll, applyPlain, hiddenParts, pageScrollOn, plainOn } from "./Diagnostics";
 import PhoneTab from "./PhoneTab";
 import PlayLine from "./PlayLine";
 import SceneTab from "./SceneTab";
@@ -28,13 +28,13 @@ import SportsTab from "./SportsTab";
 import StoryTab from "./StoryTab";
 import "./phone.css";
 
-// five quick taps on the Me tab (the tab bar always shows, even when a screen won't): diagnostics
-let meTaps: number[] = [];
-function tapMe() {
+// five quick taps on the same tab (the tab bar always shows, even when a screen won't): diagnostics, about that screen
+let taps: { k: string; t: number }[] = [];
+function tapTab(k: string) {
   const now = Date.now();
-  meTaps = [...meTaps.filter((t) => now - t < 2500), now];
-  if (meTaps.length >= 5) {
-    meTaps = [];
+  taps = [...taps.filter((x) => x.k === k && now - x.t < 2500), { k, t: now }];
+  if (taps.length >= 5) {
+    taps = [];
     window.dispatchEvent(new Event("lifeos-diag"));
   }
 }
@@ -44,6 +44,7 @@ export default function PhoneApp({ route }: { route: string[] }) {
   useEffect(() => {
     applyPlain(plainOn());
     applyPageScroll(pageScrollOn());
+    applyHidden(hiddenParts());
     const open = () => setDiag(true);
     window.addEventListener("lifeos-diag", open);
     return () => window.removeEventListener("lifeos-diag", open);
@@ -186,7 +187,7 @@ function TabBar({ tab }: { tab: string }) {
   return (
     <nav className="ph-tabbar">
       {items.map(([k, label, icon, badge]) => (
-        <button key={k} className={cx("ph-tab", tab === k && "on")} onClick={() => { if (k === "me") tapMe(); pgo(k === "story" ? "" : k); }}>
+        <button key={k} className={cx("ph-tab", tab === k && "on")} onClick={() => { tapTab(k); pgo(k === "story" ? "" : k); }}>
           <span className="ph-tab-i"><PIcon name={icon} size={23} stroke={tab === k ? 2.4 : 2} />{badge}</span>
           <span className="ph-tab-l">{label}</span>
         </button>

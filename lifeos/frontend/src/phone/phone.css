@@ -1524,3 +1524,14 @@ html.ph-docscroll body { overflow-x: hidden; }
 .ph-docscroll .ph-tabbar { position: fixed; left: 0; right: 0; max-width: 430px; margin: 0 auto; }
 .ph-docscroll .ph-sheet-wrap, .ph-docscroll .ph-toasts { position: fixed; }
 .ph-docscroll .ph-sheet-wrap { max-width: 430px; margin: 0 auto; }
+
+/* Diagnostics: the Story page a part at a time */
+.ph-hide-art .ph-hero-art, .ph-hide-art .ph-hero-fade { display: none !important; }
+.ph-hide-topbar .ph-topbar { display: none !important; }
+.ph-hide-day .ph-day, .ph-hide-day .ph-plate, .ph-hide-day .ph-week-wrap { display: none !important; }
+.ph-hide-scene .ph-moment { display: none !important; }
+.ph-hide-choices .ph-choices { display: none !important; }
+.ph-hide-nudge .ed-nudge { display: none !important; }
+.ph-diag-parts { flex-direction: column; }
+.ph-diag-parts label { display: flex; gap: 8px; align-items: center; padding: 4px 0; }
+.ph-diag-parts input { width: 20px; height: 20px; }
