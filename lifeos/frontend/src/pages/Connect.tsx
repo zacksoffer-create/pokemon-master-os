@@ -19,7 +19,7 @@ function QR({ text, size = 220 }: { text: string; size?: number }) {
 }
 
 /** Where the phone app lives (GitHub Pages, built into the repo's docs/play/ folder by lifeos/tools/build_phone_app.py). */
-export const PHONE_APP_URL = "https://zacksoffer-create.github.io/Life-OS/play/";
+export const PHONE_APP_URL = "https://zacksoffer-create.github.io/pokemon-master-os/play/";
 
 export default function Connect() {
   const [net, setNet] = useState<{ lan: boolean; port: number; urls: string[]; host: string } | null>(null);
