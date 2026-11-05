@@ -1537,6 +1537,13 @@ def no_question(sc) -> str | None:
     return None
 
 
+def no_choices(sc) -> str | None:
+    """A scene with no decision at all (it just ends): it can't go in. (One choice goes in, flagged by no_question.)"""
+    if real_choices(sc):
+        return None
+    return "it never asks you anything: it needs to end on a question with 2 to 4 choices (and what happens after each)"
+
+
 def stops_short(sc, others_have_choices: bool):
     """The last scene of a reply that stops partway (ChatGPT ran out of room): why, or None."""
     chs = real_choices(sc)

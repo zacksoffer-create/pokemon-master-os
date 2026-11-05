@@ -1077,12 +1077,15 @@ screen scrolls back up to the next prompt, and **Next storyline** takes you to t
 write. Scenes per prompt is remembered. Write more on its own also lists them under **Or keep writing one of yours**. The
 title and the X stay put at the top (below the status bar) however far down you scroll.
 
-**Every scene asks you something.** A storyline scene ends on a question with 2 to 4 choices, so you always get to decide
-how it goes before the next one comes. A scene that comes back with no choices ("it never asks you anything") or just one
-is flagged under **missing pieces** with a fix-it message for ChatGPT, and so is any earlier scene of that storyline: the
-write screen shows them under the prompt, and a finished storyline has **Check its scenes** (Story Studio → Storylines →
-open it). A storyline whose scenes can't come in your story as it stands says so on its chip ("done · 2 can't come"); Read
-it says why.
+**Every scene asks you something, or it doesn't go in.** A storyline scene ends on a question with 2 to 4 choices, so
+you always get to decide how it goes before the next one comes. A scene that comes in with no choices ("it never asks you
+anything") can't be added, wherever it comes from: a Write more batch, Paste a script, adding a scene right
+where it goes, or Fix or change it. It's listed under **Didn't go in** with why, everything else in the paste goes in, a
+scene you were rewriting keeps the version it had, and the fix-it message (and the next prompt) asks for it again.
+A scene with only one choice goes in but is flagged ("give it 2 to 4"). Those, and scenes already in from before this
+rule, show up under **Fix or change it** and on the write screen as needing a fix; a
+finished storyline has **Check its scenes**. A storyline whose scenes can't come in your story as it stands says so on its
+chip ("done · 2 can't come"); Read it says why.
 
 **Fix or change a storyline you already have.** Story Studio → Storylines → open one → **Fix or change it**. Nothing
 about writing new scenes changes; this is for what's already in:
@@ -1108,8 +1111,8 @@ the lines after it, down to the next `* `, are what happens when you pick it; `*
 them anyway: outcomes flush left under each choice, `Choice 1:` / `Option A:` / `A)` lines, `Outcome:` labels, effects in
 parentheses or after an arrow (`(+Nicole affection)`). A reply that got **cut off** (its code block never closed, or its
 last scene stops right after a choice or before its choices) doesn't save half a scene: that scene stays out and the next
-prompt asks for it again. Scenes that went in with **missing pieces** (no choices, one choice, a choice with nothing after it,
-or no choice like the one a later scene follows) are listed under **Went in, but missing pieces**, and **Copy a fix-it message for ChatGPT**
+prompt asks for it again. Scenes that went in with **missing pieces** (a choice with nothing after it, or no choice like the
+one a later scene follows, or only one choice; a scene with no choices doesn't go in at all) are listed under **Went in, but missing pieces**, and **Copy a fix-it message for ChatGPT**
 asks for just those scenes, whole.
 
 The game owns the order, the timing and the branches, not ChatGPT: scenes go in outline order whatever order they're

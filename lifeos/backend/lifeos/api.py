@@ -1953,8 +1953,10 @@ def api_dialogue_check(body: dict = Body(...)):
         from . import scriptfix
         fx = scriptfix.repair(body["text"], library=dialogue.library())  # (what adding it would do: fix what's fixable)
         r = fx["result"]
+        _, left = dialogue.drop_unasked(body["text"])
         return {"ok": not r["errors"], "script": True, "errors": [f"line {e['line']}: {e['text']}" for e in r["errors"]],
-                "error_lines": r["errors"], "warnings": [f"line {e['line']}: {e['text']}" for e in r["warnings"]],
+                "error_lines": r["errors"], "left_out": left,
+                "warnings": dialogue.unasked_note(left) + [f"line {e['line']}: {e['text']}" for e in r["warnings"]],
                 "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]], "fixed": fx["text"],
                 "summary": r["summary"], "name": ", ".join(p["name"] for p in r["packs"])}
     try:
@@ -1970,13 +1972,17 @@ def api_dialogue_add(body: dict = Body(...)):
     L = get_lab()
     if isinstance(body.get("text"), str) and script.looks_like_script(script.extract(body["text"])):
         text = dialogue.as_expansion(body["text"], str(body["expand"])) if body.get("expand") else body["text"]
-        r = dialogue.add_script(text)
+        text2, left = dialogue.drop_unasked(text)  # a scene that never asks you anything can't go in
+        if left and not dialogue._scene_titles(script.extract(text2)):
+            return JSONResponse({"detail": dialogue.unasked_note(left)[0], "errors": dialogue.unasked_note(left), "error_lines": [],
+                                 "warnings": [], "left_out": left}, status_code=422)
+        r = dialogue.add_script(text2 if left else text)
         if not r["ok"]:
             return JSONResponse({"detail": "the script has a few problems", "errors": r["errors"], "error_lines": r["error_lines"],
                                  "warnings": r["warnings"]}, status_code=422)
         _dialogue_changed(L)
         return {**_dialogue_list(), "added": r["ids"][0], "ids": r["ids"], "warnings": r["warnings"], "summary": r["summary"],
-                "notes": r.get("notes", [])}
+                "notes": dialogue.unasked_note(left) + list(r.get("notes", [])), "left_out": left}
     try:
         pack = _pack_from(body)
     except ValueError as e:

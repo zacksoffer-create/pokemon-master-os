@@ -1599,6 +1599,14 @@ def merge_scenes(pid: str, text: str) -> dict:
                     skipped[last] = [f"{CUT}: {why}"]
                     continue
             if not gone:
+                # a scene that never asks you anything (no choices) can't go in: it stays as it was
+                sc_of = {e["n"]: by_id.get(e.get("sid")) for e in ents}
+                unasked = {n: SC.no_choices(sc_of[n]) for n in got if n not in skipped and sc_of.get(n)}
+                unasked = {n: w for n, w in unasked.items() if w}
+                if unasked:
+                    for n, w in unasked.items():
+                        skipped[n] = [w]
+                    continue
                 break
             for n in gone:
                 said = [w for w in (where(x, starts) for x in r.get("notes", [])) if w.startswith(f"scene {n} (")]
@@ -1715,10 +1723,64 @@ def writing(sim) -> list:
     return sorted(out, key=lambda x: (x["written"] >= x["total"] and not x["needs_fixing"], x["name"].lower()))
 
 
+def _title_key(t: str) -> str:
+    t = re.sub(r"#\S+\s*$", "", t or "")
+    t = re.sub(r"\[[^\]]*\]", "", t)
+    return re.sub(r"^\d+\s*[.):\-]\s*", "", t).strip().lower()
+
+
+def drop_unasked(text: str, only: set | None = None) -> tuple:
+    """A scene that never asks you anything (no choices) can't go in: take those out of a script (only the
+    ones titled in `only`, when given: the scenes being added, never ones already there). -> (script, [{title, problems}])"""
+    from . import script as SC
+    from . import scriptfix
+    fx = scriptfix.repair(text, library=library())
+    if fx["result"]["errors"]:
+        return text, []
+    out = []
+    for pk in fx["result"]["packs"]:
+        for sc in pk.get("scenes") or []:
+            if not isinstance(sc, dict):
+                continue
+            k = _title_key(sc.get("title") or "")
+            if only is not None and k not in only:
+                continue
+            why = SC.no_choices(sc)
+            if why:
+                out.append({"title": sc.get("title") or "", "key": k, "problems": [why]})
+    if not out:
+        return text, []
+    gone = {x["key"] for x in out}
+    keep, skip = [], False
+    for ln in fx["text"].split("\n"):
+        m = SC.SCENE_RE.match(ln.strip())
+        if m:
+            skip = _title_key(m.group(1)) in gone
+        elif ln.strip().startswith("==="):
+            skip = False
+        if not skip:
+            keep.append(ln)
+    return "\n".join(keep), [{"title": x["title"], "problems": x["problems"]} for x in out]
+
+
+def unasked_note(left: list) -> list:
+    return [f"“{x['title']}” didn't go in: {x['problems'][0]}" for x in left]
+
+
 def insert_scenes(pid: str, after: str | None, text: str) -> dict:
-    """Put new scenes into a storyline right where they go: its file gets them, in order, and they play there."""
+    """Put new scenes into a storyline right where they go: its file gets them, in order, and they play there. A new
+    scene that never asks you anything doesn't go in (and says why)."""
     new, first, n = with_inserted(pid, after, text)
+    mine = set(_scene_titles(text))
+    new2, left = drop_unasked(new, only=mine)
+    if left and len(left) >= len(mine):
+        return {"ok": False, "errors": unasked_note(left), "error_lines": [], "left_out": left}
+    if left:
+        new = new2
     r = add_script(new, into=pid)
+    r["left_out"] = left
+    if left:
+        r["notes"] = unasked_note(left) + list(r.get("notes") or [])
     if not r["ok"]:
         # errors in what was pasted get its own line numbers; anything else is the storyline's
         lines = []

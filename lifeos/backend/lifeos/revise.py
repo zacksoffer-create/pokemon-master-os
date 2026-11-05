@@ -258,6 +258,10 @@ def apply(pid: str, text: str) -> dict:
             nb = [blocks[i][0]] + nb[1:]  # (its --- line as it is: the scene keeps its title and tags)
             trial = cur[:i] + [nb] + cur[i + 1:]
             ok, errs = _ok("\n".join(head + [ln for b in trial for ln in [""] + b]) + "\n")
+            if ok:  # a scene that still never asks you anything can't go in: it stays as it was
+                _, left = D.drop_unasked("\n".join(head + [""] + nb) + "\n", only={D._title_key(_key(nb[0])[1])})
+                if left:
+                    ok, errs = False, left[0]["problems"]
             if ok:
                 cur = trial
                 replaced.append(_key(blocks[i][0])[1])

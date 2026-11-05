@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from lifeos import dialogue  # noqa: E402
 from tests.test_scene_import import own_packs, story  # noqa: E402,F401
-from tests.test_storyline_checkup import FILLED  # noqa: E402
+from tests.test_storyline_checkup import FILLED, force  # noqa: E402
 
 LOOSE = """=== Bus Rides
 cast: sis = Nicole Soffer
@@ -29,7 +29,7 @@ sis: I said move.
 
 def test_an_outlined_storyline_fixed_from_one_prompt_and_undone(story):
     c, pid, _ = story
-    c.post("/api/story/build/scenes", json={"pack": pid, "text": FILLED})
+    force(pid, FILLED)  # (old scenes, from before a scene without its decision was refused)
     pr = c.get(f"/api/story/revise?pack={pid}").json()
     broken = {s["n"]: s for s in pr["scenes"]}
     assert {14, 15} <= set(broken) and "never asks you anything" in broken[14]["problems"][0]
@@ -103,3 +103,11 @@ def test_who_is_in_it_switches_between_a_person_and_a_role_without_chatgpt(story
     assert r.json()["cast"][0]["named"] is True
     assert c.post("/api/story/revise/cast", json={"pack": pid, "name": "nobody", "value": "friend"}).status_code == 404
     assert c.post("/api/story/revise/apply", json={"pack": pid, "text": "just some words"}).json()["ok"] is False
+
+
+def test_a_fix_that_still_has_no_decision_doesnt_go_in(story):
+    c, _, _ = story
+    pid = dialogue.add_script(LOOSE)["ids"][0]
+    r = c.post("/api/story/revise/apply", json={"pack": pid, "text": "--- The Bus\nsis: Move over.\nsis: Now.\n"}).json()
+    assert not r["ok"] and r["skipped"][0]["title"] == "The Bus" and "never asks you anything" in r["skipped"][0]["problems"][0]
+    assert "sis: I said move." in dialogue.script_of(pid)  # as it was
