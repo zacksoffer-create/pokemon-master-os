@@ -46,9 +46,9 @@ function Role({ r, busy, run }: { r: RoleRow; busy: boolean; run: (fn: () => Pro
               <button className="rl-person" onClick={() => edit(n.id)}>{n.name}</button>
               <span>{n.why}</span>
               {n.fix ? (
-                <button className="ph-btn soft small" disabled={busy}
+                <button className="ph-btn soft rl-small" disabled={busy}
                   onClick={() => run(() => phoneApi.roleFix(r.key, n.id, n.fix!), `${n.first} fits now.`)}>{n.fix.label}</button>
-              ) : <button className="ph-btn soft small" onClick={() => edit(n.id)}>Edit</button>}
+              ) : <button className="ph-btn soft rl-small" onClick={() => edit(n.id)}>Edit</button>}
             </div>
           ))}
         </div>

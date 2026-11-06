@@ -24,7 +24,7 @@ const TOGGLES: [string, string, string][] = [
   ["ask_romance", "Ask me when someone asks me out", "Romance is your call, not the dice."],
   ["stop_before_games", "Stop before my games", "Pick how you play on game day."],
   ["stop_on_big", "Stop for big moments", "Tryout results, offers, injuries, the big stuff."],
-  ["auto_lunch", "Lunch on autopilot", "Sit with your usual table without stopping. Turn it off to pick every lunch."],
+  ["auto_lunch", "Lunch on autopilot", "Sit at your table (Scene → Crowd → The cafeteria) without stopping. Turn it off to pick every lunch."],
   ["class_games", "Class challenges", "Quick games in class most school days (a few seconds each). Off: just quizzes and tests."],
   ["editor", "Editor", "Change anyone's personality, look, mood and relationships. Turn it off once your world is set up."],
   ["auto_scenes", "Let my character decide story scenes", "Off: every storyline scene waits for you, however long. On: if you skip past one, your character answers it."],

@@ -125,7 +125,15 @@ def view(sim) -> dict:
             "groups": groups[:14], "couples": couples[:20], "breakups": breakups[:8],
             "popular": [{**_mini(w, c.id), "you": c.id == me.id} for c in ranked[:6]],
             "meet": meet(sim, me, friends, ids), "intro_today": st.get("intro_day") == w.day,
-            "talk": drama.view(sim), "fights": drama.fights(sim)}
+            "talk": drama.view(sim), "fights": drama.fights(sim), "cafeteria": _cafeteria(sim)}
+
+
+def _cafeteria(sim):
+    from . import lunch
+    try:
+        return lunch.view(sim)
+    except Exception:  # noqa: BLE001 (the Crowd still shows without it)
+        return None
 
 
 def meet(sim, me, friends, ids) -> list:

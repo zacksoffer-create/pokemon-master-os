@@ -373,6 +373,28 @@ The world in numbers, next to the Ladder, the Crowd and the Talk:
 - **Yearbook**: this season so far (the superlatives with where you'd place, the top ten, your rank, your teams'
   records and lines, the big moments), and a page for every season that's ended, kept by its season break.
 
+## Lunch: your table is your routine
+
+Lunch isn't a decision you make every day anymore. Everyone has a table, and that's where they sit, every school day.
+
+- **Tables come from the groups.** The first lunch of a school year, each group sits together, and a big one spills
+  onto a second (or third) table beside it: "the Friday Night Crew (table 2 of 3)". Anyone not in a group sits with
+  the table where their friends are, or with kids from their year. Nobody eats alone by routine.
+- **A table sticks.** Once a week people only move if they've really drifted from their table (it's gone cold on them)
+  and there's somewhere clearly better. A group changing its name or losing a couple of people moves nobody. A new
+  school year starts fresh. Now and then someone spends a day at a friend's other table, and only a newcomer or a
+  visitor can get frozen out.
+- **You set your table, not a person.** Scene → Crowd → **The cafeteria** shows your table (who's at it) and, under
+  **See every table**, all the others with how much they like you on average. **Sit here from now on** moves you
+  (it can take a few days for a new table to warm up to you); **Go back to sitting with your group** undoes it.
+- **Lunch is where things move a little.** Every day each table has a handful of small exchanges (more for people who
+  get on), and now and then something happens at it: an inside joke, someone takes a shot at someone, someone catches
+  someone looking. Your table's show up in your feed ("Lunch: Mike, Jack and Will have a running joke about the guy who
+  microwaves fish every day now"). The steps are small, so nothing swings wildly, but over a season the people you sit
+  with become close. Your character never starts something on autopilot: that's yours to do.
+- **Lunch on autopilot** (the Me tab) is now on by default: you just sit at your table. Turn it off to pick lunch
+  yourself each day (sitting with someone at another table is then a visit for the day).
+
 ## Seasons: the School Year and the Summer
 
 The year runs in two seasons: the **School Year** (September 1, or whenever your story starts, to May 31) and the
@@ -724,7 +746,8 @@ What's in it:
   drama (pranks, gossip, sneaking out) is under More options. Anything that needs you (homework before a quiz, a chore)
   has a **needs you** tag. **Texting doesn't use up your time**: text anyone, anytime, from the Phone tab, so "Message
   someone" isn't one of your choices anymore. Plans made by text fill your next free time and show at the top.
-  Prefer not to pick every lunch? Turn on **Lunch on autopilot** on the Me tab (you sit with your usual table).
+  Lunch is a routine by default (you sit at your table; see **Lunch: your table is your routine**). Turn off **Lunch
+  on autopilot** on the Me tab to pick it yourself each day.
 - **Your group.** The friends you actually spend your time with become your group on their own: **the boys**, **the
   girls** or **the crew**, from your closest friends, changing as friendships do (it's on the Me tab, with how tight you
   are and when you last hung out). In your free time it's one choice for what you'd really do: **Hop on the game with

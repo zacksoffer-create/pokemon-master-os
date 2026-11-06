@@ -264,11 +264,13 @@ class Institutions:
     def lunch_tables(self, rng):
         sim = self.sim
         w, R = sim.w, sim.w.rules
-        joins = sim.slot.tables
-        if not joins:
-            return
+        from . import lunch
         planned = sim.slot.planned
         absent = {cid for cid, d in planned.items() if d and d["chosen"].a["id"] in ("sit_alone", "study_at_lunch")}
+        # everyone sits at their table (lunch is a routine); "sit with" someone at another table is a visit for the day
+        joins, newcomers = lunch.seating(sim, absent, list(sim.slot.tables), rng)
+        if not joins:
+            return
         parent: dict[str, str] = {}
 
         def find(x):
@@ -293,6 +295,7 @@ class Institutions:
             root, other = min(ra, rb), max(ra, rb)
             parent[other] = root
             size[root] = sa + sb
+        joiners = {m: t for m, t in joiners.items() if m in newcomers}  # only someone new at a table can be frozen out
         tables: dict[str, list] = {}
         for x in list(parent):
             tables.setdefault(find(x), []).append(x)
@@ -335,7 +338,7 @@ class Institutions:
             pairs = [(members[i], members[j]) for i in range(len(members)) for j in range(i + 1, len(members))]
             rng.shuffle(pairs)
             qs = []
-            for a, b in pairs[:12]:
+            for a, b in pairs[:lunch.table_pairs(len(members))]:
                 q = 0.18 + 0.3 * compatibility(w, w.chars[a], w.chars[b]) + rng.gauss(0, 0.22)
                 qs.append(q)
                 ambient(sim, fx, a, b, q, "lunch table")
@@ -347,6 +350,10 @@ class Institutions:
                 sim.expect(m, "sit_with", clamp(avg, -1, 1))
             ev["outcome"] = "great" if avg > 0.45 else "good" if avg > 0.05 else "flat"
             ev["data"]["quality"] = round(avg, 3)
+            line = lunch.happening(sim, fx, members, rng)  # now and then something happens at a table
+            if line:
+                ev["text"] = line
+                ev["importance"] = 8  # (your table's: it's in your feed)
             ev["calc"] = [{"step": "table mood", "total": round(avg, 3), "pairs": len(qs),
                            "rule": "average of pair qualities (0.18 + 0.3 x compatibility + luck)"}] if w.tracing else None
             sim.attach_traces(ev, [m for m in members if m in joiners])

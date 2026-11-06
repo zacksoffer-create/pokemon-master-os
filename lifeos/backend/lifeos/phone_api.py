@@ -237,6 +237,20 @@ def _season_now(w):
     return {"id": sid, "label": seasons.label(w, sid), "part": sid.split("-")[1], "ends": calm.label(b), "days_left": max(0, b - w.day)}
 
 
+@router.post("/api/phone/lunch/table")
+def phone_lunch_table(body: dict = Body(...)):
+    """{table: id} sit there from now on; {table: null} back to sitting with your group."""
+    from . import lunch
+    A, L = _lab()
+    with L.lock:
+        try:
+            return lunch.choose(L.sim, body.get("table") or None)
+        except KeyError:
+            raise HTTPException(404, "no such table")
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+
+
 @router.get("/api/phone/people")
 def phone_people():
     """Everyone at your school, in numbers (the Scene tab's People)."""

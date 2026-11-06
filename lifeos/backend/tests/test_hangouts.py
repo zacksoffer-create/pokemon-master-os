@@ -116,14 +116,14 @@ def _stops(c, sim, n=10):
     return stops
 
 
-def test_lunch_is_yours_unless_you_put_it_on_autopilot():
+def test_lunch_is_a_routine_unless_you_pick_it_yourself():
     from fastapi.testclient import TestClient
     w, sim, me, pals = _world()
     c = TestClient(api.app)
-    assert moments.control(w)["auto_lunch"] is False, "lunch is one of your free times"
-    assert "lunch" in _stops(c, sim)
-    c.post("/api/story/control", json={"auto_lunch": True})
+    assert moments.control(w)["auto_lunch"] is True, "lunch is a routine: you sit at your table"
     assert "lunch" not in _stops(c, sim)
+    c.post("/api/story/control", json={"auto_lunch": False})
+    assert "lunch" in _stops(c, sim)
 
 
 def test_practice_and_games_just_happen_and_evenings_are_yours():
@@ -142,8 +142,8 @@ def test_practice_and_games_just_happen_and_evenings_are_yours():
     # on a practice day you're never stopped after school: your free time is lunch and the evening
     for d in days:
         assert not [1 for e in w.history.events.values() if e["day"] == d and e.get("slot") == "after_school"
-                    and me.id in e["actors"] and e["type"] not in ("practice", "game", "moment", "text", "milestone")], d
-    assert "evening" in stops and "lunch" in stops
+                    and me.id in e["actors"] and e["type"] not in ("practice", "game", "moment", "text", "milestone", "injury")], d
+    assert "evening" in stops and "lunch" not in stops  # (lunch is a routine: you sit at your table)
     st = c.get("/api/phone/state").json()
     assert "committed" in st
 

@@ -38,7 +38,11 @@ export type LadderView = {
   movers: { up: LadderRow[]; down: LadderRow[] }; rows: LadderRow[]; scope: string; of: number; storyline_people: LadderRow[];
   week_of: string | null; superlatives: Superlative[];
 };
+export type LunchTable = { id: string; name: string; side: number; of: number; group: string | null; people: SceneMini[]; yours: boolean;
+  feel: number | null; pop: number; full: boolean };
+export type Cafeteria = { tables: LunchTable[]; picked: boolean; mine: string | null };
 export type SceneView = {
+  cafeteria?: Cafeteria | null;
   me: { rank: number; of: number; grade_rank: number; grade_of: number; tier: string; popularity: number; group: string | null; reputation: string[]; friends: number };
   groups: { id: string; name: string; size: number; mine: boolean; members: (SceneMini & { friend: boolean; me: boolean; family: boolean })[]; friends: number;
     way_in: SceneMini | null; vibe: string; standing: string; since: string }[];
@@ -275,6 +279,7 @@ export type YearbookPage = {
 };
 
 export const phoneApi = {
+  lunchTable: (table: string | null): Promise<Cafeteria> => api.post("/api/phone/lunch/table", { table }),
   people: (): Promise<{ rows: PersonRow[]; of: number; groups: string[] }> => api.get("/api/phone/people"),
   person: (id: string): Promise<PersonProfile> => api.get(`/api/phone/people/${encodeURIComponent(id)}`),
   yearbook: (): Promise<{ now: YearbookPage | null; past: YearbookPage[] }> => api.get("/api/phone/yearbook"),

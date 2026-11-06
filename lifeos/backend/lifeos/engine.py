@@ -385,6 +385,8 @@ class Simulation:
             else:
                 ev = self.new_event("clique", kind, [cid], [], 16, {"label": q["name"], "clique": qid})
             self.finish(ev, Effects(w, ev))
+        from . import lunch
+        lunch.weekly(self)  # who sits where at lunch, after the groups (people move when their friendships have)
         for c in sorted(w.active(), key=lambda c: c.id):
             development.review_goals(self, c, rng)
         households.weekly(self, rng)

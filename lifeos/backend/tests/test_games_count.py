@@ -54,7 +54,9 @@ def _first_game(level):
     return c, api.lab.w
 
 
-def test_one_game_day_is_one_game_varsity_and_jv():
+def test_one_game_day_is_one_game_varsity_and_jv(monkeypatch):
+    from lifeos import sports
+    monkeypatch.setattr(sports, "INJURY_RATE", {k: 0.0 for k in sports.INJURY_RATE})  # (a practice injury would sit you out of the first games)
     for level in ("varsity", "jv"):
         c, w = _first_game(level)
         me = w.chars[w.meta["protagonist"]]

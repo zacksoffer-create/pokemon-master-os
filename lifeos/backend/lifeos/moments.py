@@ -33,6 +33,9 @@ def control(w) -> dict:
         c["auto_lunch"] = False  # lunch is one of your free times now (practice takes after school): you pick it
         c["_free_time"] = 1
     c.setdefault("auto_lunch", False)
+    if not c.get("_lunch_routine"):
+        c["auto_lunch"] = True  # lunch is a routine now: you sit at your table without deciding (change it in the cafeteria)
+        c["_lunch_routine"] = 1
     c.setdefault("class_games", True)  # quick games in class most school days
     c.setdefault("editor", True)  # change anyone and anything (on to start; turn it off on the Me tab)
     return c

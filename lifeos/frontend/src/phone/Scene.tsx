@@ -1,7 +1,7 @@
 // Phone → Scene: your school's world from where you're standing. Where you stand, the groups (and your way in), who's
 // together, who's popular, and friends of friends you could meet (ask a friend to introduce you: free, once a day).
 import React, { useEffect, useState } from "react";
-import { Chip, Line, phoneApi, pgo, Rumor, SceneMini, SceneView } from "./api";
+import { Cafeteria as CafeteriaT, Chip, Line, LunchTable, phoneApi, pgo, Rumor, SceneMini, SceneView } from "./api";
 import { Portrait } from "./art";
 import { cx, errText, Lines, Sheet, StatChips } from "./kit";
 import { usePhone } from "./PhoneContext";
@@ -75,6 +75,7 @@ export function SceneScreen({ section }: { section: "crowd" | "talk" }) {
       )}
       </>}
 
+      {!talk && v.cafeteria && <Cafeteria c={v.cafeteria} onChange={(c) => setV({ ...v, cafeteria: c })} />}
       {!talk && <>
       <div className="sc-h">The groups</div>
       {v.groups.length === 0 && <div className="sc-dim">No real groups have formed yet. Give it a few weeks.</div>}
@@ -167,6 +168,53 @@ const ACTS: Record<string, [string, string][]> = {
 };
 const DID: Record<string, string> = { deny: "You set the record straight.", own: "You owned it.", find: "You asked around.", tell: "You warned them.",
   pass: "You passed it on.", drop: "You kept it to yourself." };
+
+/** The cafeteria: every lunch table and who sits there. Yours is your routine (you sit there every school day without
+ * deciding); "Sit here from now on" moves you, and the table might take a few days to warm up to you. */
+function Cafeteria({ c, onChange }: { c: CafeteriaT; onChange: (c: CafeteriaT) => void }) {
+  const { toast, refresh } = usePhone();
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const mine = c.tables.find((t) => t.yours);
+  const pick = async (id: string | null, name?: string) => {
+    setBusy(true);
+    try {
+      onChange(await phoneApi.lunchTable(id));
+      toast(id ? `You'll sit with ${name} at lunch from now on.` : "Back to sitting with your group at lunch.", "good");
+      refresh();
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setBusy(false);
+    }
+  };
+  const label = (t: LunchTable) => `${t.name}${t.of > 1 ? ` (table ${t.side + 1} of ${t.of})` : ""}`;
+  return (
+    <div className="sc-caf">
+      <div className="sc-h">The cafeteria</div>
+      {mine && (
+        <div className="sc-table mine">
+          <div className="sc-table-h"><b>Your table: {label(mine)}</b><small>Every school day, without deciding. Lunch is where things move a little each day.</small></div>
+          <div className="sc-faces">{mine.people.slice(0, 8).map((m) => <span key={m.id}><Face p={m} size={30} /></span>)}</div>
+          {c.picked && <button className="ph-link" disabled={busy} onClick={() => pick(null)}>Go back to sitting with your group</button>}
+        </div>
+      )}
+      <button className="ph-link" onClick={() => setOpen(!open)}>{open ? "Hide the other tables" : `See every table (${c.tables.length})`}</button>
+      {open && c.tables.filter((t) => !t.yours).map((t) => (
+        <div key={t.id} className="sc-table">
+          <div className="sc-table-h">
+            <b>{label(t)}</b>
+            <small>{t.people.length} people{t.feel != null ? ` · they like you ${t.feel > 0 ? "+" : ""}${t.feel} on average` : ""}</small>
+          </div>
+          <div className="sc-faces">{t.people.slice(0, 8).map((m) => <span key={m.id}><Face p={m} size={28} /></span>)}</div>
+          {!t.full
+            ? <button className="ph-btn soft sc-sit" disabled={busy} onClick={() => pick(t.id, t.name)}>Sit here from now on</button>
+            : <small className="sc-dim">Full</small>}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function RumorCard({ t, busy, onAct }: { t: Rumor; busy: boolean; onAct: (id: string, what: string) => void }) {
   const acts = ACTS[t.about_you ? "you" : "them"];
