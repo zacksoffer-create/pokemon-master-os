@@ -96,7 +96,13 @@ def run_break(sim) -> dict:
     report["cleaned"] = clean_out(sim, cut)
     report["ahead"] = look_ahead(sim, sb["to"])
     report["seconds"] = round(time.time() - t0, 1)
-    w.meta.setdefault("seasons", {})[sb["from"]] = {k: report[k] for k in ("label", "storylines", "teams", "moments", "played", "missed")}
+    page = {}
+    me = w.chars.get(w.meta.get("protagonist") or "")
+    if me is not None:
+        from . import people
+        page = people.page(sim, me)  # the yearbook page: superlatives, the top ten, where you stood
+    w.meta.setdefault("seasons", {})[sb["from"]] = {**{k: report[k] for k in ("label", "storylines", "teams", "moments", "played", "missed")},
+                                                    **page}
     sb["status"] = "done"
     sb["report"] = report
     return {"ok": True, **state(w)}

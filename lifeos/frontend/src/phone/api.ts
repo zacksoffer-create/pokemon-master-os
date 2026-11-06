@@ -253,7 +253,31 @@ export type LeagueView = {
   award?: boolean; winners?: { year: number; date: string | null; winner: string | null; club: string | null; women: string | null; women_club: string | null; note?: string }[];
 };
 export type LeagueLine = { league: string; label: string; kind: string; line: string | null; in_season?: boolean };
+export type PersonRow = SceneMini & {
+  grade: number; rank: number | null; pop: number; group: string | null; sport: string | null; rating: number | null; gpa: number;
+  likes_you: number | null; you_like: number | null; tags: string[]; me: boolean; gender: string;
+  teams: { sport: string; team: string; level: string; pos: string | null; group: string }[];
+};
+export type RelNums = { affection: number; trust: number; respect: number; attraction: number; familiarity: number; label: string; crush: boolean } | null;
+export type PersonProfile = PersonRow & {
+  bio: string; age: number; jersey: number | null; body: { height_in?: number; build?: string };
+  traits: Record<string, number>; aptitudes: Record<string, number>; skills: Record<string, number>; interests: Record<string, number>;
+  reputation: Record<string, number>; with_you: { they: RelNums; you: RelNums } | null;
+  people: (SceneMini & { affection: number })[]; partner: SceneMini | null; crush: SceneMini | null; rumors: string[];
+  season: { team: string; level: string; games: number; record: string; line: string }[]; superlatives: string[];
+};
+export type YearbookPage = {
+  id: string; label: string; played: number; you?: { rank: number | null; of: number };
+  superlatives?: { label: string; winner: string | null; winner_id: string | null; partner: string | null; you: number | null }[];
+  top?: (SceneMini & { rank: number; pop: number })[];
+  teams: { team: string; level: string; sport: string; games: number; starts: number; record: string; line: string }[];
+  moments: { date: string; text: string }[]; missed?: number;
+};
+
 export const phoneApi = {
+  people: (): Promise<{ rows: PersonRow[]; of: number; groups: string[] }> => api.get("/api/phone/people"),
+  person: (id: string): Promise<PersonProfile> => api.get(`/api/phone/people/${encodeURIComponent(id)}`),
+  yearbook: (): Promise<{ now: YearbookPage | null; past: YearbookPage[] }> => api.get("/api/phone/yearbook"),
   seasonBreak: (): Promise<{ ok: boolean; report: SeasonReport | null }> => api.post("/api/phone/season/break", {}),
   seasonSeen: () => api.post("/api/phone/season/seen", {}),
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),

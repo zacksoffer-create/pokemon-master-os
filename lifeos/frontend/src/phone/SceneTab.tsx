@@ -7,8 +7,9 @@ import { Portrait } from "./art";
 import { cx, errText, Lines, Sheet, StatChips } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { SceneScreen } from "./Scene";
+import { PeopleScreen, YearbookScreen } from "./People";
 
-const SECTIONS = [["ladder", "Ladder"], ["crowd", "Crowd"], ["talk", "Talk"]] as const;
+const SECTIONS = [["ladder", "Ladder"], ["people", "People"], ["crowd", "Crowd"], ["talk", "Talk"], ["yearbook", "Yearbook"]] as const;
 const SCOPES: [string, string][] = [["school", "Whole school"], ["grade", "My grade"], ["9", "Fr"], ["10", "So"], ["11", "Jr"], ["12", "Sr"]];
 const TAG: Record<string, string> = { you: "you", friend: "friend", family: "family", crush: "crush", dating: "dating", rival: "rival", storyline: "your story" };
 
@@ -34,7 +35,9 @@ export default function SceneTab({ route }: { route: string[] }) {
           ))}
         </div>
       </header>
-      <div className="pm-scroll">{sec === "ladder" ? <Ladder /> : <SceneScreen key={sec} section={sec} />}</div>
+      <div className="pm-scroll">
+        {sec === "ladder" ? <Ladder /> : sec === "people" ? <PeopleScreen /> : sec === "yearbook" ? <YearbookScreen /> : <SceneScreen key={sec} section={sec} />}
+      </div>
     </div>
   );
 }

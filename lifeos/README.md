@@ -358,6 +358,21 @@ Guilford has seven high school teams, each with its own coach, tryouts and sched
   of this year's tryouts and games, girls on boys' teams move to the girls' team for that season (keeping varsity or JV),
   a girl's baseball becomes softball, some kids pick up soccer, and a college you're already at gets its women's teams.
 
+## The Scene tab: People and the Yearbook
+
+The world in numbers, next to the Ladder, the Crowd and the Talk:
+
+- **People**: everyone at your school, ranked. Each row shows their year, group, teams (`BB V · SF`: basketball,
+  varsity, small forward) and how they're tied to you, plus one number: their rank, how much they like you, their best
+  sport's rating, or their GPA, depending on the sort (Rank, Likes you, Athlete, GPA, Name). Filter by year or "On a
+  team", or search a name or a group. Tap anyone for their card: rank, popularity, GPA and rating; the superlatives
+  they hold; both sides of how you two feel (affection, trust, respect, attraction); their teams, position, jersey
+  and this season's record and line; skills, personality and talents as bars; what they're into and known for; their
+  people (who they're dating, their crush, their closest friends: tap through); rumors about them you've heard; and
+  **Edit** to change any of it.
+- **Yearbook**: this season so far (the superlatives with where you'd place, the top ten, your rank, your teams'
+  records and lines, the big moments), and a page for every season that's ended, kept by its season break.
+
 ## Seasons: the School Year and the Summer
 
 The year runs in two seasons: the **School Year** (September 1, or whenever your story starts, to May 31) and the

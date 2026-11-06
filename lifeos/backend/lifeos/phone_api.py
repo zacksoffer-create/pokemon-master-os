@@ -237,6 +237,35 @@ def _season_now(w):
     return {"id": sid, "label": seasons.label(w, sid), "part": sid.split("-")[1], "ends": calm.label(b), "days_left": max(0, b - w.day)}
 
 
+@router.get("/api/phone/people")
+def phone_people():
+    """Everyone at your school, in numbers (the Scene tab's People)."""
+    from . import people
+    A, L = _lab()
+    with L.lock:
+        return people.directory(L.sim)
+
+
+@router.get("/api/phone/people/{cid}")
+def phone_person(cid: str):
+    from . import people
+    A, L = _lab()
+    with L.lock:
+        try:
+            return people.profile(L.sim, cid)
+        except KeyError:
+            raise HTTPException(404, "no such person")
+
+
+@router.get("/api/phone/yearbook")
+def phone_yearbook():
+    """This season so far, and every finished season's page."""
+    from . import people
+    A, L = _lab()
+    with L.lock:
+        return people.yearbook(L.sim)
+
+
 @router.post("/api/phone/season/break")
 def phone_season_break():
     """The loading screen: close the books on the season that ended, clean out, look ahead. Returns the report."""
