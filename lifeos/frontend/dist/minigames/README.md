@@ -51,8 +51,8 @@ The games built in `games/` (basketball, golf, pong, At Bat, Swing Lab, Option A
 | `soccer11.html` | `soccer_11` | ready: Soccer Playmaker, 11 v 11 (game day uses this) | menu / clutch (three attacks) |
 | `soccer.html` | `soccer_pk` | ready: penalty kicks (flick) | menu / clutch |
 | `basketball.html` | `basketball`, `playmaker` | ready: Basketball Playground | menu / clutch (game day) / playmaker |
-| `baseball.html` | `baseball` | ready: At Bat (game day uses this) | menu / clutch |
-| `swing.html` | `swing_lab` | ready: Swing Lab batting prototype | menu / clutch (3 PAs) |
+| `baseball.html` | `baseball` | not used: At Bat (the `baseball` id now opens Swing Lab) | menu / clutch |
+| `swing.html` | `swing_lab` | ready: Swing Lab (baseball and softball: game day, `play baseball`, batting cages) | menu / clutch (3 PAs) |
 | `golf.html` | `golf` | ready: Fairway (weekends) | menu / short |
 | `cup_pong.html` | `cup_pong` | ready: cup pong, beer pong in college (weekend nights) | menu / game |
 | `football.html` | `football` | ready: Option Arcade (game day uses this) | menu / clutch (Goal Line: four downs from the 10) |

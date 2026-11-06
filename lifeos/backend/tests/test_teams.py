@@ -108,7 +108,10 @@ def test_a_soccer_season_plays_out():
 
 def test_game_day_mini_games():
     assert minigames.resolve_game("sport", {"sport_id": "soccer"}) == "soccer_11"
-    assert minigames.resolve_game("sport", {"sport_id": "softball"}) == "baseball"
+    # baseball and softball are Swing Lab (the camera-angle batting game): game day, and `| play baseball` in a scene
+    assert minigames.resolve_game("sport", {"sport_id": "softball"}) == "swing_lab"
+    assert minigames.resolve_game("sport", {"sport_id": "baseball"}) == "swing_lab"
+    assert minigames.resolve_game("baseball") == "swing_lab"
 
 
 def test_a_girls_baseball_is_softball_in_story_setup():

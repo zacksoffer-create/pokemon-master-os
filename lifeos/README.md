@@ -344,7 +344,7 @@ Guilford has seven high school teams, each with its own coach, tryouts and sched
   list. Football and boys' soccer are both in the fall, so pick one. Winter and spring are open.
 - **Soccer** has keepers, backs, midfielders, wingers and strikers. Box scores add up to the score (every goal has a
   scorer, most have an assist), keepers get saves and clean sheets, and game day opens Soccer Playmaker.
-- **Softball** plays like baseball (same positions, at-bats, innings and ERA), and its game day opens At Bat.
+- **Softball** plays like baseball (same positions, at-bats, innings and ERA), and its game day opens Swing Lab.
 - **Short-handed coaches recruit.** When a team can't field a lineup after tryouts, the coach talks athletic kids who
   aren't playing anything that season into joining. It never does this to you.
 - **College** has men's and women's teams: UConn Men's Basketball and UConn Women's Basketball, UNC Men's Soccer and
@@ -1001,7 +1001,7 @@ card like "Second period · Chemistry: Fill it to the line". Three choices: **go
 **Mini games:** short rounds whose results feed the story.
 - **Free play:** in free time, the Story tab shows **Or play something**: pickup soccer (penalty kicks or an 11 v 11 match), shooting around in the driveway,
   running the offense at the park (Playmaker), running the option at practice (Option Arcade), hitting at the batting cages
-  (At Bat), batting practice (Swing Lab), and on
+  (Swing Lab, the one with the catcher and side camera views; it's also the baseball and softball game everywhere else), and on
   weekends a round of golf (Fairway) and cup pong in a friend's basement (beer pong at a party once you're in college).
   The first round each day counts as practice (a small skill gain, plus fun), scaled by how you did.
 - **Game day:** **Take over late. Play the big moment yourself.** plays your sport's game. A great round adds +7 to your

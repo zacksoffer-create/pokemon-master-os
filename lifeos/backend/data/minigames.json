@@ -8,9 +8,9 @@
   "sport_games": {
     "basketball": "basketball",
     "football": "football",
-    "baseball": "baseball",
+    "baseball": "swing_lab",
     "soccer": "soccer_11",
-    "softball": "baseball"
+    "softball": "swing_lab"
   },
   "games": {
     "trivia": {
@@ -148,14 +148,6 @@
       "blurb": "Read the pitcher, the count and the situation, then put a swing on it.",
       "skill": "baseball",
       "aptitude": "athletic",
-      "free": {
-        "label": "Hit at the batting cages",
-        "phases": [
-          "after_school",
-          "day",
-          "evening"
-        ]
-      },
       "practice": {
         "skill": "baseball",
         "gain": 0.8,
@@ -166,7 +158,8 @@
         "free": "menu",
         "clutch": "clutch",
         "scene": "menu"
-      }
+      },
+      "use": "swing_lab"
     },
     "paper_toss": {
       "title": "Paper toss",
@@ -281,7 +274,7 @@
       "skill": "baseball",
       "aptitude": "athletic",
       "free": {
-        "label": "Batting practice (Swing Lab)",
+        "label": "Hit at the batting cages",
         "phases": [
           "after_school",
           "day",
@@ -290,7 +283,7 @@
       },
       "practice": {
         "skill": "baseball",
-        "gain": 0.5,
+        "gain": 0.8,
         "fun": 6,
         "energy": -4
       },

@@ -46,7 +46,8 @@ def resolve_game(gid: str, ctx: dict | None = None) -> str | None:
         return reg()["sport_games"].get((ctx or {}).get("sport_id") or (ctx or {}).get("sport"))
     if gid == "class":
         return (ctx or {}).get("cg_game")
-    return gid
+    g = reg()["games"].get(gid) or {}
+    return g.get("use") or gid  # a game that's been replaced ('baseball' is Swing Lab now)
 
 
 def ready(gid: str | None) -> bool:
