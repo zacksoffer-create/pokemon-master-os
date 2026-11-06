@@ -1848,6 +1848,9 @@ def _timing_token(tok: str) -> str | None:
         return "year"
     if low in SC.MONTHS or low in SC.MON3 or low in SC.SEASONS:
         return "season"
+    m = re.fullmatch(r"(early|beginning of|start of|mid|mid-|middle of|late|end of)\s*-?\s*([a-z]+)\.?", low)
+    if m and (m.group(2) in SC.MONTHS or m.group(2)[:3] in SC.MON3):
+        return "season"
     if low.startswith("spread"):
         return "spread"
     return None
@@ -1988,12 +1991,15 @@ def set_scene_timing(pid: str, sid: str, year: str | None, month: int | None) ->
     if entry is not None:  # an outlined storyline: its outline line says when
         src = p["script"].rstrip("\n").split("\n")
         a, b = _outline_lines(src)
-        for i in range(a + 1, b):
-            m = SC.OUTLINE_RE.match(src[i].strip())
-            if m and int(m.group(1)) == entry["n"]:
-                src[i] = _retime_outline_line(src[i], year, month, True, bool(month))
-                return add_script("\n".join(src) + "\n", into=pid)
-        raise KeyError(sid)
+        at = next((i for i in range(a + 1, b) if (SC.OUTLINE_RE.match(src[i].strip()) or [0, 0]) and SC.OUTLINE_RE.match(src[i].strip())
+                   and int(SC.OUTLINE_RE.match(src[i].strip()).group(1)) == entry["n"]), None)
+        if at is None:
+            raise KeyError(sid)
+        src[at] = _retime_outline_line(src[at], year, month, True, bool(month))
+        moved = _keep_in_order(p, entry, year, month, src, a, b)
+        r = add_script("\n".join(src) + "\n", into=pid)
+        r["moved_too"] = moved
+        return r
     sc = next((x for x in p["pack"].get("scenes") or [] if isinstance(x, dict) and x.get("id") == sid), None)
     if sc is None or not sc.get("line"):
         raise KeyError(sid)
@@ -2009,6 +2015,96 @@ def set_scene_timing(pid: str, sid: str, year: str | None, month: int | None) ->
     new = ([_year_word(year)] if year in YEARS else []) + ([names[int(month)]] if month and 1 <= int(month) <= 12 else []) + keep
     src[i] = f"{m.group(1)}{m.group(2).rstrip()}" + (f"  [{' · '.join(new)}]" if new else "") + (f" {m.group(4)}" if m.group(4) else "")
     return add_script("\n".join(src) + "\n", into=pid)
+
+
+SCHOOL_MONTH_POS = {m: i for i, m in enumerate([9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8])}  # Sept = 0 ... Aug = 11
+GRADE_OF_YEAR = {k: v[0] for k, v in YEARS.items() if len(v) == 1}
+
+
+def _when_pos(when: dict) -> int | None:
+    """Where a compiled scene sits on the calendar: school year (grade) * 12 + its month in the school year."""
+    ys = [GRADE_OF_YEAR[y] for y in (when.get("years") or []) if y in GRADE_OF_YEAR]
+    mo = (when.get("months") or [None])[0]
+    if mo is None and when.get("not_before"):
+        mo = int(when["not_before"][:2])
+    if mo is None and when.get("dates"):
+        from . import calendar as calm
+        d = when["dates"][0]
+        md = calm.APPROX_MD.get(d) or d
+        mo = int(md[:2]) if re.match(r"^\d\d-", md) else None
+    if not ys or mo is None:
+        return None
+    return ys[0] * 12 + SCHOOL_MONTH_POS[mo]
+
+
+def _is_timed(when_text: str) -> bool:
+    """Does an outline line's when part pin it to a time (a month, a day, a holiday), so it doesn't move on its own?"""
+    from . import script as SC
+
+    class _S:
+        pending_after: list = []
+        cast: dict = {}
+    for tok in [t for t in re.split(r"\s*[·;,]\s*", when_text or "") if t.strip()]:
+        tmp: dict = {}
+        try:
+            SC.tags(tok, None, 0, tmp, _S())
+        except Exception:  # noqa: BLE001
+            continue
+        if tmp.keys() & {"months", "dates", "not_before", "not_after"}:
+            return True
+    return False
+
+
+def _keep_in_order(p, entry, year, month, src, a, b) -> list:
+    """Moving one scene of a storyline played in order mustn't strand the rest: a later scene pinned to before its new
+    time moves to it (and plays right after it), an earlier one pinned to after it moves back to it. Scenes with no
+    time of their own re-space themselves around it. -> the scenes that moved with it ({n, title})."""
+    from . import script as SC
+    outline = p["pack"].get("outline") or []
+    by_id = {s.get("id"): s for s in p["pack"].get("scenes") or [] if isinstance(s, dict)}
+    cur = by_id.get(entry.get("sid"))
+    cw = dict((cur or {}).get("when") or {})
+    if year in YEARS and len(YEARS[year]) == 1:
+        cw["years"] = [year]
+    if month:
+        cw.pop("not_before", None)
+        cw.pop("dates", None)
+        cw["months"] = [int(month)]
+    new = _when_pos(cw)
+    if new is None:
+        return []
+    yname = next((y for y in (cw.get("years") or []) if y in GRADE_OF_YEAR), None)
+    mnum = (cw.get("months") or [None])[0]
+    moved = []
+    for e in outline:
+        if e["n"] == entry["n"] or not _is_timed(e.get("when") or ""):
+            continue
+        sc = by_id.get(e.get("sid"))
+        pos = _when_pos((sc or {}).get("when") or {}) if sc else None
+        if pos is None:
+            continue
+        later, earlier = e["n"] > entry["n"], e["n"] < entry["n"]
+        if (later and pos < new) or (earlier and pos > new):
+            for i in range(a + 1, b):
+                mm = SC.OUTLINE_RE.match(src[i].strip())
+                if mm and int(mm.group(1)) == e["n"]:
+                    src[i] = _retime_outline_line(_untime_outline_line(src[i]), yname, mnum, True, True)
+                    moved.append({"n": e["n"], "title": e.get("title")})
+    return moved
+
+
+def _untime_outline_line(line: str) -> str:
+    """An outline line with every time in its when part taken off (months, days, holidays), keeping the rest (big...)."""
+    from . import script as SC
+    m = SC.OUTLINE_RE.match(line.strip())
+    if not m:
+        return line
+    parts = [x.strip() for x in SC._split(m.group(2), "|")]
+    if len(parts) < 2:
+        return line
+    keep = [t for t in re.split(r"\s*[·;,]\s*", parts[1]) if t.strip() and not _is_timed(t)]
+    parts[1] = " · ".join(keep)
+    return f"{m.group(1)}. " + " | ".join(parts).rstrip(" |")
 
 
 def add_script(text: str, into: str | None = None, strict: bool = False) -> dict:

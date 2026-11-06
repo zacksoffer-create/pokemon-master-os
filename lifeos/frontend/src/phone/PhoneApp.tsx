@@ -21,6 +21,7 @@ import TextingHub from "./TextingHub";
 import Editor from "./Editor";
 import { PhoneProvider, usePhone } from "./PhoneContext";
 import Diagnostics, { applyHidden, applyPageScroll, applyPlain, hiddenParts, pageScrollOn, plainOn } from "./Diagnostics";
+import SeasonBreak from "./SeasonBreak";
 import PhoneTab from "./PhoneTab";
 import PlayLine from "./PlayLine";
 import SceneTab from "./SceneTab";
@@ -153,6 +154,7 @@ function Shell({ route }: { route: string[] }) {
   }
   if (tab === "create") return <CreateStory hasStory={!!state.active} />;
   if (!state.active) return <Welcome />;
+  if (state.season_break) return <div className="ph-screen tab-season"><SeasonBreak sb={state.season_break} /></div>;
   let body: React.ReactNode;
   if (tab === "phone") body = <PhoneTab route={route.slice(1)} />;
   else if (tab === "home") body = <HomeTab />;

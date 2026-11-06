@@ -210,6 +210,7 @@ def phone_state(since: int | None = None):
                        gpa=round(me.gpa, 2), injured=me.flags.get("injured_until", -1) >= w.day, path=me.path, body=me.body,
                        positions=me.positions, jersey=me.jersey),
             "moments": pend, "feed": feed, "last_event": w.history.next_event - 1, "committed": busy_with, "squad": squad_view(sim),
+            "season_break": _season_state(w), "season": _season_now(w),
             "unread": sum(t["unread"] for t in threads), "needs_reply": sum(1 for t in threads if t["needs_reply"]),
             "pets": [pets.view(sim, p) for p in hp], "pet_setup_needed": any(pets.setup_needed(w, p["id"]) for p in hp),
             "pet_approved": w.meta.get("pet_approved"), "queued": q and {"label": planner.plan_label(sim, q) or "Saying yes to an invite"},
@@ -222,6 +223,36 @@ def phone_state(since: int | None = None):
             "setting": {"town": sim.cat.world["town"]["name"], "school": sim.cat.world["school"]["name"],
                         "short": sim.cat.world["school"]["short"], "mascot": sim.cat.world["school"]["mascot"]},
         }
+
+
+def _season_state(w):
+    from . import seasons
+    return seasons.state(w)
+
+
+def _season_now(w):
+    from . import seasons
+    sid = w.meta.get("season") or seasons.season_id(w.day)
+    a, b = seasons.bounds(sid)
+    return {"id": sid, "label": seasons.label(w, sid), "part": sid.split("-")[1], "ends": calm.label(b), "days_left": max(0, b - w.day)}
+
+
+@router.post("/api/phone/season/break")
+def phone_season_break():
+    """The loading screen: close the books on the season that ended, clean out, look ahead. Returns the report."""
+    from . import seasons
+    A, L = _lab()
+    with L.lock:
+        return seasons.run_break(L.sim)
+
+
+@router.post("/api/phone/season/seen")
+def phone_season_seen():
+    from . import seasons
+    A, L = _lab()
+    with L.lock:
+        seasons.seen(L.w)
+    return {"ok": True}
 
 
 @router.get("/api/phone/choices")

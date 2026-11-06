@@ -55,6 +55,7 @@ MONTHS = {m: i + 1 for i, m in enumerate(["january", "february", "march", "april
                                           "september", "october", "november", "december"])}
 MON3 = {k[:3]: v for k, v in MONTHS.items()}
 SEASONS = {"fall": [9, 10, 11], "autumn": [9, 10, 11], "winter": [12, 1, 2], "spring": [3, 4, 5], "summer": [6, 7, 8]}
+SEASONS["school year"] = [9, 10, 11, 12, 1, 2, 3, 4, 5]  # the School Year season; summer is the Summer season
 WEEKDAY = {"monday": "mon", "tuesday": "tue", "wednesday": "wed", "thursday": "thu", "friday": "fri", "saturday": "sat",
            "sunday": "sun"}
 HOLIDAYS = {"halloween": "10-31", "christmas": "12-25", "christmas eve": "12-24", "new year's eve": "12-31",
@@ -1320,7 +1321,8 @@ def _flatten(nodes):
     return out
 
 
-SCHOOL_MONTHS = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6]
+SCHOOL_MONTHS = [9, 10, 11, 12, 1, 2, 3, 4, 5]  # the School Year season (Sept 1 to May 31); summer is June to August
+YEAR_MONTHS = SCHOOL_MONTHS + [6, 7, 8]
 YEAR_ORDER = ["freshman", "sophomore", "junior", "senior", "college_freshman", "college_sophomore", "college_junior", "college_senior"]
 
 
@@ -1360,7 +1362,7 @@ def spread_slots(years, months, n: int) -> list:
     ys = concrete_years(years)
     if not ys:
         raise Fail("spread needs the school years to spread across, like when: freshman · spread (or freshman-junior · spread)")
-    ms = [m for m in SCHOOL_MONTHS + [7, 8] if m in (months or SCHOOL_MONTHS)]
+    ms = [m for m in YEAR_MONTHS if m in (months or SCHOOL_MONTHS)]
     slots = [(y, m) for y in ys for m in ms]
     return [slots[min(len(slots) - 1, (k * len(slots)) // max(1, n))] for k in range(n)]
 
@@ -1373,9 +1375,9 @@ def spread(scenes: list, years, months, keep=()):
     ys = concrete_years(years)
     if not ys:
         raise Fail("spread needs the school years to spread across, like when: freshman · spread (or freshman-junior · spread)")
-    ms = [m for m in SCHOOL_MONTHS + [7, 8] if m in (months or SCHOOL_MONTHS)]
+    ms = [m for m in YEAR_MONTHS if m in (months or SCHOOL_MONTHS)]
     slots = [(y, m) for y in ys for m in ms]
-    order = [m for m in SCHOOL_MONTHS + [7, 8]]
+    order = [m for m in YEAR_MONTHS]
 
     def place(y, mo):
         exact = [i for i, (sy, sm) in enumerate(slots) if sy == y and sm == mo]
@@ -1664,6 +1666,7 @@ def _built(sec, scenes: list, pack: dict, warns) -> list:
         place(scenes, years, sec.defaults.get("months"), keep, total=len(sec.outline), slot_of=lambda sc: order.get(sec.entry_of.get(sc["id"])))
     except Fail as e:
         warns.append((sec.n, str(e)))
+    _calendar_order(scenes, sec, warns)
     for e in sec.outline:  # one of your games (`| game: loss, I play great`): the scene is that game's big moment
         sc = by_n.get(e["n"])
         if e.get("plays") and sc is not None:
@@ -1699,6 +1702,30 @@ def _built(sec, scenes: list, pack: dict, warns) -> list:
     return scenes
 
 
+_YEAR_GRADE = {"freshman": 9, "sophomore": 10, "junior": 11, "senior": 12, "college_freshman": 13, "college_sophomore": 14,
+               "college_junior": 15, "college_senior": 16}
+_MONTH_NAME = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+
+def _calendar_order(scenes, sec, warns):
+    """ChatGPT writes in order, so an outline should run in calendar order: a scene pinned before the one ahead of it
+    would hold the storyline until its date comes round. Say so (scene numbers and months) so it can be fixed."""
+    prev = None
+    for sc in scenes:
+        w = sc.get("when") or {}
+        ys = [_YEAR_GRADE[y] for y in (w.get("years") or []) if y in _YEAR_GRADE]
+        mo = (w.get("months") or [None])[0] or (int(w["not_before"][:2]) if w.get("not_before") else None)
+        n = sec.entry_of.get(sc["id"])
+        if not ys or mo is None or n is None:
+            continue
+        pos = ys[0] * 12 + YEAR_MONTHS.index(mo)
+        if prev is not None and pos < prev[0]:
+            warns.append((sec.n, f"scene {n} ({_MONTH_NAME[mo]}) is earlier on the calendar than scene {prev[1]} before it: "
+                                 f"scenes play in order, so it would wait for scene {prev[1]}. Move one, or renumber them"))
+        if prev is None or pos >= prev[0]:
+            prev = (pos, n)
+
+
 def _same_months(sc, sec) -> bool:
     """True if the scene's months are just the storyline's own (from years:), not one of its own."""
     w = sc.get("when") or {}
@@ -1711,7 +1738,7 @@ def place(scenes: list, years, months, keep=(), total=None, slot_of=None):
     total/slot_of: an outlined storyline spaces by its outline (unwritten scenes keep their place)."""
     from . import calendar as calm
     ys = concrete_years(years) or ["freshman"]
-    ms = [m for m in SCHOOL_MONTHS + [7, 8] if m in (months or SCHOOL_MONTHS)]
+    ms = [m for m in YEAR_MONTHS if m in (months or SCHOOL_MONTHS)]
     days = []  # every day it could be, in order: (year, month, day)
     for y in ys:
         for mo in ms:
@@ -2473,7 +2500,8 @@ def prompt_plan(headers: str, ask: str = "", current: str | None = None) -> str:
 
 
 # ---------------------------------------------------------------------------------------------------- outline, then batches
-WHEN_WORDS = ("a month (September ... August), a season (fall, winter, spring, summer), a holiday (Halloween, Thanksgiving, "
+WHEN_WORDS = ("a month (September ... August), early / mid / late and a month (late September), a season (fall, winter, "
+              "spring, summer, school year), a holiday (Halloween, Thanksgiving, "
               "Christmas Eve, New Year's Eve, Valentine's Day, Easter, Mother's Day, July 4th...), a school day (first day of "
               "school, homecoming, homecoming week, prom, finals week, spring break, winter break, last day of school, "
               "graduation), weekend, a school year (sophomore) if it's not the storyline's, and big for a turning point. Or "
@@ -2515,6 +2543,9 @@ outline:
 Soffer`), or who they are if they aren't on it (`cast: kayla = friend of ally, girl`; `cast: coach = coach`). Mom, Dad, \
 teachers and other walk-ons don't need a cast line.
 - `years:` the school years it covers: {years_words} (or a range: freshman-sophomore).
+- The year runs in two seasons: the School Year (September through May) and the Summer (June through August). Put each \
+scene in the season it happens in, and keep the outline in calendar order: scene 5 never comes before scene 4 on the \
+calendar (a long storyline can run across seasons and years; the game splits it by season).
 - Each line: number, title, when, what happens. When is {when_words}
 - A branch: add `| only if you picked "<a choice>" in <number>` (or `unless you picked ...`) to a scene that only happens \
 after a certain choice in an earlier scene. Use them for the moments that matter, not everywhere.

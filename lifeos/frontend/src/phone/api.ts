@@ -86,7 +86,17 @@ export type SportsView = {
   recruiting?: { grade: number | null; score: number | null; interest: { name: string; level: number; tier: string }[];
     offers: { name: string; short: string; aid: string; conference: string }[] };
 };
+export type SeasonReport = {
+  season: string; label: string; next: string; next_label: string; played: number; missed: number; seconds: number;
+  storylines: { pack: string; name: string; played: number; missed: { title: string; why: string }[] }[];
+  teams: { team: string; level: string; sport: string; games: number; starts: number; record: string; line: string }[];
+  moments: { date: string; text: string }[];
+  cleaned: { traces: number; events_trimmed: number; moments: number };
+  ahead: { storylines: { pack: string; name: string; scenes: number; issues: string[] }[]; ready: number; need: number; scenes: number };
+};
+export type SeasonBreakState = { status: "due" | "done"; from: string; to: string; from_label: string; to_label: string; report: SeasonReport | null };
 export type PhoneState = {
+  season_break?: SeasonBreakState | null; season?: { id: string; label: string; part: string; ends: string; days_left: number };
   active: boolean; day: number; date: string; weekday: string; term: string; scene: Scene; decision_ready: boolean;
   progress: { day: number; total: number; pct: number; year: number; complete: boolean }; title: string;
   me: any; moments: Moment[]; feed: FeedItem[]; last_event: number; unread: number; needs_reply: number;
@@ -244,6 +254,8 @@ export type LeagueView = {
 };
 export type LeagueLine = { league: string; label: string; kind: string; line: string | null; in_season?: boolean };
 export const phoneApi = {
+  seasonBreak: (): Promise<{ ok: boolean; report: SeasonReport | null }> => api.post("/api/phone/season/break", {}),
+  seasonSeen: () => api.post("/api/phone/season/seen", {}),
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),
   choices: (): Promise<{ ready: boolean; slot?: string; scene?: Scene; options?: Choice[]; busy?: { id: string; first: string; what: string }[] }> =>
     api.get("/api/phone/choices"),

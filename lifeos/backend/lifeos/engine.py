@@ -163,6 +163,9 @@ class Simulation:
         if w.day > 0 and calm.date_of(w.day).month == 9 and calm.date_of(w.day).day == 1:
             self.institutions.new_year()
             self._refresh_day()
+        if w.meta.get("protagonist"):
+            from . import seasons
+            seasons.on_dawn(self)  # a new season (Sept 1, June 1): the story stops for the season break
         from . import college, pets
         college.daily(self)
         pets.dawn(self)

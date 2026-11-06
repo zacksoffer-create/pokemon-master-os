@@ -181,7 +181,7 @@ def test_season_windows_keep_the_calendar_real():
     assert info["bro_team_05_tryouts"]["window"] == {"from": [11, 16], "to": [12, 2]}
     assert info["hc_ask"]["window"] == {"from": [10, 2], "to": [10, 23]} and info["hc_dance_a"]["window"] == {"from": [10, 17], "to": [10, 25]}
     assert info["hc_after_a"]["window"] == {"from": [10, 18], "to": [10, 30]}
-    assert info["bro_graduation_day"]["window"] == {"from": [6, 8], "to": [6, 19]}
+    assert info["bro_graduation_day"]["window"] == {"from": [5, 25], "to": [6, 5]}  # school's out May 31: graduation is May 29
     assert info["college_move_in"]["window"] == {"from": [8, 20], "to": [9, 15]}
     sept = calm.md_to_day(0, (9, 15))
     assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], sept)[0] == "wrong_season"
@@ -270,7 +270,7 @@ def test_a_seven_year_dry_run_accounts_for_every_scene(tmp_path):
     assert month("bro_team_01_first_morning") in (8, 9) and month("bro_team_05_tryouts") in (11, 12)
     assert month("brother_final_13_senior_night") == 2 and month("bro_team_17_last_school_game") in (2, 3), "the end of his last season"
     assert done["brother_final_13_senior_night"][-1] < done["bro_team_17_last_school_game"][-1]
-    assert done["bro_team_17_last_school_game"][-1] < done["bro_graduation_day"][-1] and month("bro_graduation_day") == 6
+    assert done["bro_team_17_last_school_game"][-1] < done["bro_graduation_day"][-1] and month("bro_graduation_day") in (5, 6)
     assert month("baseball_01_tryouts") in (2, 3) and month("baseball_03_varsity_call") in (4, 5, 6)
     assert calm.school_year_of(done["college_move_in"][-1]) - calm.school_year_of(done["bro_team_01_first_morning"][-1]) == 4
     assert month("college_move_in") in (8, 9)

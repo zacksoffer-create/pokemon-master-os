@@ -184,6 +184,10 @@ class Lab:
                 tried = set()
                 while True:
                     with self.lock:
+                        from . import seasons
+                        if seasons.due(w):
+                            reason = "season_break"  # the season's over: its loading screen first
+                            break
                         pend = moments.pending(w)
                         if until == "episode":
                             if any(scheduler.is_episode(sim, m["kind"]) for m in pend):
@@ -2111,7 +2115,7 @@ def api_dialogue_scene_timing(pid: str, body: dict = Body(...)):
     if not r["ok"]:
         return JSONResponse({"detail": "that timing doesn't work for this scene", "errors": r["errors"]}, status_code=422)
     _dialogue_changed(get_lab())
-    return _dialogue_list()
+    return {**_dialogue_list(), "moved_too": r.get("moved_too") or []}
 
 
 @app.post("/api/dialogue/packs/{pid}/enabled")

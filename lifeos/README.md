@@ -358,6 +358,35 @@ Guilford has seven high school teams, each with its own coach, tryouts and sched
   of this year's tryouts and games, girls on boys' teams move to the girls' team for that season (keeping varsity or JV),
   a girl's baseball becomes softball, some kids pick up soccer, and a college you're already at gets its women's teams.
 
+## Seasons: the School Year and the Summer
+
+The year runs in two seasons: the **School Year** (September 1, or whenever your story starts, to May 31) and the
+**Summer** (June 1 to August 31). School's out May 31: spring finals are May 24, final report cards May 28, graduation
+May 29, and summer break starts June 1.
+
+- **The season break.** When a season ends the story stops for a short loading screen (like a career mode's end of
+  season; anything that's moving your story forward, Next episode included, stops there first). It:
+  - closes the books: every storyline's scenes that played this season and the ones that didn't (tap one for why),
+    your teams' records and your lines, the season's big moments;
+  - clears out what the game only kept to explain the past (each decision's every option, each event's step-by-step
+    changes, finished scenes). The events themselves and everything that happened stay. On a real save at the end of
+    November this took the history from 35 MB to 2.6 MB (the backup file from 6.5 MB to 2.4 MB), so saves stay small
+    and quick all seven years;
+  - looks ahead: every storyline with scenes in the new season, and anything that would stop them (nobody to cast yet,
+    game scenes for a team you're not on), while you can still fix it;
+  - keeps the season's summary (for the yearbook). Then **On to the summer** (or the next school year) and you're off.
+- **Storylines know the seasons.** A storyline with no months of its own spreads across the School Year (September to
+  May); summer scenes are the ones in June, July or August (or tagged summer). A long storyline runs across seasons and
+  years, and Read it shows it split by season: Freshman, Summer after freshman year, Sophomore...
+- **Timing words**: a month, `early / mid / late` and a month (`late September`: the second half), a season (fall,
+  winter, spring, summer, school year), a holiday or a school day. The outline prompt tells ChatGPT the two seasons and to
+  keep the outline in calendar order, and a pasted outline that isn't (scene 5 in September after scene 4 in October)
+  gets a note saying which scenes to move.
+- **Move a scene** (Read it → tap its date): pick a school year and a month. The rest of the storyline can't get
+  stranded: a later scene pinned to before the new time moves with it (and plays right after it), an earlier one pinned
+  to after it moves back, and scenes with no time of their own re-space themselves around it. You're told which ones
+  moved.
+
 ## Your games line up with your storylines
 
 A storyline decides its games, so the scores, your stats and your team's record always match what it says happened:

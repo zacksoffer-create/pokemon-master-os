@@ -1543,3 +1543,40 @@ html.ph-docscroll body { overflow-x: hidden; }
 .ph-diag-parts input { width: 20px; height: 20px; }
 
 .ed-team-why { display: block; margin-top: 6px; font-size: 12.5px; }
+
+/* ---------- the season break (end of the School Year / the Summer) ---------- */
+.sb-load, .sb-report { min-height: 100%; padding: calc(28px + env(safe-area-inset-top)) 20px calc(28px + env(safe-area-inset-bottom)); }
+.sb-load { display: flex; flex-direction: column; justify-content: center; background: linear-gradient(180deg, #2a2140 0%, #43305e 100%); color: #fff; }
+.sb-kicker { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ph-coral); margin-bottom: 6px; }
+.sb-load h1 { color: #fff; font-size: 32px; margin-bottom: 22px; }
+.sb-bar { height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.15); overflow: hidden; margin-bottom: 22px; }
+.sb-bar i { display: block; height: 100%; background: linear-gradient(90deg, #ff8a5c, #ffc35c); border-radius: 999px; transition: width 1.2s ease; }
+.sb-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.sb-steps li { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; color: rgba(255, 255, 255, 0.45); }
+.sb-steps li.now { color: #fff; }
+.sb-steps li.done { color: rgba(255, 255, 255, 0.8); }
+.sb-steps li.done svg { color: #7be0b0; }
+.sb-dot { width: 15px; height: 15px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); flex-shrink: 0; }
+.sb-note { margin-top: 26px; font-size: 13px; color: rgba(255, 255, 255, 0.6); }
+.sb-err { margin-top: 18px; color: #ffb4a8; }
+.sb-report h1 { font-size: 30px; margin-bottom: 4px; }
+.sb-sub { color: var(--ph-ink-2); font-weight: 700; margin: 0 0 16px; }
+.sb-card { background: #fff; border-radius: 22px; padding: 16px; margin-bottom: 12px; box-shadow: var(--ph-shadow); }
+.sb-card h3 { font-size: 17px; margin-bottom: 10px; }
+.sb-team { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 8px 0; border-top: 1px solid var(--ph-line); }
+.sb-team:first-of-type { border-top: 0; }
+.sb-team small { grid-column: 1 / -1; color: var(--ph-dim); font-weight: 600; }
+.sb-rec { font-weight: 900; font-size: 18px; color: var(--ph-ink); }
+.sb-moment { margin: 0 0 8px; font-weight: 600; color: var(--ph-ink-2); line-height: 1.35; }
+.sb-moment small { display: block; font-size: 11.5px; color: var(--ph-dim); font-weight: 800; }
+.sb-story { border-top: 1px solid var(--ph-line); }
+.sb-story:first-of-type { border-top: 0; }
+.ph-root .sb-story-h { display: flex; justify-content: space-between; gap: 10px; width: 100%; padding: 9px 0; text-align: left; --btn-bg: transparent; }
+.sb-story-h b { font-size: 14px; }
+.sb-story-h span { font-size: 12.5px; color: var(--ph-dim); font-weight: 700; white-space: nowrap; }
+.sb-miss { display: block; padding: 0 0 6px 10px; color: var(--ph-ink-2); }
+.sb-issue { padding: 8px 0; border-top: 1px solid var(--ph-line); display: flex; flex-direction: column; gap: 3px; }
+.sb-issue small { color: #b5502f; font-weight: 600; }
+.sb-clean { font-size: 12.5px; color: var(--ph-dim); margin: 6px 4px 16px; line-height: 1.4; }
+.ph-screen.tab-season { padding-bottom: 0 !important; }
+.tab-season .sb-load, .tab-season .sb-report { min-height: 100vh; min-height: 100dvh; }

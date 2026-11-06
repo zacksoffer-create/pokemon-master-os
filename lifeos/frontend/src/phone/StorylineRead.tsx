@@ -137,8 +137,11 @@ function MoveSheet({ scene, onClose, onSaved }: { scene: ReadScene | null; onClo
     if (!scene) return;
     setBusy(true);
     try {
-      await phoneApi.moveScene(scene.pack, scene.sid, year, month);
-      toast("Moved. Playing your seven years again…", "good");
+      const r: any = await phoneApi.moveScene(scene.pack, scene.sid, year, month);
+      const too: { n: number; title: string }[] = r?.moved_too || [];
+      toast(too.length
+        ? `Moved, and ${too.length === 1 ? `“${too[0].title}” moved` : `${too.length} scenes it would have stranded moved`} with it so the storyline still plays in order.`
+        : "Moved. Playing your seven years again…", "good");
       onSaved();
     } catch (e: any) {
       toast(e?.errors?.[0] || errText(e), "bad");

@@ -200,8 +200,8 @@ NAMED_DAYS = {  # name -> what it is (for the guide and the checker)
 }
 APPROX_MD = {"thanksgiving": "11-25", "black_friday": "11-26", "easter": "04-08", "mothers_day": "05-10", "fathers_day": "06-17",
              "memorial_day": "05-28", "labor_day": "09-05", "mlk_day": "01-17", "presidents_day": "02-18", "columbus_day": "10-10",
-             "super_bowl": "02-06", "first_day_of_school": "09-01", "last_day_of_school": "06-12", "homecoming": "10-18",
-             "homecoming_week": "10-12", "snow_ball": "02-14", "prom": "05-16", "prom_week": "05-10", "graduation": "06-14",
+             "super_bowl": "02-06", "first_day_of_school": "09-01", "last_day_of_school": "05-31", "homecoming": "10-18",
+             "homecoming_week": "10-12", "snow_ball": "02-14", "prom": "05-16", "prom_week": "05-10", "graduation": "05-29",
              "midterms": "10-24", "midterms_week": "10-18", "finals": "12-18", "finals_week": "12-12", "report_cards": "11-07",
              "thanksgiving_break": "11-26", "winter_break": "12-20", "spring_break": "04-04"}
 _EVENT_NAMES = {"midterms_fall": "midterms", "midterms_spring": "midterms", "finals_fall": "finals", "finals_spring": "finals",

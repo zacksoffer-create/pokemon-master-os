@@ -636,9 +636,12 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
                            "dated": bool((sc.get("when") or {}).get("dates")),
                            "outline_n": next((e["n"] for e in g["pack"].get("outline") or [] if e.get("sid") == sc["id"]), None)})
     y0 = calm.school_year_of(((sim.w.meta.get("story") or {}).get("start_day", 0)))
+    from .seasons import part_of
     for x in scenes:
         yi = calm.school_year_of(x["day"]) - y0 if x["plays"] else -1
         x["year"] = YEAR_LABEL[yi] if 0 <= yi < len(YEAR_LABEL) else None
+        if x["year"] and part_of(x["day"]) == "summer":  # a long storyline reads in seasons: the school year, then its summer
+            x["year"] = f"Summer after {x['year'].lower()} year"
     scenes.sort(key=lambda x: (not x["plays"], x["day"] if x["plays"] else 0, x["pack"] != group[0]["id"], x["n"]))
     for g in group:  # an outlined storyline: the scenes it plans that aren't written yet
         for e in g["pack"].get("outline") or []:
