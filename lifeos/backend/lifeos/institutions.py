@@ -126,6 +126,8 @@ class Institutions:
                     continue
                 if g["kind"] == "team" and (not sports.can_play(c, g) or sports.clash(w, c, g)):
                     continue  # boys' and girls' teams; one sport a season
+                if g["kind"] == "team" and g.get("school") != "college" and sports.placement(c, g["skill"]) == "out":
+                    continue  # a recruit plays his own sport; or the editor says they don't play this one
                 if c.school == "college" and g["kind"] == "team" and c.path.get("sport") and g["skill"] != c.path["sport"]:
                     continue
                 out.append((g["id"], it, f"{it['name']} on {calm.label(it['day'])}"))
@@ -495,9 +497,23 @@ class Institutions:
         w, R = sim.w, sim.w.rules
         g = w.groups[it["group"]]
         reg = list(w.registrations.get(it["key"], []))
+        placed = {}
+        hs_team = g["kind"] == "team" and g.get("school") != "college"
         if g["kind"] == "team":
             reg = [cid for cid in reg if cid in w.chars and sports.can_play(w.chars[cid], g)]
-        came = sorted(set(sim.slot.attend.get(("event", it["key"]), [])) & set(reg))
+        if hs_team:
+            # where someone plays isn't always up to the tryout: a recruit is varsity in his sport (and nothing else), and
+            # the editor can put anyone on varsity, JV or off a team. They're counted as there, signed up or not.
+            for c in w.students():
+                if c.school == g.get("school", "hchs") and c.status == "active" and sports.can_play(c, g):
+                    p = sports.placement(c, g["skill"])
+                    if p in ("varsity", "jv"):
+                        placed[c.id] = p
+                    elif p == "out":
+                        placed[c.id] = "out"
+            reg = [cid for cid in reg if placed.get(cid) != "out"]
+        came = sorted((set(sim.slot.attend.get(("event", it["key"]), [])) & set(reg))
+                      | {cid for cid, p in placed.items() if p != "out"})
         noshow = sorted(set(reg) - set(came))
         coach = w.chars.get(g.get("staff"))
         ev = self.event("tryout", "held", came, importance=20, group=g["id"],
@@ -535,20 +551,31 @@ class Institutions:
         rows.sort(key=lambda r: (-r["score"], r["char"]))
         cap = g["capacity"]
         jv_cap = g.get("jv_capacity", 0)
-        jv_used = 0
-        for i, r in enumerate(rows):
-            r["made"] = i < cap
-            r["level"] = "varsity" if i < cap else None
-            if not r["made"] and jv_used < jv_cap and (w.chars[r["char"]].grade or 12) <= 11:
-                r["made"] = True
-                r["level"] = "jv"
-                jv_used += 1
+        pinned = {r["char"]: placed[r["char"]] for r in rows if placed.get(r["char"]) in ("varsity", "jv")}
+        var_left = cap - sum(1 for p in pinned.values() if p == "varsity")
+        jv_left = jv_cap - sum(1 for p in pinned.values() if p == "jv")
+        # football has a freshman team: freshmen play JV (the rule can turn it off)
+        fresh_jv = (hs_team and jv_cap > 0 and g["skill"] == "football" and bool(R.get("inst.freshman_football", True)))
+        for r in rows:
+            c_ = w.chars[r["char"]]
+            if r["char"] in pinned:
+                r["made"], r["level"], r["placed"] = True, pinned[r["char"]], True
+            elif var_left > 0 and not (fresh_jv and (c_.grade or 12) == 9):
+                r["made"], r["level"] = True, "varsity"
+                var_left -= 1
+            elif jv_left > 0 and (c_.grade or 12) <= 11:
+                r["made"], r["level"] = True, "jv"
+                jv_left -= 1
+            else:
+                r["made"], r["level"] = False, None
         ev["calc"] = [{"step": f"{coach.name if coach else 'Selection'}'s evaluation",
                        "weights": {"talent": round(wt, 3), "effort": round(we * 0.6, 3), "favoritism": wf,
                                    "coach_competitiveness": coach.traits["competitiveness"] if coach else None,
                                    "coach_discipline": coach.traits["discipline"] if coach else None},
                        "rule": f"score = talent x performance + effort weight x effort + favoritism + seniority; top {cap} make it"
-                               + (f", the next {jv_cap} (grades 9-11) make JV" if jv_cap else ""),
+                               + (f", the next {jv_cap} (grades 9-11) make JV" if jv_cap else "")
+                               + ("; freshmen play JV" if fresh_jv else "")
+                               + (f"; placed: {', '.join(f'{k} {v}' for k, v in sorted(pinned.items()))}" if pinned else ""),
                        "rows": rows}] if w.tracing else None
         ev["data"]["rows"] = rows
         for cid in noshow:
@@ -688,6 +715,7 @@ class Institutions:
             return (c.school == g.get("school", "hchs") and g["id"] not in c.memberships and c.flags.get("injured_until", -1) < w.day
                     and sports.can_play(c, g) and not sports.clash(w, c, g)
                     and not (g.get("school") == "college" and (c.path or {}).get("sport") and c.path["sport"] != sk)
+                    and not (g.get("school") != "college" and sports.placement(c, sk) == "out")
                     and not any(w.groups[m]["kind"] == "team" and self.in_season(w.groups[m]) for m in c.memberships))
         pool = sorted((c for c in w.students() if c.interests.get(sk, 0) >= 30 and free(c)),
                       key=lambda c: (-(sports.rating(c, sk) + c.interests.get(sk, 0) * 0.3), c.id))[:need]

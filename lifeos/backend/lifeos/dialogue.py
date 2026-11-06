@@ -582,7 +582,8 @@ def _check_range(R, where, rng, lo, hi):
 
 
 WHEN_KEYS = {"chance", "years", "months", "dates", "weekdays", "requires", "you_feel", "they_feel", "me",
-             "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days", "not_before", "not_after", "importance"}
+             "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days", "not_before", "not_after", "importance",
+             "game"}
 
 
 def _check_scene(R, where, sc, seen_ids):
@@ -701,6 +702,10 @@ def _check_scene(R, where, sc, seen_ids):
                     R.err(w, "is a list of scene ids that have to happen first")
         elif k == "gap_days":
             _num(R, w, v, 0, 2600)  # up to the whole seven years: a long authored gap is the author's call
+        elif k == "game":  # one of your games: {"sport", "result": win|loss, "me": great|good|quiet|bad}
+            if not isinstance(v, dict) or v.get("result") not in (None, "win", "loss") or v.get("me") not in (None, "great", "good", "quiet", "bad") \
+                    or v.get("sport") not in (None, "football", "basketball", "baseball", "soccer", "softball"):
+                R.err(w, "is one of your games: game: win or loss, and how you play (I play great, well, quietly or badly)")
         elif k in ("not_before", "not_after"):
             if not isinstance(v, str) or not re.match(r"^(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$", v):
                 R.err(w, 'is a month-day inside the school year, like "11-15"')
@@ -1394,8 +1399,11 @@ def prompt_for_games(pid: str) -> str:
         "Make that clear and exact.",
         "",
         "Rewrite it so that:",
+        "- A scene that is one of my games (the game itself) is tagged `game: win` or `game: loss`, with how I play when it "
+        "matters: `game: loss, I play great` (great, well, quietly or badly). It plays on a game day, before the game.",
         "- Every scene that comes after one of my games and takes a result for granted is tagged with it: [if we won], "
         "[if we lost], [if I played great], [if I won it] (I won it in the big moment). The game will go that way.",
+        "- If it's a whole season, put `record: <wins>-<losses>` under the title so the season comes out that way.",
         ("- It has an outline: put the tag at the end of that scene's outline line instead (`| if we won`), not on the scene."
          if outlined else "- Scenes before a game (getting ready, nerves) don't need a tag."),
         "- Where a line mentions the game, the score or how I did, use the real words so they match the box score: {last_game} "

@@ -103,6 +103,7 @@ def person(sim, cid) -> dict:
             "skills": _round(c.skills), "interests": _round(c.interests), "needs": _round(c.needs),
             "mood": round(c.mood, 1), "popularity": round(c.popularity, 1), "money": round(c.money, 2), "gpa": round(c.gpa, 2),
             "student": c.role in ("student", "alumni"), "partner": c.flags.get("partner"), "flirt": flirt_view(c),
+            "teams": teams_view(sim, c),
             "with_me": None if cid == me or not me else {"ab": _rel_view(w.rels.get((me, cid))), "ba": _rel_view(w.rels.get((cid, me)))},
             "rels": rels[:24]}
 
@@ -176,6 +177,10 @@ def save_person(sim, cid, body: dict) -> dict:
             x = _flirt(c, val, errors)
             if x is not None:
                 plan.append(("flirt", None, x))
+        elif key == "teams":
+            x = _teams(sim, c, val, errors)
+            if x is not None:
+                plan.append(("teams", None, x))
         elif key in WHO:
             x = _who(sim, c, key, val, body, errors)
             if x is not None:
@@ -210,6 +215,19 @@ def save_person(sim, cid, body: dict) -> dict:
                 for k in list(known):
                     if k in now:
                         known[k] = now[k]
+        elif key == "teams":
+            before = dict(c.flags.get("teams") or {})
+            if w.tracing:
+                ev["changes"].append([cid, "teams", before, v, "editor"])
+            if v:
+                c.flags["teams"] = v
+            else:
+                c.flags.pop("teams", None)
+            from . import sports
+            for sk in sorted(set(before) | set(v)):
+                said = sports.place_now(sim, c, sk)  # a season under way: they're on (or off) the team now
+                if said:
+                    ev["data"].setdefault("teams", []).append(said)
         elif key in ("first", "last", "bio", "look") or key in WHO:
             attr = {"birthday": "birth_day"}.get(key, key)
             if w.tracing:
@@ -266,6 +284,65 @@ def _flirt(c, val, errors):
             bad = True
         else:
             out[k] = int(v)
+    return None if bad else out
+
+
+# --- their high school teams: tryouts decide, or you do -----------------------------------------------------------------
+
+TEAM_SAY = {"varsity": "Varsity", "jv": "JV / freshman team", "out": "Doesn't play"}
+
+
+def teams_view(sim, c) -> list:
+    """For each high school team they could be on: where they play now, what's set here, and what decides it otherwise."""
+    from . import sports
+    w = sim.w
+    if c.role != "student" or c.school != "hchs":
+        return []
+    mine = (c.flags or {}).get("teams") or {}
+    pre = (c.flags or {}).get("preset_path") or {}
+    out = []
+    for g in sorted(w.groups.values(), key=lambda g: g["id"]):
+        if g["kind"] != "team" or g.get("school") != "hchs" or not sports.can_play(c, g):
+            continue
+        sk = g["skill"]
+        why = None
+        if sk not in mine:
+            p = sports.placement(c, sk)
+            if p and pre.get("sport"):
+                col = sim.cat.college_by_id.get(pre.get("college"), {}).get("short") or "college"
+                why = (f"Recruited to play {pre['sport']} at {col}: varsity every year" if p == "varsity"
+                       else f"Sticks to {pre['sport']} (recruited to {col})")
+            elif sk == "football" and (c.grade or 0) == 9 and g.get("jv_capacity") and w.rules.get("inst.freshman_football", True):
+                why = "Freshmen play on the freshman team (JV)"
+        now = (g.get("levels") or {}).get(c.id, "varsity") if g["id"] in c.memberships else None
+        out.append({"sport": sk, "team": g["name"], "set": mine.get(sk), "now": now, "why": why,
+                    "season": [g["season"]["start"], g["season"]["end"]] if g.get("season") else None})
+    return out
+
+
+def _teams(sim, c, val, errors):
+    """{"football": "jv", "basketball": "varsity", "baseball": "out"} on top of what's set; a sport set to null goes back
+    to tryouts deciding, and null for the whole thing clears it. -> the new set (None: something's wrong, in errors)."""
+    from . import sports
+    if val is None:
+        return {}
+    if not isinstance(val, dict):
+        errors.append("teams must be an object of sport: varsity, jv, out (or null)")
+        return None
+    ok = {t["sport"] for t in teams_view(sim, c)}
+    out = dict((c.flags or {}).get("teams") or {})
+    bad = False
+    for k, v in val.items():
+        if k not in ok:
+            errors.append(f"{c.short} can't be on a {k} team here" if k in sports.SPORTS else f"{k} isn't a sport with a team")
+            bad = True
+        elif v is None:
+            out.pop(k, None)
+        elif v not in sports.PLACEMENTS:
+            errors.append(f"teams.{k} must be varsity, jv or out")
+            bad = True
+        else:
+            out[k] = v
     return None if bad else out
 
 

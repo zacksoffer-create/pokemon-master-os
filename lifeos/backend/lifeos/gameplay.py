@@ -291,6 +291,51 @@ def assumed_result(title: str, text: str, sporty: bool = False) -> str | None:
 DECIDES = {"we_won": "win", "i_won_it": "win", "we_lost": "loss"}
 
 
+def season_targets(sim) -> list:
+    """The season records your storylines set (`record: 7-3`): [{"pack", "sport", "w", "l", "grades"}], read once per
+    set of storylines."""
+    from . import dialogue, scheduler
+    cat = scheduler.catalog(sim)
+    have = cat.get("_records")
+    if have is not None:
+        return have
+    out = []
+    for p in dialogue.packs():
+        rec = (p.get("pack") or {}).get("record")
+        pk = p["id"]
+        if not rec or pk not in cat["chapters"]:
+            continue
+        sids = cat["chapters"][pk]
+        sports_ = [(((cat["info"].get(s) or {}).get("game_day") or {}).get("sport") or (cat["info"].get(s) or {}).get("sport")) for s in sids]
+        sport = rec.get("sport") or max(set(x for x in sports_ if x) or {None}, key=lambda x: sports_.count(x))
+        grades = set()
+        for s in sids:
+            grades |= set(scheduler._years(cat["scenes"][s].get("when") or {}))
+        out.append({"pack": pk, "sport": sport, "w": int(rec["w"]), "l": int(rec["l"]), "grades": sorted(grades)})
+    cat["_records"] = out
+    return out
+
+
+def record_pull(sim, me, g, level, sport):
+    """How a storyline's season record (`record: 7-3`) leans your next game: "win" or "loss" when the rest of the season
+    has to go that way to land on it, else points of margin toward it (a nudge, not a script), or None."""
+    from . import calendar as calm
+    t = next((x for x in season_targets(sim) if x["sport"] == sport and (not x["grades"] or (me.grade or 0) in x["grades"])), None)
+    if t is None:
+        return None
+    rec = g.get("record_jv" if level == "jv" else "record") or {"w": 0, "l": 0}
+    yr = calm.school_year_of(sim.w.day)
+    left = sum(1 for i in sim.w.calendar if i.get("kind") == "game" and i.get("group") == g["id"] and i["day"] >= sim.w.day
+               and calm.school_year_of(i["day"]) == yr) or 1
+    need_w = t["w"] - rec["w"]
+    need_l = t["l"] - rec["l"]
+    if need_w >= left or need_l <= 0:
+        return "win" if need_w > 0 else ("loss" if need_l > 0 else None)
+    if need_l >= left or need_w <= 0:
+        return "loss"
+    return round((need_w / (need_w + need_l) - 0.5) * 16, 2)
+
+
 def storyline_calls(sim, me, sport) -> dict | None:
     """Does a storyline need your next game to go a certain way? The next chapter of a storyline played in order that's
     waiting only on a game, says (or takes for granted) how it went, and has no other-way twin: {"result": win|loss,
@@ -298,9 +343,20 @@ def storyline_calls(sim, me, sport) -> dict | None:
     from . import dialogue, scheduler
     cat = scheduler.catalog(sim)
     calls = []
+    done = scheduler.done_map(sim.w)
+    for sid, days in done.items():  # a game scene you played today (`game: loss, I play great`) says how today's game goes
+        gd = (cat["info"].get(sid) or {}).get("game_day")
+        if not gd or days[-1] != sim.w.day or gd["sport"] != sport or not (gd.get("result") or gd.get("me")):
+            continue
+        pk = cat["scenes"][sid].get("pack")
+        p = next((x for x in dialogue.packs() if x["id"] == pk), None)
+        calls.append({"result": gd.get("result"), "great": gd.get("me") == "great", "me": gd.get("me"), "won_it": False,
+                      "storyline": (p or {}).get("pack", {}).get("name") or pk, "scene": sid})
+    if calls:
+        return calls[0]
     for pk in sorted(cat["ordered"]):
         sid, why = scheduler.next_chapter(sim, me, pk, cat)
-        if not sid or not why or why[0] != "waiting_for_game" or (cat.get("twins") or {}).get(sid):
+        if not sid or not why or why[0] not in ("waiting_for_game", "after_game") or (cat.get("twins") or {}).get(sid):
             continue
         info = cat["info"].get(sid) or {}
         if info.get("sport") and info["sport"] != sport:
@@ -310,7 +366,7 @@ def storyline_calls(sim, me, sport) -> dict | None:
         if len(res) == 1:
             p = next((x for x in dialogue.packs() if x["id"] == pk), None)
             calls.append({"result": res.pop(), "great": bool(reqs & {"i_played_great", "i_won_it"}), "won_it": "i_won_it" in reqs,
-                          "storyline": (p or {}).get("pack", {}).get("name") or pk, "scene": sid})
+                          "storyline": (p or {}).get("pack", {}).get("name") or pk, "scene": sid, "me": None})
     if not calls or len({c["result"] for c in calls}) > 1:
         return None
     return calls[0]

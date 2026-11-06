@@ -380,7 +380,24 @@ A storyline decides its games, so the scores, your stats and your team's record 
   (the touchdown, the homer, the late three; or the stop, the strikeout) and in the write-up. It can swing a close game,
   but a storyline that calls the game always wins: miss the big moment in a game the storyline says you won, and the
   write-up says the team held on.
-- **ChatGPT knows.** The outline prompt has it say how each game went (`| if we won`), and the guide teaches the tags and
+- **A scene that IS one of your games**: `game: win` or `game: loss, I play great` (how you play: great, well, quietly or
+  badly; in an outline, a line ending `| game: loss, I play great`). It waits for a day you have a game (a debut waits for
+  the season's first, "the last game" / "the final game" for its last) and plays that afternoon, before the game. The
+  game goes that way, the result and how you play, while the big moment you play yourself still moves your stat line:
+  you can't score three touchdowns in a game the storyline says you lost quietly, but a great big moment in a loss still
+  shows. The scene after it waits for the game to be played and comes that night. A `| play football` scene whose words
+  are about a game (game day, kickoff, the opener, the final game) is a game scene too, without the tag.
+- **The season's record**: `record: 7-3` under a storyline's title. The games its scenes don't call lean toward 7-3, and
+  the season lands there by the end (the last games go whichever way it needs).
+- **The storyline's calendar keeps up with the season**: a storyline played in order makes room for what's still ahead
+  of it. Ten September scenes still to come make the next one due ten days before September ends, and one that's
+  behind can play a few in a day to catch up, so a season storyline's game scenes land on the real games instead of
+  drifting into November. "early / mid / late September" are real windows (the first half, the middle, the second half).
+- **Who's on the team**: football has a freshman team, so freshmen play JV (the rule can be turned off). A recruit (Mike,
+  headed to UConn) is varsity in his sport every year, signed up or not, and doesn't play anything else. And the editor's
+  **Teams** section (any student: Me → edit, or Everyone) puts anyone on varsity, JV or off a team: right away if the
+  season's under way, at the next tryout if not. Start over keeps it. JV plays the same school varsity plays that day.
+- **ChatGPT knows.** The outline prompt has it say how each game went (`| game: loss`, `| if we won`, `record:`), and the guide teaches the tags and
   words. For a storyline you already have: Story Studio → Storylines → open it → **Match it to your real games: copy the
   prompt** tags the scenes that take a result for granted and swaps made-up scores for the real words; paste its answer
   with **Paste a script** (the old version stays under Older versions). You don't have to: scenes that clearly say how a

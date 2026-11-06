@@ -19,6 +19,7 @@ export type EdPerson = EdMini & { last: string; bio: string; gender: string; gra
   interests: Record<string, number>; needs: Record<string, number>; mood: number; popularity: number; money: number; gpa: number; student: boolean;
   partner: string | null; with_me: { ab: EdRel | null; ba: EdRel | null } | null;
   flirt?: { styles: { style: string; label: string; value: number; say: string; set: boolean; personality: number }[]; custom: boolean };
+  teams?: { sport: string; team: string; set: "varsity" | "jv" | "out" | null; now: "varsity" | "jv" | null; why: string | null }[];
   pronouns: string; attracted_to: string[]; birthday: [number, number]; archetype: string; body: { height_in?: number; build?: string };
   positions: Record<string, string>; jersey: number | null; path: { kind?: string; college?: string; sport?: string }; staff: boolean; role?: string;
   rels: (EdMini & { roles: string[]; ab: EdRel | null; ba: EdRel | null })[] };

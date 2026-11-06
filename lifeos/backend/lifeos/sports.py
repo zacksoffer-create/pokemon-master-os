@@ -8,6 +8,7 @@ how much they played. Season totals feed awards, and awards plus production feed
 from __future__ import annotations
 
 import math
+import random
 
 from . import calendar as calm
 from .history import Effects
@@ -54,6 +55,48 @@ def can_play(c, g) -> bool:
     """Whether this person can be on this team: boys' teams are for boys, girls' teams for girls (nonbinary: either)."""
     want = g.get("gender")
     return not want or c.gender not in ("m", "f") or c.gender == want
+
+
+PLACEMENTS = ("varsity", "jv", "out")
+
+
+def placement(c, sport) -> str | None:
+    """Where someone plays a sport on their high school team when it isn't up to tryouts: 'varsity', 'jv' or 'out'.
+    Set in the editor (c.flags["teams"]); otherwise a recruit (a preset college path in a sport, like Mike to UConn
+    basketball) is varsity in that sport every year and plays nothing else. None: tryouts decide."""
+    p = ((c.flags or {}).get("teams") or {}).get(sport)
+    if p in PLACEMENTS:
+        return p
+    pre = (c.flags or {}).get("preset_path") or {}
+    if pre.get("sport"):
+        return "varsity" if fit_sport(pre["sport"], c.gender) == sport else "out"
+    return None
+
+
+def place_now(sim, c, sport, rng=None):
+    """Put a placement into effect on a team whose season is under way (its roster is picked): join it at that level,
+    move levels, or leave. Before tryouts there's nothing to do; tryouts honor it. -> what changed, or None."""
+    w = sim.w
+    gid = team_for(w, c, sport)
+    if gid is None or c.role not in ("student",) or c.school != "hchs":
+        return None
+    g = w.groups[gid]
+    if not g["members"]:
+        return None  # not picked yet: the tryout will do it
+    p = placement(c, sport)
+    levels = g.setdefault("levels", {})
+    if p == "out" and gid in c.memberships:
+        Effects(w, None).leave(c.id, gid, "editor")
+        levels.pop(c.id, None)
+        return f"{c.short} is off {g['name']}"
+    if p in ("varsity", "jv"):
+        if gid not in c.memberships:
+            Effects(w, None).join(c.id, gid, "editor")
+            ensure_athlete(c, sport, rng or random.Random(c.id))
+        if levels.get(c.id) != p:
+            levels[c.id] = p
+            return f"{c.short} is on {g['name']}" + (" JV" if p == "jv" else " varsity")
+    return None
 
 
 def team_for(w, c, sport, school="hchs"):
@@ -477,6 +520,12 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     else:
         opp = base + rng.gauss(0, 8)
         oname = opponent_name(sim, g, num)
+        if not college:  # JV plays the JV of the school varsity plays that day
+            from . import league as lg
+            try:
+                oname = lg.opponent(sim, g, num)["name"]
+            except Exception:  # noqa: BLE001 (no league for this team: the old list)
+                pass
     home = 2 if fans else 0
     margin = strength - opp + rng.gauss(0, 6) + home
     from . import gameplay
@@ -486,13 +535,30 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     if play:  # your big moment (the mini game) can win a close game, or lose one
         margin += gameplay.SWING.get(play["tier"], 0) * (1.0 if you_ in starters else 0.6)
     call = gameplay.storyline_calls(sim, w.chars[you_], sport) if you_ in players else None
+    if not (call and call.get("result")) and you_ in players:
+        # the season's record a storyline set (`record: 7-3`): untagged games lean toward it, and it holds at the end
+        need = gameplay.record_pull(sim, w.chars[you_], g, level, sport)
+        if need == "win" and margin <= 0:
+            margin = abs(margin) * 0.6 + 1 + rng.random() * 4
+        elif need == "loss" and margin > 0:
+            margin = -(abs(margin) * 0.6 + 1 + rng.random() * 4)
+        elif isinstance(need, float):
+            margin += need
     if call:  # a storyline says how this game goes: it goes that way (by about as much as it would have)
         if call["result"] == "win" and margin <= 0:
             margin = abs(margin) * 0.6 + 1 + rng.random() * 4
         elif call["result"] == "loss" and margin > 0:
             margin = -(abs(margin) * 0.6 + 1 + rng.random() * 4)
-        if call["great"]:
-            perf[you_] = max(perf[you_], pre[you_] + 7)
+        me_ = call.get("me") or ("great" if call["great"] else None)
+        # how you play: the storyline sets the level, and the big moment you play yourself still moves your line
+        if me_ == "great":
+            perf[you_] = max(perf[you_], pre[you_] + 9)
+        elif me_ == "good":
+            perf[you_] = max(perf[you_], pre[you_] + 3)
+        elif me_ == "quiet":
+            perf[you_] = min(perf[you_], pre[you_] - 5)
+        elif me_ == "bad":
+            perf[you_] = min(perf[you_], pre[you_] - 11)
     win = margin > 0
     score = inst.score_line(sport, margin, rng)
     tds = None

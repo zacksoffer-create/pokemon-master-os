@@ -791,6 +791,13 @@
      "max": 1,
      "step": 0.05,
      "description": "Base chance pranks and sneaking out get caught."
+    },
+    {
+     "key": "inst.freshman_football",
+     "label": "Freshmen play freshman football",
+     "type": "bool",
+     "default": true,
+     "description": "Football has a freshman team: at tryouts, freshmen go to JV (the freshman team) unless the editor puts them on varsity. Off: freshmen can make varsity like anyone else."
     }
    ]
   },

@@ -31,8 +31,8 @@ def _first_game(level):
     for _ in range(400):
         w = api.lab.w
         me = w.chars[w.meta["protagonist"]]
-        if "football" in me.memberships and level == "jv":
-            w.groups["football"].setdefault("levels", {})[me.id] = "jv"
+        if "football" in me.memberships:  # (a freshman plays on the freshman team: set the level this test is about)
+            w.groups["football"].setdefault("levels", {})[me.id] = level
         st = c.get("/api/phone/state").json()
         for m in st["moments"]:
             if m["kind"] == "game_day" and played is None:

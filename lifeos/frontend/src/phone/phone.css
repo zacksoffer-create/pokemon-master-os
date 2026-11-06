@@ -1541,3 +1541,5 @@ html.ph-docscroll body { overflow-x: hidden; }
 .ph-diag-parts { flex-direction: column; }
 .ph-diag-parts label { display: flex; gap: 8px; align-items: center; padding: 4px 0; }
 .ph-diag-parts input { width: 20px; height: 20px; }
+
+.ed-team-why { display: block; margin-top: 6px; font-size: 12.5px; }

@@ -89,6 +89,7 @@ REASON_TEXT = {
     "never_picked": "ready, but other scenes always came first", "missed": "its year ended first",
     "skipped_by_plan": "retired by a schedule (skip)",
     "waiting_for_game": "it's about how your next game goes: it waits for the game",
+    "after_game": "it comes after today's game (the one the scene before it played)",
 }
 IMPORTANCE = ("ambient", "regular", "major", "finale")
 FINALE_RX = re.compile(r"(^|_)(finale|culminat\w*|graduat\w*|commencement|senior_night|last_(school_)?game|final_game|state_(final|title|champ\w*)|"
@@ -145,6 +146,67 @@ BUCKET_RX = [("night", re.compile(r"(^|_)(late_night|midnight|sleepover|party|bo
              ("lunch", re.compile(r"(^|_)(lunch|cafeteria|lunch_table)(_|$)")),
              ("after_school", re.compile(r"(^|_)(practice|game|tryouts?|scrimmage|locker_room|film|weights|after_school)(_|$)")),
              ("classes", re.compile(r"(^|_)(class|hallway|quiz|teacher|homeroom|study_hall|lab)(_|$)"))]
+
+
+# A scene you play your sport in (`| play football`) that's about a real game: it waits for a day you have one, so it's
+# that game's big moment. "The final game of the season" waits for the last one, a debut for the first (if it's ahead).
+GAME_DAY_RX = re.compile(r"\b(game ?day|game-day|game night|kick-?off|tip-?off|first pitch|opener|opening game|debut|official "
+                         r"(high school |varsity |jv |freshman )?game|(last|final) (\w+ ){0,3}game|another game|tonight's game|"
+                         r"today's game|home game|away game|road game|game against|the game starts|pregame|warm-?ups before)\b", re.I)
+LAST_GAME_RX = re.compile(r"\b(last|final)\b(\s+\S+){0,5}\s+game\b|\bseason finale\b", re.I)
+FIRST_GAME_RX = re.compile(r"\b(debut|season opener|opening game|first (official )?(high school )?game|first time\b[^.]{0,60}\bgame)\b", re.I)
+
+
+def _plays_sport(mm) -> str | None:
+    """The team sport a scene has you play (a choice's `| play football`), if any."""
+    from .sports import SPORTS
+    for ch in mm.get("choices") or []:
+        for op in ch.get("ops") or []:
+            if isinstance(op, list) and len(op) > 1 and op[0] == "minigame" and op[1] in SPORTS:
+                return op[1]
+    return None
+
+
+def game_day_of(mm, when=None, sport_hint=None) -> dict | None:
+    """{"sport", "which": "first" | "last" | "any", "result", "me"} for a scene that's one of your real games, else None:
+    tagged `game` (`game: loss, I play great`), or one you play your sport in (`| play football`) whose words are about a
+    game. result / me: how the game goes and how you play in it, when the tag says."""
+    tag = (when or {}).get("game")
+    sport = (tag or {}).get("sport") or _plays_sport(mm)
+    text = mm.get("text") if isinstance(mm.get("text"), str) else " ".join(mm.get("text") or [])
+    head = f"{mm.get('title', '')}. {text[:700]}"
+    if tag is None:
+        if not sport or not GAME_DAY_RX.search(head):
+            return None
+    sport = sport or sport_hint
+    if not sport:
+        return None
+    which = "last" if LAST_GAME_RX.search(head) else "first" if FIRST_GAME_RX.search(head) else "any"
+    return {"sport": sport, "which": which, "result": (tag or {}).get("result"), "me": (tag or {}).get("me")}
+
+
+def my_games(sim, me, sport, day) -> list:
+    """This school year's game days for your team in this sport (empty if you're not on one)."""
+    w = sim.w
+    gid = next((g for g in me.memberships if (w.groups.get(g) or {}).get("kind") == "team" and w.groups[g].get("skill") == sport), None)
+    if gid is None:
+        return []
+    yr = calm.school_year_of(day)
+    return sorted({i["day"] for i in w.calendar if i.get("kind") == "game" and i.get("group") == gid and calm.school_year_of(i["day"]) == yr})
+
+
+def game_day_target(sim, me, gd, day) -> int | None:
+    """The game a game scene is for: the next one, the season's last, or its first if that's still ahead. None: no game
+    (not on the team, or the season's over), so it plays as written."""
+    games = my_games(sim, me, gd["sport"], day)
+    ahead = [d for d in games if d >= day]
+    if not ahead:
+        return None
+    if gd["which"] == "last":
+        return games[-1]
+    if gd["which"] == "first" and games[0] >= day:
+        return games[0]
+    return ahead[0]
 
 
 def _h(*parts) -> int:
@@ -345,7 +407,11 @@ def catalog(sim) -> dict:
             bucket = "night"
         info[sid] = {"pack": sc.get("pack"), "importance": imp, "window": window, "window_rule": rule, "bucket": bucket, "sport": sport,
                      "title": title}
-        if not set(when.get("requires") or []) & GAME_REQS.keys():  # untagged: the result its words take for granted
+        gd = game_day_of(mm, when, sport)
+        if gd:
+            info[sid]["game_day"] = gd
+        if not gd and not set(when.get("requires") or []) & GAME_REQS.keys():  # untagged: the result its words take for granted
+            # (not a scene that is the game itself: its result comes after it)
             from .gameplay import assumed_result
             a = assumed_result(title, text or "", sporty=bool(sport))
             if a:
@@ -600,6 +666,26 @@ def _after(when) -> list:
     return a if isinstance(a, list) else [a]
 
 
+def _after_todays_game(sim, me, sid, cat, day, done) -> tuple | None:
+    """The chapter after a game scene (the locker room, the ride home) waits for that game: if the scene before it in its
+    storyline was today's game and the game hasn't been played yet, it comes after."""
+    pk = cat["scenes"][sid].get("pack")
+    if pk not in cat["ordered"]:
+        return None
+    chs = cat["chapters"][pk]
+    pos = cat["pos"].get(sid)
+    if not pos:
+        return None
+    prev = next((x for x in reversed(chs[:pos]) if x in done), None)
+    gd = (cat["info"].get(prev) or {}).get("game_day") if prev else None
+    if not gd or done[prev][-1] != day or day not in my_games(sim, me, gd["sport"], day):
+        return None
+    lg = gameplay_last(sim, me)
+    if lg is not None and lg.get("day") == day:
+        return None  # it's been played
+    return ("after_game", gd["sport"])
+
+
 def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
     """None if the scene is ready today; else (reason, detail). Chance and pacing aren't part of this."""
     dialogue = _dlg()
@@ -622,6 +708,9 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
     grades = _years(when)
     if grades and (me.grade or 0) not in grades:
         return ("year_passed", None) if max(grades) < (me.grade or 0) else ("too_early", "school year")
+    ag = _after_todays_game(sim, me, sid, cat, day, done)
+    if ag:
+        return ag
     mem = w.meta.get("remembered", {})
     for k in when.get("not_remembered") or []:
         if k in mem:
@@ -660,6 +749,11 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
     twin = next((t for t in (cat.get("twins") or {}).get(sid, []) if t in done), None)
     if twin:
         return ("exclusive_branch", twin)  # the game went the other way, and that scene happened
+    gd = (cat["info"].get(sid) or {}).get("game_day")
+    if gd:
+        t = game_day_target(sim, me, gd, day)
+        if t is not None and day < t:
+            return ("waiting_for_game", f"{gd['sport']} on {calm.label(t)}")
     for r in game_reqs(sc, cat["info"].get(sid)):
         if r in GAME_REQS:
             g_ = gameplay_last(sim, me)
@@ -834,7 +928,14 @@ def candidates(sim, me, cat, prof, day=None) -> list:
         c["importance"] = cat["info"][c["sid"]]["importance"]
         c["deadline"] = deadline(sim, me, c["sid"], cat, day) if (when.get("dates") or when.get("months") or cat["info"][c["sid"]]["window"]
                                                               or when.get("not_after") or _years(when)) else None
+        if c["kind"] == "chapter":
+            ch = chain_deadline(sim, me, c["pack"], c["sid"], cat, day)
+            if ch is not None and (c["deadline"] is None or ch < c["deadline"]):
+                c["deadline"], c["chain"] = max(day, ch), True
         c["due"] = c["deadline"] is not None and c["deadline"] <= day
+        gd = cat["info"][c["sid"]].get("game_day")
+        if gd and game_day_target(sim, me, gd, day) == day:
+            c["deadline"], c["due"] = day, True  # its game is today: the game won't wait
     return out
 
 
@@ -855,7 +956,57 @@ def deadline(sim, me, sid, cat, day) -> int | None:
             last = x
         elif last is not None:
             break
+    gd = info.get("game_day")
+    if gd and last is not None:  # a game scene can only be a game day
+        games = [d for d in my_games(sim, me, gd["sport"], day) if day <= d <= last]
+        if games:
+            last = games[-1]
     return last
+
+
+def chain_deadline(sim, me, pk, head, cat, day) -> int | None:
+    """A storyline played in order has to leave room for what's behind its next chapter: ten September chapters still to
+    come make the next one due ten days before September ends. -> the latest day it can wait, or None (no hurry)."""
+    chs = cat["chapters"].get(pk) or []
+    if head not in chs:
+        return None
+    seen = seen_map(sim.w)
+    grade = me.grade or 0
+    best, j = None, 0
+    for sid in chs[chs.index(head) + 1:]:
+        if sid in seen:
+            continue
+        when = cat["scenes"][sid].get("when") or {}
+        ys = _years(when)
+        if ys and grade not in ys:
+            if min(ys) > grade:
+                break  # next year's chapters: no hurry this year
+            continue
+        j += 1
+        info = cat["info"].get(sid) or {}
+        if not (when.get("dates") or when.get("months") or info.get("window") or when.get("not_after") or info.get("game_day")):
+            continue
+        dl = cached_deadline(sim, me, sid, cat, day)
+        if dl is None:
+            continue
+        cand = dl - j
+        best = cand if best is None else min(best, cand)
+    return best
+
+
+def cached_deadline(sim, me, sid, cat, day) -> int | None:
+    """deadline(), remembered for the school year (and your teams, for game scenes) while it's still ahead."""
+    store = cat.setdefault("_dl_cache", {})
+    info = cat["info"].get(sid) or {}
+    key = (sid, calm.school_year_of(day), me.grade, tuple(sorted(me.memberships)) if info.get("game_day") else ())
+    hit = store.get(key)  # (the deadline, the day it was worked out)
+    if hit is not None and ((hit[0] is not None and hit[0] >= day) or hit[1] == day):
+        return hit[0]
+    dl = deadline(sim, me, sid, cat, day)
+    if len(store) > 20000:
+        store.clear()
+    store[key] = (dl, day)
+    return dl
 
 
 def _order(cands, prof, day=None) -> list:
@@ -912,6 +1063,8 @@ def _assign_phases(sim, items, cat, day, start_ix=0):
     spread = [p for p in usable if p in ("dawn", "lunch", "after_school", "day", "evening")] or usable
     for i, it in enumerate(items):
         b = cat["info"].get(it["sid"], {}).get("bucket")
+        if cat["info"].get(it["sid"], {}).get("game_day"):  # before the game: after school on a school day, else first thing
+            b = "after_school" if "after_school" in usable else usable[0]
         it["phase"] = b if b in usable else spread[i % len(spread)]
     items.sort(key=lambda it: phs.index(it["phase"]) if it["phase"] in phs else 99)
 
@@ -1045,6 +1198,9 @@ def deliver(sim, force=False) -> dict | None:
             if g is not None and g[0] == "your_order":
                 held.append(it)  # it comes after the one you put first
                 continue
+            if g is not None and g[0] == "after_game":
+                held.append(it)  # tonight, once the game's been played
+                continue
             if g is not None:
                 _note(w, sid, "dropped" if g[0] not in PERMANENT else "unreachable", g[0], g[1])
                 continue
@@ -1120,12 +1276,27 @@ def _chain(sim, sid, cat):
         if gate(sim, me, d, cat, w.day, prof) is None and (room or (direct and prof.get("chain_past_budget"))):
             nxt.append(d)
     pk = cat["scenes"][sid].get("pack")
-    if pk in cat["ordered"] and room:
-        c, why = next_chapter(sim, me, pk, cat, w.day, prof)
-        if c and why is None and c not in have and c not in nxt:
+    behind = False
+    if pk in cat["ordered"] and not room:
+        c0, why0 = next_chapter(sim, me, pk, cat, w.day, prof)
+        if c0 and why0 is None:
+            ch = chain_deadline(sim, me, pk, c0, cat, w.day)
+            own = deadline(sim, me, c0, cat, w.day) if ((cat["scenes"][c0].get("when") or {}).keys() & {"months", "dates", "not_after"}
+                                                           or (cat["info"].get(c0) or {}).get("game_day")) else None
+            behind = any(x is not None and x <= w.day for x in (ch, own))  # its calendar is running out: keep going
+    c, why = next_chapter(sim, me, pk, cat, w.day, prof) if pk in cat["ordered"] else (None, None)
+    if pk in cat["ordered"]:
+        if c and why is None and c not in have and c not in nxt and (room or behind):
             when = cat["scenes"][c].get("when") or {}
             if _roll(w, c, w.day) < when.get("chance", prof["chapter_chance"]):
                 nxt.append(c)
+        elif c and why and why[0] == "after_game" and c not in have:
+            phs_ = _phases(sim, w.day)
+            later = [p for p in phs_ if p in ("night", "evening")]
+            it = {"sid": c, "queued": w.day, "due": True, "deadline": w.day, "importance": cat["info"][c]["importance"],
+                  "pack": pk, "kind": "chained", "phase": later[-1] if later else phs_[-1]}
+            _note(w, c, "queued", "after_game")
+            q["items"].append(it)  # after the game, tonight
     cur = _phases(sim, w.day)[min(w.phase, len(_phases(sim, w.day)) - 1)]
     items = [{"sid": d, "queued": w.day, "due": False, "deadline": None, "importance": cat["info"][d]["importance"],
               "pack": cat["scenes"][d].get("pack"), "kind": "chained", "phase": cur} for d in nxt]

@@ -104,6 +104,35 @@ export function FlirtFold({ p, val, put }: { p: EdPerson; val: Val; put: Put }) 
   );
 }
 
+const TEAM_SET: [string, string][] = [["auto", "Tryouts"], ["varsity", "Varsity"], ["jv", "JV"], ["out", "Doesn't play"]];
+const TEAM_NOW: Record<string, string> = { varsity: "on varsity", jv: "on JV" };
+
+/** Their high school teams: tryouts decide, or you do (varsity, JV / the freshman team, or not at all). Mid-season it's
+ * right away; before tryouts, the tryout honors it. Start over keeps it. */
+export function TeamsFold({ p, val, put }: { p: EdPerson; val: Val; put: Put }) {
+  if (!p.teams || !p.teams.length) return null;
+  const now = (t: NonNullable<EdPerson["teams"]>[number]) => {
+    const v = val("teams", null)?.[t.sport];
+    return v === undefined ? (t.set || "auto") : v === null ? "auto" : String(v);
+  };
+  const on = p.teams.filter((t) => t.now).map((t) => `${cap(t.sport)} (${t.now === "jv" ? "JV" : "varsity"})`);
+  return (
+    <Fold title="Teams" sub={on.length ? on.join(", ") : "Not on a team right now"}>
+      <p className="ph-dim small ed-flirt-hint">
+        Who {p.is_me ? "you play" : `${p.first} plays`} for. Tryouts decide unless you set it: varsity, JV (the freshman team in football), or
+        not at all. In season it happens right away; otherwise at the next tryout. Start over keeps it.
+      </p>
+      {p.teams.map((t) => (
+        <Field key={t.sport} label={t.team}
+          right={<small className="ed-flirt-src">{t.now ? TEAM_NOW[t.now] : "not on it"}</small>}>
+          <Seg value={now(t)} options={TEAM_SET} onChange={(v) => put("teams", t.sport, v === "auto" ? null : v)} />
+          {t.why && now(t) === "auto" && <small className="ph-dim ed-team-why">{t.why}</small>}
+        </Field>
+      ))}
+    </Fold>
+  );
+}
+
 /** Height, build, jersey, and which sports they play (a position) or don't. */
 export function BodyFold({ p, val, put }: { p: EdPerson; val: Val; put: Put }) {
   const { cat } = useStoryCatalog();

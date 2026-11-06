@@ -116,7 +116,7 @@ BLOCKS = ("texts", "replies", "narration", "mods", "chat", "trivia", "choices", 
 SECTION_RE = re.compile(r"^===\s*(.+?)\s*$")
 SCENE_RE = re.compile(r"^---\s*(.+?)\s*$")
 BLOCK_RE = re.compile(r"^(texts|replies|narration|mods|chat|trivia|choices|flirt|group\s+chat)\s+(.+?)\s*:\s*$|^(schedule|outline)\s*:\s*$", re.I)
-ATTR_RE = re.compile(r"^(cast|when|years|order|about|notes?|expands)\s*:\s*(.*)$", re.I)
+ATTR_RE = re.compile(r"^(cast|when|years|order|about|notes?|expands|record|season)\s*:\s*(.*)$", re.I)
 SPEAKER_RE = re.compile(r"^([A-Za-z][\w .'-]{0,24}?):\s+(.+)$")
 OUTCOME_RE = re.compile(r"^(great|good|miss|yes|no|meh|bad)\s*:\s*(.*)$", re.I)
 TEXTS_RE = re.compile(r"^(.+?)\s+texts(?: you)?\s*:\s*(.+)$", re.I)
@@ -516,6 +516,25 @@ def tags(text: str, sc: Scene | None, n: int, when: dict, sec) -> dict:
         if low in MONTHS or low in MON3:
             when.setdefault("months", []).append(MONTHS.get(low) or MON3[low])
             continue
+        if GAME_TAG_RE.match(low):  # `game: win` on a scene: it's one of your games
+            g_ = game_spec(low)
+            have = when.setdefault("game", {"sport": None, "result": None, "me": None})
+            have.update({k: v for k, v in g_.items() if v})
+            continue
+        mg = re.fullmatch(r"(?:i|you)\s+(?:play|played)\s+(\w+)", low)
+        if mg and mg.group(1) in GAME_ME:  # (after `game: loss`, split off by its comma)
+            when.setdefault("game", {"sport": None, "result": None, "me": None})["me"] = GAME_ME[mg.group(1)]
+            continue
+        m = re.fullmatch(r"(early|beginning of|start of|mid|mid-|middle of|late|end of)\s*-?\s*([a-z]+)\.?", low)
+        if m and (m.group(2) in MONTHS or m.group(2)[:3] in MON3) and not when.get("not_before") and not when.get("not_after"):
+            mo = MONTHS.get(m.group(2)) or MON3[m.group(2)[:3]]
+            end = 30 if mo in (4, 6, 9, 11) else 28 if mo == 2 else 31
+            part = m.group(1).rstrip("- ")
+            lo, hi = {"early": (1, 15), "beginning of": (1, 15), "start of": (1, 15), "mid": (8, 23), "middle of": (8, 23),
+                      "late": (16, end), "end of": (16, end)}[part]
+            when.setdefault("months", []).append(mo)  # early September: the first half of September (loosely)
+            when["not_before"], when["not_after"] = f"{mo:02d}-{lo:02d}", f"{mo:02d}-{hi:02d}"
+            continue
         if low in SEASONS:
             when["months"] = sorted(set(when.get("months", [])) | set(SEASONS[low]))
             continue
@@ -755,6 +774,7 @@ class Section:
         self.lines_map = {}
         self.src_lines = []
         self.local = {}  # scene titles in this script -> ids (filled as scenes compile)
+        self.record = None  # `record: 7-3`: how the season's games come out, overall
         self.expands = None  # the storyline this one adds to (an expansion): its title
         self.expands_line = n
         self.inherited = set()  # cast names that came from it
@@ -1411,8 +1431,11 @@ def _parse_outline(body: list, sec, warns) -> list:
             continue
         parts = [x.strip() for x in _split(m.group(2), "|")]
         title = parts[0].strip(" \"'“”") or f"Scene {m.group(1)}"
-        cond, rest, game = None, [], None
+        cond, rest, game, plays = None, [], None, None
         for x in parts[1:]:
+            if GAME_TAG_RE.match(x):  # this scene is one of your games: `| game: loss, I play great`
+                plays = game_spec(x)
+                continue
             gm = GAME_COND_RE.match(x)
             if gm:  # how your real game went: `| if we won`
                 game = gm.group(2).lower().replace(" ", "_")
@@ -1444,12 +1467,49 @@ def _parse_outline(body: list, sec, warns) -> list:
             except Fail:
                 warns.append((ln.n, f"'{tok.strip()}' isn't a time the game knows: scene {m.group(1)} gets its time from the outline"))
         out.append({"n": int(m.group(1)), "title": title[:90], "when": " · ".join(good), "summary": summary, "if": cond, "line": ln.n,
-                    "game": game})
+                    "game": game, "plays": plays})
     out.sort(key=lambda e: e["n"])
     return out
 
 
 GAME_COND_RE = re.compile(r"^(only\s+)?if\s+(we won|we lost|i played great|i played badly|i won it|i started|i was benched|rivalry game)\s*$", re.I)
+GAME_TAG_RE = re.compile(r"^game\b\s*(:|$)", re.I)
+GAME_RESULT = {"win": "win", "won": "win", "we win": "win", "we won": "win", "w": "win", "victory": "win",
+               "loss": "loss", "lose": "loss", "lost": "loss", "we lose": "loss", "we lost": "loss", "l": "loss", "defeat": "loss"}
+GAME_ME = {"great": "great", "big": "great", "huge": "great", "well": "good", "good": "good", "solid": "good", "ok": "quiet",
+           "okay": "quiet", "quiet": "quiet", "quietly": "quiet", "average": "quiet", "badly": "bad", "bad": "bad", "poorly": "bad",
+           "rough": "bad", "terribly": "bad"}
+GAME_SPORTS = ("football", "basketball", "baseball", "soccer", "softball")
+
+
+def game_spec(text: str) -> dict:
+    """'game: loss, I play great' (or 'game: football, we win', 'game') -> {"sport", "result", "me"} (each may be None).
+    The scene is one of your games: it plays on a game day as that game's big moment, and the game goes the way it says."""
+    body = re.sub(r"^game\b\s*:?", "", text.strip(), flags=re.I)
+    out = {"sport": None, "result": None, "me": None}
+    for tok in [t.strip().lower() for t in re.split(r"[,;·]|\band\b", body) if t.strip()]:
+        tok = re.sub(r"^(a|the)\s+", "", tok)
+        if tok in GAME_SPORTS:
+            out["sport"] = tok
+            continue
+        if tok in GAME_RESULT:
+            out["result"] = GAME_RESULT[tok]
+            continue
+        m = re.fullmatch(r"(?:i|you)\s+(?:play|played|have|had)\s+(?:a\s+)?(\w+)(?:\s+game)?", tok) or re.fullmatch(r"(\w+)\s+game\s+for\s+(?:me|you)", tok)
+        if m and m.group(1) in GAME_ME:
+            out["me"] = GAME_ME[m.group(1)]
+            continue
+        raise Fail(f"'{tok}' isn't something a game tag knows: use win or loss, and how you play (I play great, well, "
+                   f"quiet or badly), like game: loss, I play great")
+    return out
+
+
+def season_record(v: str) -> dict:
+    """'7-3' or 'football 7-3' -> {"w": 7, "l": 3, "sport": ...}: the season's games come out that way overall."""
+    m = re.fullmatch(r"(?:(football|basketball|baseball|soccer|softball)\s*[,:]?\s*)?(\d{1,2})\s*-\s*(\d{1,2})(?:\s*(?:record)?)?", v.strip().lower())
+    if not m:
+        raise Fail("record looks like: record: 7-3 (wins-losses for the season), or record: football 7-3")
+    return {"sport": m.group(1), "w": int(m.group(2)), "l": int(m.group(3))}
 
 
 def _entry(sec, n, title):
@@ -1604,6 +1664,10 @@ def _built(sec, scenes: list, pack: dict, warns) -> list:
         place(scenes, years, sec.defaults.get("months"), keep, total=len(sec.outline), slot_of=lambda sc: order.get(sec.entry_of.get(sc["id"])))
     except Fail as e:
         warns.append((sec.n, str(e)))
+    for e in sec.outline:  # one of your games (`| game: loss, I play great`): the scene is that game's big moment
+        sc = by_n.get(e["n"])
+        if e.get("plays") and sc is not None:
+            sc.setdefault("when", {})["game"] = dict(e["plays"])
     for e in sec.outline:  # how your real game went (`| if we won`): the scene waits for a game that went that way
         sc = by_n.get(e["n"])
         if e.get("game") and sc is not None:
@@ -1819,6 +1883,8 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
                     tags(v, None, ln.n, sec.defaults, sec)
                 elif k == "order":
                     sec.order_any = v.lower() in ("any", "any order", "loose", "free")
+                elif k in ("record", "season"):
+                    sec.record = season_record(v)
                 elif k == "expands":
                     if not v.strip():
                         raise Fail("expands: names the storyline this adds to, like expands: Sisters")
@@ -1882,6 +1948,8 @@ def compile_script(text: str, default_title: str = "Untitled", library: dict | N
             pack["expands"] = sec.expands
         if sec.about:
             pack["notes"] = sec.about
+        if sec.record:
+            pack["record"] = sec.record
         if sec.cast:
             pack["cast"] = sec.cast
         ob = [b for b in sec.blocks if str(b[1]).lower() == "outline"]
@@ -2207,6 +2275,13 @@ def guide(story_only: bool = False) -> str:
     A("")
     A("A storyline decides its games: the scores, your stats and the team's record follow what its scenes say happened.")
     A("")
+    A("- A scene that IS one of your games: tag it `game` and say how it goes: `game: win`, `game: loss, I play great` (how you "
+      "play: great, well, quietly or badly). In an outline: end the line with `| game: loss, I play great`. It waits for a "
+      "day you have a game and plays before it; the game goes that way (the result, and how you play), and the big moment "
+      "you play yourself (`| play football`) still moves your stat line. A scene about \"the last game\" or \"the final game\" "
+      "waits for the season's last one, a debut for the first. The scene after it waits for the game to be played.")
+    A("- `record: 7-3` under the title: the season's games come out 7-3 overall. The games your scenes don't call lean "
+      "toward it, and it lands there by the end.")
     A("- A scene after a game says how it went: `[if we won]`, `[if we lost]`, `[if I played great]`, `[if I won it]` (you won "
       "it in the big moment), or just its words (\"we won\", \"that loss\"). In a storyline played in order, your next game "
       "goes that way and the scene comes right after it. (In an outline: end the line with `| if we won`.)")
@@ -2444,9 +2519,13 @@ teachers and other walk-ons don't need a cast line.
 - A branch: add `| only if you picked "<a choice>" in <number>` (or `unless you picked ...`) to a scene that only happens \
 after a certain choice in an earlier scene. Use them for the moments that matter, not everywhere.
 - Make it a story: a beginning, turns, a payoff. Spread it through the year; put holiday and school-day moments on them.
+- A scene that IS one of my games (the game itself, played on a game day): end the line with `| game: win` or \
+`| game: loss`, and how I play if it matters: `| game: loss, I play great` (great, well, quietly or badly). The game goes \
+that way. A scene right after it can use the real numbers: {{last_game}}, {{my_line}}.
 - A scene after one of my games: say how it went by ending the line with `| if we won` or `| if we lost` (or `| if I \
 played great`): the game goes that way, and the score, my stats and the record match. (Want the real game to decide \
 instead? Write both ways side by side, `| if we won` then `| if we lost`, and whichever happens plays.)
+- A storyline about a team's season: add `record: 7-3` (wins-losses) under the title, and the season comes out that way.
 """
 
 BATCH_PROMPT = """You're writing scenes for a LIFE OS storyline (a life-simulation game: I play one person from high school \
