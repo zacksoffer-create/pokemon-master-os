@@ -309,6 +309,14 @@ def _root(sim, kind) -> str:
     return (sim.cat.moments.get(kind) or {}).get("beat_of") or kind
 
 
+def _my_sport(sim, me, sport) -> bool:
+    """A scene's sport is yours: you're on that team, or clearly play it (no sport known: assume it's yours)."""
+    if not sport or me is None:
+        return True
+    from . import dialogue
+    return dialogue.plays(sim, me, sport)
+
+
 def game_reqs(sc, info) -> list:
     """A scene's requirements, with the result its words take for granted (if it isn't tagged)."""
     req = list((sc.get("when") or {}).get("requires") or [])
@@ -350,6 +358,7 @@ def catalog(sim) -> dict:
         by_pack.setdefault(sc.get("pack"), []).append((sc.get("order", 0), sid))
     chapters = {pk: [sid for _, sid in sorted(v)] for pk, v in by_pack.items()}
     ordered = {pk for pk in chapters if dialogue.in_order(pk)}
+    scenes, cal_notes = calendar_fix(scenes, chapters, ordered)
     deps: dict = {}
     for sid, sc in scenes.items():
         after = (sc.get("when") or {}).get("after") or []
@@ -416,10 +425,86 @@ def catalog(sim) -> dict:
             a = assumed_result(title, text or "", sporty=bool(sport))
             if a:
                 info[sid]["assumes"] = a
-    cat = {"scenes": scenes, "chapters": chapters, "ordered": ordered, "deps": deps, "info": info,
+    cat = {"scenes": scenes, "chapters": chapters, "ordered": ordered, "deps": deps, "info": info, "calendar_notes": cal_notes,
            "pos": {sid: i for pk, sids in chapters.items() for i, sid in enumerate(sids)}, "twins": game_twins(scenes, chapters, info)}
     _cat_cache.update({"key": key, "cat": cat})
     return cat
+
+
+SUMMER_MONTHS = {6, 7, 8}
+MONTH_ORDER = {m: (m - 9) % 12 for m in range(1, 13)}  # a school year's months in order: September first, August last
+
+
+def _cal_months(when) -> set:
+    ms = set(when.get("months") or [])
+    for k in ("not_before",):
+        md = _md(when.get(k)) if when.get(k) else None
+        if md:
+            ms.add(md[0])
+    for d in when.get("dates") or []:
+        md = _md(d) or _md(calm.APPROX_MD.get(str(d), ""))  # (a named day: winter break, Thanksgiving, the first day)
+        if md:
+            ms.add(md[0])
+    return ms
+
+
+def _cal_key(when):
+    """Where a scene sits in the calendar, for ordering: (school year, month in the school year), or None if it isn't
+    pinned to a year."""
+    ys = _years(when)
+    if not ys:
+        return None
+    ms = _cal_months(when)
+    return (min(ys), min(MONTH_ORDER[m] for m in ms) if ms else 0)
+
+
+def calendar_fix(scenes: dict, chapters: dict, ordered: set):
+    """A storyline played in order whose own dates say otherwise (it would strand every scene after the first one that
+    runs backwards: "its day had already gone by"):
+    1. a summer scene that leads straight into the same year's fall ("sophomore, August" then "sophomore, September") is
+       the summer before that school year: preseason, the drive to camp;
+    2. if its scenes are still listed out of calendar order (a freshman-November scene after a freshman-March one), they
+       play in calendar order: the dates win.
+    The scripts aren't changed. -> (scenes, {pack: {"summer_before": [...], "reordered": n}})"""
+    Y = _dlg().YEARS
+    name_of = {gs[0]: n for n, gs in Y.items() if len(gs) == 1}
+    out = dict(scenes)
+    notes: dict = {}
+    for pk in ordered:
+        sids = chapters[pk]
+        i = 0
+        while i < len(sids):  # 1. the summer before
+            wh = out[sids[i]].get("when") or {}
+            ms = _cal_months(wh)
+            if not ms or not ms <= SUMMER_MONTHS or not wh.get("years"):
+                i += 1
+                continue
+            j = i
+            while j < len(sids) and (out[sids[j]].get("when") or {}).get("years") == wh.get("years") \
+                    and _cal_months(out[sids[j]].get("when") or {}) <= SUMMER_MONTHS and _cal_months(out[sids[j]].get("when") or {}):
+                j += 1
+            nxt = next((s for s in sids[j:] if _cal_months(out[s].get("when") or {})), None)
+            nw = (out[nxt].get("when") or {}) if nxt else {}
+            if nxt and nw.get("years") == wh.get("years") and not _cal_months(nw) <= SUMMER_MONTHS:
+                ys = wh["years"] if isinstance(wh["years"], list) else [wh["years"]]
+                prev = [name_of.get(Y[y][0] - 1) for y in ys if y in Y and len(Y[y]) == 1]
+                if prev and all(prev):
+                    for s in sids[i:j]:
+                        w0 = out[s].get("when") or {}
+                        out[s] = {**out[s], "when": {**w0, "years": prev}}
+                        notes.setdefault(pk, {}).setdefault("summer_before", []).append(s)
+            i = max(j, i + 1)
+        keys, last = [], (-1, -1)  # 2. calendar order
+        for s in sids:
+            k = _cal_key(out[s].get("when") or {})
+            last = k if k is not None else last
+            keys.append(last)
+        if any(keys[n] > keys[n + 1] for n in range(len(keys) - 1)):
+            order = sorted(range(len(sids)), key=lambda n: (keys[n], n))
+            moved = sum(1 for a, b in enumerate(order) if a != b)
+            chapters[pk] = [sids[n] for n in order]
+            notes.setdefault(pk, {})["reordered"] = moved
+    return out, notes
 
 
 def _settings_key():
@@ -754,7 +839,10 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
         t = game_day_target(sim, me, gd, day)
         if t is not None and day < t:
             return ("waiting_for_game", f"{gd['sport']} on {calm.label(t)}")
-    for r in game_reqs(sc, cat["info"].get(sid)):
+    reqs = game_reqs(sc, cat["info"].get(sid))
+    if info.get("assumes") and not _my_sport(sim, me, info.get("sport")):
+        reqs = list(when.get("requires") or [])  # (its "we lost" is about someone else's team: your sister's soccer)
+    for r in reqs:
         if r in GAME_REQS:
             g_ = gameplay_last(sim, me)
             used = g_ is not None and any(  # another chapter of this storyline already told this game
@@ -815,9 +903,16 @@ def castable(sim, me, sid, cat) -> tuple | None:
     def feels(o):
         return (all(dialogue._in(dialogue._rel(w, me.id, o, f), r) for f, r in (when.get("you_feel") or {}).items())
                 and all(dialogue._in(dialogue._rel(w, o, me.id, f), r) for f, r in (when.get("they_feel") or {}).items()))
+    for ref in sc.get("cast_refs") or []:  # the scene's other cast: someone (or your pet) has to be them
+        if not dialogue.bound(sim, ref) and not dialogue.pet_slot(sim, me, ref):
+            spec = dialogue.slot_spec(ref)
+            if not spec or not dialogue.slot_candidates(sim, me, spec):
+                return ("missing_cast", f"nobody fits {ref}" + (f" ({dialogue.slot_label(spec)})" if spec else ""))
     if who and who.startswith("cast:"):
         name = who[5:]
         cid = dialogue.bound(sim, name)
+        if not cid and dialogue.pet_slot(sim, me, name):
+            return None  # your pet
         if cid:
             if not feels(cid):
                 return ("missing_cast", f"{name}: how you feel about each other isn't in its range")
@@ -834,6 +929,10 @@ def castable(sim, me, sid, cat) -> tuple | None:
     return None
 
 
+START_FAILS = ("missing_cast", "not_playable")  # a chapter that was ready but couldn't start: who's in it didn't work out
+RETRY_DAYS = 7  # it's tried again after this long; the chapters after it go on meanwhile
+
+
 def next_chapter(sim, me, pk, cat, day=None, prof=None):
     """A storyline played in order: (its next chapter, why it can't happen today or None). The existing rule: a chapter that
     can't happen yet for its year, facts or prerequisites is stepped over; one waiting on the calendar or a gap holds."""
@@ -846,6 +945,9 @@ def next_chapter(sim, me, pk, cat, day=None, prof=None):
             continue
         g = gate(sim, me, sid, cat, day, prof) or castable(sim, me, sid, cat)
         if g is None:
+            n = log(w).get(sid) or {}
+            if n.get("status") == "waiting" and n.get("reason") in START_FAILS and 0 <= (day if day is not None else w.day) - n.get("day", -99) < RETRY_DAYS:
+                continue  # it couldn't start (two of its people are the same person, someone's away): the story goes on
             return sid, None
         code = "too_early_year" if g == ("too_early", "school year") else g[0]
         if code in STEP_OVER:
@@ -1437,6 +1539,54 @@ def play_next(sim, sid) -> dict:
     return {"ok": True}
 
 
+def play_now(sim, sid) -> dict:
+    """Play this scene right now, whatever its timing says (its month, its year, the storyline's order, pacing). Only what
+    can't be gotten around stops it: it already happened, or nobody in your story can be its people."""
+    from . import moments
+    w = sim.w
+    me = _me(sim)
+    cat = catalog(sim)
+    if me is None or sid not in cat["scenes"]:
+        return {"ok": False, "why": "that isn't a scene in your story"}
+    done, seen = done_map(w), seen_map(w)
+    if sid in done and (cat["scenes"][sid].get("when") or {}).get("once", True):
+        return {"ok": False, "why": "it already happened"}
+    if sid in seen and sid not in done:
+        return {"ok": False, "why": "it's happening now: it's on your Story tab"}
+    if any(m.get("kind") == sid or _root(sim, m.get("kind", "")) == sid for m in moments.pending(w)):
+        return {"ok": False, "why": "it's waiting on your Story tab"}
+    c = castable(sim, me, sid, cat)
+    if c:
+        return {"ok": False, "why": c[1]}
+    m = _start(sim, me, sid, cat)
+    if m is None:
+        n = log(w).get(sid) or {}
+        return {"ok": False, "why": REASON_TEXT.get(n.get("reason") or "", "who's in it doesn't work out right now")}
+    _note(w, sid, "presented", "your_order")
+    w.meta.setdefault("played_by_hand", []).append([w.day, sid])
+    return {"ok": True, "moment": m["id"], "title": cat["info"][sid]["title"]}
+
+
+def start_storyline(sim, pack) -> dict:
+    """A storyline that's stuck, or that you want going now: its next scene, right now."""
+    w = sim.w
+    me = _me(sim)
+    cat = catalog(sim)
+    sids = cat["chapters"].get(pack)
+    if me is None or not sids:
+        return {"ok": False, "why": "that isn't a storyline in your story"}
+    done, seen = done_map(w), seen_map(w)
+    why = None
+    for sid in sids:
+        if sid in seen or (sid in done and (cat["scenes"][sid].get("when") or {}).get("once", True)):
+            continue
+        r = play_now(sim, sid)
+        if r["ok"]:
+            return r
+        why = why or f"“{cat['info'][sid]['title']}”: {r['why']}"
+    return {"ok": False, "why": why or "every scene in it has played"}
+
+
 def upcoming(sim, n: int = 10, max_days: int = 400, watch: str | None = None) -> dict:
     """On a copy (pass one): the next n episodes in the order they'd come, with about when, your character answering.
     Fast: only the calendar and the stories move. With watch, keep going until that one plays (or can't anymore)."""
@@ -1711,7 +1861,63 @@ def _light_day(sim):
                 c.grade += 1
                 if c.grade > 16:
                     c.role, c.grade = "alumni", None
+        _light_new_year(sim)
     sim._refresh_day()
+    for it in sim._today:
+        if it.get("kind") == "tryout":
+            _quick_tryout(sim, it.get("group"))
+
+
+def _light_new_year(sim):
+    """Fast mode's Sept 1: the new school year's calendar (tryouts, games, dances) and its freshmen (the younger kids you
+    made, and new ones), so later years' storylines can be checked like the first."""
+    from .story import arrive
+    from .worldgen import new_freshmen
+    w = sim.w
+    y = calm.school_year_of(w.day)
+    w.year = y
+    try:
+        yours = arrive(sim, y)
+        n = w.meta.get("graduated_last", 0) or w.meta.get("generated", {}).get("students", 36) // 4
+        new_freshmen(w, y, max(0, n - len(yours)), w.day)
+    except Exception:  # noqa: BLE001  (a forecast without its new freshmen is still a forecast)
+        pass
+    w.calendar = [i for i in w.calendar if i["day"] >= w.day] + calm.build_year(w, sim.cat, y)
+    w.calendar.sort(key=lambda i: (i["day"], i["kind"], i.get("group") or "", i["key"]))
+
+
+def _quick_tryout(sim, gid):
+    """Fast mode: a team's tryout without the town. The people who play the sport make it, best first, up to its size
+    (varsity and JV); the editor's placements count (varsity, JV, or off the team). Teammates and coaches in storylines
+    (Nicole's soccer team, your baseball team) can then be cast in the forecast, like they are once the real tryouts
+    have been held."""
+    from . import dialogue, sports
+    w = sim.w
+    g = w.groups.get(gid)
+    if not g or g.get("kind") != "team" or g.get("school") == "college" or not g.get("skill"):
+        return
+    sk = g["skill"]
+    pool = []
+    for c in w.students():
+        if c.school != g.get("school", "hchs") or not sports.can_play(c, g):
+            continue
+        p = sports.placement(c, sk)
+        if p == "out":
+            continue
+        if p in ("varsity", "jv") or dialogue.plays(sim, c, sk):
+            pool.append((p in ("varsity", "jv"), sports.rating(c, sk), c.id))
+    pool.sort(key=lambda x: (not x[0], -x[1], x[2]))
+    keep = {cid for _, _, cid in pool[: g.get("capacity", 0) + g.get("jv_capacity", 0)]}
+    for cid in list(g["members"]):
+        if cid not in keep:
+            g["members"].remove(cid)
+            if gid in w.chars[cid].memberships:
+                w.chars[cid].memberships.remove(gid)
+    for cid in sorted(keep):
+        if cid not in g["members"]:
+            g["members"].append(cid)
+        if gid not in w.chars[cid].memberships:
+            w.chars[cid].memberships.append(gid)
 
 
 def dry_run(sim, days: int, profile_name: str | None = None, full: bool = True, seed_note: str = "") -> dict:

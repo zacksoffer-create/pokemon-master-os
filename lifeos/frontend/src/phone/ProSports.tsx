@@ -1,7 +1,7 @@
 // The pros, running in the background of your story. MLB first: real history through 2025, your team's season as of
 // today, October, the leaders, the news, the what-ifs (history that almost went the other way) and every past season.
 import React, { useEffect, useState } from "react";
-import { MlbDiv, MlbSeries, MlbView, MlbWhatIf, MlbYear, pgo, phoneApi } from "./api";
+import { MlbDiv, MlbSeries, MlbStar, MlbView, MlbWhatIf, MlbYear, pgo, phoneApi } from "./api";
 import { cx, errText, Sheet } from "./kit";
 import { usePhone } from "./PhoneContext";
 
@@ -39,6 +39,7 @@ export default function ProSports({ route }: { route: string[] }) {
 function MyTeam({ v, names, onTeam }: { v: MlbView; names: Names; onTeam: (v: MlbView) => void }) {
   const { toast } = usePhone();
   const t = v.my_team;
+  const [roster, setRoster] = useState(false);
   const [pick, setPick] = useState(false);
   const extra = t.titles.world.filter((y) => !t.titles.real.includes(y));
   const lost = t.titles.real.filter((y) => !t.titles.world.includes(y));
@@ -72,15 +73,31 @@ function MyTeam({ v, names, onTeam }: { v: MlbView; names: Names; onTeam: (v: Ml
         <button className="pro-change" onClick={() => setPick(true)}>Not your team? Change it</button>
       </div>
 
-      <div className="sp-h">Best players right now</div>
-      <div className="sp-card">
-        {t.stars.map((s) => (
-          <div key={s.name} className="pro-star">
-            <span className="pro-pos">{s.pos}</span>
-            <span className="sp-dm"><b>{s.name}{s.moved ? <i className="pro-tag">what-if</i> : null}</b><small>{s.line || `${s.talent} wins${v.phase === "preseason" ? " a year (projected)" : ""}`} · age {s.age}</small></span>
-          </div>
-        ))}
-      </div>
+      {t.hitters ? (
+        <>
+          <div className="sp-h">Top hitters</div>
+          <div className="sp-card">{t.hitters.map((s) => <StarRow key={s.name} s={s} pre={v.phase === "preseason"} />)}</div>
+          <div className="sp-h">Top pitchers</div>
+          <div className="sp-card">{(t.pitchers || []).map((s) => <StarRow key={s.name} s={s} pre={v.phase === "preseason"} />)}</div>
+          <button className="ph-link" onClick={() => setRoster(!roster)}>
+            {roster ? "Hide the roster" : `The whole roster (${(t.hitters_all || []).length + (t.pitchers_all || []).length})`}
+          </button>
+          {roster && (
+            <div className="sp-card pro-roster">
+              <small className="ph-dim">Hitters, most at-bats first</small>
+              {(t.hitters_all || []).map((s) => <StarRow key={s.name} s={s} pre={v.phase === "preseason"} />)}
+              <small className="ph-dim">Pitchers, most innings first</small>
+              {(t.pitchers_all || []).map((s) => <StarRow key={s.name} s={s} pre={v.phase === "preseason"} />)}
+            </div>
+          )}
+          <small className="ph-dim pro-note">Top 5 by how many wins each is worth this season.</small>
+        </>
+      ) : (
+        <>
+          <div className="sp-h">Best players right now</div>
+          <div className="sp-card">{t.stars.map((s) => <StarRow key={s.name} s={s} pre={v.phase === "preseason"} />)}</div>
+        </>
+      )}
 
       {v.october.length > 0 && (
         <>
@@ -325,5 +342,14 @@ function Year({ y, names, years }: { y: number; names: Names; years: number[] })
       <div className="sp-teams">{["AL", "NL"].map((x) => <button key={x} className={cx(lg === x && "on")} onClick={() => setLg(x)}>{x === "AL" ? "American League" : "National League"}</button>)}</div>
       {v.standings.filter((d) => d.lg === lg).map((d) => <Table key={d.label} d={d} />)}
     </>
+  );
+}
+
+function StarRow({ s, pre }: { s: MlbStar; pre: boolean }) {
+  return (
+    <div className="pro-star">
+      <span className="pro-pos">{s.pos}</span>
+      <span className="sp-dm"><b>{s.name}{s.moved ? <i className="pro-tag">what-if</i> : null}</b><small>{s.line || `${s.talent} wins${pre ? " a year (projected)" : ""}`} · age {s.age}</small></span>
+    </div>
   );
 }

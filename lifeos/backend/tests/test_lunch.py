@@ -116,19 +116,73 @@ def test_everyone_sits_at_their_table_and_visits_are_rare(monkeypatch):
     assert (visitor, host) not in joins and not newcomers
 
 
-def test_you_on_the_routine_just_sit_at_your_table(monkeypatch):
+def to_lunch(sim):
+    """Live up to the next school-day lunch."""
+    for _ in range(40):
+        if sim.current_phase() == "lunch" and sim.w.meta["protagonist"] in sim.slot_actors("lunch"):
+            return
+        sim.step()
+    raise AssertionError("no lunch")
+
+
+def my_lunch(sim, before):
+    me = sim.w.meta["protagonist"]
+    return [e for k, e in sim.w.history.events.items() if k >= before and e["type"] == "lunch_table" and me in e["actors"]]
+
+
+def test_if_you_dont_pick_you_sit_at_your_table():
+    sim, me = world()
+    set_groups(sim, me)
+    w = sim.w
+    for _ in range(3):  # (a few school days)
+        to_lunch(sim)
+        _, dec = sim.options_for(me.id)
+        r = lunch.routine_index(dec)
+        assert r is not None and dec["cands"][r].target in lunch.store(w)["tables"][lunch.home_of(w, me.id)]["members"]
+        before = w.history.next_event
+        sim.step()  # nobody picked for you
+        ev = my_lunch(sim, before)
+        home = lunch.store(w)["home"]
+        assert ev and sum(home.get(m) == home[me.id] for m in ev[0]["actors"]) >= len(ev[0]["actors"]) - 2  # (a visitor or two)
+
+
+def test_lunch_with_a_friend_just_you_two():
     sim, me = world()
     big, small = set_groups(sim, me)
     w = sim.w
-    monkeypatch.setattr(lunch, "VISIT_P", 1.0)
-    moments.control(w)["auto_lunch"] = True
-    joins, _ = lunch.seating(sim, {me.id}, [(me.id, small[0])], random.Random(1))
-    st = lunch.store(w)
-    mine = [b if a == me.id else a for a, b in joins if me.id in (a, b)]
-    assert mine and all(st["home"][x] == st["home"][me.id] for x in mine)
-    moments.control(w)["auto_lunch"] = False  # picking lunch yourself: your pick is where you go
-    joins, newcomers = lunch.seating(sim, set(), [(me.id, small[0])], random.Random(1))
-    assert (me.id, small[0]) in joins and me.id in newcomers
+    to_lunch(sim)
+    _, dec = sim.options_for(me.id)
+    two = [i for i, cd in enumerate(dec["cands"]) if (cd.extra or {}).get("just_us")]
+    assert two, "close friends to get lunch with"
+    pal = dec["cands"][two[0]].target
+    before = w.history.next_event
+    sim.step({me.id: two[0]})
+    ev = my_lunch(sim, before)
+    if w.chars[pal].location != "away" and sim.slot is not None:
+        assert ev and set(ev[0]["actors"]) == {me.id, pal}, [e["actors"] for e in ev]
+        assert "just the two of you" in ev[0]["text"]
+
+
+def test_the_phone_lunch_menu_is_your_table_or_something_different():
+    api.lab = api.Lab(Store(":memory:"), fresh=True)
+    c = TestClient(api.app)
+    assert c.post("/api/story/new", json={"spec": spec(per=6)}).status_code == 200
+    sim = api.lab.sim
+    to_lunch(sim)
+    ch = c.get("/api/phone/choices").json()
+    assert ch["ready"]
+    first = ch["options"][0]
+    assert first.get("routine") and first.get("gut") and first["text"].startswith("Sit ") and first["reason"].startswith("Like always")
+    acts = [o["action"] for o in ch["options"] if not o.get("routine") and not o.get("just_us")]
+    for a in ("sit_with", "introduce", "gossip", "tease"):
+        assert a not in acts  # (that's your table, every day)
+    before = sim.w.history.next_event
+    r = c.post("/api/phone/choose", json={"index": first["index"]})
+    assert r.status_code == 200
+    ev = my_lunch(sim, before)
+    home = lunch.store(sim.w)["home"]
+    me = sim.w.meta["protagonist"]
+    assert ev and sum(home.get(m) == home[me] for m in ev[0]["actors"]) >= len(ev[0]["actors"]) - 2  # (a visitor or two)
 
 
 def test_you_set_your_table_and_can_go_back_to_your_group():

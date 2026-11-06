@@ -1353,6 +1353,61 @@ def _stars(sim, team: str, y: int, n=4) -> list:
              "line": _real_line(D, p, y, frac) if frac > 0 else None, "moved": p in moved} for p in top]
 
 
+def _players(sim, team: str, y: int) -> list:
+    """Everyone on the team in season y: [{key, kind ("hit"/"pitch"), value (wins), usage}], what-if moves included."""
+    D = data()
+    st = state(sim)
+    if y > D.last and st.get("live"):
+        L = st["live"]
+        d = _depth(L, team)
+        return [{"key": k, "kind": "hit" if L["pl"][k]["r"] == "H" else "pitch", "value": L["pl"][k]["v"], "usage": d[k], "live": True}
+                for k in d]
+    ids = tuple(st.get("whatifs") or [])
+    vals, pa, outs = defaultdict(float), defaultdict(int), defaultdict(int)
+    for p, rs in D.bat.items():
+        for r in rs:
+            if r[1] == y and _moved_team(ids, D.people[p][0], y, r[2]) == team:
+                vals[p] += r[4]
+                pa[p] += r[D.BL["PA"]]
+    for p, rs in D.pit.items():
+        for r in rs:
+            if r[1] == y and _moved_team(ids, D.people[p][0], y, r[2]) == team:
+                vals[p] += r[3]
+                outs[p] += r[D.PL["IPOuts"]]
+    return [{"key": p, "kind": "pitch" if outs[p] > pa[p] else "hit", "value": v, "usage": outs[p] if outs[p] > pa[p] else pa[p]}
+            for p, v in vals.items()]
+
+
+def team_players(sim, team: str, y: int, n: int = 5) -> dict:
+    """The team page: the top n hitters and top n pitchers (by how many wins they're worth this season), and the whole
+    roster (regulars first)."""
+    D = data()
+    st = state(sim)
+    rows = _players(sim, team, y)
+    live = bool(rows and rows[0].get("live"))
+    frac = (st["live"]["done"] / SERIES if st["live"]["year"] == y else 1.0) if live else _frac(sim, y)
+    pct = 0.5
+    if live:
+        w, l_ = st["live"]["rec"].get(team, [0, 0])
+        pct = w / (w + l_) if w + l_ else 0.5
+
+    def card(x):
+        k = x["key"]
+        if live:
+            pl = st["live"]["pl"][k]
+            return {"name": player_name(sim, k), "pos": pl["pos"], "age": y - pl["b"], "talent": round(x["value"], 1),
+                    "line": _line_text(line(sim, k, y, x["usage"], frac, pct)) if frac else None}
+        return {"name": D.name(k), "pos": _pos_of(D, k, y), "age": y - (D.people[k][3] or y - 28), "talent": round(x["value"], 1),
+                "line": _real_line(D, k, y, frac) if frac > 0 else None}
+
+    out = {}
+    for kind, label in (("hit", "hitters"), ("pitch", "pitchers")):
+        mine = [x for x in rows if x["kind"] == kind]
+        out[label] = [card(x) for x in sorted(mine, key=lambda x: (-x["value"], str(x["key"])))[:n]]
+        out[label + "_all"] = [card(x) for x in sorted(mine, key=lambda x: (-x["usage"], -x["value"], str(x["key"])))]
+    return out
+
+
 def _frac(sim, y: int) -> float:
     """How much of season y has been played by today (0 before Opening Day, 1 once it's over)."""
     sd = season_days(y)
@@ -1525,7 +1580,7 @@ def _team_card(sim, team: str, cur: dict, table: list) -> dict:
     t = titles(sim, team)
     return {"team": team, "name": team_name(team, False, y), "nick": team_name(team, True, y), "abbr": D.teams[team]["abbr"],
             "record": f"{w}-{l_}" if w + l_ else None, "place": place, "status": status, "l10": row["l10"],
-            "streak": row["streak"], "stars": _stars(sim, team, y), "titles": t,
+            "streak": row["streak"], "stars": _stars(sim, team, y), **team_players(sim, team, y), "titles": t,
             "rival": [team_name(r, True, y) for r in RIVALS.get(team, [])]}
 
 

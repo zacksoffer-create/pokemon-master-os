@@ -322,7 +322,7 @@ export default function StoryTab() {
           <div className="ph-choices">
             <div className="ph-free-h">
               <div className="ph-kicker">Free time</div>
-              <b>{freeTitle}: pick one thing</b>
+              <b>{s.scene.phase === "lunch" ? "Lunch: your table, or something different" : `${freeTitle}: pick one thing`}</b>
               <small>Texting doesn't use up your time. Text anyone, anytime, from the Phone tab.</small>
             </div>
             {choices === null ? (

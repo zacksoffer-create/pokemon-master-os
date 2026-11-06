@@ -172,7 +172,7 @@ export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; na
   changed?: { sid: string; title: string; state: string; date?: string; why?: string; reason?: string }[]; already_there?: string[];
   played_total?: number; before?: number | null; coverage?: Coverage; replaces?: string[]; script?: boolean };
 export type ReadScene = { sid: string; title: string; storyline: string; pack: string; src: string; plays: boolean; date: string | null;
-  day: number | null; why: string | null; detail: any; year: string | null; dated: boolean; unwritten?: boolean; summary?: string;
+  day: number | null; why: string | null; detail: any; year: string | null; dated: boolean; unwritten?: boolean; summary?: string; played?: boolean;
   when?: string; outline_n?: number | null; if?: string | null };
 export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
 export type SkippedScene = { n: number; title: string; problems: string[] };
@@ -222,7 +222,7 @@ export type MlbStar = { name: string; pos: string; age: number; talent: number; 
 export type MlbView = {
   year: number; phase: string; today: string;
   my_team: { team: string; name: string; nick: string; abbr: string; record: string | null; place: string | null; status: string | null; l10: string | null;
-    streak: string | null; stars: MlbStar[]; titles: { real: number[]; world: number[] }; rival: string[] };
+    streak: string | null; stars: MlbStar[]; hitters?: MlbStar[]; pitchers?: MlbStar[]; hitters_all?: MlbStar[]; pitchers_all?: MlbStar[]; titles: { real: number[]; world: number[] }; rival: string[] };
   standings: MlbDiv[]; october: MlbSeries[];
   leaders: { stat: string; label: string; lg: string; rows: { name: string; team: string; abbr: string; value: string | number }[] }[];
   news: { date: string; text: string; kind: string; mine: boolean }[];
@@ -340,6 +340,8 @@ export const phoneApi = {
   order: (): Promise<UpNext> => api.get("/api/story/order"),
   orderMove: (sid: string, before: string): Promise<UpNext> => api.post("/api/story/order/move", { sid, before }),
   orderNext: (sid: string): Promise<{ ok: boolean }> => api.post("/api/story/order/next", { sid }),
+  playNow: (sid: string): Promise<{ ok: boolean; title: string }> => api.post("/api/story/scene/play_now", { sid }),
+  startStoryline: (pack: string): Promise<{ ok: boolean; title: string }> => api.post("/api/story/storyline/start", { pack }),
   orderClear: (sid?: string): Promise<UpNext> => api.post("/api/story/order/clear", sid ? { sid } : {}),
   schedule: (): Promise<ScheduleView> => api.get("/api/story/schedule"),
   scheduleReport: (days: number): Promise<ScheduleReport> => api.get(`/api/story/schedule/report?days=${days}&fmt=both`),

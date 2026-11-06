@@ -1328,6 +1328,34 @@ def api_story_order_next(body: dict = Body(...)):
         return {"ok": True}
 
 
+@app.post("/api/story/scene/play_now")
+def api_story_scene_play_now(body: dict = Body(...)):
+    """{sid}: play this scene right now, whatever its timing says (its month, year, the storyline's order)."""
+    from . import scheduler
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        r = scheduler.play_now(L.sim, body.get("sid"))
+        if not r["ok"]:
+            raise HTTPException(422, f"It can't play: {r['why']}.")
+        L.autosave(force=False)
+        return r
+
+
+@app.post("/api/story/storyline/start")
+def api_story_storyline_start(body: dict = Body(...)):
+    """{pack}: a storyline's next scene, right now (get a stuck one going)."""
+    from . import scheduler
+    L = _story_lab()
+    L.guard()
+    with L.lock:
+        r = scheduler.start_storyline(L.sim, body.get("pack"))
+        if not r["ok"]:
+            raise HTTPException(422, f"It can't start: {r['why']}.")
+        L.autosave(force=False)
+        return r
+
+
 @app.post("/api/story/order/clear")
 def api_story_order_clear(body: dict = Body(default={})):
     """{sid}: undo what that episode waits for; nothing: back to the story's own order."""

@@ -912,4 +912,6 @@ def r_mentor(sim, c, cand, ev, fx, rng, ctx):
 @resolver("lunch_table")
 def r_lunch_table(sim, c, cand, ev, fx, rng, ctx):
     sim.slot.tables.append((c.id, cand.target))
+    if isinstance(cand.extra, dict) and cand.extra.get("just_us"):
+        sim.slot.just_us.append((c.id, cand.target))
     ev["skip"] = True  # the lunch-table event records this

@@ -3111,6 +3111,20 @@ def slot_candidates(sim, me, spec) -> list:
     return out
 
 
+def pet_slot(sim, me, name) -> tuple | None:
+    """A named cast member who's your family's pet ("Bailey", the dog): (a reference that isn't a person, the pet's name).
+    Scenes put the pet in their text; how-you-feel effects on a pet are skipped."""
+    d = merged()["cast"].get(name)
+    spec = (d or {}).get("spec") or {}
+    if spec.get("who") != "named" or me is None:
+        return None
+    want = (spec.get("name") or name).strip().lower()
+    for pid, p in sorted((sim.w.meta.get("pets") or {}).items()):
+        if p.get("household") == me.household_id and p.get("status") in ("home", None) and (p.get("name") or "").strip().lower() == want:
+            return f"pet:{pid}", p["name"]
+    return None
+
+
 def bound(sim, name):
     """Who a slot is bound to (None if it isn't, or if they're gone from your story)."""
     rec = sim.w.meta.get("cast_slots", {}).get(name)
@@ -3284,14 +3298,20 @@ def _context(sim, me, who, when, rng, pack=None, cast_refs=None) -> dict | None:
     if who and who.startswith("cast:"):
         name = who[5:]
         them = bind(sim, me, name)
-        if not them:
+        pet = None if them else pet_slot(sim, me, name)
+        if pet:  # the scene's about your dog
+            ctx.update(them=pet[0], them_first=pet[1], cast_slot=name)
+            who = None
+            them = None
+        elif not them:
             return None  # nobody fits that slot in your story: these scenes don't happen
-        if not (all(_in(_rel(w, me.id, them, f), r) for f, r in (when.get("you_feel") or {}).items())
+        if them and not (all(_in(_rel(w, me.id, them, f), r) for f, r in (when.get("you_feel") or {}).items())
                 and all(_in(_rel(w, them, me.id, f), r) for f, r in (when.get("they_feel") or {}).items())):
             return None
-        ctx["them"] = them
-        ctx["them_first"] = w.chars[them].first
-        ctx["cast_slot"] = name
+        if them:
+            ctx["them"] = them
+            ctx["them_first"] = w.chars[them].first
+            ctx["cast_slot"] = name
         who = None
     if who:
         cands = candidates(sim, me, who)
@@ -3336,6 +3356,11 @@ def _context(sim, me, who, when, rng, pack=None, cast_refs=None) -> dict | None:
         ctx["pet"] = pets[0]["name"] if pets else h["pet"]["name"]
     for name in cast_refs or []:  # the storyline's other people in this scene: the same person every time
         cid = bind(sim, me, name)
+        if not cid:
+            pet = pet_slot(sim, me, name)
+            if pet:  # (your dog, in the scene)
+                ctx[f"cast_{name}"], ctx[f"cast_{name}_first"] = pet
+                continue
         if not cid or cid == ctx.get("them") or cid == me.id:
             return None
         ctx[f"cast_{name}"] = cid

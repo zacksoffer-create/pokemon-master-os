@@ -268,7 +268,9 @@ class Institutions:
         planned = sim.slot.planned
         absent = {cid for cid, d in planned.items() if d and d["chosen"].a["id"] in ("sit_alone", "study_at_lunch")}
         # everyone sits at their table (lunch is a routine); "sit with" someone at another table is a visit for the day
-        joins, newcomers = lunch.seating(sim, absent, list(sim.slot.tables), rng)
+        just_us = list(getattr(sim.slot, "just_us", []))
+        joins, newcomers = lunch.seating(sim, absent, list(sim.slot.tables), rng, just_us)
+        pairs_today = {frozenset(p) for p in just_us}
         if not joins:
             return
         parent: dict[str, str] = {}
@@ -338,10 +340,11 @@ class Institutions:
             pairs = [(members[i], members[j]) for i in range(len(members)) for j in range(i + 1, len(members))]
             rng.shuffle(pairs)
             qs = []
-            for a, b in pairs[:lunch.table_pairs(len(members))]:
-                q = 0.18 + 0.3 * compatibility(w, w.chars[a], w.chars[b]) + rng.gauss(0, 0.22)
+            two = len(members) == 2 and frozenset(members) in pairs_today
+            for a, b in (pairs * 2 if two else pairs)[:lunch.table_pairs(len(members))]:  # (just you two: a real talk)
+                q = 0.18 + 0.3 * compatibility(w, w.chars[a], w.chars[b]) + rng.gauss(0, 0.22) + (0.12 if two else 0)
                 qs.append(q)
-                ambient(sim, fx, a, b, q, "lunch table")
+                ambient(sim, fx, a, b, q, "lunch, just the two of them" if two else "lunch table")
             avg = sum(qs) / len(qs)
             for m in members:
                 fx.need(m, "social", 6 + 1.5 * min(len(members), 5), "lunch with friends")
@@ -350,7 +353,7 @@ class Institutions:
                 sim.expect(m, "sit_with", clamp(avg, -1, 1))
             ev["outcome"] = "great" if avg > 0.45 else "good" if avg > 0.05 else "flat"
             ev["data"]["quality"] = round(avg, 3)
-            line = lunch.happening(sim, fx, members, rng)  # now and then something happens at a table
+            line = lunch.happening(sim, fx, members, rng) if not two else lunch.pair_line(sim, members)
             if line:
                 ev["text"] = line
                 ev["importance"] = 8  # (your table's: it's in your feed)

@@ -572,7 +572,7 @@ def expand_prompt(sim, pack: str, ask: str = "", size: str = "bunch") -> dict:
 
 WHY_PLAIN = {
     "missing_cast": "nobody in your story fits who it's about", "not_playable": "the people its choices need aren't there",
-    "year_passed": "its school years end before it can come", "window_passed": "its day (or season) had already gone by in its last school year",
+    "year_passed": "its school years end before it can come", "window_passed": "its month came and went before its turn (Play it now plays it anyway)",
     "wrong_date": "its day never came while it was ready", "branch_closed": "it needs a choice you didn't make",
     "missing_fact": "it needs a choice you didn't make", "exclusive_branch": "a choice you made rules it out",
     "after_unreachable": "a scene it comes after can't happen", "waiting_for_scene": "it waits on a scene that never came",
@@ -631,7 +631,7 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
                     reason = notes[sc["id"]]["reason"]  # what actually kept it out along the way
                 why = WHY_PLAIN.get(reason) or r.get("why") or (reason or "it never got its turn").replace("_", " ")
             scenes.append({"sid": sc["id"], "title": sc.get("title"), "storyline": names[g["id"]], "pack": g["id"], "src": sc.get("src") or "",
-                           "plays": plays, "date": r.get("date") if plays else None, "day": r.get("day") if plays else None,
+                           "plays": plays, "played": (before.get(sc["id"]) or {}).get("state") == "played", "date": r.get("date") if plays else None, "day": r.get("day") if plays else None,
                            "why": why, "detail": None if plays else r.get("detail"), "n": i,
                            "dated": bool((sc.get("when") or {}).get("dates")),
                            "outline_n": next((e["n"] for e in g["pack"].get("outline") or [] if e.get("sid") == sc["id"]), None)})

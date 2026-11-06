@@ -72,7 +72,7 @@ def scene(sim, me) -> dict:
     elif ph == "classes":
         art, title, line = "classroom", school, "Classes drag on."
     elif ph == "lunch":
-        art, title, line = "cafeteria", "Lunch", f"The {school} cafeteria is loud as usual. Where do you sit?"
+        art, title, line = "cafeteria", "Lunch", f"The {school} cafeteria is loud as usual. Your table's in its usual spot."
     elif ph == "after_school":
         if games:
             g = w.groups[games[0]["group"]]
@@ -330,6 +330,16 @@ def phone_choices():
             o["why"] = cd.why
             if isinstance(cd.extra, dict) and cd.extra.get("pet"):
                 o["pet"] = cd.extra["pet"]
+            if slot == "lunch":
+                ex = cd.extra if isinstance(cd.extra, dict) else {}
+                if ex.get("routine"):
+                    o["routine"] = True
+                    o["text"] = lunch_table_text(L.w, ex.get("table"))
+                elif ex.get("just_us"):
+                    o["just_us"] = True
+                    o["text"] = f"Get lunch with {L.w.chars[cd.target].first}, just you two"
+                elif cd.a["id"] in LUNCH_AT_THE_TABLE:
+                    continue  # (sitting with someone, gossip, introductions: that's your table, every day)
             if cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show"):
                 o["own"] = cd.extra["kind"]  # your own game or show, not a night out
                 if cd.extra["kind"] == "game" and cd.extra.get("group") in L.w.groups:
@@ -351,6 +361,13 @@ def phone_choices():
             uniq[0]["gut"] = True
         from . import planner
         opts = planner.annotate(sim, me, uniq)
+        if slot == "lunch":
+            for o in opts:
+                if o.get("routine"):
+                    o.update(group="want", section="people", icon="people", reason=lunch_mates_text(L.w, me.id), later=None)
+                elif o.get("just_us"):
+                    o.update(group="want", section="people", reason="Somewhere other than the cafeteria", later=None)
+            opts.sort(key=lambda o: (not o.get("routine"), not o.get("just_us")))
         from . import squad
         # nobody's free while they're at practice: they're not an option right now
         opts = [o for o in opts if not (o["action"] in ("hang_out", "date", "help_friend") and o.get("target") and sim.committed(o["target"], slot))]
@@ -365,6 +382,26 @@ def phone_choices():
         at = next((i for i, o in enumerate(opts) if o["group"] != "should"), len(opts))
         opts[at:at] = asked + group + crew
         return {"ready": True, "slot": slot, "scene": scene(sim, me), "options": opts, "busy": squad.busy_friends(sim, slot)}
+
+
+LUNCH_AT_THE_TABLE = ("sit_with", "introduce", "gossip", "tease")
+
+
+def lunch_table_text(w, tid) -> str:
+    from . import lunch
+    t = (lunch.store(w).get("tables") or {}).get(tid) or {}
+    return f"Sit with {t['name']}" if t.get("group") else "Sit at your usual table"
+
+
+def lunch_mates_text(w, me) -> str:
+    from . import lunch
+    st = lunch.store(w)
+    t = (st.get("tables") or {}).get((st.get("home") or {}).get(me)) or {}
+    mates = sorted((m for m in t.get("members", []) if m != me and m in w.chars),
+                   key=lambda m: -(w.rels[(me, m)].affection if (me, m) in w.rels else 0))
+    names = [w.chars[m].first for m in mates[:3]]
+    more = len(mates) - len(names)
+    return "Like always" + (": " + ", ".join(names) + (f" and {more} more" if more else "") if names else "")
 
 
 def crew_option(L, me, opts):

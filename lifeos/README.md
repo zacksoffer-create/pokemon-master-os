@@ -373,6 +373,13 @@ The world in numbers, next to the Ladder, the Crowd and the Talk:
 - **Yearbook**: this season so far (the superlatives with where you'd place, the top ten, your rank, your teams'
   records and lines, the big moments), and a page for every season that's ended, kept by its season break.
 
+## The Yankees page (Sports → Pros → MLB)
+
+Your team's **top 5 hitters** and **top 5 pitchers** this season (by how many wins each is worth, with their lines),
+and **the whole roster** under them (hitters by at-bats, pitchers by innings). 2010: Cano, Swisher, A-Rod, Teixeira and
+Posada; Sabathia, Pettitte, Hughes, Rivera (1.80 ERA) and Burnett. Jeter (.270 in 2010, a down year) leads the roster
+in at-bats.
+
 ## Lunch: your table is your routine
 
 Lunch isn't a decision you make every day anymore. Everyone has a table, and that's where they sit, every school day.
@@ -392,8 +399,39 @@ Lunch isn't a decision you make every day anymore. Everyone has a table, and tha
   someone looking. Your table's show up in your feed ("Lunch: Mike, Jack and Will have a running joke about the guy who
   microwaves fish every day now"). The steps are small, so nothing swings wildly, but over a season the people you sit
   with become close. Your character never starts something on autopilot: that's yours to do.
-- **Lunch on autopilot** (the Me tab) is now on by default: you just sit at your table. Turn it off to pick lunch
-  yourself each day (sitting with someone at another table is then a visit for the day).
+- **Lunch on autopilot** (the Me tab) is on by default: the story doesn't stop at lunch, and you sit at your table.
+- **When the story is at lunch** (a scene played at lunch, or autopilot's off), lunch is one simple choice: **Sit with
+  your table** first ("Like always: Mike, Joey, Nicole and 4 more"), or something different: **get lunch with a close
+  friend, just you two** (you both skip your tables that day, and it's a real talk), flirt with or ask out your crush,
+  help a friend, study through lunch, eat alone. Sitting with this person or that person, gossip and introductions
+  aren't choices anymore: that's your table, every day. **Let it play out** means your table.
+
+## Storylines run as written
+
+Read it's forecast plays your seven years forward on a copy and tells you which scenes won't come and why. On a
+33-storyline library it now plays 974 of 1,102 scenes (it was 703); most of the rest are branches you didn't take.
+What changed:
+
+- **Your pet can be in a scene.** A storyline whose cast names your dog (`cast: bailey = Bailey`) puts Bailey in its
+  text; how-you-feel effects on a pet are skipped. (Before, every scene with Bailey in its cast quietly couldn't start.)
+- **The summer before.** A summer scene that leads straight into the same year's fall ("sophomore · August", then
+  "sophomore · September") is the August before that school year: preseason, not the summer after it.
+- **The dates win.** A storyline whose scenes are listed out of calendar order (a winter-break scene between September
+  and October ones, a freshman-November scene after a freshman-March one) plays them in calendar order, instead of
+  waiting at the later one while every scene after it misses its month. Your scripts aren't changed.
+- **One stuck scene doesn't hold the line.** A scene that's ready but can't start (it needs "the baseball coach" and
+  "the JV coach", and your school has one coach) is tried again a week later; the scenes after it go on meanwhile.
+- **Someone else's games.** A scene's "we lost" only waits on your games when it's your sport (Nicole's soccer team
+  losing isn't about your football record).
+- **The forecast holds tryouts and new school years.** Teams form at their tryouts (the people who play the sport,
+  best first, your Teams placements counted), and each Sept 1 brings the new year's calendar and freshmen, so
+  teammate scenes and later years can be checked like the first.
+- **Dense pacing doesn't hold anything back.** Over seven years it plays the same scenes as Uncapped (961 vs 968
+  before the last fixes); it spreads them over more days. Keep it on Dense.
+- **Play it now.** In Read it, tap a scene's date: **Play it now** plays it right now, whatever its timing says (its
+  month, its year, the storyline's order), or move it to a school year and month. **Play its next scene now** (at the
+  top of Read it) gets a stuck storyline going. Only a scene that already happened, or one with nobody in your story to
+  be its people, can't (and it says who: "nobody fits freshman_infielder", a kid who doesn't exist until 2013).
 
 ## Seasons: the School Year and the Summer
 

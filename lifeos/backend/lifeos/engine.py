@@ -33,6 +33,7 @@ class SlotState:
         self.engaged: dict = {}
         self.attend: dict = {}
         self.tables: list = []
+        self.just_us: list = []  # lunch with one friend somewhere else, just the two of you
         self.traces: dict = {}
         self.cancelled: dict = {}
         self.agreed: set = set()
@@ -456,7 +457,11 @@ class Simulation:
     def decide_for(self, cid, slot, trace=True):
         c = self.w.chars[cid]
         rng = self.streams.get("decide", self.w.day, slot, cid)
-        return decide(self, c, slot, self.char_ctx(c), rng, trace)
+        dec = decide(self, c, slot, self.char_ctx(c), rng, trace)
+        if dec is not None and slot == "lunch" and cid == self.w.meta.get("protagonist") and c.role == "student":
+            from . import lunch
+            lunch.my_options(self, dec)  # your usual table, and lunch with a friend somewhere else
+        return dec
 
     def must_go(self, dec):
         """Your team's practice or game (or your show) in this part of the day: the index of going, or None."""
@@ -538,6 +543,11 @@ class Simulation:
                         for row in dec["trace"]["candidates"]:
                             row["chosen"] = row["action"] == dec["chosen"].a["id"] and row["target"] == (
                                 dec["chosen"].target if not isinstance(dec["chosen"].target, dict) else None)
+            elif slot == "lunch" and cid == w.meta.get("protagonist"):
+                from . import lunch
+                r = lunch.routine_index(dec)
+                if r is not None:
+                    dec["chosen"] = dec["cands"][r]  # you didn't pick: you sit at your table, like every day
             self.slot.planned[cid] = dec
             if dec["trace"]:
                 self.slot.traces[cid] = w.history.add_trace(dec["trace"])

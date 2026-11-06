@@ -122,7 +122,7 @@ function TimingSheet({ part, onClose, onSaved }: { part: { pack: string; name: s
 }
 
 /** Move one scene to a school year and month (or back to whatever its storyline says). */
-function MoveSheet({ scene, onClose, onSaved }: { scene: ReadScene | null; onClose: () => void; onSaved: () => void }) {
+function MoveSheet({ scene, onClose, onSaved, onPlay }: { scene: ReadScene | null; onClose: () => void; onSaved: () => void; onPlay: (sid: string) => void }) {
   const { toast } = usePhone();
   const [year, setYear] = useState("");
   const [month, setMonth] = useState(0);
@@ -150,8 +150,15 @@ function MoveSheet({ scene, onClose, onSaved }: { scene: ReadScene | null; onClo
     }
   };
   return (
-    <Sheet open={!!scene} onClose={onClose} title={`Move “${scene?.title || ""}”`}>
+    <Sheet open={!!scene} onClose={onClose} title={`“${scene?.title || ""}”`}>
       <div className="rd-tsheet">
+        {scene && !scene.played && (
+          <>
+            <button className="ph-btn primary block" onClick={() => onPlay(scene.sid)}>Play it now</button>
+            <p className="ph-dim small">Right now, whatever its timing says. The storyline goes on from there.</p>
+            <div className="dl-sub">Or move it</div>
+          </>
+        )}
         <label className="dl-cast-row"><span>School year</span>
           <select className="ph-input" value={year} onChange={(e) => setYear(e.target.value)}>
             <option value="">Whatever the storyline says</option>
@@ -172,7 +179,22 @@ function MoveSheet({ scene, onClose, onSaved }: { scene: ReadScene | null; onClo
 }
 
 export default function StorylineRead({ pack, onClose, onExpand }: { pack: string | null; onClose: () => void; onExpand?: (pack: string) => void }) {
-  const { toast } = usePhone();
+  const { toast, refresh } = usePhone();
+  const [playing, setPlaying] = useState(false);
+  const play = async (fn: () => Promise<{ title: string }>) => {
+    setPlaying(true);
+    try {
+      const r = await fn();
+      toast(`“${r.title}” is on your Story tab now.`, "good");
+      setMove(null);
+      await refresh();
+      onClose();
+    } catch (e) {
+      toast(errText(e), "bad");
+    } finally {
+      setPlaying(false);
+    }
+  };
   const [v, setV] = useState<SR | null>(null);
   const [only, setOnly] = useState<string | null>(null);
   const [timing, setTiming] = useState<SR["parts"][number] | null>(null);
@@ -227,6 +249,9 @@ export default function StorylineRead({ pack, onClose, onExpand }: { pack: strin
             ))}
             <p className="ph-dim small">Tap a scene's date to move just that scene.</p>
           </div>
+          <button className="ph-btn soft block" disabled={playing} onClick={() => play(() => phoneApi.startStoryline(v.pack))}>
+            {playing ? <span className="ph-spinner small" /> : "Play its next scene now"}
+          </button>
           {onExpand && <button className="ph-btn soft block" onClick={() => onExpand(v.pack)}>Add an expansion</button>}
           <CoverageGrid c={v.coverage} />
           {shown.map((x) => {
@@ -265,7 +290,7 @@ export default function StorylineRead({ pack, onClose, onExpand }: { pack: strin
         </>
       )}
       <TimingSheet part={timing} onClose={() => setTiming(null)} onSaved={reload} />
-      <MoveSheet scene={move} onClose={() => setMove(null)} onSaved={reload} />
+      <MoveSheet scene={move} onClose={() => setMove(null)} onSaved={reload} onPlay={(sid) => play(() => phoneApi.playNow(sid))} />
     </Sheet>
   );
 }

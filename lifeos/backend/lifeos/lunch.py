@@ -198,39 +198,78 @@ def home_of(w, cid):
     return (store(w).get("home") or {}).get(cid)
 
 
-def seating(sim, absent: set, visits: list, rng=None) -> tuple:
-    """Today's lunch: (join pairs for the table builder, newcomers who can still be frozen out). Everyone at school sits at
-    their table; now and then someone spends the day at a friend's other table (a visit). You, on the routine (auto
-    lunch), just sit at your table; when you pick lunch yourself, your pick is where you go."""
-    import random
-
+def my_table(sim):
+    """(table id, table) where you sit (the tables made fresh for the school year first, if they need to be)."""
     from . import calendar as calm
-    from . import moments
     w = sim.w
     st = store(w)
     if not st.get("tables") or st.get("made") is None or st.get("year") != calm.school_year_of(w.day):
         rebuild(sim)
+    tid = (st.get("home") or {}).get(w.meta.get("protagonist"))
+    return (tid, st["tables"].get(tid)) if tid else (None, None)
+
+
+def my_options(sim, dec):
+    """Your lunch choices, added to the engine's: your usual table (what you do unless you pick something else), and
+    lunch with one close friend somewhere other than the cafeteria, just you two."""
+    from .decision import Cand
+    w = sim.w
+    me = w.meta.get("protagonist")
+    a = sim.cat.actions.get("sit_with")
+    tid, t = my_table(sim)
+    if a is None or t is None or me not in w.chars:
+        return
+    here = lambda x: x in w.chars and w.chars[x].status == "active" and w.chars[x].location != "away"  # noqa: E731
+    top = max((c.u for c in dec["cands"]), default=0.0)
+    mates = [m for m in t["members"] if m != me and here(m)]
+    if mates:
+        cd = Cand(a, max(mates, key=lambda m: (_aff(w, me, m), m)), {"routine": True, "table": tid}, "your usual table")
+        cd.u = top + 0.02
+        dec["cands"].append(cd)
+    fam = set(sim.siblings(me))
+    pals = [x for x in (w.out.get(me) or {}) if here(x) and x not in fam and w.chars[x].role == "student"
+            and w.chars[x].school == w.chars[me].school and _aff(w, me, x) >= 30 and _aff(w, x, me) >= 20]
+    for x in sorted(pals, key=lambda x: (-_aff(w, me, x), x))[:3]:
+        cd = Cand(a, x, {"just_us": True}, "just you two")
+        cd.u = top + 0.01
+        dec["cands"].append(cd)
+
+
+def routine_index(dec):
+    return next((i for i, cd in enumerate(dec["cands"]) if isinstance(cd.extra, dict) and cd.extra.get("routine")), None)
+
+
+def seating(sim, absent: set, visits: list, rng=None, just_us=()) -> tuple:
+    """Today's lunch: (join pairs for the table builder, newcomers who can still be frozen out). Everyone at school sits at
+    their table; now and then someone spends the day at a friend's other table (a visit), and you can get lunch with a
+    friend somewhere else, just you two (if they're around and not studying)."""
+    import random
+    w = sim.w
+    my_table(sim)
+    st = store(w)
     home = st["home"]
     rng = rng or random.Random(w.day)
     me = w.meta.get("protagonist")
-    routine = moments.control(w).get("auto_lunch", False)
-    if routine:
-        absent = set(absent) - {me}
+    pair = {}
+    for a, b in just_us:
+        if a in home and b in home and a not in absent and b not in absent and a not in pair and b not in pair:
+            pair[a], pair[b] = b, a
     away = {}
     for a, b in visits:
-        if a == me and routine:
+        if a in pair or b in pair:
             continue
         if a in home and b in home and home[a] != home[b] and a not in absent and b not in absent and a not in away:
             if a == me or rng.random() < VISIT_P:
                 away[a] = b
     joins = []
     for tid, t in sorted(st["tables"].items()):
-        here = [m for m in t["members"] if m not in absent and m not in away and m in w.chars and w.chars[m].location != "away"]
+        here = [m for m in t["members"] if m not in absent and m not in away and m not in pair and m in w.chars and w.chars[m].location != "away"]
         if len(here) < 2:
             continue
         anchor = here[0]
         joins += [(m, anchor) for m in here[1:]]
     joins += sorted(away.items())
+    joins += sorted((a, b) for a, b in pair.items() if a < b)
     newcomers = set(away) | {cid for cid, d in (st.get("since") or {}).items() if w.day - d < NEW_DAYS}
     return joins, newcomers
 
@@ -281,6 +320,15 @@ def happening(sim, fx, members, rng):
             return f"Lunch: you caught {w.chars[a].first} looking over more than once."
         return f"Lunch: {w.chars[a].first} keeps finding reasons to talk to {w.chars[b].first}." if at_mine else None
     return None
+
+
+def pair_line(sim, members):
+    w = sim.w
+    me = w.meta.get("protagonist")
+    if me not in members:
+        return None
+    other = next(m for m in members if m != me)
+    return f"Lunch: you and {w.chars[other].first} skipped the cafeteria and ate somewhere else, just the two of you."
 
 
 def choose(sim, tid: str | None) -> dict:

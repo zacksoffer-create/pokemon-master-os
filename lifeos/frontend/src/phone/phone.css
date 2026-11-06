@@ -1664,3 +1664,7 @@ html.ph-docscroll body { overflow-x: hidden; }
 .sc-table-h { display: flex; flex-direction: column; gap: 2px; }
 .sc-table-h small { color: var(--ph-dim); font-weight: 600; font-size: 12.5px; }
 .ph-root .sc-table .ph-btn.sc-sit { align-self: flex-start; padding: 10px 16px; font-size: 14.5px; }
+
+.pro-roster { display: flex; flex-direction: column; gap: 10px; }
+.pro-roster > small { margin-top: 4px; font-weight: 700; }
+.ph-root .pro-note { display: block; margin: 4px 4px 10px; font-size: 12px; }
