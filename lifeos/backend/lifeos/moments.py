@@ -297,7 +297,7 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
             if ev.get("changes") is not None:
                 ev["changes"].append([c.id, "focus", old, op[1], "your choice"])
         elif kind == "sign_up":
-            gid = op[1]
+            gid = _ref(ctx, op[1])  # (a group id, or "team_id": the team the moment is about)
             it = next((i for i in sim.upcoming if i.get("group") == gid and i["kind"] == "tryout" and i["day"] >= w.day), None)
             if it and c.id not in w.registrations.get(it["key"], []):
                 w.registrations.setdefault(it["key"], []).append(c.id)

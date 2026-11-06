@@ -12,6 +12,8 @@ Each save is one small event in the lab's history, so you can see what was chang
 """
 from __future__ import annotations
 
+import re
+
 from .catalogs import APTITUDES, MOTIVES, NEEDS, TRAITS
 from .history import Effects
 from .model import REL_FIELDS
@@ -615,6 +617,9 @@ def create_fit(sim, sp: dict, slot: str | None = None, role: str | None = None) 
         raise EditorError("you're already dating someone: they're who this storyline is about")
     grade = max(9, min(12, grade))
     spec["grade"] = grade
+    if gender not in GENDERS:  # (what the storyline says about them: "girl, same age as Zack")
+        lab = (sp.get("label") or "").lower()
+        gender = "f" if re.search(r"\b(girl|woman|she|her|sister|daughter)\b", lab) else "m" if re.search(r"\b(boy|guy|man|he|his|brother|son)\b", lab) else None
     gender = gender if gender in GENDERS else rng.choice(["f", "m"])
     spec["gender"] = gender
     if not spec.get("first"):

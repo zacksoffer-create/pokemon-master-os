@@ -1381,6 +1381,34 @@
      ]
     }
    ]
+  },
+  "tryout_eve": {
+   "title": "{group} tryouts are tomorrow",
+   "text": "Tryouts for {group} are tomorrow after school. {coach} is running them. Are you going out for it?",
+   "choices": [
+    {
+     "label": "Sign me up.",
+     "hint": "you'll go to tryouts tomorrow",
+     "fits": {
+      "competitiveness": 1,
+      "confidence": 0.5
+     },
+     "ops": [
+      [
+       "sign_up",
+       "team_id"
+      ]
+     ]
+    },
+    {
+     "label": "Not this year.",
+     "hint": "you skip it",
+     "fits": {
+      "impulsivity": 0.2
+     },
+     "ops": []
+    }
+   ]
   }
  }
 }

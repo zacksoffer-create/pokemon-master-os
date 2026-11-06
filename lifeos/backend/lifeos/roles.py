@@ -51,6 +51,9 @@ def _uses(sim) -> dict:
             keys.append(f"slot:{who[5:]}")
         elif who and who in dialogue.WHO:
             keys.append(f"kind:{who}")
+        for ref in sc.get("cast_refs") or []:  # the scene's other people count too (someone only ever in the room)
+            if not dialogue.pet_slot(sim, _me(sim), ref):
+                keys.append(f"slot:{ref}")
         if set(sc.get("needs") or []) & {"partner", "partner_first"}:
             keys.append("kind:partner")
         for r in (sc.get("when") or {}).get("requires") or []:
@@ -146,6 +149,10 @@ def board(sim) -> dict:
             r["status"] = "set" if cur else "open" if opts else "missing"
             if r["status"] == "open":
                 r["note"] = "the game picks the best fit when its first scene comes, or pick now"
+            elif r["status"] == "missing" and dialogue.can_make(spec):
+                r["status"], r["note"] = "open", "the game makes this coach when the first scene comes"
+            elif r["status"] == "missing" and spec.get("who") == "teammate":
+                r["note"] = "fills once you're on that team (after its tryouts), or make someone now"
             if not cur:
                 r["near"] = _slot_near(sim, me, spec) if not opts else []
             r["can_add"] = spec.get("who") not in ("coach",)

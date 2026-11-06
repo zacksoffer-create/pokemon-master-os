@@ -309,6 +309,17 @@ def _root(sim, kind) -> str:
     return (sim.cat.moments.get(kind) or {}).get("beat_of") or kind
 
 
+def _sport_game_near(sim, me, sport, day, before=4, after=7) -> bool:
+    """You have a game in that sport within a few days either side (no sport known: any game)."""
+    w = sim.w
+    for i in w.calendar:
+        if i.get("kind") != "game" or i.get("group") not in me.memberships or not (day - before <= i["day"] <= day + after):
+            continue
+        if not sport or (w.groups.get(i["group"]) or {}).get("skill") == sport:
+            return True
+    return False
+
+
 def _my_sport(sim, me, sport) -> bool:
     """A scene's sport is yours: you're on that team, or clearly play it (no sport known: assume it's yours)."""
     if not sport or me is None:
@@ -840,8 +851,10 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
         if t is not None and day < t:
             return ("waiting_for_game", f"{gd['sport']} on {calm.label(t)}")
     reqs = game_reqs(sc, cat["info"].get(sid))
-    if info.get("assumes") and not _my_sport(sim, me, info.get("sport")):
-        reqs = list(when.get("requires") or [])  # (its "we lost" is about someone else's team: your sister's soccer)
+    if info.get("assumes") and (not _my_sport(sim, me, info.get("sport")) or not _sport_game_near(sim, me, info.get("sport"), day)):
+        # (its "we lost" is about someone else's team, or it isn't that sport's season: a recruiting visit that talks
+        # about winning isn't about your football game this week)
+        reqs = list(when.get("requires") or [])
     for r in reqs:
         if r in GAME_REQS:
             g_ = gameplay_last(sim, me)
@@ -906,7 +919,7 @@ def castable(sim, me, sid, cat) -> tuple | None:
     for ref in sc.get("cast_refs") or []:  # the scene's other cast: someone (or your pet) has to be them
         if not dialogue.bound(sim, ref) and not dialogue.pet_slot(sim, me, ref):
             spec = dialogue.slot_spec(ref)
-            if not spec or not dialogue.slot_candidates(sim, me, spec):
+            if not spec or not (dialogue.slot_candidates(sim, me, spec) or dialogue.can_make(spec)):
                 return ("missing_cast", f"nobody fits {ref}" + (f" ({dialogue.slot_label(spec)})" if spec else ""))
     if who and who.startswith("cast:"):
         name = who[5:]
@@ -918,7 +931,7 @@ def castable(sim, me, sid, cat) -> tuple | None:
                 return ("missing_cast", f"{name}: how you feel about each other isn't in its range")
         else:
             spec = dialogue.slot_spec(name)
-            if not spec or not [o for o in dialogue.slot_candidates(sim, me, spec) if feels(o)]:
+            if not spec or not ([o for o in dialogue.slot_candidates(sim, me, spec) if feels(o)] or dialogue.can_make(spec)):
                 return ("missing_cast", f"nobody fits {name}" + (f" ({dialogue.slot_label(spec)})" if spec else ""))
     elif who:
         if not [o for o in dialogue.candidates(sim, me, who) if feels(o)]:
@@ -1866,6 +1879,31 @@ def _light_day(sim):
     for it in sim._today:
         if it.get("kind") == "tryout":
             _quick_tryout(sim, it.get("group"))
+    _light_games(sim)
+
+
+def _light_games(sim):
+    """Fast mode: your games still get a result (so a storyline's "if we won" / "if we lost" scenes can follow it in a
+    forecast, like they follow the real games): a win a bit more often than not, the same every time."""
+    from . import gameplay
+    w = sim.w
+    me = _me(sim)
+    if me is None:
+        return
+    for it in sim._today:
+        if it.get("kind") != "game" or it.get("group") not in me.memberships:
+            continue
+        g = w.groups[it["group"]]
+        win = (_h(w.seed, "light-game", it["key"]) % 1000) / 1000 < 0.55
+        try:
+            from .sports import opponent_name
+            tail = it["key"].split(":")[-1]
+            opp = opponent_name(sim, g, int(tail) if tail.isdigit() else 1)
+        except Exception:  # noqa: BLE001
+            opp = "them"
+        gameplay.record(me, w.day, g.get("skill"), g.get("name"), g["id"], opp, "", win, {}, True, "well", "", False)
+        rec = g.setdefault("record", {"w": 0, "l": 0})
+        rec["w" if win else "l"] = rec.get("w" if win else "l", 0) + 1
 
 
 def _light_new_year(sim):

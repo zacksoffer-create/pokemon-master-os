@@ -232,6 +232,7 @@ class Simulation:
                 n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
                 from .sports import opponent_name
                 self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": opponent_name(self, w.groups[it["group"]], n)})
+        self._tryout_eve(pc)  # the day before a tryout for a team you'd go out for: are you going?
         for it in self._today:
             if it["kind"] == "exam" and it.get("slot") == "classes" and it.get("school", "hchs") == pc.school and pc.location != "away":
                 from . import classes
@@ -463,11 +464,36 @@ class Simulation:
             lunch.my_options(self, dec)  # your usual table, and lunch with a friend somewhere else
         return dec
 
+    def _tryout_eve(self, pc):
+        """The morning before a tryout, for a team you could play on and are into (and aren't placed on or off of in the
+        editor, or signed up for already): a moment asks if you're going. Missing a tryout shouldn't be something you
+        find out about after."""
+        from . import sports
+        w = self.w
+        for it in w.calendar:
+            if it.get("kind") != "tryout" or it["day"] != w.day + 1 or it.get("group") not in w.groups:
+                continue
+            g = w.groups[it["group"]]
+            sk = g.get("skill")
+            if g.get("kind") != "team" or not sk or (g.get("school") or "hchs") != (pc.school or "hchs") or not sports.can_play(pc, g):
+                continue
+            if it["group"] in pc.memberships or pc.id in w.registrations.get(it["key"], []) or sports.placement(pc, sk):
+                continue
+            from . import dialogue
+            into = dialogue.plays(self, pc, sk) or pc.interests.get(sk, 0) >= 60
+            if into:
+                self.moment_trigger("tryout_eve", pc.id, {"group": it["group"], "team_id": it["group"]})
+
     def must_go(self, dec):
-        """Your team's practice or game (or your show) in this part of the day: the index of going, or None."""
+        """Your team's practice or game (or your show), or a tryout you signed up for, in this part of the day: the index
+        of going, or None."""
         game = practice = None
+        w = self.w
         for i, cd in enumerate(dec["cands"]):
-            if cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show"):
+            if cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("tryout", "audition") \
+                    and w.meta.get("protagonist") in w.registrations.get(cd.extra.get("key"), []):
+                game = i if game is None else game  # (you signed up: you go)
+            elif cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show"):
                 game = i if game is None else game
             elif cd.a["id"] == "attend_practice" and isinstance(cd.target, str) and cd.target in self.w.groups \
                     and self.w.groups[cd.target]["kind"] in ("team", "production"):

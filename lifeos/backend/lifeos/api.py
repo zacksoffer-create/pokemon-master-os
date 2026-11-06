@@ -213,10 +213,11 @@ class Lab:
                                 if not ah["open"]:
                                     reason = "nothing_left"
                                     break
-                        if pend and until != "decision" and all(moments.light(m["kind"]) for m in pend):
+                        if pend and until != "decision" and any(moments.light(m["kind"]) for m in pend):
                             for m in pend:  # skipping ahead: your character plays the class game or the night themselves
-                                moments.resolve(sim, m["id"], None)
-                            pend = []
+                                if moments.light(m["kind"]):
+                                    moments.resolve(sim, m["id"], None)
+                            pend = [m for m in pend if not moments.light(m["kind"])]
                         if pend:
                             reason = "moment"
                             break

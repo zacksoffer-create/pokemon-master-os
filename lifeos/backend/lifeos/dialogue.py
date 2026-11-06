@@ -2762,6 +2762,12 @@ def candidates(sim, me, who) -> list:
             g = w.groups.get(gid)
             if g and g.get("skill") in sim.cat.sports["sports"]:
                 mates |= {m for m in g["members"] if ok(m) and m not in fam}
+        if not mates:  # between seasons: the people you played with last season (they're still your teammates)
+            past = {gid for gid in my_teams(sim, me) if gid not in me.memberships}
+            for c in w.students():
+                if ok(c.id) and c.id not in fam and any(isinstance(pm, dict) and pm.get("group") in past and w.day - (pm.get("to") or -999) <= 400
+                                                        for pm in c.past_memberships):
+                    mates.add(c.id)
         return sorted(mates)
     if who == "classmate":
         return sorted(c.id for c in w.students() if ok(c.id) and c.grade == me.grade and c.school == me.school
@@ -2781,8 +2787,31 @@ def candidates(sim, me, who) -> list:
             sibs = [s for s in sibs if w.has_role(me.id, s, "twin")]
         return sibs
     if who == "coach":
-        return sorted({w.groups[g].get("staff") for g in me.memberships if w.groups.get(g, {}).get("staff") and ok(w.groups[g]["staff"])})
+        out = []
+        for g in my_teams(sim, me, playing=True):  # your teams now, then the ones you've been on, then your sports' teams
+            st = w.groups[g].get("staff")
+            if st and ok(st) and st not in out:
+                out.append(st)
+        return out
     return []
+
+
+def my_teams(sim, me, playing=False) -> list:
+    """Your teams: the ones you're on now, then the ones you've been on (a coach and teammates don't vanish between
+    seasons), and with playing, the school's teams in the sports you play (the coach you'll have)."""
+    w = sim.w
+    is_team = lambda g: (w.groups.get(g) or {}).get("kind") == "team"  # noqa: E731
+    out = [g for g in me.memberships if is_team(g)]
+    for pm in reversed(me.past_memberships or []):
+        g = pm.get("group") if isinstance(pm, dict) else None
+        if g and is_team(g) and g not in out and (w.groups[g].get("school") or "hchs") == (me.school or "hchs"):
+            out.append(g)
+    if playing:
+        for g, grp in sorted(w.groups.items()):
+            if is_team(g) and g not in out and (grp.get("school") or "hchs") == (me.school or "hchs") and grp.get("skill") \
+                    and (not grp.get("gender") or me.gender not in ("m", "f") or grp.get("gender") == me.gender) and plays(sim, me, grp["skill"]):
+                out.append(g)
+    return out
 
 
 def _pro():
@@ -3096,6 +3125,10 @@ def slot_candidates(sim, me, spec) -> list:
     w = sim.w
     if spec.get("who") == "named":
         return named(sim, me, spec.get("name") or "")
+    if spec.get("who") == "coach" and not spec.get("of"):
+        cc = coach_slot(sim, me, spec)
+        if cc is not None:
+            return cc
     if spec.get("of"):
         base = bound(sim, spec["of"]) or (bind(sim, me, spec["of"]) if spec["of"] in merged()["cast"] else None)
         out = _people_of(sim, me, spec["who"], base) if base else []
@@ -3109,6 +3142,98 @@ def slot_candidates(sim, me, spec) -> list:
     if off is not None and me.grade:
         out = [o for o in out if w.chars[o].grade is None or w.chars[o].grade - me.grade == off]
     return out
+
+
+def _label_sport(label: str) -> str | None:
+    hits = [s for s, rx in SPORT_WORDS.items() if re.search(rx, label or "", re.I)]
+    return hits[0] if len(hits) == 1 else None
+
+
+COLLEGE_RX = re.compile(r"\b(college|university|recruit\w*|scout\w*)\b", re.I)
+GIRLS_RX = re.compile(r"\b(girls?|women'?s|lady)\b", re.I)
+JV_RX = re.compile(r"\b(jv|junior varsity|freshman team)\b", re.I)
+
+
+def coach_slot(sim, me, spec) -> list | None:
+    """A coach role whose description names a sport ("Guilford girls varsity soccer coach", "JV baseball coach", "college
+    baseball recruiter"): that sport's coach at your school (the girls' team's for girls), not only one of your own;
+    a JV or college one is an assistant or a recruiter made for it (see make_coach). None: the description doesn't say."""
+    w = sim.w
+    label = spec.get("label") or ""
+    sport = spec.get("sport") or _label_sport(label)
+    if not sport:
+        return None
+    if COLLEGE_RX.search(label):
+        return [x for x in (w.meta.get("made_coaches") or {}).get(_coach_key(spec), []) if x in w.chars]
+    girls = bool(GIRLS_RX.search(label))
+    jv = bool(JV_RX.search(label))
+    out = []
+    for gid, g in sorted(w.groups.items()):
+        if g.get("kind") != "team" or g.get("skill") != sport or (g.get("school") or "hchs") != (me.school or "hchs"):
+            continue
+        if (g.get("gender") == "f") != girls and g.get("gender"):
+            continue
+        staff = [] if jv else [g.get("staff")]
+        staff += [a for a in g.get("assistants") or [] if (w.chars.get(a) and bool(JV_RX.search(w.chars[a].role_label or ""))) == jv]
+        out += [x for x in staff if x and x in w.chars and w.chars[x].status == "active" and x not in out]
+    return out
+
+
+def _coach_key(spec) -> str:
+    label = (spec.get("label") or "").lower()
+    return f"{spec.get('sport') or _label_sport(label)}:{'college' if COLLEGE_RX.search(label) else 'jv' if JV_RX.search(label) else 'girls' if GIRLS_RX.search(label) else 'varsity'}"
+
+
+def can_make(spec) -> bool:
+    """A coach role the game can make a person for when nobody's free (it names a sport)."""
+    return bool(spec) and spec.get("who") == "coach" and bool(spec.get("sport") or _label_sport(spec.get("label") or ""))
+
+
+def make_coach(sim, me, name, spec) -> str | None:
+    """A new coach for a role nobody's free for (your one football coach is already your storyline's baseball coach): an
+    assistant on that sport's team (JV, varsity) or a college recruiter, named once and kept."""
+    import random
+
+    from .model import Character
+    from .worldgen import _color, pronouns_for
+    w = sim.w
+    label = spec.get("label") or ""
+    sport = spec.get("sport") or _label_sport(label)
+    if not sport:
+        return None
+    rng = random.Random(f"{w.seed}:coach:{name}")
+    gender = "f" if re.search(r"\b(she|her|woman)\b", label, re.I) else "m"
+    names = sim.cat.people["names"]
+    taken_last = {c.last for c in w.chars.values() if c.role == "staff"}
+    lasts = [x for x in names.get("last_more") or names["last"] if x not in taken_last] or names["last"]
+    first, last = rng.choice(names["male" if gender == "m" else "female"]), rng.choice(lasts)
+    cid = f"coach_{re.sub(r'[^a-z]', '', last.lower())}"
+    while cid in w.chars:
+        cid += "_"
+    role = (label.split(",")[0].strip() or f"{sport} coach")
+    role = re.sub(r"^(the\s+)?guilford\s+", "", role, flags=re.I)
+    traits = {t: float(max(20, min(85, rng.gauss(55, 12)))) for t in TRAITS}
+    c = Character(id=cid, first=first, last=last, gender=gender, pronouns=pronouns_for(gender), role="staff", grade=None,
+                  birth_day=w.day - int(rng.uniform(28, 55) * 365.25), household_id=None, archetype="staff", title="Coach",
+                  role_label=role[:1].upper() + role[1:], color=_color(rng), traits=traits, aptitudes={a: 55.0 for a in APTITUDES},
+                  skills={}, motives={"achievement": 60.0, "approval": 35.0, "belonging": 50.0, "pleasure": 40.0,
+                                      "altruism": round(30 + traits["empathy"] * 0.6, 1), "mastery": 55.0},
+                  needs={"energy": 70.0, "social": 60.0, "fun": 55.0, "stress": 30.0}, mood=62.0,
+                  interests={sport: 90.0}, money=200.0, bio=(label.strip().rstrip(".") + ".") if label else f"A {sport} coach.")
+    w.chars[cid] = c
+    if not COLLEGE_RX.search(label):
+        girls = bool(GIRLS_RX.search(label))
+        team = next((g for gid, g in sorted(w.groups.items()) if g.get("kind") == "team" and g.get("skill") == sport
+                     and (g.get("school") or "hchs") == (me.school or "hchs") and (g.get("gender") == "f") == girls), None)
+        if team is not None:
+            head = team.get("staff")
+            two_teams = head and sum(1 for g in w.groups.values() if g.get("kind") == "team" and g.get("staff") == head) > 1
+            if not JV_RX.search(label) and two_teams:
+                team["staff"] = cid  # (one coach was running two teams: this one takes over this team)
+            else:
+                team.setdefault("assistants", []).append(cid)
+    w.meta.setdefault("made_coaches", {}).setdefault(_coach_key(spec), []).append(cid)
+    return cid
 
 
 def pet_slot(sim, me, name) -> tuple | None:
@@ -3147,6 +3272,12 @@ def bind(sim, me, name, cid=None, by="auto"):
         if cur or name in w.meta.get("cast_slots", {}):
             return cur  # bound already (if they've left your story, so does this storyline: nobody gets swapped in)
         cands = slot_candidates(sim, me, spec)
+        if spec.get("who") == "coach":  # one person, one role: a coach someone else's role already has isn't this one
+            taken = {r.get("id") for k, r in (w.meta.get("cast_slots") or {}).items() if k != name}
+            cands = [o for o in cands if o not in taken]
+            if not cands and can_make(spec):
+                made = make_coach(sim, me, name, spec)
+                cands = [made] if made else []
         if not cands:
             return None
         words = " ".join(_story_words(sim, p) for p in d["packs"])

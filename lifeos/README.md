@@ -380,6 +380,13 @@ and **the whole roster** under them (hitters by at-bats, pitchers by innings). 2
 Posada; Sabathia, Pettitte, Hughes, Rivera (1.80 ERA) and Burnett. Jeter (.270 in 2010, a down year) leads the roster
 in at-bats.
 
+## Tryouts: the game asks
+
+The morning before a tryout for a team you could play on and are into (you play the sport, you were on the team, or
+you're really into it), a moment asks: **Sign me up** or **Not this year**. Signed up, you just go to it after school
+(like practice). No more finding out you missed basketball tryouts in December. Placements in the editor's Teams still
+win (varsity, JV, or off the team).
+
 ## Lunch: your table is your routine
 
 Lunch isn't a decision you make every day anymore. Everyone has a table, and that's where they sit, every school day.
@@ -426,6 +433,17 @@ What changed:
 - **The forecast holds tryouts and new school years.** Teams form at their tryouts (the people who play the sport,
   best first, your Teams placements counted), and each Sept 1 brings the new year's calendar and freshmen, so
   teammate scenes and later years can be checked like the first.
+- **Coaches are the right coaches.** A storyline coach whose description names a sport ("Guilford varsity football
+  coach", "girls varsity soccer coach") is that sport's coach at your school, even off-season and even when it isn't
+  your team (Nicole's coach). One person is never two roles: if your school's one football coach is already your
+  storyline's baseball coach, the game makes a varsity football coach (who takes over football), a JV coach or a
+  college recruiter when the first scene needs them. Off-season, "your teammates" are the people you played with
+  last season.
+- **Guessed results only count in season.** A scene whose words sound like a win or loss only waits on a game of
+  its own sport within a few days (a recruiting visit that talks about winning isn't about this week's football game).
+- **The forecast plays your games**, so "if we won" / "if we lost" scenes can follow them in Read it too.
+- **Roles lists everyone a storyline needs**, including people who are only ever in the room (Sydney Parker in Watch
+  Hill Summers): tap one nobody fits to make them (a girl if her description says so, your age if it says so).
 - **Dense pacing doesn't hold anything back.** Over seven years it plays the same scenes as Uncapped (961 vs 968
   before the last fixes); it spreads them over more days. Keep it on Dense.
 - **Play it now.** In Read it, tap a scene's date: **Play it now** plays it right now, whatever its timing says (its

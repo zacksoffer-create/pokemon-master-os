@@ -163,3 +163,64 @@ def test_teammate_scenes_play_in_the_forecast():
     assert all(g["id"] in w.chars[m].memberships for m in g["members"])
     assert len(g["members"]) <= g["capacity"] + g.get("jv_capacity", 0)
     assert calm.date_of(w.day)  # (it's a real day)
+
+
+def test_a_coach_role_is_that_sports_coach_and_never_two_roles_at_once():
+    sim, me = world()
+    w = sim.w
+    shared = w.groups["football"]["staff"]
+    w.groups["baseball"]["staff"] = shared  # (one coach runs both, like in a generated school)
+    coach = w.chars[shared]
+    pk, cat = add(sim, "=== Two sports\ncast: mike = older brother\n"
+                  f"cast: bryant = {coach.first}\n"
+                  "cast: varsity_coach = coach, Guilford varsity football coach, demanding\n"
+                  "cast: jv_coach = coach, Guilford junior varsity baseball coach, patient\n"
+                  "cast: girls_coach = coach, Guilford girls varsity soccer coach\n"
+                  "years: freshman\n" + """
+--- Film session [freshman]
+{bryant} and {varsity_coach} argue about the depth chart while {jv_coach} watches. {girls_coach} walks by.
+* "Okay."
+Mike: Wow.
+* "Not my business."
+Mike: Smart.
+""")
+    sid = cat["chapters"][pk][0]
+    assert scheduler.castable(sim, me, sid, cat) is None
+    assert dialogue.bind(sim, me, "bryant") == shared
+    vc = dialogue.bind(sim, me, "varsity_coach")
+    jv = dialogue.bind(sim, me, "jv_coach")
+    gc = dialogue.bind(sim, me, "girls_coach")
+    assert len({shared, vc, jv, gc}) == 4  # four roles, four people
+    assert w.groups["football"]["staff"] == vc  # (the new varsity football coach takes over football)
+    assert w.groups["baseball"]["staff"] == shared and jv in w.groups["baseball"].get("assistants", [])
+    assert gc == w.groups["soccer_girls"]["staff"]  # Nicole's coach, not one of yours
+    assert w.chars[vc].role == "staff" and "football" in w.chars[vc].role_label.lower()
+    assert dialogue.bind(sim, me, "varsity_coach") == vc  # and it stays them
+
+
+def test_the_day_before_a_tryout_you_get_asked_and_signing_up_means_you_go():
+    sim, me = world()
+    w = sim.w
+    it = next(i for i in w.calendar if i.get("kind") == "tryout" and i.get("group") == "basketball")
+    me.interests["basketball"] = 90
+    me.memberships = [g for g in me.memberships if g != "basketball"]
+    w.day = it["day"] - 2
+    w.phase = len(calm.phases_for(w.day, sim.cat.world["calendar"])) - 1
+    while w.day < it["day"] - 1:
+        sim.step()
+    sim.step()  # the morning before
+    m = next(m for m in moments.pending(w) if m["kind"] == "tryout_eve")
+    assert "Basketball" in m["title"] and [c["label"] for c in m["choices"]] == ["Sign me up.", "Not this year."]
+    moments.resolve(sim, m["id"], 0)
+    assert me.id in w.registrations.get(it["key"], [])
+    while w.day < it["day"]:
+        for x in list(moments.pending(w)):
+            moments.resolve(sim, x["id"], None)
+        sim.step()
+    while sim.current_phase() != it.get("slot", "after_school") and w.day == it["day"]:
+        for x in list(moments.pending(w)):
+            moments.resolve(sim, x["id"], None)
+        sim.step()
+    _, dec = sim.options_for(me.id)
+    i = sim.must_go(dec)
+    assert i is not None and dec["cands"][i].extra.get("kind") == "tryout"  # (you signed up: you go)
