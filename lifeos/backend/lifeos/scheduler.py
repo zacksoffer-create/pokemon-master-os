@@ -33,6 +33,7 @@ decide (control `auto_scenes`). Everything here is deterministic for a seed and 
 from __future__ import annotations
 
 import functools
+import math
 import re
 import zlib
 
@@ -965,8 +966,36 @@ def next_chapter(sim, me, pk, cat, day=None, prof=None):
         code = "too_early_year" if g == ("too_early", "school year") else g[0]
         if code in STEP_OVER:
             continue
+        if code in ("wrong_date", "wrong_season") and _far_off(sim, sid, cat, w.day if day is None else day):
+            continue  # it missed its day and the next one is months off (fall finals gone, spring's in May): the story goes on
         return sid, g
     return None, None
+
+
+HOLD_DAYS = 21  # a chapter that missed its day holds its storyline only if its next day comes within three weeks
+_FITS: dict = {}
+
+
+def _far_off(sim, sid, cat, day) -> bool:
+    """Did this chapter's day already go by this school year, with the next one more than three weeks off? (Fall finals
+    week is gone and the next is in May.) A chapter whose day is still ahead (basketball season in November, and it's
+    September) isn't far off: it holds its storyline as before."""
+    import bisect
+    import datetime
+    d = calm.date_of(day)
+    start = day - (d - datetime.date(d.year if d.month >= 9 else d.year - 1, 9, 1)).days
+    key = (sid, start, id(cat))
+    fits = _FITS.get(key)
+    if fits is None:
+        if len(_FITS) > 20000:
+            _FITS.clear()
+        sc = cat["scenes"][sid]
+        when, info = sc.get("when") or {}, cat["info"].get(sid) or {}
+        fits = _FITS[key] = [x for x in range(start, start + 366) if calendar_ok(sim, sid, when, info, x) is None]
+    i = bisect.bisect_left(fits, day)
+    if i == 0:
+        return False  # its day hasn't come yet this year: wait for it
+    return i == len(fits) or fits[i] > day + HOLD_DAYS
 
 
 # ---------------------------------------------------------------------------------------- planning a day
@@ -1184,6 +1213,23 @@ def _assign_phases(sim, items, cat, day, start_ix=0):
     items.sort(key=lambda it: phs.index(it["phase"]) if it["phase"] in phs else 99)
 
 
+PACE_HEADROOM = 2.0  # how far ahead of the month's needs a day may run
+
+
+def _paced(w, prof, sim, cands, target):
+    """Spread a month's scenes over the month: when everything tagged "July" is ready on July 1, the day doesn't take
+    five of them and leave the end of the month empty. Scenes that aren't due fill today only as far as what's left needs
+    (each counts 1 / the days until its window closes), with headroom; due ones always go (and a storyline that needs
+    its next chapter now to fit its month is due). The profile's low end stays the floor."""
+    if target is None:
+        return None
+    rng_ = prof["school"] if _school_day(sim, w.day) else prof["weekend"]
+    lo = rng_[0] if rng_ else 0
+    need = sum(1.0 / max(1, c["deadline"] - w.day + 1) for c in cands if not c["due"] and c["deadline"] is not None)
+    need += 0.02 * sum(1 for c in cands if not c["due"] and c["deadline"] is None)
+    return max(lo, min(target, math.ceil(need * PACE_HEADROOM)))
+
+
 def plan_day(sim):
     """Each morning: plan today's scenes, keep anything planned that nobody's got to yet (for a few days), let deadlines
     lapse visibly, and present the first one."""
@@ -1223,6 +1269,7 @@ def plan_day(sim):
     last = max((d[-1] for d in seen_map(w).values() if d), default=-10**9)
     cands = [c for c in candidates(sim, me, cat, prof) if c["sid"] not in seen_q]
     target = _target(w, prof, sim, w.day)
+    target = _paced(w, prof, sim, cands, target)
     quiet = prof["global_gap"] and w.day - last < prof["global_gap"]
     picked = []
     for c in _order(cands, prof, w.day):

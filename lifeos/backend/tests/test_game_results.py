@@ -1,5 +1,5 @@
 """Mini game results land right: Swing Lab counts a home run (it's a hit, four bases), grades a game like baseball, and
-your at-bats are your box score. And a save stays light between season breaks (old step-by-step detail is trimmed)."""
+your at-bats are your box score, basketball opens on Playmaker and your trips are your points and assists. And a save stays light between season breaks (old step-by-step detail is trimmed)."""
 import os
 import re
 import sys
@@ -12,6 +12,7 @@ from lifeos.story import begin, create_story  # noqa: E402
 from tests.test_story import spec  # noqa: E402
 
 SWING = os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "public", "minigames", "swing.html")
+HOOPS = os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "public", "minigames", "basketball.html")
 
 
 def test_swing_lab_counts_a_home_run_as_a_hit_and_reports_each_at_bat():
@@ -34,6 +35,27 @@ def test_your_at_bats_are_your_box_score():
     # (no at-bats reported: the old one-big-at-bat way still works)
     line = {"ab": 3, "h": 1, "hr": 0, "rbi": 0}
     assert "homered" in gameplay.apply_play("baseball", "SS", line, {"tier": "great", "stats": {}}, "Zack", None)
+
+
+def test_basketball_opens_on_playmaker_everywhere():
+    from lifeos import minigames
+    g = minigames.reg()["games"]["basketball"]
+    assert g["play"] == {"free": "playmaker", "clutch": "playmaker", "scene": "playmaker"}
+    src = open(HOOPS).read()
+    assert "'playmaker'" in src.split("function embedStart")[1].split("function ")[0]
+
+
+def test_your_playmaker_trips_are_your_points_and_assists():
+    line = {"pts": 8, "ast": 2}
+    log = [{"points": 2}, {"points": 3}, {"points": 2, "assist": True}, {"points": 0}, {"points": 2, "assist": True}]
+    st = {"mode": "playmaker", "kind": "pm", "assists": 2, "turnovers": 1, "log": log}
+    text = gameplay.apply_play("basketball", "PG", line, {"tier": "good", "stats": st}, "Zack", None)
+    assert (line["pts"], line["ast"], line["to"]) == (13, 4, 1)  # (the passes you made are your teammates' points)
+    assert text == "Zack ran the offense late: 5 points and 2 assists"
+    line = {"pts": 4}
+    st = {"mode": "playmaker", "assists": 0, "log": [{"points": 0}] * 5}
+    assert gameplay.apply_play("basketball", "PG", line, {"tier": "bad", "stats": st}, "Zack", None) == "Zack ran the offense late, but nothing fell"
+    assert line["pts"] == 4
 
 
 def test_old_step_by_step_detail_is_trimmed_but_what_happened_stays():

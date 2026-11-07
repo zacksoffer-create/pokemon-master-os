@@ -16,7 +16,7 @@ const KICKER: Record<string, string> = {
   draft_passed: "MLB Draft", story_end: "The end of the beginning", class_quiz: "Class", class_game: "In class",
 };
 // the result banner: class games read like class, sports like sports
-const SUMMARY_GAMES = new Set(["swing_lab", "baseball"]);  // games that say their own result ("1 for 5, a home run")
+const SUMMARY_GAMES = new Set(["swing_lab", "baseball", "basketball"]);  // games that say their own result ("1 for 5, a home run")
 const CLASS_GAMES = new Set(["trivia", "hold", "sweep", "mathdash", "flash", "oddone", "lineup", "reflex"]);
 const mgHead = (game: string, tier: string) =>
   CLASS_GAMES.has(game) ? (tier === "great" ? "Nailed it." : tier === "good" ? "Not bad." : "Rough one.") : tier === "great" ? "Clutch." : tier === "good" ? "Solid." : "Not your day.";

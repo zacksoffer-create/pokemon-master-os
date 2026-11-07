@@ -87,11 +87,11 @@
       "file": "basketball.html",
       "status": "ready",
       "icon": "ballplay",
-      "blurb": "Read & React, 3-Point Contest, HORSE, Shootaround, Playmaker.",
+      "blurb": "Playmaker: five on five, you run the offense. Break your man down, draw the help, find the open man.",
       "skill": "basketball",
       "aptitude": "athletic",
       "free": {
-        "label": "Shoot around in the driveway",
+        "label": "Run pickup at the park",
         "phases": [
           "after_school",
           "day",
@@ -105,9 +105,9 @@
         "energy": -5
       },
       "play": {
-        "free": "menu",
-        "clutch": "clutch",
-        "scene": "menu"
+        "free": "playmaker",
+        "clutch": "playmaker",
+        "scene": "playmaker"
       }
     },
     "football": {
@@ -242,17 +242,9 @@
       "file": "basketball.html",
       "status": "ready",
       "icon": "people",
-      "blurb": "Five on five, and you're passing. Break your man down, find the open man.",
+      "blurb": "Basketball's Playmaker, for scenes that name it (play playmaker). Free time and game day open it from basketball.",
       "skill": "basketball",
       "aptitude": "athletic",
-      "free": {
-        "label": "Run the offense at the park",
-        "phases": [
-          "after_school",
-          "day",
-          "evening"
-        ]
-      },
       "practice": {
         "skill": "basketball",
         "gain": 0.6,

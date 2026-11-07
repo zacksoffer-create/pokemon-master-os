@@ -1,7 +1,8 @@
 """Storylines run as written: your pet can be in a scene's cast, a summer scene that leads into the same year's fall is
 the summer before it, a storyline whose list runs backwards in the calendar plays in calendar order (named days like
 winter break count), one scene that can't start doesn't hold up the rest, and you can play any scene (or a stuck
-storyline's next one) right now."""
+storyline's next one) right now. A chapter that missed its day doesn't freeze its storyline until next year, and a
+month's scenes spread over the month instead of all landing on the 1st."""
 import os
 import sys
 
@@ -224,3 +225,41 @@ def test_the_day_before_a_tryout_you_get_asked_and_signing_up_means_you_go():
     _, dec = sim.options_for(me.id)
     i = sim.must_go(dec)
     assert i is not None and dec["cands"][i].extra.get("kind") == "tryout"  # (you signed up: you go)
+
+
+def _on(w, month, day):
+    import datetime
+    d0 = calm.date_of(w.day)
+    return w.day + (datetime.date(d0.year + (1 if month < 9 else 0), month, day) - d0).days
+
+
+def test_a_chapter_that_missed_its_day_doesnt_freeze_the_storyline():
+    sim, me = world()
+    w = sim.w
+    pk, cat = add(sim, "=== Finals\ncast: mike = older brother\nyears: freshman\n"
+                  + scene("Cram", "freshman · finals week") + scene("After", "freshman · January"))
+    cram, after = cat["chapters"][pk]
+    assert scheduler.next_chapter(sim, me, pk, cat, day=_on(w, 12, 5)) == (cram, ("wrong_date", "finals_week"))  # a week off: it holds
+    assert scheduler.next_chapter(sim, me, pk, cat, day=_on(w, 12, 13)) == (cram, None)
+    nxt, _ = scheduler.next_chapter(sim, me, pk, cat, day=_on(w, 12, 20))  # finals week is gone, and the next one is in the spring
+    assert nxt == after
+    assert scheduler.next_chapter(sim, me, pk, cat, day=_on(w, 1, 10)) == (after, None)
+    # (a chapter whose day is still ahead this year holds its storyline, however far off: November, and it's September)
+    pk2, cat = add(sim, "=== Season\ncast: mike = older brother\nyears: freshman\n"
+                   + scene("Opener", "freshman · November") + scene("Anytime", "freshman"))
+    opener = cat["chapters"][pk2][0]
+    assert scheduler.next_chapter(sim, me, pk2, cat)[0] == opener
+
+
+def test_a_months_scenes_spread_over_the_month():
+    sim, me = world()
+    w = sim.w
+    prof = scheduler.profile(w)
+    lo = (prof["school"] if scheduler._school_day(sim, w.day) else prof["weekend"])[0]
+    month = [{"sid": f"s{i}", "due": False, "deadline": w.day + 29} for i in range(6)]  # six scenes for this month, all ready today
+    assert scheduler._paced(w, prof, sim, month, 5) == lo  # today takes what the month needs, not all of them
+    last = [{"sid": f"s{i}", "due": False, "deadline": w.day} for i in range(6)]
+    assert scheduler._paced(w, prof, sim, last, 5) == 5  # on the month's last day they all go
+    due = [{"sid": "s0", "due": True, "deadline": w.day}]
+    assert scheduler._paced(w, prof, sim, due + month, 5) == lo  # (due ones go regardless: plan_day takes them past the target)
+    assert scheduler._paced(w, prof, sim, month, None) is None

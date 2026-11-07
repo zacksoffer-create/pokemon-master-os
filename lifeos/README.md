@@ -460,6 +460,13 @@ What changed:
   Hill Summers): tap one nobody fits to make them (a girl if her description says so, your age if it says so).
 - **Dense pacing doesn't hold anything back.** Over seven years it plays the same scenes as Uncapped (961 vs 968
   before the last fixes); it spreads them over more days. Keep it on Dense.
+- **A month's scenes spread over the month.** When everything tagged "July" is ready on July 1, the day no longer takes
+  five of them and leaves the back half of the month empty: each day takes what's left needs (a scene counts more the
+  closer its window is to closing), with room to run ahead, never below your pacing's low end. Scenes on their deadline
+  always go. On the June 2011 save this took summer from 44 empty days to 29 and kept September at two or three a day.
+- **A missed day doesn't freeze a storyline until next year.** A chapter waiting on its date (finals week, a holiday,
+  a month) holds its storyline only if that date comes within three weeks. Once fall finals week is gone and the next
+  one is in May, the chapters after it go on (and it still plays if its day comes back around that school year). Two Cars and Nikki Sophomore had stalled this way.
 - **Play it now.** In Read it, tap a scene's date: **Play it now** plays it right now, whatever its timing says (its
   month, its year, the storyline's order), or move it to a school year and month. **Play its next scene now** (at the
   top of Read it) gets a stuck storyline going. Only a scene that already happened, or one with nobody in your story to
@@ -1153,8 +1160,8 @@ card like "Second period · Chemistry: Fill it to the line". Three choices: **go
   `mathdash`, `flash`, `oddone`, `lineup`, `reflex`).
 
 **Mini games:** short rounds whose results feed the story.
-- **Free play:** in free time, the Story tab shows **Or play something**: pickup soccer (penalty kicks or an 11 v 11 match), shooting around in the driveway,
-  running the offense at the park (Playmaker), running the option at practice (Option Arcade), hitting at the batting cages
+- **Free play:** in free time, the Story tab shows **Or play something**: pickup soccer (penalty kicks or an 11 v 11 match),
+  pickup basketball at the park (Playmaker), running the option at practice (Option Arcade), hitting at the batting cages
   (Swing Lab, the one with the catcher and side camera views; it's also the baseball and softball game everywhere else), and on
   weekends a round of golf (Fairway) and cup pong in a friend's basement (beer pong at a party once you're in college).
   The first round each day counts as practice (a small skill gain, plus fun), scaled by how you did.
@@ -1165,6 +1172,11 @@ card like "Second period · Chemistry: Fill it to the line". Three choices: **go
   flick toward a teammate to pass (it leads his run), flick at the goal to shoot, hold still to look up while it slows
   down and your forwards run in behind, tap to fake. Game day is Clutch: three attacks against a tougher defense, and
   two goals is a great round, one a good one. Free play opens its home screen (Match, Clutch, Practice).
+- **Playmaker** is basketball's game everywhere: free time, game day and any scene that plays basketball open straight
+  into it (no menu). Five on five, you have the ball: break your man down, draw the help, and find the open man. Game day
+  is five trips with a 13-second shot clock; your points and assists go in your box score ("Zack ran the offense late: 5
+  points and 2 assists"), and the result card says how many trips you scored on. The old Playground modes (Read & React,
+  3-Point Contest, HORSE, Shootaround) are still in the file but no longer on a menu.
 - **Penalty kicks** (soccer) stays as its own free play: swipe from the ball toward the goal; a faster swipe hits harder
   and higher, and curving your swipe bends it. The keeper reads you more often at higher difficulty, and your
   character's skill steadies your aim.
@@ -1174,8 +1186,8 @@ card like "Second period · Chemistry: Fill it to the line". Three choices: **go
   spin, hurdle, tap to truck. Game day is first and goal from the 10 with the whole playbook, four downs; a touchdown is
   a great round.
 - **The games from `games/`** (Basketball Playground, Fairway, Pong Night, At Bat, Swing Lab, Option Arcade, Soccer Playmaker) run inside the app with
-  their mechanics untouched. Each opens to its own home screen in free play; on game day basketball, baseball, softball and soccer open
-  straight into a short clutch round. Edit them in `games/src/`, then run `python lifeos/tools/sync_games.py` and rebuild.
+  their mechanics untouched. Each opens to its own home screen in free play (basketball opens Playmaker); on game day baseball,
+  softball and soccer open straight into a short clutch round, and basketball into Playmaker. Edit them in `games/src/`, then run `python lifeos/tools/sync_games.py` and rebuild.
 - **Swing Lab** is the batting prototype: a bigger, brighter, slower ball, a swipe through an invisible contact plane,
   fastball / changeup / curveball told apart only by how they move, a training mode, and two cameras to compare. Its
   stats sheet tracks whether you can follow the ball, time the swipe, and get better with practice.

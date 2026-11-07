@@ -107,6 +107,17 @@ def apply_play(sport: str, pos: str, line: dict, play: dict, first: str, team_td
             return f"{first} made the stops late"
         return f"{first} got beat on the big play"
     if sport == "basketball":
+        if st.get("mode") == "playmaker" or st.get("kind") == "pm":  # you ran the offense (Playmaker): your points, your assists
+            log = st.get("log") or []
+            pts = sum(int(x.get("points") or 0) for x in log if isinstance(x, dict) and not x.get("assist"))
+            ast = int(st.get("assists") or 0)
+            line["pts"] = line.get("pts", 0) + pts
+            line["ast"] = line.get("ast", 0) + ast
+            if st.get("turnovers"):
+                line["to"] = line.get("to", 0) + int(st["turnovers"])
+            bits = [f"{pts} point{'s' if pts != 1 else ''}" if pts else None, f"{ast} assist{'s' if ast != 1 else ''}" if ast else None]
+            bits = [b for b in bits if b]
+            return f"{first} ran the offense late" + (f": {' and '.join(bits)}" if bits else ", but nothing fell")
         if tier == "great":
             line["pts"] = line.get("pts", 0) + 3
             return f"{first} hit the big three late"
