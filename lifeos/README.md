@@ -380,6 +380,20 @@ and **the whole roster** under them (hitters by at-bats, pitchers by innings). 2
 Posada; Sabathia, Pettitte, Hughes, Rivera (1.80 ERA) and Burnett. Jeter (.270 in 2010, a down year) leads the roster
 in at-bats.
 
+## Swing Lab on game day
+
+On game day (and in scenes), Swing Lab plays your at-bats (five, or three in a clutch spot) and those are your box
+score: hits for at-bats, home runs, doubles, triples, walks ("Zack went 1-for-5 with a home run"). It's graded like
+baseball, not like a quiz: a walk or a single counts 1, a double 1.6, a triple 2, a home run 2.8, out of 0.6 a plate
+appearance, so a homer or three hits in five is a great day and two for five is a good one.
+
+## A save stays light
+
+The step-by-step "why" behind everyday events is trimmed as you go (routine decision notes after a few days, routine
+events' change logs after two weeks; anything important keeps its "why" for the lab, and every event stays). A March
+save that had grown to 40 MB in memory opens at about 18 MB (3.8 MB on disk), which matters on a phone: the basketball
+game needs the room.
+
 ## Tryouts: the game asks
 
 The morning before a tryout for a team you could play on and are into (you play the sport, you were on the team, or

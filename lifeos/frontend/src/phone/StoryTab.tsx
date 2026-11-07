@@ -16,6 +16,7 @@ const KICKER: Record<string, string> = {
   draft_passed: "MLB Draft", story_end: "The end of the beginning", class_quiz: "Class", class_game: "In class",
 };
 // the result banner: class games read like class, sports like sports
+const SUMMARY_GAMES = new Set(["swing_lab", "baseball"]);  // games that say their own result ("1 for 5, a home run")
 const CLASS_GAMES = new Set(["trivia", "hold", "sweep", "mathdash", "flash", "oddone", "lineup", "reflex"]);
 const mgHead = (game: string, tier: string) =>
   CLASS_GAMES.has(game) ? (tier === "great" ? "Nailed it." : tier === "good" ? "Not bad." : "Rough one.") : tier === "great" ? "Clutch." : tier === "good" ? "Solid." : "Not your day.";
@@ -415,7 +416,7 @@ export default function StoryTab() {
             {outcome.mg && (
               <div className={cx("ph-mg-result", outcome.mg.tier)}>
                 <b>{mgHead(outcome.mg.game || "", outcome.mg.tier)}</b>
-                <span>{CLASS_GAMES.has(outcome.mg.game || "") && outcome.mg.summary ? outcome.mg.summary
+                <span>{(CLASS_GAMES.has(outcome.mg.game || "") || SUMMARY_GAMES.has(outcome.mg.game || "")) && outcome.mg.summary ? outcome.mg.summary
                   : outcome.mg.score % 1 === 0 && outcome.mg.max <= 20 ? `${outcome.mg.score} of ${outcome.mg.max}` : `${Math.round((outcome.mg.score / outcome.mg.max) * 100)}%`}</span>
               </div>
             )}

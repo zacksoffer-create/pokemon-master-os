@@ -278,12 +278,12 @@ function ballR(u) {  // deliberately not to scale: big and bright, growing smoot
 
 // ============================================================================ state
 let phase = 'intro', tPhase = 0, pitch = null, tRel = 0, swung = false, swing = null, hit = null, effects = [], slash = [];
-let hitPause = 0, shake = 0, count = { b: 0, s: 0, pa: 1, onBase: 0, done: [] }, lastMsg = '';
+let hitPause = 0, shake = 0, count = { b: 0, s: 0, pa: 1, onBase: 0, done: [], log: [] }, lastMsg = '';
 let stats = [];
 try { stats = JSON.parse(localStorage.getItem(KEY + '.stats') || '[]'); } catch (e) { stats = []; }
 const saveStats = () => { try { localStorage.setItem(KEY + '.stats', JSON.stringify(stats.slice(-200))); } catch (e) { /* none */ } };
 const now = () => performance.now() / 1000;
-function resetCount() { count = { b: 0, s: 0, pa: 1, onBase: 0, done: [] }; updateTop(); }
+function resetCount() { count = { b: 0, s: 0, pa: 1, onBase: 0, done: [], log: [] }; updateTop(); }
 function updateTop() {
   const el = document.getElementById('sl-count');
   const sw = stats.length;
@@ -420,7 +420,7 @@ function stepHit(h, dt) {
   h.trail.push([...h.p]); if (h.trail.length > 18) h.trail.shift();
   const dist = Math.hypot(h.p[0], h.p[2]), spray = Math.atan2(h.p[0], h.p[2]) * 57.3;
   if (!h.result && h.how !== 'tip' && h.how !== 'foul' && Math.abs(spray) < 45 && dist > FENCE(spray) && h.p[1] > 3) {
-    h.result = { label: 'HOME RUN', tone: 'great' }; h.landed = true; h.rolled = true; h.shownAt = h.t;
+    h.result = { label: 'HOME RUN', tone: 'great', base: 4 }; h.landed = true; h.rolled = true; h.shownAt = h.t;
   }
   if (h.p[1] <= 0.04) {
     h.p[1] = 0.04;
@@ -555,12 +555,13 @@ function step(dt) {
 }
 function tallyPitch(kind, r) {
   if (S.mode !== 'atbat' && !embedPAs) return;
-  const endPA = (onBase) => { count.done.push(onBase); if (onBase) count.onBase++; count.pa++; count.b = 0; count.s = 0; };
-  if (kind === 'B') { count.b++; if (count.b >= 4) { say('Ball four. Take your base.', 2200); endPA(true); } }
-  else if (kind === 'S') { count.s++; if (count.s >= 3) { say('Strike three.', 2200); endPA(false); } }
+  // each plate appearance: BB, 1B, 2B, 3B, HR, K or OUT (what LIFE OS puts in your box score)
+  const endPA = (onBase, what) => { count.done.push(onBase); count.log.push(what); if (onBase) count.onBase++; count.pa++; count.b = 0; count.s = 0; };
+  if (kind === 'B') { count.b++; if (count.b >= 4) { say('Ball four. Take your base.', 2200); endPA(true, 'BB'); } }
+  else if (kind === 'S') { count.s++; if (count.s >= 3) { say('Strike three.', 2200); endPA(false, 'K'); } }
   else if (kind === 'F') { if (count.s < 2) count.s++; }
-  else if (kind === 'H') endPA(true);
-  else if (kind === 'O') endPA(false);
+  else if (kind === 'H') endPA(true, ['1B', '2B', '3B', 'HR'][Math.max(1, Math.min(4, (r && r.base) || 1)) - 1]);
+  else if (kind === 'O') endPA(false, 'OUT');
   updateTop();
 }
 
@@ -760,12 +761,29 @@ function renderStats() {
 
 // ============================================================================ LIFE OS (when embedded) and boot
 let embedPAs = 0;
+// Your game, the way a box score reads it: hits for at-bats (walks aren't at-bats), the home runs and extra-base hits.
+// It's graded like baseball, not like a quiz: a walk or a single counts 1, a double 1.6, a triple 2, a home run 2.8,
+// out of 0.6 a plate appearance, so a homer (or three hits in five) is a great day and two for five is a good one.
+const BASE_PTS = { BB: 1, '1B': 1, '2B': 1.6, '3B': 2, HR: 2.8 };
+function gameLine() {
+  const log = count.log, n = log.length;
+  const c = (k) => log.filter((x) => x === k).length;
+  const hr = c('HR'), d2 = c('2B'), d3 = c('3B'), bb = c('BB'), k = c('K');
+  const h = c('1B') + d2 + d3 + hr, ab = n - bb;
+  const pts = log.reduce((a, x) => a + (BASE_PTS[x] || 0), 0);
+  const extra = [hr && `${hr > 1 ? hr + ' ' : 'a '}home run${hr > 1 ? 's' : ''}`, d3 && `${d3 > 1 ? d3 + ' ' : 'a '}triple${d3 > 1 ? 's' : ''}`,
+    d2 && `${d2 > 1 ? d2 + ' ' : 'a '}double${d2 > 1 ? 's' : ''}`, bb && `${bb > 1 ? bb + ' walks' : 'a walk'}`].filter(Boolean);
+  const summary = `${h} for ${ab}` + (extra.length ? `, ${extra.join(', ')}` : '');
+  return { n, ab, h, hr, d2, d3, bb, k, pts, max: Math.max(0.6, +(0.6 * n).toFixed(1)), summary };
+}
 function finishEmbed() {
-  const n = count.done.length, on = count.onBase;
-  document.getElementById('sl-done-t').textContent = on >= 2 ? 'Clutch.' : on === 1 ? 'You came through once.' : 'Not today.';
-  document.getElementById('sl-done-p').textContent = `${on} for ${n} getting on base.`;
+  const L = gameLine();
+  const pct = L.pts / L.max;
+  document.getElementById('sl-done-t').textContent = L.hr ? (L.hr > 1 ? 'What a day.' : 'Gone.') : pct >= 0.8 ? 'Clutch.' : pct >= 0.5 ? 'Solid day.' : L.h + L.bb ? 'You came through once.' : 'Not today.';
+  document.getElementById('sl-done-p').textContent = `${L.summary}.`;
   document.getElementById('sl-done').hidden = false;
-  document.getElementById('sl-done-btn').onclick = () => LifeOS.finish({ score: on, max: Math.max(1, n), summary: `${on} for ${n}`, stats: { swings: stats.slice(-20) } });
+  document.getElementById('sl-done-btn').onclick = () => LifeOS.finish({ score: +Math.min(L.pts, L.max).toFixed(2), max: L.max, summary: L.summary,
+    stats: { pa: L.n, ab: L.ab, h: L.h, hr: L.hr, doubles: L.d2, triples: L.d3, bb: L.bb, k: L.k, results: count.log.slice(), swings: stats.slice(-20) } });
 }
 function start() {
   document.getElementById('sl-intro').hidden = true;
@@ -785,7 +803,7 @@ LifeOS.onStart((cfg) => {
   renderSegs(); updateTop();
 });
 renderSegs(); updateTop();
-window.SwingLab = { get pitch() { return pitch; }, get phase() { return phase; }, get stats() { return stats; }, get hit() { return hit; }, doSwing, camera, P, ballPos, ballR,
+window.SwingLab = { get count() { return count; }, gameLine, finishEmbed, get pitch() { return pitch; }, get phase() { return phase; }, get stats() { return stats; }, get hit() { return hit; }, doSwing, camera, P, ballPos, ballR,
   get tRel() { return tRel; }, set settings(v) { Object.assign(S, v); renderSegs(); }, start, nextPitch };
 
 let last = performance.now();

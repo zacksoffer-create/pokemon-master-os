@@ -67,6 +67,8 @@ class Simulation:
         scheduler.migrate(self)  # the story scheduler: what already played counts as resolved
         from .social import tidy_romance
         tidy_romance(self)  # nobody's into family (or a teacher, or outside who they like), in saves made before that rule
+        from . import seasons
+        seasons.rolling_trim(self)  # a save opens light: the old step-by-step detail goes (the weekly trim, now)
         self._refresh_day()
         self._note_rules()
         if not world.meta.get("initialized"):
@@ -401,6 +403,8 @@ class Simulation:
         w.stats_series.append(metrics.snapshot(w))
         if w.tracing:
             w.history.compact(w.day, R)
+        from . import seasons
+        seasons.rolling_trim(self)  # what's more than a month old keeps what happened, not every step of why
 
     # --- slots -------------------------------------------------------------------
     def slot_actors(self, slot) -> list:

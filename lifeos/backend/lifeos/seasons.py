@@ -213,6 +213,35 @@ def clean_out(sim, cut: int) -> dict:
     return {"traces": len(tr), "events_trimmed": stripped, "moments": dropped}
 
 
+KEEP_DETAIL_DAYS = 14  # each event's change log and working-out is kept two weeks; after that only what happened stays
+KEEP_TRACE_DAYS = 3  # decision notes (every option everyone near you weighed, ~170 a day): the last few days
+
+
+def rolling_trim(sim, keep_days: int = KEEP_DETAIL_DAYS, trace_days: int = KEEP_TRACE_DAYS) -> dict:
+    """Weekly (and when a save opens): the season break's clean-out, early, for the everyday stuff. Routine decision notes
+    older than a few days and routine events' change logs older than two weeks go; the events stay, and anything
+    important keeps its "why" for the lab. A save stays small (and fits in a phone's memory) between
+    season breaks, not only after them. -> counts."""
+    w = sim.w
+    h = w.history
+    cut = w.day - keep_days
+    big = w.rules.get("history.event_keep_importance", 20)  # (what the lab keeps: why something important happened)
+
+    def routine(t):
+        ev = h.events.get(t.get("event")) if t.get("event") else None
+        return ev is None or ev.get("importance", 0) < big
+    tr = [tid for tid, t in h.traces.items() if t.get("day", 0) < w.day - trace_days and routine(t)]
+    for tid in tr:
+        del h.traces[tid]
+    stripped = 0
+    for ev in h.events.values():
+        if ev.get("day", 0) >= cut:
+            break
+        if ev.get("importance", 0) < big and (ev.pop("changes", None) is not None) | (ev.pop("calc", None) is not None):
+            stripped += 1
+    return {"traces": len(tr), "events_trimmed": stripped}
+
+
 # --- the look ahead ----------------------------------------------------------------------------------------------------
 
 def look_ahead(sim, sid_season: str) -> dict:

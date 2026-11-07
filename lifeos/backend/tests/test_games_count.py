@@ -49,7 +49,7 @@ def _first_game(level):
         j = c.post("/api/story/advance", json={"until": "moment"}).json()
         while j.get("status") == "running":
             time.sleep(0.1)
-            j = c.get("/api/story/job").json()
+            j = c.get("/api/sim/job").json()
     assert played is not None, "the season got to a game day"
     return c, api.lab.w
 

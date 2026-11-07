@@ -115,6 +115,17 @@ def apply_play(sport: str, pos: str, line: dict, play: dict, first: str, team_td
             return f"{first} scored the big bucket late"
         return f"{first} missed the big shot late"
     if sport in ("baseball", "softball"):
+        if st.get("pa"):  # you played your at-bats (Swing Lab): the box score is what you did
+            ab, h, hr = int(st.get("ab") or 0), int(st.get("h") or 0), int(st.get("hr") or 0)
+            line.update({"ab": ab, "h": h, "hr": hr})
+            if st.get("bb"):
+                line["bb"] = int(st["bb"])
+            line["rbi"] = max(int(line.get("rbi") or 0), hr)  # (every home run drives in at least you)
+            xb = [f"{hr} home runs" if hr > 1 else "a home run" if hr else None,
+                  f"{st['triples']} triples" if (st.get("triples") or 0) > 1 else "a triple" if st.get("triples") else None,
+                  f"{st['doubles']} doubles" if (st.get("doubles") or 0) > 1 else "a double" if st.get("doubles") else None]
+            xb = [x for x in xb if x]
+            return f"{first} went {h}-for-{ab}" + (f" with {' and '.join(xb)}" if xb else "")
         line["ab"] = line.get("ab", 0) + 1
         if tier == "great":
             line["h"] = line.get("h", 0) + 1
