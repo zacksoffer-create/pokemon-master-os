@@ -66,9 +66,14 @@ def scene(sim, me) -> dict:
             art, title, line = "dining_hall", "Dining hall", "Lunch in the dining hall."
         else:
             art, title, line = "campus", col["short"], f"Afternoon on campus at {col['short']}."
+    elif me.location == "watch_hill" and ph in ("morning", "day", "evening", "night"):
+        from .summer import HEADERS
+        art, title, line = HEADERS[ph]
     elif ph == "dawn":
         art, title = "home_morning", "At home"
         line = "Saturday morning. No alarm." if weekend else "The alarm goes off. Another day."
+    elif ph == "morning":
+        art, title, line = "home_morning", "Morning", "A summer morning. Nowhere you have to be."
     elif ph == "classes":
         art, title, line = "classroom", school, "Classes drag on."
     elif ph == "lunch":
@@ -92,7 +97,7 @@ def scene(sim, me) -> dict:
     elif ph in ("evening", "night"):
         art, title, line = "bedroom", "Tonight", "Homework's on your desk. Your phone keeps buzzing."
     return {"art": art, "title": title, "line": line, "phase": ph, "season": season, "weekend": weekend, "break": brk,
-            "time": {"dawn": "Morning", "classes": "Class", "lunch": "Lunch", "after_school": "After school", "day": "Daytime",
+            "time": {"dawn": "Early", "morning": "Morning", "classes": "Class", "lunch": "Lunch", "after_school": "After school", "day": "Daytime",
                      "evening": "Evening", "night": "Night"}.get(ph, ph)}
 
 
@@ -330,6 +335,9 @@ def phone_choices():
             o["why"] = cd.why
             if isinstance(cd.extra, dict) and cd.extra.get("pet"):
                 o["pet"] = cd.extra["pet"]
+            if slot == "morning" and isinstance(cd.extra, dict) and cd.extra.get("routine"):
+                o["routine"] = True
+                o["text"] = "Your morning workout"
             if slot == "lunch":
                 ex = cd.extra if isinstance(cd.extra, dict) else {}
                 if ex.get("routine"):
@@ -367,6 +375,11 @@ def phone_choices():
                 elif o.get("just_us"):
                     o.update(group="want", section="people", reason="Somewhere other than the cafeteria", later=None)
             opts.sort(key=lambda o: (not o.get("routine"), not o.get("just_us")))
+        if slot == "morning":
+            for o in opts:
+                if o.get("routine"):
+                    o.update(group="want", section="solo", reason="Every morning, unless you pick something else", later=None)
+            opts.sort(key=lambda o: not o.get("routine"))
         from . import squad
         # nobody's free while they're at practice: they're not an option right now
         opts = [o for o in opts if not (o["action"] in ("hang_out", "date", "help_friend") and o.get("target") and sim.committed(o["target"], slot))]

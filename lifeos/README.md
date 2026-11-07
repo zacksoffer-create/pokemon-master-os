@@ -334,9 +334,27 @@ Guilford has seven high school teams, each with its own coach, tryouts and sched
 
 | Season | Boys | Girls |
 |---|---|---|
-| Fall (tryouts early Sept.) | Football (Coach Bryant), Boys Soccer (Coach Lindqvist) | Girls Soccer (Coach Mensah) |
-| Winter (tryouts mid-Nov.) | Boys Basketball (Coach Okafor) | Girls Basketball (Coach DiMarco) |
-| Spring (tryouts early March) | Baseball (Coach Bryant) | Softball (Coach Torres) |
+| Fall (tryouts Sept. 2) | Football (Coach Bryant), Boys Soccer (Coach Lindqvist) | Girls Soccer (Coach Mensah) |
+| Winter (tryouts after Thanksgiving) | Boys Basketball (Coach Okafor) | Girls Basketball (Coach DiMarco) |
+| Spring (tryouts mid-March) | Baseball (Coach Bryant) | Softball (Coach Torres) |
+
+**A Connecticut (CIAC) season.** Each team plays the real shape of a high school season:
+
+| Sport | Tryouts | Games | Regular season ends | Then |
+|---|---|---|---|---|
+| Football | Sept 2 | Friday nights from Sept 10, and the Thanksgiving game | Thanksgiving | State playoffs, Nov 30 to Dec 11 |
+| Soccer | Sept 2 | Tue/Fri (girls Mon/Thu) from Sept 10 | Oct 29 | SCC tournament Nov 1-6, state tournament Nov 9-19 |
+| Basketball | Nov 29 | Tue/Fri (girls Mon/Thu) from Dec 10, a holiday tournament Dec 27-30 | Feb 22 | SCC tournament Feb 24-Mar 1, state tournament Mar 4-17 |
+| Baseball, softball | Mar 14 | Three a week from Apr 4 | May 20 | SCC tournament May 23-27, state tournament May 31-Jun 11 |
+
+- **Tournaments are earned.** The day after the regular season, a .500 record gets a team into the SCC tournament and
+  .400 into the state tournament (football's playoffs take more). A loss ends that tournament (an SCC loss still goes
+  to the state tournament). Tournament games are varsity, against the conference's better teams, and say their round
+  everywhere (the planner, the Sports tab, "Play in the State semifinal vs Hand").
+- **A season ends after its last game.** A team that's out on Feb 22 is done Feb 23; one still playing in June is
+  in season in June. One sport a season still compares regular seasons (a football player in the December playoffs
+  joins basketball late, like they do).
+- Old saves get the new season with their next school year.
 
 - **You only see your side.** Tryouts, goals, the planner and the story creator show the teams you can play on. A coach
   only takes players from their side, and walk-ons and call-ups follow the same rule.
@@ -471,6 +489,47 @@ What changed:
   month, its year, the storyline's order), or move it to a school year and month. **Play its next scene now** (at the
   top of Read it) gets a stuck storyline going. Only a scene that already happened, or one with nobody in your story to
   be its people, can't (and it says who: "nobody fits freshman_infielder", a kid who doesn't exist until 2013).
+
+## Scenes play at the moment they're about
+
+A storyline's outline says "April", but the scene is your first varsity game, or the night before baseball tryouts, or
+Nicole's SCC final. Every scene is tied to the event it's about, on the real calendar (`backend/lifeos/cues.py`):
+
+- **The moments**: a game day (yours, or someone's: Nicole's soccer game plays on Nicole's game day), the night before a
+  game, after a game (that evening, once it's been played, or the next day), tryouts, the days before them, right after
+  them (the roster's up), the first game and the night before it, the last regular-season game (senior night), the end
+  of the regular season, after the season, a tournament round (SCC quarterfinal ... state championship), the holiday
+  tournament.
+- **Where it comes from**: a tag in the outline's when or the scene's tags (`April · game day`, `night before
+  tryouts`, `Nicole's game day`, `state semifinal`, `after the season`), or, when nothing says, the scene's own words
+  (its title and the outline's summary). It reads them carefully: a scene that looks back on last year's title, a
+  Yankees game on TV, a recruiting pitch, a two-on-two in the driveway or a summer travel tournament keeps its month.
+  Read it shows what each scene plays on ("Plays on: Nicole's soccer game day").
+- **The event wins over the month.** A scene tagged June that's about the last home game plays on the last home game;
+  a month still narrows it when the event falls in it (an April game day is an April game).
+- **Your games still follow the story.** A scene at today's game that says how it went (In the SCC championship...
+  champions) makes it go that way, an after-the-game scene waiting on the game does too, and a storyline whose later
+  chapter is a later tournament round (the semifinal today, the state championship still to come) wins today.
+- **No pileups.** A storyline plays one chapter a day unless its calendar is running out, its event is today, or the
+  scene is written to come right after. Scenes about "a game" spread over the season's game days. On the June 2011
+  save, days where one storyline played three or more scenes went from 36 to 5 in the forecast, and scenes about a
+  game landing on or right after a game day from 19 to 36 of 66.
+- **The prompts know it.** The outline prompt has Guilford's sports year (tryouts, game days, tournaments, dances) and
+  the moment words; the batch prompt asks for each scene to be exactly what its outline line says (a football scene
+  stays football; an October scene doesn't talk about January).
+
+## Summer at Watch Hill
+
+Every summer the family goes to the Watch Hill house the day after school's out (after your spring season, if your
+team is still playing in June), and comes home the day before school starts (`backend/lifeos/summer.py`).
+
+- **Who's there**: your family and everyone in your Watch Hill storylines (Nikki, the Watch Hill crowd). Hanging out,
+  invites and plans come from them; everyone else is a text away.
+- **A summer day has a morning.** Your morning workout is your routine: it's what you do unless you pick something
+  else (a run on the beach, sleeping in, time with the family, working on your sport).
+- **Afternoons and nights**: the beach, ice cream and the carousel on Bay Street, the walk to Napatree Point, the boat,
+  a bonfire, the sunset from the rocks (under Out), or whoever wants to hang out. The crew's plans happen there too
+  (the beach, Bay Street, movie night at the house). No studying, no teams, no job.
 
 ## Seasons: the School Year and the Summer
 

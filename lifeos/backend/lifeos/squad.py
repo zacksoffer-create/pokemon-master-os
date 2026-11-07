@@ -114,10 +114,18 @@ def acts_for(sim, slot, ids) -> list:
     return out
 
 
+WATCH_HILL_ACTS = {  # the same plans, the summer way: what "the park" or "the diner" is at Watch Hill
+    "park": "The beach with {group}", "hoops": "Pickup at the court by the docks with {group}", "food": "Bay Street with {group}",
+    "movie": "Movie night at the house with {group}", "beach": "Beach day with {group}", "study": "FaceTime with {group}",
+}
+
+
 def label(sim, aid, s=None) -> str:
     s = s or state(sim)
     host = sim.w.chars[s["ids"][0]].first if s else "someone"
-    return D()["acts"][aid]["label"].format(group=s["name"] if s else "the crew", host=host)
+    me = sim.w.chars.get(sim.w.meta.get("protagonist") or "")
+    tpl = WATCH_HILL_ACTS.get(aid) if me is not None and me.location == "watch_hill" else None
+    return (tpl or D()["acts"][aid]["label"]).format(group=s["name"] if s else "the crew", host=host)
 
 
 def plan(sim) -> dict | None:
@@ -413,8 +421,12 @@ def label_for_invite(sim, gi) -> str:
     names = [w.chars[x].first for x in [gi["host"]] + gi["crew"] if x in w.chars]
     who = ", ".join(names[:-1]) + " and " + names[-1] if len(names) > 1 else names[0]
     act = D()["acts"].get(gi["act"], {})
-    thing = {"game": "On the game", "park": "Park", "hoops": "Hoops", "food": "Food", "movie": "Movie", "beach": "Beach",
-             "study": "Homework"}.get(gi["act"], "Hanging out")
+    me = w.chars.get(w.meta.get("protagonist") or "")
+    wh = me is not None and me.location == "watch_hill"
+    thing = ({"game": "On the game", "park": "The beach", "hoops": "Pickup", "food": "Bay Street", "movie": "Movie night", "beach": "Beach",
+              "study": "FaceTime"} if wh else
+             {"game": "On the game", "park": "Park", "hoops": "Hoops", "food": "Food", "movie": "Movie", "beach": "Beach",
+              "study": "Homework"}).get(gi["act"], "Hanging out")
     return f"{thing} with {who}"
 
 

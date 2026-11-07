@@ -13,7 +13,8 @@ import functools
 
 SCHOOL_PHASES = ["dawn", "classes", "lunch", "after_school", "evening", "night"]  # after school: practice if you're on a team; evening: yours
 FREE_PHASES = ["dawn", "day", "evening", "night"]
-DECISION_SLOTS = {"lunch", "after_school", "day", "evening"}
+SUMMER_PHASES = ["dawn", "morning", "day", "evening", "night"]  # a summer day has a morning: your workout, or something else
+DECISION_SLOTS = {"lunch", "after_school", "day", "evening", "morning"}
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 START = dt.date(2010, 9, 1)  # a Wednesday: the first day of school, fall 2010
@@ -72,7 +73,9 @@ def is_school_day(day: int, cal: dict) -> bool:
 
 
 def phases_for(day: int, cal: dict) -> list[str]:
-    return SCHOOL_PHASES if is_school_day(day, cal) else FREE_PHASES
+    if is_school_day(day, cal):
+        return SCHOOL_PHASES
+    return SUMMER_PHASES if break_name(day, cal) == "Summer" else FREE_PHASES
 
 
 def term_label(day: int, cal: dict) -> str:

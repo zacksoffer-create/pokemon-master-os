@@ -45,6 +45,10 @@ def requirement(sim, c, req: str, ctx) -> str | None:
     if req == "grounded":
         g = c.flags.get("grounded_until", -1)
         return f"grounded until day {g}" if g >= w.day else None
+    if req == "at_watch_hill":
+        return "at Watch Hill for the summer" if c.location == "watch_hill" else None
+    if req == "not_summer":
+        return "school's in" if calm.break_name(w.day, sim.cat.world["calendar"]) != "Summer" else None
     if req.startswith("money:"):
         need = float(req.split(":")[1])
         return f"has ${c.money:.0f}" if c.money >= need else None

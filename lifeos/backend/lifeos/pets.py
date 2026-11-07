@@ -455,7 +455,9 @@ def _timed(sim, c, pet, kind, ev, fx, rng, trick=None):
         fx.need(c.id, "energy", -5, "a long walk")
         fx.skill(c.id, "fitness", 0.15, f"walking {pet['name']}")
         summer = calm.date_of(w.day).month in (6, 7, 8)
-        place = "Jacobs Beach" if (kind == "park" and summer) else "the Guilford Green" if kind == "park" else "the neighborhood"
+        me_ = sim.w.chars.get(sim.w.meta.get("protagonist") or "") if hasattr(sim, "w") else None
+        place = ("the beach at Watch Hill" if me_ is not None and me_.location == "watch_hill" and kind == "park" else
+                 "Jacobs Beach" if (kind == "park" and summer) else "the Guilford Green" if kind == "park" else "the neighborhood")
         ev["data"]["place"] = place
         ev["text"] = (f"{name} took {pet['name']} to {place}. {he.capitalize()} sniffed every single tree."
                       if kind == "park" else f"{name} walked {pet['name']} around {place} as the streetlights came on.")

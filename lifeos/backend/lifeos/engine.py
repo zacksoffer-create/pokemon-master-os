@@ -64,6 +64,8 @@ class Simulation:
         self.upcoming: list = []
         from . import scheduler, teams
         teams.upgrade(self)  # boys' and girls' teams, soccer and softball, for saves made before them
+        from . import summer
+        summer.upgrade(self)  # (summer days have a morning now)
         from . import postseason
         postseason.upgrade_teams(world, self.cat.world["groups"])  # CIAC seasons and tournaments, from the next school year
         scheduler.migrate(self)  # the story scheduler: what already played counts as resolved
@@ -188,6 +190,8 @@ class Simulation:
             self._handle(s, rng)
         from . import postseason
         postseason.daily(self)  # who's in the SCC and state tournaments; a season that's over ends
+        from . import summer
+        summer.daily(self)  # to Watch Hill when school's out, home before it starts
         for it in self.today(None):
             if it["kind"] == "season_end":
                 self.institutions.season_end(it)
@@ -416,6 +420,8 @@ class Simulation:
         out = []
         w = self.w
         prot = w.chars.get(w.meta.get("protagonist")) if w.meta.get("protagonist") else None
+        if slot == "morning":  # (a summer morning is yours: everyone else just has one)
+            return [prot.id] if prot is not None and prot.status == "active" else []
         circle = set(w.meta.get("circle", [])) if prot is not None else ()
         for c in self.w.chars.values():
             if c.status != "active":
@@ -470,6 +476,12 @@ class Simulation:
         if dec is not None and slot == "lunch" and cid == self.w.meta.get("protagonist") and c.role == "student":
             from . import lunch
             lunch.my_options(self, dec)  # your usual table, and lunch with a friend somewhere else
+        if dec is not None and slot == "morning" and cid == self.w.meta.get("protagonist"):
+            top = max((cd.u for cd in dec["cands"]), default=0.0)
+            for cd in dec["cands"]:  # your morning workout: what you do unless you pick something else
+                if cd.a["id"] == "morning_workout":
+                    cd.extra = dict(cd.extra or {}, routine=True) if isinstance(cd.extra, dict) or cd.extra is None else cd.extra
+                    cd.u = top + 0.02
         return dec
 
     def _tryout_eve(self, pc):
@@ -577,11 +589,11 @@ class Simulation:
                         for row in dec["trace"]["candidates"]:
                             row["chosen"] = row["action"] == dec["chosen"].a["id"] and row["target"] == (
                                 dec["chosen"].target if not isinstance(dec["chosen"].target, dict) else None)
-            elif slot == "lunch" and cid == w.meta.get("protagonist"):
+            elif slot in ("lunch", "morning") and cid == w.meta.get("protagonist"):
                 from . import lunch
                 r = lunch.routine_index(dec)
                 if r is not None:
-                    dec["chosen"] = dec["cands"][r]  # you didn't pick: you sit at your table, like every day
+                    dec["chosen"] = dec["cands"][r]  # you didn't pick: your table at lunch, your workout in the morning
             self.slot.planned[cid] = dec
             if dec["trace"]:
                 self.slot.traces[cid] = w.history.add_trace(dec["trace"])

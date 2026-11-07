@@ -414,7 +414,8 @@ def annotate(sim, me, opts: list) -> list:
 SECTIONS = {
     "people": ("hang_group", "hang_out", "date", "sit_with", "family_time", "reply_invite", "flirt", "ask_out", "ask_to_dance", "help_friend",
                "introduce", "mentor", "staff_chat", "apologize"),
-    "out": ("attend_event", "go_to_party", "spectate", "throw_party", "sign_up"),
+    "out": ("attend_event", "go_to_party", "spectate", "throw_party", "sign_up", "beach_day", "bay_street", "napatree", "boat_day",
+            "bonfire", "sunset_rocks"),
     "trouble": ("confront", "prank", "tease", "gossip", "spread_rumor", "sneak_out", "break_up", "quit_group"),
 }
 

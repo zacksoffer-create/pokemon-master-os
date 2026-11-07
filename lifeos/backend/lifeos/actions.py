@@ -85,6 +85,11 @@ def r_solo(sim, c, cand, ev, fx, rng, ctx):
             v *= 0.5 + enjoy
         if v:
             fx.need(c.id, need, v, a["label"].lower())
+    if p.get("money"):  # (ice cream on Bay Street isn't free)
+        if hasattr(fx, "money"):
+            fx.money(c.id, p["money"], a["label"].lower())
+        else:
+            c.money = max(0.0, c.money + p["money"])
     fx.mood(c.id, (enjoy - 0.4) * 4 + (focus - 0.45) * 2, a["label"].lower())
     if aid in ("practice_skill", "hobby") and cand.target:
         key = cand.target

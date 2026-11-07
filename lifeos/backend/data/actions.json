@@ -47,7 +47,10 @@
     "achievement",
     "solo"
    ],
-   "interest": 0.6
+   "interest": 0.6,
+   "requires": [
+    "not_summer"
+   ]
   },
   {
    "id": "study_at_lunch",
@@ -97,7 +100,8 @@
    "slots": [
     "after_school",
     "day",
-    "evening"
+    "evening",
+    "morning"
    ],
    "roles": [
     "student",
@@ -1324,7 +1328,8 @@
    "category": "family",
    "slots": [
     "day",
-    "evening"
+    "evening",
+    "morning"
    ],
    "roles": [
     "student"
@@ -1753,6 +1758,373 @@
     "kind": "train"
    },
    "importance": 5
+  },
+  {
+   "category": "activity",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.4,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "healthy"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "athletic",
+    "solo",
+    "routine"
+   ],
+   "id": "morning_workout",
+   "label": "Morning workout",
+   "slots": [
+    "morning"
+   ],
+   "params": {
+    "skill": "fitness",
+    "gain": 1.0,
+    "energy": -10,
+    "fun": 4,
+    "stress": -7,
+    "social": -1,
+    "enjoy_trait": "interest"
+   }
+  },
+  {
+   "category": "activity",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "healthy",
+    "at_watch_hill"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "athletic",
+    "solo"
+   ],
+   "id": "beach_run",
+   "label": "Run on the beach",
+   "slots": [
+    "morning"
+   ],
+   "params": {
+    "skill": "fitness",
+    "gain": 0.7,
+    "energy": -8,
+    "fun": 9,
+    "stress": -9,
+    "social": -1
+   }
+  },
+  {
+   "category": "leisure",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "rest",
+    "solo"
+   ],
+   "id": "sleep_in",
+   "label": "Sleep in",
+   "slots": [
+    "morning"
+   ],
+   "params": {
+    "energy": 20,
+    "fun": 3,
+    "stress": -6,
+    "social": -1
+   }
+  },
+  {
+   "category": "leisure",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "at_watch_hill"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "pleasure",
+    "solo",
+    "summer"
+   ],
+   "id": "beach_day",
+   "label": "Spend the day at the beach",
+   "slots": [
+    "day"
+   ],
+   "params": {
+    "energy": -6,
+    "fun": 18,
+    "stress": -10,
+    "social": 8
+   }
+  },
+  {
+   "category": "leisure",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "at_watch_hill",
+    "money:6"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "pleasure",
+    "solo",
+    "summer"
+   ],
+   "id": "bay_street",
+   "label": "Ice cream and the carousel on Bay Street",
+   "slots": [
+    "day",
+    "evening"
+   ],
+   "params": {
+    "energy": -4,
+    "fun": 14,
+    "stress": -6,
+    "social": 6,
+    "money": -6
+   }
+  },
+  {
+   "category": "leisure",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "at_watch_hill"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "pleasure",
+    "solo",
+    "summer"
+   ],
+   "id": "napatree",
+   "label": "Walk out to Napatree Point",
+   "slots": [
+    "day"
+   ],
+   "params": {
+    "skill": "fitness",
+    "gain": 0.3,
+    "energy": -7,
+    "fun": 12,
+    "stress": -12,
+    "social": -1
+   }
+  },
+  {
+   "category": "leisure",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "at_watch_hill"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "pleasure",
+    "solo",
+    "summer"
+   ],
+   "id": "boat_day",
+   "label": "Take the boat out",
+   "slots": [
+    "day"
+   ],
+   "params": {
+    "energy": -8,
+    "fun": 20,
+    "stress": -9,
+    "social": 6
+   }
+  },
+  {
+   "category": "leisure",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "at_watch_hill"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "pleasure",
+    "social",
+    "summer"
+   ],
+   "id": "bonfire",
+   "label": "Bonfire on the beach",
+   "slots": [
+    "evening"
+   ],
+   "params": {
+    "energy": -5,
+    "fun": 18,
+    "stress": -8,
+    "social": 14
+   }
+  },
+  {
+   "category": "leisure",
+   "target": null,
+   "roles": [
+    "student",
+    "alumni"
+   ],
+   "base": 1.0,
+   "needs": {
+    "energy": 0.2,
+    "fun": 0.6,
+    "stress": 0.6
+   },
+   "motives": {
+    "pleasure": 0.5
+   },
+   "traits": {},
+   "requires": [
+    "at_watch_hill"
+   ],
+   "risk": 0.0,
+   "resolver": "solo",
+   "importance": 2,
+   "tags": [
+    "rest",
+    "solo",
+    "summer"
+   ],
+   "id": "sunset_rocks",
+   "label": "Watch the sunset from the rocks",
+   "slots": [
+    "evening"
+   ],
+   "params": {
+    "energy": 2,
+    "fun": 8,
+    "stress": -14,
+    "social": -2
+   }
   }
  ]
 }
