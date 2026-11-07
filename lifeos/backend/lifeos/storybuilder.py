@@ -769,8 +769,17 @@ def outline_prompt(sim, ask: str = "", size: str = "bunch", expand: str | None =
         ask=ask, people=_family(sim) + "\n\nAlready cast in my storylines:\n" + _cast_block(sim), existing=existing,
         title_hint=title_hint, expands_line=exp_line, size=f"Plan {OUTLINE_SIZES.get(size, size or OUTLINE_SIZES['bunch'])}",
         years_words="freshman, sophomore, junior, senior, college freshman, college sophomore, college junior",
-        when_words=script.WHEN_WORDS, calendar=season_calendar_text(sim))
+        when_words=script.WHEN_WORDS, calendar=storycal_text(sim, ask))
     return {"prompt": body, "chars": len(body)}
+
+
+def storycal_text(sim, ask: str = "") -> str:
+    """The story calendar for the years a storyline is likely to cover (the ones its ask names, else the rest of high
+    school), game by game for your family's teams."""
+    import re as _re
+    from . import storycal
+    words = [x for x in ("freshman", "sophomore", "junior", "senior") if _re.search(rf"\b{x}\b", ask or "", _re.I)]
+    return "\n" + storycal.text(sim, words or None)
 
 
 def season_calendar_text(sim) -> str:
@@ -831,9 +840,16 @@ def batch_prompt(sim, pack: str, count: int = 3) -> dict:
         out_lines.append(line + ("   (written)" if e.get("written") else "   ← write now" if e in take else ""))
     by_sid = {sc["id"]: sc for sc in p["pack"].get("scenes") or [] if isinstance(sc, dict)}
     prev = next((e for e in reversed(entries) if e["n"] < first and e.get("written") and e.get("sid") in by_sid), None)
-    previous = ""
+    from . import storycal
+    yw = storycal.years_in(p["script"]) or None
+    exact = []
+    for e in take:  # each scene's moment, from the calendar: the date, and the game and opponent when it's a game
+        d = storycal.describe(sim, e.get("when_raw") or e.get("when") or "", yw)
+        exact.append(f"- Scene {e['n']}, {e['title']}: {d or (e.get('when') or 'any time that fits the story')}")
+    previous = ("\n## Exactly when each one is (write it as that moment: that day, that game, that opponent)\n\n"
+                + "\n".join(exact) + "\n")
     if prev:
-        previous = (f"\n## The scene right before these (so yours pick up from it)\n\n```\n{by_sid[prev['sid']].get('src', '').strip()}\n```\n")
+        previous += (f"\n## The scene right before these (so yours pick up from it)\n\n```\n{by_sid[prev['sid']].get('src', '').strip()}\n```\n")
     ns = {e["n"] for e in take}
     by_n = {e["n"]: e for e in entries}
     needs = []

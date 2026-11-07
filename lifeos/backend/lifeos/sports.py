@@ -403,11 +403,21 @@ def add_line(dst: dict, line: dict):
 # --- games -----------------------------------------------------------------------------
 
 def game_opponent(sim, g, it) -> str:
-    """Who a calendar game is against, by name: a tournament round's opponent, else the schedule's."""
+    """Who a calendar game is against, by name: a tournament round's opponent, else the league schedule's (the team the
+    game is really played against, and the one the story calendar shows)."""
     if it.get("opp"):
         return it["opp"]
     tail = str(it.get("key", "")).split(":")[-1]
-    return opponent_name(sim, g, int(tail) if tail.isdigit() else 1)
+    num = int(tail) if tail.isdigit() else 1
+    if g.get("school", "hchs") != "college":
+        try:
+            from .storycal import schedule_order
+            order = schedule_order(sim, g, calm.school_year_of(it.get("day", sim.w.day)))
+            if order:
+                return order[(num - 1) % len(order)]
+        except Exception:  # noqa: BLE001
+            pass
+    return opponent_name(sim, g, num)
 
 
 def opponent_name(sim, g, n: int) -> str:

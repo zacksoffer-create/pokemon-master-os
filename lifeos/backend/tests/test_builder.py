@@ -136,7 +136,7 @@ def test_build_a_storyline_through_the_api():
     p = op["prompt"]
     for must in ("Mike and me on the same team", "Mike Soffer", "outline:", "only if you picked", "12 to 18 scenes", "Thanksgiving"):
         assert must in p, must
-    assert op["chars"] < 6500, "short: the outline is the first step (with Guilford's sports year in it)"
+    assert op["chars"] < 24000, "short enough: the outline is the first step (with the story calendar in it)"
     pv = c.post("/api/story/build/outline", json={"text": "Sure!\n```\n" + OUTLINE + "```"}).json()
     assert pv["title"] == "Brothers: Same Team" and len(pv["outline"]) == 8 and pv["cast"][0]["label"] == "Mike Soffer"
     assert not dialogue.packs(), "checking doesn't save"

@@ -44,7 +44,13 @@ KINDS = {
     "postseason": (0, 0, "a tournament game"),
     "after_postseason": (0, 1, "after a tournament game"),
     "holiday": (0, 0, "the holiday tournament"),
+    "game_n": (0, 0, "game"),
+    "game_vs": (0, 0, "the game vs"),
+    "thanksgiving_game": (0, 0, "the Thanksgiving game"),
+    "watch_hill_first": (0, 0, "the first day at Watch Hill"),
+    "watch_hill_last": (0, 0, "the last night at Watch Hill"),
 }
+NO_TEAM = ("watch_hill_first", "watch_hill_last")
 ROUNDS = {"championship": "championship", "final": "championship", "finals": "championship", "title game": "championship",
           "semifinal": "semifinal", "semifinals": "semifinal", "semi": "semifinal", "semis": "semifinal",
           "final four": "semifinal", "quarterfinal": "quarterfinal", "quarterfinals": "quarterfinal",
@@ -75,7 +81,14 @@ TAG_FORMS = [
     (rf"^{_POSS}{_SP}postgame$", "after_game"),
     (rf"^{_POSS}{_SP}(?:game\s*day|game-day|game\s+night)$", "game"),
     (rf"^at\s+{_POSS}(?:a\s+|the\s+)?{_SP}game$", "game"),
+    (r"^(?:the\s+)?thanksgiving\s+(?:football\s+)?game$", "thanksgiving_game"),
+    (r"^(?:the\s+)?first\s+(?:day|night)\s+(?:at|in)\s+watch\s+hill$", "watch_hill_first"),
+    (r"^(?:the\s+)?last\s+(?:night|day)\s+(?:at|in)\s+watch\s+hill$", "watch_hill_last"),
 ]
+GAME_N_RX = re.compile(r"^(?:(?P<who>[a-z][a-z'\-]+)'s\s+)?(?:(?P<sport>baseball|softball|basketball|hoops|football|soccer)\s+)?"
+                       r"game\s+(?:#\s*)?(?P<n>\d{1,2})(?:\s+(?:vs\.?|versus|against)\s+(?P<opp>.+))?$")
+GAME_VS_RX = re.compile(r"^(?:(?P<who>[a-z][a-z'\-]+)'s\s+)?(?:the\s+)?(?:(?P<sport>baseball|softball|basketball|hoops|football|soccer)\s+)?"
+                        r"game\s+(?:vs\.?|versus|against)\s+(?P<opp>.+)$")
 TAG_FORMS = [(re.compile(rx), k) for rx, k in TAG_FORMS]
 _STAGE_RX = re.compile(r"^(?:(?P<who>[a-z][a-z'\-]+)'s\s+)?(?:(?P<sport>baseball|softball|basketball|hoops|football|soccer)\s+)?"
                        r"(?P<after>after\s+(?:the\s+)?)?(?P<stage>scc|conference|state|playoffs?|postseason|tournament)"
@@ -92,11 +105,24 @@ def parse_tag(tok: str) -> dict | None:
         stage = "scc" if st in ("scc", "conference") else "state" if st == "state" else None
         rnd = ROUNDS.get(re.sub(r"\s+", " ", m.group("round") or "")) if m.group("round") else None
         return _moment("after_postseason" if m.group("after") else "postseason", m.group("sport"), m.group("who"), stage, rnd, "tag")
+    m = GAME_N_RX.match(low)
+    if m:  # football game 3: that game of the season
+        out = _moment("game_n", m.group("sport"), m.group("who"), None, None, "tag")
+        out["n"] = int(m.group("n"))
+        return out
+    m = GAME_VS_RX.match(low)
+    if m:  # basketball game vs Hand: the game against them (the first, or the one in its month)
+        out = _moment("game_vs", m.group("sport"), m.group("who"), None, None, "tag")
+        out["opp"] = re.sub(r"\s*\(.*\)$", "", tok.strip().split(re.search(r"vs\.?|versus|against", tok, re.I).group(0), 1)[1]).strip(" .")
+        return out
     for rx, kind in TAG_FORMS:
         m = rx.match(low)
         if m:
             gd = m.groupdict()
-            return _moment(kind, gd.get("sport"), gd.get("who"), None, None, "tag")
+            out = _moment(kind, gd.get("sport"), gd.get("who"), None, None, "tag")
+            if kind == "thanksgiving_game":
+                out["sport"] = "football"
+            return out
     return None
 
 
@@ -301,6 +327,10 @@ def label(m: dict) -> str:
         txt = (f"the {st} {m['round']}" if m.get("round") else f"a {st} game")
         if m["kind"] == "after_postseason":
             txt = "after " + txt
+    if m["kind"] == "game_n":
+        txt = f"game {m.get('n')}"
+    elif m["kind"] == "game_vs":
+        txt = f"the game vs {m.get('opp')}"
     sp = m.get("sport")
     who = m.get("owner")
     return (f"{who.title()}'s " if who else "") + (f"{sp} " if sp and not who else "") + txt
@@ -387,6 +417,21 @@ def event_days(sim, gid: str, m: dict, year: int) -> list:
         base = [i["day"] for i in its if i["kind"] == "tryout"][:1]
     elif k == "season_end":
         base = games[-1:]
+    elif k == "game_n":
+        base = [i["day"] for i in its if i["kind"] == "game" and not i.get("stage") and str(i["key"]).split(":")[-1] == str(m.get("n"))]
+    elif k == "game_vs":
+        from .storycal import schedule_order
+        g = w.groups.get(gid) or {}
+        order = schedule_order(sim, g, year) if g else []
+        want = str(m.get("opp") or "").lower()
+        base = []
+        for i in its:
+            tail = str(i["key"]).split(":")[-1]
+            opp = i.get("opp") or (order[(int(tail) - 1) % len(order)] if tail.isdigit() and order else None)
+            if i["kind"] == "game" and opp and opp.lower() == want:
+                base.append(i["day"])
+    elif k == "thanksgiving_game":
+        base = [i["day"] for i in its if i["kind"] == "game" and i.get("event") == "thanksgiving"]
     elif k == "holiday":
         base = [i["day"] for i in its if i["kind"] == "game" and i.get("event") == "holiday"]
         base = base[-1:] if m.get("round") == "championship" else base
@@ -401,8 +446,21 @@ def event_days(sim, gid: str, m: dict, year: int) -> list:
     return out
 
 
+def watch_hill_day(sim, kind: str, year: int) -> int:
+    """The first day at Watch Hill this summer (the day you got there, or June 1), or the last night (Aug 30)."""
+    if kind == "watch_hill_last":
+        return calm.md_to_day(year, (8, 30))
+    st = sim.w.meta.get("watch_hill") or {}
+    since = st.get("since")
+    if since is not None and calm.school_year_of(since) == year:
+        return since
+    return calm.md_to_day(year, (6, 1))
+
+
 def fits(sim, me, m: dict, months, day: int) -> bool | None:
     """True / False: does today fit this scene's moment? None: it has no team here (it plays as written)."""
+    if m["kind"] in NO_TEAM:
+        return day == watch_hill_day(sim, m["kind"], calm.school_year_of(day))
     gid = team_for(sim, me, m, day)
     if gid is None:
         return None
@@ -415,6 +473,9 @@ def fits(sim, me, m: dict, months, day: int) -> bool | None:
 
 def next_day(sim, me, m: dict, months, day: int) -> int | None:
     """The next day this moment fits this school year (for "waiting for the game")."""
+    if m["kind"] in NO_TEAM:
+        d = watch_hill_day(sim, m["kind"], calm.school_year_of(day))
+        return d if d >= day else None
     gid = team_for(sim, me, m, day)
     if gid is None:
         return None
@@ -426,5 +487,7 @@ def next_day(sim, me, m: dict, months, day: int) -> int | None:
 
 
 def is_mine(sim, me, m: dict, day: int) -> bool:
+    if m["kind"] in NO_TEAM:
+        return False
     gid = team_for(sim, me, m, day)
     return bool(gid) and me.id in (sim.w.groups.get(gid) or {}).get("members", [])

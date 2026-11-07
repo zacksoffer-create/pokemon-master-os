@@ -3,7 +3,7 @@
 // cast lines) are replaced in place. Undo puts back what was there. Who's in it switches a set person and a role, no
 // ChatGPT needed.
 import React, { useEffect, useState } from "react";
-import { CastLine, ReviseResult, ReviseView, phoneApi } from "./api";
+import { CastLine, ReviseResult, ReviseView, RetimeResult, phoneApi } from "./api";
 import { copyText } from "./DialogueCard";
 import { PIcon } from "./icons";
 import { cx, errText, Sheet } from "./kit";
@@ -77,6 +77,7 @@ export default function ReviseSheet({ pack, onClose, onChanged }: { pack: string
   const [res, setRes] = useState<ReviseResult | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [open, setOpen] = useState<string | null>(null);
+  const [retimed, setRetimed] = useState<RetimeResult | null>(null);
   const load = async (pid: string) => {
     try {
       setView(await phoneApi.revise(pid));
@@ -89,6 +90,7 @@ export default function ReviseSheet({ pack, onClose, onChanged }: { pack: string
     setAsk("");
     setPaste("");
     setRes(null);
+    setRetimed(null);
     setOpen(null);
     if (pack) load(pack);
   }, [pack]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -106,8 +108,23 @@ export default function ReviseSheet({ pack, onClose, onChanged }: { pack: string
     const ok = await copyText(await get());
     toast(ok ? `Copied the ${what}. Paste it into ChatGPT, then paste its reply below.` : "Couldn't copy. Try Share.", ok ? "good" : "bad");
   });
+  const looksLikeOutline = (t: string) => /^\s*outline:/im.test(t) || (/^\s*\d+\.\s+[^|\n]+\|/m.test(t) && !/^\s*---/m.test(t));
   const apply = () => run("apply", async () => {
     if (!pack) return;
+    if (view?.outlined && looksLikeOutline(paste)) {  // (a re-timed outline: only the whens go in)
+      const t = await phoneApi.reviseRetime(pack, paste);
+      setRetimed(t);
+      if (t.ok) {
+        setPaste("");
+        onChanged();
+        await load(pack);
+        toast(t.changed.length ? `Re-timed ${t.changed.length} scene${t.changed.length === 1 ? "" : "s"}.` + (t.calendar.length ? ` ${t.calendar.length} still off the calendar.` : " All on the calendar.")
+          : "Nothing to change: every scene already had that when.", t.calendar.length ? undefined : "good");
+      } else {
+        toast(t.errors?.[0] || "That didn't go in.", "bad");
+      }
+      return;
+    }
     const r = await phoneApi.reviseApply(pack, paste);
     setRes(r);
     if (r.ok) {
@@ -177,6 +194,26 @@ export default function ReviseSheet({ pack, onClose, onChanged }: { pack: string
             {busy === "change" ? <span className="ph-spinner small light" /> : "Copy the change prompt"}
           </button>
           <p className="ph-dim small">ChatGPT gets the storyline as it is and sends back only what changes (and fixes anything broken on the way), so a long one never gets cut off.</p>
+
+          {view.outlined && (
+            <>
+              <div className="sch-step"><i>↻</i><b>Or put it on the calendar</b></div>
+              <button className="ph-btn primary block" disabled={!!busy}
+                onClick={() => copy("retime", async () => (await phoneApi.reviseRetimePrompt(view.pack)).prompt, "calendar prompt")}>
+                {busy === "retime" ? <span className="ph-spinner small light" /> : "Copy the calendar prompt"}
+              </button>
+              <p className="ph-dim small">ChatGPT gets this storyline's outline and the game's calendar (every game, with who it's against) and
+                sends the outline back with each scene on its real day or game. Only the timing changes: the scenes you have stay as they are.</p>
+              {retimed && (
+                <div className={cx("bs-left", !retimed.calendar.length && "soft")}>
+                  <b>{retimed.changed.length ? `Re-timed: scenes ${retimed.changed.join(", ")}` : "Nothing changed"}</b>
+                  {retimed.notes.map((t, i) => <div key={i} className="bs-left-sc"><small>{t}</small></div>)}
+                  {retimed.calendar.length > 0 && <b className="bs-gap-h">Still off the calendar ({retimed.calendar.length})</b>}
+                  {retimed.calendar.map((c, i) => <div key={"c" + i} className="bs-left-sc"><span>Scene {c.n}</span><small>{c.problem}</small></div>)}
+                </div>
+              )}
+            </>
+          )}
 
           <div className="sch-step"><i>3</i><b>Paste ChatGPT's reply</b></div>
           <textarea className="ph-input mono" rows={6} value={paste} onChange={(e) => setPaste(e.target.value)}

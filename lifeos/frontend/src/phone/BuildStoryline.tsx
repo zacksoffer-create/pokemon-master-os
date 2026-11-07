@@ -308,11 +308,25 @@ export default function BuildStoryline({ start, onClose, onChanged, onRead }: {
               {check.about && <p className="ph-dim small">{check.about}</p>}
               {check.cast.length > 0 && <p className="ph-dim small">People: {check.cast.map((c) => `${c.name} (${c.label})`).join(", ")}</p>}
               <OutlineList entries={check.outline} />
+              {!!check.calendar?.length && (
+                <div className="bs-left">
+                  <b>Not on the calendar ({check.calendar.length})</b>
+                  {check.calendar.map((c, i) => <div key={i} className="bs-left-sc"><span>Scene {c.n}</span><small>{c.problem}</small></div>)}
+                  <button className="ph-btn primary block" onClick={async () => {
+                    const ok = await copyText(check.fix_prompt || "");
+                    toast(ok ? "Copied. Paste it into ChatGPT, then paste its fixed outline above and check it again." : "Couldn't copy.", ok ? "good" : "bad");
+                  }}>Copy the fix prompt for ChatGPT</button>
+                </div>
+              )}
               <Notes notes={[...check.notes, ...check.warnings]} />
-              <button className="ph-btn primary block" disabled={!!busy} onClick={create}>
-                {busy === "create" ? <span className="ph-spinner small light" /> : `Make it: ${check.outline.length} scenes`}
-              </button>
-              <p className="ph-dim small">The game puts them in order and spaces them through the year (holidays and school days on their day). Nothing plays until its scene is written.</p>
+              {check.calendar?.length ? (
+                <button className="ph-link center" disabled={!!busy} onClick={create}>Make it anyway (those scenes get spread out)</button>
+              ) : (
+                <button className="ph-btn primary block" disabled={!!busy} onClick={create}>
+                  {busy === "create" ? <span className="ph-spinner small light" /> : `Make it: ${check.outline.length} scenes`}
+                </button>
+              )}
+              <p className="ph-dim small">Each scene plays on its day or game from the calendar, in order (a scene on a month gets a day in it). Nothing plays until its scene is written.</p>
             </div>
           )}
           {!start?.expand && rows.some((r) => r.written < r.total || r.needs_fixing) && (

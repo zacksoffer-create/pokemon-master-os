@@ -338,3 +338,86 @@ def set_cast(pid: str, name: str, value: str) -> list:
     if not r["ok"]:
         raise ValueError(r["errors"][0])
     return cast_view(D._script_pack(pid))
+
+
+# ---------------------------------------------------------------------------------------- re-time it to the calendar
+def retime_prompt(sim, pid: str) -> str:
+    """A storyline you're keeping, put on the story calendar: its outline as it is, the calendar, and send back the
+    same outline with only each scene's when changed (and a note on any scene whose story can't fit)."""
+    from . import storycal
+    p = D._script_pack(pid)
+    ents = SC.outline_entries(p["pack"])
+    if not ents:
+        raise ValueError("this storyline has no outline to re-time (it was written without one)")
+    lines = []
+    for e in ents:
+        bits = [f"{e['n']}. {e['title']}", e.get("when_raw") or e.get("when") or "", e.get("summary") or ""]
+        lines.append(" | ".join(bits) + (f" | {e['if']}" if e.get("if") else ""))
+    m = re.search(r"^\s*years:\s*.+$", p["script"], re.M | re.I)
+    years = storycal.years_in(p["script"])
+    L = [f"Put one of my LIFE OS storylines on the game's calendar. {INTRO}", "",
+         f"## The storyline: {p['pack'].get('name')}", "", (m.group(0).strip() if m else ""), "",
+         "## Its outline now", "", "```", "outline:", *lines, "```", "",
+         "## What to do", "",
+         "- Give every scene a when from the calendar below: the day or game it's really about (a scene at a game goes "
+         "on that game, `football game 3`; the night before tryouts is `night before baseball tryouts`; a scene that "
+         "could be any day keeps a part of a month, `mid October`).",
+         "- Keep the numbers, titles, what happens and any `| only if ...` exactly as they are. Only the when changes.",
+         "- Keep it in calendar order and paced like real life (2 or 3 scenes a week at most; game scenes on different games).",
+         "- If a scene's story can't happen on this calendar (a game that isn't on the schedule, a tournament round the "
+         "storyline needs the team to reach), end its line with `| doesn't fit: <why>` and give it the closest when.",
+         "", "Every when is exactly one of these (plus `big` or `finale` after a ·):", SC.WHEN_WORDS, "",
+         storycal.text(sim, years or None), "",
+         "Reply with ONE code block: `outline:` and every line, numbered as now. Nothing after it."]
+    return "\n".join(x for x in L if x is not None)
+
+
+def retime_apply(sim, pid: str, text: str) -> dict:
+    """Each pasted outline line's when goes into the storyline's outline (by its number); everything else stays."""
+    from . import storycal
+    p = D._script_pack(pid)
+    got, notes = {}, []
+    for ln in SC.extract(text or "").replace("\r\n", "\n").split("\n"):
+        m = SC.OUTLINE_RE.match(ln.strip())
+        if not m:
+            continue
+        parts = [x.strip() for x in re.split(r"\s*\|\s*", m.group(2))]
+        if len(parts) < 2:
+            continue
+        got[int(m.group(1))] = parts[1]
+        fit = next((x for x in parts[2:] if x.lower().startswith("doesn't fit") or x.lower().startswith("doesnt fit")), None)
+        if fit:
+            notes.append(f"Scene {m.group(1)} ({parts[0]}): {fit}")
+    if not got:
+        return {"ok": False, "errors": ["there's no outline in that: it's numbered lines like 3. Title | when | what happens"]}
+    lines = p["script"].rstrip("\n").split("\n")
+    inside, changed = False, []
+    for i, ln in enumerate(lines):
+        t = ln.strip()
+        if t.lower().startswith("outline:"):
+            inside = True
+            continue
+        if inside and (SC.SCENE_RE.match(t) or (t and not SC.OUTLINE_RE.match(t) and not t.startswith(("-", "*")))):
+            if SC.SCENE_RE.match(t):
+                inside = False
+            continue
+        m = SC.OUTLINE_RE.match(t) if inside else None
+        if not m or int(m.group(1)) not in got:
+            continue
+        parts = [x.strip() for x in re.split(r"\s*\|\s*", m.group(2))]
+        new_when = got[int(m.group(1))]
+        if len(parts) >= 2 and parts[1] != new_when:
+            parts[1] = new_when
+            lead = ln[:len(ln) - len(ln.lstrip())]
+            lines[i] = f"{lead}{m.group(1)}. " + " | ".join(parts)
+            changed.append(int(m.group(1)))
+    if not changed:
+        return {"ok": True, "changed": [], "notes": notes, "calendar": [], "undo": False}
+    undo = _keep_for_undo(pid, p["script"])
+    r = D.add_script("\n".join(lines) + "\n", into=pid)
+    if not r["ok"]:
+        return {"ok": False, "errors": r["errors"][:6], "undo": undo}
+    p2 = D._script_pack(pid)
+    left = storycal.check_outline(sim, SC.outline_entries(p2["pack"]), storycal.years_in(p2["script"]) or None)
+    return {"ok": True, "changed": sorted(changed), "notes": notes, "undo": undo,
+            "calendar": [{"n": n, "problem": why} for n, why in left]}

@@ -589,6 +589,11 @@ def tags(text: str, sc: Scene | None, n: int, when: dict, sec) -> dict:
         if d:
             when.setdefault("dates", []).append(d)
             continue
+        from .cues import parse_tag as _moment_tag
+        mo = _moment_tag(tok) if re.match(r"(after|before)\s", low) else None
+        if mo:
+            when["moment"] = mo  # (after tryouts, after a game, after the season: the event, not a scene's name)
+            continue
         m = re.fullmatch(r"(after|before)\s+(.+)", tok.strip(), re.I)
         if m:
             d = _date(m.group(2), approx=True)
@@ -1468,13 +1473,14 @@ def _parse_outline(body: list, sec, warns) -> list:
                 continue
             try:
                 tags(tok, None, ln.n, {}, sec)
-                if re.match(r"(after|if|unless)\s", tok.strip().lower()):
+                from .cues import parse_tag as _moment_tag
+                if re.match(r"(after|if|unless)\s", tok.strip().lower()) and not _moment_tag(tok):
                     raise Fail("order and conditions come from the outline")
                 good.append(tok.strip())
             except Fail:
                 warns.append((ln.n, f"'{tok.strip()}' isn't a time the game knows: scene {m.group(1)} gets its time from the outline"))
         out.append({"n": int(m.group(1)), "title": title[:90], "when": " · ".join(good), "summary": summary, "if": cond, "line": ln.n,
-                    "game": game, "plays": plays})
+                    "game": game, "plays": plays, "when_raw": when_raw})
     out.sort(key=lambda e: e["n"])
     return out
 
@@ -1700,7 +1706,7 @@ def _built(sec, scenes: list, pack: dict, warns) -> list:
         if ["remember", fact] not in ops:
             ops.append(["remember", fact])
         sc.setdefault("when", {}).setdefault("not_remembered" if c["neg"] else "remembered", []).append(fact)
-    pack["outline"] = [{"n": e["n"], "title": e["title"], "when": e["when"], "summary": e["summary"],
+    pack["outline"] = [{"n": e["n"], "title": e["title"], "when": e["when"], "when_raw": e.get("when_raw"), "summary": e["summary"],
                         "if": " · ".join(x for x in ((f"{'unless' if e['if']['neg'] else 'only if'} you picked “{e['if']['label']}” in {e['if']['n']}" if e.get("if") else None),
                                                      ("if " + e["game"].replace("_", " ").replace("i ", "I ", 1) if e.get("game") else None)) if x) or None,
                         "written": e["n"] in by_n, "sid": by_n[e["n"]]["id"] if e["n"] in by_n else None} for e in sec.outline]
@@ -2505,15 +2511,18 @@ def prompt_plan(headers: str, ask: str = "", current: str | None = None) -> str:
 
 
 # ---------------------------------------------------------------------------------------------------- outline, then batches
-WHEN_WORDS = ("a month (September ... August), early / mid / late and a month (late September), a season (fall, winter, "
-              "spring, summer, school year), a holiday (Halloween, Thanksgiving, "
-              "Christmas Eve, New Year's Eve, Valentine's Day, Easter, Mother's Day, July 4th...), a school day (first day of "
-              "school, homecoming, homecoming week, prom, finals week, spring break, winter break, last day of school, "
-              "graduation), weekend, a school year (sophomore) if it's not the storyline's, and big for a turning point. A "
-              "scene about a sports moment says the moment, and then it plays that day: baseball tryouts, night before "
-              "tryouts, after tryouts, first game, night before the first game, game day, after a game, senior night, "
-              "SCC semifinal, SCC final, state tournament, state semifinal, state final, after the season, holiday "
-              "tournament (and whose, when it isn't mine: Nicole's game day). Or leave it empty and the game spaces it out.")
+WHEN_WORDS = """  - a month or part of one: `October`, `early October`, `mid October`, `late October` (summer too: `mid July`)
+  - a day: first day of school, homecoming week, homecoming, Halloween, midterms week, Thanksgiving, Thanksgiving break, \
+finals week, winter break, Christmas Eve, Christmas, New Year's Eve, New Year's Day, Super Bowl Sunday, Valentine's Day, \
+the Snow Ball, spring break, Easter, prom week, prom, Mother's Day, Memorial Day, graduation, last day of school, \
+Father's Day, July 4th, first day at Watch Hill, last night at Watch Hill
+  - a game: `football game 3` (by its number below), `basketball game vs Hand` (by who it's against), \
+`the Thanksgiving game`, `basketball holiday tournament`, `game day` (any game), `night before a game`, `after a game`
+  - a season moment: `baseball tryouts`, `night before baseball tryouts`, `after baseball tryouts` (the roster's up), \
+`football opener`, `night before the football opener`, `basketball senior night`, `after the basketball season`
+  - a tournament round: `SCC quarterfinal`, `SCC semifinal`, `SCC final`, `state first round`, `state second round`, \
+`state quarterfinal`, `state semifinal`, `state final` (with the sport if the storyline has more than one)
+  - someone else's: put their name in front: `Nicole's soccer game 4`, `Nicole's SCC final`, `Mike's basketball senior night`"""
 
 OUTLINE_PROMPT = """You're planning a storyline for LIFE OS, a life-simulation game: I play one person from the first day of \
 high school (Guilford High School in Guilford, Connecticut, fall 2010) through college. First we make an OUTLINE: one line \
@@ -2538,12 +2547,13 @@ years: freshman
 about: one or two sentences: what this storyline is about.
 
 outline:
-1. Saved You a Seat | September | Mike saves you a seat on the bus on the first day.
-2. The Passenger Seat | | Mike drives you to school for the first time and lays down the rules.
-3. Tryouts | November · big | You both try out; only one of you is sure to make it.
-4. Turkey Day | Thanksgiving | Mike is off at dinner and won't say why.
-5. The Fight | December | You fight about playing time.
-6. Making Up | | Mike comes around. | only if you picked "Say sorry" in 5
+1. Saved You a Seat | first day of school | Mike saves you a seat on the bus.
+2. The Passenger Seat | early September | Mike drives you to school and lays down the rules.
+3. The Night Before | night before basketball tryouts | Mike shoots with you until it's dark.
+4. Names on the Wall | after basketball tryouts · big | Only one of you is sure to make it, and you both know who.
+5. Turkey Day | Thanksgiving | Mike is off at dinner and won't say why.
+6. The Fight | basketball game 4 | You fight about playing time, in the locker room after the game.
+7. Making Up | mid December | Mike comes around. | only if you picked "Say sorry" in 6
 ```
 
 - {size}. Number them in the order they happen.
@@ -2551,11 +2561,21 @@ outline:
 Soffer`), or who they are if they aren't on it (`cast: kayla = friend of ally, girl`; `cast: coach = coach`). Mom, Dad, \
 teachers and other walk-ons don't need a cast line.
 - `years:` the school years it covers: {years_words} (or a range: freshman-sophomore).
-- The year runs in two seasons: the School Year (September through May) and the Summer (June through August). Put each \
-scene in the season it happens in, and keep the outline in calendar order: scene 5 never comes before scene 4 on the \
-calendar (a long storyline can run across seasons and years; the game splits it by season).
-- Each line: number, title, when, what happens. When is {when_words}
-- A scene about a game, tryouts, the first or last game, a tournament round or the end of a season: put that moment in its when (`April · game day`, `baseball tryouts · big`, `Nicole's game day`, `state semifinal`, `after the season`). The game plays it on that day of the real season below, even if the month you guessed is off. A scene that only mentions a game in passing doesn't need it.
+- Each line: number | title | when | what happens (one sentence: the moment, who's there, what's at stake).
+- **The when comes from the calendar below, and only from it.** Every scene gets exactly one of these (plus `big` or \
+`finale` for a turning point, after a ·):
+{when_words}
+  Anything else ("the week after the bonfire", "a few days later", "after scene 4") isn't on the calendar and gets sent \
+back to you to fix. The order comes from the scene numbers.
+- Keep the outline in calendar order: scene 5 is never before scene 4 on the calendar. The year runs in two seasons, the \
+School Year (September to May) and the Summer (June to August, at Watch Hill); a long storyline can run across seasons \
+and years.
+- Pace it like real life: at most 2 or 3 scenes from this storyline in one week. Scenes about games go on different \
+games (one scene per game, or a before and an after of the same game). A month with 8 games can hold 8 game scenes, not 15.
+- Games, tryouts and tournaments happen on the days the calendar says, against the teams it says. Put a game scene on \
+its game (`football game 3`, or `basketball game vs Hand`), and say in "what happens" who it's against. A tournament \
+round only happens if the team gets there: a storyline that needs the state final should say so (`| game: win` on the \
+rounds before it), or write both ways.
 {calendar}
 - A branch: add `| only if you picked "<a choice>" in <number>` (or `unless you picked ...`) to a scene that only happens \
 after a certain choice in an earlier scene. Use them for the moments that matter, not everywhere.

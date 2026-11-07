@@ -188,7 +188,8 @@ export type TextingBreakdown = { flirt: { label: string; n: number }[]; flirt_to
   group_chats: { chat: string; when: string[]; first: string; lines: number; replies: number }[] };
 export type TextingCheck = { ok: boolean; breakdown: TextingBreakdown; notes: string[]; text: string; scenes: number };
 export type OutlineCheck = { ok: boolean; title: string; expands: string | null; about: string | null; cast: { name: string; label: string }[];
-  outline: OutlineEntry[]; notes: string[]; warnings: string[]; pack?: string };
+  outline: OutlineEntry[]; notes: string[]; warnings: string[]; pack?: string; calendar?: { n: number; problem: string }[]; fix_prompt?: string | null };
+export type RetimeResult = { ok: boolean; changed: number[]; notes: string[]; calendar: { n: number; problem: string }[]; errors?: string[] };
 export type ReviseScene = { key: string; n: number | null; title: string; problems: string[]; src?: string };
 export type CastLine = { name: string; value: string; named: boolean };
 export type ReviseView = { pack: string; name: string; outlined: boolean; scenes: ReviseScene[]; scene_count: number; warnings: string[];
@@ -369,6 +370,8 @@ export const phoneApi = {
   reviseFixPrompt: (pack: string): Promise<{ prompt: string }> => api.get(`/api/story/revise/fix-prompt?pack=${encodeURIComponent(pack)}`),
   reviseChangePrompt: (pack: string, ask: string): Promise<{ prompt: string }> => api.post("/api/story/revise/change-prompt", { pack, ask }),
   reviseApply: (pack: string, text: string): Promise<ReviseResult> => api.post("/api/story/revise/apply", { pack, text }),
+  reviseRetimePrompt: (pack: string): Promise<{ prompt: string }> => api.get(`/api/story/revise/retime-prompt?pack=${encodeURIComponent(pack)}`),
+  reviseRetime: (pack: string, text: string): Promise<RetimeResult> => api.post("/api/story/revise/retime", { pack, text }),
   reviseUndo: (pack: string): Promise<ReviseView> => api.post("/api/story/revise/undo", { pack }),
   reviseCast: (pack: string, name: string, value: string): Promise<{ cast: CastLine[] }> => api.post("/api/story/revise/cast", { pack, name, value }),
   writing: (): Promise<{ storylines: WritingRow[] }> => api.get("/api/story/build/writing"),

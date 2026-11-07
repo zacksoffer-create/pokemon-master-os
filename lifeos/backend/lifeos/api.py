@@ -1517,10 +1517,19 @@ def api_build_outline(body: dict = Body(...)):
         return JSONResponse({"detail": why, "errors": [why] + [f"line {e['line']}: {e['text']}" for e in fx["result"]["errors"]]},
                             status_code=422)
     pk = packs[0]
+    from . import storycal
+    L0 = get_lab()
+    cal = []
+    if L0.w.meta.get("protagonist"):
+        with L0.lock:
+            cal = storycal.check_outline(L0.sim, pk["outline"], storycal.years_in(fx["text"]) or None)
     out = {"ok": True, "title": pk.get("name"), "expands": pk.get("expands"), "about": pk.get("notes"),
+           "calendar": [{"n": n, "problem": why} for n, why in cal],
+           "fix_prompt": storycal.fix_prompt(L0.sim, fx["text"], cal) if cal else None,
            "cast": [{"name": n, "label": dialogue.slot_label(dialogue.normalize_slot(sp))} for n, sp in (pk.get("cast") or {}).items()],
            "outline": pk["outline"], "notes": [f"line {n['line']}: {n['text']}" for n in fx["notes"]],
-           "warnings": [f"line {w['line']}: {w['text']}" for w in fx["result"]["warnings"]]}
+           "warnings": [f"line {w['line']}: {w['text']}" for w in fx["result"]["warnings"]
+                        if not (cal and "isn't a time the game knows" in w["text"])]}  # (the calendar check says it better)
     if body.get("save"):
         r = dialogue.add_script(fx["text"])
         if not r["ok"]:
@@ -1662,6 +1671,28 @@ def api_revise_apply(body: dict = Body(...)):
     r = _revise(lambda: revise.apply(str(body.get("pack") or ""), str(body.get("text") or "")))
     if r.get("ok"):
         _dialogue_changed(get_lab())
+    return r
+
+
+@app.get("/api/story/revise/retime-prompt")
+def api_revise_retime_prompt(pack: str):
+    """A storyline put on the story calendar: the prompt that re-times its outline (only the whens change)."""
+    from . import revise
+    L = get_lab()
+    with L.lock:
+        t = _revise(lambda: revise.retime_prompt(L.sim, pack))
+    return {"prompt": t, "chars": len(t)}
+
+
+@app.post("/api/story/revise/retime")
+def api_revise_retime(body: dict = Body(...)):
+    """{pack, text}: ChatGPT's re-timed outline: each line's when goes in (by number); the scenes stay as they are."""
+    from . import revise
+    L = get_lab()
+    with L.lock:
+        r = _revise(lambda: revise.retime_apply(L.sim, str(body.get("pack") or ""), str(body.get("text") or "")))
+    if r.get("ok") and r.get("changed"):
+        _dialogue_changed(L)
     return r
 
 

@@ -518,6 +518,34 @@ Nicole's SCC final. Every scene is tied to the event it's about, on the real cal
   the moment words; the batch prompt asks for each scene to be exactly what its outline line says (a football scene
   stays football; an October scene doesn't talk about January).
 
+## The story calendar: what ChatGPT plans on
+
+Every storyline is planned on the game's own schedule, so ChatGPT can't put a scene on a day the game doesn't have
+(`backend/lifeos/storycal.py`).
+
+- **The calendar**: each school year's days with their dates (first day of school, homecoming, Thanksgiving, winter
+  break, prom, graduation, July 4th, the first and last day at Watch Hill), and every team's season. Your family's teams
+  are game by game, with the date and the opponent: `1 Sep 16 Notre Dame-West Haven, 2 Sep 23 Lyman Hall, ... 8 Nov 4
+  Hand (rivalry), 11 Nov 24 Branford (Thanksgiving game)`. The others are in short. The opponents are the ones the
+  games are really played against (the planner, the team chat and the Sports tab name the same team).
+- **A closed list of whens.** Every outline line picks its when from the calendar, and nothing else: a month or part of
+  one (`mid October`), a day (`homecoming`, `Thanksgiving`, `first day at Watch Hill`), a game (`football game 3`,
+  `basketball game vs Hand`, `the Thanksgiving game`, `game day`, `after a game`), a season moment (`night before
+  baseball tryouts`, `after baseball tryouts`, `football opener`, `basketball senior night`, `after the basketball
+  season`), a tournament round (`SCC final`, `state semifinal`), or someone else's (`Nicole's soccer game 4`).
+- **Checked when you paste it.** An outline with a when that isn't on the calendar ("the week after the bonfire"), a
+  game past the end of the season ("basketball game 30": there are 18), an opponent who isn't on the schedule, or four
+  scenes in one week comes back with what's wrong and **Copy the fix prompt for ChatGPT**: the same outline, those
+  lines fixed. (Make it anyway is there, and those scenes get spread out.)
+- **The prompts**: the outline prompt has the calendar for the storyline's years and the rules (2 or 3 scenes a week
+  at most, game scenes on different games, tournaments only if the team gets there). The scene prompt says exactly
+  when each scene is ("Scene 6: Fri Dec 17, 2010: boys basketball game 4 vs Branford"), so the scene is that day, that
+  game, that opponent.
+- **Storylines you're keeping**: Fix or change it → **Copy the calendar prompt**. ChatGPT gets the outline and the
+  calendar and sends the outline back with each scene on its real day or game; paste it in the same box and only the
+  whens change (the scenes you have stay exactly as they are; Undo puts it back). A scene whose story can't fit comes
+  back marked `doesn't fit: why`.
+
 ## Summer at Watch Hill
 
 Every summer the family goes to the Watch Hill house the day after school's out (after your spring season, if your
