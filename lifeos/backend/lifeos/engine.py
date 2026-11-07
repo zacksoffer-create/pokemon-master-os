@@ -64,6 +64,8 @@ class Simulation:
         self.upcoming: list = []
         from . import scheduler, teams
         teams.upgrade(self)  # boys' and girls' teams, soccer and softball, for saves made before them
+        from . import postseason
+        postseason.upgrade_teams(world, self.cat.world["groups"])  # CIAC seasons and tournaments, from the next school year
         scheduler.migrate(self)  # the story scheduler: what already played counts as resolved
         from .social import tidy_romance
         tidy_romance(self)  # nobody's into family (or a teacher, or outside who they like), in saves made before that rule
@@ -184,6 +186,8 @@ class Simulation:
         w.schedule = [s for s in w.schedule if s["day"] > w.day]
         for s in due:
             self._handle(s, rng)
+        from . import postseason
+        postseason.daily(self)  # who's in the SCC and state tournaments; a season that's over ends
         for it in self.today(None):
             if it["kind"] == "season_end":
                 self.institutions.season_end(it)
@@ -231,9 +235,9 @@ class Simulation:
             messages.daily(self)
         for it in self._today:
             if it["kind"] == "game" and prot in w.groups[it["group"]]["members"] and pc.flags.get("injured_until", -1) < w.day:
-                n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
-                from .sports import opponent_name
-                self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": opponent_name(self, w.groups[it["group"]], n)})
+                from .sports import game_opponent
+                self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": game_opponent(self, w.groups[it["group"]], it),
+                                                       "round": it.get("round_name")})
         self._tryout_eve(pc)  # the day before a tryout for a team you'd go out for: are you going?
         for it in self._today:
             if it["kind"] == "exam" and it.get("slot") == "classes" and it.get("school", "hchs") == pc.school and pc.location != "away":

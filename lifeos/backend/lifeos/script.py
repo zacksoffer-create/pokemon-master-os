@@ -645,6 +645,11 @@ def tags(text: str, sc: Scene | None, n: int, when: dict, sec) -> dict:
                            f"{', '.join(r.replace('_', ' ') for r in V['requires'])}.{_suggest(req, opts)}")
             when.setdefault("not_remembered" if neg else "remembered", []).append(cond)
             continue
+        from .cues import parse_tag
+        mo = parse_tag(tok)
+        if mo:  # the event it's about: `game day`, `night before tryouts`, `Nicole's game day`, `state final`
+            when["moment"] = mo
+            continue
         everything = (list(MONTHS) + list(SEASONS) + list(WEEKDAY) + list(CHANCES) + list(IMPORTANCE) + list(NAMED) + list(HOLIDAYS) +
                       ["weekend", "weekday", "school day", "once", "repeats", "same day", "next day"] + list(YEAR_WORDS))
         raise Fail(f"'{tok.strip()}' isn't a tag I know.{_suggest(low, everything)} Tags are things like freshman, November, "
@@ -2504,8 +2509,11 @@ WHEN_WORDS = ("a month (September ... August), early / mid / late and a month (l
               "spring, summer, school year), a holiday (Halloween, Thanksgiving, "
               "Christmas Eve, New Year's Eve, Valentine's Day, Easter, Mother's Day, July 4th...), a school day (first day of "
               "school, homecoming, homecoming week, prom, finals week, spring break, winter break, last day of school, "
-              "graduation), weekend, a school year (sophomore) if it's not the storyline's, and big for a turning point. Or "
-              "leave it empty and the game spaces it out.")
+              "graduation), weekend, a school year (sophomore) if it's not the storyline's, and big for a turning point. A "
+              "scene about a sports moment says the moment, and then it plays that day: baseball tryouts, night before "
+              "tryouts, after tryouts, first game, night before the first game, game day, after a game, senior night, "
+              "SCC semifinal, SCC final, state tournament, state semifinal, state final, after the season, holiday "
+              "tournament (and whose, when it isn't mine: Nicole's game day). Or leave it empty and the game spaces it out.")
 
 OUTLINE_PROMPT = """You're planning a storyline for LIFE OS, a life-simulation game: I play one person from the first day of \
 high school (Guilford High School in Guilford, Connecticut, fall 2010) through college. First we make an OUTLINE: one line \
@@ -2547,6 +2555,8 @@ teachers and other walk-ons don't need a cast line.
 scene in the season it happens in, and keep the outline in calendar order: scene 5 never comes before scene 4 on the \
 calendar (a long storyline can run across seasons and years; the game splits it by season).
 - Each line: number, title, when, what happens. When is {when_words}
+- A scene about a game, tryouts, the first or last game, a tournament round or the end of a season: put that moment in its when (`April · game day`, `baseball tryouts · big`, `Nicole's game day`, `state semifinal`, `after the season`). The game plays it on that day of the real season below, even if the month you guessed is off. A scene that only mentions a game in passing doesn't need it.
+{calendar}
 - A branch: add `| only if you picked "<a choice>" in <number>` (or `unless you picked ...`) to a scene that only happens \
 after a certain choice in an earlier scene. Use them for the moments that matter, not everywhere.
 - Make it a story: a beginning, turns, a payoff. Spread it through the year; put holiday and school-day moments on them.
@@ -2586,6 +2596,9 @@ after each.
 ```
 {template}
 ```
+
+Write each scene as exactly what its outline line says: the same sport, the same moment (a game day, tryouts, the state \
+semifinal), the same time of year. A football scene stays football; an October scene doesn't talk about January.
 
 Reply with ONE code block (```) holding just those scenes, each starting with `--- <number>. <title>` (like \
 `--- {first}. {first_title}`), nothing after the block. No tags in [ ] and no `after` or `if`: the game times them and \

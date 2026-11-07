@@ -102,9 +102,8 @@ def _calendar(sim, me, lo, hi, upcoming=False) -> list:
         name = i.get("name") or k
         if k == "game" and g in w.groups:
             try:
-                from .sports import opponent_name
-                last = str(i.get("key", "")).split(":")[-1]
-                name = f"Game vs {opponent_name(sim, w.groups[g], int(last) if last.isdigit() else 1)}"
+                from .sports import game_opponent
+                name = f"{i.get('round_name') or ('Holiday tournament' if i.get('event') == 'holiday' else 'Game')} vs {game_opponent(sim, w.groups[g], i)}"
             except Exception:  # noqa: BLE001  fall back to the calendar's own name
                 pass
         if k == "exam" and i.get("weight", 1) >= 2:

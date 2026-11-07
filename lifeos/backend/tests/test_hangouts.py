@@ -16,6 +16,7 @@ def _world(friends=4):
     api.lab.replace_world(w)
     sim, w = api.lab.sim, api.lab.w
     me = w.chars[w.meta["protagonist"]]
+    me.money = max(me.money, 60.0)  # (these are about hanging out, not about being broke on a Friday)
     pals = []
     for c in sorted(w.students(), key=lambda c: c.id):
         if c.id != me.id and c.id not in sim.siblings(me.id) and c.grade == me.grade and c.location == me.location and len(pals) < friends:

@@ -139,8 +139,10 @@ def offers_side(col, sport, gender) -> bool:
 
 
 def _season_days(g):
-    a = calm.md_to_day(0, tuple(g["season"]["start"]))
-    b = calm.md_to_day(0, tuple(g["season"]["end"]))
+    """A team's season, for "one sport a season": tryouts through the regular season's end (a football team still in the
+    state playoffs in December doesn't keep its players out of basketball; they join late, like they do)."""
+    a = calm.md_to_day(0, tuple(g.get("tryout") or g["season"]["start"]) if g.get("regular_end") else tuple(g["season"]["start"]))
+    b = calm.md_to_day(0, tuple(g.get("regular_end") or g["season"]["end"]))
     if b < a:
         b = calm.md_to_day(1, tuple(g["season"]["end"]))
     return a, b
@@ -400,6 +402,14 @@ def add_line(dst: dict, line: dict):
 
 # --- games -----------------------------------------------------------------------------
 
+def game_opponent(sim, g, it) -> str:
+    """Who a calendar game is against, by name: a tournament round's opponent, else the schedule's."""
+    if it.get("opp"):
+        return it["opp"]
+    tail = str(it.get("key", "")).split(":")[-1]
+    return opponent_name(sim, g, int(tail) if tail.isdigit() else 1)
+
+
 def opponent_name(sim, g, n: int) -> str:
     school = "college" if g.get("school") == "college" else "hchs"
     names = sim.cat.world.get("opponents", {}).get(school) or ["Rival"]
@@ -473,12 +483,14 @@ def play_game(inst, it, rng):
         return  # a game is played once, whatever happens to the save or the slot
     done.append(it["key"])
     del done[:-60]
-    for level in ("varsity", "jv"):
+    for level in (("varsity",) if it.get("stage") else ("varsity", "jv")):  # (tournaments are varsity's)
         squad = [m for m in g["members"] if levels.get(m, "varsity") == level]
         if not squad:
             continue
         players = sorted(c for c in squad if c in came and healthy(w, c))
         missing = sorted(c for c in squad if c not in came and healthy(w, c))
+        if not players:
+            continue  # (nobody from that squad made it: there's no game to play, or to put in a box score)
         _game(inst, g, it, level, players, missing, fans if level == "varsity" else [], num, rng)
 
 
@@ -513,8 +525,8 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     rivalry = False
     if level == "varsity":  # a real team in the league: its own strength, record and stars (league.py)
         from . import league as lg
-        ot = lg.opponent(sim, g, num)
-        opp = ot["strength"] + rng.gauss(0, 5)
+        ot = lg.opponent_for(sim, g, it, num)
+        opp = ot["strength"] + rng.gauss(0, 5) + (1.5 if it.get("stage") else 0)  # (tournament teams are good teams)
         oname = ot["name"]
         rivalry = oname == lg.league(sim, g).get("rival")
     else:
@@ -639,7 +651,12 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     if level == "varsity":
         g["record"]["w" if win else "l"] += 1
         from . import league as lg
-        lg.record(sim, inst, g, num, win, score, box, rng)
+        if it.get("stage"):  # a tournament game: not the conference standings; a loss ends that tournament
+            from . import postseason
+            it["result"] = "win" if win else "loss"
+            postseason.after_game(sim, g, it, win)
+        else:
+            lg.record(sim, inst, g, num, win, score, box, rng)
     else:
         g.setdefault("record_jv", {"w": 0, "l": 0})["w" if win else "l"] += 1
     for cid in players:

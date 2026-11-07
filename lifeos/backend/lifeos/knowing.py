@@ -151,9 +151,9 @@ def lately(sim, c, viewer=None) -> list:
     if game:
         from .sports import opponent_name
         g = w.groups[game["group"]]
-        last = str(game.get("key", "")).split(":")[-1]
+        from .sports import game_opponent
         when = "today" if game["day"] == w.day else "tomorrow" if game["day"] == w.day + 1 else calm.label(game["day"]).split(",")[0]
-        out.append(f"{g['name']} plays {opponent_name(sim, g, int(last) if last.isdigit() else 1)} {when}")
+        out.append(f"{g['name']} plays {game_opponent(sim, g, game)} {when}" + (f" ({game['round_name']})" if game.get("round_name") else ""))
     stress = (c.needs or {}).get("stress", 40)
     if stress >= 70:
         out.append("Really stressed lately")

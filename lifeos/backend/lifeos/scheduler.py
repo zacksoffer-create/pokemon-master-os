@@ -384,6 +384,23 @@ def catalog(sim) -> dict:
                 slot_sport.setdefault(pk, sp)
     pack_sport = {}
     info = {}
+    from . import cues
+    outl, pnames = {}, {}  # each scene's outline line (its summary), each storyline's people by first name
+    me_ = sim.w.chars.get(sim.w.meta.get("protagonist") or "")
+    for p_ in dialogue.packs():
+        pk_ = p_.get("pack") or {}
+        for o in pk_.get("outline") or []:
+            if o.get("sid"):
+                outl[o["sid"]] = o
+        nm = {}
+        for name, d in (m.get("cast") or {}).items():
+            if p_["id"] in (d.get("packs") or []):
+                nm.setdefault(name.lower(), name)  # (its cast name, "nicole", or the person's first name, "Nicole")
+                if (d.get("spec") or {}).get("name"):
+                    nm.setdefault(str(d["spec"]["name"]).split()[0].lower(), name)
+        if me_ is not None:
+            nm[me_.first.lower()] = "me"
+        pnames[p_["id"]] = nm
     for pk, sids in chapters.items():
         counts: dict = {}
         for sid in sids:
@@ -431,6 +448,23 @@ def catalog(sim) -> dict:
         gd = game_day_of(mm, when, sport)
         if gd:
             info[sid]["game_day"] = gd
+        mo = dict(when["moment"]) if when.get("moment") else None
+        o = outl.get(sid) or {}
+        if mo is None and not gd and not when.get("dates") and not when.get("game") and over_win.get(sid) is None:
+            # (the storyline's sport before the scene text's: the outline is the plan, and a scene ChatGPT wrote about the
+            # wrong sport still belongs where its outline put it)
+            mo = cues.read(title, o.get("summary") or "", text or "", pack_sport.get(sc.get("pack")) or sport, when.get("months"))
+        if mo:
+            names = pnames.get(sc.get("pack")) or {}
+            mo["sport"] = mo.get("sport") or sport
+            if mo.get("owner"):
+                mo["owner_slot"] = names.get(mo["owner"].lower()) or ("me" if mo["owner"].lower() in ("my", "your") else None)
+            own_, named = cues.owner_names(f"{title}. {o.get('summary') or ''}", names)
+            if own_ and not mo.get("owner_slot"):
+                mo["owner_slot"] = own_
+            mo["named"] = [x for x in named if x != "me"]
+            if mo.get("sport") or mo.get("src") == "tag":  # (a tag with no sport: whoever's game it is, in season)
+                info[sid]["moment"] = mo
         if not gd and not set(when.get("requires") or []) & GAME_REQS.keys():  # untagged: the result its words take for granted
             # (not a scene that is the game itself: its result comes after it)
             from .gameplay import assumed_result
@@ -538,7 +572,8 @@ def _sport_dates(sim, sport, college=False):
         return (t["tryout"], t["season"]["start"], t["season"]["end"]) if t else None
     for g in sim.cat.world["groups"]:
         if g.get("kind") == "team" and g.get("skill") == sport and g.get("school", "hchs") == "hchs":
-            return g["tryout"], g["season"]["start"], g["season"]["end"]
+            # (the regular season's end: senior night and "the last games" are measured from it, the tournaments after)
+            return g["tryout"], g["season"]["start"], g.get("regular_end") or g["season"]["end"]
     return None
 
 
@@ -649,9 +684,18 @@ def _in_window(d, nb, na) -> bool:
 
 
 def calendar_ok(sim, sid, when, info, day) -> tuple | None:
-    """Today's date against the scene's dates, months, weekdays, window and season-map window."""
+    """Today's date against the scene's dates, months, weekdays, window and season-map window. A scene about an event
+    (a game, tryouts, the state final) fits that event's days instead (cues.py)."""
     WEEKDAYS = _dlg().WEEKDAYS
     d = calm.date_of(day)
+    mo = (info or {}).get("moment")
+    if mo:
+        me = _me(sim)
+        f = None if me is None else _cues().fits(sim, me, mo, when.get("months"), day)
+        if f is not None:
+            if when.get("dates") and not calm.date_matches(day, when["dates"], sim.cat.world["calendar"]):
+                return ("wrong_date", ", ".join(when["dates"][:3]))
+            return None if f else ("wrong_date", _cues().label(mo))
     if when.get("dates") and not calm.date_matches(day, when["dates"], sim.cat.world["calendar"]):
         return ("wrong_date", ", ".join(when["dates"][:3]))
     win = (info or {}).get("window")
@@ -666,6 +710,26 @@ def calendar_ok(sim, sid, when, info, day) -> tuple | None:
     if (nb or na) and not _in_window(d, nb, na):
         return ("wrong_season", f"{when.get('not_before', '')} to {when.get('not_after', '')}")
     return None
+
+
+def _cues():
+    from . import cues
+    return cues
+
+
+POST_MOMENTS = {"after_game", "after_postseason", "season_end"}  # after the game: once it's been played, in the evening
+GAME_MOMENTS = {"game", "after_game", "first_game", "last_game", "postseason", "after_postseason", "holiday", "regular_end",
+                "season_end", "night_before_game", "night_before_first_game"}
+
+
+def _played_today(sim, gid, day) -> bool:
+    """Today's game for this team has been played (or there's none today)."""
+    w = sim.w
+    its = [i for i in w.calendar if i.get("group") == gid and i.get("kind") == "game" and i["day"] == day]
+    if not its or getattr(sim, "_light", False):
+        return True
+    played = set((w.groups.get(gid) or {}).get("played") or [])
+    return all(i["key"] in played for i in its)
 
 
 def _done_or_skipped(sim, me, a, cat, depth=0) -> str:
@@ -866,6 +930,8 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
                 if game_coming(sim, me, day):
                     return ("waiting_for_game", r)  # about your next game: it waits for it
                 return ("missing_requirement", r)
+        if r in ("weekend", "school_day") and info.get("moment"):
+            continue  # (its event says the day: "weekend" on a scene about Nicole's Thursday game doesn't stop it)
         if not dialogue._requirement(sim, me, r):
             return ("missing_requirement", r)
     for f, rng in (when.get("me") or {}).items():
@@ -873,10 +939,19 @@ def gate(sim, me, sid, cat, day=None, prof=None) -> tuple | None:
         if not dialogue._in(v, rng):
             return ("mood", f)
     cal = calendar_ok(sim, sid, when, info, day)
+    mo = info.get("moment")
     if cal:
+        if mo and cal[0] == "wrong_date" and mo["kind"] in GAME_MOMENTS and _cues().is_mine(sim, me, mo, day):
+            nd = _cues().next_day(sim, me, mo, when.get("months"), day)
+            if nd is not None and day < nd <= day + HOLD_DAYS:
+                return ("waiting_for_game", f"{mo['sport']} on {calm.label(nd)}")  # (a storyline can say how it goes)
         if cal[0] in ("wrong_season", "wrong_date") and grades and max(grades) == (me.grade or 0) and _window_over(sim, when, info, day):
             return ("window_passed", cal[1])  # its day (or season) has gone by in its last school year: it can't come now
         return cal
+    if mo and mo["kind"] in POST_MOMENTS:
+        gid = _cues().team_for(sim, me, mo, day)
+        if gid and not _played_today(sim, gid, day):
+            return ("waiting_for_game", f"{mo['sport']} today")  # (after the game: once it's been played)
     return None
 
 
@@ -984,7 +1059,7 @@ def _far_off(sim, sid, cat, day) -> bool:
     import datetime
     d = calm.date_of(day)
     start = day - (d - datetime.date(d.year if d.month >= 9 else d.year - 1, 9, 1)).days
-    key = (sid, start, id(cat))
+    key = (sid, start, id(cat), sim.w.meta.get("cal_rev", 0), tuple(sorted(_me(sim).memberships)) if _me(sim) else ())
     fits = _FITS.get(key)
     if fits is None:
         if len(_FITS) > 20000:
@@ -1028,6 +1103,8 @@ def _free_scenes(cat) -> list:
             when = sc.get("when") or {}
             win = (cat["info"].get(sid) or {}).get("window")
             months = when.get("months") or (win if isinstance(win, list) else None)
+            if (cat["info"].get(sid) or {}).get("moment"):
+                months = None  # (an event can fall outside its month: the gate checks it)
             dates = when.get("dates") or ()
             plain = all(len(x) == 5 and x[2] == "-" for x in dates)  # (named days like Thanksgiving move: the gate checks those)
             pre.append((sid, sc, frozenset(_years(when)), frozenset(months or ()), frozenset(dates if plain else ())))
@@ -1071,7 +1148,8 @@ def candidates(sim, me, cat, prof, day=None) -> list:
         when = cat["scenes"][c["sid"]].get("when") or {}
         c["importance"] = cat["info"][c["sid"]]["importance"]
         c["deadline"] = deadline(sim, me, c["sid"], cat, day) if (when.get("dates") or when.get("months") or cat["info"][c["sid"]]["window"]
-                                                              or when.get("not_after") or _years(when)) else None
+                                                              or when.get("not_after") or _years(when)
+                                                              or cat["info"][c["sid"]].get("moment")) else None
         if c["kind"] == "chapter":
             ch = chain_deadline(sim, me, c["pack"], c["sid"], cat, day)
             if ch is not None and (c["deadline"] is None or ch < c["deadline"]):
@@ -1092,8 +1170,18 @@ def deadline(sim, me, sid, cat, day) -> int | None:
     end = calm.md_to_day(calm.school_year_of(day), (8, 31))  # the last day of this school year
     if grades and (me.grade or 0) + 1 in grades:
         end = calm.md_to_day(calm.school_year_of(day) + 1, (8, 31))
-    if not (when.get("dates") or when.get("months") or info.get("window") or when.get("not_after")):
+    if not (when.get("dates") or when.get("months") or info.get("window") or when.get("not_after") or info.get("moment")):
         return end if grades else None
+    mo = info.get("moment")
+    if mo and not when.get("dates"):  # an event's days come and go (game days): its deadline is the last one it fits
+        f = _cues()
+        gid = f.team_for(sim, me, mo, day)
+        if gid is not None:
+            ds = f.event_days(sim, gid, mo, calm.school_year_of(day))
+            if when.get("months"):
+                ds = [d for d in ds if calm.date_of(d).month in when["months"]] or ds
+            ahead = [d for d in ds if day <= d <= end]
+            return ahead[-1] if ahead else None
     last = None
     for x in range(day, min(end, day + 400) + 1):
         if calendar_ok(sim, sid, when, info, x) is None:
@@ -1128,7 +1216,8 @@ def chain_deadline(sim, me, pk, head, cat, day) -> int | None:
             continue
         j += 1
         info = cat["info"].get(sid) or {}
-        if not (when.get("dates") or when.get("months") or info.get("window") or when.get("not_after") or info.get("game_day")):
+        if not (when.get("dates") or when.get("months") or info.get("window") or when.get("not_after") or info.get("game_day")
+                or info.get("moment")):
             continue
         dl = cached_deadline(sim, me, sid, cat, day)
         if dl is None:
@@ -1142,7 +1231,8 @@ def cached_deadline(sim, me, sid, cat, day) -> int | None:
     """deadline(), remembered for the school year (and your teams, for game scenes) while it's still ahead."""
     store = cat.setdefault("_dl_cache", {})
     info = cat["info"].get(sid) or {}
-    key = (sid, calm.school_year_of(day), me.grade, tuple(sorted(me.memberships)) if info.get("game_day") else ())
+    key = (sid, calm.school_year_of(day), me.grade, tuple(sorted(me.memberships)) if (info.get("game_day") or info.get("moment")) else (),
+           sim.w.meta.get("cal_rev", 0) if info.get("moment") else 0)
     hit = store.get(key)  # (the deadline, the day it was worked out)
     if hit is not None and ((hit[0] is not None and hit[0] >= day) or hit[1] == day):
         return hit[0]
@@ -1209,6 +1299,14 @@ def _assign_phases(sim, items, cat, day, start_ix=0):
         b = cat["info"].get(it["sid"], {}).get("bucket")
         if cat["info"].get(it["sid"], {}).get("game_day"):  # before the game: after school on a school day, else first thing
             b = "after_school" if "after_school" in usable else usable[0]
+        mo = cat["info"].get(it["sid"], {}).get("moment")
+        if mo:
+            if mo["kind"] in POST_MOMENTS:
+                b = next((p for p in ("evening", "night") if p in usable), usable[-1])  # after the game
+            elif mo["kind"] in ("night_before_game", "night_before_first_game", "before_tryouts"):
+                b = next((p for p in ("evening", "night") if p in usable), usable[-1])
+            elif mo["kind"] in ("game", "first_game", "last_game", "postseason", "holiday", "tryouts"):
+                b = "after_school" if "after_school" in usable else ("day" if "day" in usable else usable[0])
         it["phase"] = b if b in usable else spread[i % len(spread)]
     items.sort(key=lambda it: phs.index(it["phase"]) if it["phase"] in phs else 99)
 
@@ -1447,6 +1545,15 @@ def _chain(sim, sid, cat):
                                                            or (cat["info"].get(c0) or {}).get("game_day")) else None
             behind = any(x is not None and x <= w.day for x in (ch, own))  # its calendar is running out: keep going
     c, why = next_chapter(sim, me, pk, cat, w.day, prof) if pk in cat["ordered"] else (None, None)
+    if pk in cat["ordered"] and c and why is None and room and not behind and not control(w).get("binge"):
+        # (a storyline doesn't run three chapters in one afternoon just because the day has room: the next one comes
+        # tomorrow, unless its calendar's running out, its event is today, or it's written to come right after)
+        wc = cat["scenes"][c].get("when") or {}
+        mo_c = (cat["info"].get(c) or {}).get("moment")
+        one_day = mo_c and mo_c["kind"] not in ("game", "after_game", "night_before_game", "season_end", "postseason", "after_postseason") \
+            or mo_c and mo_c.get("round")  # (about this day's event: the opener, tryouts, the state final)
+        if not (wc.get("gap_days") == 0 or one_day or (cat["info"].get(c) or {}).get("game_day") or wc.get("dates")):
+            room = False  # (a scene about "a game" waits for the next game day: April's games spread over April's games)
     if pk in cat["ordered"]:
         if c and why is None and c not in have and c not in nxt and (room or behind):
             when = cat["scenes"][c].get("when") or {}
@@ -1797,6 +1904,9 @@ def rows(sim, day=None) -> list:
              "window_rule": info["window_rule"] if info["window"] else ("the scene says" if own or when.get("dates") else None),
              "window_text": window_text(info["window"] or own) if (info["window"] or own) else (", ".join(when["dates"]) if when.get("dates") else ""),
              "order": sc.get("order", 0)}
+        if info.get("moment"):
+            r["moment"] = _cues().label(info["moment"])
+            r["moment_from"] = "its tag" if info["moment"].get("src") == "tag" else "what it's about"
         done = done_map(w).get(sid)
         if done:
             r.update({"state": "played", "day": done[-1], "date": calm.label(done[-1])})
@@ -1923,9 +2033,13 @@ def _light_day(sim):
                     c.role, c.grade = "alumni", None
         _light_new_year(sim)
     sim._refresh_day()
+    from . import postseason
+    postseason.daily(sim, fast=True)
     for it in sim._today:
         if it.get("kind") == "tryout":
             _quick_tryout(sim, it.get("group"))
+        elif it.get("kind") == "season_end":
+            _quick_season_end(sim, it.get("group"))
     _light_games(sim)
 
 
@@ -1945,12 +2059,31 @@ def _light_games(sim):
         try:
             from .sports import opponent_name
             tail = it["key"].split(":")[-1]
-            opp = opponent_name(sim, g, int(tail) if tail.isdigit() else 1)
+            opp = it.get("opp") or opponent_name(sim, g, int(tail) if tail.isdigit() else 1)
         except Exception:  # noqa: BLE001
             opp = "them"
+        call = None
+        try:
+            call = gameplay.storyline_calls(sim, me, g.get("skill"))
+        except Exception:  # noqa: BLE001
+            pass
+        if call and call.get("result") in ("win", "loss"):
+            win = call["result"] == "win"  # (a storyline says how this one goes, like it does in the real game)
         gameplay.record(me, w.day, g.get("skill"), g.get("name"), g["id"], opp, "", win, {}, True, "well", "", False)
         rec = g.setdefault("record", {"w": 0, "l": 0})
         rec["w" if win else "l"] = rec.get("w" if win else "l", 0) + 1
+        if it.get("stage"):
+            from . import postseason
+            it["result"] = "win" if win else "loss"
+            postseason.after_game(sim, g, it, win)
+
+
+def _quick_season_end(sim, gid):
+    """Fast mode: a team's season ends (its record starts over for next year, and the team empties)."""
+    g = sim.w.groups.get(gid)
+    if not g or g.get("kind") != "team":
+        return
+    g["record"] = {"w": 0, "l": 0}
 
 
 def _light_new_year(sim):
@@ -2014,6 +2147,7 @@ def dry_run(sim, days: int, profile_name: str | None = None, full: bool = True, 
     if profile_name:
         c["pacing"] = profile_name
     c["auto_scenes"] = True  # this copy answers for you: it's a dry run
+    sim._light = not full
     q = queue(w)
     q.update({"items": [], "day": None, "presented": 0})  # the copy plans its own days from here (fair comparisons)
     start = w.day

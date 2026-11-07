@@ -173,7 +173,7 @@ export type AddPreview = { ok: boolean; errors: string[]; warnings: string[]; na
   played_total?: number; before?: number | null; coverage?: Coverage; replaces?: string[]; script?: boolean };
 export type ReadScene = { sid: string; title: string; storyline: string; pack: string; src: string; plays: boolean; date: string | null;
   day: number | null; why: string | null; detail: any; year: string | null; dated: boolean; unwritten?: boolean; summary?: string; played?: boolean;
-  when?: string; outline_n?: number | null; if?: string | null };
+  when?: string; outline_n?: number | null; if?: string | null; moment?: string | null; moment_from?: string | null };
 export type OutlineEntry = { n: number; title: string; when: string; summary: string; if: string | null; written: boolean; sid: string | null };
 export type SkippedScene = { n: number; title: string; problems: string[] };
 export type RolePerson = { id: string; name: string; first: string; year: string; why?: string; fix?: { sport?: string; pair?: string; label: string } };

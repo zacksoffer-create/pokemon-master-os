@@ -313,6 +313,46 @@ def assumed_result(title: str, text: str, sporty: bool = False) -> str | None:
 DECIDES = {"we_won": "win", "i_won_it": "win", "we_lost": "loss"}
 
 
+ROUND_RANK = {"first round": 1, "opening round": 1, "second round": 2, "quarterfinal": 3, "semifinal": 4, "championship": 5}
+
+
+def _round_rank(name: str | None) -> int:
+    low = (name or "").lower()
+    return max((v for k, v in ROUND_RANK.items() if k in low), default=0)
+
+
+def _story_goes_on(sim, me, sport, cat, done) -> dict | None:
+    """Today's tournament game, when a storyline's later chapter is a later round of that tournament (the semifinal
+    today, and "State Championship: The Soffer Brothers" still to come): the story says you get there, so you win today."""
+    from . import dialogue
+    w = sim.w
+    g_ = next((i for i in getattr(sim, "_today", []) or [] if i.get("kind") == "game" and i.get("stage")
+               and i.get("group") in me.memberships and (w.groups.get(i["group"]) or {}).get("skill") == sport), None)
+    if g_ is None:
+        return None
+    today = _round_rank(g_.get("round_name"))
+    for pk in sorted(cat["ordered"]):
+        for sid in cat["chapters"].get(pk) or []:
+            if sid in done or (cat.get("twins") or {}).get(sid):
+                continue
+            mo = (cat["info"].get(sid) or {}).get("moment")
+            if not mo or mo["kind"] != "postseason" or mo.get("sport") not in (None, sport) or not mo.get("round"):
+                continue
+            if mo.get("stage") and mo["stage"] != g_["stage"]:
+                continue
+            if ROUND_RANK.get(mo["round"], 0) > today and _grade_ok(cat["scenes"][sid].get("when") or {}, me.grade):
+                p = next((x for x in dialogue.packs() if x["id"] == pk), None)
+                return {"result": "win", "great": False, "won_it": False, "me": None, "scene": sid,
+                        "storyline": (p or {}).get("pack", {}).get("name") or pk}
+    return None
+
+
+def _grade_ok(when, grade) -> bool:
+    from . import scheduler
+    ys = scheduler._years(when)
+    return not ys or grade in ys
+
+
 def season_targets(sim) -> list:
     """The season records your storylines set (`record: 7-3`): [{"pack", "sport", "w", "l", "grades"}], read once per
     set of storylines."""
@@ -374,8 +414,27 @@ def storyline_calls(sim, me, sport) -> dict | None:
         p = next((x for x in dialogue.packs() if x["id"] == pk), None)
         calls.append({"result": gd.get("result"), "great": gd.get("me") == "great", "me": gd.get("me"), "won_it": False,
                       "storyline": (p or {}).get("pack", {}).get("name") or pk, "scene": sid})
+    for sid, days in done.items():  # a scene at today's game ("In the SCC championship...") says how it goes, if it says
+        mo = (cat["info"].get(sid) or {}).get("moment")
+        if not mo or days[-1] != sim.w.day or mo["kind"] not in ("game", "first_game", "last_game", "postseason", "holiday"):
+            continue
+        from .cues import team_for
+        gid_ = team_for(sim, me, mo, sim.w.day)
+        if not gid_ or (sim.w.groups.get(gid_) or {}).get("skill") != sport or me.id not in sim.w.groups[gid_]["members"]:
+            continue
+        info = cat["info"].get(sid) or {}
+        reqs = set((cat["scenes"][sid].get("when") or {}).get("requires") or []) | ({info["assumes"]} if info.get("assumes") else set())
+        res = {DECIDES[r] for r in reqs if r in DECIDES}
+        if len(res) == 1:
+            pk = cat["scenes"][sid].get("pack")
+            p = next((x for x in dialogue.packs() if x["id"] == pk), None)
+            calls.append({"result": res.pop(), "great": bool(reqs & {"i_played_great", "i_won_it"}), "won_it": "i_won_it" in reqs,
+                          "storyline": (p or {}).get("pack", {}).get("name") or pk, "scene": sid, "me": None})
     if calls:
         return calls[0]
+    goes_on = _story_goes_on(sim, me, sport, cat, done)
+    if goes_on:
+        return goes_on
     for pk in sorted(cat["ordered"]):
         sid, why = scheduler.next_chapter(sim, me, pk, cat)
         if not sid or not why or why[0] not in ("waiting_for_game", "after_game") or (cat.get("twins") or {}).get(sid):

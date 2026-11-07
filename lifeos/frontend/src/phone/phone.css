@@ -1283,6 +1283,7 @@ html.ph-html body { color-scheme: light; }
 .rd-when.bad { color: #a8321f; background: #ffe9e4; }
 .rd-tags { font-size: 12px; color: var(--ph-dim); font-weight: 700; margin: 3px 0 8px; }
 .rd-tags i { font-style: normal; color: var(--ph-grape); margin-right: 6px; }
+.rd-moment { font-size: 12px; font-weight: 800; color: var(--ph-grape); margin: -4px 0 8px; }
 .rd-why { font-size: 13px; font-weight: 700; color: #a8321f; margin-bottom: 8px; }
 .rd-script { display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.45; color: var(--ph-ink-2); }
 .rd-narr { font-style: italic; }

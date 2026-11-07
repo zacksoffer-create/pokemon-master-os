@@ -634,6 +634,7 @@ def read_storyline(new_sim, pack: str, days: int = 7 * 365 + 10) -> dict:
                            "plays": plays, "played": (before.get(sc["id"]) or {}).get("state") == "played", "date": r.get("date") if plays else None, "day": r.get("day") if plays else None,
                            "why": why, "detail": None if plays else r.get("detail"), "n": i,
                            "dated": bool((sc.get("when") or {}).get("dates")),
+                           "moment": r.get("moment"), "moment_from": r.get("moment_from"),
                            "outline_n": next((e["n"] for e in g["pack"].get("outline") or [] if e.get("sid") == sc["id"]), None)})
     y0 = calm.school_year_of(((sim.w.meta.get("story") or {}).get("start_day", 0)))
     from .seasons import part_of
@@ -768,8 +769,41 @@ def outline_prompt(sim, ask: str = "", size: str = "bunch", expand: str | None =
         ask=ask, people=_family(sim) + "\n\nAlready cast in my storylines:\n" + _cast_block(sim), existing=existing,
         title_hint=title_hint, expands_line=exp_line, size=f"Plan {OUTLINE_SIZES.get(size, size or OUTLINE_SIZES['bunch'])}",
         years_words="freshman, sophomore, junior, senior, college freshman, college sophomore, college junior",
-        when_words=script.WHEN_WORDS)
+        when_words=script.WHEN_WORDS, calendar=season_calendar_text(sim))
     return {"prompt": body, "chars": len(body)}
+
+
+def season_calendar_text(sim) -> str:
+    """Guilford's sports year, the way the game plays it (CIAC), one line a sport: for the outline prompt, so a
+    storyline's games, tryouts and tournaments are planned on the real days."""
+    DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    MON = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+    def md(x):
+        return f"{MON[x[0]]} {x[1]}"
+    by = {}
+    for g in sim.w.groups.values():
+        if g.get("kind") == "team" and g.get("first_game") and g.get("school", "hchs") == "hchs":
+            by.setdefault(g["skill"], []).append(g)
+    L = ["", "Guilford's sports year (every year, give or take a day; tournaments only if they qualify, and a loss ends one):"]
+    for sport in ("football", "soccer", "basketball", "baseball", "softball"):
+        gs = sorted(by.get(sport) or [], key=lambda g: g["id"])
+        if not gs:
+            continue
+        g = gs[0]
+        days = ", ".join(f"{'girls ' if x['id'].endswith('_girls') else ''}{'/'.join(DAYS[d] for d in x.get('game_days') or [])}" for x in gs)
+        bits = [f"tryouts {md(g['tryout'])}", f"games {days} from {md(g['first_game'])}"]
+        if g.get("holiday"):
+            bits.append(f"holiday tournament {md(g['holiday']['dates'][0])}-{g['holiday']['dates'][-1][1]}")
+        if g.get("thanksgiving_game"):
+            bits.append("Thanksgiving game")
+        bits.append(f"regular season ends {md(g['regular_end'])}")
+        bits += [f"{st['name']} {md(st['rounds'][0][1])} to {md(st['rounds'][-1][1])}" for st in g.get("post") or []]
+        L.append(f"- {sport.title()}: " + ", ".join(bits) + ".")
+    ev = [e for e in sim.cat.world["calendar"].get("events") or [] if e.get("kind") == "dance"]
+    if ev:
+        L.append("- Dances: " + ", ".join(f"{e['name']} {md(e['date'])}" for e in ev) + ".")
+    return "\n".join(L) + "\n"
 
 
 def batch_prompt(sim, pack: str, count: int = 3) -> dict:

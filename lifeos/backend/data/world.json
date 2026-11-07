@@ -223,13 +223,13 @@
      1
     ],
     "end": [
-     11,
-     14
+     12,
+     12
     ]
    },
    "tryout": [
     9,
-    8
+    2
    ],
    "practice_days": [
     0,
@@ -241,7 +241,50 @@
    "staff": "coach_bryant",
    "prestige": 75,
    "school": "hchs",
-   "gender": "m"
+   "gender": "m",
+   "first_game": [
+    9,
+    10
+   ],
+   "game_days": [
+    4
+   ],
+   "regular_end": [
+    11,
+    24
+   ],
+   "post": [
+    {
+     "stage": "state",
+     "name": "State playoffs",
+     "qualify": 0.7,
+     "rounds": [
+      [
+       "State quarterfinal",
+       [
+        11,
+        30
+       ]
+      ],
+      [
+       "State semifinal",
+       [
+        12,
+        4
+       ]
+      ],
+      [
+       "State championship",
+       [
+        12,
+        11
+       ]
+      ]
+     ]
+    }
+   ],
+   "calendar_v": 2,
+   "thanksgiving_game": true
   },
   {
    "id": "basketball",
@@ -253,16 +296,16 @@
    "season": {
     "start": [
      11,
-     17
+     22
     ],
     "end": [
-     2,
-     27
+     3,
+     18
     ]
    },
    "tryout": [
     11,
-    18
+    29
    ],
    "practice_days": [
     0,
@@ -270,13 +313,111 @@
     2,
     3
    ],
-   "game_day": 4,
+   "game_day": 1,
    "staff": "coach_okafor",
    "prestige": 70,
    "jv_capacity": 8,
    "starters": 5,
    "school": "hchs",
-   "gender": "m"
+   "gender": "m",
+   "first_game": [
+    12,
+    10
+   ],
+   "game_days": [
+    1,
+    4
+   ],
+   "regular_end": [
+    2,
+    22
+   ],
+   "holiday": {
+    "name": "Holiday tournament",
+    "dates": [
+     [
+      12,
+      28
+     ],
+     [
+      12,
+      30
+     ]
+    ]
+   },
+   "post": [
+    {
+     "stage": "scc",
+     "name": "SCC tournament",
+     "qualify": 0.5,
+     "rounds": [
+      [
+       "SCC quarterfinal",
+       [
+        2,
+        24
+       ]
+      ],
+      [
+       "SCC semifinal",
+       [
+        2,
+        26
+       ]
+      ],
+      [
+       "SCC championship",
+       [
+        3,
+        1
+       ]
+      ]
+     ]
+    },
+    {
+     "stage": "state",
+     "name": "State tournament",
+     "qualify": 0.4,
+     "rounds": [
+      [
+       "State tournament, first round",
+       [
+        3,
+        4
+       ]
+      ],
+      [
+       "State tournament, second round",
+       [
+        3,
+        7
+       ]
+      ],
+      [
+       "State quarterfinal",
+       [
+        3,
+        9
+       ]
+      ],
+      [
+       "State semifinal",
+       [
+        3,
+        12
+       ]
+      ],
+      [
+       "State championship",
+       [
+        3,
+        17
+       ]
+      ]
+     ]
+    }
+   ],
+   "calendar_v": 2
   },
   {
    "id": "baseball",
@@ -287,17 +428,17 @@
    "capacity": 14,
    "season": {
     "start": [
-     2,
-     23
+     3,
+     7
     ],
     "end": [
-     5,
-     29
+     6,
+     12
     ]
    },
    "tryout": [
     3,
-    2
+    14
    ],
    "practice_days": [
     0,
@@ -305,13 +446,99 @@
     2,
     3
    ],
-   "game_day": 5,
+   "game_day": 0,
    "staff": "coach_bryant",
    "prestige": 60,
    "jv_capacity": 10,
    "starters": 9,
    "school": "hchs",
-   "gender": "m"
+   "gender": "m",
+   "first_game": [
+    4,
+    4
+   ],
+   "game_days": [
+    0,
+    2,
+    4
+   ],
+   "regular_end": [
+    5,
+    20
+   ],
+   "post": [
+    {
+     "stage": "scc",
+     "name": "SCC tournament",
+     "qualify": 0.5,
+     "rounds": [
+      [
+       "SCC quarterfinal",
+       [
+        5,
+        23
+       ]
+      ],
+      [
+       "SCC semifinal",
+       [
+        5,
+        25
+       ]
+      ],
+      [
+       "SCC championship",
+       [
+        5,
+        27
+       ]
+      ]
+     ]
+    },
+    {
+     "stage": "state",
+     "name": "State tournament",
+     "qualify": 0.4,
+     "rounds": [
+      [
+       "State tournament, first round",
+       [
+        5,
+        31
+       ]
+      ],
+      [
+       "State tournament, second round",
+       [
+        6,
+        2
+       ]
+      ],
+      [
+       "State quarterfinal",
+       [
+        6,
+        4
+       ]
+      ],
+      [
+       "State semifinal",
+       [
+        6,
+        7
+       ]
+      ],
+      [
+       "State championship",
+       [
+        6,
+        11
+       ]
+      ]
+     ]
+    }
+   ],
+   "calendar_v": 2
   },
   {
    "id": "soccer",
@@ -330,22 +557,107 @@
     ],
     "end": [
      11,
-     14
+     20
     ]
    },
    "tryout": [
     9,
-    9
+    2
    ],
    "practice_days": [
     0,
     1,
     3
    ],
-   "game_day": 2,
+   "game_day": 1,
    "staff": "coach_lindqvist",
    "prestige": 58,
-   "school": "hchs"
+   "school": "hchs",
+   "first_game": [
+    9,
+    10
+   ],
+   "game_days": [
+    1,
+    4
+   ],
+   "regular_end": [
+    10,
+    29
+   ],
+   "post": [
+    {
+     "stage": "scc",
+     "name": "SCC tournament",
+     "qualify": 0.5,
+     "rounds": [
+      [
+       "SCC quarterfinal",
+       [
+        11,
+        1
+       ]
+      ],
+      [
+       "SCC semifinal",
+       [
+        11,
+        3
+       ]
+      ],
+      [
+       "SCC championship",
+       [
+        11,
+        6
+       ]
+      ]
+     ]
+    },
+    {
+     "stage": "state",
+     "name": "State tournament",
+     "qualify": 0.4,
+     "rounds": [
+      [
+       "State tournament, first round",
+       [
+        11,
+        9
+       ]
+      ],
+      [
+       "State tournament, second round",
+       [
+        11,
+        11
+       ]
+      ],
+      [
+       "State quarterfinal",
+       [
+        11,
+        13
+       ]
+      ],
+      [
+       "State semifinal",
+       [
+        11,
+        16
+       ]
+      ],
+      [
+       "State championship",
+       [
+        11,
+        19
+       ]
+      ]
+     ]
+    }
+   ],
+   "calendar_v": 2
   },
   {
    "id": "soccer_girls",
@@ -364,22 +676,107 @@
     ],
     "end": [
      11,
-     14
+     20
     ]
    },
    "tryout": [
     9,
-    9
+    2
    ],
    "practice_days": [
     0,
     1,
     2
    ],
-   "game_day": 3,
+   "game_day": 0,
    "staff": "coach_mensah",
    "prestige": 64,
-   "school": "hchs"
+   "school": "hchs",
+   "first_game": [
+    9,
+    10
+   ],
+   "game_days": [
+    0,
+    3
+   ],
+   "regular_end": [
+    10,
+    29
+   ],
+   "post": [
+    {
+     "stage": "scc",
+     "name": "SCC tournament",
+     "qualify": 0.5,
+     "rounds": [
+      [
+       "SCC quarterfinal",
+       [
+        11,
+        1
+       ]
+      ],
+      [
+       "SCC semifinal",
+       [
+        11,
+        3
+       ]
+      ],
+      [
+       "SCC championship",
+       [
+        11,
+        6
+       ]
+      ]
+     ]
+    },
+    {
+     "stage": "state",
+     "name": "State tournament",
+     "qualify": 0.4,
+     "rounds": [
+      [
+       "State tournament, first round",
+       [
+        11,
+        9
+       ]
+      ],
+      [
+       "State tournament, second round",
+       [
+        11,
+        11
+       ]
+      ],
+      [
+       "State quarterfinal",
+       [
+        11,
+        13
+       ]
+      ],
+      [
+       "State semifinal",
+       [
+        11,
+        16
+       ]
+      ],
+      [
+       "State championship",
+       [
+        11,
+        19
+       ]
+      ]
+     ]
+    }
+   ],
+   "calendar_v": 2
   },
   {
    "id": "basketball_girls",
@@ -394,26 +791,124 @@
    "season": {
     "start": [
      11,
-     17
+     22
     ],
     "end": [
-     2,
-     27
+     3,
+     18
     ]
    },
    "tryout": [
     11,
-    18
+    29
    ],
    "practice_days": [
     0,
     2,
     3
    ],
-   "game_day": 1,
+   "game_day": 0,
    "staff": "coach_dimarco",
    "prestige": 62,
-   "school": "hchs"
+   "school": "hchs",
+   "first_game": [
+    12,
+    10
+   ],
+   "game_days": [
+    0,
+    3
+   ],
+   "regular_end": [
+    2,
+    22
+   ],
+   "holiday": {
+    "name": "Holiday tournament",
+    "dates": [
+     [
+      12,
+      27
+     ],
+     [
+      12,
+      29
+     ]
+    ]
+   },
+   "post": [
+    {
+     "stage": "scc",
+     "name": "SCC tournament",
+     "qualify": 0.5,
+     "rounds": [
+      [
+       "SCC quarterfinal",
+       [
+        2,
+        24
+       ]
+      ],
+      [
+       "SCC semifinal",
+       [
+        2,
+        26
+       ]
+      ],
+      [
+       "SCC championship",
+       [
+        3,
+        1
+       ]
+      ]
+     ]
+    },
+    {
+     "stage": "state",
+     "name": "State tournament",
+     "qualify": 0.4,
+     "rounds": [
+      [
+       "State tournament, first round",
+       [
+        3,
+        4
+       ]
+      ],
+      [
+       "State tournament, second round",
+       [
+        3,
+        7
+       ]
+      ],
+      [
+       "State quarterfinal",
+       [
+        3,
+        9
+       ]
+      ],
+      [
+       "State semifinal",
+       [
+        3,
+        12
+       ]
+      ],
+      [
+       "State championship",
+       [
+        3,
+        17
+       ]
+      ]
+     ]
+    }
+   ],
+   "calendar_v": 2
   },
   {
    "id": "softball",
@@ -427,27 +922,113 @@
    "starters": 9,
    "season": {
     "start": [
-     2,
-     23
+     3,
+     7
     ],
     "end": [
-     5,
-     29
+     6,
+     12
     ]
    },
    "tryout": [
     3,
-    2
+    14
    ],
    "practice_days": [
     0,
     1,
     2
    ],
-   "game_day": 3,
+   "game_day": 1,
    "staff": "coach_torres",
    "prestige": 60,
-   "school": "hchs"
+   "school": "hchs",
+   "first_game": [
+    4,
+    4
+   ],
+   "game_days": [
+    1,
+    3,
+    5
+   ],
+   "regular_end": [
+    5,
+    20
+   ],
+   "post": [
+    {
+     "stage": "scc",
+     "name": "SCC tournament",
+     "qualify": 0.5,
+     "rounds": [
+      [
+       "SCC quarterfinal",
+       [
+        5,
+        23
+       ]
+      ],
+      [
+       "SCC semifinal",
+       [
+        5,
+        25
+       ]
+      ],
+      [
+       "SCC championship",
+       [
+        5,
+        27
+       ]
+      ]
+     ]
+    },
+    {
+     "stage": "state",
+     "name": "State tournament",
+     "qualify": 0.4,
+     "rounds": [
+      [
+       "State tournament, first round",
+       [
+        5,
+        31
+       ]
+      ],
+      [
+       "State tournament, second round",
+       [
+        6,
+        2
+       ]
+      ],
+      [
+       "State quarterfinal",
+       [
+        6,
+        4
+       ]
+      ],
+      [
+       "State semifinal",
+       [
+        6,
+        7
+       ]
+      ],
+      [
+       "State championship",
+       [
+        6,
+        11
+       ]
+      ]
+     ]
+    }
+   ],
+   "calendar_v": 2
   },
   {
    "id": "drama",

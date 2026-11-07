@@ -114,7 +114,9 @@ def build_year(world, cat, year: int, only: set | None = None) -> list[dict]:
             continue
         if only is None and g.get("school") == "college":
             continue
-        if g["kind"] == "team":
+        if g["kind"] == "team" and g.get("first_game") and g.get("school") != "college":
+            items += team_season(g, year, cal, y0, slot_for)
+        elif g["kind"] == "team":
             s_start = md_to_day(year, g["season"]["start"])
             s_end = md_to_day(year, g["season"]["end"])
             if s_end < s_start:
@@ -177,6 +179,70 @@ def build_year(world, cat, year: int, only: set | None = None) -> list[dict]:
         d += q
     items.sort(key=lambda i: (i["day"], i["kind"], i.get("group") or "", i["key"]))
     return items
+
+
+def _no_game(day: int, cal: dict) -> bool:
+    """Days nobody plays: Thanksgiving, Christmas Eve and Day, New Year's Eve and Day, Easter, and Sundays."""
+    d = date_of(day)
+    if d.weekday() == 6 or (d.month, d.day) in ((12, 24), (12, 25), (12, 31), (1, 1)):
+        return True
+    if d.month == 11 and d.weekday() == 3 and 22 <= d.day <= 28:
+        return True
+    return d.month in (3, 4) and d == _easter(d.year)
+
+
+def _play_day(day: int, cal: dict) -> int:
+    """A tournament round on a day nobody plays moves to the next day."""
+    while _no_game(day, cal):
+        day += 1
+    return day
+
+
+def team_season(g, year: int, cal: dict, y0: int, slot_for) -> list[dict]:
+    """A Connecticut (CIAC) high school season: tryouts, then games on the team's game days from the first game to the
+    regular season's end (basketball's holiday tournament in winter break), then the SCC and state tournaments. A
+    tournament's rounds are on the calendar from the start; a team that doesn't qualify, or loses, comes off the rest of
+    that tournament (postseason.py), and its season ends after its last game."""
+    gid, nm = g["id"], g["name"]
+    out: list[dict] = []
+    t = next_school_day(md_to_day(year, g["tryout"]), cal)
+    out.append({"day": t, "kind": "tryout", "group": gid, "slot": "after_school", "name": f"{nm} tryouts",
+                "key": f"tryout:{gid}:{year}", "signup_from": max(y0, t - 21)})
+    days = set(g.get("game_days") or [g.get("game_day", 4)])
+    first, end = md_to_day(year, g["first_game"]), md_to_day(year, g["regular_end"])
+    hol = g.get("holiday") or {}
+    hol_days = {md_to_day(year, md) for md in hol.get("dates") or []}
+    n = 0
+    d = first
+    while d <= end:
+        b = break_name(d, cal)
+        if d in hol_days or (weekday(d) in days and not _no_game(d, cal) and b != "Winter break"):
+            n += 1
+            it = {"day": d, "kind": "game", "group": gid, "slot": slot_for(d) if weekday(d) < 5 else "day",
+                  "name": f"{nm} game {n}", "key": f"game:{gid}:{year}:{n}"}
+            if d in hol_days:
+                it["event"], it["name"] = "holiday", f"{nm}: {hol.get('name', 'Holiday tournament')}"
+            out.append(it)
+        d += 1
+    if g.get("thanksgiving_game"):  # Connecticut's Thanksgiving football: the regular season's last game, that morning
+        th = dt.date(date_of(first).year, 11, 1)
+        th = th + dt.timedelta(days=(3 - th.weekday()) % 7 + 21)
+        d = day_of(th)
+        if not any(i["day"] == d for i in out):
+            n += 1
+            out.append({"day": d, "kind": "game", "group": gid, "slot": "day", "name": f"{nm}: Thanksgiving game",
+                        "key": f"game:{gid}:{year}:{n}", "event": "thanksgiving"})
+    for st in g.get("post") or []:
+        rounds = st["rounds"]
+        for k, (rname, md) in enumerate(rounds):
+            d = _play_day(md_to_day(year, md), cal)
+            out.append({"day": d, "kind": "game", "group": gid, "slot": slot_for(d) if weekday(d) < 5 else "day",
+                        "name": f"{nm}: {rname}", "key": f"game:{gid}:{year}:{st['stage']}{k + 1}", "stage": st["stage"],
+                        "stage_name": st.get("name"), "round": k + 1, "rounds": len(rounds), "round_name": rname})
+    s_end = md_to_day(year, g["season"]["end"])
+    out.append({"day": s_end, "kind": "season_end", "group": gid, "slot": None, "name": f"{nm} season ends",
+                "key": f"season_end:{gid}:{year}"})
+    return out
 
 
 # ---------------------------------------------------------------------------------------------------- named days

@@ -583,7 +583,7 @@ def _check_range(R, where, rng, lo, hi):
 
 WHEN_KEYS = {"chance", "years", "months", "dates", "weekdays", "requires", "you_feel", "they_feel", "me",
              "remembered", "not_remembered", "once", "cooldown_days", "after", "gap_days", "not_before", "not_after", "importance",
-             "game"}
+             "game", "moment"}
 
 
 def _check_scene(R, where, sc, seen_ids):
@@ -706,6 +706,10 @@ def _check_scene(R, where, sc, seen_ids):
             if not isinstance(v, dict) or v.get("result") not in (None, "win", "loss") or v.get("me") not in (None, "great", "good", "quiet", "bad") \
                     or v.get("sport") not in (None, "football", "basketball", "baseball", "soccer", "softball"):
                 R.err(w, "is one of your games: game: win or loss, and how you play (I play great, well, quietly or badly)")
+        elif k == "moment":  # the event it's about (cues.py): a game day, tryouts, the state semifinal...
+            from .cues import KINDS
+            if not isinstance(v, dict) or v.get("kind") not in KINDS:
+                R.err(w, "is the event it's about: game day, after a game, tryouts, first game, senior night, state final...")
         elif k in ("not_before", "not_after"):
             if not isinstance(v, str) or not re.match(r"^(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$", v):
                 R.err(w, 'is a month-day inside the school year, like "11-15"')

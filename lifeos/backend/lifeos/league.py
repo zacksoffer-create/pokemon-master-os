@@ -129,6 +129,18 @@ def opponent(sim, g, num: int) -> dict:
     return lea["teams"][name]
 
 
+def opponent_for(sim, g, it, num: int | None = None) -> dict:
+    """The team a calendar game is against: a tournament round's opponent (set when the bracket was made), else the
+    league schedule's by game number."""
+    lea = league(sim, g)
+    if it is not None and it.get("opp") in lea["teams"]:
+        return lea["teams"][it["opp"]]
+    if num is None:
+        tail = str((it or {}).get("key", "")).split(":")[-1]
+        num = int(tail) if tail.isdigit() else 1
+    return opponent(sim, g, num)
+
+
 def our_strength(sim, g) -> float:
     """How good your team is on paper: its best players' ratings (power rankings use it; the games use real performances)."""
     from .sports import rating

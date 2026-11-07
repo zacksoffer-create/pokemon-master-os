@@ -482,12 +482,13 @@ def pregame(sim):
             mates = sorted([m for m in g["members"] if m != me.id and m in w.chars], key=lambda m: -w.chars[m].traits["sociability"])
             from .sports import opponent_name
             from . import groupchat
-            n = int(it["key"].split(":")[-1]) if it["key"].split(":")[-1].isdigit() else 1
-            if mates and _h(w.day, g["id"], "gc") % 10 < 6 and groupchat.start(sim, "team", {"pregame"}, group=g, opp=opponent_name(sim, g, n), phase="evening"):
+            from .sports import game_opponent
+            opp_ = game_opponent(sim, g, it)
+            if mates and _h(w.day, g["id"], "gc") % 10 < 6 and groupchat.start(sim, "team", {"pregame"}, group=g, opp=opp_, phase="evening"):
                 mates = []  # the team chat's going: they're talking about it
             if mates:
                 s = mates[_h(w.day, g["id"]) % min(2, len(mates))]
-                post(sim, f"team:{g['id']}", s, pick("team_pregame", f"{w.day}:{g['id']}", sim=sim, frm=s, opp=opponent_name(sim, g, n), _group=list(g["members"])), kind="team",
+                post(sim, f"team:{g['id']}", s, pick("team_pregame", f"{w.day}:{g['id']}", sim=sim, frm=s, opp=opp_, _group=list(g["members"])), kind="team",
                      title=g["name"], members=[m for m in g["members"] if m != me.id], tkind="group", phase="evening")
             if _h(w.day, "pp") % 2 == 0:
                 family_text(sim, "parent_pregame")

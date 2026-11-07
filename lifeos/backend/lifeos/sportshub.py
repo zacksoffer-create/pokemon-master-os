@@ -110,13 +110,12 @@ def _next(sim, g) -> dict | None:
               key=lambda i: i["day"], default=None)
     if not nxt:
         return None
-    num = int(str(nxt["key"]).split(":")[-1]) if str(nxt["key"]).split(":")[-1].isdigit() else 1
-    opp = lg.opponent(sim, g, num)
+    opp = lg.opponent_for(sim, g, nxt)
     lea = lg.league(sim, g)
     row = next((r for r in lg.table(lea) if r["name"] == opp["name"]), None)
     return {"date": calm.label(nxt["day"]), "in_days": nxt["day"] - w.day, "opponent": opp["name"], "rival": opp["name"] == lea.get("rival"),
             "their_record": f"{row['w']}-{row['l']}" if row else None, "their_rank": row["rank"] if row else None,
-            "stars": [{"name": s["name"], "pos": s["pos"]} for s in opp["stars"][:2]]}
+            "stars": [{"name": s["name"], "pos": s["pos"]} for s in opp["stars"][:2]], "round": nxt.get("round_name")}
 
 
 def view(sim, gid: str | None = None) -> dict:

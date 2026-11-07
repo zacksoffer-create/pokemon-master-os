@@ -343,10 +343,9 @@ def phone_choices():
             if cd.a["id"] == "attend_event" and isinstance(cd.extra, dict) and cd.extra.get("kind") in ("game", "show"):
                 o["own"] = cd.extra["kind"]  # your own game or show, not a night out
                 if cd.extra["kind"] == "game" and cd.extra.get("group") in L.w.groups:
-                    from .sports import opponent_name
-                    tail = cd.extra["key"].split(":")[-1]
-                    o["opponent"] = opponent_name(sim, L.w.groups[cd.extra["group"]], int(tail) if tail.isdigit() else 1)
-                    o["text"] = f"Play in your game vs {o['opponent']}"
+                    from .sports import game_opponent
+                    o["opponent"] = game_opponent(sim, L.w.groups[cd.extra["group"]], cd.extra)
+                    o["text"] = f"Play in {cd.extra['round_name'] if cd.extra.get('round_name') else 'your game'} vs {o['opponent']}"
                 else:
                     o["text"] = f"Perform in {cd.extra.get('production_name') or o['target_name'] or 'the show'}"
                 o["icon"] = "ball" if cd.extra["kind"] == "game" else "star"

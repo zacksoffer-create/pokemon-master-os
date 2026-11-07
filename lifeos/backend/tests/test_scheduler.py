@@ -173,21 +173,25 @@ def test_season_windows_keep_the_calendar_real():
     w, sim, me = _story()
     cat = scheduler.catalog(sim)
     info = cat["info"]
-    # windows come from Guilford's own calendar: baseball tryouts are March 2, basketball ends February 27, graduation June 12
-    assert info["baseball_01_tryouts"]["window"] == {"from": [2, 28], "to": [3, 16]}
-    assert info["brother_final_13_senior_night"]["window"] == {"from": [2, 6], "to": [2, 24]}
+    # windows come from Guilford's own (CIAC) calendar: baseball tryouts March 14, basketball's regular season ends
+    # February 22 (its tournaments after), graduation May 29
+    assert info["baseball_01_tryouts"]["window"] == {"from": [3, 12], "to": [3, 28]}
+    assert info["brother_final_13_senior_night"]["window"] == {"from": [2, 1], "to": [2, 19]}
     assert info["brother_final_13_senior_night"]["importance"] == "finale"
-    assert info["bro_team_17_last_school_game"]["window"] == {"from": [2, 20], "to": [3, 20]}
-    assert info["bro_team_05_tryouts"]["window"] == {"from": [11, 16], "to": [12, 2]}
+    assert info["bro_team_17_last_school_game"]["window"] == {"from": [2, 15], "to": [3, 15]}
+    assert info["bro_team_05_tryouts"]["window"] == {"from": [11, 27], "to": [12, 13]}
     assert info["hc_ask"]["window"] == {"from": [10, 2], "to": [10, 23]} and info["hc_dance_a"]["window"] == {"from": [10, 17], "to": [10, 25]}
     assert info["hc_after_a"]["window"] == {"from": [10, 18], "to": [10, 30]}
     assert info["bro_graduation_day"]["window"] == {"from": [5, 25], "to": [6, 5]}  # school's out May 31: graduation is May 29
     assert info["college_move_in"]["window"] == {"from": [8, 20], "to": [9, 15]}
     sept = calm.md_to_day(0, (9, 15))
-    assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], sept)[0] == "wrong_season"
-    assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], calm.md_to_day(0, (3, 5))) is None
+    assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], sept)[0] in ("wrong_season", "wrong_date")
+    tryout = next(i["day"] for i in w.calendar if i["kind"] == "tryout" and i["group"] == "baseball")
+    assert info["baseball_01_tryouts"]["moment"]["kind"] == "tryouts"  # (it's about tryouts: it's on tryout day)
+    assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], tryout) is None
+    assert scheduler.calendar_ok(sim, "baseball_01_tryouts", {}, info["baseball_01_tryouts"], tryout - 9) is not None
     june = calm.md_to_day(0, (6, 20))
-    assert scheduler.calendar_ok(sim, "bro_team_17_last_school_game", {}, info["bro_team_17_last_school_game"], june)[0] == "wrong_season"
+    assert scheduler.calendar_ok(sim, "bro_team_17_last_school_game", {}, info["bro_team_17_last_school_game"], june)[0] in ("wrong_season", "wrong_date")
     assert scheduler.gate(sim, me, "college_move_in", cat) == ("too_early", "school year"), "not before your own graduation"
     w.meta["remembered"] = {}
     scheduler.done_map(w)["brother_final_13_senior_night"] = [calm.md_to_day(0, (2, 10))]

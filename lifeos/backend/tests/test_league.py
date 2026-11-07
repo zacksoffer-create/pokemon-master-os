@@ -46,13 +46,15 @@ def test_the_table_is_the_games_that_were_played():
         assert sum(r["pf"] for r in rows) == sum(r["pa"] for r in rows)
         g = w.groups[lea["group"]]
         us = next(r for r in rows if r["ours"])
-        assert (us["w"], us["l"]) == (g["record"]["w"], g["record"]["l"]), "the table matches the team's record"
+        rec = g["record"] if (g["record"]["w"] or g["record"]["l"]) or not g.get("history") else g["history"][-1]["record"]
+        assert (us["w"], us["l"]) == (rec["w"], rec["l"]), "the table matches the team's record (or the season it just finished)"
         games = [e for e in w.history.events.values() if e["type"] == "game" and e.get("group") == g["id"]
                  and e["outcome"] in ("win", "loss") and e["data"].get("level") == "varsity"]
         ours = lea["teams"][lea["ours"]]["results"]
         assert [r["win"] for r in ours] == [e["outcome"] == "win" for e in sorted(games, key=lambda e: e["id"])]
         assert [r["vs"] for r in ours] == [e["data"]["opponent"] for e in sorted(games, key=lambda e: e["id"])]
-        assert len({r["vs"] for r in ours}) == len(ours), "the schedule goes through the conference"
+        n = min(len(ours), len(lea["schedule"]))  # (a CIAC season can be longer than the conference: then it starts over)
+        assert len({r["vs"] for r in ours[:n]}) == n, "the schedule goes through the conference"
         assert "Hand" in lea["teams"] and lea["rival"] == "Hand" and lea["ours"] == "Guilford"
 
 

@@ -281,6 +281,7 @@ export default function StorylineRead({ pack, onClose, onExpand }: { pack: strin
                     <button className={cx("rd-when", !x.plays && "bad")} onClick={() => setMove(x)}>{x.plays ? (x.date || "").replace(/, \d{4}$/, "") : "won't play"} ✎</button>
                   </div>
                   <div className="rd-tags">{x.storyline !== v.title && <i>{x.storyline.replace(`${v.title}: `, "+ ")}</i>}{tagsOf(x.src)}</div>
+                  {x.moment && <div className="rd-moment" title={x.moment_from ? `from ${x.moment_from}` : undefined}>Plays on: {x.moment}</div>}
                   {!x.plays && x.why && <div className="rd-why">{x.why}{x.detail && typeof x.detail === "string" ? ` (${x.detail.replace(/_/g, " ")})` : ""}</div>}
                   <ScriptView src={x.src} />
                 </div>
