@@ -2138,6 +2138,117 @@
     "don't keep runs at all",
     "keep every run automatically"
    ]
+  },
+  {
+   "decision": "D-084",
+   "phase": "v2.8 · The organism",
+   "id": "A-137",
+   "area": "An ability read as biology",
+   "what": "Fifty abilities have a reading of the animal (Thick Fat: a layer of fat that keeps out the cold and the heat; Keen Eye: sharp sight for scouting; Insomnia: it barely sleeps). The ones that say something about getting by count toward a capability as plausible evidence (B · inferred), only for an individual that has that ability. Plausible never counts as ready: the camp calls it hard going until you approve a record.",
+   "why": "Abilities are the most biological thing the games give a Pokémon, and nothing used them away from battle except a handful of overworld effects.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon → in the wild"
+   ],
+   "instead": [
+    "show the readings but count nothing",
+    "count them as covered"
+   ]
+  },
+  {
+   "decision": "D-084",
+   "phase": "v2.8 · The organism",
+   "id": "A-138",
+   "area": "The conditions on a body",
+   "what": "The cold, the heat and the rain are read from the type chart: the type that bites in those conditions (Ice, Fire, Water) against the body's types and ability. Super effective is hard on it, resisted means it's at home. The cold holds in ice caves and alpine ground and in snow; the heat in a heatwave; the rain in rain and storms.",
+   "why": "The type chart is the games' own physiology, the closest thing they have to how a body copes.",
+   "where": [
+    "#/expedition",
+    "The expedition planner"
+   ],
+   "instead": [
+    "the habitat engine's warm/cold climate only",
+    "a separate tolerance table per species"
+   ]
+  },
+  {
+   "decision": "D-084",
+   "phase": "v2.8 · The organism",
+   "id": "A-139",
+   "area": "What eases a condition",
+   "what": "A teammate or the kit eases a hard condition: heat source for the cold (a Fire-type move, a stove, your approved call), water supply for the heat, camp making for the rain (a tent). If the best one is only plausible or teachable, the day is still hard going. A condition nobody eases is a strain, never a setback on its own.",
+   "why": "Exposure should cost the team something without ending trips the hazards don't end.",
+   "where": [
+    "#/expedition",
+    "The expedition planner"
+   ],
+   "instead": [
+    "a setback when it's 4x and nobody eases it",
+    "no effect on the run, readings only"
+   ]
+  },
+  {
+   "decision": "D-084",
+   "phase": "v2.8 · The organism",
+   "id": "A-140",
+   "area": "The night watch",
+   "what": "The watch goes to the first member that is about at night in the wild (HeartGold and SoulSilver's encounter times), else the first with Insomnia or Vital Spirit. No watch is noted in the journal and costs nothing.",
+   "why": "The games' own clock says who is awake when, and it gives nocturnal Pokémon a job on the trail.",
+   "where": [
+    "#/expedition",
+    "The expedition planner"
+   ],
+   "instead": [
+    "no watch makes the night hard going",
+    "you pick the watch"
+   ]
+  },
+  {
+   "decision": "D-084",
+   "phase": "v2.8 · The organism",
+   "id": "A-141",
+   "area": "How it came by a move",
+   "what": "Each move gets the likeliest story for this individual: hatched knowing it if it's in its hatch moves (and inherited from its father if it's an egg move), else level-up, a TM or HM, a tutor, and an egg move last. Every way the species can learn it in that game is listed under the story.",
+   "why": "Your records hold hatch moves but not when each move was taught, so the order goes from the most to the least common way.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon → in the wild"
+   ],
+   "instead": [
+    "list every way equally, no story",
+    "ask you once per move and keep the answer"
+   ]
+  },
+  {
+   "decision": "D-084",
+   "phase": "v2.8 · The organism",
+   "id": "A-142",
+   "area": "The species as an animal",
+   "what": "Each species' sheet is assembled from what Blackthorn already holds: the game's Pokédex data, the Gen 3 habitat, the habitat engine's water and climate, the food webs' diet guild (or its line's), the first line of each survival section of a dossier, and Pokédex entries picked by keywords for food, senses, movement and defence (HeartGold and SoulSilver first). Every line carries its class and source.",
+   "why": "Nothing is re-derived: the organism is a lens over the existing biology, so a correction there shows up here.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon → in the wild"
+   ],
+   "instead": [
+    "only the dossiers (127 species)",
+    "write a new sheet per species"
+   ]
+  },
+  {
+   "decision": "D-084",
+   "phase": "v2.8 · The organism",
+   "id": "A-143",
+   "area": "Where it grew up",
+   "what": "An individual met in the wild or in an encounter grew up at the place it was met: that place's biome is its home ground (a Blackthorn reading). Starters, gifts, trades and hatched ones get the game's own wording.",
+   "why": "A wild-caught Pokémon's history is the place you found it.",
+   "where": [
+    "#/pokemon",
+    "Your Pokémon → in the wild"
+   ],
+   "instead": [
+    "say only where it was met"
+   ]
   }
  ]
 }

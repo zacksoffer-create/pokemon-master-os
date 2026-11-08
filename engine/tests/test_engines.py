@@ -3007,6 +3007,25 @@ class WebApp(unittest.TestCase):
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
+    def test_the_organism_in_the_browser_matches_python(self):
+        """The browser's organism (web/44_organism.html) against biology/organism.py: every species' sheet, learn origins,
+        portraits, characteristics, exposure and camps (v2.8)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "org.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "biology", "organism.py"), "--parity", dump], capture_output=True, text=True, cwd=ENGINE)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_organism_parity.mjs"), dump], capture_output=True, text=True, timeout=600)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn("checks match Python: 493 sheets", out.stdout)
+
+    def test_the_organism_pages(self):
+        """An individual's page in the wild, the builder's link to it, the planner's team in the wild and the camp's lines
+        in a run (app/test_organism.mjs, in Chromium)."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_organism.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_the_launcher_serves_the_zip_and_writes_only_the_app_tabs(self):
         out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])
@@ -3578,6 +3597,107 @@ class Wild(unittest.TestCase):
         d = self.X.day(self.wild, [{"species": "Hoothoot"}, {"species": "Typhlosion"}], {"Typhlosion": ["The Glasshouse: heat"]})
         self.assertEqual([x["active"] for x in d["by"]["night"]], [True, True])
         self.assertEqual([x["active"] for x in d["by"]["day"]], [False, True])       # Hoothoot sleeps by day; Typhlosion is never wild
+
+class Organism(unittest.TestCase):
+    """v2.8, the organism (docs/ORGANISM.md): biology/organism.py over app/data/organism.json, the breeding pack, the
+    capability pack and the Wild's places. Each Pokémon as an animal of its kind, then as itself: how it came by each move,
+    its ability read as biology, its nature's flavours, its characteristic, where it was born, how the conditions treat
+    its body, and the camp on an expedition."""
+    @classmethod
+    def setUpClass(cls):
+        from biology import organism as O
+        from wilderness import expedition as X
+        cls.O, cls.X = O, X
+        load = lambda f: O.load(os.path.join(ENGINE, "app", "data", f))
+        cls.org, cls.cap, cls.breeding, cls.wild = load("organism.json"), load("capability.json"), load("breeding.json"), load("wild.json")
+
+    def test_every_species_reads_as_an_animal(self):
+        self.assertEqual(len(self.org["species"]), 493)
+        for nm in self.org["species"]:
+            sh = self.O.sheet(self.org, self.cap, nm)
+            self.assertTrue(sh["body"] and sh["water"] and sh["climate"] and sh["eats"] and sh["rhythm"], nm)
+            for part in ("about", "body", "moves", "eats", "water", "climate", "home", "senses", "defense", "social", "rhythm"):
+                for x in sh[part]:
+                    self.assertIn(x["class"], ("mechanic", "inferred", "canon", "draft", "unknown", "hypothesis"), (nm, part, x))
+        lap = self.O.sheet(self.org, self.cap, "Lapras")
+        self.assertEqual(lap["needs"]["water"], "sea")
+        self.assertIn("220 kg", lap["body"][0]["text"])                               # numbers print as the browser prints them
+        self.assertEqual(self.O.find(self.org, "Nidoran-F")[0], "Nidoran♀")
+
+    def test_how_a_move_was_learned_follows_the_games_learnsets(self):
+        lo = lambda sp, mv, g="heartgold": self.O.learn_origin(self.org, self.breeding, sp, mv, g)
+        self.assertEqual(lo("Lapras", "Ice Beam")[0], {"how": "level", "level": 32, "as": None})
+        self.assertIn({"how": "machine", "machine": "HM03"}, lo("Lapras", "Surf"))      # the game's own TMs and HMs
+        self.assertIn({"how": "machine", "machine": "TM13"}, lo("Lapras", "Ice Beam"))
+        self.assertIn({"how": "egg"}, lo("Dragonite", "Extreme Speed"))                 # an egg move in HeartGold, through Dratini
+        self.assertEqual(lo("Pidgeot", "Gust")[0]["how"], "level")
+        self.assertEqual(lo("Lapras", "Fly"), [])                                       # nothing on record: it can't
+        # through its pre-evolutions: a move only the earlier stage learns is learned "as" it
+        ty = [o for o in lo("Typhlosion", "Smokescreen") if o["how"] == "level"]
+        self.assertTrue(ty and ty[0]["as"] in (None, "Cyndaquil", "Quilava"))
+        self.assertEqual(self.O.story(self.org, [{"how": "egg"}], True), "hatched knowing it; inherited: its father knew it")
+
+    def test_the_individual_has_its_own_story(self):
+        m = {"species": "Lapras", "moves": ["Surf", "Ice Beam", "Sing", "Waterfall"], "ability": "Water Absorb", "label": "Lapras"}
+        p = self.O.portrait(self.org, self.breeding, self.cap, self.wild, "heartgold", m,
+                            {"nature": "Calm", "ivs": {"hp": 31, "atk": 12, "def": 25, "spa": 28, "spd": 30, "spe": 20}},
+                            {"met_how": "encounter", "met_location": "Union Cave (B2F)"})
+        self.assertEqual(p["nature"]["likes"], "bitter")                                 # the game's own flavours
+        self.assertEqual(p["nature"]["hates"], "spicy")
+        self.assertEqual(p["characteristic"]["text"], "Takes plenty of siestas")        # HP 31: 31 mod 5 = 1
+        self.assertEqual(p["origin"]["native"]["place"], "union-cave")
+        surf = next(x for x in p["moves"] if x["move"] == "Surf")
+        self.assertEqual((surf["story"], surf["field"]), ("taught with HM03", ["Water travel"]))
+        self.assertTrue(next(x for x in p["moves"] if x["move"] == "Sing")["battle_only"])
+        self.assertEqual(p["ability"]["trait"], self.org["rules"]["traits"]["Water Absorb"]["reading"])
+        tie = self.O.characteristic(self.org, {"hp": 30, "atk": 30, "def": 2, "spa": 2, "spd": 2, "spe": 2})
+        self.assertEqual((tie["text"], tie["tie"]), (None, ["HP", "Attack"]))            # ties hang on the personality value, which isn't kept
+
+    def test_an_ability_read_as_biology_is_plausible_evidence_only(self):
+        ev = self.X.assess.evidence(self.cap, "heartgold", {"species": "Snorlax", "moves": ["Body Slam"], "ability": "Thick Fat"})
+        traits = [(st, r["cap"]) for st, r in ev if r["kind"] == "trait"]
+        self.assertEqual(sorted(traits), [("plausible", "cold_tolerance"), ("plausible", "heat_tolerance")])
+        none = self.X.assess.evidence(self.cap, "heartgold", {"species": "Snorlax", "moves": ["Body Slam"], "ability": "Immunity"})
+        self.assertFalse([r for st, r in none if r["kind"] == "trait"])                  # only the ability it has
+        self.assertEqual(self.X.assess.KINDS["trait"], ("B", "inferred"))
+
+    def test_the_type_chart_reads_as_physiology(self):
+        import rules
+        for nm in list(self.org["species"])[::7]:
+            t = self.org["species"][nm]["t"]
+            for atk in ("Ice", "Fire", "Water"):
+                for ab in (None, "Thick Fat", "Water Absorb", "Dry Skin", "Heatproof", "Filter", "Wonder Guard"):
+                    self.assertEqual(self.O.effectiveness(self.org, 4, atk, t, ab), rules.effectiveness(4, atk, t, ab), (nm, atk, ab))   # the pack's copy is the battle engine's
+        ice = self.wild["places"]["ice-path"]
+        hard = lambda sp, ab=None: [e["effect"] for e in self.O.exposure(self.org, "heartgold", sp, ab, ice, "sheltered") if e["id"] == "cold"]
+        self.assertEqual(hard("Dragonite"), ["hard"])                                   # Ice on Dragon/Flying: 4x
+        self.assertEqual(hard("Lapras"), ["home"])
+        self.assertEqual(hard("Ampharos"), [])
+        self.assertEqual(hard("Snorlax", "Thick Fat"), ["home"])                        # the fat keeps out the cold
+
+    def test_the_camp_has_its_watch_its_exposure_and_who_eases_it(self):
+        team = [{"species": "Typhlosion", "moves": ["Flamethrower"], "ability": "Blaze", "label": "Typhlosion"},
+                {"species": "Pidgeot", "moves": ["Fly"], "ability": "Keen Eye", "label": "Pidgeot"}]
+        ice = self.wild["places"]["ice-path"]
+        c = self.O.camp(self.org, self.cap, "heartgold", team, [], ice, "sheltered")
+        self.assertEqual([(e["who"], e["helper"], e["helper_standing"]) for e in c["exposed"]], [("Pidgeot", "Typhlosion", "plausible")])
+        stove = self.O.camp_events(self.org, self.cap, "heartgold", team, ["stove"], ice, "sheltered")
+        self.assertEqual([e["result"] for e in stove if e["part"] == "exposure"], ["handled"])   # a camp stove is heat you can count on
+        owl = self.O.watcher(self.org, [{"species": "Noctowl", "label": "Owl"}] + team)
+        self.assertEqual(owl["who"], "Owl")                                              # about at night in the games' own tables
+        self.assertIsNone(self.O.watcher(self.org, team))
+
+    def test_a_run_with_the_camp_keeps_the_seed_and_counts_hard_nights(self):
+        _, _, team, _ = self.X.sample()
+        pl = self.X.plan(self.wild, self.cap, "heartgold", "ice-path", team, ["tent", "rations"], "winter", 3)
+        bare = self.X.simulate(self.wild, self.cap, "heartgold", pl, team, 3)
+        camp = self.X.simulate(self.wild, self.cap, "heartgold", pl, team, 3, self.org)
+        strip = lambda s: [[e for e in d["events"] if e["kind"] != "camp"] for d in s["days"]]
+        self.assertEqual(strip(camp), strip(bare))                                        # the camp draws nothing from the seed
+        self.assertGreater(camp["strains"], bare["strains"])                              # Pidgeot feels the cold every day
+        self.assertEqual(camp["setbacks"], bare["setbacks"])                              # exposure is hard going, never a setback
+        self.assertTrue(all(any(e["part"] == "watch" for e in d["events"] if e["kind"] == "camp") for d in camp["days"]))
+
 
 if __name__ == "__main__":
     unittest.main()

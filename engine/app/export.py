@@ -31,6 +31,8 @@ live.
     estate.json    the Estate's reference and design: sites, every species' land and eggs, berries, the Glasshouse, the
                    preserve and the Sevii Islands (app/estate_pack.py; the census and staffing are the browser's)
     biology.json, dossiers.json, ecology.json, ecotypes.json, ranges.json   Field Biology (app/biology_pack.py)
+    organism.json  every species as an animal, each game's TMs and HMs, the characteristics and natures' flavours, the
+                   organism rules (app/organism_pack.py, after Field Biology; docs/ORGANISM.md)
 
     python3 -I app/export.py               # writes engine/app/data/*.json and prints their sizes
 """
@@ -380,6 +382,8 @@ def main(breeder=False):
     wild_pack.main()
     import biology_pack                  # Field Biology (v1): the field guide, dossiers, ecology, ecotypes, ranges
     biology_pack.main()
+    import organism_pack                 # the organism (v2.8): every species as an animal, the TMs and HMs, characteristics, flavours
+    organism_pack.main()
     import field_pack
     import room_pack
     import scout_pack

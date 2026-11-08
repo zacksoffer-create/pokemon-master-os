@@ -7,7 +7,7 @@
    its body. The planner's team in the wild and the field journal's camp lines read the same engine (44_organism, held
    to biology/organism.py by app/test_organism_parity.mjs). */
 var ORG_CLS = {mechanic: ['the game', 'forest'], canon: ['the Pokédex', 'forest'], inferred: ['reading', 'gold'], draft: ['dossier draft', 'violet'], unknown: ['not on record', 'ember'],
-  confirmed: ['confirmed', 'forest'], 'strongly inferred': ['strongly inferred', 'ice'], standardized: ['standardized', ''], hypothetical: ['hypothetical', 'violet'], creative: ['Blackthorn', 'violet']};
+  confirmed: ['confirmed', 'forest'], 'strongly inferred': ['strongly inferred', 'ice'], standardized: ['standardized', ''], hypothetical: ['hypothetical', 'violet'], hypothesis: ['a hypothesis', ''], creative: ['Blackthorn', 'violet']};
 function clip(s, n) { return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; }
 function orgChip(cls) { var c = ORG_CLS[cls] || [cls || '?', '']; return chip(c[0], c[1]); }
 function orgLines(xs) {

@@ -68,6 +68,9 @@ of needs, and the existing world report, cartridge report and facility reports r
   - One wild Pokémon is drawn per window from that window's table. A team that can travel on water meets the surfing table a third of the time.
   - Food carried is the trip's rations plus a reserve day. Foraging gives back a quarter of a day's rations where the land allows.
   - Three setbacks, or an empty larder, turn the team for home.
+  - Since v2.8 (`docs/ORGANISM.md`) each day also has its camp: who feels the cold, the heat or the rain and who eases
+    it (a strain when nobody can), who is at home in it, the night watch, and who found food. The camp draws nothing
+    from the seed.
 - **The odds.** Seeds 1 to 24: how many runs got through, setbacks and hard days per run, what set them back, and the wildlife most seen.
 - **The estate in time.**
   - Season card: the weather over Blackthorn City, and each resident outdoors by its type-driven climate.
