@@ -1243,8 +1243,12 @@ def cached_deadline(sim, me, sid, cat, day) -> int | None:
     return dl
 
 
+CLOSING_DAYS = 2  # a big scene whose window closes this soon skips the weekly breather
+BIG_FIRST = {"finale": 0, "major": 1, "regular": 2, "ambient": 3}  # a crowded last day: storyline finales and big turns go first
+
+
 def _order(cands, prof, day=None) -> list:
-    """Due today first, then anything whose window closes within two weeks (soonest first: overdue pressure, so a year's
+    """Due today first (the big ones first, so a storyline's finale isn't the one a crowded last day drops), then anything whose window closes within two weeks (soonest first: overdue pressure, so a year's
     leftovers don't pile onto its last day), then chapters across storylines (longest wait, then weight), with another
     scene after every two."""
     due = [c for c in cands if c["due"]]
@@ -1252,7 +1256,7 @@ def _order(cands, prof, day=None) -> list:
     if day is not None:
         soon = sorted((c for c in rest if c["deadline"] is not None and c["deadline"] - day <= 14), key=lambda c: (c["deadline"], c["sid"]))
         rest = [c for c in rest if c not in soon]
-        due = sorted(due, key=lambda c: (c["deadline"], c["sid"])) + soon
+        due = sorted(due, key=lambda c: (c["deadline"], BIG_FIRST.get(c["importance"], 2), c["sid"])) + soon
         out = list(due)
         chapters = sorted((c for c in rest if c["kind"] == "chapter"), key=lambda c: (-c["weight"], -c["waited"], c["pack"] or "", c["sid"]))
         free = sorted((c for c in rest if c["kind"] != "chapter"), key=lambda c: (-c["weight"], c["sid"]))
@@ -1264,7 +1268,7 @@ def _order(cands, prof, day=None) -> list:
         return out
     chapters = sorted((c for c in rest if c["kind"] == "chapter"), key=lambda c: (-c["weight"], -c["waited"], c["pack"] or "", c["sid"]))
     free = sorted((c for c in rest if c["kind"] != "chapter"), key=lambda c: (-c["weight"], c["sid"]))
-    out = sorted(due, key=lambda c: (c["deadline"], c["sid"]))
+    out = sorted(due, key=lambda c: (c["deadline"], BIG_FIRST.get(c["importance"], 2), c["sid"]))
     while chapters or free:
         out += chapters[:2]
         chapters = chapters[2:]
@@ -1278,6 +1282,8 @@ def _major_ok(sim, c, prof, cat) -> bool:
     w = sim.w
     if c["importance"] not in ("major", "finale") or not prof.get("major_week") or c["due"]:
         return True
+    if c["deadline"] is not None and c["deadline"] - w.day <= CLOSING_DAYS:
+        return True  # its window is closing: a breather now would cost it its day (a summer finale on August 30)
     recent = [d for d in w.meta.get("scene_majors", []) if w.day - d < 7]
     if len(recent) < prof["major_week"]:
         return True

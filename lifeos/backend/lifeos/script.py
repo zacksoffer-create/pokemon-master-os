@@ -1743,6 +1743,19 @@ def _same_months(sc, sec) -> bool:
     return bool(w.get("months")) and w.get("months") == sec.defaults.get("months") and not w.get("dates")
 
 
+def _pinned_month(w: dict):
+    """The month a scene is pinned to by its own timing (a month, a named day, a not-before), or None."""
+    from . import calendar as calm
+    mo = (w.get("months") or [None])[0]
+    if mo is None and w.get("dates"):
+        d = w["dates"][0]
+        md = calm.APPROX_MD.get(d) or d
+        mo = int(md[:2]) if md[:2].isdigit() else None
+    if mo is None and w.get("not_before"):
+        mo = int(w["not_before"][:2])
+    return mo
+
+
 def place(scenes: list, years, months, keep=(), total=None, slot_of=None):
     """Space scenes out by date across their school years, in order: each gets its year and a day it can come from
     (not before), evenly. Scenes in keep stay on their own month or day, and the ones between them are spaced between them.
@@ -1750,6 +1763,9 @@ def place(scenes: list, years, months, keep=(), total=None, slot_of=None):
     from . import calendar as calm
     ys = concrete_years(years) or ["freshman"]
     ms = [m for m in YEAR_MONTHS if m in (months or SCHOOL_MONTHS)]
+    pinned = {_pinned_month(sc.get("when") or {}) for sc in scenes if sc["id"] in keep} - {None}
+    if pinned - set(ms):  # a summer storyline on a school-year line ("years: freshman", scenes in June-August): its summer
+        ms = [m for m in YEAR_MONTHS if m in set(ms) | pinned]  # is on the calendar too, so the scenes between stay in it
     days = []  # every day it could be, in order: (year, month, day)
     for y in ys:
         for mo in ms:

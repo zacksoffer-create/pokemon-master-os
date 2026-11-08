@@ -239,3 +239,31 @@ def test_a_paste_that_isnt_an_outline_says_what_one_looks_like_in_words():
     assert all(isinstance(e, str) for e in errs) and errs[0].startswith("There's no outline in that"), errs
     r = c.post("/api/texting/check", json={"text": "just words"})
     assert r.status_code == 422 and all(isinstance(e, str) for e in r.json()["errors"])
+
+
+def test_a_summer_storyline_on_a_school_year_line_keeps_its_unpinned_scenes_in_the_summer():
+    # "years: freshman" is the school year on its own; a storyline about the summer after it pins some scenes to June-August
+    # and leaves the rest blank. The blank ones follow the pinned ones into the summer, never back to September 1.
+    src = ("=== Summer at the Beach\ncast: mike = Mike Soffer\nyears: freshman\n\noutline:\n"
+           "1. School's Out | June | Summer starts.\n2. Unpacking | | Settling in.\n3. The Fourth | July 4th | Fireworks.\n"
+           "4. Lazy Day | | Nothing happens.\n5. Last Night | late August | Goodbye.\n")
+    src += "".join(f"\n--- {i}. {t}\nmike: {t}.\n* ok\n" for i, t in enumerate(["School's Out", "Unpacking", "The Fourth", "Lazy Day", "Last Night"], 1))
+    r = script.compile_script(src)
+    assert not r["errors"]
+    whens = {sc["title"]: sc.get("when") or {} for sc in r["packs"][0]["scenes"]} if isinstance(r["packs"][0]["scenes"], list) else None
+    if whens is None:
+        whens = {sc.get("title"): sc.get("when") or {} for sc in r["packs"][0]["dialogue_pack"]["moments"].values()}
+    assert whens["Unpacking"]["not_before"][:2] in ("06", "07") and whens["Lazy Day"]["not_before"][:2] in ("07", "08")
+    assert all(w.get("years") == ["freshman"] for w in whens.values())
+
+
+def test_a_crowded_last_day_plays_the_finale_first_and_a_closing_window_skips_the_breather():
+    def cand(sid, imp, deadline, due=True):
+        return {"sid": sid, "importance": imp, "deadline": deadline, "due": due, "kind": "chapter", "weight": 1, "waited": 0, "pack": "p"}
+    out = scheduler._order([cand("aaa_regular", "regular", 10), cand("zzz_finale", "major", 10), cand("bbb_ambient", "ambient", 10)], {}, 10)
+    assert [c["sid"] for c in out] == ["zzz_finale", "aaa_regular", "bbb_ambient"]
+    sim = _story()
+    sim.w.meta["scene_majors"] = [sim.w.day, sim.w.day]  # two big scenes this week already
+    prof = {"major_week": 1}
+    assert not scheduler._major_ok(sim, cand("x", "major", sim.w.day + 9, due=False), prof, {"scenes": {"x": {}}})
+    assert scheduler._major_ok(sim, cand("x", "major", sim.w.day + 1, due=False), prof, {"scenes": {"x": {}}})

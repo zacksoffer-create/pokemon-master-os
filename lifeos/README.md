@@ -613,6 +613,12 @@ Every storyline is planned on the game's own schedule, so ChatGPT can't put a sc
   calendar and sends the outline back with each scene on its real day or game; paste it in the same box and only the
   whens change (the scenes you have stay exactly as they are; Undo puts it back). A scene whose story can't fit comes
   back marked `doesn't fit: why`.
+- **Blank whens follow their neighbors, summer included.** An outline line with no when is spaced between the lines
+  around it. A summer storyline on a school-year line (`years: freshman`, with scenes pinned to June, July 4th, late
+  August) keeps its blank scenes in that summer too; they used to fall back to September 1 and play months early.
+- **The last day of a season is crowded.** When several storylines all close on the same day (August 31), the big
+  scenes go first (a storyline's finale isn't the one that gets dropped), and a big scene whose window closes within two
+  days skips the "one big turn a week" breather.
 
 ## Summer at Watch Hill
 
