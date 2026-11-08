@@ -66,8 +66,9 @@ class Simulation:
         teams.upgrade(self)  # boys' and girls' teams, soccer and softball, for saves made before them
         from . import summer
         summer.upgrade(self)  # (summer days have a morning now)
-        from .editor import staff_from_titles
+        from .editor import staff_from_titles, staff_out_of_student_life
         staff_from_titles(self)  # ("Mr. Reyes" made as a freshman in an old save: he's a teacher)
+        staff_out_of_student_life(world)  # (and teachers aren't at your lunch table or in your friend group)
         from . import postseason
         postseason.upgrade_teams(world, self.cat.world["groups"])  # CIAC seasons and tournaments, from the next school year
         scheduler.migrate(self)  # the story scheduler: what already played counts as resolved

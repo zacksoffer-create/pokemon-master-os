@@ -97,6 +97,13 @@ def test_a_storyline_teacher_is_staff_not_a_freshman():
     assert kid.role == "staff" and kid.name == "Ms. Chen" and kid.grade is None and kid.gender == "f"
     assert kid.id not in w.groups["softball"]["members"] and not kid.memberships
     assert kid.id not in {s["id"] for c in yearbook.build(sim)["classes"] for s in c["students"]}
+    # and a teacher left at your lunch table or in your friend group by an old save is taken out
+    from lifeos import lunch
+    st = lunch.store(w)
+    st["tables"]["t1"] = {"name": "the Pitch", "members": [me.id, kid.id]}
+    w.meta["squad"] = {"ids": [kid.id, "x"], "updated": 5}
+    assert editor.staff_out_of_student_life(w) >= 2
+    assert st["tables"]["t1"]["members"] == [me.id] and kid.id not in w.meta["squad"]["ids"] and w.meta["squad"]["updated"] == -99
 
 
 def test_watch_hill_doesnt_empty_the_school():

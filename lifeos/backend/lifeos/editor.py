@@ -582,6 +582,36 @@ def staff_from_titles(sim) -> list:
     return fixed
 
 
+def staff_out_of_student_life(w) -> int:
+    """Teachers and coaches don't sit at your lunch table, run with your friend group or belong to a crowd. Cheap, safe
+    to run every time a save opens. Returns how many places someone was taken out of."""
+    staff = {c.id for c in w.chars.values() if c.role == "staff"}
+    n = 0
+    st = w.meta.get("lunch") or {}
+    for t in (st.get("tables") or {}).values():
+        keep = [m for m in t.get("members") or [] if m not in staff]
+        n += len(t.get("members") or []) - len(keep)
+        t["members"] = keep
+    for m in list((st.get("home") or {})):
+        if m in staff:
+            st["home"].pop(m)
+    sq = w.meta.get("squad") or {}
+    if any(i in staff for i in sq.get("ids") or []):
+        n += sum(1 for i in sq["ids"] if i in staff)
+        sq["ids"] = [i for i in sq["ids"] if i not in staff]
+        sq["updated"] = -99  # (the group re-forms from your real friends)
+    for q in w.cliques.values():
+        keep = [m for m in q.get("members") or [] if m not in staff]
+        n += len(q.get("members") or []) - len(keep)
+        q["members"] = keep
+    for g in w.groups.values():
+        if g.get("kind") in ("team", "club", "production", "council"):
+            keep = [m for m in g.get("members") or [] if m not in staff]
+            n += len(g.get("members") or []) - len(keep)
+            g["members"] = keep
+    return n
+
+
 def make_person(sim, spec: dict, extra: dict | None = None):
     """Make someone from a builder spec, then what comes with it (extra): {"rel_with": [[id, kind]], "team": group id}."""
     from .engine import EditError
