@@ -279,11 +279,50 @@ export type YearbookPage = {
   moments: { date: string; text: string }[]; missed?: number;
 };
 
+export type YbMini = SceneMini;
+export type YbSuper = { key: string; label: string; winner: YbMini; partner?: YbMini; runners: YbMini[]; you: number | null; yours: boolean;
+  capped?: boolean; pair?: boolean };
+export type YbStudent = YbMini & { line: string; me: boolean; badge: string | null; quote?: string; next?: string | null };
+export type YbTeam = {
+  id: string; name: string; sport: string; record: string; post: string | null; hand: string | null; live: boolean; coach: string | null;
+  captains: YbMini[]; leaders: { who: YbMini; line: string; games: number }[]; awards: { who: YbMini; label: string }[];
+  roster: YbMini[]; jv: number; you: boolean; you_line: string | null;
+  games: { date: string; opp: string; score: string; win: boolean; round: string | null; rival: boolean; you: boolean }[];
+};
+export type YbClub = { id: string; name: string; kind: string; note: string; advisor: string | null; leaders: YbMini[]; members: YbMini[];
+  count: number; you: boolean; highlights: string[] };
+export type YearbookVolume = {
+  year: number; title: string; label: string; school: string; live: boolean; as_of: string; students: number;
+  you: YbMini & {
+    rank: number | null; of: number; best_rank: number | null; grade_rank: number | null; grade_of: number; gpa: number;
+    teams: { team: string; level: string; record: string; games: number; line: string; sport: string }[]; games: number; wins: number;
+    awards: { label: string; count: number }[]; friends: number; new_friends: YbMini[]; partner: YbMini | null; scenes: number;
+    dates: { dance: string; with: YbMini }[]; won: string[]; close: { label: string; you: number }[];
+    history: { date: string; rank: number; of: number }[]; known_for: string;
+  };
+  superlatives: YbSuper[];
+  classes: { grade: number; label: string; count: number; students: YbStudent[]; superlatives: YbSuper[] }[];
+  sports: YbTeam[]; clubs: YbClub[];
+  life: {
+    court: { king?: YbMini; queen?: YbMini; king_court?: YbMini[]; queen_court?: YbMini[] }; court_class: string;
+    dances: { name: string; couples: number; you_with: YbMini | null; pairs: [YbMini, YbMini][] }[];
+    couples: [YbMini, YbMini][]; parties: number; you_went: number; host: { who: YbMini; count: number } | null;
+    biggest: { who: YbMini; n: number; date: string } | null; crowds: { name: string; count: number; members: YbMini[]; you: boolean }[];
+    talked_about: { who: YbMini; count: number }[];
+  };
+  timeline: { month: string; items: { date: string; text: string }[]; story: { name: string; scenes: number }[]; scenes: number }[];
+  honors: { high: (YbMini & { gpa: number })[]; honors: (YbMini & { gpa: number })[]; athletic: { who: YbMini; label: string }[];
+    offers: { who: YbMini; text: string }[]; commitments: { who: YbMini; where: string }[] };
+  signatures: { from: YbMini; kind: string; style: number; text: string }[];
+};
+export type YearbookView = { volumes: { year: number; title: string; label?: string; live: boolean }[]; volume: YearbookVolume | Record<string, never>;
+  recaps: YearbookPage[] };
+
 export const phoneApi = {
   lunchTable: (table: string | null): Promise<Cafeteria> => api.post("/api/phone/lunch/table", { table }),
   people: (): Promise<{ rows: PersonRow[]; of: number; groups: string[] }> => api.get("/api/phone/people"),
   person: (id: string): Promise<PersonProfile> => api.get(`/api/phone/people/${encodeURIComponent(id)}`),
-  yearbook: (): Promise<{ now: YearbookPage | null; past: YearbookPage[] }> => api.get("/api/phone/yearbook"),
+  yearbook: (year?: number): Promise<YearbookView> => api.get(`/api/phone/yearbook${year !== undefined ? `?year=${year}` : ""}`),
   seasonBreak: (): Promise<{ ok: boolean; report: SeasonReport | null }> => api.post("/api/phone/season/break", {}),
   seasonSeen: () => api.post("/api/phone/season/seen", {}),
   state: (since?: number): Promise<PhoneState> => api.get(`/api/phone/state${since !== undefined ? `?since=${since}` : ""}`),

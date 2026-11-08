@@ -1,8 +1,8 @@
 // The Scene tab's People and Yearbook: the world in numbers. People is everyone at your school, sortable and filterable
 // by the numbers (rank, how they feel about you, their best sport's rating, GPA), with each person's full card a tap
-// away (and Edit from there). The Yearbook is this season so far and every finished season's page.
+// away (and Edit from there). The Yearbook is in Yearbook.tsx.
 import React, { useEffect, useMemo, useState } from "react";
-import { PersonProfile, PersonRow, phoneApi, pgo, RelNums, SceneMini, YearbookPage } from "./api";
+import { PersonProfile, PersonRow, phoneApi, pgo, RelNums, SceneMini } from "./api";
 import { Portrait } from "./art";
 import { cx, errText, Sheet } from "./kit";
 
@@ -130,7 +130,7 @@ export function PersonSheet({ id, onClose, onOpen }: { id: string | null; onClos
               <div className="pp-topnums">
                 <span><b>#{p.rank ?? "–"}</b><small>rank</small></span>
                 <span><b>{p.pop}</b><small>popularity</small></span>
-                <span><b>{p.gpa.toFixed(2)}</b><small>GPA</small></span>
+                {p.gpa != null && <span><b>{p.gpa.toFixed(2)}</b><small>GPA</small></span>}
                 {p.rating != null && <span><b>{p.rating}</b><small>{p.sport}</small></span>}
               </div>
             </div>
@@ -147,7 +147,7 @@ export function PersonSheet({ id, onClose, onOpen }: { id: string | null; onClos
           {(p.teams.length > 0 || p.season.length > 0) && (
             <div className="pp-sec">
               <div className="pp-h">Teams</div>
-              {p.teams.map((t) => <div key={t.group} className="pp-line"><b>{t.team}{t.level === "jv" ? " JV" : ""}</b><small>{[t.pos, p.jersey ? `#${p.jersey}` : null].filter(Boolean).join(" · ")}</small></div>)}
+              {(p.teams || []).map((t) => <div key={t.group} className="pp-line"><b>{t.team}{t.level === "jv" ? " JV" : ""}</b><small>{[t.pos, p.jersey ? `#${p.jersey}` : null].filter(Boolean).join(" · ")}</small></div>)}
               {p.season.map((s) => <div key={s.team + s.level} className="pp-line"><span>{s.team}{s.level === "jv" ? " JV" : ""} this season: {s.record}, {s.games} games</span><small>{s.line}</small></div>)}
             </div>
           )}
@@ -187,66 +187,3 @@ function PersonLink({ p, note, onOpen }: { p: SceneMini; note: string; onOpen?: 
   );
 }
 
-export function YearbookScreen() {
-  const [d, setD] = useState<{ now: YearbookPage | null; past: YearbookPage[] } | null>(null);
-  const [err, setErr] = useState<string | null>(null);
-  const [open, setOpen] = useState<string | null>(null);
-  useEffect(() => {
-    phoneApi.yearbook().then(setD).catch((e) => setErr(errText(e)));
-  }, []);
-  if (err) return <p className="ph-dim pp-pad">{err}</p>;
-  if (!d) return <div className="ph-dim pp-pad"><span className="ph-spinner small" /> Opening the yearbook…</div>;
-  return (
-    <div className="pp yb">
-      {d.now && <Page p={d.now} live onOpen={setOpen} />}
-      {d.past.length > 0 && <div className="yb-past-h">Past seasons</div>}
-      {d.past.map((p) => <Page key={p.id} p={p} onOpen={setOpen} />)}
-      {d.past.length === 0 && <p className="ph-dim small pp-pad">Each season's page is kept here when it ends (May 31 and August 31).</p>}
-      <PersonSheet id={open} onClose={() => setOpen(null)} onOpen={setOpen} />
-    </div>
-  );
-}
-
-function Page({ p, live, onOpen }: { p: YearbookPage; live?: boolean; onOpen: (id: string) => void }) {
-  return (
-    <section className="yb-page">
-      <div className="yb-kicker">{live ? "This season, so far" : "The yearbook"}</div>
-      <h2>{p.label}</h2>
-      {p.you?.rank && <p className="yb-you">{live ? "You're" : "You were"} <b>#{p.you.rank}</b> of {p.you.of} at school{live ? " right now" : ""}.</p>}
-      {p.superlatives && p.superlatives.length > 0 && (
-        <div className="yb-sup">
-          {p.superlatives.map((s) => (
-            <button key={s.label} className="yb-sup-c" onClick={() => s.winner_id && onOpen(s.winner_id)}>
-              <small>{s.label}</small>
-              <b>{s.winner}{s.partner ? ` & ${s.partner.split(" ")[0]}` : ""}</b>
-              {s.you && s.you > 1 ? <i>you: #{s.you}</i> : s.you === 1 ? <i className="win">that's you</i> : null}
-            </button>
-          ))}
-        </div>
-      )}
-      {p.top && p.top.length > 0 && (
-        <div className="yb-top">
-          <div className="pp-h">The top ten</div>
-          {p.top.map((t) => (
-            <button key={t.id} className="yb-top-r" onClick={() => onOpen(t.id)}>
-              <span className="yb-n">{t.rank}</span><Face p={t} size={28} /><b>{t.name}</b><small>{t.year} · {t.pop}</small>
-            </button>
-          ))}
-        </div>
-      )}
-      {p.teams.length > 0 && (
-        <div className="pp-sec">
-          <div className="pp-h">Your teams</div>
-          {p.teams.map((t) => <div key={t.team + t.level} className="pp-line"><b>{t.team}{t.level === "jv" ? " JV" : ""} · {t.record}</b><small>{t.line}</small></div>)}
-        </div>
-      )}
-      {p.moments.length > 0 && (
-        <div className="pp-sec">
-          <div className="pp-h">The big moments</div>
-          {p.moments.slice(-6).map((m, i) => <p key={i} className="yb-m"><small>{m.date}</small>{m.text}</p>)}
-        </div>
-      )}
-      <p className="ph-dim small">{p.played} storyline scene{p.played === 1 ? "" : "s"}{live ? " so far" : ""}.</p>
-    </section>
-  );
-}

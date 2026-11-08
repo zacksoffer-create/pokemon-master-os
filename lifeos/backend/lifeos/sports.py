@@ -639,6 +639,10 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
                                           "box": box, "starters": starters, "fans": len(fans)})
     ev["text"] = f"{label} {'beat' if win else 'lost to'} {'rival ' if rivalry else ''}{oname}, {score}." + (f" {play_text}." if play_text else "")
     ev["data"]["rivalry"] = rivalry
+    if it.get("stage"):  # (a tournament game: which one, for the yearbook and the Sports tab)
+        ev["data"]["round"] = f"{it.get('stage_name') or ''} {it.get('round_name') or ''}".strip()
+    if it.get("event") == "thanksgiving":
+        ev["data"]["thanksgiving"] = True
     if play_text:
         ev["data"]["play"] = play_text
         ev["data"]["play_tier"] = play["tier"]

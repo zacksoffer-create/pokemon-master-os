@@ -388,8 +388,42 @@ The world in numbers, next to the Ladder, the Crowd and the Talk:
   and this season's record and line; skills, personality and talents as bars; what they're into and known for; their
   people (who they're dating, their crush, their closest friends: tap through); rumors about them you've heard; and
   **Edit** to change any of it.
-- **Yearbook**: this season so far (the superlatives with where you'd place, the top ten, your rank, your teams'
-  records and lines, the big moments), and a page for every season that's ended, kept by its season break.
+- **Yearbook**: a book for every school year (`backend/lifeos/yearbook.py`, `frontend/src/phone/Yearbook.tsx`), like
+  the real one: a cover ("The Grizzly 2011", your year, still being written or closed) and chapters you flip through.
+  Anyone's face or name opens their card.
+  - **You**: where you ranked at school and in your class (and your best week), GPA, friends (and the new ones), games
+    and wins, scenes played, your year on the ladder, the superlatives you won and the ones you just missed ("2nd for
+    Biggest Brain"), your seasons and lines, your awards, who you took to each dance.
+  - **Superlatives**: sixteen for the whole school (Most Popular, Best Athlete, Biggest Brain, Most Likely to Succeed,
+    Life of the Party, Nicest Person, Natural Leader, Most Likely to Be Famous, Most Creative, Biggest Flirt, Most
+    Competitive, Most Loyal Friend, Most School Spirit, Class Clown, Drama Magnet, Always Asking Why), picked from
+    personality, reputation, talents, grades and who's into whom. Nobody takes more than two, like a real ballot (if
+    you were first but already had two, it says so). Then the pairs (Cutest Couple, Best Friends, Fiercest Rivals) and
+    each class's own five.
+  - **Classes**: Seniors, Juniors, Sophomores, Freshmen: everyone's portrait, what they're known for (teams, clubs,
+    reputation) and any superlative they won. Seniors get a senior quote (from their strongest trait) and where they're
+    headed. This year's graduates stay on the senior pages after graduation day.
+  - **Sports**: a page per team: record, tournament run, the Hand game ("Beat Hand 28-14 on Thanksgiving"), coach,
+    captains, your line, the three leaders, the awards, the scoreboard (every varsity game, rivals and tournament rounds
+    marked) and the varsity roster.
+  - **Clubs**: the council (who got elected), each play and musical with its cast and lead, every club, where people
+    worked.
+  - **Student life**: the homecoming king and queen (the seniors' most popular) and their court, each dance and who went
+    with who (you first), who's together, the parties (how many, how many you went to, who threw the most, the biggest),
+    the crowds, and the most talked-about.
+  - **The year**: month by month, the moments that mattered (yours and your people's first: making varsity, captains,
+    awards, the Hand games, tournament games, getting together, dances, elections, the leads in the play, injuries,
+    falling out, graduation, offers), at most two of any one kind a month, and the storylines that played that month.
+  - **Honors**: high honors (3.70+) and honor roll, athletic honors, college offers, where the seniors are going.
+  - **Signatures**: the back pages, in handwriting: up to twelve people close to you sign your book (family, whoever
+    you're dating, best friends, teammates, someone with a crush on you, a graduating senior, your rival) and a teacher
+    or two who likes you. Nobody writes the same line twice.
+  - **Season recaps**: the season-break summary pages.
+  This year's book is live. On September 1, before anyone moves up a grade, last year's book is kept as it was, so you
+  can flip back to any year (the chips above the cover).
+- **Teachers aren't freshmen.** A storyline person with a title ("Mr. Reyes", "Coach Dunn", "Ms. Chen") is made a
+  teacher at the school when you create them in Roles, not a 9th grader named Mr. Old saves are fixed when they open:
+  anyone made that way is moved to the staff, off the rosters and out of the grade.
 
 ## The Yankees page (Sports → Pros → MLB)
 
@@ -558,6 +592,8 @@ team is still playing in June), and comes home the day before school starts (`ba
 - **Afternoons and nights**: the beach, ice cream and the carousel on Bay Street, the walk to Napatree Point, the boat,
   a bonfire, the sunset from the rocks (under Out), or whoever wants to hang out. The crew's plans happen there too
   (the beach, Bay Street, movie night at the house). No studying, no teams, no job.
+- **The Scene tab still counts the whole school** while you're at Watch Hill: the ladder, People and the yearbook
+  rank you against everyone at Guilford, not just whoever's at the beach.
 
 ## Seasons: the School Year and the Summer
 

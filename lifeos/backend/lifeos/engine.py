@@ -66,6 +66,8 @@ class Simulation:
         teams.upgrade(self)  # boys' and girls' teams, soccer and softball, for saves made before them
         from . import summer
         summer.upgrade(self)  # (summer days have a morning now)
+        from .editor import staff_from_titles
+        staff_from_titles(self)  # ("Mr. Reyes" made as a freshman in an old save: he's a teacher)
         from . import postseason
         postseason.upgrade_teams(world, self.cat.world["groups"])  # CIAC seasons and tournaments, from the next school year
         scheduler.migrate(self)  # the story scheduler: what already played counts as resolved
@@ -168,6 +170,9 @@ class Simulation:
         w = self.w
         cal = self.cat.world["calendar"]
         if w.day > 0 and calm.date_of(w.day).month == 9 and calm.date_of(w.day).day == 1:
+            if w.meta.get("protagonist") and not getattr(self, "_light", False):
+                from . import yearbook
+                yearbook.freeze(self, calm.school_year_of(w.day - 1))  # last year's book, before the seniors graduate
             self.institutions.new_year()
             self._refresh_day()
         if w.meta.get("protagonist"):

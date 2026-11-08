@@ -277,12 +277,14 @@ def phone_person(cid: str):
 
 
 @router.get("/api/phone/yearbook")
-def phone_yearbook():
-    """This season so far, and every finished season's page."""
-    from . import people
+def phone_yearbook(year: int | None = None):
+    """The yearbook: this school year's book (live), or a finished one (year), the books there are, and the season recaps."""
+    from . import people, yearbook
     A, L = _lab()
     with L.lock:
-        return people.yearbook(L.sim)
+        out = yearbook.view(L.sim, year)
+        out["recaps"] = people.yearbook(L.sim)["past"]
+        return out
 
 
 @router.post("/api/phone/season/break")

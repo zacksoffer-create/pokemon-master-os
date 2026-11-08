@@ -41,10 +41,16 @@ def _mini(w, cid) -> dict:
     return {"id": cid, "name": c.name, "first": c.first, "color": c.color, "look": look_of(c), "year": c.year_label}
 
 
+def _home(c) -> str:
+    """Where someone lives (at Watch Hill for the summer, it's still Guilford)."""
+    return c.flags.get("summer_home") or c.location
+
+
 def students(sim, me) -> list:
     w = sim.w
+    here = _home(me)
     return [c for c in w.chars.values() if c.role == "student" and c.status == "active" and c.school == me.school
-            and c.location == me.location]
+            and _home(c) == here]
 
 
 def _friend(w, a, b) -> bool:

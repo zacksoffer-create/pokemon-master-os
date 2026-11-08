@@ -80,7 +80,10 @@ def profile(sim, cid: str) -> dict:
     c = w.chars.get(cid)
     if c is None or me is None:
         raise KeyError(cid)
-    d = next((r for r in directory(sim)["rows"] if r["id"] == cid), None) or {**scene._mini(w, cid), "grade": c.grade}
+    d = next((r for r in directory(sim)["rows"] if r["id"] == cid), None) or {  # (a graduate, someone at Watch Hill, a teacher)
+        **scene._mini(w, cid), "grade": c.grade, "rank": None, "pop": round(c.popularity), "gpa": round(c.gpa, 2), "group": None,
+        "sport": None, "rating": None, "likes_you": None, "you_like": None, "tags": [], "me": cid == me.id, "gender": c.gender,
+        "teams": []}
     r2 = lambda m: {k: round(v) for k, v in sorted((m or {}).items(), key=lambda kv: -kv[1])}  # noqa: E731
     thr = w.rules["rel.friend_threshold"]
     people = sorted(((o, r.affection) for (a, o), r in w.rels.items() if a == cid and o in w.chars and o != me.id

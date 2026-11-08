@@ -7,7 +7,8 @@ import { Portrait } from "./art";
 import { cx, errText, Lines, Sheet, StatChips } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { SceneScreen } from "./Scene";
-import { PeopleScreen, YearbookScreen } from "./People";
+import { PeopleScreen } from "./People";
+import { YearbookScreen } from "./Yearbook";
 
 const SECTIONS = [["ladder", "Ladder"], ["people", "People"], ["crowd", "Crowd"], ["talk", "Talk"], ["yearbook", "Yearbook"]] as const;
 const SCOPES: [string, string][] = [["school", "Whole school"], ["grade", "My grade"], ["9", "Fr"], ["10", "So"], ["11", "Jr"], ["12", "Sr"]];

@@ -508,11 +508,91 @@ def create_person(sim, body: dict) -> dict:
     return {"id": c.id, "name": c.name}
 
 
+TITLE_RX = re.compile(r"^(mr|ms|mrs|miss|mx|dr|coach|principal|doc)\.?$", re.I)
+TITLE_GENDER = {"mr": "m", "ms": "f", "mrs": "f", "miss": "f"}
+
+
+def _title(first: str) -> str:
+    t = first.rstrip(".").lower()
+    return {"mr": "Mr.", "ms": "Ms.", "mrs": "Mrs.", "miss": "Miss", "mx": "Mx.", "dr": "Dr.", "doc": "Dr.", "coach": "Coach",
+            "principal": "Principal"}.get(t, first)
+
+
+def _staff_first(sim, gender, rng) -> str:
+    names = sim.cat.people["names"]
+    pool = names["female" if gender == "f" else "male"]
+    used = {c.first for c in sim.w.chars.values()}
+    return next((n for n in rng.sample(pool, len(pool)) if n not in used), rng.choice(pool))
+
+
+def _named_staff(sim, me, first, last, slot, rng) -> dict:
+    """A storyline person with a title ("Mr. Reyes", "Coach Dunn"): a grown-up at the school, picked for it."""
+    from . import dialogue, groundwork
+    w = sim.w
+    t = _title(first)
+    gender = TITLE_GENDER.get(t.rstrip(".").lower()) or rng.choice(["f", "m"])
+    spec = {"role": "staff", "title": t, "first": _staff_first(sim, gender, rng), "last": last.strip(), "gender": gender,
+            "role_label": "Coach" if t == "Coach" else "Principal" if t == "Principal" else "Teacher"}
+    c = make_person(sim, spec)
+    groundwork.note_added(w, c.id, spec, {"slot": slot} if slot else {})
+    if slot:
+        dialogue.bind(sim, me, slot, c.id, by="you")
+        groundwork.note_slot(w, slot, c.id)
+    return {"id": c.id, "name": c.name, "fits": True}
+
+
+def staff_from_titles(sim) -> list:
+    """Saves made before that: anyone made as a student with a title for a first name ("Mr. Reyes", a freshman) is the
+    grown-up they were meant to be. Off the rosters and the class lists, out of the grade. Returns their ids."""
+    import random
+    w = sim.w
+    if w.meta.get("titled_staff_v"):
+        return []
+    w.meta["titled_staff_v"] = 1
+    fixed = []
+    for c in sorted(w.chars.values(), key=lambda c: c.id):
+        if c.role != "student" or not TITLE_RX.match(c.first or "") or not c.last or c.id == w.meta.get("protagonist"):
+            continue
+        rng = random.Random(f"{w.gen_seed}:titled:{c.id}")
+        t = _title(c.first)
+        c.gender = TITLE_GENDER.get(t.rstrip(".").lower()) or c.gender
+        c.title, c.role, c.grade, c.archetype = t, "staff", None, "staff"
+        c.role_label = "Coach" if t == "Coach" else "Principal" if t == "Principal" else "Teacher"
+        c.first = _staff_first(sim, c.gender, rng)
+        c.birth_day = min(c.birth_day, -int(rng.uniform(28, 60) * 365.25))
+        for g in w.groups.values():
+            if c.id in (g.get("members") or []):
+                g["members"].remove(c.id)
+            (g.get("levels") or {}).pop(c.id, None)
+            if c.id in (g.get("leaders") or []):
+                g["leaders"].remove(c.id)
+        c.memberships = []
+        h = w.households.get(c.household_id or "")
+        if h and c.id in (h.get("members") or []):
+            h["members"].remove(c.id)
+        c.household_id = None
+        c.flags.pop("partner", None)
+        for o in w.chars.values():
+            if o.flags.get("partner") == c.id:
+                o.flags.pop("partner", None)
+        for q in w.cliques.values():
+            if c.id in (q.get("members") or []):
+                q["members"].remove(c.id)
+        fixed.append(c.id)
+    return fixed
+
+
 def make_person(sim, spec: dict, extra: dict | None = None):
     """Make someone from a builder spec, then what comes with it (extra): {"rel_with": [[id, kind]], "team": group id}."""
     from .engine import EditError
     from .story import apply_relationship
     w = sim.w
+    if spec.get("role") == "staff":  # (a teacher or a coach a storyline named)
+        import random
+        from .story import build_staff
+        c = build_staff(w, random.Random(f"{w.gen_seed}:{spec.get('last')}:{len(w.chars)}"), dict(spec))
+        c.title = spec.get("title") or c.title
+        return c
     try:
         c = sim.create_custom(dict(spec))
     except EditError as e:
@@ -605,6 +685,8 @@ def create_fit(sim, sp: dict, slot: str | None = None, role: str | None = None) 
     elif who == "named":
         name = str(sp.get("name") or (slot or "someone").replace("_", " ").title())
         first, _, last = name.partition(" ")
+        if TITLE_RX.match(first) and last:  # ("Mr. Reyes": a teacher, not a freshman named Mr.)
+            return _named_staff(sim, me, first, last, slot, rng)
         spec.update({"first": first, "last": last})
     elif who in SLOT_TO_ME:
         spec["relationships"] = [{"to": "me", "type": SLOT_TO_ME[who]}]
