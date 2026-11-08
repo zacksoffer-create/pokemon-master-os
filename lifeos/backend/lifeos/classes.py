@@ -58,6 +58,26 @@ def _teacher(sim, cls_id, key, taken=None) -> str:
     return f"{title} {names[i]}"
 
 
+def real_teacher(w, class_name: str) -> str | None:
+    """The teacher a roster sheet gave this class (w.meta["teachers"]: class name -> person), by name."""
+    cid = (w.meta.get("teachers") or {}).get(class_name)
+    c = w.chars.get(cid) if cid else None
+    return c.name if c is not None and c.status == "active" else None
+
+
+def retag(sim) -> int:
+    """After a sheet names teachers: the schedules already made this year say so too."""
+    w = sim.w
+    n = 0
+    for rows in store(w)["sched"].values():
+        for x in rows:
+            t = real_teacher(w, x.get("name"))
+            if t and x.get("teacher") != t:
+                x["teacher"] = t
+                n += 1
+    return n
+
+
 def schedule(sim, c) -> list:
     """This school year's classes (made once a year, then kept)."""
     w = sim.w
@@ -75,13 +95,13 @@ def schedule(sim, c) -> list:
         spec = r["hon"] if honors else r["std"]
         cid = f"{r['slot']}"
         out.append({"id": cid, "name": spec[0], "subject": spec[1], "math": spec[2] if len(spec) > 2 else None,
-                    "teacher": _teacher(sim, cid, key, taken), "honors": honors and r["hon"] != r["std"]})
+                    "teacher": real_teacher(w, spec[0]) or _teacher(sim, cid, key, taken), "honors": honors and r["hon"] != r["std"]})
     if grade <= 12:
         picks = [e for e in d["electives"] if e["if"] and max(c.skills.get(e["if"], 0), c.interests.get(e["if"], 0)) >= 40]
         picks.sort(key=lambda e: -max(c.skills.get(e["if"], 0), c.interests.get(e["if"], 0)))
         e = picks[0] if picks else next(e for e in d["electives"] if e["if"] is None)
         out.append({"id": "elective", "name": e["class"][0], "subject": e["class"][1], "math": None,
-                    "teacher": _teacher(sim, "elective", key, taken), "honors": False})
+                    "teacher": real_teacher(w, e["class"][0]) or _teacher(sim, "elective", key, taken), "honors": False})
     st["sched"][key] = out
     keep = sorted(st["sched"])[-8:]
     st["sched"] = {k: st["sched"][k] for k in keep}

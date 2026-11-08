@@ -1,6 +1,6 @@
 // Story Studio: the groundwork for your stories in one place. People (who everyone is, adding someone), Storylines (write
-// more, paste, every storyline) and Roles (what your storylines need from your world, and who fills it). Texting has its
-// own page.
+// more, paste, every storyline), Roles (what your storylines need from your world, and who fills it) and Rosters (your real
+// teams, coaches and teachers, from a ChatGPT roster sheet). Texting has its own page.
 import React, { useEffect, useState } from "react";
 import { phoneApi, pgo } from "./api";
 import DialogueCard from "./DialogueCard";
@@ -8,10 +8,11 @@ import { EditorPeople } from "./Editor";
 import { PIcon } from "./icons";
 import { cx, Sheet } from "./kit";
 import { RolesBody } from "./Roles";
+import { RostersBody } from "./Rosters";
 import StartOver from "./StartOver";
 import "./create.css";
 
-const TABS: [string, string][] = [["people", "People"], ["storylines", "Storylines"], ["roles", "Roles"]];
+const TABS: [string, string][] = [["people", "People"], ["storylines", "Storylines"], ["roles", "Roles"], ["rosters", "Rosters"]];
 
 export default function Studio({ route }: { route: string[] }) {
   const tab = TABS.some(([k]) => k === route[0]) ? route[0] : "storylines";
@@ -38,6 +39,7 @@ export default function Studio({ route }: { route: string[] }) {
         {tab === "people" && <div className="ed-body"><EditorPeople /></div>}
         {tab === "storylines" && <div className="ed-body"><DialogueCard /></div>}
         {tab === "roles" && <RolesBody onOpen={setOpen} />}
+        {tab === "rosters" && <RostersBody />}
       </div>
       <div className="st-foot">
         <button className="ph-link" onClick={() => setRestart(true)}>Ready to replay? Start over keeps all of this</button>

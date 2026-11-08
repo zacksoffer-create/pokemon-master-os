@@ -1813,3 +1813,33 @@ html.ph-docscroll body { overflow-x: hidden; }
 .pro-roster { display: flex; flex-direction: column; gap: 10px; }
 .pro-roster > small { margin-top: 4px; font-weight: 700; }
 .ph-root .pro-note { display: block; margin: 4px 4px 10px; font-size: 12px; }
+
+/* Story Studio → Rosters: real teams, coaches and teachers from a roster sheet */
+.ros { display: flex; flex-direction: column; gap: 10px; }
+.ros-intro { margin: 2px 0 4px; line-height: 1.4; }
+.ros-check { display: flex; flex-direction: column; gap: 10px; background: #fff; border-radius: 16px; padding: 12px; box-shadow: var(--ph-shadow); }
+.ros-sum { margin: 0; font-size: 13.5px; color: var(--ph-ink-2); }
+.ros-sum b.bad { color: #b4381f; }
+.ros-sec { display: flex; flex-direction: column; gap: 6px; }
+.ros-row { display: grid; grid-template-columns: 86px 1fr; gap: 8px; align-items: start; padding: 4px 0; }
+.ros-row + .ros-row { border-top: 1px solid var(--ph-line); padding-top: 7px; }
+.ros-st { font-style: normal; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 6px; border-radius: 7px;
+  text-align: center; background: #eef6f1; color: #1d6b48; }
+.ros-row.new .ros-st { background: #ece7f8; color: var(--ph-grape); }
+.ros-row.rename .ros-st { background: #fff1c9; color: #7a5100; }
+.ros-row.skip .ros-st { background: #fff0ec; color: #b4381f; }
+.ros-row.rule .ros-st { background: #e4efff; color: #1f4f99; }
+.ros-row span { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.ros-row b { font-size: 14px; }
+.ros-row em { font-style: normal; color: var(--ph-dim); font-weight: 700; font-size: 12px; }
+.ros-row small { color: var(--ph-ink-2); font-weight: 600; font-size: 12.5px; }
+.ros-row small.ros-m { color: var(--ph-dim); }
+.ros-row small.ros-w { color: #b4381f; }
+.ros-done { display: flex; flex-direction: column; gap: 3px; max-height: 300px; overflow: auto; }
+.ros-done small { font-size: 12.5px; color: var(--ph-ink-2); font-weight: 600; }
+.ros-now { margin-top: 8px; background: #fff; border-radius: 16px; padding: 12px; box-shadow: var(--ph-shadow); display: flex; flex-direction: column; gap: 6px; }
+.ros-team { display: flex; flex-direction: column; gap: 1px; padding: 3px 0; }
+.ros-team b { font-size: 14px; }
+.ros-team small { color: var(--ph-dim); font-weight: 700; font-size: 12px; }
+.ros-team small.ros-set { color: #1d6b48; }
+.ros-h2 { margin-top: 8px; }

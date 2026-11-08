@@ -318,10 +318,22 @@ export type YearbookVolume = {
 export type YearbookView = { volumes: { year: number; title: string; label?: string; live: boolean }[]; volume: YearbookVolume | Record<string, never>;
   recaps: YearbookPage[] };
 
+export type RosterRow = { section: string; kind: string; name: string; status: "found" | "new" | "rename" | "skip" | "rule"; says: string;
+  line: number; warn: string | null; matched: string | null };
+export type RosterCheck = { rows: RosterRow[]; notes: string[]; counts: { found: number; new: number; rename: number; skip: number } };
+export type RosterOverview = {
+  year: string; teams: { id: string; name: string; coach: string | null; assistants: string[]; set: number; only: boolean; years: number[] }[];
+  teachers: { name: string; classes: string[] }[]; sheets: { day: number; date: string; lines: number }[];
+};
+
 export const phoneApi = {
   lunchTable: (table: string | null): Promise<Cafeteria> => api.post("/api/phone/lunch/table", { table }),
   people: (): Promise<{ rows: PersonRow[]; of: number; groups: string[] }> => api.get("/api/phone/people"),
   person: (id: string): Promise<PersonProfile> => api.get(`/api/phone/people/${encodeURIComponent(id)}`),
+  rosters: (): Promise<RosterOverview> => api.get("/api/phone/rosters"),
+  rostersPrompt: (ask: string): Promise<{ prompt: string }> => api.get(`/api/phone/rosters/prompt?ask=${encodeURIComponent(ask)}`),
+  rostersCheck: (text: string): Promise<RosterCheck> => api.post("/api/phone/rosters/check", { text }),
+  rostersApply: (text: string): Promise<{ done: string[]; skipped: string[]; notes: string[] }> => api.post("/api/phone/rosters/apply", { text }),
   yearbook: (year?: number): Promise<YearbookView> => api.get(`/api/phone/yearbook${year !== undefined ? `?year=${year}` : ""}`),
   seasonBreak: (): Promise<{ ok: boolean; report: SeasonReport | null }> => api.post("/api/phone/season/break", {}),
   seasonSeen: () => api.post("/api/phone/season/seen", {}),

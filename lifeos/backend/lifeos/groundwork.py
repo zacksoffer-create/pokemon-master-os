@@ -32,7 +32,7 @@ _replaying = False
 
 def get(w) -> dict:
     g = w.meta.setdefault("groundwork", {})
-    for k, v in (("people", {}), ("added", []), ("pairs", {}), ("slots", {}), ("picks", {})):
+    for k, v in (("people", {}), ("added", []), ("pairs", {}), ("slots", {}), ("picks", {}), ("sheets", [])):
         g.setdefault(k, v)
     return g
 
@@ -241,6 +241,11 @@ def apply(sim, g: dict) -> dict:
                     done += 1
     finally:
         _replaying = False
+    if g.get("sheets"):  # the roster sheets: real teams, coaches and teachers, each for the year it was written in
+        from . import rosters
+        r = rosters.replay(sim, g["sheets"])
+        done += r["done"]
+        skipped += r["skipped"]
     remap = {}
     for cid, rec in (g.get("people") or {}).items():
         remap[mp(cid)] = rec

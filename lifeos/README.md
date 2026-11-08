@@ -421,6 +421,40 @@ The world in numbers, next to the Ladder, the Crowd and the Talk:
   - **Season recaps**: the season-break summary pages.
   This year's book is live. On September 1, before anyone moves up a grade, last year's book is kept as it was, so you
   can flip back to any year (the chips above the cover).
+- **Real rosters, coaches and teachers** (Story Studio → Rosters, `backend/lifeos/rosters.py`). Write down who you
+  remember, tap **Copy the ChatGPT prompt** (it carries everyone in your game now, so names match, plus the class and club
+  names the game knows), paste your notes into ChatGPT, and paste the roster sheet it writes back:
+
+  ```
+  -- Football 2010-11                (a team and a school year; add "(only these)" when it's the whole roster)
+  coach: Tom Bryant | head coach | old-school, loud, plays seniors
+  coach: Dave Grant | JV coach | laid back
+  player: Arjun Winslow | senior | RB | #22 | varsity | captain | the star, quiet leader, fast
+  -- Teachers
+  teacher: Mr. Haddad | Honors English 9, English 10 | advisor: The Grizzly Gazette | dry humor
+  staff: Dr. Alvarez | Principal | strict but fair
+  ```
+
+  **Check it** shows every line before anything changes: who it matched in your story (even under a different name,
+  "Tom Bryant" is your Coach Bryant), who's new, what it sets, and what won't go in and why (a player who'd graduated
+  by now, a class the game doesn't have, a line it couldn't read). **Put it in** then:
+  - puts each player on that team that school year at that level, with position, number and captain. Rosters are kept
+    by school year, so that year's tryouts put them there. "(only these)" keeps everyone else off, with no walk-ons or
+    call-ups. You're never cut by a sheet unless it lists you as out. A season under way changes now; a finished
+    season's yearbook roster too.
+  - makes anyone who isn't in your story yet, in the grade they'd be in now, with the position, number and notes.
+  - reads the notes: how good ("the star", "starter", "solid", "backup") and who they are ("leader", "quiet", "funny",
+    "cocky", "hard worker", "hothead"...). The notes become their bio.
+  - head coaches: if the team's coach only coaches that team, they're renamed (so storylines keep them); if they ran two
+    teams, the new one takes over this one. Assistants and JV coaches join the staff with the right job ("JV baseball &
+    football coach"). A coach's style changes how they pick: "old-school" and "strict" weigh effort, "wins at all costs"
+    weighs talent, "plays seniors" leans on seniority, "plays young guys" doesn't, "plays favorites" leans on who they like.
+  - teachers are people at the school; the classes listed are theirs in everyone's schedule (yours too, this year's
+    already-made schedules included), and the club they advise is theirs. Staff (principal, counselor, athletic
+    director) are people too.
+
+  Every sheet is kept in your groundwork, so **Start over** puts it all back. You can also just send the sheet (or your
+  notes) to Claude with your save and have it put in for you.
 - **Teachers aren't freshmen.** A storyline person with a title ("Mr. Reyes", "Coach Dunn", "Ms. Chen") is made a
   teacher at the school when you create them in Roles, not a 9th grader named Mr. Old saves are fixed when they open:
   anyone made that way is moved to the staff, off the rosters and out of the grade.

@@ -256,6 +256,49 @@ def phone_lunch_table(body: dict = Body(...)):
             raise HTTPException(409, str(e))
 
 
+@router.get("/api/phone/rosters")
+def phone_rosters():
+    """Real rosters and staff: each team's coaches and how much of this year's roster is set, the teachers, the sheets in."""
+    from . import rosters
+    A, L = _lab()
+    with L.lock:
+        return rosters.overview(L.sim)
+
+
+@router.get("/api/phone/rosters/prompt")
+def phone_rosters_prompt(ask: str = ""):
+    """The ChatGPT prompt that turns your notes into a roster sheet (with who's in your game now)."""
+    from . import rosters
+    A, L = _lab()
+    with L.lock:
+        return {"prompt": rosters.prompt(L.sim, ask)}
+
+
+@router.post("/api/phone/rosters/check")
+def phone_rosters_check(body: dict = Body(...)):
+    """What a roster sheet would do: each line matched to someone (or new), what it sets, and anything that won't go in."""
+    from . import rosters
+    A, L = _lab()
+    with L.lock:
+        p = rosters.plan(L.sim, str(body.get("text") or ""))
+        keep = ("section", "kind", "name", "status", "says", "line", "warn", "matched")
+        return {"rows": [{k: r.get(k) for k in keep} for r in p["rows"]], "notes": p["notes"], "counts": p["counts"]}
+
+
+@router.post("/api/phone/rosters/apply")
+def phone_rosters_apply(body: dict = Body(...)):
+    """Put a roster sheet in (kept for Start over)."""
+    from . import rosters
+    A, L = _lab()
+    with L.lock:
+        text = str(body.get("text") or "")
+        if not text.strip():
+            raise HTTPException(400, "paste a roster sheet first")
+        r = rosters.apply(L.sim, text)
+        L.autosave()
+        return r
+
+
 @router.get("/api/phone/people")
 def phone_people():
     """Everyone at your school, in numbers (the Scene tab's People)."""

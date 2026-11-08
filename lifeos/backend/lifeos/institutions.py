@@ -476,6 +476,9 @@ class Institutions:
         g = w.groups[gid]
         if g["kind"] != "team" or not self.in_season(g) or len(g["members"]) >= g["capacity"]:
             return
+        from . import rosters
+        if rosters.closed(w, gid):
+            return  # (a roster sheet's "only these": nobody's called up)
         for entry in sorted(g["cut"], key=lambda e: -e[1]):
             cid = entry[0]
             c = w.chars.get(cid)
@@ -521,6 +524,19 @@ class Institutions:
                         placed[c.id] = p
                     elif p == "out":
                         placed[c.id] = "out"
+            from . import rosters  # a roster sheet's list for this team this school year: they're placed; "only these" keeps others off
+            ros = rosters.pinned(w, g["id"], calm.school_year_of(w.day))
+            if ros:
+                me_id = w.meta.get("protagonist")
+                for cid, lvl in ros["players"].items():
+                    c_ = w.chars.get(cid)
+                    if c_ is not None and c_.status == "active" and c_.role == "student" and sports.can_play(c_, g) \
+                            and not (cid == me_id and cid in placed):
+                        placed[cid] = lvl
+                if ros.get("only"):
+                    for c_ in w.students():
+                        if c_.id not in ros["players"] and c_.id != me_id and c_.school == g.get("school", "hchs") and sports.can_play(c_, g):
+                            placed[c_.id] = "out"
             reg = [cid for cid in reg if placed.get(cid) != "out"]
         came = sorted((set(sim.slot.attend.get(("event", it["key"]), [])) & set(reg))
                       | {cid for cid, p in placed.items() if p != "out"})
@@ -549,6 +565,13 @@ class Institutions:
             fav = wf * ((w.rels[(coach.id, cid)].affection + w.rels[(coach.id, cid)].respect * 0.5) / 100 * 20
                         if coach and (coach.id, cid) in w.rels else 0)
             sen = ((c.grade or 9) - 9) * (3 if is_team else 2)
+            favors = (coach.flags or {}).get("favors") if coach else None  # a coach's way (a roster sheet's notes)
+            if favors == "seniors":
+                sen *= 2.5
+            elif favors == "young":
+                sen *= 0.3
+            elif favors == "favorites":
+                fav *= 2.5
             if c.flags.get("injured_until", -1) >= w.day:
                 perf -= 25
             if g.get("school") == "college" and c.path.get("scholarship") and c.path.get("sport") == sk:
@@ -705,6 +728,12 @@ class Institutions:
                 f4.memory(cap_c.id, "captain", [], 0.8, 70, f"Named captain of {g['name']}")
                 cap_c.achievements.append({"day": w.day, "label": f"Captain, {g['name']}", "event": None})
                 sim.finish(e4, f4)
+        if g["kind"] == "team" and g.get("school") != "college":
+            from . import rosters
+            ros = rosters.pinned(w, g["id"], calm.school_year_of(w.day))
+            caps = [x for x in (ros or {}).get("captains") or [] if x in g["members"]]
+            if caps:
+                g["leaders"] = caps  # (the captains the sheet says)
         if made:
             for i in range(len(made)):
                 for j in range(i + 1, len(made)):
@@ -717,7 +746,8 @@ class Institutions:
         sim = self.sim
         w = sim.w
         need = g.get("starters", 5) + 3 - len(g["members"])
-        if need <= 0:
+        from . import rosters
+        if need <= 0 or rosters.closed(w, g["id"]):
             return
         sk = g["skill"]
 
