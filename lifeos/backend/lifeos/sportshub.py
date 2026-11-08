@@ -52,9 +52,16 @@ def _playing_time(sim, me, g) -> dict:
     level = lv.get(me.id, "varsity")
     squad = [m for m in g["members"] if lv.get(m, "varsity") == level and m in w.chars]
     n = g.get("starters", 5)
-    ranked = sorted(squad, key=lambda m: (-rating(w.chars[m], sport), m))
+    from .sports import college_level, start_edge
+    edge = {m: start_edge(w, g, m) for m in squad}  # (the coach goes on your rating, how you've played lately and trust)
+    ranked = sorted(squad, key=lambda m: (-(rating(w.chars[m], sport) + edge[m]), m))
     pos = next((i for i, m in enumerate(ranked) if m == me.id), len(ranked))
     starter = pos < n
+    bar = None
+    if g.get("school") == "college" and w.meta.get("college"):  # in college the starters have to clear the program's bar too
+        bar = college_level(w.meta["college"], g.get("side") or sport) + 2
+        if starter and rating(me, sport) + ((me.grade or 13) - 13) * 2 < bar and len(squad) > n // 2:
+            starter = False
     rival_id = (ranked[n] if len(ranked) > n else None) if starter else (ranked[n - 1] if len(ranked) >= n else None)
     mine = _parts(me, sport)
     mr = round(rating(me, sport), 1)
@@ -82,7 +89,10 @@ def _playing_time(sim, me, g) -> dict:
     depth = [{"id": m, "name": w.chars[m].name, "first": w.chars[m].first, "rating": round(rating(w.chars[m], sport), 1),
               "pos": w.chars[m].positions.get(sport), "grade": w.chars[m].grade, "you": m == me.id, "starter": i < n}
              for i, m in enumerate(ranked)]
+    if bar is not None and not starter and pos < n:
+        tip = f"To start here you need about a {bar:.0f} (you: {rating(me, sport):.0f}). Keep building."
     return {"level": level, "position": me.positions.get(sport), "starter": starter, "spot": pos + 1, "starters": n, "of": len(ranked),
+            "edge": edge.get(me.id, 0.0),
             "rating": mr, "parts": [{"key": k, "label": PART_LABEL[k], "value": v} for k, v in mine.items()], "vs": cmp,
             "depth": depth, "tip": tip, "coach": trust, "missed": misses(g, me.id), "injured": injured}
 
@@ -170,8 +180,11 @@ def view(sim, gid: str | None = None) -> dict:
         "potw": list(reversed(lea.get("potw") or []))[:6],
         "race": {"all_conf": race[:12], "you": next((i + 1 for i, r in enumerate(race) if r["you"]), None), "cut": cut,
                  "mvp": mvp[:6]},
-        "recruiting": {"grade": me.grade, "score": (rec.get("score") or {}).get(sport),
+        "recruiting": {"grade": me.grade, "score": (rec.get("score") or {}).get(sport), "gpa": round(me.gpa, 2),
                        "interest": [{"name": cols[k.split(":")[0]]["name"] if k.split(":")[0] in cols else k, "level": v,
-                                     "tier": (cols.get(k.split(":")[0]) or {}).get("tier")} for k, v in interest],
-                       "offers": [o for o in (rec.get("offers") or []) if o.get("sport") == sport]},
+                                     "tier": (cols.get(k.split(":")[0]) or {}).get("tier"),
+                                     "needs": (cols.get(k.split(":")[0]) or {}).get("athlete_min_gpa"),
+                                     "blocked": me.gpa < (cols.get(k.split(":")[0]) or {}).get("athlete_min_gpa", 0) - 0.25}
+                                    for k, v in interest],
+                       "offers": [{**o, "needs": o.get("min_gpa")} for o in (rec.get("offers") or []) if o.get("sport") == sport]},
     }

@@ -105,10 +105,15 @@ def trigger(sim, kind: str, cid: str, ctx: dict):
             from . import minigames
             if not minigames.choice_ok(ch.get("ops"), ctx):
                 continue  # that mini game isn't ready yet
+            if ctx.get("written") and any(isinstance(o, list) and o and o[0] == "minigame" for o in ch.get("ops") or []):
+                continue  # your storyline already says how this game goes: no big moment that can't change it
             choices.append({"label": _render(ch["label"], names), "hint": _render(ch.get("hint", ""), names), "ops": ch["ops"], "fits": ch.get("fits", {}),
                             "game": minigames.badge(ch.get("ops"), ctx)})
     from . import lines
     text = lines.variant(sim, f"scene:{kind}", spec["text"], f"{w.day}:{kind}")
+    if kind == "game_day" and ctx.get("written"):
+        text += (f"\n\nThis one's written: {ctx.get('written_by') or 'your storyline'} says it's a "
+                 f"{'win' if ctx['written'] == 'win' else 'loss'}. How you play still shows up in your line.")
     m = {"id": f"mo{w.next_id('moment')}", "kind": kind, "day": w.day, "status": "pending", "ctx": ctx,
          "title": _render(spec["title"], names), "text": _render(text, names),
          "choices": [{"label": ch["label"], "hint": ch["hint"], **({"game": ch["game"]} if ch.get("game") else {})} for ch in choices],
@@ -222,7 +227,7 @@ def story_review(sim, c) -> str:
 BIG = {"asked_out", "asked_to_dance", "offer", "college_decision", "mlb_draft", "draft_passed", "tryout_eve", "cut",
        "heartbreak", "after_kiss", "drama_partner", "partner_cheat"}
 WAIT = {"college_decision", "mlb_draft", "draft_passed"}  # never answered for you (a path you set at the start is used)
-LAPSE = {"asked_out", "asked_to_dance", "cut", "heartbreak", "summer", "game_day", "after_kiss", "partner_cheat", "coach_asks"}  # unanswered: it just passes
+LAPSE = {"asked_out", "asked_to_dance", "cut", "heartbreak", "summer", "game_day", "after_kiss", "partner_cheat", "coach_asks", "called_up", "partner_checkin"}  # unanswered: it just passes
 NEUTRAL = {"grounded": 0, "first_day": 3, "injury": 0, "benched": 2, "offer": 0, "sibling_leaves": 1, "rumor": 2, "graduation": 2,
            "college_arrival": 2, "class_quiz": 1, "class_game": 2}
 QUIET_OPS = {"stay_out", "let_go", "move_on", "give_time", "leave_it", "pretend"}  # a drama card's do-nothing answer
@@ -420,6 +425,11 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                 if g.get("kind") == "team":
                     g.setdefault("levels", {})[c.id] = "varsity" if (c.grade or 9) >= 11 or not g.get("jv_capacity") else "jv"
                     sports.ensure_athlete(c, g["skill"], rng)
+        elif kind == "level":  # you said yes to the call-up
+            gid = _ref(ctx, op[1])
+            g = w.groups.get(gid) if isinstance(gid, str) else None
+            if g is not None and c.id in g.get("members", []):
+                g.setdefault("levels", {})[c.id] = op[2]
         elif kind == "grounding":
             g = c.flags.get("grounded_until")
             if g is not None and g >= w.day:

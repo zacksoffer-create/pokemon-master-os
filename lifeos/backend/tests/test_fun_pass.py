@@ -236,3 +236,116 @@ def test_your_pet_chores_never_blame_you():
     pets.set_duties(sim, pid, {d: "me" for d in pets.SPECIES[hp[0]["species"]]["duties"]})
     sim.advance_days(7)
     assert not any(e["type"] == "pet" and e.get("outcome") == "chore_missed" for e in sim.w.history.events.values())
+
+
+# --- D. the numbers that decide things are on the screen ---------------------------------------------------------------
+
+def test_playing_well_and_the_coachs_trust_move_you_up_the_lineup():
+    from lifeos import sports
+    sim, me = world()
+    g = sim.w.groups["football"]
+    g.setdefault("form", {})[me.id] = [8.0, 6.0, 7.0]
+    assert sports.start_edge(sim.w, g, me.id) >= 3.0
+    g["form"][me.id] = [-9.0, -8.0, -7.0]
+    assert sports.start_edge(sim.w, g, me.id) <= 0
+
+
+def test_your_resume_counts_for_college_and_top_students_get_a_shot():
+    from lifeos import sports
+    sim, me = world()
+    col = next(c for c in sim.cat.colleges if c["min_gpa"] >= 3.6)
+    me.gpa = 4.0
+    base = sports.admit_odds(sim.w, me, col)
+    me.awards = [{"day": 0, "label": "All-State Football", "sport": "football"}, {"day": 0, "label": "Guilford Football MVP"}]
+    me.stats["football:2010-11:varsity"] = {"games": 10}
+    from lifeos.rng import sigmoid
+    old_rule = col.get("admit_cap", 1.0) * sigmoid((4.0 - col["min_gpa"]) / 0.12)
+    assert sports.admit_odds(sim.w, me, col) > base > old_rule
+    bonus, bits = sports.resume_bonus(sim.w, me)
+    assert bonus > 0 and any("award" in b for b in bits)
+
+
+def test_a_game_your_storyline_already_wrote_says_so_and_skips_the_big_moment():
+    sim, me = world()
+    _clear(sim)
+    sim.moment_trigger("game_day", me.id, {"group": "football", "opponent": "Hand", "written": "win", "written_by": "Brothers"})
+    m = moments.pending(sim.w)[-1]
+    assert "This one's written" in m["text"] and "Brothers" in m["text"]
+    assert not any(isinstance(o, list) and o and o[0] == "minigame" for ch in m["_choices"] for o in ch["ops"])
+
+
+def test_you_pick_your_own_elective():
+    from lifeos import classes
+    sim, me = world()
+    sched = classes.pick_elective(sim, me, "Theater Arts")
+    assert next(r for r in sched if r["id"] == "elective")["name"] == "Theater Arts"
+    with pytest.raises(ValueError):
+        classes.pick_elective(sim, me, "Underwater Basket Weaving")
+
+
+# --- E. nothing that feels fake ----------------------------------------------------------------------------------------
+
+def test_friends_fight_rarely_for_a_reason_and_it_blows_over():
+    from lifeos import drama
+    import random as _r
+    sim, me = world()
+    w = sim.w
+    fr = [c for c in sorted(w.students(), key=lambda c: c.id) if c.id != me.id and c.household_id != me.household_id][:2]
+    a, b = fr
+    for x in fr:
+        w.ensure_rel(me.id, x.id, w.day).affection = 80
+    for x, y in ((a, b), (b, a)):
+        r = w.ensure_rel(x.id, y.id, w.day)
+        r.affection, r.rivalry = 70.0, 15.0  # (a rivalry: a reason you could see coming)
+    st = drama.state(w)
+
+    class Sure(_r.Random):
+        def random(self):
+            return 0.0
+    assert drama._friends_fight(sim, me, st, Sure())
+    f = st["fallouts"][-1]
+    assert 15 <= f["hit"] <= 20 and w.rels[(a.id, b.id)].affection >= 70 - 20 - 0.01
+    assert not drama._friends_fight(sim, me, st, Sure())  # (weeks apart at least)
+    w.day = f["heal"]
+    drama._blow_over(sim, st)
+    assert f["fixed"] and w.rels[(a.id, b.id)].affection > 70 - f["hit"]
+
+
+def test_a_freshman_isnt_captain_when_there_are_upperclassmen():
+    from lifeos import institutions
+    import inspect
+    src = inspect.getsource(institutions.Institutions.selection_results)
+    assert "seniors first" in src and "upper or" in src
+
+
+def test_a_jv_player_who_outplays_varsity_gets_called_up():
+    from lifeos import sports
+    sim, me = world()
+    w = sim.w
+    g = w.groups["football"]
+    others = [c for c in sorted(w.students(), key=lambda c: c.id) if c.id != me.id][: g.get("starters", 5) + 1]
+    g["members"] = [c.id for c in others]
+    g["levels"] = {c.id: "varsity" for c in others[:-1]}
+    star = others[-1]
+    g["levels"][star.id] = "jv"
+    star.skills[g["skill"]] = 99
+    for c in others[:-1]:
+        c.skills[g["skill"]] = 20
+    y = w.day
+    g["season"] = {"start": [9, 1], "end": [8, 31]}
+    sim.institutions.callups(sim.streams.get("cu", y))
+    assert g["levels"][star.id] == "varsity" and sports.rating(star, g["skill"]) > 0
+
+
+def test_your_partner_checks_in_after_three_weeks_apart():
+    from lifeos.actions import start_dating
+    from lifeos.history import Effects
+    sim, me = world()
+    _clear(sim)
+    o = _other(sim, me)
+    ev = sim.new_event("test", "x", [me.id], [o.id], 1, {})
+    start_dating(sim, me.id, o.id, ev, Effects(sim.w, ev))
+    sim.w.rels[(me.id, o.id)].last_day = sim.w.day - 25
+    sim._weekly()
+    card = next(m for m in moments.pending(sim.w) if m["kind"] == "partner_checkin")
+    assert card["ctx"]["partner"] == o.id and len(card["choices"]) == 3

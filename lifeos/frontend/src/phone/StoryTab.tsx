@@ -300,6 +300,10 @@ export default function StoryTab() {
           </div>
         )}
         {binge && between && !skip && <Between b={between} onAll={() => setRecap(between.feed)} />}
+        {s.me?.grounded && (
+          <div className="ph-planned ph-grounded"><PIcon name="home" size={16} /> Grounded until {s.me.grounded.until}
+            {s.me.grounded.why ? <small> · {s.me.grounded.why}</small> : null}</div>
+        )}
         {!binge && s.queued && (
           <div className="ph-planned"><PIcon name="clock" size={16} /> Planned: {s.queued.label}</div>
         )}

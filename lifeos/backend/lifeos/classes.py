@@ -100,6 +100,9 @@ def schedule(sim, c) -> list:
         picks = [e for e in d["electives"] if e["if"] and max(c.skills.get(e["if"], 0), c.interests.get(e["if"], 0)) >= 40]
         picks.sort(key=lambda e: -max(c.skills.get(e["if"], 0), c.interests.get(e["if"], 0)))
         e = picks[0] if picks else next(e for e in d["electives"] if e["if"] is None)
+        mine = next((x for x in d["electives"] if x["class"][0] == (c.flags or {}).get("elective")), None)
+        if mine:
+            e = mine  # the one you picked
         out.append({"id": "elective", "name": e["class"][0], "subject": e["class"][1], "math": None,
                     "teacher": real_teacher(w, e["class"][0]) or _teacher(sim, "elective", key, taken), "honors": False})
     st["sched"][key] = out
@@ -180,3 +183,17 @@ def blend_exam(c, day, model_score) -> tuple[float, list] | None:
     s = max(blend, round(model_score, 1))  # playing it yourself can only help: a bad round never scores under letting it ride
     return s, [("your quiz round", round(0.55 * mine, 2)), ("your preparation", round(0.45 * model_score, 2))] + \
         ([("kept your prepared score (playing can only help)", round(s - blend, 2))] if s > blend else [])
+
+
+def pick_elective(sim, c, name: str) -> list:
+    """You choose your elective (Theater Arts for the drama storyline): this year's schedule is remade with it."""
+    d = data()
+    if not any(e["class"][0] == name for e in d["electives"]):
+        raise ValueError(f"{name} isn't an elective here")
+    c.flags["elective"] = name
+    store(sim.w)["sched"].pop(_year_key(sim, c), None)
+    return schedule(sim, c)
+
+
+def electives() -> list:
+    return [e["class"][0] for e in data()["electives"]]

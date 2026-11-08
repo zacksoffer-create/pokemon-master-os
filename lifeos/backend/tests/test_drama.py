@@ -71,10 +71,12 @@ def test_two_friends_fall_out_and_you_pick_a_side_or_fix_it():
     c.post(f"/api/phone/editor/pair/{me.id}/{a}", json={"preset": "best_friend"})
     c.post(f"/api/phone/editor/pair/{me.id}/{b}", json={"preset": "close_friend"})
     c.post(f"/api/phone/editor/pair/{a}/{b}", json={"preset": "close_friend"})
+    w.rels[(a, b)].rivalry = 15  # (a fight needs a reason you could see coming: these two have an edge)
+    before_ab = {k: w.rels[k].affection for k in ((a, b), (b, a))}
     assert drama._friends_fight(api.lab.sim, me, drama.state(w), Always())
     pair = {(x["a"], x["b"]) for x in [{"a": f["a"], "b": f["b"]} for f in drama.state(w)["fallouts"]]}
     fa, fb = next(iter(pair))
-    assert w.rels[(fa, fb)].affection < 50
+    assert before_ab[(fa, fb)] - 20 - 0.01 <= w.rels[(fa, fb)].affection <= before_ab[(fa, fb)] - 15 + 0.01  # (a real fight, not the end)
     assert c.get("/api/phone/scene").json()["fights"]
     before = w.rels[(fb, me.id)].affection
     m, r = _pick(c, "drama_sides", label_has=f"Side with {w.chars[fa].first}")

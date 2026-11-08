@@ -1662,6 +1662,124 @@
      "ops": []
     }
    ]
+  },
+  "admissions_letters": {
+   "title": "The letters came",
+   "text": "A stack of envelopes on the kitchen table, thick and thin. You open them one at a time.\n\n{letters}\n\nYou got into {n}.",
+   "choices": [
+    {
+     "label": "Keep going.",
+     "fits": {},
+     "ops": []
+    }
+   ]
+  },
+  "called_up": {
+   "title": "Called up",
+   "text": "{coach} pulls you aside after JV practice. \"You've been the best player out there for weeks. I want you with varsity.\"",
+   "choices": [
+    {
+     "label": "Move up to varsity.",
+     "hint": "tougher minutes, a bigger stage",
+     "fits": {
+      "ambition": 0.5,
+      "competitiveness": 0.4
+     },
+     "ops": [
+      [
+       "level",
+       "team_id",
+       "varsity"
+      ],
+      [
+       "mood",
+       6
+      ],
+      [
+       "memory",
+       "Called up to varsity {team}",
+       0.7,
+       60,
+       []
+      ]
+     ]
+    },
+    {
+     "label": "Stay with JV and your class this year.",
+     "hint": "you start, you play every minute",
+     "fits": {
+      "loyalty": 0.5
+     },
+     "ops": [
+      [
+       "mood",
+       2
+      ]
+     ]
+    }
+   ]
+  },
+  "partner_checkin": {
+   "title": "{partner} texts",
+   "text": "{partner}: \"hey. we haven't really hung out in like three weeks. are we still doing this?\"",
+   "choices": [
+    {
+     "label": "\"Yes. This weekend, you and me. I'm sorry.\"",
+     "hint": "back on track",
+     "fits": {
+      "empathy": 0.4,
+      "loyalty": 0.4
+     },
+     "ops": [
+      [
+       "rel",
+       "partner",
+       "affection",
+       4
+      ],
+      [
+       "rel_back",
+       "partner",
+       "affection",
+       8
+      ],
+      [
+       "rel_back",
+       "partner",
+       "trust",
+       4
+      ]
+     ]
+    },
+    {
+     "label": "\"Honestly? I don't think so.\"",
+     "hint": "you end it, kindly",
+     "fits": {
+      "volatility": 0.2
+     },
+     "ops": [
+      [
+       "break_up",
+       "partner"
+      ],
+      [
+       "memory",
+       "Ended it with {partner}",
+       -0.3,
+       50,
+       [
+        "partner"
+       ]
+      ]
+     ]
+    },
+    {
+     "label": "\"Can we talk about it later?\"",
+     "hint": "nothing changes yet",
+     "fits": {},
+     "ops": []
+    }
+   ]
   }
  }
 }

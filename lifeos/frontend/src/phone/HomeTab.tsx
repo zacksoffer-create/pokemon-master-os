@@ -48,12 +48,7 @@ export default function HomeTab() {
     loadInfo();
   }, [state?.pets.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // the one-time chores setup opens by itself for a pet nobody has set up yet
-  useEffect(() => {
-    if (!state || setupFor) return;
-    const p = state.pets.find((x) => x.setup_needed && !setupDismissed[x.id]);
-    if (p) setSetupFor(p);
-  }, [state?.pets.map((p) => p.id + p.setup_needed).join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
+  // (the chores setup is a button on the pet's card: it never opens by itself, and skipping it costs nothing)
 
   if (!state) return null;
   const s = state;

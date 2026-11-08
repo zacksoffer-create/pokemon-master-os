@@ -157,3 +157,9 @@ def grounding_view(w, c) -> dict | None:
     if g is None or g < w.day:
         return None
     return {"until": calm.label(g), "days": g - w.day + 1, "why": c.flags.get("grounded_why") or ""}
+
+
+def expects(w, c) -> float | None:
+    """The GPA your parents hope to see (they only ground you for a real drop, or under 2.0)."""
+    h = w.households.get(c.household_id)
+    return round(2.1 + h["expectations"] / 100 * 1.8, 1) if h else None

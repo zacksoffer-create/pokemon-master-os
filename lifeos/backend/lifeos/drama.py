@@ -24,6 +24,7 @@ from .history import Effects
 from .rng import clamp
 
 COOLDOWN = 5  # days between drama moments
+FIGHT_GAP = 49  # days between your friends' fights (about seven weeks)
 _DATA = None
 
 
@@ -240,12 +241,31 @@ def dawn(sim):
     rng = random.Random(_h(w.seed, w.day, "drama"))
     _gossip_reaches_you(sim, me, st, rng)
     _notice_cold(sim, me, st)
+    _blow_over(sim, st)
     if w.day - st["last"] < COOLDOWN or any(m["kind"].startswith("drama_") and m["status"] == "pending" for m in w.meta.get("moments", [])):
         return
     for fn in (_makeup, _crush_taken, _partner, _friends_fight, _fallout):
         if fn(sim, me, st, rng):
             st["last"] = w.day
             return
+
+
+def _blow_over(sim, st):
+    """Your friends' fight blows over on its own after a week or three: most of what it cost comes back."""
+    w = sim.w
+    for f in st["fallouts"]:
+        if f.get("fixed") or w.day < f.get("heal", 10**9):
+            continue
+        f["fixed"] = True
+        ev = sim.new_event("falling_out", "made_up", [f["a"]], [f["b"]], 14, {"reason": f.get("reason")})
+        ev["text"] = f"{w.chars[f['a']].name} and {w.chars[f['b']].name} are good again."
+        fx = Effects(w, ev)
+        for x, y in ((f["a"], f["b"]), (f["b"], f["a"])):
+            if (x, y) in w.rels:
+                fx.rel(x, y, "affection", f.get("hit", 15) * 0.8, "it blew over")
+                fx.rel(x, y, "trust", 5, "it blew over")
+                fx.rel(x, y, "rivalry", -4, "it blew over")
+        sim.finish(ev, fx)
 
 
 def _gossip_reaches_you(sim, me, st, rng):
@@ -312,26 +332,45 @@ def _friends_fight(sim, me, st, rng):
     """Two of your friends fall out, and both want you on their side."""
     w = sim.w
     fr = _friends(sim, me)
-    if len(fr) < 2 or rng.random() > 0.1:
+    if len(fr) < 2 or rng.random() > 0.1 or w.day - st.get("last_fight", -999) < FIGHT_GAP:
         return False
+
+    def cause(a, b):  # a fight needs a reason you could see coming: they never clicked, there's a rivalry, or something happened
+        ra, rb = w.rels[(a, b)], w.rels[(b, a)]
+        from .worldgen import compatibility
+        if max(ra.rivalry, rb.rivalry) >= 10:
+            return "rivalry"
+        if compatibility(w, w.chars[a], w.chars[b]) < 0.1:
+            return "never clicked"
+        if any(set(r.get("involves") or []) >= {a, b} and w.day - r["day"] <= 30 for r in w.rumors.values()):
+            return "a rumor"
+        return None
+    yr = calm.school_year_of(w.day)
     pairs = [(a, b) for i, a in enumerate(fr) for b in fr[i + 1:]
              if w.rels.get((a, b)) and w.rels.get((b, a)) and w.rels[(a, b)].affection >= w.rules["rel.friend_threshold"] - 5
-             and w.day - st["seen"].get(f"{a}|{b}", -99) > 45]
+             and calm.school_year_of(st["seen"].get(f"{a}|{b}", -999)) != yr and cause(a, b)]  # (a pair once a school year at most)
     if not pairs:
         return False
     a, b = pairs[_h(w.day, "pair") % len(pairs)]
-    reason = D()["reasons"][_h(w.day, a, b) % len(D()["reasons"])].replace("{a_first}", _first(w, a)).replace("{b_first}", _first(w, b))
+    used = set(st.setdefault("reasons_used", {}).get(f"{a}|{b}", []))
+    pool = [x for x in D()["reasons"] if x not in used] or D()["reasons"]
+    raw = pool[_h(w.day, a, b) % len(pool)]
+    st["reasons_used"].setdefault(f"{a}|{b}", []).append(raw)
+    reason = raw.replace("{a_first}", _first(w, a)).replace("{b_first}", _first(w, b))
     ev = sim.new_event("falling_out", "friends", [a], [b], 26, {"reason": reason})
     ev["text"] = f"{w.chars[a].name} and {w.chars[b].name} fell out over {reason}."
     fx = Effects(w, ev)
+    hit = 15 + _h(w.day, a, "hit") % 6  # (15 to 20: a real fight, not the end of a friendship)
     for x, y in ((a, b), (b, a)):
-        fx.rel(x, y, "affection", -40, "fell out")
-        fx.rel(x, y, "trust", -15, "fell out")
-        fx.rel(x, y, "rivalry", 12, "fell out")
-        fx.memory(x, "argument", [y], -0.6, 50, f"Fell out with {w.chars[y].name} over {reason}")
+        fx.rel(x, y, "affection", -hit, "fell out")
+        fx.rel(x, y, "trust", -6, "fell out")
+        fx.rel(x, y, "rivalry", 5, "fell out")
+        fx.memory(x, "argument", [y], -0.5, 40, f"Fell out with {w.chars[y].name} over {reason}")
     sim.finish(ev, fx)
     st["seen"][f"{a}|{b}"] = w.day
-    st["fallouts"].append({"a": a, "b": b, "day": w.day, "reason": reason, "fixed": False})
+    st["last_fight"] = w.day
+    st["fallouts"].append({"a": a, "b": b, "day": w.day, "reason": reason, "fixed": False, "hit": hit,
+                           "heal": w.day + 7 + _h(w.day, b, "heal") % 15})  # it blows over on its own in 1 to 3 weeks
     st["fallouts"] = st["fallouts"][-12:]
     _trigger(sim, "sides", {"a": a, "b": b, "a_first": _first(w, a), "b_first": _first(w, b), "reason": reason})
     return True
@@ -438,9 +477,7 @@ def op(sim, c, op, ctx, fx, ev, rng, m, render):
         fx.rel(lose, c.id, "affection", -10, "took the other side")
         fx.rel(lose, c.id, "trust", -8, "took the other side")
         say(what)
-    elif what == "stay_out":
-        for x in (a, b):
-            fx.rel(x, c.id, "affection", -2, "stayed out of it")
+    elif what == "stay_out":  # Switzerland is free: nobody holds it against you
         say("stay_out")
     elif what == "mediate":
         if chance(0.42, charisma=0.3, empathy=0.25):
@@ -571,6 +608,6 @@ def fights(sim) -> list:
         if f["fixed"] or a not in w.chars or b not in w.chars:
             continue
         r1, r2 = w.rels.get((a, b)), w.rels.get((b, a))
-        if r1 and r2 and w.day - f["day"] <= 30 and min(r1.affection, r2.affection) < w.rules["rel.friend_threshold"] + 10:
+        if r1 and r2 and w.day < f.get("heal", f["day"] + 30):  # (until it blows over)
             out.append({"a": _first(w, a), "b": _first(w, b), "reason": f["reason"], "when": calm.label(f["day"])})
     return out[:5]

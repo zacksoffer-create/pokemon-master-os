@@ -1130,6 +1130,42 @@ You don't have to agree with the simulation, either about how much sports count 
   awards, the captaincy. The Ladder, the yearbook, the Sports tab and storylines all read that same record, and
   popularity is recomputed right away. A season you've touched says "edited by you" (`records.seasons` / `records.save`).
 
+## A world to have fun in
+
+The point isn't the most accurate high school simulation; it's real logic in a world you enjoy. So:
+
+- **The game never makes a big call for you.** Skip ahead, play Next episode, or leave a card for days: the small
+  things get the do-nothing answer (a quiz rides on your studying, a class game sits, a night out plays it safe). The
+  big ones (someone asking you out, a college offer, the college decision, the draft, tryouts tomorrow, getting cut,
+  heartbreak, your partner cheating) stop the skip and wait for you. An ask-out you never answer just passes. The college
+  decision uses the path you set when you made your character, or waits. Tryouts tomorrow for a sport you played last year
+  means you're going. Left alone, your character never gossips, pranks, starts fights, sneaks out, quits, breaks up, asks
+  anyone out or flirts (unless you turn on Let my character decide).
+- **Romance is yours.** A kiss on a night out is a kiss; the next morning they ask "so... what was that?" and you say. A
+  no sticks (60 days; "rather stay friends" holds for the season; no answer, a month). If word gets to you that your
+  partner kissed someone, it's a card: confront them, break up, ask, or let it go. Three weeks apart and your partner
+  checks in: "are we still doing this?"
+- **Punishments fit.** Parents ground you only for a real drop on a report card (0.3 or more) or a GPA under 2.0, once a
+  semester, for a few days, and it's a card (take it, make a study deal for half, or argue). Phone: a "Grounded until"
+  banner, and Me shows what your parents hope for. Hurt is excused from practice and still gets rated at tryouts. The
+  coach asks you to walk on instead of signing you up, and you can quit a team in the evening. The cops come to at most
+  15% of big parties, mid-night, and the night still ends. A bad reputation fades. Playing a quiz yourself can only help.
+- **Nothing drains while you're not looking.** Texting someone counts as keeping in touch. Friendships drift slowly
+  (1.5% a week), never below 75% of their best for close friends, and not at all while you're at Watch Hill. Pet chores
+  you didn't get to fall to your parents with no blame. Money picks where you hang out, not whether. Your skills keep
+  90% of their best; friends move your interests 10 points at most. Your job pauses for the summer.
+- **The numbers that decide things are on screen.** Recruiting shows each school's GPA line next to yours, and a coach
+  tells you when grades are what's holding an offer back (offers are judged on your report card, with a little room).
+  Classes shows **Where you'd get in** from sophomore year: every school's bar and your odds, counting your varsity
+  seasons, awards, captaincy and clubs; senior spring the letters come one by one. A game your storyline already wrote
+  says so on game day. Lineups go on rating, your last three games and the coach's trust (shown on the Sports tab). Mood
+  says why it moved overnight; the Fun and Social meters that never did anything are gone. You pick your elective.
+- **Nothing that feels fake.** Your friends fight rarely (weeks apart), over something you could see coming, for 15-20
+  points, and it blows over on its own in one to three weeks; never the same pair twice in a year. Staying out of it is
+  free. Seniors finish their spring season (the state tournament) before graduating. Captains come from the upperclassmen.
+  A JV player who's outplaying varsity gets called up (you get asked). Only close friends who heard about a party mind not
+  being invited, and never you over one you didn't know about. The "needs you" list stops nagging.
+
 ## Parties: the rare big one, and a few people over
 
 Most weekends somebody has **a few people over**: five or six of you, a basement, a movie nobody's watching. It's said

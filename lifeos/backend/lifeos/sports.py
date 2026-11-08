@@ -551,6 +551,17 @@ def football_score(margin, rng):
     return 7 * win_td + 3 * win_fg, lose, (win_td, lose_td)
 
 
+def start_edge(w, g, cid) -> float:
+    """On top of your rating, for the starting lineup: how you've played the last 3 games (up to 3 points either way) and
+    how much the coach trusts you (respect / 20, up to 5)."""
+    fm = (g.get("form") or {}).get(cid) or []
+    form = max(-3.0, min(3.0, sum(fm) / len(fm) / 2)) if fm else 0.0
+    coach = g.get("staff")
+    r = w.rels.get((coach, cid)) if coach else None
+    trust = max(-2.0, min(5.0, r.respect / 20)) if r is not None else 0.0
+    return round(form + trust, 1)
+
+
 def play_game(inst, it, rng):
     sim = inst.sim
     w = sim.w
@@ -582,7 +593,8 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
     sport = g["skill"]
     n_start = g.get("starters", 5)
     pre = {cid: rating(w.chars[cid], sport) for cid in players}
-    starters = sorted(players, key=lambda x: (-pre[x], x))[:n_start]
+    edge = {cid: start_edge(w, g, cid) for cid in players}  # (playing well lately, and the coach's trust, move you up)
+    starters = sorted(players, key=lambda x: (-(pre[x] + edge[x]), x))[:n_start]
     perf, share, appr = {}, {}, {}
     for cid in players:
         c = w.chars[cid]
@@ -652,6 +664,10 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
             perf[you_] = min(perf[you_], pre[you_] - 5)
         elif me_ == "bad":
             perf[you_] = min(perf[you_], pre[you_] - 11)
+    for cid in players:  # how each one played against what's expected of them: the next lineup remembers (last 3 games)
+        fm = g.setdefault("form", {}).setdefault(cid, [])
+        fm.append(round(perf[cid] - pre[cid], 1))
+        del fm[:-3]
     win = margin > 0
     score = inst.score_line(sport, margin, rng)
     tds = None
@@ -921,6 +937,13 @@ def recruiting_update(inst, c, sport, rng):
         p = sigmoid(gap / 3) * (0.9 if c.grade >= 12 else 0.5 if c.grade == 11 else 0.0)
         if not already and c.grade >= 11 and gap >= 0 and eligible and rng.random() < p:
             make_offer(inst, c, col, sport)
+        elif not already and c.grade >= 11 and gap >= 0 and not eligible and key not in rec.setdefault("grade_warned", []):
+            rec["grade_warned"].append(key)  # they'd offer, but the grades aren't there: the coach says so (once)
+            need = col.get("athlete_min_gpa", 2.3)
+            ev = inst.event("recruiting", "grades", [c.id], importance=34, data={"label": col["name"], "sport": sport})
+            ev["text"] = (f"{col['short']}'s {sport} coach likes what they see, but can't offer {c.short} below a {need - 0.25:.2f} GPA "
+                          f"(right now: {c.gpa:.2f}). Get it up and they'll be back.")
+            sim.finish(ev, Effects(w, ev))
         elif first:
             ev = inst.event("recruiting", "interest", [c.id], importance=22, data={"label": col["name"], "sport": sport})
             ev["text"] = f"{col['short']} coaches are keeping an eye on {c.short} ({sport})."
@@ -947,6 +970,36 @@ def make_offer(inst, c, col, sport, committed=False):
     return offer
 
 
+def resume_bonus(w, c) -> tuple[float, list]:
+    """What colleges see besides your GPA, in GPA points: varsity seasons, awards, captaincy, clubs. -> (bonus, [what counts])."""
+    bits, b = [], 0.0
+    var = sum(1 for k, st in (c.stats or {}).items() if k.endswith(":varsity") and isinstance(st, dict) and st.get("games"))
+    if var:
+        b += min(0.2, 0.05 * var)
+        bits.append(f"{var} varsity season{'s' if var != 1 else ''}")
+    big = [a for a in c.awards or [] if isinstance(a, dict) and any(t in (a.get("label") or "") for t in ("All-", "MVP", "Player of the Year"))]
+    if big:
+        b += min(0.3, 0.1 * len(big))
+        bits.append(f"{len(big)} award{'s' if len(big) != 1 else ''}")
+    if any(c.id in (g.get("leaders") or []) or any(c.id in (h.get("captains") or []) for h in g.get("history") or [])
+           for g in w.groups.values() if g.get("kind") == "team"):
+        b += 0.05
+        bits.append("captain")
+    clubs = sum(1 for m in c.memberships if (w.groups.get(m) or {}).get("kind") in ("club", "production"))
+    if clubs:
+        b += min(0.1, 0.05 * clubs)
+        bits.append(f"{clubs} club{'s' if clubs != 1 else ''}")
+    return round(b, 2), bits
+
+
+def admit_odds(w, c, col, gpa=None) -> float:
+    """Your chance at a school: GPA plus what's on your resume, against its bar; top students get a real shot."""
+    g = (c.gpa if gpa is None else gpa) + resume_bonus(w, c)[0]
+    cap = col.get("admit_cap", 1.0)
+    cap = min(0.9, cap + max(0.0, g - col["min_gpa"]) * 1.0)  # (over the bar: the cap opens up, the more the better)
+    return cap * sigmoid((g - col["min_gpa"]) / 0.12)
+
+
 def admissions(inst, rng):
     """Senior spring: acceptance letters, and offers that don't survive the GPA check."""
     sim = inst.sim
@@ -959,14 +1012,20 @@ def admissions(inst, rng):
         if preset.get("college") and preset.get("sport") and not any(o["college"] == preset["college"] and o["sport"] == preset["sport"]
                                                                      for o in c.recruiting.get("offers", [])):
             make_offer(inst, c, sim.cat.college_by_id[preset["college"]], preset["sport"], committed=True)
-        admits = []
+        admits, letters = [], []
         for col in sim.cat.colleges:
             gpa = c.gpa + rng.gauss(0, 0.1)
-            p = col.get("admit_cap", 1.0) * sigmoid((gpa - col["min_gpa"]) / 0.12)
-            if (preset.get("college") == col["id"] and not preset.get("sport")) or rng.random() < p:
+            p = admit_odds(w, c, col, gpa)
+            yes = (preset.get("college") == col["id"] and not preset.get("sport")) or rng.random() < p
+            if yes:
                 admits.append({"college": col["id"], "name": col["name"], "short": col["short"], "tier": col["tier"],
                                "conference": col.get("conference")})
+            letters.append({"short": col["short"], "in": bool(yes), "odds": round(admit_odds(w, c, col) * 100)})
         c.recruiting["admits"] = admits
+        if prot:  # the letters, one by one
+            lines = "\n".join(f"{'✅' if x['in'] else '✉️'} {x['short']}: {'you got in' if x['in'] else 'not this time'} "
+                               f"(your odds were about {x['odds']}%)" for x in sorted(letters, key=lambda x: -x["odds"]))
+            sim.moment_trigger("admissions_letters", c.id, {"letters": lines, "n": len(admits)})
         ev = inst.event("admissions", "letters", [c.id], importance=30 if prot else 12,
                         data={"label": ", ".join(a["short"] for a in admits[:4])})
         big = [a["short"] for a in admits if not sim.cat.college_by_id[a["college"]].get("local")]
@@ -974,8 +1033,9 @@ def admissions(inst, rng):
                       + (f", including {', '.join(big[:3])}" if big else "") + ".")
         sim.finish(ev, Effects(w, ev))
         kept, lost = [], []
+        card = max(c.gpa, (c.flags or {}).get("last_card_gpa") or 0)  # (judged on the report card too, not one rough midterm)
         for o in c.recruiting.get("offers", []):
-            (kept if c.gpa >= o.get("min_gpa", 0) or (preset.get("college") == o["college"] and preset.get("sport") == o["sport"]) else lost).append(o)
+            (kept if card >= o.get("min_gpa", 0) - 0.1 or (preset.get("college") == o["college"] and preset.get("sport") == o["sport"]) else lost).append(o)
         for o in lost:
             ev = inst.event("recruiting", "pulled", [c.id], importance=40 if prot else 14, data={"label": o["name"], "sport": o["sport"]})
             ev["text"] = (f"{o.get('short', o['name'])} pulled its {o['sport']} offer: {c.short}'s {c.gpa:.2f} GPA is under "

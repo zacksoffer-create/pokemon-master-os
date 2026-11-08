@@ -162,7 +162,7 @@ function Season({ v }: { v: SportsView }) {
         ))}
         {y.vs && <p className="sp-vs">{y.vs.line}</p>}
         <div className="sp-tip"><b>Your next move</b>{y.tip}</div>
-        {y.coach && <p className="ph-dim small">{y.coach.name} {y.coach.label}.{y.missed ? ` You've missed ${y.missed} practice${y.missed === 1 ? "" : "s"} or game${y.missed === 1 ? "" : "s"}: miss too many and you're off the team.` : ""}</p>}
+        {y.coach && <p className="ph-dim small">{y.coach.name} {y.coach.label}.{y.edge ? ` Lineups go on ratings, how you've played the last three games and the coach's trust: right now that's ${y.edge > 0 ? "+" : ""}${y.edge} for you.` : ""}{y.missed ? ` You've missed ${y.missed} practice${y.missed === 1 ? "" : "s"} or game${y.missed === 1 ? "" : "s"}: miss too many and you're off the team (hurt doesn't count).` : ""}</p>}
         <button className="ph-link" onClick={() => setDepth(!depth)}>{depth ? "Hide" : "See"} the depth chart</button>
         {depth && (
           <div className="sp-depth">
@@ -282,15 +282,18 @@ function Recruiting({ v }: { v: SportsView }) {
         {rc.offers.length > 0 && (
           <>
             <div className="sp-sub">Offers</div>
-            {rc.offers.map((o, i) => <div key={i} className="sp-offer"><b>{o.name}</b><small>{o.aid} · {o.conference}</small></div>)}
+            {rc.offers.map((o, i) => <div key={i} className="sp-offer"><b>{o.name}</b><small>{o.aid} · {o.conference}
+              {o.needs ? ` · keep your GPA at ${o.needs.toFixed(1)} (you: ${(rc.gpa ?? 0).toFixed(2)})` : ""}</small></div>)}
           </>
         )}
         {rc.interest.length > 0 && (
           <>
             <div className="sp-sub">Who's interested</div>
             {rc.interest.map((c) => (
-              <div key={c.name} className="sp-int"><span>{c.name}</span><i><s style={{ width: `${c.level}%` }} /></i></div>
+              <div key={c.name} className="sp-int"><span>{c.name}{c.needs ? <small className={c.blocked ? "bad" : ""}> needs {(c.needs - 0.25).toFixed(2)} GPA{c.blocked ? `, you: ${(rc.gpa ?? 0).toFixed(2)}` : ""}</small> : null}</span>
+                <i><s style={{ width: `${c.level}%` }} /></i></div>
             ))}
+            {rc.interest.some((c) => c.blocked) && <p className="ph-dim small">Grades are holding some of these back. Get your GPA over the line and those coaches can offer.</p>}
           </>
         )}
         {(rc.grade || 0) >= 10 && !rc.interest.length && <p className="ph-dim small">Nobody yet. Start, produce, win something.</p>}

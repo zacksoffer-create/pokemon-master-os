@@ -159,6 +159,9 @@ def team_card(w, me, gid) -> dict:
 
 # --- state ----------------------------------------------------------------------------------
 
+from . import households  # noqa: E402
+
+
 @router.get("/api/phone/state")
 def phone_state(since: int | None = None):
     A, L = _lab()
@@ -213,7 +216,9 @@ def phone_state(since: int | None = None):
             "progress": progress(w), "title": w.meta.get("story", {}).get("title"),
             "me": dict(A.char_summary(L, me), age=me.age(w.day), needs={k: round(v) for k, v in me.needs.items()}, money=round(me.money),
                        gpa=round(me.gpa, 2), injured=me.flags.get("injured_until", -1) >= w.day, path=me.path, body=me.body,
-                       positions=me.positions, jersey=me.jersey),
+                       positions=me.positions, jersey=me.jersey, grounded=households.grounding_view(w, me),
+                       mood_note=(me.flags.get("mood_note") if (me.flags.get("mood_note") or {}).get("day", -9) >= w.day - 1 else None),
+                       parents_expect=households.expects(w, me)),
             "moments": pend, "feed": feed, "last_event": w.history.next_event - 1, "committed": busy_with, "squad": squad_view(sim),
             "season_break": _season_state(w), "season": _season_now(w),
             "unread": sum(t["unread"] for t in threads), "needs_reply": sum(1 for t in threads if t["needs_reply"]),
@@ -958,7 +963,9 @@ def _lines(L, evs, me):
 def _chips(L, me, needs0, mood0, rels0):
     w = L.w
     chips = []
-    for k, label in (("energy", "Energy"), ("stress", "Stress"), ("fun", "Fun"), ("social", "Social")):
+    if abs(me.mood - mood0) >= 2:  # (what you feel: mood. Energy and stress matter too; fun and social meters didn't, so they're gone)
+        chips.append({"label": "Mood", "delta": round(me.mood - mood0), "good": me.mood > mood0})
+    for k, label in (("energy", "Energy"), ("stress", "Stress")):
         d = me.needs.get(k, 0) - needs0.get(k, 0)
         if abs(d) >= 2:
             chips.append({"label": label, "delta": round(d), "good": d > 0 if k != "stress" else d < 0})
@@ -1091,7 +1098,34 @@ def phone_classes():
         return {"gpa": round(me.gpa, 2), "year": me.year_label, "classes": classes.grades(L.sim, me),
                 "upcoming": [{"name": i["name"], "date": calm.label(i["day"]), "in_days": i["day"] - w.day,
                               "weight": i.get("weight", 1)} for i in upcoming],
-                "tests_played": len(tests)}
+                "tests_played": len(tests), "parents_expect": households.expects(w, me), "college": _college_odds(L.sim, me),
+                "electives": classes.electives() if (me.grade or 13) <= 12 else [], "elective": me.flags.get("elective")}
+
+
+@router.post("/api/phone/elective")
+def phone_elective(body: dict = Body(default={})):
+    """Pick your elective: {"name": "Theater Arts"}."""
+    A, L = _lab()
+    from . import classes
+    with L.lock:
+        me = _me(L)
+        try:
+            classes.pick_elective(L.sim, me, str(body.get("name") or ""))
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        L.autosave()
+    return phone_classes()
+
+
+def _college_odds(sim, me):
+    """Where you'd get in today: each school's bar and your odds (GPA plus your resume). Shown from sophomore year."""
+    from . import sports
+    if me.school != "hchs" or (me.grade or 9) < 10:
+        return None
+    bonus, bits = sports.resume_bonus(sim.w, me)
+    rows = [{"name": col["short"], "bar": col["min_gpa"], "odds": round(sports.admit_odds(sim.w, me, col) * 100)}
+            for col in sim.cat.colleges]
+    return {"resume": bits, "bonus": bonus, "schools": sorted(rows, key=lambda r: -r["odds"])}
 
 
 # --- messages -------------------------------------------------------------------------------

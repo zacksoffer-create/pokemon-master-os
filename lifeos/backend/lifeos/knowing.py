@@ -143,8 +143,10 @@ def lately(sim, c, viewer=None) -> list:
         for f in drama.state(w)["fallouts"][::-1]:
             if not f["fixed"] and c.id in (f["a"], f["b"]) and w.day - f["day"] <= 30:
                 other = f["b"] if f["a"] == c.id else f["a"]
-                out.append(f"Not speaking to {_first(w, other)}")
-                break
+                r = w.rels.get((c.id, other))
+                if r is not None and r.affection < 40:  # (only while they really aren't: two who made up are talking)
+                    out.append(f"Not speaking to {_first(w, other)}")
+                    break
     except Exception:  # noqa: BLE001  drama state is optional in older saves
         pass
     game = next((i for i in w.calendar if i["kind"] == "game" and i.get("group") in c.memberships and 0 <= i["day"] - w.day <= 3), None)

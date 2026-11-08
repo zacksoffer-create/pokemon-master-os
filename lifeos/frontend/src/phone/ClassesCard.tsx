@@ -38,11 +38,40 @@ export default function ClassesCard() {
             </div>
           ))}
         </div>
+        {v.electives && v.electives.length > 0 && (
+          <div className="cl-elective">
+            <span className="ph-dim small">Your elective</span>
+            <select className="ph-input" value={v.elective || v.classes.find((c) => c.id === "elective")?.name || ""}
+              onChange={(e) => phoneApi.pickElective(e.target.value).then(setV).catch(() => undefined)}>
+              {v.electives.map((n) => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </div>
+        )}
         <p className="ph-dim small" style={{ margin: "10px 0 0" }}>
-          On quiz and test days you can take it yourself. Your answers count toward the grade, along with how much you've studied.
-          Most other days a teacher throws something quick at the class. Going for it nudges that grade a little.
+          On quiz and test days you can take it yourself: a good round raises your score, and a bad one never drops it below
+          what your studying earned. Most other days a teacher throws something quick at the class. Going for it nudges that grade a little.
+          {v.parents_expect != null && ` Your parents hope for about a ${v.parents_expect.toFixed(1)}; they only ground you for a real drop or a GPA under 2.0.`}
         </p>
       </div>
+      {v.college && (
+        <>
+          <div className="ph-section-t">Where you'd get in</div>
+          <div className="ph-card cl-card">
+            <p className="ph-dim small" style={{ marginTop: 0 }}>
+              Your odds today: your GPA plus what's on your resume{v.college.resume.length ? ` (${v.college.resume.join(", ")}: worth about +${v.college.bonus.toFixed(2)})` : ""}.
+              Senior spring, the letters come.
+            </p>
+            <div className="cl-list">
+              {v.college.schools.map((r) => (
+                <div key={r.name} className="cl-row">
+                  <div className="cl-m"><b>{r.name}</b><span>looks for about a {r.bar.toFixed(1)}</span></div>
+                  <span className={cx("cl-grade", r.odds >= 60 ? "a" : r.odds >= 30 ? "b" : r.odds >= 10 ? "c" : "d")}>{r.odds}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

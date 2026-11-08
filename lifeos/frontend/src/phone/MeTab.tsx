@@ -104,8 +104,9 @@ export default function MeTab() {
           <Bar label="Mood" value={me.mood} />
           <Bar label="Energy" value={me.needs?.energy ?? 0} tone="sky" />
           <Bar label="Stress" value={me.needs?.stress ?? 0} invert />
-          <Bar label="Social" value={me.needs?.social ?? 0} tone="grape" />
-          <Bar label="Fun" value={me.needs?.fun ?? 0} tone="sun" />
+          {me.mood_note && <p className="ph-dim small">Mood {me.mood_note.delta > 0 ? "up" : "down"} {Math.abs(me.mood_note.delta)} overnight: {me.mood_note.why}.</p>}
+          {me.grounded && <p className="ph-dim small">Grounded until {me.grounded.until}{me.grounded.why ? ` (${me.grounded.why})` : ""}.</p>}
+          {me.parents_expect != null && <p className="ph-dim small">Your parents hope for about a {me.parents_expect.toFixed(1)}. They only ground you for a real drop (0.3 or more) or a GPA under 2.0.</p>}
         </div>
 
         {s.squad && (

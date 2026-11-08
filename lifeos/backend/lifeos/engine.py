@@ -249,8 +249,15 @@ class Simulation:
         for it in self._today:
             if it["kind"] == "game" and prot in w.groups[it["group"]]["members"] and pc.flags.get("injured_until", -1) < w.day:
                 from .sports import game_opponent
-                self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": game_opponent(self, w.groups[it["group"]], it),
-                                                       "round": it.get("round_name")})
+                from . import gameplay
+                g_ = w.groups[it["group"]]
+                sk = g_.get("skill")
+                call = gameplay.storyline_calls(self, pc, sk) if sk else None
+                need = gameplay.record_pull(self, pc, g_, (g_.get("levels") or {}).get(prot, "varsity"), sk) if sk and not call else None
+                written = (call or {}).get("result") or (need if need in ("win", "loss") else None)
+                self.moment_trigger("game_day", prot, {"group": it["group"], "opponent": game_opponent(self, g_, it),
+                                                       "round": it.get("round_name"), "written": written,
+                                                       "written_by": (call or {}).get("storyline")})
         self._tryout_eve(pc)  # the day before a tryout for a team you'd go out for: are you going?
         for it in self._today:
             if it["kind"] == "exam" and it.get("slot") == "classes" and it.get("school", "hchs") == pc.school and pc.location != "away":
@@ -360,9 +367,22 @@ class Simulation:
             n["fun"] = clamp(n["fun"] - R["needs.fun_decay"] * (0.6 + c.traits["impulsivity"] / 150), 0, 100)
             base = 20 + c.traits["volatility"] * 0.3
             n["stress"] = clamp(n["stress"] + (base - n["stress"]) * R["needs.stress_recovery"] / 100, 0, 100)
-            target = 45 + 0.2 * (n["energy"] - 50) + 0.2 * (n["social"] - 50) + 0.15 * (n["fun"] - 50) - 0.4 * (n["stress"] - 35)
+            parts = {"you've been with people": 0.2 * (n["social"] - 50), "you've had fun": 0.15 * (n["fun"] - 50),
+                     "you're rested": 0.2 * (n["energy"] - 50), "stress": -0.4 * (n["stress"] - 35)}
+            target = 45 + sum(parts.values())
             k = R["needs.mood_inertia"]
+            before = c.mood
             c.mood = clamp(k * c.mood + (1 - k) * target, 0, 100)
+            if c.id == w.meta.get("protagonist") and abs(c.mood - before) >= 1:
+                why, v = max(parts.items(), key=lambda kv: abs(kv[1]) if (kv[1] > 0) == (c.mood > before) else -1)
+                if (v > 0) != (c.mood > before):
+                    why = "a long day"
+                elif why == "stress":
+                    why = "you've been stressed" if v < 0 else "things have been calm"
+                elif v < 0:
+                    why = {"you've been with people": "not much time with people", "you've had fun": "not much fun lately",
+                           "you're rested": "you're tired"}[why]
+                c.flags["mood_note"] = {"day": w.day, "delta": round(c.mood - before), "why": why}
             c.study_ema *= 0.93
         for it in self.today("night"):
             if it["kind"] == "graduation":
@@ -383,6 +403,14 @@ class Simulation:
         rng = self.streams.get("weekly", w.day)
         from . import pets
         pets.weekly(self)
+        self.institutions.callups(rng)  # a JV player who's outplaying varsity's last starter moves up
+        prot = w.meta.get("protagonist")
+        pc = w.chars.get(prot or "")
+        pt = pc.flags.get("partner") if pc else None
+        pr = w.rels.get((prot, pt)) if pt in w.chars else None
+        if pr is not None and w.day - pr.last_day >= 21 and w.day - pc.flags.get("partner_checkin", -999) >= 30:
+            pc.flags["partner_checkin"] = w.day  # three weeks apart: they ask where this is going (it's your call)
+            self.moment_trigger("partner_checkin", prot, {"partner": pt})
         fx = Effects(w, None)
         decay = R["rel.affection_decay"] / 100
         from .summer import WATCH_HILL

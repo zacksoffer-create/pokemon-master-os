@@ -193,9 +193,9 @@ def test_a_partner_you_ignore_misses_you():
     sim.advance_days(6)
     me.flags["partner"], w.chars[g].flags["partner"] = g, me.id
     r = w.rels[(me.id, g)]
-    r.last_day = w.day - 5
+    r.last_day = w.day - 8  # (a week: the "misses you" item waits that long, and a text clears it)
     v = chat.vibe(sim, g)
-    assert v["signals"][0]["text"].startswith("Feeling distant: 5 days") and "5 days" in v["tip"]
+    assert v["signals"][0]["text"].startswith("Feeling distant: 8 days") and "8 days" in v["tip"]
     plate = planner.today(sim)["plate"]
     assert any(p["title"] == f"{w.chars[g].first} misses you" for p in plate)
 

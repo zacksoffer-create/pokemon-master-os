@@ -79,7 +79,7 @@ export type SportsView = {
     next: { date: string; in_days: number; opponent: string; rival: boolean; their_record: string | null; their_rank: number | null;
       stars: { name: string; pos: string }[] } | null };
   you?: { level: string; position: string | null; starter: boolean; spot: number; starters: number; of: number; rating: number;
-    parts: { key: string; label: string; value: number }[]; tip: string; injured: boolean; missed: number;
+    parts: { key: string; label: string; value: number }[]; tip: string; injured: boolean; missed: number; edge?: number;
     vs: { name: string; first: string; rating: number; gap: number; diff: Record<string, number>; line: string; how: string } | null;
     depth: { id: string; name: string; first: string; rating: number; pos: string | null; grade: number; you: boolean; starter: boolean }[];
     coach: { name: string; respect: number; label: string } | null; season: string | null; games: number; starts: number;
@@ -88,8 +88,8 @@ export type SportsView = {
   leaders?: Record<string, { label: string; rows: { id: string; name: string; team: string; ours: boolean; value: number }[] }>;
   potw?: { name: string; team: string; text: string; week_of: string; ours?: boolean }[];
   race?: { all_conf: RaceRow[]; you: number | null; cut: number; mvp: RaceRow[] };
-  recruiting?: { grade: number | null; score: number | null; interest: { name: string; level: number; tier: string }[];
-    offers: { name: string; short: string; aid: string; conference: string }[] };
+  recruiting?: { grade: number | null; score: number | null; gpa?: number; interest: { name: string; level: number; tier: string; needs?: number | null; blocked?: boolean }[];
+    offers: { name: string; short: string; aid: string; conference: string; needs?: number | null }[] };
 };
 export type SeasonReport = {
   season: string; label: string; next: string; next_label: string; played: number; missed: number; seconds: number;
@@ -158,7 +158,9 @@ export type Contact = ContactRow & {
 export type MiniGameRow = { id: string; title: string; label: string; blurb: string; icon: string; ready: boolean; available: boolean; why: string; rewarded_today: boolean; best: number | null };
 export type ClassRow = { id: string; name: string; subject: string; teacher: string; honors: boolean; pct: number; letter: string; quizzes: number; quiz_avg: number | null;
   games: number; games_won: number };
-export type ClassesView = { gpa: number; year: string; classes: ClassRow[]; upcoming: { name: string; date: string; in_days: number; weight: number }[]; tests_played: number };
+export type ClassesView = { gpa: number; year: string; classes: ClassRow[]; upcoming: { name: string; date: string; in_days: number; weight: number }[]; tests_played: number;
+  parents_expect?: number | null; college?: { resume: string[]; bonus: number; schools: { name: string; bar: number; odds: number }[] } | null;
+  electives?: string[]; elective?: string | null };
 export type ScheduleRow = { sid: string; pack: string; title: string; importance: string; window: any; window_rule: string | null; window_text: string;
   order: number; state: string; day?: number; date?: string; reason?: string; detail?: any; why: string; last?: any };
 export type ScheduleView = { profile: string; profiles: Record<string, { label: string; about: string }>; auto_scenes: boolean; date: string;
@@ -398,6 +400,7 @@ export const phoneApi = {
     api.post("/api/phone/minigame/finish", { session, score, max, stats }),
   minigameQuit: () => api.post("/api/phone/minigame/quit", {}),
   classes: (): Promise<ClassesView> => api.get("/api/phone/classes"),
+  pickElective: (name: string): Promise<ClassesView> => api.post("/api/phone/elective", { name }),
   // time: until = "decision" (next choice), "moment" (live until something happens), "day" | "week"
   advance: (until: string): Promise<any> => api.post("/api/story/advance", { until }),
   job: (): Promise<any> => api.get("/api/sim/job"),

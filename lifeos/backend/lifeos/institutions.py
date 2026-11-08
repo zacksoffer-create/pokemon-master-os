@@ -81,6 +81,41 @@ class Institutions:
             out.append(g["id"])
         return sorted(out)
 
+    def callups(self, rng):
+        """Weekly, in season: a JV player who's better than varsity's last starter gets called up. You get asked."""
+        sim = self.sim
+        w = sim.w
+        me = w.meta.get("protagonist")
+        for g in sorted(w.groups.values(), key=lambda g: g["id"]):
+            lv = g.get("levels")
+            if g.get("kind") != "team" or not lv or g.get("school") == "college" or not self.in_season(g):
+                continue
+            sk = g["skill"]
+            varsity = sorted((m for m in g["members"] if lv.get(m, "varsity") == "varsity" and m in w.chars),
+                             key=lambda m: -sports.rating(w.chars[m], sk))
+            n = g.get("starters", 5)
+            if len(varsity) < n:
+                continue
+            bar = sports.rating(w.chars[varsity[n - 1]], sk) + 3  # (clearly better than the last starter)
+            jv = sorted((m for m in g["members"] if lv.get(m) == "jv" and m in w.chars
+                         and w.chars[m].flags.get("injured_until", -1) < w.day and sports.rating(w.chars[m], sk) >= bar),
+                        key=lambda m: -sports.rating(w.chars[m], sk))
+            for m in jv[:1]:
+                if m == me:
+                    key = f"{g['id']}:{calm.school_year_of(w.day)}"
+                    asked = w.meta.setdefault("callup_asked", {})
+                    if key not in asked:
+                        asked[key] = w.day
+                        sim.moment_trigger("called_up", me, {"team_id": g["id"], "team": g["name"], "coach": g.get("staff")})
+                    continue
+                lv[m] = "varsity"
+                ev = self.event("tryout", "called_up", [m], importance=22, group=g["id"], data={"group": g["name"]})
+                ev["text"] = f"{w.chars[m].short} got called up to varsity {g['name'].replace('Guilford ', '')}."
+                fx = Effects(w, ev)
+                fx.mood(m, 6, "called up")
+                fx.memory(m, "called_up", [], 0.6, 55, f"Called up to varsity {g['name']}")
+                sim.finish(ev, fx)
+
     def in_season(self, g) -> bool:
         w = self.sim.w
         y = calm.school_year_of(w.day)
@@ -718,11 +753,24 @@ class Institutions:
         if g["kind"] == "team":
             self.walk_ons(g, rng)
         if g["kind"] == "team" and made:
-            varsity = [r for r in made if r.get("level", "varsity") == "varsity"]
-            cands = sorted([r for r in varsity if (w.chars[r["char"]].grade or 0) >= 11], key=lambda r: -r["score"]) or varsity
+            # the captain: from the whole varsity roster (walk-ons and players you placed too), seniors first, then by how
+            # they looked, the coach's respect and seasons on the team; a freshman only if the roster is all freshmen
+            scores = {r["char"]: r["score"] for r in made}
+            coach_id = g.get("staff")
+            roster = [m for m in g["members"] if (g.get("levels") or {}).get(m, "varsity") == "varsity" and m in w.chars]
+
+            def cap_score(m):
+                cm = w.chars[m]
+                r = w.rels.get((coach_id, m)) if coach_id else None
+                seasons = sum(1 for h in g.get("history") or [] if m in (h.get("roster") or []))
+                return ((cm.grade or 9) * 100 + scores.get(m, min(scores.values(), default=0)) * 0.5
+                        + (r.respect if r else 0) * 0.3 + seasons * 8)
+            upper = [m for m in roster if (w.chars[m].grade or 0) >= 11]
+            pool = upper or [m for m in roster if (w.chars[m].grade or 0) >= 10] or roster
+            cands = sorted(pool, key=lambda m: (-cap_score(m), m))
             if cands:
-                g["leaders"] = [cands[0]["char"]]
-                cap_c = w.chars[cands[0]["char"]]
+                g["leaders"] = [cands[0]]
+                cap_c = w.chars[cands[0]]
                 e4 = self.event("tryout", "captain", [cap_c.id], importance=34, group=g["id"], data={"group": g["name"]})
                 e4["text"] = f"{cap_c.short} was named captain of {g['name']}."
                 f4 = Effects(w, e4)
@@ -1073,12 +1121,14 @@ class Institutions:
                     sim.schedule(w.day + 1, "parents_find_out", {"char": cid, "what": "being at a busted party"}, e5.get("id"))
             f5.rep(host, "troublemaker", 5, "busted party")
             sim.finish(e5, f5)
-        # people who thought they were friends with the host and weren't invited
+        # people who thought they were friends with the host and weren't invited: only close friends who heard about it
+        # (a big party, or a friend of theirs was there), and never you over a party you didn't know existed
         for o, r in sorted(w.out.items()):
-            if o in came or o in p["invited"] or w.chars[o].role != "student" or w.chars[o].status != "active":
+            if o in came or o in p["invited"] or o == prot or w.chars[o].role != "student" or w.chars[o].status != "active":
                 continue
             rr = r.get(host)
-            if rr and rr.affection >= R["rel.friend_threshold"] and rng.random() < 0.45:
+            heard = big or any(x in came for x, rx in r.items() if rx.affection >= R["rel.friend_threshold"])
+            if rr and rr.affection >= 60 and heard and rng.random() < 0.3:
                 e6 = self.event("party", "not_invited", [o], [host], importance=20, data={})
                 e6["causes"] = [ev["id"]] if ev.get("id") else []
                 f6 = Effects(w, e6)
@@ -1225,6 +1275,13 @@ class Institutions:
         fx = Effects(w, ev)
         for m in list(g["members"]):
             fx.leave(m, g["id"], "season ended")
+            c_ = w.chars.get(m)
+            if c_ is not None and c_.flags.get("graduating") and not any(
+                    w.groups[x]["kind"] == "team" and x != g["id"] and self.in_season(w.groups[x]) for x in c_.memberships):
+                c_.flags.pop("graduating", None)  # the season's over: now they've graduated
+                fx.scalar(m, "role", "alumni", "graduated")
+                c_.grade = None
+                c_.school = None
         g["record"] = {"w": 0, "l": 0}
         g["record_jv"] = {"w": 0, "l": 0}
         g["absences"] = {}
@@ -1244,12 +1301,16 @@ class Institutions:
                 sports.choose_path(self, c, rng)
             ev = self.event("graduation", "graduated", [cid], importance=40)
             fx = Effects(w, ev)
+            playing = [gid for gid in c.memberships if w.groups[gid]["kind"] == "team" and self.in_season(w.groups[gid])]
             for gid in list(c.memberships):
-                if w.groups[gid]["kind"] != "job":
+                if w.groups[gid]["kind"] != "job" and gid not in playing:
                     fx.leave(cid, gid, "graduated")
-            fx.scalar(cid, "role", "alumni", "graduated")
-            c.grade = None
-            c.school = None
+            if playing:  # a senior whose spring team is still playing (the state tournament runs into June) finishes the season
+                c.flags["graduating"] = True
+            else:
+                fx.scalar(cid, "role", "alumni", "graduated")
+                c.grade = None
+                c.school = None
             fx.memory(cid, "graduated", [], 0.8, 80, f"Graduated from {sim.cat.world['school']['name']}")
             c.achievements.append({"day": w.day, "label": "Graduated", "event": ev.get("id")})
             for go in c.goals:

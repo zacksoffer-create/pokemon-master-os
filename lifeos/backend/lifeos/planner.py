@@ -219,7 +219,7 @@ def plate(sim, me) -> list:
                           "sub": f"GPA {me.gpa:.2f}" + (" · study tonight" if c["n"] == 1 else ""), "go": "me", "cta": "Classes", "rank": 2})
         elif c["kind"] in ("game", "show") and c["n"] <= 1:
             items.append({"id": f"cal:{c['kind']}:{c['day']}", "kind": "game", "icon": c["icon"], "title": f"{c['label']} {when}",
-                          "sub": "Get some rest the night before" if c["n"] == 1 else "Today's the day", "rank": 2})
+                          "sub": "Tomorrow" if c["n"] == 1 else "Today's the day", "rank": 2})
         elif c["kind"] in ("tryout", "audition") and c["n"] <= 3:
             items.append({"id": f"cal:{c['kind']}:{c['day']}", "kind": "game", "icon": c["icon"], "title": f"{c['label']} {when}",
                           "sub": "Sign up after school if you want a spot", "rank": 2})
@@ -227,13 +227,15 @@ def plate(sim, me) -> list:
             items.append({"id": f"bday:{c['who']}", "kind": "people", "icon": "sparkle", "title": f"{c['label']} {when}",
                           "sub": "Send them something", "go": f"phone/contact/{c['who']}", "cta": "Text", "rank": 1})
     dance = next((i for i in w.calendar if i["kind"] == "dance" and i.get("ask_from", 10**9) <= w.day < i["day"]), None)
-    if dance and (me.grade or 0) <= 12 and not (w.dance_dates.get(dance.get("key"), {}) or {}).get(me.id):
+    left = (dance["day"] - w.day) if dance else 0
+    if dance and (me.grade or 0) <= 12 and not (w.dance_dates.get(dance.get("key"), {}) or {}).get(me.id) \
+            and (w.day - dance.get("ask_from", w.day) <= 1 or left <= 2):  # (when asking opens, and two days out: not every day)
         items.append({"id": f"dance:{dance['day']}", "kind": "people", "icon": "heart", "title": f"{dance['name']} {_when(dance['day'] - w.day, w.day)}",
                       "sub": "You don't have a date yet", "rank": 3})
     # the person you're with, when it's been a few days
     partner = me.flags.get("partner")
     pr = w.rels.get((me.id, partner)) if partner in w.chars else None
-    if pr and pr.last_day >= 0 and w.day - pr.last_day >= 3:
+    if pr and pr.last_day >= 0 and w.day - pr.last_day >= 7:  # (a week, and a text clears it)
         gap = w.day - pr.last_day
         items.append({"id": f"partner:{partner}", "kind": "people", "icon": "heart", "title": f"{w.chars[partner].first} misses you",
                       "sub": f"{gap} days since you two talked", "go": f"phone/thread/dm:{partner}", "cta": "Text", "rank": 2})
