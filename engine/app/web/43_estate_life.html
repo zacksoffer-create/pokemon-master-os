@@ -1,0 +1,81 @@
+<script>
+/* ===== The estate in time (v2.7, docs/ESTATE.md §The estate in time) ==============================================
+   The season in the highlands and how each resident fares outdoors, a week of the Glasshouse against a week of
+   rations, and a day at Blackthorn: who is about morning, day and night and what it does. The numbers are Wild's
+   (41_wild: seasonCard, stores, day, held to wilderness/expedition.py); the residents and their jobs are the estate's. */
+function lifeResidents() { return Estate.residents(estateAll()); }
+function lifeJobs(res) {   // {resident label: [the jobs it can hold]} from the facility reports
+  var reps = estateReports(res), jobs = jobsOf(reps, res), out = {};
+  res.forEach(function (r, i) { out[r.label] = jobs[i]; });
+  return out;
+}
+function lifeStrip(res) {   // the estate page's strip: this season, the stores, a day, out in the wild
+  var R = Wild.rules(), se = seasonNowName(), sc = Wild.seasonCard(se, res.map(function (r) { return {species: r.species, label: r.label, climate: r.habitat.climate}; }));
+  var st = Wild.stores(Estate.crops(), res.map(function (r) { return {species: r.species, label: r.label}; }), store('estate-plots'));
+  var xs = expeditions(), wx = sc.weather.slice().sort(function (a, b) { return b.share - a.share; })[0];
+  return '<div class="lifestrip">' +
+    '<a class="lifecard" href="#/estate/season"><div class="eyebrow">' + esc(R.seasons.names[se]) + ' in the highlands</div><div class="small">Mostly ' + esc((wx || {name: '—'}).name.toLowerCase()) + '. ' +
+      (sc.indoors.length ? esc(sc.indoors.join(', ')) + ' by the hearth' : sc.thrives.length ? esc(sc.thrives.slice(0, 3).join(', ')) + ' thriving outside' : 'Everyone fine outside') + '.</div></a>' +
+    '<a class="lifecard" href="#/estate/stores"><div class="eyebrow">The stores · a week</div><div class="small">' + (res.length ? 'The Glasshouse picks <b>' + st.made + '</b>; the residents eat <b>' + st.need + '</b>. ' + (st.balance >= 0 ? '<span style="color:var(--forest-3)">' + st.balance + ' to spare</span>' : '<span style="color:var(--ember-2)">' + (-st.balance) + ' short</span>') : 'Nobody to feed yet.') + '</div></a>' +
+    '<a class="lifecard" href="#/estate/day"><div class="eyebrow">A day at Blackthorn</div><div class="small">Who is about morning, day and night, and what each one does.</div></a>' +
+    '<a class="lifecard" href="#/wild"><div class="eyebrow">Out in the wild</div><div class="small">' + (xs.length ? esc(xs[0].place_name) + ', ' + esc(xs[0].outcome) + (xs.length > 1 ? ' · ' + plural(xs.length, 'expedition') + ' kept' : '') : 'Plan an expedition from the gates.') + '</div></a></div>';
+}
+function seasonPage(query) {
+  var q = qparse(query);
+  return wildReady().then(function () {
+    var R = Wild.rules(), se = q.s && R.seasons.order.indexOf(q.s) >= 0 ? q.s : seasonNowName(), res = lifeResidents();
+    var sc = Wild.seasonCard(se, res.map(function (r) { return {species: r.species, label: r.label, climate: r.habitat.climate}; }));
+    var crops = Estate.crops(), tone = {thrives: 'forest', fine: '', shade: 'gold', indoors: 'ember'};
+    var tabs = R.seasons.order.map(function (s) { return '<a class="chip' + (s === se ? ' gold' : '') + '" href="#/estate/season?s=' + s + '">' + esc(R.seasons.names[s]) + (s === seasonNowName() ? ' · now' : '') + '</a>'; }).join(' ');
+    return '<div class="eyebrow"><a class="link" href="#/estate">← The Estate</a></div><h1 style="margin:6px 0">' + esc(R.seasons.names[se]) + ' at Blackthorn</h1>' +
+      '<p class="lede">The highlands through the year: the weather over the city, how each resident fares outside, and what the Glasshouse keeps growing whatever the season.</p><div style="margin:8px 0 14px">' + tabs + '</div>' +
+      '<div class="grid"><div class="c5">' + card('The sky', '<div class="wxbar" style="height:14px">' + sc.weather.map(function (w) { return '<i class="wx-' + w.kind + '" style="width:' + (w.share * 100) + '%" title="' + esc(w.name) + '"></i>'; }).join('') + '</div>' +
+        sc.weather.map(function (w) { return '<div class="goal"><div class="small">' + esc(w.name) + '</div><b class="num">' + Math.round(w.share * 100) + '%</b></div>'; }).join('') +
+        '<p class="tiny muted" style="margin:6px 0 0">A day\'s weather over Blackthorn City (high, mountain ground): Blackthorn\'s world model, the same one the expeditions use. The games have no seasons; this is creative and editable.</p>', {eyebrow: 'The highlands, ' + R.seasons.names[se].toLowerCase(), tools: false}) + '</div>' +
+      '<div class="c7">' + card('The residents outside', res.length ? sc.residents.map(function (r, i) { return '<div class="lifeline"><img class="pix" src="' + spriteOf(numOf(r.species), res[i].game, res[i].ind.shiny) + '" alt="" loading="lazy"><div><b>' + esc(r.who) + '</b> ' + chip(r.says, tone[r.outdoor]) + ' <span class="tiny muted">' + esc(r.climate === 'any' ? 'any climate' : r.climate + ' climate') + '</span></div></div>'; }).join('') +
+          '<p class="tiny muted" style="margin:6px 0 0">Climate is the habitat engine\'s, from type (warm for Fire, cold for Ice); how a season treats it is Blackthorn\'s reading. The hearth is the Glasshouse\'s; the shade, the cold vault\'s.</p>' : '<div class="tiny muted">Nobody lives here yet.</div>', {eyebrow: plural(res.length, 'resident'), tools: false}) + '</div></div>' +
+      '<div style="margin-top:16px">' + card('Under glass, every season', crops.length ? '<div class="scroll"><table class="t"><thead><tr><th>Berry</th><th>Grows in</th><th>Picks</th><th>Why it\'s grown</th></tr></thead><tbody>' + crops.map(function (c) {
+          return '<tr><td><b>' + esc(c.berry) + '</b></td><td>' + c.hours_to_harvest + ' hours</td><td>up to ' + c.max_harvest + ' a plant</td><td class="tiny muted">' + esc(c.why) + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+          '<p class="tiny muted" style="margin:6px 0 0">Gen IV\'s own growth times and best harvests (PokeAPI). Inside the glass, warmed by the hearth and lit by Ampharos in the dark months, the rings grow the year round (D-045); the Apricorn trees outside follow the seasons.</p>' : '<div class="tiny muted">No crops yet.</div>', {eyebrow: 'The Glasshouse rings', tools: false}) + '</div>';
+  });
+}
+function storesPage(query) {
+  var q = qparse(query);
+  if (q.plots) store('estate-plots', Math.max(1, Math.min(40, +q.plots || 4)));
+  return wildReady().then(function () {
+    var res = lifeResidents(), plots = store('estate-plots') || Wild.rules().estate.plots_per_crop;
+    var st = Wild.stores(Estate.crops(), res.map(function (r) { return {species: r.species, label: r.label}; }), plots);
+    var pool = res.map(function (r) { return capMember(r.ind); }), food = Wild.teamStanding('heartgold', 'food_source', pool, []);
+    var fs = Cap.needHolders('heartgold', 'food_source', pool, [], []).filter(function (h) { return Cap.READY.indexOf(h.standing) >= 0 || h.standing === 'plausible'; });
+    after(function (p) { var i = p.querySelector('#stplots'); if (i) i.onchange = function () { nav('#/estate/stores?plots=' + i.value); }; });
+    var ok = st.balance >= 0;
+    return '<div class="eyebrow"><a class="link" href="#/estate">← The Estate</a></div><h1 style="margin:6px 0">The stores</h1>' +
+      '<p class="lede">A week of the Glasshouse against a week of the residents\' rations. An estimate to plan with, not a chore: nothing runs down while you\'re away.</p>' +
+      '<div class="exverdict ' + (ok ? 'forest' : 'ember') + '" style="margin:12px 0"><b>' + (res.length ? (ok ? 'The Glasshouse feeds everyone, with ' + st.balance + ' rations a week to spare' : 'The Glasshouse falls ' + (-st.balance) + ' rations a week short') : 'Nobody to feed yet') + '</b> <span class="tiny muted">' + st.made + ' picked · ' + st.need + ' eaten</span></div>' +
+      '<div class="grid"><div class="c7">' + card('What the rings pick in a week', '<div class="row" style="align-items:center;margin-bottom:8px"><label class="small">Plots per crop</label><input class="f" id="stplots" type="number" min="1" max="40" value="' + plots + '" style="width:90px"><span class="tiny muted">a design choice (Blackthorn\'s default ' + Wild.rules().estate.plots_per_crop + ')</span></div>' +
+          (st.crops.length ? '<div class="scroll"><table class="t"><thead><tr><th>Berry</th><th>Hours</th><th>Harvests a week</th><th>× best pick × plots</th><th>Berries</th></tr></thead><tbody>' + st.crops.map(function (c) {
+            return '<tr><td><b>' + esc(c.berry) + '</b><div class="tiny muted">' + esc(c.why || '') + '</div></td><td>' + c.hours + '</td><td>' + c.harvests + '</td><td class="tiny">× ' + c.max_harvest + ' × ' + c.plots + '</td><td><b class="num">' + c.berries + '</b></td></tr>'; }).join('') + '</tbody></table></div>' : '<div class="tiny muted">No crops.</div>') +
+          '<p class="tiny muted" style="margin:6px 0 0">Harvests: the week\'s 168 hours over each berry\'s Gen IV growth time, replanted as soon as it\'s picked; the best pick is the game\'s maximum with ideal watering. A berry feeds one ration (Blackthorn\'s standard).</p>', {eyebrow: plural(st.crops.length, 'crop'), tools: false}) + '</div>' +
+      '<div class="c5">' + card('Who eats', st.eat.length ? st.eat.map(function (e) { return '<div class="goal"><div class="small">' + esc(e.who) + ' <span class="tiny muted">' + esc(e.size) + '</span></div><b class="num">' + e.rations + '</b></div>'; }).join('') +
+          '<p class="tiny muted" style="margin:6px 0 0">Rations a week by body size (the habitat engine\'s class; capability/model.json\'s standard, not canon).</p>' : '<div class="tiny muted">Nobody yet.</div>', {eyebrow: 'A week of rations', tools: false}) +
+        '<div style="margin-top:16px">' + card('Other food on the estate', fs.length ? fs.slice(0, 8).map(function (h) { return holderLine(h); }).join('') : '<div class="tiny muted">None of your residents is a food source on a mechanic or a record.</div>', {eyebrow: 'Food source · the capability records', tools: false}) + '</div></div></div>';
+  });
+}
+function estateDayPage() {
+  return wildReady().then(function () {
+    var res = lifeResidents(), jobs = lifeJobs(res), dy = Wild.day(res.map(function (r) { return {species: r.species, label: r.label, line: r.eggs.line, land: r.primary}; }), jobs);
+    var col = function (w) { var xs = dy.by[w];
+      return '<div class="daycol"><div class="eyebrow">' + esc(dy.names[w]) + ' <span class="muted" style="letter-spacing:0;text-transform:none">' + dy.hours[w][0] + ':00–' + dy.hours[w][1] + ':00</span></div>' +
+        xs.map(function (x, i) { var r = res[i];
+          return '<div class="dayrow' + (x.active ? '' : ' rest') + '"><img class="pix" src="' + spriteOf(numOf(x.species), r.game, r.ind.shiny) + '" alt="" loading="lazy"><div><b>' + esc(x.who) + '</b> ' + (x.active ? '' : '<span class="tiny muted">resting</span>') +
+            '<div class="tiny">' + (x.active ? (x.jobs.length ? esc(x.jobs.slice(0, 2).join('; ')) + (x.jobs.length > 2 ? ' +' + (x.jobs.length - 2) : '') : 'out on its ' + esc(landName(x.land || 'meadow')) + ' land') : '') + '</div></div></div>'; }).join('') + '</div>'; };
+    return '<div class="eyebrow"><a class="link" href="#/estate">← The Estate</a></div><h1 style="margin:6px 0">A day at Blackthorn</h1>' +
+      '<p class="lede">Morning, day and night on the estate: who is about and what it does. A resident is up when its kind is about in the wild (the game\'s own encounter times in HeartGold and SoulSilver); a kind that\'s never wild there keeps the whole day. Its work is the jobs it can hold on a game mechanic or a record you approved.</p>' +
+      (res.length ? '<div class="daycols">' + dy.windows.map(col).join('') + '</div>' : '<div class="empty">Nobody lives here yet.</div>') +
+      '<p class="tiny muted" style="margin-top:10px">Morning 4:00–10:00, day 10:00–20:00, night 20:00–4:00: the games\' own clock. Nobody is assigned (D-037): these are the jobs each one could hold.</p>';
+  });
+}
+route(/^\/estate\/season\/?(\?.*)?$/, seasonPage, 'The Estate · the season', '#/estate');
+route(/^\/estate\/stores\/?(\?.*)?$/, storesPage, 'The Estate · the stores', '#/estate');
+route(/^\/estate\/day\/?$/, estateDayPage, 'The Estate · a day at Blackthorn', '#/estate');
+</script>

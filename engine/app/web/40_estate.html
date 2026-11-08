@@ -23,7 +23,7 @@ function siteChip(s) { return !s ? chip('no site has its land', 'ember') : s.rol
 function estate(query) {
   var q = qparse(query);
   if (q.all != null) store('estate-all', q.all === '1');
-  return estateReady().then(function () {
+  return wildReady().then(function () {
     var E = Estate.pack(), res = estateRes(), c = Estate.census(res), reps = estateReports(res), jobs = jobsOf(reps, res), tones = {};
     reps.forEach(function (r) { tones[r.facility] = Estate.tone(r); });
     var hq = Estate.hq(), sats = Estate.satellites(), atHq = c.at[hq.id].length, atSat = sats.reduce(function (n, s) { return n + c.at[s.id].length; }, 0);
@@ -38,6 +38,7 @@ function estate(query) {
         (res.length ? '<b>' + atHq + '</b> would live at Blackthorn and <b>' + atSat + '</b> on the Sevii Islands, each where its own land is. ' : '') +
         'A Pokémon holds a job here on a game mechanic it has or a world record you approved (D-039); the land meets a few jobs on its own.</p>' +
       '<div class="small" style="margin:10px 0 0;color:var(--text-2);font-style:italic">“' + esc(quote[0]) + '” <span class="tiny muted" style="font-style:normal">you, ' + esc(quote[1]) + '</span></div>' +
+      lifeStrip(res) +
       (res.length ? '' : '<div class="notice" style="margin-top:14px">Nobody lives on the estate yet: your six teams are empty' + (others > 0 ? ' (you have ' + plural(others, 'Pokémon') + ' off the teams: tick “your other Pokémon” below to count them)' : '') + '. Put Pokémon on a team and they move in here, each to its own land. <a href="#/team">Your teams →</a></div>') +
       '<div class="grid" style="margin-top:18px"><div class="c8">' + card('The plate', '<div class="svgwrap" id="bigmap" style="border-radius:12px;overflow:hidden">' + Art.estateMap(tones) + '</div><p class="tiny muted" style="margin:8px 0 0">Tap a place to open it. A pin\'s colour is its jobs against your residents: green, every job is held by one of yours or by the land; gold, some are open; ember, a critical job nobody of yours holds.</p>', {eyebrow: 'Headquarters · Johto', tools: false}) + '</div>' +
       '<div class="c4">' + card('Sites', E.sites.map(function (s) { var n = c.at[s.id].length;
@@ -142,7 +143,7 @@ function preservePage() {
 }
 route(/^\/estate\/?(\?.*)?$/, estate, 'The Estate', '#/estate');
 route(/^\/homestead\/?(\?.*)?$/, estate, 'The Estate', '#/estate');   // one compound (A-117): the homestead is the estate
-route(/^\/estate\/([^?]+)$/, place, function (n) { return 'Estate · ' + n; }, '#/estate');
+route(/^\/estate\/(?!season|stores|day)([^?]+)$/, place, function (n) { return 'Estate · ' + n; }, '#/estate');
 route(/^\/sevii\/?$/, seviiPage, 'The Sevii Islands', '#/sevii');
 route(/^\/preserve\/?$/, preservePage, 'The Day-Care preserve', '#/preserve');
 

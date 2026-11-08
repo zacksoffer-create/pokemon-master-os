@@ -376,6 +376,8 @@ def main(breeder=False):
     capability_pack.main()
     import estate_pack                   # the Estate's reference and design (v2.5): sites, habitat, eggs, berries, the Glasshouse
     estate_pack.main()
+    import wild_pack                     # the Wild (v2.7): every place, its terrain evidence and wild Pokémon, the map's links
+    wild_pack.main()
     import biology_pack                  # Field Biology (v1): the field guide, dossiers, ecology, ecotypes, ranges
     biology_pack.main()
     import field_pack

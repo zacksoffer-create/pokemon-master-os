@@ -2988,6 +2988,25 @@ class WebApp(unittest.TestCase):
             raise unittest.SkipTest(out.stdout.strip())
         self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
 
+    def test_the_wild_in_the_browser_matches_python(self):
+        """The browser's Wild (web/41_wild.html) against wilderness/expedition.py: every place, eight expeditions with
+        their seeded runs and odds, and the estate's year."""
+        with tempfile.TemporaryDirectory() as tmp:
+            dump = os.path.join(tmp, "wild.json")
+            out = self.sp.run([sys.executable, "-I", os.path.join(ENGINE, "wilderness", "expedition.py"), "--parity", dump], capture_output=True, text=True, cwd=ENGINE)
+            self.assertEqual(out.returncode, 0, out.stderr[-1500:])
+            out = self.sp.run(["node", os.path.join(self.app, "test_wild_parity.mjs"), dump], capture_output=True, text=True, timeout=600)
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+        self.assertIn("checks match Python over 95 places and 8 expeditions", out.stdout)
+
+    def test_the_wild_and_the_estate_in_time_pages(self):
+        """The Wild, a place, the planner (run, odds, keep), the field log and the estate's season, stores and day in the
+        preview (app/test_wild.mjs, in Chromium)."""
+        out = self.sp.run(["node", os.path.join(self.app, "test_wild.mjs")], capture_output=True, text=True, timeout=1500)
+        if "SKIP" in out.stdout:
+            raise unittest.SkipTest(out.stdout.strip())
+        self.assertEqual(out.returncode, 0, out.stdout[-3000:] + out.stderr[-1500:])
+
     def test_the_launcher_serves_the_zip_and_writes_only_the_app_tabs(self):
         out = self.sp.run(["node", os.path.join(ENGINE, "appscript", "test_webapp.mjs")], capture_output=True, text=True)
         self.assertEqual(out.returncode, 0, out.stdout[-1500:] + out.stderr[-1500:])
@@ -3473,6 +3492,92 @@ class BattleIdentity(unittest.TestCase):
             self.assertIn(key, rc["roles"][role], path)
         for k in self.D:
             self.assertLessEqual(len(self.name(k).split()), cfg["max_words"], self.name(k))
+
+
+class Wild(unittest.TestCase):
+    """v2.7, the Wild (docs/WILD.md): wilderness/expedition.py over app/data/wild.json and the capability pack. Real places
+    from the games' own map and encounter tables, expeditions planned on the capability engine, the optional seeded run,
+    and the estate's year. app/test_wild_parity.mjs holds the browser to the same answers; app/test_wild.mjs drives the pages."""
+    @classmethod
+    def setUpClass(cls):
+        from wilderness import expedition as X
+        cls.X = X
+        cls.wild = X.load(os.path.join(ENGINE, "app", "data", "wild.json"))
+        cls.cap = X.load(os.path.join(ENGINE, "app", "data", "capability.json"))
+        _, _, cls.team, _ = X.sample()
+
+    def test_the_pack_is_the_games_map_and_tables(self):
+        P = self.wild["places"]
+        self.assertEqual(len(P), 95)                                                  # Johto 52 + Kanto 43
+        self.assertEqual(len(self.wild["edges"]), 107)
+        night = P["ice-path"]["enc"]["heartgold"]["night"]
+        self.assertEqual({r[0] for r in night}, {"Swinub", "Golbat", "Zubat", "Jynx"})
+        self.assertAlmostEqual(sum(r[1] for r in night), 100.0, places=1)            # one window's walking table adds up
+        self.assertEqual(self.wild["activity"]["Hoothoot"], ["night"])                # the games' own clock
+        self.assertEqual(self.wild["activity"]["Ledyba"], ["morning", "day"])
+        self.assertIn("surf", P["dragons-den"]["methods"])
+        self.assertTrue(all(r[4] != "gift" for w in ("morning", "day", "night") for r in P["dragons-den"]["enc"]["heartgold"][w]))   # gifts aren't who lives there
+
+    def test_a_place_says_what_it_calls_for_and_why(self):
+        ice = self.X.profile(self.wild, "ice-path")
+        need = {n["cap"]: n for n in ice["needs"]}
+        self.assertEqual(need["cold_tolerance"]["priority"], "critical")
+        self.assertEqual(need["cold_tolerance"]["sources"], ["biome:ice-cave"])
+        self.assertTrue(ice["sheltered"])
+        self.assertEqual(self.X.weather_weights(self.wild["rules"], self.wild["places"]["ice-path"], "winter"), [("sheltered", 1)])
+        den = self.X.profile(self.wild, "dragons-den")
+        self.assertEqual([m["move"] for m in den["field_moves"]], ["Surf"])           # the game's own surfing table there
+        self.assertIn("rod", den["kit"])
+        self.assertIn("method:surf", {n["cap"]: n for n in den["needs"]}["water_travel"]["sources"])
+
+    def test_the_way_there_follows_the_map(self):
+        walk = self.X.route(self.wild, self.cap, "heartgold", "ice-path", [])
+        self.assertEqual((walk["by"], walk["path"], walk["days"]), ("foot", ["blackthorn-city", "ice-path"], 1))
+        sea = self.X.route(self.wild, self.cap, "heartgold", "whirl-islands", [])
+        self.assertIn("sea", [l[2] for l in sea["legs"]])
+        self.assertEqual({n["cap"]: n["priority"] for n in sea["needs"]}["water_travel"], "critical")   # crossing water is critical on the way
+        fly = self.X.route(self.wild, self.cap, "heartgold", "whirl-islands", self.team)
+        self.assertEqual((fly["by"], fly["flyer"]), ("air", "Pidgeot"))
+        self.assertLess(len(fly["legs"]), len(sea["legs"]))
+
+    def test_c_a_winter_plan_has_strengths_gaps_kit_and_home(self):
+        pl = self.X.plan(self.wild, self.cap, "heartgold", "mt-silver", self.team, ["tent"], "winter", 3, self.team)
+        r = pl["readiness"]
+        self.assertTrue(r["failure_points"])                                          # cold tolerance is only plausible
+        self.assertEqual(pl["total_days"], pl["days"] + 2 * pl["route"]["days"])
+        self.assertEqual(pl["provisions"]["rations"], pl["provisions"]["per_day"] * pl["total_days"])
+        self.assertTrue(any(h["facility"] == "transport" for h in pl["home"]))        # Pidgeot away: nobody flies at home
+        backup = self.team + [{"species": "Dragonite", "moves": ["Fly", "Surf", "Outrage", "Roost"], "ability": "Inner Focus", "label": "Dragonite"}]
+        pl2 = self.X.plan(self.wild, self.cap, "heartgold", "mt-silver", self.team, ["tent"], "winter", 3, backup)
+        self.assertFalse(any(h["facility"] == "transport" and h["requirement"] == "air" for h in pl2["home"]))
+
+    def test_the_run_is_seeded_and_a_gap_turns_a_team_back(self):
+        pl = self.X.plan(self.wild, self.cap, "heartgold", "mt-silver", self.team, ["tent"], "winter", 3)
+        a = self.X.simulate(self.wild, self.cap, "heartgold", pl, self.team, 7)
+        self.assertEqual(json.dumps(a, sort_keys=True), json.dumps(self.X.simulate(self.wild, self.cap, "heartgold", pl, self.team, 7), sort_keys=True))
+        seen = {self.X.simulate(self.wild, self.cap, "heartgold", pl, self.team, s)["seen"][0][0] for s in range(1, 9)}
+        self.assertGreater(len(seen), 1)                                              # seeds differ
+        lone = [{"species": "Magikarp", "moves": ["Splash"], "ability": "Swift Swim", "label": "Magikarp"}]
+        pl2 = self.X.plan(self.wild, self.cap, "heartgold", "ice-path", lone, [], "winter", 5)
+        run = self.X.simulate(self.wild, self.cap, "heartgold", pl2, lone, 1)
+        self.assertEqual(run["outcome"], "turned back")                               # cold and dark, every day, nobody for them
+        self.assertGreaterEqual(run["setbacks"], 3)                                   # two a day (cold and dark): home on day 2
+        self.assertEqual((run["ended"]["day"], run["ended"]["why"]), (2, str(run["setbacks"]) + " setbacks"))
+        o = self.X.odds(self.wild, self.cap, "heartgold", pl2, lone, 6)
+        self.assertEqual((o["runs"], o["completed"]), (6, 0))
+        self.assertEqual({c["hazard"] for c in o["causes"]}, {"freezing", "dark"})
+
+    def test_the_estate_year(self):
+        crops = [{"berry": "Oran Berry", "hours_to_harvest": 16, "max_harvest": 5}]
+        st = self.X.stores(self.wild, self.cap, crops, [{"species": "Typhlosion"}, {"species": "Lapras"}])
+        self.assertEqual(st["crops"][0]["berries"], 168 // 16 * 5 * 4)                # harvests a week x best pick x plots
+        self.assertEqual(st["need"], 7 * (2 + 4))                                     # medium Typhlosion, large Lapras
+        self.assertEqual(st["balance"], st["made"] - st["need"])
+        card = self.X.season_card(self.wild, "winter", [{"species": "Magcargo", "climate": "warm"}, {"species": "Mamoswine", "climate": "cold"}])
+        self.assertEqual((card["indoors"], card["thrives"]), (["Magcargo"], ["Mamoswine"]))
+        d = self.X.day(self.wild, [{"species": "Hoothoot"}, {"species": "Typhlosion"}], {"Typhlosion": ["The Glasshouse: heat"]})
+        self.assertEqual([x["active"] for x in d["by"]["night"]], [True, True])
+        self.assertEqual([x["active"] for x in d["by"]["day"]], [False, True])       # Hoothoot sleeps by day; Typhlosion is never wild
 
 if __name__ == "__main__":
     unittest.main()

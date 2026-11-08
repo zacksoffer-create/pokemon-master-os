@@ -254,7 +254,7 @@ var Cap = (function () {
   }
   return {init: function (p) { P = p; HIRE = {}; return this; }, ready: function () { return !!P; }, pack: function () { return P; },
     setWorld: function (x) { EXTRA = x || []; }, world: function () { return P.world.concat(EXTRA); },
-    records: records, evidence: evidence, best: best, worldReport: worldReport, cartridgeReport: cartridgeReport, recommend: recommend, compare: compare,
+    records: records, evidence: evidence, best: best, needHolders: needHolders, worldReport: worldReport, cartridgeReport: cartridgeReport, recommend: recommend, compare: compare,
     facilityReport: facilityReport, compareStaff: compareStaff, provisions: provisions, candidates: candidates, capName: capName, battleWorthy: battleWorthy,
     ORDER: ORDER, RANK: RANK, READY: READY, KINDS: KINDS, ORDER_TEXT: ORDER_TEXT};
 })();

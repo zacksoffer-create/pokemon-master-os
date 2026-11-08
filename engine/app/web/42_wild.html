@@ -1,0 +1,236 @@
+<script>
+/* ===== The Wild (v2.7, docs/WILD.md) ==============================================================================
+   Every place in Johto and Kanto as an expedition from Blackthorn would meet it, and the planner that takes a team
+   there: the route over the games' own map, what the ground calls for, readiness (the capability engine), the
+   field moves, provisions, who'd be missed at home, and an optional seeded run written as a field journal. The engine
+   is 41_wild (held to wilderness/expedition.py by app/test_wild_parity.mjs). A run is a planning aid, never canon;
+   an expedition you keep is a Journal row. */
+var EX = null;
+function wildReady() {
+  if (!S.wildP) S.wildP = Promise.all([estateReady(), API.data('wild')]).then(function (r) { Wild.init(r[1], Cap); return true; });
+  return S.wildP;
+}
+function seasonNowName() { return Wild.seasonOf(new Date().getMonth() + 1); }
+function wildTeams() {   // your six teams, each as the members the assessments take
+  return JOURNEYS.map(function (g) { var t = Teams.get(g), ms = t ? Teams.members(t).filter(Boolean).map(function (m) { return capMember(m.ind); }) : [];
+    return {key: g, game: g, name: 'Your ' + GAME_NAME[g] + ' team', members: ms}; });
+}
+function wildTeam(key) { return wildTeams().filter(function (t) { return t.key === key; })[0] || wildTeams()[0]; }
+function wildResidents() { return Estate.residents(false).map(function (r) { return capMember(r.ind); }); }
+var WGL = {};
+function wildGlance(team, kit) {   // per place: its critical and important needs against the team (the map's colours)
+  var key = team.key + '|' + team.members.map(function (m) { return (m.ind || m.species) + (m.moves || []).join(','); }).join(';') + '|' + (kit || []).join(','), C = {};
+  if (WGL.key === key) return WGL.val;
+  var st = function (c) { return C[c] || (C[c] = Wild.teamStanding(team.game, c, team.members, kit || [])[0]); }, out = {};
+  Object.keys(Wild.pack().places).forEach(function (pid) {
+    var pr = Wild.profile(pid, team.game), crit = pr.needs.filter(function (n) { return n.priority === 'critical'; });
+    var gap = crit.filter(function (n) { return st(n.cap) === 'gap'; }).length, soft = crit.filter(function (n) { return Cap.READY.indexOf(st(n.cap)) < 0 && st(n.cap) !== 'gap'; }).length;
+    out[pid] = {tone: !team.members.length ? 'none' : gap ? 'gap' : soft ? 'soft' : 'ready', gap: gap, soft: soft, crit: crit.length};
+  });
+  WGL = {key: key, val: out};
+  return out;
+}
+var TONE = {ready: 'var(--forest-3)', soft: 'var(--gold)', gap: 'var(--ember-2)', none: 'var(--text-3)'};
+function wildMap(glance, sel) {   // the games' own map: Johto on the left, Kanto on the right, every link drawn
+  var P = Wild.pack().places, ids = Object.keys(P).filter(function (k) { return P[k].xy; }), sx = 21, sy = 22, pad = 18;
+  var X = function (p) { return pad + (p.xy[0] + 2) * sx; }, Y = function (p) { return pad + (p.xy[1] + 1) * sy; }, w = pad * 2 + 50 * sx, h = pad * 2 + 18.5 * sy;
+  var edges = Wild.pack().edges.filter(function (e) { return P[e[0]] && P[e[1]] && P[e[0]].xy && P[e[1]].xy; }).map(function (e) { var a = P[e[0]], b = P[e[1]];
+    return '<line x1="' + X(a) + '" y1="' + Y(a) + '" x2="' + X(b) + '" y2="' + Y(b) + '" stroke="' + (e[2] === 'sea' ? '#4f8fb3' : e[2] === 'cave' ? '#8a7a66' : e[2] === 'rail' || e[2] === 'ship' ? '#b08bd6' : '#55606b') +
+      '" stroke-width="' + (e[2] === 'path' ? 2 : 1.6) + '"' + (e[2] === 'sea' || e[2] === 'ship' ? ' stroke-dasharray="5 4"' : e[2] === 'cave' ? ' stroke-dasharray="2 3"' : '') + ' opacity=".75"/>'; }).join('');
+  var home = Wild.rules().home;
+  var dots = ids.map(function (k) { var p = P[k], g = (glance || {})[k] || {tone: 'none'}, town = p.biome.indexOf('urban') >= 0, r = k === home ? 9 : town ? 6 : 5;
+    return '<g class="wnode" data-place="' + k + '" style="cursor:pointer"><title>' + esc(p.name) + '</title>' +
+      (k === home ? '<circle cx="' + X(p) + '" cy="' + Y(p) + '" r="14" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".7"/>' : '') +
+      (k === sel ? '<circle cx="' + X(p) + '" cy="' + Y(p) + '" r="12" fill="none" stroke="#fff" stroke-width="2"/>' : '') +
+      '<circle cx="' + X(p) + '" cy="' + Y(p) + '" r="' + r + '" fill="' + TONE[g.tone] + '" stroke="#11161d" stroke-width="1.5"/>' +
+      (town || k === home ? '<text x="' + (X(p) + 9) + '" y="' + (Y(p) - 7) + '" font-size="10" fill="#c9c2b4" style="pointer-events:none">' + esc(p.name.replace(/ (City|Town)$/, '')) + '</text>' : '') + '</g>'; }).join('');
+  return '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%;height:auto;display:block;background:#0f141a">' +
+    '<text x="' + (pad + 4) + '" y="' + (pad + 2) + '" font-size="12" fill="#8c8576" letter-spacing="3">JOHTO</text><text x="' + (pad + 29 * sx) + '" y="' + (pad + 2) + '" font-size="12" fill="#8c8576" letter-spacing="3">KANTO</text>' +
+    edges + dots + '</svg>';
+}
+function bindWildMap(root) { if (!root) return; root.querySelectorAll('[data-place]').forEach(function (g) { g.onclick = function () { nav('#/wild/' + g.getAttribute('data-place')); }; }); }
+function biomeChips(p) { return p.biome.map(function (b) { return chip(b.replace('-', ' '), b.indexOf('cave') >= 0 ? '' : b === 'urban' ? 'gold' : 'forest'); }).join(' ') + ' ' + chip(p.elevation + ' ground', ''); }
+function srcChip(n) {   // where a need comes from, kept apart (spec Test E)
+  return (n.sources || [n.source]).map(function (s) { var k = s.split(':')[0];
+    return k === 'method' ? chip('the game: ' + s.split(':')[1].replace('-', ' ') + ' encounters', 'forest') : k === 'route' ? chip('the way there: ' + s.split(':')[1] + ' link', 'forest') :
+      k === 'biome' ? chip('its ' + s.split(':')[1].replace('-', ' ') + ' · reading', 'gold') : k === 'elevation' ? chip(s.split(':')[1] + ' ground · reading', 'gold') : chip('every night out · Blackthorn', 'violet'); }).join(' ');
+}
+
+/* ---- the Wild ---- */
+function wildPage(query) {
+  var q = qparse(query);
+  return wildReady().then(function () {
+    var teams = wildTeams(), key = q.team || store('wild-team') || 'heartgold', team = wildTeam(key), kit = store('wild-kit') || [];
+    store('wild-team', team.key);
+    var gl = wildGlance(team, kit), P = Wild.pack().places, regions = ['johto', 'kanto'];
+    var counts = {ready: 0, soft: 0, gap: 0}; Object.keys(gl).forEach(function (k) { if (counts[gl[k].tone] != null) counts[gl[k].tone]++; });
+    after(function (p) { bindWildMap(p.querySelector('#wmap')); var s = p.querySelector('#wteam'); if (s) s.onchange = function () { nav('#/wild?team=' + s.value); }; bindFilter(p); });
+    var row = function (k) { var p = P[k], g = gl[k], n = 0; Wild.rules().windows.order.forEach(function (w) { n = Math.max(n, ((p.enc[Wild.encGame(team.game)] || {})[w] || []).length); });
+      return '<tr class="click" onclick="nav(\'#/wild/' + k + '\')"><td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + TONE[g.tone] + '"></span></td><td><b>' + esc(p.name) + '</b>' + (p.note ? '<div class="tiny muted">' + esc(p.note) + '</div>' : '') + '</td>' +
+        '<td class="small">' + biomeChips(p) + '</td><td class="small">' + (n ? plural(n, 'kind') + ' of wild Pokémon' : '<span class="muted">no wild Pokémon</span>') + '</td>' +
+        '<td class="tiny">' + (g.tone === 'gap' ? '<span style="color:var(--ember-2)">' + plural(g.gap, 'critical gap') + '</span>' : g.tone === 'soft' ? '<span style="color:var(--gold-2)">' + plural(g.soft, 'critical need') + ' only plausible</span>' : g.tone === 'ready' ? '<span style="color:var(--forest-3)">every critical need ready</span>' : '') + '</td></tr>'; };
+    return '<div class="eyebrow">My World · beyond the gates</div><h1 style="margin:6px 0">The Wild</h1>' +
+      '<p class="lede">Every place in Johto and Kanto, as an expedition from Blackthorn would meet it: what lives there morning, day and night (the game\'s own tables), what its ground calls for, the weather by season, and how a team of yours would fare. Pick a place to plan a trip there.</p>' +
+      '<div class="row" style="align-items:center;margin:12px 0"><label class="small">Readiness for</label><select class="f" id="wteam" style="max-width:280px">' + teams.map(function (t) { return '<option value="' + t.key + '"' + (t.key === team.key ? ' selected' : '') + '>' + esc(t.name) + ' (' + t.members.length + ')</option>'; }).join('') + '</select>' +
+        '<a class="btn gold sm" href="#/expedition?team=' + team.key + '">Plan an expedition</a><a class="btn sm" href="#/fieldlog">Your field log</a></div>' +
+      (team.members.length ? '<div class="small" style="margin-bottom:10px">' + chip(counts.ready + ' places ready', 'forest') + ' ' + chip(counts.soft + ' on plausible ground', 'gold') + ' ' + chip(counts.gap + ' with a critical gap', 'ember') + ' <span class="tiny muted">critical needs only; a place\'s page has the rest</span></div>' :
+        '<div class="notice" style="margin-bottom:10px">Your ' + esc(GAME_NAME[team.game]) + ' team is empty, so the map shows the places only. <a href="#/team/' + team.game + '">Build the team →</a></div>') +
+      card('The map', '<div id="wmap" class="svgwrap" style="border-radius:12px;overflow:hidden">' + wildMap(gl) + '</div><p class="tiny muted" style="margin:8px 0 0">The games\' own map (the HeartGold decomp): solid paths, dashed sea and ship, dotted caves, violet the Magnet Train. A place\'s colour is its critical needs against the team: green, all ready; gold, one only plausible; ember, a gap. Blackthorn is ringed.</p>', {eyebrow: 'Johto and Kanto · ' + Object.keys(P).length + ' places', tools: false}) +
+      regions.map(function (rg) { var ks = Object.keys(P).filter(function (k) { return P[k].region === rg; }).sort(function (a, b) { return P[a].name < P[b].name ? -1 : 1; });
+        return '<div style="margin-top:16px">' + card(rg === 'johto' ? 'Johto' : 'Kanto', '<input class="f" data-filter="#wt-' + rg + '" placeholder="Filter places…" style="margin-bottom:8px"><div class="scroll"><table class="t" id="wt-' + rg + '"><tbody>' + ks.map(row).join('') + '</tbody></table></div>', {eyebrow: plural(ks.length, 'place'), tools: false}) + '</div>'; }).join('');
+  });
+}
+
+/* ---- a place ---- */
+function wildPlace(pid, query) {
+  var q = qparse(query);
+  return wildReady().then(function () {
+    var P = Wild.pack().places[pid];
+    if (!P) return '<div class="notice">No place called ' + esc(pid) + '. <a href="#/wild">The Wild</a></div>';
+    var game = q.g === 'soulsilver' ? 'soulsilver' : 'heartgold', pr = Wild.profile(pid, game), R = Wild.rules(), season = q.s || seasonNowName();
+    var team = wildTeam(store('wild-team') || 'heartgold'), way = Wild.shortest(R.home, pid);
+    after(function (p) { bindWildMap(p.querySelector('#wmap')); });
+    var win = R.windows.order.map(function (w) { var rows = pr.wildlife[w] || [];
+      return '<div class="wwin"><div class="eyebrow">' + esc(R.windows.names[w]) + ' <span class="muted" style="letter-spacing:0;text-transform:none">' + R.windows.hours[w][0] + ':00–' + R.windows.hours[w][1] + ':00</span></div>' +
+        (rows.length ? rows.slice(0, 14).map(function (r) { return '<div class="wmon"><img class="pix" src="' + spriteOf(numOf(r[0]), 'heartgold') + '" alt="" loading="lazy"><div><b>' + esc(r[0]) + '</b> <span class="tiny muted">' + r[1] + '% · L' + r[2] + (r[3] !== r[2] ? '–' + r[3] : '') + ' · ' + esc(r[4].replace('-', ' ')) + '</span></div></div>'; }).join('') : '<div class="tiny muted">Nothing in the tables.</div>') + '</div>'; }).join('');
+    var needs = ['critical', 'important', 'useful'].map(function (p) { var ns = pr.needs.filter(function (n) { return n.priority === p; }); if (!ns.length) return '';
+      return '<div class="eyebrow" style="margin:10px 0 4px">' + cap(p) + '</div>' + ns.map(function (n) { var st = team.members.length ? Wild.teamStanding(team.game, n.cap, team.members, []) : null;
+        return '<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)"><b>' + capLink(n.cap) + '</b> ' + (st ? standChip(st[0]) + (st[1] ? ' <span class="tiny muted">' + esc(st[1].who) + '</span>' : '') : '') + ' <span class="tiny muted">' + esc(n.why) + '</span><div style="margin-top:3px">' + srcChip(n) + '</div></div>'; }).join(''); }).join('');
+    var wx = pr.sheltered ? '<div class="small">Under rock the whole way through: no weather reaches it, whatever the season. Only the way there is out in the open.</div>' : R.seasons.order.map(function (s) { var ws = pr.weather[s];
+      return '<div style="margin:6px 0"><div class="small"><b>' + esc(R.seasons.names[s]) + '</b>' + (s === season ? ' ' + chip('now', 'gold') : '') + '</div><div class="wxbar">' + ws.map(function (x) { return '<i class="wx-' + x.kind + '" style="width:' + (x.share * 100) + '%" title="' + esc(x.name + ' ' + Math.round(x.share * 100) + '%') + '"></i>'; }).join('') + '</div>' +
+        '<div class="tiny muted">' + ws.map(function (x) { return esc(x.name) + ' ' + Math.round(x.share * 100) + '%'; }).join(' · ') + '</div></div>'; }).join('');
+    return '<div class="eyebrow"><a class="link" href="#/wild">← The Wild</a> · ' + esc(pr.region === 'johto' ? 'Johto' : 'Kanto') + '</div><h1 style="margin:6px 0">' + esc(pr.name) + '</h1>' +
+      (pr.note ? '<p class="lede">' + esc(pr.note) + '.</p>' : '') + '<div class="small">' + biomeChips(pr) + (pr.water.length ? ' ' + chip('water: ' + pr.water.join(', '), 'ice') : '') + (pr.sheltered ? ' ' + chip('under rock: out of the weather', '') : '') + '</div>' +
+      '<div class="row" style="margin:12px 0"><a class="btn gold" href="#/expedition?place=' + pid + '">Plan an expedition here</a><a class="btn sm" href="#/wild/' + pid + '?g=' + (game === 'heartgold' ? 'soulsilver' : 'heartgold') + '">' + (game === 'heartgold' ? 'SoulSilver\'s tables' : 'HeartGold\'s tables') + '</a></div>' +
+      '<div class="grid"><div class="c7">' + card('Who lives here', '<div class="wwins">' + win + '</div><p class="tiny muted" style="margin:8px 0 0">' + esc(GAME_NAME[game]) + '\'s own encounter tables' + (pr.areas.length > 1 ? ', averaged over ' + plural(pr.areas.length, 'area') + ' (' + esc(pr.areas.join(', ')) + ')' : '') + '. Swarms, radio shows and story Pokémon are left out: this is who lives here.</p>', {eyebrow: 'Morning · day · night', tools: false}) + '</div>' +
+      '<div class="c5">' + card('What it calls for', needs + '<p class="tiny muted" style="margin:8px 0 0">' + (team.members.length ? 'Against your ' + esc(GAME_NAME[team.game]) + ' team, before kit. ' : '') + 'Green tags are the game\'s own evidence; gold is Blackthorn\'s reading of the place; violet, Blackthorn\'s standard.</p>', {eyebrow: 'Its ground, in capabilities', tools: false}) +
+        (pr.field_moves.length ? '<div style="margin-top:16px">' + card('The game\'s ground', pr.field_moves.map(function (m) { return '<div class="small" style="margin:4px 0"><b>' + esc(m.move) + '</b> <span class="tiny muted">' + esc(m.why) + '</span></div>'; }).join('') + (pr.kit.length ? '<div class="tiny muted" style="margin-top:6px">Worth packing: ' + esc(pr.kit.join(', ')) + '.</div>' : ''), {eyebrow: 'Field moves its tables point to', tools: false}) + '</div>' : '') + '</div></div>' +
+      '<div class="grid" style="margin-top:16px"><div class="c6">' + card('Weather by season', wx + '<p class="tiny muted" style="margin:6px 0 0">Blackthorn\'s world model by elevation and season (the games have no seasons): creative, editable in wilderness/wild.json.</p>', {eyebrow: pr.sheltered ? 'Outside only: inside it\'s always sheltered' : 'A day outside', tools: false}) + '</div>' +
+      '<div class="c6">' + card('From Blackthorn', way ? '<div class="small">' + way.map(function (x, i) { var p = Wild.pack().places[x[0]]; return (i ? '<span class="muted"> ' + (x[1] === 'sea' ? '≈' : x[1] === 'cave' ? '⋯' : x[1] === 'rail' ? '🚆' : x[1] === 'ship' ? '⛴' : '→') + ' </span>' : '') + '<a href="#/wild/' + x[0] + '">' + esc(p.name) + '</a>'; }).join('') + '</div>' +
+          '<div class="tiny muted" style="margin-top:6px">' + plural(way.length - 1, 'leg') + ' on foot, about ' + plural(Math.ceil((way.length - 1) / R.terrain.route.legs_per_day), 'day') + ' at ' + R.terrain.route.legs_per_day + ' legs a day; a team that can fly goes to the town nearest it.</div>' : '<div class="tiny muted">No way there on the map.</div>', {eyebrow: 'The way there, on the games\' own map', tools: false}) +
+        '<div style="margin-top:16px">' + card('Where it is', '<div id="wmap" class="svgwrap" style="border-radius:10px;overflow:hidden">' + wildMap(wildGlance(team, []), pid) + '</div>', {tools: false}) + '</div></div></div>';
+  });
+}
+
+/* ---- the planner ---- */
+function exState(q) {
+  var s = store('expedition') || {};
+  EX = {place: q.place || s.place || 'ice-path', team: q.team || s.team || store('wild-team') || 'heartgold', season: q.season || s.season || seasonNowName(),
+    days: +(q.days || s.days || 3), kit: s.kit || ['tent', 'rations'], seed: +(s.seed || 1)};
+  if (q.place && q.place !== s.place) EX.seed = 1;
+  store('expedition', EX);
+}
+function expeditionPage(query) {
+  return wildReady().then(function () {
+    exState(qparse(query));
+    after(function (p) { exBind(p); exRender(); });
+    var P = Wild.pack().places, R = Wild.rules(), kit = Cap.pack().kit;
+    var opt = function (rg) { return Object.keys(P).filter(function (k) { return P[k].region === rg; }).sort(function (a, b) { return P[a].name < P[b].name ? -1 : 1; })
+      .map(function (k) { return '<option value="' + k + '"' + (k === EX.place ? ' selected' : '') + '>' + esc(P[k].name) + '</option>'; }).join(''); };
+    return '<div class="eyebrow"><a class="link" href="#/wild">← The Wild</a> · the expedition planner</div><h1 style="margin:6px 0">Plan an expedition</h1>' +
+      '<p class="lede">A team of yours, a real place, a season and a length of stay. The planner works out the way there, what the place calls for and who covers it, the field moves its ground needs, what to carry, and who would be missed at home. Then, if you like, play it out.</p>' +
+      '<div class="labgrid" style="margin-top:14px"><div>' + card('The expedition',
+        '<label class="l">Where</label><select class="f" id="explace"><optgroup label="Johto">' + opt('johto') + '</optgroup><optgroup label="Kanto">' + opt('kanto') + '</optgroup></select>' +
+        '<label class="l">Who goes</label><select class="f" id="exteam">' + wildTeams().map(function (t) { return '<option value="' + t.key + '"' + (t.key === EX.team ? ' selected' : '') + '>' + esc(t.name) + ' (' + t.members.length + ')</option>'; }).join('') + '</select>' +
+        '<div class="row"><div style="flex:1"><label class="l">Season</label><select class="f" id="exseason">' + R.seasons.order.map(function (s) { return '<option value="' + s + '"' + (s === EX.season ? ' selected' : '') + '>' + R.seasons.names[s] + (s === seasonNowName() ? ' (now)' : '') + '</option>'; }).join('') + '</select></div>' +
+        '<div style="width:110px"><label class="l">Days there</label><input class="f" id="exdays" type="number" min="1" max="' + R.sim.max_days + '" value="' + EX.days + '"></div></div>' +
+        '<label class="l">Kit</label><div class="exkit">' + kit.map(function (k) { return '<label class="tiny" title="' + esc(k.what + (k.limitations ? ' · ' + k.limitations : '')) + '"><input type="checkbox" data-kit="' + k.id + '"' + (EX.kit.indexOf(k.id) >= 0 ? ' checked' : '') + '> ' + esc(k.name) + (k['class'] === 'creative' ? ' <span class="muted">·B</span>' : '') + '</label>'; }).join('') + '</div>' +
+        '<div class="tiny muted" style="margin-top:6px">·B marks Blackthorn camp gear (creative); the rest are the games\' own items.</div>',
+        {eyebrow: 'Team · place · season · kit', tools: false}) + '<div id="exside" style="margin-top:16px"></div></div><div id="exout"><div class="empty">Working it out…</div></div></div>';
+  });
+}
+function exBind(p) {
+  var set = function () { EX.place = p.querySelector('#explace').value; EX.team = p.querySelector('#exteam').value; EX.season = p.querySelector('#exseason').value;
+    EX.days = Math.max(1, Math.min(Wild.rules().sim.max_days, +p.querySelector('#exdays').value || 1));
+    EX.kit = [].slice.call(p.querySelectorAll('[data-kit]')).filter(function (x) { return x.checked; }).map(function (x) { return x.getAttribute('data-kit'); });
+    store('expedition', EX); exRender(); };
+  ['#explace', '#exteam', '#exseason', '#exdays'].forEach(function (s) { var el = p.querySelector(s); if (el) el.onchange = set; });
+  p.querySelectorAll('[data-kit]').forEach(function (x) { x.onchange = set; });
+}
+function exPlan() {
+  var t = wildTeam(EX.team);
+  return {team: t, plan: Wild.plan(t.game, EX.place, t.members, EX.kit, EX.season, EX.days, wildResidents())};
+}
+function exRender() {
+  var out = document.getElementById('exout'); if (!out) return;
+  var x = exPlan(), t = x.team, pl = x.plan, R = Wild.rules(), pr = pl.place, rt = pl.route, r = pl.readiness;
+  if (!t.members.length) { out.innerHTML = '<div class="notice">Your ' + esc(GAME_NAME[t.game]) + ' team is empty. <a href="#/team/' + t.game + '">Put Pokémon on it →</a> or pick another team.</div>'; document.getElementById('exside').innerHTML = ''; return; }
+  var cnt = function (p) { var c = r.counts[p]; return '<div class="goal"><div class="small">' + cap(p) + '</div><b class="num" style="color:' + (c.ready === c.total ? 'var(--forest-3)' : p === 'critical' ? 'var(--ember-2)' : 'var(--gold-2)') + '">' + c.ready + '/' + c.total + '</b></div>'; };
+  var path = rt.path.map(function (k) { return esc(Wild.pack().places[k].name); }).join(' → ');
+  var res0 = Estate.residents(false), spare = res0.length ? Wild.stores(Estate.crops(), res0.map(function (r) { return {species: r.species, label: r.label}; }), store('estate-plots')).balance : 0;   // the Glasshouse's surplus packs the trip
+  var bySh = pl.weather.slice().sort(function (a, b) { return b.share - a.share; });
+  out.innerHTML =
+    card(esc(pr.name) + ' · ' + esc(R.seasons.names[pl.season]).toLowerCase(), '<div class="small">' + biomeChips(pr) + '</div>' +
+      '<div class="exstrip"><div><div class="eyebrow">The way</div><div class="small">' + (rt.by === 'air' ? 'Flown to ' + esc(Wild.pack().places[rt.fly_to].name) + ' by ' + esc(rt.flyer || '') + ', then on foot' : rt.by === 'foot' ? 'On foot' : 'No way there') + '</div><div class="tiny muted">' + path + '</div></div>' +
+      '<div><div class="eyebrow">How long</div><div class="small"><b>' + pl.total_days + '</b> days: ' + plural(rt.days || 0, 'day') + ' each way, ' + plural(pl.days, 'day') + ' there</div></div>' +
+      '<div><div class="eyebrow">To carry</div><div class="small"><b>' + pl.provisions.rations + '</b> rations, as much water</div><div class="tiny muted">' + pl.provisions.per_day + ' a day for the team and you' +
+        (spare > 0 ? '; <a href="#/estate/stores">the stores</a> have ' + spare + ' a week to spare' + (spare >= pl.provisions.rations ? ', enough' : ', not enough on their own') : '') + '</div></div>' +
+      '<div><div class="eyebrow">The sky</div><div class="wxbar" style="margin-top:4px">' + pl.weather.map(function (w) { return '<i class="wx-' + w.kind + '" style="width:' + (w.share * 100) + '%" title="' + esc(w.name + ' ' + Math.round(w.share * 100) + '%') + '"></i>'; }).join('') + '</div><div class="tiny muted">' + bySh.slice(0, 3).map(function (w) { return esc(w.name) + ' ' + Math.round(w.share * 100) + '%'; }).join(' · ') + '</div></div></div>',
+      {eyebrow: 'The expedition', tools: false}) +
+    '<div class="grid" style="margin-top:16px"><div class="c4">' + card('Ready', cnt('critical') + cnt('important') + cnt('useful') + '<div class="tiny muted" style="margin-top:6px">Needs covered by a member or the kit. Counts, not a score.</div>', {eyebrow: 'By priority', tools: false}) + '</div>' +
+    '<div class="c8">' + card('Where it could fail', (r.failure_points.length ? r.failure_points.map(function (f) { return '<div class="line ember small">' + esc(f.why) + '</div>'; }).join('') : '<div class="line forest small">Every critical need is covered, and none hangs on one Pokémon alone.</div>') +
+      (r.preparations.length ? '<div class="eyebrow" style="margin:10px 0 4px">Before you go</div>' + r.preparations.slice(0, 6).map(function (p) { return '<div class="tiny' + (p.priority === 'critical' ? '" style="color:var(--ember-2)' : '') + '">' + esc(p.text) + '</div>'; }).join('') : ''), {eyebrow: 'Failure points', tools: false}) + '</div></div>' +
+    '<div style="margin-top:16px">' + card('The run', '<p class="tiny muted" style="margin:0 0 8px">An optional run: the days played out from the game\'s own encounter tables and Blackthorn\'s weather and hazard rules (creative). One draw per window per day. It\'s a planning aid, never canon: run it again for another seed.</p>' +
+      '<div class="row"><button class="btn gold sm" id="exrun">Run it</button><button class="btn sm" id="exnext">Another run</button><button class="btn sm" id="exodds">The odds over ' + R.sim.runs + ' runs</button><button class="btn sm" id="exkeep">Keep this expedition</button></div><div id="exjournal" style="margin-top:12px"></div>', {eyebrow: 'A field journal · seed ' + EX.seed, tools: false}) + '</div>' +
+    '<div class="grid" style="margin-top:16px"><div class="c7">' + card('What it calls for, and who covers it', svNeeds(r), {eyebrow: 'The capability engine, on the place\'s needs', tools: false}) + '</div>' +
+    '<div class="c5">' + (pl.cartridge ? card('The game\'s field moves', svCart(pl.cartridge, t.members), {eyebrow: 'What its tables point to · ' + GAME_NAME[t.game], tools: false}) : card('The game\'s field moves', '<div class="tiny muted">Its tables point to no field move.</div>', {tools: false})) + '</div></div>';
+  var home = pl.home || [];
+  document.getElementById('exside').innerHTML = card('Who\'d be missed at home', (home.length ? home.slice(0, 14).map(function (h) { return '<div class="tiny" style="margin:4px 0">' + (h.priority === 'critical' ? chip('critical', 'ember') + ' ' : '') + '<a href="' + facilityHref(h.facility) + '"><b>' + esc(h.facility_name) + '</b></a>: ' + esc(h.name.toLowerCase()) + ' <span class="muted">only ' + esc(h.who.join(', ')) + ' can do it</span></div>'; }).join('') + (home.length > 14 ? '<div class="tiny muted">and ' + (home.length - 14) + ' more</div>' : '') :
+      '<div class="tiny muted">Nobody on this trip is the only one who can do a job at Blackthorn.</div>') + '<div class="tiny muted" style="margin-top:8px">Your residents (the six teams) against the estate\'s jobs, with and without the team that goes. Nobody is taken off a job: this only shows what would be uncovered.</div>', {eyebrow: 'The estate while you\'re away', tools: false}) +
+    '<div style="margin-top:16px">' + card('Who you might meet', R.windows.order.map(function (w) { var rows = (pr.wildlife[w] || []).filter(function (x) { return x[4] === 'walk' || x[4] === 'surf'; }).slice(0, 6);
+      return '<div class="tiny" style="margin:4px 0"><b>' + esc(R.windows.names[w]) + '</b> ' + (rows.length ? rows.map(function (x) { return esc(x[0]) + ' <span class="muted">' + x[1] + '%</span>'; }).join(', ') : '<span class="muted">nothing</span>') + '</div>'; }).join('') + '<div class="tiny" style="margin-top:6px"><a href="#/wild/' + pr.id + '">The place\'s page →</a></div>', {eyebrow: 'The game\'s own tables', tools: false}) + '</div>';
+  var go = function (seed) { EX.seed = seed; store('expedition', EX); document.getElementById('exjournal').innerHTML = exJournal(Wild.simulate(t.game, pl, t.members, seed), pl); };
+  document.getElementById('exrun').onclick = function () { go(EX.seed); };
+  document.getElementById('exnext').onclick = function () { go(EX.seed + 1); };
+  document.getElementById('exodds').onclick = function () { document.getElementById('exjournal').innerHTML = exOdds(Wild.odds(t.game, pl, t.members), pl); };
+  document.getElementById('exkeep').onclick = function () { exKeep(t, pl); };
+}
+function exJournal(s, pl) {
+  var R = Wild.rules(), ok = s.outcome === 'completed';
+  return '<div class="exverdict ' + (ok ? 'forest' : 'ember') + '"><b>' + (ok ? 'Done: all ' + plural(s.site_days, 'day') + ' at ' + esc(pl.place.name) : 'Turned back on day ' + s.ended.day + ': ' + esc(s.ended.why)) + '</b> <span class="tiny muted">seed ' + s.seed + ' · ' + plural(s.setbacks, 'setback') + ' · ' + plural(s.strains, 'hard day') + ' · ' + s.food_left + ' rations left</span></div>' +
+    s.days.map(function (d) {
+      return '<div class="exday"><div class="exdh"><b>Day ' + d.day + '</b> · ' + esc(d.where) + ' <span class="chip wxc-' + d.weather + '">' + esc(d.weather_name) + '</span>' + (d.phase === 'out' ? ' <span class="tiny muted">on the way</span>' : '') + (d.foraged ? ' <span class="tiny muted">+' + d.foraged + ' foraged</span>' : '') + '</div>' +
+        d.events.map(function (e) { return e.kind === 'wild' ? '<div class="exev wild"><img class="pix" src="' + spriteOf(numOf(e.species), 'heartgold') + '" alt="" loading="lazy">' + esc(e.text) + '</div>' :
+          '<div class="exev ' + e.result + '">' + esc(e.text) + '</div>'; }).join('') + '</div>'; }).join('') +
+    (s.seen.length ? '<div class="tiny" style="margin-top:8px"><b>Seen:</b> ' + s.seen.map(function (x) { return esc(x[0]) + (x[1] > 1 ? ' ×' + x[1] : ''); }).join(', ') + '</div>' : '');
+}
+function exOdds(o, pl) {
+  return '<div class="exverdict ' + (o.completed === o.runs ? 'forest' : o.completed >= o.runs / 2 ? 'gold' : 'ember') + '"><b>' + o.completed + ' of ' + o.runs + ' runs</b> got through all ' + plural(pl.days, 'day') + ' at ' + esc(pl.place.name) + '</div>' +
+    '<div class="bar ' + (o.completed === o.runs ? 'forest' : '') + '" style="margin:6px 0"><i style="width:' + (100 * o.completed / o.runs) + '%"></i></div>' +
+    '<div class="small">' + o.setbacks + ' setbacks and ' + o.strains + ' hard days a run, ' + o.site_days + ' days there on average.</div>' +
+    (o.causes.length ? '<div class="tiny" style="margin-top:6px"><b>What set them back:</b> ' + o.causes.map(function (c) { return esc(c.name) + ' ×' + c.setbacks; }).join(', ') + '</div>' : '<div class="tiny" style="margin-top:6px;color:var(--forest-3)">Nothing set any run back.</div>') +
+    '<div class="tiny" style="margin-top:6px"><b>Most seen:</b> ' + o.seen.map(function (x) { return esc(x[0]) + ' ×' + x[1]; }).join(', ') + '</div>' +
+    '<div class="tiny muted" style="margin-top:6px">Seeds 1 to ' + o.runs + ', the same every time: change the team, the kit or the season and run the odds again to compare.</div>';
+}
+function exKeep(t, pl) {
+  var s = Wild.simulate(t.game, pl, t.members, EX.seed), o = Wild.odds(t.game, pl, t.members);
+  var row = {kind: 'expedition', id: 'X-' + Date.now().toString(36), place: pl.place.id, place_name: pl.place.name, team: t.key, game: t.game, members: pl.members.join(', '),
+    season: pl.season, days: pl.days, kit: pl.kit.join(', '), seed: s.seed, outcome: s.outcome === 'completed' ? 'completed' : 'turned back on day ' + s.ended.day,
+    odds: o.completed + '/' + o.runs, seen: s.seen.map(function (x) { return x[0] + '×' + x[1]; }).join(', '),
+    title: 'Expedition: ' + pl.place.name + ', ' + Wild.rules().seasons.names[pl.season].toLowerCase(), text: pl.members.join(', ') + '; ' + pl.days + ' days there; ' + (s.outcome === 'completed' ? 'got through' : 'turned back') + ' (seed ' + s.seed + '); ' + o.completed + ' of ' + o.runs + ' runs got through.',
+    source: 'kept from the expedition planner (a simulated run, not canon)', _timeline: 'You kept an expedition to ' + pl.place.name};
+  API.append('Journal', row).then(function () { return loadLive(true); }).then(function () { toast('Kept: ' + esc(row.title) + '. It\'s in your field log.'); });
+}
+
+/* ---- the field log ---- */
+function expeditions() { return ((S.L || {}).Journal || []).filter(function (r) { return r.kind === 'expedition' && r.place; }).slice().reverse(); }
+function fieldLogPage() {
+  return wildReady().then(function () {
+    var xs = expeditions(), life = {};
+    xs.forEach(function (x) { String(x.seen || '').split(', ').filter(Boolean).forEach(function (s) { var m = /^(.*)×(\d+)$/.exec(s); if (!m) return; var e = life[m[1]] || (life[m[1]] = {n: 0, places: []}); e.n += +m[2]; if (e.places.indexOf(x.place_name) < 0) e.places.push(x.place_name); }); });
+    var sp = Object.keys(life).sort(function (a, b) { return life[b].n - life[a].n || (a < b ? -1 : 1); });
+    return '<div class="eyebrow"><a class="link" href="#/wild">← The Wild</a></div><h1 style="margin:6px 0">Your field log</h1>' +
+      '<p class="lede">The expeditions you kept, and every wild Pokémon their runs met. A kept expedition is a Journal row; the runs are simulated from the game\'s own tables, so this is a story log, not a record of the cartridge.</p>' +
+      (xs.length ? '<div class="grid"><div class="c8">' + card('Expeditions', xs.map(function (x) {
+          return '<div class="line ' + (x.outcome === 'completed' ? 'forest' : 'ember') + '"><a href="#/wild/' + esc(x.place) + '"><b>' + esc(x.place_name) + '</b></a> · ' + esc(cap(x.season || '')) + ' · ' + plural(+x.days || 0, 'day') +
+            ' <span class="tiny muted">' + esc(x.members || '') + '</span><div class="tiny">' + esc(x.outcome || '') + ' (seed ' + esc(x.seed) + ') · ' + esc(x.odds || '') + ' runs got through' + (x.kit ? ' · kit: ' + esc(x.kit) : '') + '</div>' +
+            '<div class="tiny muted">' + esc(x.seen || '') + '</div><div class="tiny"><a href="#/expedition?place=' + esc(x.place) + '&team=' + esc(x.team) + '&season=' + esc(x.season) + '&days=' + esc(x.days) + '">Plan it again →</a></div></div>'; }).join(''), {eyebrow: plural(xs.length, 'expedition'), tools: false}) + '</div>' +
+        '<div class="c4">' + card('Life list', sp.map(function (k) { return '<div class="wmon"><img class="pix" src="' + spriteOf(numOf(k), 'heartgold') + '" alt="" loading="lazy"><div><b>' + esc(k) + '</b> <span class="tiny muted">×' + life[k].n + ' · ' + esc(life[k].places.join(', ')) + '</span></div></div>'; }).join(''), {eyebrow: plural(sp.length, 'species') + ' met', tools: false}) + '</div></div>' :
+        '<div class="empty">No expeditions kept yet. <a href="#/expedition">Plan one →</a></div>');
+  });
+}
+route(/^\/wild\/?(\?.*)?$/, wildPage, 'The Wild', '#/wild');
+route(/^\/wild\/([a-z0-9-]+)\/?(\?.*)?$/, wildPlace, function (i) { var p = Wild.ready() ? Wild.pack().places[i] : null; return 'The Wild · ' + (p ? p.name : i); }, '#/wild');
+route(/^\/expedition\/?(\?.*)?$/, expeditionPage, 'Plan an expedition', '#/wild');
+route(/^\/fieldlog\/?$/, fieldLogPage, 'Your field log', '#/wild');
+</script>

@@ -1,0 +1,274 @@
+<script>
+// The Wild (v2.7, docs/WILD.md): wilderness/expedition.py line for line (app/test_wild_parity.mjs holds the two together).
+// Expeditions from Blackthorn to the real places of Johto and Kanto, and the estate's year, over the wild pack
+// (app/data/wild.json) and the capability engine (34_capability: Cap does every assessment).
+var Wild = (function () {
+  var W = null, R = null, Cp = null, ADJ = null;
+  var PRI = {critical: 0, important: 1, useful: 2}, READY = ['covered', 'equipped'], SOFT = ['teachable', 'plausible', 'proposed'];
+  function init(pack, cap) { W = pack; R = pack.rules; Cp = cap; ADJ = null; return api; }
+  function has(list, x) { return list.indexOf(x) >= 0; }
+  function r4(x) { return Battle && Battle.pyRound ? Battle.pyRound(x, 4) : Math.round(x * 1e4) / 1e4; }
+  function r2(x) { return Battle && Battle.pyRound ? Battle.pyRound(x, 2) : Math.round(x * 100) / 100; }
+  function cmp(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+
+  /* ---- the seeded generator: mulberry32, the same 32-bit steps as Python's ---- */
+  function Rng(seed) { this.s = seed >>> 0; }
+  Rng.prototype.next = function () {
+    this.s = (this.s + 0x6D2B79F5) >>> 0;
+    var t = this.s;
+    t = Math.imul(t ^ (t >>> 15), t | 1) >>> 0;
+    t = (t ^ ((t + (Math.imul(t ^ (t >>> 7), t | 61) >>> 0)) >>> 0)) >>> 0;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  Rng.prototype.pick = function (weighted) {
+    var total = 0.0; weighted.forEach(function (x) { total += x[1]; });
+    var r = this.next() * total, acc = 0.0;
+    for (var i = 0; i < weighted.length; i++) { acc += weighted[i][1]; if (r < acc) return weighted[i][0]; }
+    return weighted[weighted.length - 1][0];
+  };
+
+  /* ---- seasons and weather ---- */
+  function seasonOf(month) { var o = R.seasons.order; for (var i = 0; i < o.length; i++) if (has(R.seasons.months[o[i]], month)) return o[i]; return o[0]; }
+  function sheltered(place) { var sh = R.climate.sheltered; return !!place.biome.length && place.biome.every(function (b) { return has(sh, b); }); }
+  function weatherWeights(place, season) {
+    var C = R.climate;
+    if (sheltered(place)) return [['sheltered', 1]];
+    var w = Object.assign({}, C.elevation[place.elevation || 'low'][season]);
+    place.biome.forEach(function (b) { var a = C.biome_adds[b] || {}; Object.keys(a).forEach(function (k) { w[k] = (w[k] || 0) + a[k]; }); });
+    return Object.keys(C.kinds).filter(function (k) { return w[k]; }).map(function (k) { return [k, w[k]]; });
+  }
+  function weatherShares(place, season) {
+    var ws = weatherWeights(place, season), tot = 0; ws.forEach(function (x) { tot += x[1]; });
+    return ws.map(function (x) { return {kind: x[0], name: R.climate.kinds[x[0]].name, share: r4(x[1] / tot)}; });
+  }
+
+  /* ---- a place ---- */
+  function merge(needs, add) {
+    add.forEach(function (n) {
+      var old = needs.filter(function (x) { return x.cap === n.cap; })[0];
+      if (!old) { needs.push(Object.assign({}, n, {sources: [n.source]})); return; }
+      if (!has(old.sources, n.source)) old.sources.push(n.source);
+      if (PRI[n.priority] < PRI[old.priority]) { old.priority = n.priority; old.why = n.why; }
+    });
+    return needs;
+  }
+  function sortNeeds(needs) { return needs.map(function (n, i) { return [n, i]; }).sort(function (a, b) { return (PRI[a[0].priority] - PRI[b[0].priority]) || (a[1] - b[1]); }).map(function (x) { return x[0]; }); }
+  function encGame(game) { return has(R.games, game) ? game : R.game; }   // a team from another game meets Johto and Kanto as HeartGold has them
+  function profile(pid, game) {
+    game = encGame(game || R.game);
+    var p = W.places[pid], T = R.terrain, needs = [];
+    merge(needs, T.always.map(function (x) { return {cap: x[0], priority: x[1], why: x[2], source: 'always', 'class': 'creative'}; }));
+    p.biome.forEach(function (b) { merge(needs, (T.biome[b] || []).map(function (x) { return {cap: x[0], priority: x[1], why: x[2], source: 'biome:' + b, 'class': 'inferred'}; })); });
+    merge(needs, (T.elevation[p.elevation] || []).map(function (x) { return {cap: x[0], priority: x[1], why: x[2], source: 'elevation:' + p.elevation, 'class': 'inferred'}; }));
+    var moves = [], kit = [];
+    p.methods.forEach(function (m) {
+      var rule = T.methods[m]; if (!rule || typeof rule !== 'object') return;
+      merge(needs, [{cap: rule.cap, priority: rule.priority, why: rule.why, source: 'method:' + m, 'class': 'mechanic'}]);
+      if (rule.field_move && !moves.some(function (x) { return x.move === rule.field_move; })) moves.push({move: rule.field_move, why: rule.why, method: m});
+      if (rule.kit && !has(kit, rule.kit)) kit.push(rule.kit);
+    });
+    needs = sortNeeds(needs);
+    var weather = {}; R.seasons.order.forEach(function (s) { weather[s] = weatherShares(p, s); });
+    var empty = {}; R.windows.order.forEach(function (w) { empty[w] = []; });
+    return {id: pid, name: p.name, region: p.region, biome: p.biome, elevation: p.elevation, water: p.water, note: p.note == null ? null : p.note, xy: p.xy == null ? null : p.xy,
+      areas: p.areas, methods: p.methods, sheltered: sheltered(p), needs: needs, field_moves: moves, kit: kit, wildlife: p.enc[game] || empty, weather: weather};
+  }
+
+  /* ---- the way there ---- */
+  function adjacency() {
+    if (ADJ) return ADJ;
+    var adj = {};
+    W.edges.forEach(function (e) { (adj[e[0]] = adj[e[0]] || []).push([e[1], e[2]]); (adj[e[1]] = adj[e[1]] || []).push([e[0], e[2]]); });
+    Object.keys(adj).forEach(function (k) { adj[k].sort(function (a, b) { return cmp(a[0], b[0]) || cmp(a[1], b[1]); }); });
+    return (ADJ = adj);
+  }
+  function shortest(start, goal) {
+    var adj = adjacency(), prev = {}, queue = [start], i = 0;
+    prev[start] = null;
+    while (i < queue.length) {
+      var n = queue[i++];
+      if (n === goal) break;
+      (adj[n] || []).forEach(function (x) { if (!(x[0] in prev)) { prev[x[0]] = [n, x[1]]; queue.push(x[0]); } });
+    }
+    if (!(goal in prev)) return null;
+    var out = [], m = goal;
+    while (prev[m] !== null) { out.push([m, prev[m][1]]); m = prev[m][0]; }
+    out.push([start, null]);
+    return out.reverse();
+  }
+  function teamStanding(game, cap, members, kit) { var hs = Cp.needHolders(game, cap, members, kit, []); return hs.length ? [hs[0].standing, hs[0]] : ['gap', null]; }
+  function route(game, pid, members, kit) {
+    kit = kit || [];
+    var T = R.terrain.route, home = R.home, walk = shortest(home, pid), by = 'foot', flyTo = null, path = walk;
+    var st = teamStanding(game, T.fly.cap, members, kit);
+    if (has(READY, st[0]) && pid !== home && walk) {
+      var towns = Object.keys(W.places).sort().filter(function (n) { return has(W.places[n].biome, T.fly.towns); }), best = null;
+      towns.forEach(function (t) { var sp = shortest(t, pid); if (sp !== null && (best === null || sp.length < best[1].length)) best = [t, sp]; });
+      if (best && best[1].length < walk.length) { by = 'air'; flyTo = best[0]; path = best[1]; }
+    }
+    if (path === null) return {by: null, path: [], legs: [], days: null, needs: [], fly_to: null, flyer: null};
+    var legs = [];
+    for (var i = 1; i < path.length; i++) legs.push([path[i - 1][0], path[i][0], path[i][1]]);
+    var needs = [];
+    legs.forEach(function (l) { if (l[2] === 'sea' || l[2] === 'cave') { var x = T[l[2]]; merge(needs, [{cap: x[0], priority: x[1], why: x[2], source: 'route:' + l[2], 'class': 'mechanic'}]); } });
+    return {by: by, path: path.map(function (x) { return x[0]; }), legs: legs, days: legs.length ? Math.ceil(legs.length / T.legs_per_day) : 0, needs: needs, fly_to: flyTo,
+      flyer: by === 'air' ? ((st[1] || {}).who == null ? null : st[1].who) : null};
+  }
+
+  /* ---- who'd be missed at home ---- */
+  function same(a, b) { if (a.ind && b.ind) return a.ind === b.ind; return (a.label || a.species) === (b.label || b.species); }
+  function homeCover(game, away, residents) {
+    var left = residents.filter(function (r) { return !away.some(function (a) { return same(r, a); }); }), out = [];
+    Cp.pack().facilities.forEach(function (fac) {
+      var before = Cp.facilityReport(fac, [], residents, [], game), after = Cp.facilityReport(fac, [], left, [], game);
+      before.requirements.forEach(function (rb, i) { var ra = after.requirements[i];
+        if (rb.can_staff.length && !ra.can_staff.length && !ra.land.length)
+          out.push({facility: fac.id, facility_name: fac.name, requirement: rb.id, name: rb.name, priority: rb.priority, who: rb.can_staff}); });
+    });
+    return out.map(function (x, i) { return [x, i]; }).sort(function (a, b) { var p = a[0], q = b[0];
+      return (PRI[p.priority] - PRI[q.priority]) || cmp(p.facility, q.facility) || cmp(p.requirement, q.requirement) || (a[1] - b[1]); }).map(function (x) { return x[0]; });
+  }
+
+  /* ---- the plan ---- */
+  function plan(game, pid, members, kit, season, days, residents) {
+    kit = kit || [];
+    season = season || R.seasons.order[0];
+    days = Math.max(1, Math.min(Math.trunc(days), R.sim.max_days));
+    var prof = profile(pid, game), rt = route(game, pid, members, kit);
+    var needs = prof.needs.map(function (n) { return Object.assign({}, n, {sources: n.sources.slice()}); });
+    merge(needs, rt.needs);
+    needs = sortNeeds(needs);
+    var total = days + 2 * (rt.days || 0);
+    var scenario = {id: 'wild:' + pid, name: 'Expedition to ' + prof.name, days: total, needs: needs, kit: prof.kit, field_moves: prof.field_moves.map(function (m) { return m.move; })};
+    return {version: R.version, place: prof, route: rt, season: season, days: days, total_days: total, kit: kit.slice(),
+      members: members.map(function (m) { return m.label || m.species; }), scenario: scenario,
+      readiness: Cp.worldReport(game, scenario, members, kit, []), cartridge: scenario.field_moves.length ? Cp.cartridgeReport(game, members, scenario.field_moves) : null,
+      provisions: Cp.provisions(members, total), weather: prof.weather[season], home: residents != null ? homeCover(game, members, residents) : null};
+  }
+
+  /* ---- the optional run ---- */
+  function how(h) {
+    if (!h) return '';
+    if (h.kit) return 'the ' + h.who;
+    var ks = ['move', 'ability', 'equipment'];
+    for (var i = 0; i < ks.length; i++) if (h[ks[i]]) return h[ks[i]];
+    return h.source || '';
+  }
+  function forage(place, kit) {
+    if (place.biome.some(function (b) { return has(['forest', 'woodland-edge', 'grassland', 'pasture', 'coast', 'lake'], b); })) return true;
+    return has(kit, 'rod') && place.methods.some(function (m) { return has(['old-rod', 'good-rod', 'super-rod'], m); });
+  }
+  function simulate(game, pl, members, seed) {
+    var S = R.sim, rng = new Rng(seed), kit = pl.kit, windows = R.windows.order, hzCaps = [];
+    R.hazards.list.forEach(function (hz) { hz.needs.forEach(function (c) { if (!has(hzCaps, c)) hzCaps.push(c); }); });
+    ['water_travel', 'foraging'].forEach(function (c) { if (!has(hzCaps, c)) hzCaps.push(c); });
+    var stand = {}, names = {};
+    hzCaps.forEach(function (c) { stand[c] = teamStanding(game, c, members, kit); names[c] = Cp.pack().model.capabilities[c].name; });
+    var rt = pl.route, path = rt.path.length ? rt.path : [pl.place.id], outDays = rt.days || 0, siteDays = pl.days, perDay = pl.provisions.per_day;
+    var food = perDay * (pl.total_days + S.reserve_days), canSwim = has(READY, stand.water_travel[0]), canForage = has(READY, stand.foraging[0]);
+    var lpd = R.terrain.route.legs_per_day, setbacks = 0, strains = 0, seen = {}, log = [], causes = {}, outcome = 'completed', ended = null;
+    for (var d = 1; d <= outDays + siteDays; d++) {
+      var phase, node;
+      if (d <= outDays) { phase = 'out'; node = path[Math.min(d * lpd, path.length - 1)]; } else { phase = 'site'; node = pl.place.id; }
+      var place = W.places[node], ws = weatherWeights(place, pl.season);
+      var weather = ws[0][0] === 'sheltered' ? 'sheltered' : rng.pick(ws), events = [];
+      R.hazards.list.forEach(function (hz) {
+        var when = hz.when;
+        if (when.weather && !has(when.weather, weather)) return;
+        if (when.biome && !place.biome.some(function (b) { return has(when.biome, b); })) return;
+        var sts = hz.needs.map(function (c) { return stand[c]; });
+        var worst = sts.reduce(function (a, x) { return Cp.RANK[x[0]] > Cp.RANK[a[0]] ? x : a; }, sts[0])[0];
+        var parts = hz.needs.map(function (c, i) { var h = sts[i][1];
+          return names[c] + ': ' + (h ? h.who + (how(h) && !h.kit ? ' (' + how(h) + ')' : '') : 'nobody'); });
+        var res, text;
+        if (has(READY, worst)) { res = 'handled'; text = hz.says + '; handled. ' + parts.join('; '); }
+        else if (has(SOFT, worst)) { res = 'strained'; strains++; text = hz.says + '; hard going. ' + parts.join('; '); }
+        else {
+          res = 'setback'; setbacks++; causes[hz.id] = (causes[hz.id] || 0) + 1;
+          var gaps = hz.needs.filter(function (c, i) { return sts[i][0] === 'gap'; }).map(function (c) { return names[c]; });
+          text = hz.says + '; a setback: nobody for ' + gaps.join(', ');
+        }
+        events.push({kind: 'hazard', hazard: hz.id, name: hz.name, result: res, text: text});
+      });
+      var enc = place.enc[encGame(game)] || {};
+      windows.forEach(function (w) {
+        var land = (enc[w] || []).filter(function (x) { return x[4] === 'walk'; });
+        var water = canSwim ? (enc[w] || []).filter(function (x) { return x[4] === 'surf'; }) : [];
+        var rows;
+        if (land.length && water.length) rows = rng.pick([['walk', S.water_weights.walk], ['surf', S.water_weights.surf]]) === 'walk' ? land : water;
+        else rows = land.length ? land : water;
+        if (!rows.length) return;
+        var r = rng.pick(rows.map(function (x) { return [x, x[1]]; }));
+        var lv = r[2] === r[3] ? r[2] : r[2] + Math.trunc(rng.next() * (r[3] - r[2] + 1));
+        seen[r[0]] = (seen[r[0]] || 0) + 1;
+        events.push({kind: 'wild', window: w, species: r[0], level: lv, method: r[4],
+          text: R.windows.names[w] + ': ' + ('a wild ' + r[0] + ' (level ' + lv + ')' + (r[4] === 'surf' ? ' on the water' : ''))});
+      });
+      food -= perDay;
+      var gained = 0;
+      if (canForage && forage(place, kit)) { gained = Math.floor(S.forage_share * perDay); food += gained; }
+      log.push({day: d, phase: phase, node: node, where: place.name, weather: weather, weather_name: R.climate.kinds[weather].name, events: events, food: food, foraged: gained});
+      if (food < 0) { outcome = 'turned back'; ended = {day: d, why: 'the food ran out'}; break; }
+      if (setbacks >= S.setbacks_to_turn_back) { outcome = 'turned back'; ended = {day: d, why: setbacks + ' setbacks'}; break; }
+    }
+    var siteDone = log.filter(function (x) { return x.phase === 'site'; }).length;
+    return {seed: seed, outcome: outcome, ended: ended, days: log, site_days_done: siteDone, site_days: siteDays, setbacks: setbacks, strains: strains, causes: causes,
+      seen: Object.keys(seen).map(function (k) { return [k, seen[k]]; }).sort(function (a, b) { return (b[1] - a[1]) || cmp(a[0], b[0]); }), food_left: food};
+  }
+  function odds(game, pl, members, runs) {
+    runs = runs || R.sim.runs;
+    var done = 0, setbacks = 0, strains = 0, causes = {}, seen = {}, site = 0;
+    for (var seed = 1; seed <= runs; seed++) {
+      var s = simulate(game, pl, members, seed);
+      done += s.outcome === 'completed' ? 1 : 0; setbacks += s.setbacks; strains += s.strains; site += s.site_days_done;
+      Object.keys(s.causes).forEach(function (k) { causes[k] = (causes[k] || 0) + s.causes[k]; });
+      s.seen.forEach(function (x) { seen[x[0]] = (seen[x[0]] || 0) + x[1]; });
+    }
+    var hz = {}; R.hazards.list.forEach(function (h) { hz[h.id] = h.name; });
+    return {runs: runs, completed: done, setbacks: r2(setbacks / runs), strains: r2(strains / runs), site_days: r2(site / runs),
+      causes: Object.keys(causes).sort(function (a, b) { return (causes[b] - causes[a]) || cmp(a, b); }).map(function (k) { return {hazard: k, name: hz[k], setbacks: causes[k]}; }),
+      seen: Object.keys(seen).sort(function (a, b) { return (seen[b] - seen[a]) || cmp(a, b); }).slice(0, 12).map(function (k) { return [k, seen[k]]; })};
+  }
+
+  /* ---- the estate's year ---- */
+  function seasonCard(season, residents) {
+    var E = R.estate, home = W.places[R.home];
+    var out = residents.map(function (r) { var f = E.outdoor[r.climate || 'any'][season];
+      return {who: r.label || r.species, species: r.species, climate: r.climate || 'any', outdoor: f, says: E.outdoor_says[f]}; });
+    return {season: season, name: R.seasons.names[season], weather: weatherShares(home, season), residents: out,
+      indoors: out.filter(function (x) { return x.outdoor === 'indoors'; }).map(function (x) { return x.who; }),
+      thrives: out.filter(function (x) { return x.outdoor === 'thrives'; }).map(function (x) { return x.who; })};
+  }
+  function stores(crops, residents, plots) {
+    var E = R.estate, week = E.glasshouse_hours_per_week, rows = [], made = 0;
+    plots = plots == null ? E.plots_per_crop : plots;
+    crops.forEach(function (c) {
+      var per = c.hours_to_harvest ? Math.floor(week / c.hours_to_harvest) : 0, n = per * c.max_harvest * plots;
+      made += n * E.berry_rations;
+      rows.push({berry: c.berry, hours: c.hours_to_harvest, harvests: per, max_harvest: c.max_harvest, plots: plots, berries: n, why: c.why == null ? null : c.why});
+    });
+    var P = Cp.pack().model.provisions, eat = [], need = 0;
+    residents.forEach(function (r) { var size = (Cp.pack().facts[r.species] || ['medium'])[0], n = P.per_day[size] * 7; need += n;
+      eat.push({who: r.label || r.species, species: r.species, size: size, rations: n}); });
+    return {plots: plots, crops: rows, made: made, eat: eat, need: need, balance: made - need};
+  }
+  function day(residents, jobs) {
+    var out = {};
+    R.windows.order.forEach(function (w) { out[w] = []; });
+    residents.forEach(function (r) {
+      var who = r.label || r.species, own = W.activity[r.species], act = own || W.activity[r.line || ''];
+      var basis = own ? 'wild' : (act ? 'line' : null);
+      act = act || R.windows.order;
+      R.windows.order.forEach(function (w) {
+        out[w].push({who: who, species: r.species, active: has(act, w), basis: basis, jobs: jobs[who] || [], land: r.land == null ? null : r.land});
+      });
+    });
+    return {windows: R.windows.order, names: R.windows.names, hours: R.windows.hours, by: out};
+  }
+
+  var api = {init: init, ready: function () { return !!W; }, pack: function () { return W; }, rules: function () { return R; }, Rng: Rng,
+    seasonOf: seasonOf, encGame: encGame, sheltered: sheltered, weatherWeights: weatherWeights, weatherShares: weatherShares, profile: profile, shortest: shortest, route: route,
+    teamStanding: teamStanding, homeCover: homeCover, plan: plan, simulate: simulate, odds: odds, seasonCard: seasonCard, stores: stores, day: day};
+  return api;
+})();
+</script>

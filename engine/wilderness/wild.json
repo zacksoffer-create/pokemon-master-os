@@ -1,0 +1,758 @@
+{
+  "_note": "The Wild (v2.7, docs/WILD.md): the rules that turn a real place into an expedition, and the estate's year. Every block says its class: mechanic (the games' own rules or data), inferred (Blackthorn's reading of the games) or creative (a Blackthorn-world model, editable, never canon). wilderness/expedition.py and its browser copy (app/web/41_wild.html) only evaluate them; app/test_wild_parity.mjs holds the two together. The capability needs reuse capability/model.json's ids; the capability engine (capability/assess.py) does the assessing.",
+  "version": "wild-0.1",
+  "game": "heartgold",
+  "games": [
+    "heartgold",
+    "soulsilver"
+  ],
+  "home": "blackthorn-city",
+  "aliases": {
+    "_note": "landscape places whose encounter area has another name in the tables",
+    "kanto-power-plant": "Kanto Power Plant"
+  },
+  "windows": {
+    "class": "mechanic",
+    "_note": "HeartGold and SoulSilver's clock: morning 4:00-10:00, day 10:00-20:00, night 20:00-4:00. Wild Pokémon tables change with it.",
+    "order": [
+      "morning",
+      "day",
+      "night"
+    ],
+    "names": {
+      "morning": "Morning",
+      "day": "Day",
+      "night": "Night"
+    },
+    "hours": {
+      "morning": [
+        4,
+        10
+      ],
+      "day": [
+        10,
+        20
+      ],
+      "night": [
+        20,
+        4
+      ]
+    }
+  },
+  "seasons": {
+    "class": "creative",
+    "_note": "The Gen IV games have no seasons. Blackthorn's world has the four, read from your date the way the rest of the app reads it (spring March-May, summer June-August, autumn September-November, winter December-February).",
+    "order": [
+      "spring",
+      "summer",
+      "autumn",
+      "winter"
+    ],
+    "names": {
+      "spring": "Spring",
+      "summer": "Summer",
+      "autumn": "Autumn",
+      "winter": "Winter"
+    },
+    "months": {
+      "spring": [
+        3,
+        4,
+        5
+      ],
+      "summer": [
+        6,
+        7,
+        8
+      ],
+      "autumn": [
+        9,
+        10,
+        11
+      ],
+      "winter": [
+        12,
+        1,
+        2
+      ]
+    }
+  },
+  "climate": {
+    "class": "creative",
+    "_note": "The weather mix for a day outside at a place: weights by its elevation and the season, plus what its biomes add. Inside a cave, a tower or ruins the weather doesn't reach: a place that is only those is 'sheltered' every day.",
+    "kinds": {
+      "clear": {
+        "name": "Clear",
+        "says": "clear skies"
+      },
+      "overcast": {
+        "name": "Overcast",
+        "says": "low cloud all day"
+      },
+      "rain": {
+        "name": "Rain",
+        "says": "steady rain"
+      },
+      "storm": {
+        "name": "Storm",
+        "says": "a storm with high wind"
+      },
+      "fog": {
+        "name": "Fog",
+        "says": "thick fog"
+      },
+      "snow": {
+        "name": "Snow",
+        "says": "snowfall"
+      },
+      "blizzard": {
+        "name": "Blizzard",
+        "says": "a blizzard"
+      },
+      "heat": {
+        "name": "Heat",
+        "says": "fierce heat"
+      },
+      "sheltered": {
+        "name": "Sheltered",
+        "says": "under rock, out of the weather"
+      }
+    },
+    "elevation": {
+      "low": {
+        "spring": {
+          "clear": 5,
+          "overcast": 3,
+          "rain": 3,
+          "fog": 1
+        },
+        "summer": {
+          "clear": 6,
+          "overcast": 2,
+          "rain": 2,
+          "storm": 1,
+          "heat": 2
+        },
+        "autumn": {
+          "clear": 4,
+          "overcast": 4,
+          "rain": 3,
+          "fog": 2
+        },
+        "winter": {
+          "clear": 3,
+          "overcast": 4,
+          "rain": 2,
+          "snow": 2,
+          "fog": 1
+        }
+      },
+      "mid": {
+        "spring": {
+          "clear": 4,
+          "overcast": 3,
+          "rain": 3,
+          "fog": 2
+        },
+        "summer": {
+          "clear": 5,
+          "overcast": 3,
+          "rain": 2,
+          "storm": 2,
+          "heat": 1
+        },
+        "autumn": {
+          "clear": 3,
+          "overcast": 4,
+          "rain": 3,
+          "fog": 2,
+          "snow": 1
+        },
+        "winter": {
+          "clear": 2,
+          "overcast": 3,
+          "snow": 4,
+          "blizzard": 1,
+          "fog": 1
+        }
+      },
+      "high": {
+        "spring": {
+          "clear": 3,
+          "overcast": 3,
+          "rain": 2,
+          "snow": 2,
+          "fog": 2
+        },
+        "summer": {
+          "clear": 5,
+          "overcast": 3,
+          "rain": 2,
+          "storm": 2
+        },
+        "autumn": {
+          "clear": 3,
+          "overcast": 3,
+          "rain": 2,
+          "snow": 3,
+          "fog": 2,
+          "blizzard": 1
+        },
+        "winter": {
+          "clear": 2,
+          "overcast": 2,
+          "snow": 5,
+          "blizzard": 3,
+          "fog": 1
+        }
+      }
+    },
+    "biome_adds": {
+      "coast": {
+        "fog": 1,
+        "storm": 1
+      },
+      "sea": {
+        "fog": 1,
+        "storm": 2
+      },
+      "alpine": {
+        "snow": 2,
+        "blizzard": 1
+      },
+      "lake": {
+        "fog": 1
+      },
+      "wetland": {
+        "fog": 2
+      },
+      "river": {
+        "fog": 1
+      }
+    },
+    "sheltered": [
+      "cave",
+      "ice-cave",
+      "sea-cave",
+      "tower",
+      "ruins"
+    ]
+  },
+  "terrain": {
+    "_note": "What a place calls for, as capability needs (capability/model.json ids) with a priority and a reason. Three sources, each kept apart: its biome and elevation (the landscape's reading of it, class inferred; the needs that follow are creative), the game's own encounter methods there (class mechanic: Pokémon on the water means water to cross, Rock Smash encounters mean breakable rocks), and the way there (the games' own map links, class mechanic).",
+    "always": [
+      [
+        "camp_making",
+        "important",
+        "nights out of town"
+      ],
+      [
+        "field_healing",
+        "useful",
+        "hurts away from a Pokémon Center"
+      ],
+      [
+        "deterrence",
+        "useful",
+        "wild Pokémon all around"
+      ]
+    ],
+    "biome": {
+      "ice-cave": [
+        [
+          "cold_tolerance",
+          "critical",
+          "an ice cave stays below freezing"
+        ],
+        [
+          "heat_source",
+          "important",
+          "warmth on the ice, and water from it"
+        ],
+        [
+          "light",
+          "important",
+          "deep passages away from the entrance"
+        ]
+      ],
+      "cave": [
+        [
+          "light",
+          "important",
+          "deep passages away from the entrance"
+        ],
+        [
+          "navigation",
+          "important",
+          "a maze of passages"
+        ],
+        [
+          "escape",
+          "useful",
+          "a way out fast if it goes wrong"
+        ]
+      ],
+      "sea-cave": [
+        [
+          "water_travel",
+          "critical",
+          "the passages flood with the tide"
+        ],
+        [
+          "light",
+          "important",
+          "caves under the sea"
+        ]
+      ],
+      "sacred-pool": [
+        [
+          "water_travel",
+          "important",
+          "the pool is the way in"
+        ]
+      ],
+      "alpine": [
+        [
+          "climbing",
+          "critical",
+          "rock and ice above the tree line"
+        ],
+        [
+          "cold_tolerance",
+          "critical",
+          "nights below freezing"
+        ],
+        [
+          "heat_source",
+          "important",
+          "warmth at camp"
+        ]
+      ],
+      "montane": [
+        [
+          "climbing",
+          "important",
+          "steep mountain ground"
+        ],
+        [
+          "cold_tolerance",
+          "useful",
+          "cold nights at altitude"
+        ]
+      ],
+      "forest": [
+        [
+          "navigation",
+          "important",
+          "no sky to steer by under the canopy"
+        ],
+        [
+          "foraging",
+          "useful",
+          "a forest to feed from"
+        ],
+        [
+          "clearing",
+          "useful",
+          "fallen trees and undergrowth"
+        ]
+      ],
+      "woodland-edge": [
+        [
+          "foraging",
+          "useful",
+          "berries and roots at the woods' edge"
+        ]
+      ],
+      "grassland": [
+        [
+          "foraging",
+          "useful",
+          "seeds and berries in the grass"
+        ],
+        [
+          "scouting",
+          "useful",
+          "open ground to see across"
+        ]
+      ],
+      "pasture": [
+        [
+          "foraging",
+          "useful",
+          "a farmed landscape"
+        ]
+      ],
+      "wetland": [
+        [
+          "water_travel",
+          "important",
+          "standing water and bog"
+        ],
+        [
+          "navigation",
+          "useful",
+          "every channel looks the same"
+        ]
+      ],
+      "lake": [
+        [
+          "water_supply",
+          "useful",
+          "fresh water"
+        ],
+        [
+          "foraging",
+          "useful",
+          "a lake to fish"
+        ]
+      ],
+      "river": [
+        [
+          "water_supply",
+          "useful",
+          "fresh running water"
+        ]
+      ],
+      "sea": [
+        [
+          "water_travel",
+          "critical",
+          "open sea"
+        ],
+        [
+          "weather_handling",
+          "useful",
+          "weather at sea"
+        ]
+      ],
+      "coast": [
+        [
+          "foraging",
+          "useful",
+          "the shore at low tide"
+        ]
+      ],
+      "tower": [
+        [
+          "navigation",
+          "useful",
+          "floors and stairs"
+        ]
+      ],
+      "ruins": [
+        [
+          "navigation",
+          "useful",
+          "chambers and passages"
+        ]
+      ],
+      "urban": [
+        [
+          "town_fit",
+          "useful",
+          "people and streets"
+        ]
+      ]
+    },
+    "elevation": {
+      "high": [
+        [
+          "camp_making",
+          "important",
+          "exposed camps at altitude"
+        ]
+      ]
+    },
+    "methods": {
+      "class": "mechanic",
+      "_note": "Encounter methods in the game's own tables at the place, and what each one shows about the ground. A field move here is the game's (cartridge readiness checks it).",
+      "surf": {
+        "cap": "water_travel",
+        "priority": "important",
+        "why": "the game has wild Pokémon on the water here: water to cross",
+        "field_move": "Surf"
+      },
+      "rock-smash": {
+        "cap": "clearing",
+        "priority": "useful",
+        "why": "breakable rocks (Rock Smash encounters in the game)",
+        "field_move": "Rock Smash"
+      },
+      "headbutt": {
+        "cap": "foraging",
+        "priority": "useful",
+        "why": "trees to shake (Headbutt encounters in the game)",
+        "field_move": "Headbutt"
+      },
+      "old-rod": {
+        "cap": "foraging",
+        "priority": "useful",
+        "why": "fish in the water (the game's rods catch here)",
+        "kit": "rod"
+      },
+      "good-rod": {
+        "cap": "foraging",
+        "priority": "useful",
+        "why": "fish in the water (the game's rods catch here)",
+        "kit": "rod"
+      },
+      "super-rod": {
+        "cap": "foraging",
+        "priority": "useful",
+        "why": "fish in the water (the game's rods catch here)",
+        "kit": "rod"
+      }
+    },
+    "route": {
+      "class": "mechanic",
+      "_note": "The links between places on the games' own map (biology/johto.json, kanto.json, from the HeartGold decomp). A sea link means water to cross; a cave link means a passage underground; rail and ship are the Magnet Train and the S.S. Aqua.",
+      "sea": [
+        "water_travel",
+        "critical",
+        "the way there crosses open water"
+      ],
+      "cave": [
+        "light",
+        "important",
+        "the way there runs underground"
+      ],
+      "legs_per_day": 3,
+      "fly": {
+        "cap": "air_travel",
+        "why": "flown to the town nearest the place, then on foot",
+        "towns": "urban"
+      }
+    }
+  },
+  "hazards": {
+    "class": "creative",
+    "_note": "What can go wrong on a day out, when it can happen, and what handles it. A hazard comes up when its weather is drawn or its ground is there; it's handled when the team (or its kit) is ready on every capability it needs, strained when one is only teachable, plausible or waiting for your approval, and a setback when one is a gap.",
+    "list": [
+      {
+        "id": "blizzard",
+        "name": "Blizzard",
+        "when": {
+          "weather": [
+            "blizzard"
+          ]
+        },
+        "needs": [
+          "cold_tolerance",
+          "heat_source",
+          "camp_making"
+        ],
+        "says": "a blizzard pinned the camp down"
+      },
+      {
+        "id": "snow",
+        "name": "Snowfall",
+        "when": {
+          "weather": [
+            "snow"
+          ]
+        },
+        "needs": [
+          "cold_tolerance"
+        ],
+        "says": "snow all day"
+      },
+      {
+        "id": "storm",
+        "name": "Storm",
+        "when": {
+          "weather": [
+            "storm"
+          ]
+        },
+        "needs": [
+          "camp_making",
+          "weather_handling"
+        ],
+        "says": "a storm tore at the camp"
+      },
+      {
+        "id": "storm-sea",
+        "name": "Heavy sea",
+        "when": {
+          "weather": [
+            "storm"
+          ],
+          "biome": [
+            "sea",
+            "coast",
+            "sea-cave"
+          ]
+        },
+        "needs": [
+          "water_travel"
+        ],
+        "says": "the sea ran high"
+      },
+      {
+        "id": "rain",
+        "name": "Rain",
+        "when": {
+          "weather": [
+            "rain"
+          ]
+        },
+        "needs": [
+          "camp_making"
+        ],
+        "says": "rain from morning to night"
+      },
+      {
+        "id": "fog",
+        "name": "Fog",
+        "when": {
+          "weather": [
+            "fog"
+          ]
+        },
+        "needs": [
+          "navigation"
+        ],
+        "says": "fog closed in"
+      },
+      {
+        "id": "heat",
+        "name": "Heat",
+        "when": {
+          "weather": [
+            "heat"
+          ]
+        },
+        "needs": [
+          "heat_tolerance",
+          "water_supply"
+        ],
+        "says": "the heat was fierce"
+      },
+      {
+        "id": "freezing",
+        "name": "Freezing ground",
+        "when": {
+          "biome": [
+            "ice-cave"
+          ]
+        },
+        "needs": [
+          "cold_tolerance"
+        ],
+        "says": "the ice never thaws"
+      },
+      {
+        "id": "dark",
+        "name": "Darkness underground",
+        "when": {
+          "biome": [
+            "cave",
+            "ice-cave",
+            "sea-cave"
+          ]
+        },
+        "needs": [
+          "light"
+        ],
+        "says": "the passages went dark past the entrance"
+      },
+      {
+        "id": "climb",
+        "name": "A hard climb",
+        "when": {
+          "biome": [
+            "alpine",
+            "montane"
+          ]
+        },
+        "needs": [
+          "climbing"
+        ],
+        "says": "the way went up rock"
+      },
+      {
+        "id": "water",
+        "name": "Water to cross",
+        "when": {
+          "biome": [
+            "sea",
+            "sea-cave",
+            "wetland",
+            "sacred-pool"
+          ]
+        },
+        "needs": [
+          "water_travel"
+        ],
+        "says": "the way went over water"
+      },
+      {
+        "id": "lost",
+        "name": "Lost under the canopy",
+        "when": {
+          "biome": [
+            "forest"
+          ],
+          "weather": [
+            "fog",
+            "rain",
+            "overcast"
+          ]
+        },
+        "needs": [
+          "navigation"
+        ],
+        "says": "every trail looked the same"
+      }
+    ]
+  },
+  "sim": {
+    "class": "creative",
+    "_note": "The optional run (spec §9, 'an optional simulation layer'): a seeded day-by-day field journal from the rules above and the game's own encounter tables. It's a way to see a plan's odds, never canon: run it as often as you like. One wild encounter is drawn per window per day from that window's table: on land, or, when the team can travel on water and the place has Pokémon on it, on the water a third of the time (water_weights). A team turns back after this many setbacks, or when the food runs out.",
+    "setbacks_to_turn_back": 3,
+    "reserve_days": 1,
+    "forage_share": 0.25,
+    "runs": 24,
+    "max_days": 14,
+    "water_weights": {
+      "walk": 2,
+      "surf": 1
+    }
+  },
+  "estate": {
+    "_note": "The estate's year and stores (creative unless a line says otherwise).",
+    "plots_per_crop": 4,
+    "berry_rations": 1,
+    "_berry_rations": "a picked berry feeds one ration (creative: Blackthorn's standard, capability/model.json → provisions)",
+    "_growth": "mechanic: Gen IV berry growth, from PokeAPI (berries.growth_time is the hours of each of its four stages; max_harvest is the most a plant gives with ideal watering)",
+    "glasshouse_hours_per_week": 168,
+    "outdoor": {
+      "_note": "creative: how the season treats a resident outdoors in the highlands, by its type-driven climate (ranch/habitat.py: warm for Fire, cold for Ice, any otherwise)",
+      "warm": {
+        "spring": "fine",
+        "summer": "thrives",
+        "autumn": "fine",
+        "winter": "indoors"
+      },
+      "cold": {
+        "spring": "fine",
+        "summer": "shade",
+        "autumn": "thrives",
+        "winter": "thrives"
+      },
+      "any": {
+        "spring": "fine",
+        "summer": "fine",
+        "autumn": "fine",
+        "winter": "fine"
+      }
+    },
+    "outdoor_says": {
+      "thrives": "thrives outside",
+      "fine": "fine outside",
+      "shade": "needs shade and the cold vault's chill in the heat",
+      "indoors": "lives by the hearth until spring"
+    }
+  }
+}
