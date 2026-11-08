@@ -54,6 +54,22 @@ generated: if nobody of yours holds a job, the page says so.
   one appends a Journal row of kind `world-record`, and the newest row per record wins. `Cap.setWorld` hands them to
   every assessment: the Survival Lab, facilities, and the builder's homestead tags.
 
+## The estate in time (v2.7)
+
+The estate moves with the year and the clock now (`docs/WILD.md`; the engine is `wilderness/expedition.py`, in the
+browser `web/41_wild.html`; the pages are `web/43_estate_life.html`):
+- **The strip** on `#/estate`: this season in the highlands, the week's stores, a day at Blackthorn, and the latest
+  expedition out in the wild.
+- **The season** `#/estate/season`: Blackthorn City's weather mix for the season (a creative model: the games have no
+  seasons), how each resident fares outside by its type-driven climate (warm ones live by the hearth in winter, cold
+  ones want the cold vault's chill in summer; A-134), and what the Glasshouse rings keep growing under glass.
+- **The stores** `#/estate/stores`: a week of the Glasshouse (each crop's Gen IV growth hours, its best harvest, its
+  plots; A-133) against a week of the residents' rations by body size, and the residents who are a food source on a
+  mechanic or a record. An estimate: nothing runs down while you're away. The surplus packs the expeditions.
+- **A day at Blackthorn** `#/estate/day`: morning, day and night by the games' clock. A resident is up when its kind is
+  about in the wild in HeartGold or SoulSilver (A-135), and its work is the jobs it can hold.
+- **While you're away**: the expedition planner shows every job at Blackthorn that only the team going could do.
+
 ## What's still open
 
 - The preserve: how long clients' Pokémon stay, its land and where it sits, and how an invitation works (A-114).

@@ -1197,3 +1197,85 @@ The builder's name line now shows the battle identity. The v2 type-and-noun ladd
 - **Why:** The handoff names the type-and-noun pattern as the one to replace. You said you'd work on naming separately; this is that system arriving, so it takes the headline, and nothing of the old one is thrown away.
 - **See it:** `#/pokemon` (Your Pokémon (the builder))
 - **Could instead:** show both names side by side; keep the ladder name as the headline until you approve the identity names
+
+## v2.7 · The Wild
+
+### A-127 · What a place calls for (D-083)
+
+A place's needs come from three sources, each shown with its tag: its biomes and elevation (Blackthorn's reading of the place: an ice cave needs cold tolerance, a forest navigation, a sea water travel), the game's own encounter methods there (surfing tables mean water to cross, Rock Smash rocks, rods fish), and the way there (sea links need water travel, cave links light). Three needs come with every night out: camp making, field healing and deterrence. Each need keeps its highest priority.
+
+- **Why:** The spec asks for scenarios with conditions, terrain and hazards; real places give them, and the game's own tables are the best evidence about their ground.
+- **See it:** `#/wild` (The Wild)
+- **Could instead:** only the game's evidence (encounter methods and links), no biome reading; author each place's needs by hand
+
+### A-128 · Seasons and weather (D-083)
+
+The Blackthorn world has four seasons (from your date, as the app already reads it) and a weather mix for a day outside: weights by elevation (low, mid, high) and season, plus what a place's biomes add (sea and coast fog and storms, alpine snow, wetland fog). A place that's all cave, tower or ruins is sheltered. The games have no seasons: every number here is Blackthorn's.
+
+- **Why:** Expeditions need weather to plan around; an editable table is honest about being invented.
+- **See it:** `#/wild/mt-silver` (Mt. Silver's weather)
+- **Could instead:** no weather at all; one weather mix for every place
+
+### A-129 · Hazards, and when a team turns back (D-083)
+
+A hazard comes up when its weather is drawn or its ground is there (blizzard, snow, storm, heavy sea, rain, fog, heat, freezing ground, darkness underground, a hard climb, water to cross, lost under the canopy). It's handled when the team or its kit is covered or equipped on every capability it needs, hard going when one is only teachable, plausible or waiting for your approval, and a setback when one is a gap. Three setbacks, or running out of food, turn the team for home.
+
+- **Why:** The run has to say why a plan fails, in the capability engine's own terms.
+- **See it:** `#/expedition` (The planner)
+- **Could instead:** turn back on the first setback; never turn back: just count setbacks
+
+### A-130 · The run's draws (D-083)
+
+One wild Pokémon a window a day, drawn from that window's table by its rate; a team that can travel on water meets the surfing table a third of the time. Food carried is the trip's rations plus a reserve day; where the land allows (forest, grassland, coast, a lake, fish with a rod) and someone can forage, a quarter of a day's rations comes back. The run is seeded and the same every time for the same plan.
+
+- **Why:** An optional simulation (spec §9) that stays a planning aid: transparent constants, reproducible seeds.
+- **See it:** `#/expedition` (The planner)
+- **Could instead:** more encounters a day; foraging that replaces carried food entirely
+
+### A-131 · Travel (D-083)
+
+Three links of the map make a day on foot. A team with air travel ready (Fly, or a record you approved) flies to the town nearest the place when that's shorter, and walks from there.
+
+- **Why:** A day's travel needs a unit; the map's links are the games' own.
+- **See it:** `#/wild/whirl-islands` (Whirl Islands)
+- **Could instead:** two links a day; Fly straight to the place
+
+### A-132 · Who'd be missed at home (D-083)
+
+The planner checks every facility job against your residents (the six teams) with and without the team that goes, and lists the jobs nobody left at home can do. Nobody is taken off a job.
+
+- **Why:** The spec allows availability conflicts only when they're explained and nothing is forced; this explains without forcing.
+- **See it:** `#/expedition` (The planner)
+- **Could instead:** take the team off its jobs while it's away; leave the estate out of the planner
+
+### A-133 · The stores (D-083)
+
+A week of the Glasshouse: each crop's harvests in 168 hours of continuous growing (Gen IV growth hours, replanted as soon as it's picked), times its best harvest (the game's maximum with ideal watering), times 4 plots (you can change it), with one berry feeding one ration; against the residents' rations by body size (capability/model.json's standard). Gen IV berries grow fast, so the Glasshouse out-grows the residents by a wide margin; the surplus is the expeditions' larder.
+
+- **Why:** Spec §12: estimate resources without a maintenance simulation.
+- **See it:** `#/estate/stores` (The stores)
+- **Could instead:** count only the medicine crop; no stores page
+
+### A-134 · A resident outdoors through the year (D-083)
+
+By its type-driven climate (warm for Fire, cold for Ice, any otherwise): warm residents thrive in summer and live by the hearth in winter; cold ones thrive in autumn and winter and want the cold vault's chill in summer; the rest are fine all year.
+
+- **Why:** The highlands are cold; Magcargo and Typhlosion would feel it.
+- **See it:** `#/estate/season` (The season)
+- **Could instead:** everyone fine all year
+
+### A-135 · When a resident is up (D-083)
+
+A resident is up in the windows its kind appears in the wild in HeartGold or SoulSilver (Hoothoot at night, Ledyba morning and day), or its line's; a kind that's never wild there keeps the whole day.
+
+- **Why:** The games' own clock is the best evidence about when a Pokémon is active.
+- **See it:** `#/estate/day` (A day at Blackthorn)
+- **Could instead:** everyone up all day; read activity from Pokédex text
+
+### A-136 · Keeping an expedition (D-083)
+
+Keep this expedition writes a Journal row: the place, team, season, days, kit, the run's seed and outcome, the odds, and who the run met. The field log reads them. They're a story log of simulated runs, never a record of the cartridge or canon.
+
+- **Why:** Your call on what counts; the Journal is where your choices already go.
+- **See it:** `#/fieldlog` (Your field log)
+- **Could instead:** don't keep runs at all; keep every run automatically
