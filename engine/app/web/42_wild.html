@@ -7,9 +7,13 @@
    an expedition you keep is a Journal row. */
 var EX = null;
 function wildReady() {
-  if (!S.wildP) S.wildP = Promise.all([estateReady(), API.data('wild'), API.data('organism'), API.data('breeding')])   // the organism (v2.8): each one as an animal
-    .then(function (r) { Wild.init(r[1], Cap); Organism.init(r[2], r[3], Cap, r[1]); return true; }).catch(function (e) { S.wildP = null; throw e; });
+  if (!S.wildP) S.wildP = Promise.all([estateReady(), API.data('wild')]).then(function (r) { Wild.init(r[1], Cap); return true; }).catch(function (e) { S.wildP = null; throw e; });
   return S.wildP;
+}
+function orgReady() {   // the organism (v2.8): each one as an animal; only the pages that read it load its packs
+  if (!S.orgP) S.orgP = Promise.all([wildReady(), API.data('organism'), API.data('breeding')])
+    .then(function (r) { if (!Organism.ready()) Organism.init(r[1], r[2], Cap, Wild.pack()); return true; }).catch(function (e) { S.orgP = null; throw e; });
+  return S.orgP;
 }
 function seasonNowName() { return Wild.seasonOf(new Date().getMonth() + 1); }
 function wildTeams() {   // your six teams, each as the members the assessments take
@@ -122,7 +126,7 @@ function exState(q) {
   store('expedition', EX);
 }
 function expeditionPage(query) {
-  return wildReady().then(function () {
+  return orgReady().then(function () {
     exState(qparse(query));
     after(function (p) { exBind(p); exRender(); });
     var P = Wild.pack().places, R = Wild.rules(), kit = Cap.pack().kit;

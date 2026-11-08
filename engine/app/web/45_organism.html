@@ -91,7 +91,7 @@ function orgBringsCard(p) {
 }
 var PBW = {};
 function orgIndPage(id) {
-  return wildReady().then(function () {
+  return orgReady().then(function () {
     var ind = (S.store && S.store.individuals || {})[id];
     if (!ind) return '<div class="notice">No Pokémon of yours with id ' + esc(id) + '. <a href="#/pokemon">Your Pokémon →</a></div>';
     var b = indBuild(ind), m = capMember(ind), game = ind.game || 'heartgold';
