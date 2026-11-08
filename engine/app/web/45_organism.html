@@ -1,0 +1,141 @@
+<script>
+/* ===== The organism (v2.8, docs/ORGANISM.md) ======================================================================
+   A Pokémon as a living animal, not a character with four moves. Your individual's page in the wild: its species as
+   an animal (body, how it moves, what it eats, water and climate, senses, defence, social life, its day), then what's
+   its own (where it was born, its nature's flavours, its characteristic, how it came by each move and what each is for
+   away from battle, its ability read as biology), what it brings to a team in the wild, and how the conditions treat
+   its body. The planner's team in the wild and the field journal's camp lines read the same engine (44_organism, held
+   to biology/organism.py by app/test_organism_parity.mjs). */
+var ORG_CLS = {mechanic: ['the game', 'forest'], canon: ['the Pokédex', 'forest'], inferred: ['reading', 'gold'], draft: ['dossier draft', 'violet'], unknown: ['not on record', 'ember'],
+  confirmed: ['confirmed', 'forest'], 'strongly inferred': ['strongly inferred', 'ice'], standardized: ['standardized', ''], hypothetical: ['hypothetical', 'violet'], creative: ['Blackthorn', 'violet']};
+function clip(s, n) { return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; }
+function orgChip(cls) { var c = ORG_CLS[cls] || [cls || '?', '']; return chip(c[0], c[1]); }
+function orgLines(xs) {
+  return (xs || []).map(function (x) { return '<div class="orgline">' + orgChip(x['class']) + ' <span>' + esc(x.text) + '</span>' + (x.source ? ' <span class="tiny muted">' + esc(x.source) + '</span>' : '') + '</div>'; }).join('');
+}
+var ORG_PARTS = [['body', 'Its body'], ['moves', 'How it moves'], ['eats', 'What it eats'], ['water', 'Water'], ['climate', 'Climate'], ['home', 'Home ground'],
+  ['senses', 'Senses'], ['defense', 'Defence'], ['social', 'Social life'], ['rhythm', 'Its day']];
+var WATER_SAYS = {sea: 'salt water', fresh: 'fresh water', none: 'no standing water'};
+function orgNeeds(sh) {
+  return '<div class="orgneeds"><div><div class="eyebrow">On the trail</div><b class="num">' + sh.needs.rations + '</b> <span class="tiny">rations a day</span></div>' +
+    '<div><div class="eyebrow">Water it lives by</div><span class="small">' + esc(WATER_SAYS[sh.needs.water] || sh.needs.water) + '</span></div>' +
+    '<div><div class="eyebrow">Climate</div><span class="small">' + esc(sh.needs.climate === 'any' ? 'any' : sh.needs.climate + ' country') + '</span></div></div>';
+}
+function orgSheetCard(sh) {
+  return card('The animal', (sh.about.length ? '<div class="orgabout">' + orgLines(sh.about) + '</div>' : '') +
+    ORG_PARTS.map(function (p) { return sh[p[0]] && sh[p[0]].length ? '<div class="orgpart"><div class="eyebrow">' + p[1] + '</div>' + orgLines(sh[p[0]]) + '</div>' : ''; }).join('') + orgNeeds(sh) +
+    '<div class="tiny muted" style="margin-top:8px">Each line says where it comes from: the game\'s data and the Pokédex (canon), the dossiers (drafts until approved), or Blackthorn\'s reading of its type, body and land. <a href="#/biology">Field Biology</a></div>',
+    {eyebrow: (sh.genus || '') + ' · its species as an animal', tools: false});
+}
+function orgConditions(game, member) {   // each condition the planner knows, against this body: hard on it, at home in it, or neither
+  var R = Organism.pack().rules;
+  return R.exposure.conditions.map(function (c) {
+    var place = {biome: (c.when.biome || []).slice(0, 1)}, w = (c.when.weather || [])[0] || 'clear';
+    var e = Organism.exposure(game, member.species, member.ability, place, w)[0] || null;
+    var where = Object.keys(Wild.pack().places).filter(function (k) { return Wild.pack().places[k].biome.some(function (b) { return (c.when.biome || []).indexOf(b) >= 0; }); })
+      .map(function (k) { return Wild.pack().places[k].name; });
+    return {c: c, e: e, where: where};
+  });
+}
+function orgBodyCard(game, member) {
+  var names = Cap.pack().model.capabilities;
+  return card('The conditions, on its body', orgConditions(game, member).map(function (x) {
+    var c = x.c, e = x.e, when = (c.when.weather || []).map(function (w) { return Wild.rules().climate.kinds[w].name.toLowerCase(); });
+    var where = x.where.length ? 'at ' + x.where.slice(0, 3).join(', ') + (x.where.length > 3 ? ' and ' + (x.where.length - 3) + ' more places' : '') : '';
+    var says = e && e.effect === 'hard' ? '<b style="color:var(--ember-2)">hard on it</b> (' + esc(c.type) + ' ' + e.mult + '×): it needs ' + esc(names[c.eased_by].name.toLowerCase()) + ' from a teammate or the kit'
+      : e ? '<b style="color:var(--forest-3)">at home in it</b> (' + esc(c.type) + ' ' + e.mult + '×)' : 'no harder on it than on most (' + esc(c.type) + ' 1×)';
+    return '<div class="orgline"><span class="small"><b>' + esc(cap(c.name.replace(/^the /, ''))) + '</b></span> <span class="small">' + says + '</span><div class="tiny muted">' + esc((when.length ? 'in ' + when.join(' or ') : '') + (when.length && where ? '; ' : '') + where) + '</div></div>'; }).join('') +
+    '<div class="tiny muted" style="margin-top:8px">The type chart read as physiology: the type that bites in those conditions against its types and ability (a reading). A hard condition nobody eases makes the day hard going on an expedition, never a setback on its own.</div>',
+    {eyebrow: 'Exposure · the cold, the heat, the rain', tools: false});
+}
+var LEARN_CHIP = {level: ['level-up', 'forest'], egg: ['egg move', 'gold'], machine: ['TM/HM', 'ice'], tutor: ['tutor', 'violet'], 'light-ball': ['Light Ball', 'violet']};
+function orgMovesCard(p) {
+  if (!p.moves.length) return card('Its moves, as it lives with them', '<div class="tiny muted">No moves on its build yet. <a href="#/pokemon/' + esc(PBW.id) + '">Give it its four →</a></div>', {tools: false});
+  return card('Its moves, as it lives with them', '<table class="orgmoves"><thead><tr><th>Move</th><th>How it came by it</th><th>Away from battle</th></tr></thead><tbody>' + p.moves.map(function (m) {
+    var how = m.how.map(function (h) { var c = LEARN_CHIP[h] || [h, '']; return chip(c[0], c[1]); }).join(' ');
+    var away = m.field.map(function (f) { return chip(f + ' · the game', 'forest'); }).concat(m.use.map(function (u) { return chip(u + ' · a hypothesis', ''); })).join(' ');
+    return '<tr><td><b>' + esc(m.move) + '</b>' + (m.hatched ? '<div class="tiny" style="color:var(--gold-2)">hatched with it</div>' : '') + '</td>' +
+      '<td><div class="small">' + esc(m.story) + '</div><div class="tiny muted">' + (how ? how + ' ' : '') + (m.origins.length > 1 ? esc('also: ' + m.origins.filter(function (o) { return o !== m.story; }).join('; ')) : '') + '</div></td>' +
+      '<td>' + (away || '<span class="tiny muted">a battle move: nothing it does in the wild on record</span>') + '</td></tr>'; }).join('') + '</tbody></table>' +
+    (p.egg_moves.length ? '<div class="small" style="margin-top:8px">' + chip('inherited', 'gold') + ' ' + esc(p.egg_moves.join(', ')) + (p.egg_moves.length > 1 ? ' are egg moves: they came down its father\'s side.' : ' is an egg move: it came down its father\'s side.') + '</div>' : '') +
+    '<div class="tiny muted" style="margin-top:8px">How each move is learned in ' + esc(GAME_NAME[PBW.game] || PBW.game) + ' (the breeding pack\'s learnsets and the game\'s TMs and HMs), through its pre-evolutions, read as how this one came by it. Field moves are the game\'s own; other uses are hypotheses from the capability model.</div>',
+    {eyebrow: 'Level-up, inherited, taught · and what each is for', tools: false});
+}
+function orgSelfCard(p) {
+  var o = p.origin, n = p.nature, ch = p.characteristic, rows = [];
+  if (o) rows.push('<div class="orgpart"><div class="eyebrow">Where it comes from</div><div class="small">' + esc(cap(o.text)) + (o.where ? ' · ' + esc(o.where) : '') + (o.level ? ' · level ' + o.level : '') + '</div>' +
+    (o['native'] ? '<div class="orgline">' + orgChip('inferred') + ' <span class="small">' + esc(o['native'].text) + '</span> <a class="tiny" href="#/wild/' + o['native'].place + '">the place →</a></div>' : '') + '</div>');
+  else rows.push('<div class="orgpart"><div class="eyebrow">Where it comes from</div><div class="tiny muted">Not on record. <a href="#/pokemon/' + esc(PBW.id) + '">Set how you met it in the builder →</a></div></div>');
+  if (n) rows.push('<div class="orgpart"><div class="eyebrow">Its nature · ' + esc(n.name) + '</div>' + (n.likes ? '<div class="small">It likes <b>' + esc(n.likes) + '</b> food and turns its nose up at <b>' + esc(n.hates) + '</b>.</div><div class="tiny muted">' + esc(n.up) + ' up, ' + esc(n.down) + ' down · the game\'s own flavours (berries and Pokéblocks or Poffins)</div>' :
+    '<div class="small">A neutral nature: no flavour it likes or dislikes more than another.</div>') + '</div>');
+  if (ch) rows.push('<div class="orgpart"><div class="eyebrow">Its characteristic</div>' + (ch.text ? '<div class="small">“' + esc(ch.text) + '”</div><div class="tiny muted">The game\'s line for its best IV: ' + esc(ch.stat) + ' at ' + ch.iv + ' (Gen IV)</div>' :
+    '<div class="small">Its best IVs tie (' + esc(ch.tie.join(', ')) + ' at ' + ch.iv + '): the game breaks the tie with a number Blackthorn doesn\'t keep.</div>') + '</div>');
+  if (p.item) rows.push('<div class="orgpart"><div class="eyebrow">It carries</div><div class="small">' + esc(p.item) + '</div></div>');
+  return card('Its own story', rows.join(''), {eyebrow: 'The individual · origin, nature, characteristic', tools: false});
+}
+function orgAbilityCard(p) {
+  var a = p.ability;
+  if (!a) return card('Its ability', '<div class="tiny muted">No ability on its build.</div>', {tools: false});
+  return card(esc(a.name), (a.text ? '<div class="orgline">' + orgChip('mechanic') + ' <span class="small">' + esc(a.text) + '</span></div>' : '') +
+    (a.trait ? '<div class="orgline">' + orgChip('inferred') + ' <span class="small">As biology: ' + esc(a.trait) + '</span></div>' : '<div class="tiny muted">Blackthorn has no biological reading of it yet.</div>') +
+    (a.trait_caps.length ? '<div class="tiny" style="margin-top:4px">It counts toward ' + esc(a.trait_caps.join(', ').toLowerCase()) + ' as plausible: biology, not a game mechanic or your call.</div>' : '') +
+    a.overworld.map(function (w) { return '<div class="orgline">' + orgChip('mechanic') + ' <span class="small">' + esc(w.cap) + (w.detail ? ': ' + esc(w.detail) : '') + '</span></div>'; }).join(''),
+    {eyebrow: 'Its ability, read as biology', tools: false});
+}
+function orgBringsCard(p) {
+  var by = {};
+  p.brings.forEach(function (b) { (by[b.standing] = by[b.standing] || []).push(b); });
+  return card('What it brings in the wild', Cap.ORDER.filter(function (s) { return by[s]; }).map(function (s) {
+    return '<div class="orgpart"><div class="small">' + standChip(s) + '</div>' + by[s].map(function (b) { return '<div class="tiny" style="margin:2px 0"><a href="#/capability/' + b.cap + '"><b>' + esc(b.name) + '</b></a> <span class="muted">' + esc(b.source || '') + '</span></div>'; }).join('') + '</div>'; }).join('') ||
+    '<div class="tiny muted">No capability on record.</div>', {eyebrow: 'Its capability, by standing · ' + esc(GAME_NAME[PBW.game] || PBW.game), tools: false});
+}
+var PBW = {};
+function orgIndPage(id) {
+  return wildReady().then(function () {
+    var ind = (S.store && S.store.individuals || {})[id];
+    if (!ind) return '<div class="notice">No Pokémon of yours with id ' + esc(id) + '. <a href="#/pokemon">Your Pokémon →</a></div>';
+    var b = indBuild(ind), m = capMember(ind), game = ind.game || 'heartgold';
+    PBW = {id: id, game: game};
+    var p = Organism.portrait(game, m, b, ind);
+    if (!p) return '<div class="notice">' + esc(ind.species) + ' isn\'t in the organism pack.</div>';
+    var sh = p.sheet, name = ind.nickname || ind.species;
+    return '<div class="eyebrow"><a class="link" href="#/pokemon/' + esc(id) + '">← ' + esc(name) + ' in the builder</a> · ' + esc(GAME_NAME[game] || game) + '</div>' +
+      '<div class="orghead"><img class="pix" src="' + spriteOf(numOf(ind.species), game, ind.shiny) + '" alt="" onerror="this.style.opacity=0"><div><h1 style="margin:4px 0">' + esc(name) + ' in the wild</h1>' +
+      '<div class="small">' + (name !== ind.species ? esc(ind.species) + ' · ' : '') + esc(sh.genus || '') + ' ' + types(sh.types) + ' <span class="tiny muted">' + esc(sh.size) + ' body</span></div></div></div>' +
+      '<p class="lede">Not a character with four moves: an animal of its kind, and then this one. What its species is like to live alongside, what is its own, and how that adds up to getting by in the wild.</p>' +
+      '<div class="grid" style="margin-top:14px"><div class="c7">' + orgSheetCard(sh) + '</div><div class="c5">' + orgSelfCard(p) + '<div style="margin-top:16px">' + orgAbilityCard(p) + '</div></div></div>' +
+      '<div style="margin-top:16px">' + orgMovesCard(p) + '</div>' +
+      '<div class="grid" style="margin-top:16px"><div class="c6">' + orgBringsCard(p) + '</div><div class="c6">' + orgBodyCard(game, m) + '</div></div>';
+  });
+}
+
+/* ---- the team in the wild, in the planner ---- */
+function exTeamWild(t, pl) {
+  var place = pl.place, kit = pl.kit, rows = {};
+  t.members.forEach(function (m) { rows[m.label || m.species] = {m: m, hard: {}, home: {}}; });
+  pl.weather.forEach(function (w) {
+    var c = Organism.camp(t.game, t.members, kit, place, w.kind);
+    c.exposed.forEach(function (e) { var r = rows[e.who]; if (!r) return; var h = r.hard[e.condition] || (r.hard[e.condition] = {share: 0, helper: e.helper, standing: e.helper_standing, how: e.helper_how, kit: e.helper_kit, eased_by: e.eased_by});
+      h.share += w.share; });
+    c.home.forEach(function (e) { var r = rows[e.who]; if (r) r.home[e.condition] = (r.home[e.condition] || 0) + w.share; });
+  });
+  var pct = function (x) { return Math.round(Math.min(1, x) * 100) + '%'; }, names = Cap.pack().model.capabilities;
+  var watch = Organism.watcher(t.members);
+  return card('The team in the wild', Object.keys(rows).map(function (who) {
+    var r = rows[who], sh = Organism.sheet(r.m.species);
+    if (!sh) return '';
+    var lines = Object.keys(r.hard).map(function (c) { var h = r.hard[c];
+      return '<div class="tiny exhard"><b>feels ' + esc(c) + '</b> ' + pct(h.share) + ' of days · ' + (h.helper ? (Cap.READY.indexOf(h.standing) >= 0 ? '<span style="color:var(--forest-3)">' + esc(h.helper) + ' eases it</span>' : esc(h.helper) + ' might (' + esc(h.standing) + ')') :
+        '<span style="color:var(--ember-2)">nobody eases it: no ' + esc(names[h.eased_by].name.toLowerCase()) + '</span>') + '</div>'; })
+      .concat(Object.keys(r.home).map(function (c) { return '<div class="tiny" style="color:var(--forest-3)">at home in ' + esc(c) + ' ' + pct(r.home[c]) + ' of days</div>'; }));
+    var eat = sh.eats[0];
+    return '<div class="exmember"><img class="pix" src="' + spriteOf(numOf(r.m.species), t.game) + '" alt="" loading="lazy"><div style="flex:1"><div class="small"><b>' + esc(who) + '</b> ' + types(sh.types) +
+      (r.m.ind ? ' <a class="tiny" href="#/pokemon/' + esc(r.m.ind) + '/wild">in the wild →</a>' : '') + '</div>' +
+      '<div class="tiny muted">' + sh.needs.rations + ' rations a day · ' + esc(WATER_SAYS[sh.needs.water] || sh.needs.water) + (eat && eat['class'] !== 'unknown' ? ' · ' + esc(clip(eat.text.replace(/^“|”$/g, ''), 90)) : '') + '</div>' +
+      (lines.length ? lines.join('') : '<div class="tiny muted">The conditions here are no harder on it than on most.</div>') + '</div></div>'; }).join('') +
+    '<div class="tiny" style="margin-top:8px"><b>Night watch:</b> ' + (watch ? esc(watch.who) + ' <span class="muted">(' + esc(watch.why) + ')</span>' : '<span class="muted">nobody on the team is about at night or sleeps light</span>') + '</div>' +
+    '<div class="tiny muted" style="margin-top:6px">Each body against the place\'s conditions this season (the type chart read as physiology), who eases it (the capability engine), and what each eats and drinks. The run\'s camp lines read the same.</div>',
+    {eyebrow: 'Each one as an animal, at ' + place.name, tools: false});
+}
+route(/^\/pokemon\/(.+)\/wild\/?$/, orgIndPage, function (i) { var x = (S.store && S.store.individuals || {})[i]; return (x ? (x.nickname || x.species) : i) + ' · in the wild'; }, '#/pokemon');
+</script>

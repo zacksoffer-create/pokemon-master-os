@@ -123,11 +123,17 @@ def build():
                 digits[i // 4] |= 1 << (i % 4)
             have[str(pid)] = "".join("0123456789abcdef"[d] for d in digits)
         machines[str(vg)] = {"m": [[mv, ("TM%02d" % n) if n <= 100 else ("HM%02d" % (n - 100))] for n, mv in ms], "have": have}
+    sys.path.insert(0, ENGINE)
+    import rules as battle_rules                                  # the type chart and the defensive abilities, as the battle engine has them
+    chart = {str(g): battle_rules.gen_data(g)["types"] for g in (2, 3, 4)}
+    defend = {"abilities": {k: [g, t] for k, (g, t) in battle_rules.DEFENSIVE_ABILITIES.items()}, "filters": dict(battle_rules.SUPER_EFFECTIVE_FILTERS),
+              "wonder_guard": battle_rules.WONDER_GUARD}
     return {"_note": "The organism pack (app/organism_pack.py): every species as an animal (from biology, dossiers, the food webs, the habitat engine "
                      "and the games' encounter times), the Gen IV characteristics and each nature's flavours, each game's TMs and HMs and who can be "
-                     "taught them (machines[vg].have[species id]: a hex digit per four machines, bit i%4 of digit i//4), and the organism rules. Reference only.",
+                     "taught them (machines[vg].have[species id]: a hex digit per four machines, bit i%4 of digit i//4), the type chart and "
+                     "defensive abilities (rules.py's, for exposure), and the organism rules. Reference only.",
             "built": time.strftime("%Y-%m-%d"), "rules": rules, "species": species, "index": index, "characteristics": chars, "natures": natures,
-            "machines": machines}
+            "machines": machines, "chart": chart, "defend": defend}
 
 
 def main():

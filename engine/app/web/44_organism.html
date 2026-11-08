@@ -1,0 +1,238 @@
+<script>
+// The organism (v2.8, docs/ORGANISM.md): biology/organism.py line for line (app/test_organism_parity.mjs holds the two
+// together). A Pokémon read as a living animal in the wild: the species (its body, how it moves, what it eats, water and
+// climate, senses, defence, social life, when it's about), then the individual on top (how it came by each move, its
+// ability read as biology, its nature's flavours, its characteristic, where it was born), how a place's conditions
+// treat its body, and the camp: who keeps watch, who feels the conditions and who eases them.
+var Organism = (function () {
+  var O = null, B = null, Cp = null, W = null, MOVE_ID = null, SP_ID = null;
+  var READY = ['covered', 'equipped'], STORY = ['level', 'machine', 'tutor', 'egg', 'light-ball'];
+  function init(org, breeding, cap, wild) { O = org; B = breeding; Cp = cap; W = wild; MOVE_ID = null; SP_ID = null; return api; }
+  function has(list, x) { return list.indexOf(x) >= 0; }
+  function nz(x) { return x === undefined ? null : x; }
+  function norm(name) { return String(name).toLowerCase().replace(/♀/g, 'f').replace(/♂/g, 'm').replace(/[^a-z0-9]/g, ''); }
+  function find(name) { var nm = O.index[norm(name)]; return nm ? [nm, O.species[nm]] : [name, null]; }
+  function num(x) { return String(x); }
+  function line(text, cls, source) { return {text: text, 'class': cls, source: source}; }
+  function fill(text, kw) { Object.keys(kw).forEach(function (k) { text = text.split('{' + k + '}').join(String(kw[k])); }); return text; }
+
+  /* ---- the species ---- */
+  function sheet(name) {
+    var R = O.rules, f = find(name), nm = f[0], s = f[1];
+    if (!s) return null;
+    var H = R.habitat_words, D = s.dossier || {}, dex = s.dex;
+    var dl = function (part) { return dex[part] ? line('“' + dex[part][0] + '”', 'canon', 'Pokédex (' + dex[part][1].slice(0, 2).join(', ') + ')') : null; };
+    var dos = function (sec) { return D[sec] ? line(D[sec][0], D[sec][1] || 'draft', 'dossier (' + (D.status || 'draft') + ')') : null; };
+    var keep = function (xs) { return xs.filter(Boolean); };
+    var body = [line((s.genus || '') + ': ' + num(s.h) + ' m, ' + num(s.w) + ' kg, ' + (s.color || '') + ', ' + (s.shape || '') + ' body', 'mechanic', 'the game (Pokédex data)')];
+    s.t.forEach(function (t) { if (R.type_body[t]) body.push(line(R.type_body[t], 'inferred', t + ' type')); });
+    var moves = keep([s.shape && R.shape_moves[s.shape] ? line(R.shape_moves[s.shape], 'inferred', 'its body shape (' + s.shape + ')') : null, dl('moves')]);
+    var eats = keep([s.guild ? line('a ' + s.guild + (s.guild_from ? ' (as its line\'s ' + s.guild_from + ' is in the food webs)' : ''), 'inferred', 'the food webs') : null, dos('diet'), dl('eats')]);
+    if (!eats.length) eats = [line('Nothing on record says what it eats.', 'unknown', '')];
+    var water = [line(H.water[s.water], 'mechanic', 'the habitat engine')], climate = [line(H.climate[s.climate], 'inferred', 'the habitat engine (its type)')];
+    var home = [];
+    if (s.hab) home.push(line('lives in ' + (H[s.hab] !== undefined ? H[s.hab] : s.hab), 'mechanic', 'the Gen 3 Pokédex habitat'));
+    if (s.zones && s.zones.length) home.push(line('its land: ' + s.zones.map(function (z) { return z.replace(/_/g, ' & '); }).join(', '), 'inferred', 'the habitat engine'));
+    var senses = keep([dos('senses'), dl('senses')]), defense = keep([dos('defense'), dl('defense')]), social = keep([dos('social'), dos('behavior')]);
+    var Wn = R.windows_names || {morning: 'morning', day: 'day', night: 'night'}, act = s.activity;
+    var rhythm = [act && act.length ? line('about in the wild in the ' + act.map(function (w) { return Wn[w]; }).join(' and ') + ' (HeartGold and SoulSilver\'s encounter times)', 'mechanic', 'the games\' encounter tables')
+      : line('never wild in HeartGold or SoulSilver: no clock on record', 'unknown', '')];
+    var P = Cp.pack().model.provisions;
+    var about = keep([dl('about'), D.summary ? line(D.summary, 'draft', 'dossier (' + (D.status || 'draft') + ')') : null]);
+    return {species: nm, n: s.n, genus: nz(s.genus), types: s.t, size: s.size, line: s.line, about: about, body: body, moves: moves, eats: eats, water: water, climate: climate,
+      home: home, senses: senses, defense: defense, social: social, rhythm: rhythm, abilities: s.abilities, needs: {rations: P.per_day[s.size], water: s.water, climate: s.climate}};
+  }
+
+  /* ---- how it came by a move ---- */
+  function chain(name) {
+    var by = B.species;
+    if (!SP_ID) { SP_ID = {}; Object.keys(by).forEach(function (k) { var n = norm(by[k].n); if (!(n in SP_ID)) SP_ID[n] = k; }); }
+    var sid = SP_ID[norm(name)], out = [];
+    if (sid === undefined) sid = null;
+    while (sid !== null && by[sid]) { out.push([sid, by[sid].n]); var f = by[sid].f; sid = f !== undefined && f !== null ? String(f) : null; }
+    return out;
+  }
+  function taught(hexbits, i) {
+    if (!hexbits || Math.floor(i / 4) >= hexbits.length) return false;
+    return ((parseInt(hexbits.charAt(Math.floor(i / 4)), 16) >> (i % 4)) & 1) === 1;
+  }
+  function learnOrigin(name, move, game) {
+    var vg = String(O.rules.vg[game]), L = B.learn[vg] || {};
+    if (!MOVE_ID) { MOVE_ID = {}; Object.keys(B.moves).forEach(function (k) { var n = B.moves[k][0]; if (!(n in MOVE_ID)) MOVE_ID[n] = k; }); }
+    var mid = MOVE_ID[move];
+    if (mid === undefined) return [];
+    mid = parseInt(mid, 10);
+    var ch = chain(name), out = [], best = null;
+    ch.forEach(function (c) { var lv = (L.L || {})[c[0]] || [];
+      for (var i = 0; i < lv.length - 1; i += 2) if (lv[i] === mid && (best === null || lv[i + 1] < best[0])) best = [lv[i + 1], c[1]]; });
+    if (best) out.push({how: 'level', level: best[0], as: best[1] !== (ch.length ? ch[0][1] : name) ? best[1] : null});
+    [['E', 'egg'], ['T', 'tutor'], ['B', 'light-ball']].forEach(function (kh) {
+      if (ch.some(function (c) { return has((L[kh[0]] || {})[c[0]] || [], mid); })) out.push({how: kh[1]}); });
+    var M = (O.machines || {})[vg];
+    if (M) {
+      var at = -1;
+      for (var j = 0; j < M.m.length; j++) if (M.m[j][0] === mid) { at = j; break; }
+      if (at >= 0 && ch.some(function (c) { return taught(M.have[c[0]], at); })) out.push({how: 'machine', machine: M.m[at][1]});
+    }
+    return out;
+  }
+  function originText(o) {
+    var Wd = O.rules.learn;
+    if (o.how === 'level') return Wd.level.replace('{level}', String(o.level)).replace('{as}', o.as ? ', as ' + o.as : '');
+    if (o.how === 'machine') return Wd.machine.replace('{machine}', o.machine);
+    return Wd[o.how];
+  }
+  function story(origins, hatched) {
+    var Wd = O.rules.learn;
+    if (hatched) return Wd.hatch + (origins.some(function (o) { return o.how === 'egg'; }) ? '; ' + Wd.egg : '');
+    for (var i = 0; i < STORY.length; i++) { var o = origins.filter(function (x) { return x.how === STORY[i]; })[0]; if (o) return originText(o); }
+    return Wd.unknown;
+  }
+
+  /* ---- the individual ---- */
+  function characteristic(ivs) {
+    if (!ivs || !Object.keys(ivs).length) return null;
+    var order = O.rules.characteristic_order, vals = {};
+    order.forEach(function (s) { vals[s] = ivs[s] !== undefined ? ivs[s] : 31; });
+    var mx = Math.max.apply(null, order.map(function (s) { return vals[s]; })), tops = order.filter(function (s) { return vals[s] === mx; }), names = O.rules.stat_names;
+    if (tops.length > 1) return {text: null, tie: tops.map(function (s) { return names[s]; }), iv: mx};
+    return {text: O.characteristics[tops[0]][mx % 5], stat: names[tops[0]], iv: mx};
+  }
+  function nativePlace(location) {
+    if (!location || !W) return null;
+    var ids = Object.keys(W.places).sort();
+    for (var i = 0; i < ids.length; i++) { var p = W.places[ids[i]]; if (location === p.name || has(p.areas, location)) return ids[i]; }
+    return null;
+  }
+  function origin(ind) {
+    if (!ind || !ind.met_how) return null;
+    var Og = O.rules.origin;
+    var out = {how: ind.met_how, text: Og[ind.met_how] !== undefined ? Og[ind.met_how] : ind.met_how, where: nz(ind.met_location), level: nz(ind.caught_level), 'native': null};
+    if (has(['wild', 'encounter'], ind.met_how)) {
+      var pid = nativePlace(ind.met_location);
+      if (pid) { var p = W.places[pid], biome = p.biome.map(function (b) { return b.replace(/-/g, ' '); }).join(' and ') || 'the open';
+        out['native'] = {place: pid, name: p.name, biome: p.biome, text: Og['native'].replace('{biome}', biome).replace('{place}', p.name)}; }
+    }
+    return out;
+  }
+  function portrait(game, member, build, ind) {
+    var sh = sheet(member.species);
+    if (!sh) return null;
+    var R = O.rules, Pk = Cp.pack(), names = Pk.model.capabilities, recs = Cp.records(game, member.species), uses = Pk.model.move_uses;
+    build = build || {};
+    var hatched = (ind || {}).hatch_moves || [];
+    var moves = (member.moves || []).map(function (mv) {
+      var field = recs.filter(function (r) { return r.kind === 'move' && r.move === mv; }).map(function (r) { return names[r.cap].name; });
+      var use = Object.keys(uses).filter(function (c) { return c.charAt(0) !== '_' && has(uses[c], mv); }).map(function (c) { return names[c].name; });
+      var origins = learnOrigin(sh.species, mv, game);
+      return {move: mv, hatched: has(hatched, mv), story: story(origins, has(hatched, mv)), origins: origins.map(originText), how: origins.map(function (o) { return o.how; }),
+        field: field, use: use, battle_only: !field.length && !use.length};
+    });
+    var ab = member.ability, ability = null;
+    if (ab) {
+      var text = null; sh.abilities.some(function (a) { if (a[0] === ab) { text = a[1]; return true; } return false; });
+      var t = R.traits[ab] && typeof R.traits[ab] === 'object' ? R.traits[ab] : null;
+      var ow = recs.filter(function (r) { return r.kind === 'ability' && r.ability === ab; }).map(function (r) { return {cap: names[r.cap].name, detail: nz(r.detail)}; });
+      ability = {name: ab, text: text, trait: t ? t.reading : null, trait_caps: t ? t.caps.map(function (c) { return names[c].name; }) : [], overworld: ow};
+    }
+    var nat = build.nature, nature = null;
+    if (nat && O.natures[nat]) { var nv = O.natures[nat];
+      nature = {name: nat, up: nv[0] ? nz(R.stat_names[nv[0]]) : null, down: nv[1] ? nz(R.stat_names[nv[1]]) : null, likes: nv[2], hates: nv[3]}; }
+    var best = Cp.best(game, member, [], []), order = Object.keys(names);
+    var brings = Object.keys(best).map(function (c) { return [c, names[c].name, best[c][0], best[c][1].kind, nz(best[c][1].source)]; });
+    var idx = function (c) { var i = order.indexOf(c); return i < 0 ? 99 : i; };
+    brings.sort(function (a, b) { return (Cp.RANK[a[2]] - Cp.RANK[b[2]]) || (idx(a[0]) - idx(b[0])); });
+    return {sheet: sh, who: member.label || member.species, moves: moves, egg_moves: moves.filter(function (m) { return has(m.how, 'egg'); }).map(function (m) { return m.move; }),
+      ability: ability, nature: nature, characteristic: characteristic(build.ivs), origin: origin(ind), item: nz(build.item),
+      brings: brings.map(function (x) { return {cap: x[0], name: x[1], standing: x[2], kind: x[3], source: x[4]}; })};
+  }
+
+  /* ---- the body in a place ---- */
+  function effectiveness(gen, atk, defTypes, ability) {   // rules.effectiveness over the pack's copy of the chart
+    var chart = O.chart[String(gen)], mult = 1.0, D = O.defend;
+    defTypes.forEach(function (t) { var x = chart[atk][t]; mult *= x === undefined ? 1 : x; });
+    if (ability && gen >= 3) {
+      var ft = D.abilities[ability] || [99, {}];
+      if (gen >= ft[0] && ft[1][atk] !== undefined) mult *= ft[1][atk];
+      if (gen >= (D.filters[ability] !== undefined ? D.filters[ability] : 99) && mult > 1) mult *= 0.75;
+      if (ability === D.wonder_guard && mult <= 1) mult = 0;
+    }
+    return mult;
+  }
+  function exposure(game, name, ability, place, weather) {
+    var f = find(name), s = f[1];
+    if (!s || !place) return [];
+    var gen = Cp.pack().gen[game], out = [];
+    O.rules.exposure.conditions.forEach(function (c) {
+      var w = c.when, hit = place.biome.some(function (b) { return has(w.biome || [], b); }) || has(w.weather || [], weather);
+      if (!hit) return;
+      var m = effectiveness(gen, c.type, s.t.slice(), gen >= 3 ? (ability || null) : null);
+      if (m > 1) out.push({id: c.id, name: c.name, type: c.type, effect: 'hard', mult: m, eased_by: c.eased_by});
+      else if (m < 1) out.push({id: c.id, name: c.name, type: c.type, effect: 'home', mult: m, eased_by: null});
+    });
+    return out;
+  }
+  function watcher(members) {
+    for (var i = 0; i < members.length; i++) { var s = find(members[i].species)[1];
+      if (s && s.activity && has(s.activity, 'night')) return {who: members[i].label || members[i].species, why: 'in the wild it\'s about at night'}; }
+    for (var j = 0; j < members.length; j++) if (has(['Insomnia', 'Vital Spirit'], members[j].ability))
+      return {who: members[j].label || members[j].species, why: O.rules.traits[members[j].ability].reading};
+    return null;
+  }
+  function helperHow(h) {
+    if (h.kind === 'world') return 'your call ' + h.id + (h.status === 'approved' ? ', approved' : ', proposed');
+    return nz(h.move || h.ability || h.source);
+  }
+  function camp(game, members, kit, place, weather) {
+    var exposed = [], home = [];
+    members.forEach(function (m) {
+      var who = m.label || m.species, s = find(m.species)[1];
+      exposure(game, m.species, m.ability, place, weather).forEach(function (e) {
+        if (e.effect === 'hard') {
+          var hs = Cp.needHolders(game, e.eased_by, members.filter(function (x) { return x !== m; }), (kit || []).slice(), []);
+          var helper = hs.length && hs[0].standing !== 'gap' ? hs[0] : null;
+          exposed.push({who: who, types: s.t, condition: e.name, type: e.type, mult: e.mult, eased_by: e.eased_by, helper: helper ? helper.who : null,
+            helper_standing: helper ? helper.standing : null, helper_kit: !!(helper && helper.kit),
+            helper_how: helper ? helperHow(helper) : null});
+        } else home.push({who: who, condition: e.name});
+      });
+    });
+    return {watch: watcher(members), exposed: exposed, home: home};
+  }
+  function campEvents(game, members, kit, place, weather) {
+    var C = O.rules.camp, names = Cp.pack().model.capabilities, c = camp(game, members, kit, place, weather), out = [];
+    c.exposed.forEach(function (e) {
+      var types = e.types.join('/');
+      if (e.helper && has(READY, e.helper_standing))
+        out.push({kind: 'camp', part: 'exposure', result: 'handled', who: e.who, condition: e.condition,
+          text: fill(e.helper_kit ? C.eased_kit : C.eased, {who: e.who, condition: e.condition, types: types, helper: e.helper, how: e.helper_how || ''})});
+      else if (e.helper)
+        out.push({kind: 'camp', part: 'exposure', result: 'strained', who: e.who, condition: e.condition,
+          text: fill(C.maybe, {who: e.who, condition: e.condition, types: types, helper: e.helper, how: e.helper_how || '',
+            standing: C.standing[e.helper_standing] !== undefined ? C.standing[e.helper_standing] : e.helper_standing})});
+      else
+        out.push({kind: 'camp', part: 'exposure', result: 'strained', who: e.who, condition: e.condition,
+          text: fill(C.unaided, {who: e.who, condition: e.condition, types: types, cap: names[e.eased_by].name.toLowerCase()})});
+    });
+    var conds = [];
+    c.home.forEach(function (h) { if (!has(conds, h.condition)) conds.push(h.condition); });
+    conds.forEach(function (cond) {
+      out.push({kind: 'camp', part: 'home', result: 'note', condition: cond,
+        text: fill(C.home, {condition: cond, who: c.home.filter(function (h) { return h.condition === cond; }).map(function (h) { return h.who; }).join(', ')})}); });
+    var w = c.watch;
+    out.push({kind: 'camp', part: 'watch', result: 'note', who: w ? w.who : null, text: w ? fill(C.watch, {who: w.who, why: w.why}) : C.no_watch});
+    return out;
+  }
+  function forageEvent(holder, n) {
+    var C = O.rules.camp, text;
+    if (holder.kit) text = fill(C.forage_kit, {who: holder.who, n: n});
+    else text = fill(C.forage, {who: holder.who, how: holder.move || holder.ability || holder.source || '', n: n});
+    return {kind: 'camp', part: 'forage', result: 'note', who: holder.who, text: text};
+  }
+
+  var api = {init: init, ready: function () { return !!O; }, pack: function () { return O; }, norm: norm, find: find, sheet: sheet, chain: chain,
+    learnOrigin: learnOrigin, effectiveness: effectiveness, originText: originText, story: story, characteristic: characteristic, origin: origin, portrait: portrait,
+    exposure: exposure, watcher: watcher, camp: camp, campEvents: campEvents, forageEvent: forageEvent};
+  return api;
+})();
+</script>

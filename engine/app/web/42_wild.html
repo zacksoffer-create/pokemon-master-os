@@ -7,7 +7,8 @@
    an expedition you keep is a Journal row. */
 var EX = null;
 function wildReady() {
-  if (!S.wildP) S.wildP = Promise.all([estateReady(), API.data('wild')]).then(function (r) { Wild.init(r[1], Cap); return true; });
+  if (!S.wildP) S.wildP = Promise.all([estateReady(), API.data('wild'), API.data('organism'), API.data('breeding')])   // the organism (v2.8): each one as an animal
+    .then(function (r) { Wild.init(r[1], Cap); Organism.init(r[2], r[3], Cap, r[1]); return true; }).catch(function (e) { S.wildP = null; throw e; });
   return S.wildP;
 }
 function seasonNowName() { return Wild.seasonOf(new Date().getMonth() + 1); }
@@ -172,6 +173,7 @@ function exRender() {
       (r.preparations.length ? '<div class="eyebrow" style="margin:10px 0 4px">Before you go</div>' + r.preparations.slice(0, 6).map(function (p) { return '<div class="tiny' + (p.priority === 'critical' ? '" style="color:var(--ember-2)' : '') + '">' + esc(p.text) + '</div>'; }).join('') : ''), {eyebrow: 'Failure points', tools: false}) + '</div></div>' +
     '<div style="margin-top:16px">' + card('The run', '<p class="tiny muted" style="margin:0 0 8px">An optional run: the days played out from the game\'s own encounter tables and Blackthorn\'s weather and hazard rules (creative). One draw per window per day. It\'s a planning aid, never canon: run it again for another seed.</p>' +
       '<div class="row"><button class="btn gold sm" id="exrun">Run it</button><button class="btn sm" id="exnext">Another run</button><button class="btn sm" id="exodds">The odds over ' + R.sim.runs + ' runs</button><button class="btn sm" id="exkeep">Keep this expedition</button></div><div id="exjournal" style="margin-top:12px"></div>', {eyebrow: 'A field journal · seed ' + EX.seed, tools: false}) + '</div>' +
+    '<div style="margin-top:16px">' + exTeamWild(t, pl) + '</div>' +
     '<div class="grid" style="margin-top:16px"><div class="c7">' + card('What it calls for, and who covers it', svNeeds(r), {eyebrow: 'The capability engine, on the place\'s needs', tools: false}) + '</div>' +
     '<div class="c5">' + (pl.cartridge ? card('The game\'s field moves', svCart(pl.cartridge, t.members), {eyebrow: 'What its tables point to · ' + GAME_NAME[t.game], tools: false}) : card('The game\'s field moves', '<div class="tiny muted">Its tables point to no field move.</div>', {tools: false})) + '</div></div>';
   var home = pl.home || [];
@@ -179,10 +181,10 @@ function exRender() {
       '<div class="tiny muted">Nobody on this trip is the only one who can do a job at Blackthorn.</div>') + '<div class="tiny muted" style="margin-top:8px">Your residents (the six teams) against the estate\'s jobs, with and without the team that goes. Nobody is taken off a job: this only shows what would be uncovered.</div>', {eyebrow: 'The estate while you\'re away', tools: false}) +
     '<div style="margin-top:16px">' + card('Who you might meet', R.windows.order.map(function (w) { var rows = (pr.wildlife[w] || []).filter(function (x) { return x[4] === 'walk' || x[4] === 'surf'; }).slice(0, 6);
       return '<div class="tiny" style="margin:4px 0"><b>' + esc(R.windows.names[w]) + '</b> ' + (rows.length ? rows.map(function (x) { return esc(x[0]) + ' <span class="muted">' + x[1] + '%</span>'; }).join(', ') : '<span class="muted">nothing</span>') + '</div>'; }).join('') + '<div class="tiny" style="margin-top:6px"><a href="#/wild/' + pr.id + '">The place\'s page →</a></div>', {eyebrow: 'The game\'s own tables', tools: false}) + '</div>';
-  var go = function (seed) { EX.seed = seed; store('expedition', EX); document.getElementById('exjournal').innerHTML = exJournal(Wild.simulate(t.game, pl, t.members, seed), pl); };
+  var go = function (seed) { EX.seed = seed; store('expedition', EX); document.getElementById('exjournal').innerHTML = exJournal(Wild.simulate(t.game, pl, t.members, seed, Organism), pl); };
   document.getElementById('exrun').onclick = function () { go(EX.seed); };
   document.getElementById('exnext').onclick = function () { go(EX.seed + 1); };
-  document.getElementById('exodds').onclick = function () { document.getElementById('exjournal').innerHTML = exOdds(Wild.odds(t.game, pl, t.members), pl); };
+  document.getElementById('exodds').onclick = function () { document.getElementById('exjournal').innerHTML = exOdds(Wild.odds(t.game, pl, t.members, null, Organism), pl); };
   document.getElementById('exkeep').onclick = function () { exKeep(t, pl); };
 }
 function exJournal(s, pl) {
@@ -191,7 +193,7 @@ function exJournal(s, pl) {
     s.days.map(function (d) {
       return '<div class="exday"><div class="exdh"><b>Day ' + d.day + '</b> · ' + esc(d.where) + ' <span class="chip wxc-' + d.weather + '">' + esc(d.weather_name) + '</span>' + (d.phase === 'out' ? ' <span class="tiny muted">on the way</span>' : '') + (d.foraged ? ' <span class="tiny muted">+' + d.foraged + ' foraged</span>' : '') + '</div>' +
         d.events.map(function (e) { return e.kind === 'wild' ? '<div class="exev wild"><img class="pix" src="' + spriteOf(numOf(e.species), 'heartgold') + '" alt="" loading="lazy">' + esc(e.text) + '</div>' :
-          '<div class="exev ' + e.result + '">' + esc(e.text) + '</div>'; }).join('') + '</div>'; }).join('') +
+          '<div class="exev ' + e.result + (e.kind === 'camp' ? ' camp' : '') + '">' + (e.kind === 'camp' ? '<span class="exk">' + (e.part === 'forage' ? 'food' : e.part === 'watch' ? 'night' : 'camp') + '</span>' : '') + esc(e.text) + '</div>'; }).join('') + '</div>'; }).join('') +
     (s.seen.length ? '<div class="tiny" style="margin-top:8px"><b>Seen:</b> ' + s.seen.map(function (x) { return esc(x[0]) + (x[1] > 1 ? ' ×' + x[1] : ''); }).join(', ') + '</div>' : '');
 }
 function exOdds(o, pl) {
@@ -203,7 +205,7 @@ function exOdds(o, pl) {
     '<div class="tiny muted" style="margin-top:6px">Seeds 1 to ' + o.runs + ', the same every time: change the team, the kit or the season and run the odds again to compare.</div>';
 }
 function exKeep(t, pl) {
-  var s = Wild.simulate(t.game, pl, t.members, EX.seed), o = Wild.odds(t.game, pl, t.members);
+  var s = Wild.simulate(t.game, pl, t.members, EX.seed, Organism), o = Wild.odds(t.game, pl, t.members, null, Organism);
   var row = {kind: 'expedition', id: 'X-' + Date.now().toString(36), place: pl.place.id, place_name: pl.place.name, team: t.key, game: t.game, members: pl.members.join(', '),
     season: pl.season, days: pl.days, kit: pl.kit.join(', '), seed: s.seed, outcome: s.outcome === 'completed' ? 'completed' : 'turned back on day ' + s.ended.day,
     odds: o.completed + '/' + o.runs, seen: s.seen.map(function (x) { return x[0] + '×' + x[1]; }).join(', '),

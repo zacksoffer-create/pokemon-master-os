@@ -496,6 +496,16 @@ ul.scout.pos li::marker { color: var(--forest-3); } ul.scout.neg li::marker { co
 .exev { font-size: 12.5px; margin: 2px 0 2px 4px; padding-left: 8px; border-left: 2px solid var(--gold-line); display: flex; align-items: center; gap: 4px; }
 .exev.handled { border-color: var(--forest-3); } .exev.strained { border-color: var(--gold); } .exev.setback { border-color: var(--ember-2); color: #f2b9a3; }
 .exev.wild { border-color: transparent; color: var(--text-2); } .exev.wild img { width: 28px; height: 28px; }
+.exev.camp.note { border-color: var(--charcoal-4); color: var(--text-2); } .exk { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); min-width: 34px; }
+.exmember { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--charcoal-4); } .exmember:last-of-type { border-bottom: 0; }
+.exmember img { width: 44px; height: 44px; } .exhard { margin: 2px 0; }
+.orghead { display: flex; gap: 14px; align-items: center; margin-top: 6px; } .orghead img { width: 80px; height: 80px; }
+.orgpart { margin: 10px 0 2px; } .orgpart .eyebrow { margin-bottom: 3px; } .orgabout { padding: 8px 10px; background: var(--charcoal-3); border-radius: var(--r-sm); margin-bottom: 4px; }
+.orgline { margin: 3px 0; line-height: 1.45; } .orgline .chip { font-size: 10px; padding: 1px 6px; vertical-align: 1px; }
+.orgneeds { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--charcoal-4); }
+table.orgmoves { width: 100%; border-collapse: collapse; } table.orgmoves th { text-align: left; font-size: 11px; color: var(--text-3); font-weight: 500; padding: 4px 8px; border-bottom: 1px solid var(--charcoal-4); }
+table.orgmoves td { padding: 8px; border-bottom: 1px solid var(--charcoal-4); vertical-align: top; } table.orgmoves td .chip { font-size: 10px; margin: 1px 2px 1px 0; }
+@media (max-width: 720px) { table.orgmoves th:nth-child(3), table.orgmoves td:nth-child(3) { display: block; } .orghead img { width: 56px; height: 56px; } }
 .lifestrip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 14px; }
 .lifecard { display: block; padding: 10px 12px; border: 1px solid var(--gold-line); border-radius: 10px; text-decoration: none; color: inherit; background: rgba(255,255,255,.02); }
 .lifecard:hover { border-color: var(--gold); }

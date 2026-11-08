@@ -46,6 +46,11 @@ def find(org, name):
     return (nm, org["species"][nm]) if nm else (name, None)
 
 
+def num(x):
+    """A number as the browser prints it (220.0 is "220")."""
+    return str(int(x)) if float(x).is_integer() else str(x)
+
+
 def line(text, cls, source):
     return {"text": text, "class": cls, "source": source}
 
@@ -62,7 +67,7 @@ def sheet(org, cap, name):
     dl = lambda part: line("“" + dex[part][0] + "”", "canon", "Pokédex (" + ", ".join(dex[part][1][:2]) + ")") if dex.get(part) else None
     dos = lambda sec: line(D[sec][0], D[sec][1] or "draft", "dossier (" + (D.get("status") or "draft") + ")") if D.get(sec) else None
     keep = lambda xs: [x for x in xs if x]
-    body = [line((s.get("genus") or "") + ": " + str(s["h"]) + " m, " + str(s["w"]) + " kg, " + (s.get("color") or "") + ", " + (s.get("shape") or "") + " body",
+    body = [line((s.get("genus") or "") + ": " + num(s["h"]) + " m, " + num(s["w"]) + " kg, " + (s.get("color") or "") + ", " + (s.get("shape") or "") + " body",
                  "mechanic", "the game (Pokédex data)")]
     body += [line(R["type_body"][t], "inferred", t + " type") for t in s["t"] if t in R["type_body"]]
     moves = keep([line(R["shape_moves"][s["shape"]], "inferred", "its body shape (" + s["shape"] + ")") if s.get("shape") in R["shape_moves"] else None, dl("moves")])
@@ -245,6 +250,24 @@ def portrait(org, breeding, cap, wild, game, member, build=None, ind=None):
 
 
 # --- the body in a place -------------------------------------------------------------------------------------------
+def effectiveness(org, gen, attack_type, defend_types, ability=None):
+    """rules.effectiveness over the pack's copy of the type chart and defensive abilities (the browser has no battle pack here)."""
+    chart = org["chart"][str(gen)]
+    mult = 1.0
+    for t in defend_types:
+        mult *= chart[attack_type].get(t, 1)
+    D = org["defend"]
+    if ability and gen >= 3:
+        first_gen, table = D["abilities"].get(ability, (99, {}))
+        if gen >= first_gen and attack_type in table:
+            mult *= table[attack_type]
+        if gen >= D["filters"].get(ability, 99) and mult > 1:
+            mult *= 0.75
+        if ability == D["wonder_guard"] and mult <= 1:
+            mult = 0
+    return mult
+
+
 def exposure(org, game, name, ability, place, weather):
     """[{id, name, type, effect: hard | home, mult, eased_by}] for the conditions that hold at the place in this weather."""
     nm, s = find(org, name)
@@ -257,7 +280,7 @@ def exposure(org, game, name, ability, place, weather):
         hit = any(b in w.get("biome", []) for b in place["biome"]) or weather in w.get("weather", [])
         if not hit:
             continue
-        m = rules.effectiveness(gen, c["type"], list(s["t"]), ability if gen >= 3 else None)
+        m = effectiveness(org, gen, c["type"], list(s["t"]), ability if gen >= 3 else None)
         if m > 1:
             out.append({"id": c["id"], "name": c["name"], "type": c["type"], "effect": "hard", "mult": m, "eased_by": c["eased_by"]})
         elif m < 1:
@@ -277,6 +300,13 @@ def watcher(org, members):
     return None
 
 
+def helper_how(h):
+    """How a holder eases a condition, in words: the move or ability, your call by its id, or the record's source."""
+    if h.get("kind") == "world":
+        return "your call " + h["id"] + (", approved" if h.get("status") == "approved" else ", proposed")
+    return h.get("move") or h.get("ability") or h.get("source")
+
+
 def camp(org, cap, game, members, kit, place, weather):
     """The camp on one day: the night watch, and each member the conditions are hard on, with who eases it."""
     exposed, home = [], []
@@ -290,7 +320,7 @@ def camp(org, cap, game, members, kit, place, weather):
                 exposed.append({"who": who, "types": s["t"], "condition": e["name"], "type": e["type"], "mult": e["mult"], "eased_by": e["eased_by"],
                                 "helper": helper["who"] if helper else None, "helper_standing": helper["standing"] if helper else None,
                                 "helper_kit": bool(helper and helper.get("kit")),
-                                "helper_how": (helper.get("move") or helper.get("ability") or helper.get("source")) if helper else None})
+                                "helper_how": helper_how(helper) if helper else None})
             else:
                 home.append({"who": who, "condition": e["name"]})
     return {"watch": watcher(org, members), "exposed": exposed, "home": home}
@@ -345,7 +375,82 @@ def forage_event(org, holder, n):
     return {"kind": "camp", "part": "forage", "result": "note", "who": holder["who"], "text": text}
 
 
+PARITY_TEAMS = [
+    [{"species": "Typhlosion", "moves": ["Flamethrower", "Strength", "Rock Smash", "Cut"], "ability": "Blaze", "label": "Typhlosion", "ind": "me:heartgold/Typhlosion"},
+     {"species": "Lapras", "moves": ["Surf", "Ice Beam", "Waterfall", "Whirlpool"], "ability": "Water Absorb", "label": "Lapras"},
+     {"species": "Ampharos", "moves": ["Thunderbolt", "Flash", "Signal Beam", "Light Screen"], "ability": "Static", "label": "Ampharos"},
+     {"species": "Pidgeot", "moves": ["Fly", "Return", "Roost", "U-turn"], "ability": "Keen Eye", "label": "Pidgeot"}],
+    [{"species": "Mamoswine", "moves": ["Earthquake", "Ice Shard", "Strength", "Rock Smash"], "ability": "Oblivious", "label": "Mamoswine"},
+     {"species": "Meganium", "moves": ["Leaf Storm", "Synthesis", "Sunny Day", "Cut"], "ability": "Overgrow", "label": "Meganium"},
+     {"species": "Miltank", "moves": ["Milk Drink", "Body Slam", "Heal Bell", "Rollout"], "ability": "Thick Fat", "label": "Miltank"},
+     {"species": "Magcargo", "moves": ["Flamethrower", "Rock Slide", "Recover", "Rock Smash"], "ability": "Flame Body", "label": "Magcargo"}],
+    [{"species": "Noctowl", "moves": ["Hypnosis", "Fly", "Air Slash", "Reflect"], "ability": "Insomnia", "label": "Owl"},
+     {"species": "Dragonite", "moves": ["Outrage", "Fly", "Surf", "Extreme Speed"], "ability": "Inner Focus", "label": "Dragonite"},
+     {"species": "Nidoran♀", "moves": ["Scratch", "Double Kick", "Poison Sting", "Charm"], "ability": "Poison Point", "label": "Nidoran"},
+     {"species": "Houndoom", "moves": ["Flamethrower", "Crunch", "Pursuit", "Sunny Day"], "ability": "Early Bird", "label": "Houndoom"}]]
+
+
+def parity(out_path):
+    """Python's side of app/test_organism_parity.mjs: every species' sheet, learn origins over a spread of species, moves
+    and games, portraits, characteristics, exposure across species, places and weather, and camps."""
+    org = load(os.path.join(ENGINE, "app", "data", "organism.json"))
+    cap = load(os.path.join(ENGINE, "app", "data", "capability.json"))
+    breeding = load(os.path.join(ENGINE, "app", "data", "breeding.json"))
+    wild = load(os.path.join(ENGINE, "app", "data", "wild.json"))
+    out = {"sheets": {nm: sheet(org, cap, nm) for nm in org["species"]}, "learn": [], "portraits": [], "chars": [], "exposure": [], "camps": []}
+    field = ["Surf", "Strength", "Fly", "Cut", "Flash", "Rock Smash", "Waterfall", "Whirlpool", "Rock Climb", "Defog", "Dig", "Headbutt"]
+    names = sorted(org["species"])
+    for game in ("heartgold", "platinum", "emerald", "firered", "crystal"):
+        vg = str(org["rules"]["vg"][game])
+        L = breeding["learn"].get(vg) or {}
+        for nm in names[::23]:
+            ch = chain(breeding, nm)
+            ids = []
+            for sid, _ in ch[:1]:
+                lv = L.get("L", {}).get(sid) or []
+                ids += lv[0::2][:8] + (L.get("E", {}).get(sid) or [])[:4] + (L.get("T", {}).get(sid) or [])[:3]
+            mvs = [breeding["moves"][str(i)][0] for i in ids if str(i) in breeding["moves"]] + field
+            for mv in mvs:
+                out["learn"].append({"species": nm, "move": mv, "game": game, "out": learn_origin(org, breeding, nm, mv, game)})
+    builds = [{"nature": "Calm", "ivs": {"hp": 31, "atk": 12, "def": 25, "spa": 28, "spd": 30, "spe": 20}, "item": "Leftovers"},
+              {"nature": "Hardy", "ivs": {"hp": 7, "atk": 7, "def": 3, "spa": 0, "spd": 1, "spe": 2}},
+              {"nature": "Jolly", "ivs": {"hp": 31, "atk": 31, "def": 31, "spa": 31, "spd": 31, "spe": 31}}, {}]
+    inds = [{"met_how": "encounter", "met_location": "Union Cave (B2F)"}, {"met_how": "hatched", "hatch_moves": ["Ice Beam", "Surf", "Double Kick", "Charm", "Pursuit"]},
+            {"met_how": "wild", "met_location": "Ice Path"}, {"met_how": "starter"}, None]
+    k = 0
+    for team in PARITY_TEAMS:
+        for m in team:
+            for game in ("heartgold", "platinum"):
+                b, ind = builds[k % len(builds)], inds[k % len(inds)]
+                k += 1
+                out["portraits"].append({"game": game, "member": m, "build": b, "ind": ind, "out": portrait(org, breeding, cap, wild, game, m, b, ind)})
+    for i in range(40):
+        ivs = {s: (i * 7 + j * 11) % 32 for j, s in enumerate(org["rules"]["characteristic_order"])}
+        out["chars"].append({"ivs": ivs, "out": characteristic(org, ivs)})
+    places = ["ice-path", "mt-silver", "ilex-forest", "whirl-islands", "johto-route-45", "kanto-sea-route-21"]
+    weathers = ["clear", "rain", "storm", "snow", "blizzard", "heat", "sheltered"]
+    for nm in names[::3]:
+        for pid in places[:3]:
+            for w in weathers:
+                sp = org["species"][nm]
+                ab = sp["abilities"][0][0] if sp["abilities"] else None
+                out["exposure"].append({"species": nm, "ability": ab, "place": pid, "weather": w,
+                                        "out": exposure(org, "heartgold", nm, ab, wild["places"][pid], w)})
+    for team in PARITY_TEAMS:
+        for kit in ([], ["stove", "tent"], ["water-filter"]):
+            for pid in places:
+                for w in ("snow", "rain", "heat", "clear"):
+                    pl = wild["places"][pid]
+                    out["camps"].append({"members": team, "kit": kit, "place": pid, "weather": w, "camp": camp(org, cap, "heartgold", team, kit, pl, w),
+                                         "events": camp_events(org, cap, "heartgold", team, kit, pl, w)})
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(out, fh, ensure_ascii=False)
+
+
 def main(argv):
+    if argv and argv[0] == "--parity":
+        parity(argv[1])
+        return
     name = argv[0] if argv else "Lapras"
     org = load(os.path.join(ENGINE, "app", "data", "organism.json"))
     cap = load(os.path.join(ENGINE, "app", "data", "capability.json"))

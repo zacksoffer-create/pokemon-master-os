@@ -616,7 +616,8 @@ function pbWild(b) {
   P.model.areas.forEach(function (a) { a.caps.forEach(function (c) { var x = best[c]; if (!x) return; var r = x[1], ready = Cap.READY.indexOf(x[0]) >= 0;
     tags.push('<div class="wtag' + (ready ? ' on' : '') + '"><b>' + esc(Cap.capName(c)) + '</b> <span class="tiny muted">' + esc(a.name) + '</span><div class="tiny">' + esc((ready ? '' : Cap.ORDER_TEXT[x[0]] + ': ') + (r.move ? 'knows ' + r.move + (r.route && r.route !== 'native' ? ' (' + r.route + ')' : '') + '. ' : r.ability ? 'has ' + r.ability + '. ' : '') + (r.source || '')) + '</div></div>'); }); });
   return card('Wilderness tags', (tags.length ? '<div class="wtags">' + tags.join('') + '</div>' : '<div class="tiny muted">No capability on record for it.</div>') +
-    '<div class="tiny muted" style="margin-top:8px">What it can do away from battle, for the team in the wild (capability records: moves it knows, its ability, the Pokédex, its body). Bright: it does it now; dim: it would with a move, or it\'s only plausible. <a href="#/survival">The Survival Lab</a></div>',
+    '<div class="tiny muted" style="margin-top:8px">What it can do away from battle, for the team in the wild (capability records: moves it knows, its ability, the Pokédex, its body). Bright: it does it now; dim: it would with a move, or it\'s only plausible. <a href="#/survival">The Survival Lab</a></div>' +
+    (PB.id && S.store && S.store.individuals && S.store.individuals[PB.id] ? '<div style="margin-top:10px"><a class="btn sm" href="#/pokemon/' + esc(PB.id) + '/wild">' + esc((S.store.individuals[PB.id].nickname || S.store.individuals[PB.id].species)) + ' in the wild: the animal and its own story →</a></div>' : ''),
     {eyebrow: 'Team and wilderness roles · each with why', tools: false});
 }
 function pbHome(b) {   // read in HeartGold, the estate's game, with the world records on this Pokémon (v2.5): the jobs are Blackthorn's

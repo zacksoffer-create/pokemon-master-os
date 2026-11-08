@@ -1,5 +1,6 @@
 // The browser's Wild (web/41_wild.html) against Python's wilderness/expedition.py: every place's profile, plans, seeded
 // runs and odds for a spread of places, teams and seasons, and the estate's year, number for number.
+// With the organism (v2.8), the same runs again with the camp's lines (44_organism.html).
 // Run: python3 -I wilderness/expedition.py --parity py.json && node app/test_wild_parity.mjs py.json
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,10 +15,11 @@ const ctx = { S: {}, console, Buffer, numOf: () => null };
 ctx.window = ctx; ctx.self = ctx; ctx.globalThis = ctx;
 vm.createContext(ctx);
 vm.runInContext(read('calc.json').code, ctx);
-for (const [f, name] of [['27_battle.html', 'Battle'], ['34_capability.html', 'Cap'], ['41_wild.html', 'Wild']]) vm.runInContext(part(f) + `\nthis.${name} = ${name};`, ctx);
+for (const [f, name] of [['27_battle.html', 'Battle'], ['34_capability.html', 'Cap'], ['41_wild.html', 'Wild'], ['44_organism.html', 'Organism']]) vm.runInContext(part(f) + `\nthis.${name} = ${name};`, ctx);
 ctx.Battle.init(read('battle.json'), ctx.calc);
 const Cap = ctx.Cap.init(read('capability.json'));
 const Wild = ctx.Wild.init(read('wild.json'), Cap);
+const Org = ctx.Organism.init(read('organism.json'), read('breeding.json'), Cap, Wild.pack());
 
 function sortKeys(o) { if (Array.isArray(o)) return o.map(sortKeys); if (o && typeof o === 'object') { const r = {}; Object.keys(o).sort().forEach((k) => { r[k] = sortKeys(o[k]); }); return r; } return o; }
 const J = (x) => JSON.stringify(sortKeys(x));
@@ -34,6 +36,8 @@ for (const c of py.cases) {
   for (const f of Object.keys(c.plan)) same(`${c.place} plan ${f}`, pl[f], c.plan[f]);
   c.runs.forEach((r, i) => same(`${c.place} run ${i + 1}`, Wild.simulate('heartgold', pl, c.members, r.seed), r));
   same(`${c.place} odds`, Wild.odds('heartgold', pl, c.members, 8), c.odds);
+  c.org_runs.forEach((r, i) => same(`${c.place} run ${i + 1} with the camp`, Wild.simulate('heartgold', pl, c.members, r.seed, Org), r));
+  same(`${c.place} odds with the camp`, Wild.odds('heartgold', pl, c.members, 8, Org), c.org_odds);
 }
 const E = py.estate;
 for (const [s, card] of Object.entries(E.seasons)) same(`season ${s}`, Wild.seasonCard(s, E.household), card);

@@ -158,7 +158,7 @@ var Wild = (function () {
     if (place.biome.some(function (b) { return has(['forest', 'woodland-edge', 'grassland', 'pasture', 'coast', 'lake'], b); })) return true;
     return has(kit, 'rod') && place.methods.some(function (m) { return has(['old-rod', 'good-rod', 'super-rod'], m); });
   }
-  function simulate(game, pl, members, seed) {
+  function simulate(game, pl, members, seed, org) {   // org: the Organism module (v2.8), for the camp's lines
     var S = R.sim, rng = new Rng(seed), kit = pl.kit, windows = R.windows.order, hzCaps = [];
     R.hazards.list.forEach(function (hz) { hz.needs.forEach(function (c) { if (!has(hzCaps, c)) hzCaps.push(c); }); });
     ['water_travel', 'foraging'].forEach(function (c) { if (!has(hzCaps, c)) hzCaps.push(c); });
@@ -207,6 +207,10 @@ var Wild = (function () {
       food -= perDay;
       var gained = 0;
       if (canForage && forage(place, kit)) { gained = Math.floor(S.forage_share * perDay); food += gained; }
+      if (org) {
+        org.campEvents(game, members, kit, place, weather).forEach(function (e) { if (e.result === 'strained') strains++; events.push(e); });
+        if (gained) events.push(org.forageEvent(stand.foraging[1], gained));
+      }
       log.push({day: d, phase: phase, node: node, where: place.name, weather: weather, weather_name: R.climate.kinds[weather].name, events: events, food: food, foraged: gained});
       if (food < 0) { outcome = 'turned back'; ended = {day: d, why: 'the food ran out'}; break; }
       if (setbacks >= S.setbacks_to_turn_back) { outcome = 'turned back'; ended = {day: d, why: setbacks + ' setbacks'}; break; }
@@ -215,11 +219,11 @@ var Wild = (function () {
     return {seed: seed, outcome: outcome, ended: ended, days: log, site_days_done: siteDone, site_days: siteDays, setbacks: setbacks, strains: strains, causes: causes,
       seen: Object.keys(seen).map(function (k) { return [k, seen[k]]; }).sort(function (a, b) { return (b[1] - a[1]) || cmp(a[0], b[0]); }), food_left: food};
   }
-  function odds(game, pl, members, runs) {
+  function odds(game, pl, members, runs, org) {
     runs = runs || R.sim.runs;
     var done = 0, setbacks = 0, strains = 0, causes = {}, seen = {}, site = 0;
     for (var seed = 1; seed <= runs; seed++) {
-      var s = simulate(game, pl, members, seed);
+      var s = simulate(game, pl, members, seed, org);
       done += s.outcome === 'completed' ? 1 : 0; setbacks += s.setbacks; strains += s.strains; site += s.site_days_done;
       Object.keys(s.causes).forEach(function (k) { causes[k] = (causes[k] || 0) + s.causes[k]; });
       s.seen.forEach(function (x) { seen[x[0]] = (seen[x[0]] || 0) + x[1]; });
