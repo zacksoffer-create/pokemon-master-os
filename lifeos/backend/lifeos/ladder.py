@@ -1,8 +1,8 @@
 """The ladder: who's popular at school, who's moving, and why.
 
 Popularity in the game is real, recomputed every week from how everyone sees everyone: how many people know you, how
-much they like and respect you (and how popular *they* are), the prestige of your teams and groups, and your reputation
-(social.recompute_popularity). This turns it into the Scene tab's ladder:
+much they like and respect you (and how popular *they* are), the prestige of your teams and groups, your sports (varsity,
+starting, captain, this year's awards, a title: sports.athletic_standing) and your reputation (social.recompute_popularity). This turns it into the Scene tab's ladder:
 
 - snapshot(): once a week, everyone's rank at school, so the ladder can show who went up and who went down (and your own
   rank over the whole story)
@@ -179,16 +179,20 @@ def _parts(sim, me, studs) -> dict:
             elif r.affection <= -10:
                 disliked += 1
         return known, liked, disliked, fans
-    best = {"known": 1, "liked": 1, "fans": 1, "groups": 1}
+    from .sports import athletic_standing
+    best = {"known": 1, "liked": 1, "fans": 1, "groups": 1, "sports": 1}
     mine = None
     for c in studs:
         k, l, d, fans = counts(c.id)
         pull = sum(w.chars[f].popularity for f in sorted(fans, key=lambda f: -w.chars[f].popularity)[:10]) / 10
         g = sum(w.groups[x].get("prestige", 0) for x in c.memberships if x in w.groups)
-        best = {"known": max(best["known"], k), "liked": max(best["liked"], l), "fans": max(best["fans"], pull), "groups": max(best["groups"], g)}
+        ath = athletic_standing(w, c)[0]
+        best = {"known": max(best["known"], k), "liked": max(best["liked"], l), "fans": max(best["fans"], pull), "groups": max(best["groups"], g),
+                "sports": max(best["sports"], ath)}
         if c.id == me.id:
             mine = (k, l, d, fans, pull, g)
     k, l, d, fans, pull, g = mine or (0, 0, 0, [], 0, 0)
+    ath, ath_why = athletic_standing(w, me)
     n = max(1, len(ids) - 1)
     fam = set(sim.siblings(me.id))
     top_fans = sorted((f for f in fans if f not in fam), key=lambda f: (-w.chars[f].popularity, f))[:3]
@@ -206,15 +210,18 @@ def _parts(sim, me, studs) -> dict:
          else "Your family's in your corner. Nobody else yet." if any(f in fam for f in fans) else "Nobody's really in your corner yet."},
         {"key": "groups", "label": "Teams and groups", "score": round(100 * g / best["groups"]),
          "line": ("On " + ", ".join(x.get("name", "a team") for x in groups[:3]) + ".") if groups else "No team or club yet. Varsity and the big clubs count for a lot."},
+        {"key": "sports", "label": "Sports", "score": round(100 * ath / best["sports"]),
+         "line": ("; ".join(ath_why[:4]) + ".") if ath_why else "Nothing yet. Sports count for a lot at school: make varsity, start, win awards."},
         {"key": "rep", "label": "Reputation", "score": min(100, round(10 * sum(v for v in (me.reputation or {}).values() if v > 0))),
          "line": ("People say you're " + ", ".join(rep) + ".") if rep else "No reputation yet: nothing people talk about."},
     ]
-    weakest = min(parts[:4], key=lambda x: x["score"])
+    weakest = min(parts[:5], key=lambda x: x["score"])
     tip = {"reach": "More people need to know you: games, parties, getting introduced.",
            "liked": "People know you, but not enough of them like you. Hang out, make up with the ones you're fighting with.",
            "fans": "Get in with people who are already popular: their friends follow.",
            "groups": ("Your teams count. Varsity and the big clubs count most: make varsity, or add a club people know." if groups
-                      else "Make a team or join a big club. Tryouts and sign-ups are on your calendar.")}[weakest["key"]]
+                      else "Make a team or join a big club. Tryouts and sign-ups are on your calendar."),
+           "sports": "Sports count for a lot: making varsity, starting, captain, an MVP or all-conference, beating Hand."}[weakest["key"]]
     return {"parts": parts, "tip": tip}
 
 

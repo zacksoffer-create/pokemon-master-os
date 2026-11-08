@@ -55,7 +55,8 @@ export type SceneView = {
   fights: { a: string; b: string; reason: string; when: string }[];
 };
 export type Rumor = { id: string; text: string; about_you: boolean; true: boolean | null; about: { id: string; first: string; color: string; look: Look } | null;
-  from: string | null; known: number; spread: string; when: string; new: boolean; acted: string | null; origin: string | null };
+  from: string | null; known: number; spread: string; when: string; new: boolean; acted: string | null; origin: string | null;
+  options?: { key: string; label: string; does: string }[]; effect?: string; result?: string | null };
 export type MomentGame = { id: string; title: string; secs?: number | null; icon: string };
 export type Moment = { id: string; kind: string; day: number; title: string; text: string; ctx: any; choices: { label: string; hint: string; game?: MomentGame }[]; storyline?: string | null;
   episode_label?: string | null; previously?: string | null };

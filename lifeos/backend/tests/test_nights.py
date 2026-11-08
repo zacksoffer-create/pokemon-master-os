@@ -55,12 +55,13 @@ def test_a_party_night_plays_out_and_ends_with_a_recap():
     me, ppl = _people(api)
     host = ppl[0]
     key = f"party:{host}:{w.day}"
-    w.parties[key] = {"key": key, "day": w.day, "host": host, "invited": [me.id] + ppl[1:], "slot": "evening"}
+    w.parties[key] = {"key": key, "day": w.day, "host": host, "invited": [me.id] + ppl[1:], "slot": "evening", "big": True, "crowd": 60}
     sim.slot = engine.SlotState("evening")
     sim.slot.attend[("party", key)] = [me.id] + ppl[1:]
     sim.institutions.party(key, random.Random(3))
     st = w.meta["night"]
     assert st["event"] == f"{w.chars[host].first}'s party" and len(st["plan"]) == 4 and st["plan"][0] == "arrive"
+    assert st["n"] >= 40  # (the whole crowd, not the six people you know)
     seen, last = _play(c, api)
     assert seen == ["night_" + b for b in st["plan"]]
     assert "night" not in w.meta

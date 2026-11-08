@@ -48,7 +48,7 @@ def test_the_ladder_ranks_everyone_and_explains_your_standing():
     assert pops == sorted(pops, reverse=True), "ranked by the game's own popularity"
     you = v["you"]
     assert you["tags"] == ["you"] and 1 <= you["rank"] <= you["of"] and you["grade_label"] == "Freshmen"
-    assert [p["key"] for p in you["parts"]] == ["reach", "liked", "fans", "groups", "rep"] and you["tip"]
+    assert [p["key"] for p in you["parts"]] == ["reach", "liked", "fans", "groups", "sports", "rep"] and you["tip"]
     assert all(0 <= p["score"] <= 100 and p["line"] for p in you["parts"])
     assert you["next_up"] is None or you["next_up"]["rank"] == you["rank"] - 1
     labels = {s["label"] for s in v["superlatives"]}

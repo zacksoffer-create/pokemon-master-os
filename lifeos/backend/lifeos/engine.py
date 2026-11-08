@@ -879,7 +879,9 @@ class Simulation:
             if isinstance(cand.extra, dict) and cand.extra.get("name"):
                 return cand.extra["name"]
             if t.startswith("party:"):
-                return f"{w.chars[t.split(':')[1]].short}'s party"
+                p = w.parties.get(t) or {}
+                h = w.chars[t.split(':')[1]].short
+                return f"{h}'s party" if p.get("big") else f"{h}'s (a few people)"
             return t
         return None
 

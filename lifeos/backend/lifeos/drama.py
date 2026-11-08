@@ -74,6 +74,54 @@ def _first(w, cid):
 
 # ------------------------------------------------------------------------------------------------ what people are saying
 
+# What you can do with a rumor, said plainly: what it is and what it does.
+OPTIONS = {
+    "you": [("deny", "Set the record straight", "If people believe you, it dies down and the people who heard it like you a little more. "
+                                                "If they don't, it spreads. Easier when it isn't true, and when you're popular."),
+            ("own", "Own it", "Laugh it off. It stops being juicy. If you're confident it even helps a little."),
+            ("find", "Find out who started it", "Ask around. You might find out who it was (and like them a lot less), or nobody talks.")],
+    "them": [("tell", "Warn {first}", "Give them a heads-up. They'll trust you more and like you for it. Nothing changes for the rumor."),
+             ("pass", "Pass it on", "Tell a couple of friends. They like the gossip, and you get known for it. If {first} finds out "
+                                    "it came from you, they won't be happy."),
+             ("drop", "Keep it to yourself", "Nothing happens. It's off your plate.")],
+}
+
+
+def options(w, r, me_id) -> list:
+    mine = r["about"] == me_id or me_id in (r.get("involves") or [])
+    first = w.chars[r["about"]].first if r.get("about") in w.chars else "them"
+    opts = OPTIONS["you" if mine else "them"]
+    if mine and r.get("truth") and r.get("valence", 0) > 0:
+        opts = [o for o in opts if o[0] != "deny"]  # (good news that's true: nothing to set straight)
+    return [{"key": k, "label": l.format(first=first), "does": d.format(first=first)} for k, l, d in opts]
+
+
+def said(w, r, me) -> str:
+    """The rumor as you'd hear it: "Nikki was flirting with you", not "Nikki Basilicato was flirting with Zack Soffer"."""
+    from .pov import second_person
+    t = second_person(r.get("text") or "", me, solo=False)
+    for o in set((r.get("involves") or []) + [r.get("about")]):
+        if o in w.chars and o != me.id:
+            t = t.replace(w.chars[o].name, w.chars[o].first)
+    return t[:1].upper() + t[1:]
+
+
+def effect(w, r, me_id) -> str:
+    """What the rumor is doing, in a line."""
+    mine = r["about"] == me_id or me_id in (r.get("involves") or [])
+    v = r.get("valence", 0)
+    first = w.chars[r["about"]].first if r.get("about") in w.chars else "them"
+    if mine and r["about"] != me_id:  # (you're in it, but it's about them)
+        return (f"It's about you and {first}, but it lands on {first}: people who believe it think a little less of them." if v < -0.05
+                else f"It's about you and {first}. Nobody's worse off for it." if v <= 0.05 else f"It's about you and {first}, and it's a good look for you both.")
+    if mine:
+        return ("It's hurting you: people who believe it like and respect you a little less." if v < -0.05
+                else "It's kind of a flex: people who believe it think more of you." if v > 0.05 else "Harmless, just talk.")
+    heard = r.get("about") in (r.get("known_by") or {})
+    return (f"It hurts {first}: people who believe it think less of them. " if v < -0.05
+            else f"It's good for {first}. " if v > 0.05 else "") + (f"{first} has heard it." if heard else f"{first} probably hasn't heard it.")
+
+
 def spread_word(n: int, school: int) -> str:
     q = n / max(1, school)
     return ("just a few people" if n <= 4 else "your friends know" if q < 0.15 else "your grade's talking" if q < 0.35
@@ -96,12 +144,13 @@ def view(sim) -> list:
         mine = about == me.id or me.id in (r.get("involves") or [])
         teller = kb[1] if len(kb) > 1 and kb[1] in w.chars and kb[1] != me.id else None
         n = len(r["known_by"])
-        out.append({"id": rid, "text": r["text"], "about_you": mine, "true": r["truth"] if mine else None,
+        out.append({"id": rid, "text": said(w, r, me), "about_you": mine, "true": r["truth"] if mine else None,
                     "about": about and {"id": about, "first": w.chars[about].first, "color": w.chars[about].color, "look": look_of(w.chars[about])},
                     "from": _first(w, teller) if teller else None, "known": n, "spread": spread_word(n, school),
                     "when": calm.label(kb[0]), "new": w.day - kb[0] <= 1, "acted": st["acted"].get(rid),
                     "origin": _first(w, r["origin"]) if st["acted"].get(rid) == "find" and r.get("origin") in w.chars else None,
-                    "day": kb[0]})
+                    "day": kb[0], "options": options(w, r, me.id), "effect": effect(w, r, me.id),
+                    "result": st.setdefault("said", {}).get(rid)})
     out.sort(key=lambda x: (not x["about_you"], -x["day"]))
     return out[:25]
 
@@ -174,6 +223,8 @@ def act(sim, rid: str, what: str) -> dict:
     else:
         ev["text"] = f"{me.short} kept it to themselves."
     st["acted"][rid] = what
+    from .pov import second_person
+    st.setdefault("said", {})[rid] = second_person(ev["text"], me, solo=True)  # (what actually happened, for the card)
     sim.finish(ev, fx)
     return ev
 
@@ -221,7 +272,12 @@ def _gossip_reaches_you(sim, me, st, rng):
     r["spread"] += 1
     opener = D()["open"][_h(w.day, rid) % len(D()["open"])]
     from . import messages
-    messages.later(sim, teller, "scene", delay_phases=1, text=f"{opener} {r['text'][0].lower() + r['text'][1:]}")
+    first = w.chars[r["about"]].first if r.get("about") in w.chars else "them"
+    opts = [{"label": f"you should tell {first}", "fx": "warm", "tone": "warn them", "act": "tell", "back": "yeah. you do it, you're closer"},
+            {"label": "omg who else knows", "fx": "funny", "tone": "pass it on", "act": "pass", "back": "everyone by tomorrow lol"},
+            {"label": "i'm staying out of it", "fx": "warm", "tone": "stay out", "act": "drop", "back": "fair. smart honestly"}]
+    messages.later(sim, teller, "talk", delay_phases=1, text=f"{opener} {r['text'][0].lower() + r['text'][1:]}", opts=opts,
+                   ctx={"talk": "rumor_other", "rumor": rid})
 
 
 def _notice_cold(sim, me, st):

@@ -1097,18 +1097,48 @@ who's together (below). `GET /api/phone/ladder?scope=school|grade|9..12`.
 - **Who's together:** every couple at school (new ones marked), and who just broke up.
 - **Most popular:** the top six, and where you are among them.
 
+## Popularity: sports count
+
+Your rank on the Ladder is how everyone sees everyone (who knows you, who likes and respects you, how popular *they* are),
+your teams and groups, your reputation, and now, weighted heavily, **your sports this school year**
+(`sports.athletic_standing`): making varsity (JV a little; a second team counts half), starting, being captain, an MVP or
+all-conference, Player of the Week (each one, up to five), a title, and an athlete's reputation. Football and basketball
+count a little extra. On a real save it moved the All-SCC players into the top 20 (Mike Knapp 24th to 7th, Wren Okoro
+35th to 13th, Matt Hoey 57th to 20th). The Ladder's "what moves you" has a **Sports** line ("Varsity basketball starter;
+Varsity baseball; Guilford Boys Basketball MVP").
+
+## Parties: the rare big one, and a few people over
+
+Most weekends somebody has **a few people over**: five or six of you, a basement, a movie nobody's watching. It's said
+that way everywhere (the invite, "At Mike's" on your night, "A few people, low key" in your plans, "Mike had a few
+people over" in the feed), and nobody calls the cops on it. A **real party** is rare (two weeks apart at least) and
+happens for a reason: after a big win (Hand, a tournament game), homecoming weekend, or a popular junior or senior's
+house with the parents away. It's big: "half the school is going", 25 or so people you know there, the whole crowd in
+the scene ("about 60 people") and the feed, and the cops can show up.
+
 ## Drama and gossip
 
 Rumors spread through the school on their own: who got rejected, who kissed who at a party, who got roasted at lunch.
 Now you're in it.
 
+- **How rumors work, in plain words.** A rumor is what people are saying about someone. It spreads person to person (the
+  juicier, the faster), and people who believe a bad one about someone like and respect them a little less (a good one,
+  more). **Scene → Talk** opens with a short "How rumors work" (folds away once you've read it).
 - **Gossip finds you.** Most days a friend texts you the juiciest thing going around that you haven't heard ("ok you
-  can't say anything but..."). **Phone → Scene → What people are saying** lists everything you've heard: who told you,
-  and how far it's spread (just a few people, your grade's talking, half the school, everyone).
-- **What you do with it** (free, once per rumor):
-  - about someone else: **Warn them** (they trust you more), **Pass it on** (it spreads, you get the gossip rep, and
-    they might hear it came from you), or **Keep it to yourself**;
-  - about you: **Set the record straight** (works better if it's not true), **Own it**, or **Who started it?**
+  can't say anything but..."), and **your reply is your move**: "you should tell Hazel" warns her, "omg who else knows"
+  passes it on, "i'm staying out of it" keeps it to yourself. A friend who heard a rumor about you texts you what it is
+  ("people are saying you asked Hazel out and got shut down"); deny it, own it or find out who started it right there.
+  The thread says what happened.
+- **Scene → Talk** lists everything you've heard, said the way you'd hear it ("Nikki was flirting with you"), with who
+  told you, how far it's spread, and **what it's doing** ("It's hurting you: people who believe it like and respect you
+  a little less", "It's about you and Nikki, but it lands on Nikki", "Hazel probably hasn't heard it").
+- **What you do with it** (free, once per rumor; ignoring one costs nothing). Every button says what it does:
+  - about someone else: **Warn them** (they'll trust you more and like you for it), **Pass it on** (your friends like the
+    gossip and you get known for it; if they find out it came from you, they won't be happy), or **Keep it to yourself**;
+  - about you: **Set the record straight** (if people believe you, it dies down and they like you a little more; if not,
+    it spreads; easier when it isn't true and when you're popular; not offered for good news that's true), **Own it**
+    (it stops being juicy), or **Find out who started it**.
+  - After your move, the card says what actually happened ("You set the record straight, and people believed it.").
 - **Drama comes to you** as story moments, at most one every few days:
   - **Two of your friends fall out** (over a group chat screenshot, someone's ex, a party invite...) and both want you
     on their side: pick one, stay out of it, or get them in a room together (it can fix it, or make it worse). Scene

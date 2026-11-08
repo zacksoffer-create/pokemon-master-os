@@ -1202,7 +1202,8 @@
             "ok i believe you. people are so annoying",
             "i'll shut it down if i hear it",
             "i knew it was fake"
-          ]
+          ],
+          "act": "deny"
         },
         {
           "tone": "own it",
@@ -1216,7 +1217,8 @@
             "{you_name}!!",
             "omg i need the full story",
             "iconic honestly"
-          ]
+          ],
+          "act": "own"
         },
         {
           "tone": "find out",
@@ -1230,7 +1232,8 @@
             "idk it was all over lunch",
             "i heard it from someone in my math class",
             "i'll find out"
-          ]
+          ],
+          "act": "find"
         },
         {
           "tone": "shrug",

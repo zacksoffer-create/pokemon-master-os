@@ -60,6 +60,72 @@ def can_play(c, g) -> bool:
 PLACEMENTS = ("varsity", "jv", "out")
 
 
+SPORT_WEIGHT = {"football": 1.25, "basketball": 1.15}  # (the Friday night sports carry a little more at school)
+
+
+def athletic_standing(w, c) -> tuple:
+    """How much someone's sports count at school this school year, in popularity's units, and what they are: making
+    varsity (JV a little; a second team half), starting, captain, this year's awards (MVP, all-conference, Player of the
+    Week), a title, beating Hand, and an athlete's reputation. -> (points, [what counts])."""
+    if c.role != "student":
+        return 0.0, []
+    year = calm.school_year_of(w.day)
+    y0 = calm.START.year + year
+    skey = f"{y0}-{str(y0 + 1)[2:]}"
+    a, b = calm.md_to_day(year, (9, 1)), calm.md_to_day(year, (8, 31))
+    teams = []
+    for g in w.groups.values():
+        if g.get("kind") != "team" or g.get("school") == "college":
+            continue
+        hist = next((h for h in g.get("history") or [] if h.get("year") == year and c.id in (h.get("roster") or [])), None)
+        if c.id in (g.get("members") or []):
+            lvl = (g.get("levels") or {}).get(c.id, "varsity")
+        elif hist is not None:
+            lvl = (hist.get("levels") or {}).get(c.id, "varsity")
+        else:
+            continue
+        wt = SPORT_WEIGHT.get(g.get("skill"), 1.0)
+        pts = (120 if lvl == "varsity" else 30) * wt
+        bits = [f"{'Varsity' if lvl == 'varsity' else 'JV'} {g['name'].replace('Guilford ', '').replace('Boys ', '').lower()}"]
+        st = (c.stats or {}).get(f"{g.get('skill')}:{skey}:varsity") or {}
+        if lvl == "varsity" and st.get("games") and st.get("starts", 0) >= max(2, st["games"] / 2):
+            pts += 50 * wt
+            bits[0] += " starter"
+        if c.id in (g.get("leaders") or []) or c.id in ((hist or {}).get("captains") or []):
+            pts += 70 * wt
+            bits.append(f"captain of {g['name'].replace('Guilford ', '')}")
+        for k, r in (g.get("post_results") or {}).items():
+            if str(k).startswith(f"{year}:") and r.get("result") == "champion" and lvl == "varsity":
+                pts += 90
+                bits.append(f"{r.get('stage_name') or 'tournament'} champion")
+        teams.append((pts, bits))
+    teams.sort(key=lambda t: -t[0])
+    total, said = 0.0, []
+    for i, (pts, bits) in enumerate(teams):
+        total += pts if i == 0 else pts * 0.5
+        said += bits
+    potw = 0
+    for aw in c.awards or []:
+        if not isinstance(aw, dict) or not (a <= aw.get("day", -1) <= b):
+            continue
+        lab = aw.get("label") or ""
+        if aw.get("potw") or "Player of the Week" in lab:
+            potw += 1
+        elif lab.endswith("MVP"):
+            total += 140
+            said.append(lab)
+        elif lab.startswith("All-"):
+            total += 100
+            said.append(lab)
+        else:
+            total += 40
+    if potw:
+        total += 25 * min(potw, 5)
+        said.append(f"Player of the Week{f' x{potw}' if potw > 1 else ''}")
+    total += 2.0 * max(0.0, (c.reputation or {}).get("athlete", 0))
+    return round(total * w.rules.get("social.athletic_weight", 1.0), 1), said
+
+
 def placement(c, sport) -> str | None:
     """Where someone plays a sport on their high school team when it isn't up to tryouts: 'varsity', 'jv' or 'out'.
     Set in the editor (c.flags["teams"]); otherwise a recruit (a preset college path in a sport, like Mike to UConn

@@ -63,6 +63,7 @@ export function SceneScreen({ section }: { section: "crowd" | "talk" }) {
     <div className="sc">
       {talk && <>
       <div className="sc-h">What people are saying</div>
+      <RumorsHow />
       {v.talk.length === 0 && <div className="sc-dim">You haven't heard anything yet. Your friends will fill you in.</div>}
       {v.talk.slice(0, 8).map((t) => <RumorCard key={t.id} t={t} busy={busy} onAct={rumor} />)}
       {v.fights.length > 0 && (
@@ -216,8 +217,27 @@ function Cafeteria({ c, onChange }: { c: CafeteriaT; onChange: (c: CafeteriaT) =
   );
 }
 
+/** What rumors are and what you can do, in a few lines (folded away once you've read it). */
+function RumorsHow() {
+  const [open, setOpen] = useState(() => { try { return localStorage.getItem("rumors-how") !== "seen"; } catch { return true; } });
+  const close = () => { setOpen(false); try { localStorage.setItem("rumors-how", "seen"); } catch { /* fine */ } };
+  if (!open) return <button className="sc-how-link" onClick={() => setOpen(true)}>How rumors work</button>;
+  return (
+    <div className="sc-how">
+      <b>How rumors work</b>
+      <p>Rumors are what people are saying about someone. Each one spreads from person to person; the juicier it is, the faster.
+        People who believe a bad one about someone like and respect them a little less (a good one, more).</p>
+      <p><b>About you:</b> set the record straight, own it, or find out who started it. <b>About someone else:</b> warn them, pass it on,
+        or keep it to yourself. Each button says what it does. You get one move per rumor, and ignoring one costs nothing.</p>
+      <p>You can also answer right from the text where a friend tells you: your reply is your move.</p>
+      <button className="sc-how-ok" onClick={close}>Got it</button>
+    </div>
+  );
+}
+
 function RumorCard({ t, busy, onAct }: { t: Rumor; busy: boolean; onAct: (id: string, what: string) => void }) {
-  const acts = ACTS[t.about_you ? "you" : "them"];
+  const acts: [string, string, string?][] = t.options?.length ? t.options.map((o) => [o.key, o.label, o.does])
+    : ACTS[t.about_you ? "you" : "them"];
   return (
     <div className={cx("sc-rumor", t.about_you && "you")}>
       <div className="sc-rumor-top">
@@ -231,12 +251,16 @@ function RumorCard({ t, busy, onAct }: { t: Rumor; busy: boolean; onAct: (id: st
         </div>
         {t.new && <span className="sc-new">new</span>}
       </div>
+      {t.effect && <div className="sc-rumor-fx">{t.effect}</div>}
       {t.acted ? (
-        <div className="sc-done">{DID[t.acted] || "Done."}{t.origin ? ` It started with ${t.origin}.` : ""}</div>
+        <div className="sc-done">{t.result || DID[t.acted] || "Done."}{t.origin && !(t.result || "").includes(t.origin) ? ` It started with ${t.origin}.` : ""}</div>
       ) : (
-        <div className="sc-acts">
-          {acts.map(([k, l]) => (
-            <button key={k} disabled={busy} onClick={() => onAct(t.id, k)}>{k === "tell" && t.about ? `Warn ${t.about.first}` : l}</button>
+        <div className="sc-acts2">
+          {acts.map(([k, l, does]) => (
+            <button key={k} disabled={busy} onClick={() => onAct(t.id, k)}>
+              <b>{k === "tell" && t.about && !t.options ? `Warn ${t.about.first}` : l}</b>
+              {does && <small>{does}</small>}
+            </button>
           ))}
         </div>
       )}

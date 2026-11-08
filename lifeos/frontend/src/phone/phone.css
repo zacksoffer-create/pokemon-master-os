@@ -1843,3 +1843,16 @@ html.ph-docscroll body { overflow-x: hidden; }
 .ros-team small { color: var(--ph-dim); font-weight: 700; font-size: 12px; }
 .ros-team small.ros-set { color: #1d6b48; }
 .ros-h2 { margin-top: 8px; }
+
+/* Scene → Talk: rumors, explained */
+.sc-how { background: #fffaf0; border-radius: 16px; padding: 12px 14px; margin: 0 0 12px; box-shadow: inset 0 0 0 1.5px #f3e3c2; display: flex; flex-direction: column; gap: 6px; }
+.sc-how > b { font-size: 14.5px; }
+.sc-how p { margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--ph-ink-2); }
+.ph-root .sc-how-ok { --btn-bg: var(--ph-ink); align-self: flex-start; background: var(--ph-ink); color: #fff; border-radius: 10px; padding: 6px 14px; font-weight: 800; font-size: 13px; }
+.ph-root .sc-how-link { --btn-bg: transparent; background: none; color: var(--ph-grape); font-weight: 800; font-size: 13px; padding: 0 2px 10px; }
+.sc-rumor-fx { font-size: 12.5px; font-weight: 700; color: var(--ph-ink-2); margin: 6px 0 2px; line-height: 1.35; }
+.sc-acts2 { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.ph-root .sc-acts2 button, .ph-root .sc-acts2 button:hover:not(:disabled) { --btn-bg: #f6f2ff; --btn-bg-hover: #efe9ff; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 9px 11px;
+  border-radius: 12px; background: #f6f2ff; }
+.sc-acts2 b { font-size: 14px; color: #3f31d6; }
+.sc-acts2 small { font-size: 12px; color: var(--ph-ink-2); font-weight: 600; line-height: 1.3; }

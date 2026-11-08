@@ -403,7 +403,8 @@ def build(sim, cid, topic: str, facts: dict, salt) -> dict:
         say = r["text"][_h(salt, topic, i, "r") % len(r["text"])]
         backs = r.get("back") or [None]
         back = backs[_h(salt, topic, i, "b") % len(backs)]
-        opts.append({"label": fill(say), "fx": r["fx"], "tone": r["tone"], "back": fill(back) if back else None})
+        opts.append({"label": fill(say), "fx": r["fx"], "tone": r["tone"], "back": fill(back) if back else None,
+                     **({"act": r["act"]} if r.get("act") else {})})
     # the warm ones first, the dry one last (it's there when you want it)
     return {"text": text, "opts": opts, "topic": topic}
 
@@ -423,6 +424,12 @@ def start(sim, cid, delay_phases=2, only=None) -> bool:
     b = build(sim, cid, topic, facts, salt)
     mark(w, cid, key)
     ctx = {"talk": topic, "key": key}
+    if topic == "rumor_you":  # (your answer is what you do about it; and now you've heard it)
+        ctx["rumor"] = key.split(":", 1)[1]
+        rm = (w.rumors or {}).get(ctx["rumor"])
+        me = _me(sim)
+        if rm is not None and me is not None and me.id not in rm["known_by"]:
+            rm["known_by"][me.id] = [w.day, cid, True]
     if topic.startswith("game_"):  # (the score, on the text)
         ctx["card"] = {"kind": "game", "win": topic.endswith("_win"), "score": facts.get("score"), "opp": facts.get("opp"),
                        "team": facts.get("team") or ""}

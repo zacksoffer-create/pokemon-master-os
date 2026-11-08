@@ -314,6 +314,8 @@ def _popularity(sim, fx, studs):
         for gid in s.memberships:
             tot += w.groups[gid].get("prestige", 0) * 0.6
         tot += (s.reputation.get("star", 0) + s.reputation.get("leader", 0)) * 0.4
+        from .sports import athletic_standing
+        tot += athletic_standing(w, s)[0]  # (sports count a lot in high school: varsity, starting, awards, titles)
         raw[s.id] = tot
     order = sorted(raw, key=lambda k: (raw[k], k))
     n = len(order)

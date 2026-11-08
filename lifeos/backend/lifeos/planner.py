@@ -374,7 +374,8 @@ def annotate(sim, me, opts: list) -> list:
             tc = next((c for c in soon if c["kind"] in ("tryout", "audition")), None)
             grp, why = ("want", f"{tc['label']} {_when(tc['n'], w.day)}") if tc else ("could", "Something new")
         elif a in ("go_to_party", "attend_event", "throw_party"):
-            grp, why = "want", "Everyone's going" if a == "go_to_party" else "A night out"
+            pt = w.parties.get(o.get("target") or "") if a == "go_to_party" else None
+            grp, why = "want", ("Everyone's going" if (pt or {}).get("big") else "A few people, low key") if a == "go_to_party" else "A night out"
         elif t and r is not None:
             gap = w.day - r.last_day if r.last_day >= 0 else 0
             if t == partner:

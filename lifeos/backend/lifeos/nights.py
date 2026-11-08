@@ -18,7 +18,7 @@ from .catalogs import _base
 from .history import Effects
 from .rng import clamp
 
-START = ("arrive", "host", "getready_date", "getready_group")
+START = ("arrive", "host", "arrive_small", "host_small", "getready_date", "getready_group")
 _DATA = None
 
 
@@ -115,7 +115,7 @@ def _cast(sim, me, came, host, date) -> dict:
             "challenger": challenger, "after": after, "present": present}
 
 
-def _plan(sim, kind, cast, hosting, busted, rng) -> list:
+def _plan(sim, kind, cast, hosting, busted, rng, small=False) -> list:
     if kind == "dance":
         opening = "getready_date" if cast["date"] else "getready_group"
         pool = {"slow": 2.0 if (cast["date"] or cast["crush"]) else 0, "talk": 0.8, "porch": 1.0 if cast["crush"] and not cast["date"] else 0,
@@ -127,7 +127,7 @@ def _plan(sim, kind, cast, hosting, busted, rng) -> list:
             pool.pop("slow", None)
             mids = ["dancefloor", _pick(pool, rng)]
         return [opening] + [m for m in mids if m] + ["end"]
-    opening = "host" if hosting else "arrive"
+    opening = ("host" if hosting else "arrive") + ("_small" if small else "")
     pool = {"game": 1.0, "talk": 0.9, "porch": 1.6 if cast["crush"] else 0, "fight": 1.0 if cast["a"] else 0,
             "beef": 1.2 if cast["rival"] else 0, "secret": 1.0 if cast["secret_x"] and cast["gossip"] else 0,
             "jealous": 1.4 if cast["other"] else 0}
@@ -150,7 +150,7 @@ def _pick(pool, rng):
     return items[-1][0]
 
 
-def start(sim, kind: str, key: str, event: str, came: list, host=None, date=None, busted=False):
+def start(sim, kind: str, key: str, event: str, came: list, host=None, date=None, busted=False, crowd=None, small=False):
     """The protagonist is at a party or a dance: plan tonight and start the first scene."""
     w = sim.w
     me = w.chars.get(w.meta.get("protagonist") or "")
@@ -161,9 +161,9 @@ def start(sim, kind: str, key: str, event: str, came: list, host=None, date=None
     if not cast["present"]:
         return
     hosting = host == me.id
-    st = {"key": key, "kind": kind, "day": w.day, "i": 0, "did": [], "met": [], "busted": bool(busted), "n": len(came),
+    st = {"key": key, "kind": kind, "day": w.day, "i": 0, "did": [], "met": [], "busted": bool(busted), "n": crowd or len(came),
           "event": event, "hosting": hosting, "cast": {k: v for k, v in cast.items() if k != "present"}, "present": cast["present"],
-          "plan": _plan(sim, kind, cast, hosting, busted, rng), "kissed": None}
+          "plan": _plan(sim, kind, cast, hosting, busted, rng, small=small), "kissed": None, "small": small}
     w.meta["night"] = st
     _trigger(sim, st)
 
@@ -464,6 +464,29 @@ def _end(sim, c, st, fx, ev, render):
 
 # ------------------------------------------------------------------------------------------------ the weekend calendar
 
+BIG_GAP = 14  # days between real parties (school-wide)
+
+
+def big_night(sim, me, rng) -> str | None:
+    """Is tonight a real party (the rare, big kind)? After a big win (Hand, a tournament game), homecoming weekend, or a
+    popular upperclassman's house with the parents away (now and then). -> why, or None."""
+    from . import calendar as calm
+    w = sim.w
+    if w.day - w.meta.get("last_big_party", -99) < BIG_GAP:
+        return None
+    for e in list(w.history.events.values())[-300:]:
+        d = e.get("data") or {}
+        if e.get("type") == "game" and e.get("outcome") == "win" and 0 <= w.day - e["day"] <= 1 and d.get("level", "varsity") == "varsity" \
+                and (d.get("opponent") == "Hand" or d.get("round")) and (w.groups.get(e.get("group")) or {}).get("school", "hchs") == me.school:
+            return "after the win"
+    for it in w.calendar:
+        if it.get("kind") == "dance" and it["day"] in (w.day, w.day - 1) and "homecoming" in (it.get("name") or "").lower():
+            return "homecoming"
+    if calm.break_name(w.day, sim.cat.world["calendar"]) != "Summer" and rng.random() < 0.12:
+        return "parents away"
+    return None
+
+
 def dawn(sim):
     """Most Fridays and Saturdays somebody has people over. If you're friends with the host, or a friend of yours is
     going, you hear about it that morning, and "Go to Mike's party" is one of your choices tonight."""
@@ -476,13 +499,15 @@ def dawn(sim):
     if wd not in (4, 5) or any(p["day"] == w.day for p in w.parties.values()):
         return
     rng = random.Random(_h(w.seed, w.day, "weekend-party"))
-    if rng.random() > (0.4 if wd == 4 else 0.6):
+    big = big_night(sim, me, rng)  # a real party: after a big win, homecoming weekend, or a big house with the parents away
+    if not big and rng.random() > (0.3 if wd == 4 else 0.45):
         return
     R = w.rules
     recent = w.meta.setdefault("party_hosts", {})
     pool = [c for c in w.chars.values() if c.role == "student" and c.status == "active" and c.id != me.id and c.location == me.location
             and c.school == me.school and c.money >= 15 and c.flags.get("grounded_until", -1) < w.day
-            and w.day - recent.get(c.id, -99) > 21 and (c.traits.get("sociability", 50) >= 50 or c.popularity >= 55)]
+            and w.day - recent.get(c.id, -99) > 21 and (c.traits.get("sociability", 50) >= 50 or c.popularity >= 55)
+            and (not big or (c.popularity >= 60 and (c.grade or 9) >= 11))]
     if not pool:
         return
     pool.sort(key=lambda c: c.id)
@@ -498,13 +523,23 @@ def dawn(sim):
                       and w.chars[o].role == "student" and w.chars[o].status == "active"), key=lambda o: (-w.rels[(host.id, o)].affection, o))
     popular = sorted((o for o, r in w.out.get(host.id, {}).items() if r.familiarity >= 20 and o in w.chars and w.chars[o].role == "student"
                       and w.chars[o].popularity >= 60 and o not in friends), key=lambda o: (-w.chars[o].popularity, o))
-    invited = (friends[:12] + popular[:6])[:16]
+    if big:
+        others = sorted((o.id for o in w.chars.values() if o.role == "student" and o.status == "active" and o.school == host.school
+                         and o.id not in friends and o.id not in popular and o.id != host.id), key=lambda o: _h(host.id, w.day, o))
+        invited = (friends[:14] + popular[:10] + others[:12])[:34]
+        crowd = int(35 + host.popularity * 0.5 + rng.random() * 20)  # (the whole crowd: people from other grades, other schools)
+    else:
+        invited = friends[:7]
+        crowd = None
     key = f"party:{host.id}:{w.day}"
-    w.parties[key] = {"key": key, "day": w.day, "host": host.id, "invited": invited, "slot": "evening"}
+    w.parties[key] = {"key": key, "day": w.day, "host": host.id, "invited": invited, "slot": "evening", "big": bool(big), "crowd": crowd,
+                      "why": big or None}
+    if big:
+        w.meta["last_big_party"] = w.day
     recent[host.id] = w.day
-    ev = sim.new_event("throw_party", "planned", [host.id], [], 14, {"invited": invited, "party": key})
+    ev = sim.new_event("throw_party", "planned", [host.id], [], 18 if big else 10, {"invited": invited, "party": key, "big": bool(big)})
     ev["involved"] = invited
-    ev["text"] = f"{host.name} is having people over tonight."
+    ev["text"] = (f"{host.name} is throwing a party tonight. Everyone's going." if big else f"{host.name} is having a few people over tonight.")
     fx = Effects(w, ev)
     fx.money(host.id, -15, "party supplies")
     sim.finish(ev, fx)
@@ -512,9 +547,17 @@ def dawn(sim):
         return
     from . import messages
     mine = [o for o in invited if w.rels.get((me.id, o)) and w.rels[(me.id, o)].affection >= R["rel.friend_threshold"]]
+    if big:
+        lines_host = ["party at mine tonight. like everyone's coming", "my parents are gone this weekend. party tonight. you're coming",
+                      "tonight. my house. tell people"]
+        lines_friend = [f"{host.first}'s party tonight. half the school is going", f"you going to {host.first}'s tonight?? it's gonna be huge",
+                        f"{host.first}'s parents are away. party tonight. we're going"]
+    else:
+        lines_host = ["a few people coming over tonight. you in?", "chilling at mine tonight, just a few of us. come through",
+                      "small thing at my house tonight. you should come"]
+        lines_friend = [f"a few of us are going to {host.first}'s tonight. you coming?", f"{host.first}'s having a couple people over. you in?",
+                        f"chilling at {host.first}'s tonight. come"]
     if me.id in invited:
-        messages.later(sim, host.id, "scene", delay_phases=1, text=["people coming over tonight. you in?", "party at mine tonight. bring whoever",
-                                                                    "my parents are gone this weekend. tonight. you're coming"][_h(w.day, host.id) % 3])
+        messages.later(sim, host.id, "scene", delay_phases=1, text=lines_host[_h(w.day, host.id) % 3])
     elif mine:
-        messages.later(sim, mine[0], "scene", delay_phases=1, text=[f"{host.first}'s having people over tonight. you coming?",
-                                                                    f"you going to {host.first}'s tonight??", f"{host.first}'s party tonight. pull up"][_h(w.day, mine[0]) % 3])
+        messages.later(sim, mine[0], "scene", delay_phases=1, text=lines_friend[_h(w.day, mine[0]) % 3])

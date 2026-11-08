@@ -755,6 +755,16 @@ def reply(sim, tid, mid, index) -> dict:
             fx.rel(sender, me.id, "affection", 0.5, "sibling banter")
             answer = "react_funny"
     sim.finish(ev, fx)
+    rid = (msg.get("ctx") or {}).get("rumor")
+    if rid and opt.get("act"):  # answering about a rumor is doing something about it (drama.py): say what happened
+        from . import drama
+        try:
+            drama.act(sim, rid, opt["act"])
+            said = drama.state(w).get("said", {}).get(rid)
+            if said:
+                post(sim, tid, "note", said, kind="note", unread=False)
+        except ValueError:
+            pass
     if answer_text and sender in w.chars:
         post(sim, tid, sender, answer_text, kind="react", unread=False)
     elif answer and not (msg.get("ctx") or {}).get("talk"):

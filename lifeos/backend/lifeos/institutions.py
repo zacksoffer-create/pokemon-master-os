@@ -968,12 +968,15 @@ class Institutions:
         host = p["host"]
         came = sorted(set(sim.slot.attend.get(("party", key), [])) | {host})
         prot = w.meta.get("protagonist")
-        if prot in came and len(came) < 7:  # you're there: more of the invite list drifts in as the night goes on
+        big = bool(p.get("big"))
+        want = 24 if big else 6  # (a real party fills up; a few people over is a few people)
+        if (big or prot in came) and len(came) < want:  # more of the invite list drifts in as the night goes on
             extra = [i for i in p["invited"] if i not in came and i in w.chars and w.chars[i].status == "active"
                      and w.chars[i].location == w.chars[host].location and not sim.committed(i, "evening")]
-            came = sorted(set(came) | set(extra[:7 - len(came)]))
+            came = sorted(set(came) | set(extra[:want - len(came)]))
         H = w.chars[host]
-        if len(came) <= 3:
+        crowd = max(p.get("crowd") or 0, len(came) + (20 if big else 0)) if big else len(came)
+        if len(came) <= (6 if big else 1):
             ev = self.event("party", "flop", [host], importance=26, data={"n": len(came) - 1})
             fx = Effects(w, ev)
             fx.mood(host, -10, "party flopped")
@@ -982,9 +985,12 @@ class Institutions:
             sim.attach_traces(ev, came)
             sim.finish(ev, fx)
             return
-        ev = self.event("party", "thrown", [host], came[:], importance=24, data={"n": len(came) - 1, "attendees": came})
+        ev = self.event("party", "thrown", [host], came[:], importance=30 if big else 14,
+                        data={"n": crowd - 1, "attendees": came, "big": big, "crowd": crowd})
+        ev["text"] = (f"{H.first} threw a party. About {crowd} people, half the school." if big
+                      else f"{H.first} had a few people over: {', '.join(w.chars[x].first for x in came if x != host)}.")
         fx = Effects(w, ev)
-        fx.rep(host, "host", 5, "threw a party")
+        fx.rep(host, "host", 8 if big else 2, "threw a party" if big else "had people over")
         for cid in came:
             fx.need(cid, "fun", 20, "party")
             fx.need(cid, "social", 20, "party")
@@ -1039,11 +1045,12 @@ class Institutions:
                     f3.rel(x, y, "rivalry", 8, "fight at a party")
                     f3.memory(x, "argument", [y], -0.6, 55, f"Got into it with {w.chars[y].name} at a party")
                 sim.finish(e3, f3)
-        pb = clamp(0.06 + 0.02 * (len(came) - 6), 0.02, 0.4)
+        pb = clamp(0.06 + 0.02 * (len(came) - 6), 0.02, 0.4) if big else 0.0  # (nobody calls the cops on six kids and a movie)
         roll = rng.random()
         if prot in came:
             from . import nights
-            nights.start(sim, "party", key, "Your party" if prot == host else f"{H.first}'s party", came, host=host, busted=roll < pb)
+            title = ("Your party" if prot == host else f"{H.first}'s party") if big else ("A few people at yours" if prot == host else f"At {H.first}'s")
+            nights.start(sim, "party", key, title, came, host=host, busted=roll < pb, crowd=crowd if big else None, small=not big)
         if roll < pb:
             e5 = self.event("party", "busted", [host], came, importance=36, data={})
             e5["causes"] = [ev["id"]] if ev.get("id") else []
