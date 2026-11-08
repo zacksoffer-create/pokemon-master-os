@@ -113,9 +113,10 @@ def league(sim, g, day=None) -> dict:
     teams[us] = {"name": us, "strength": None, "w": 0, "l": 0, "pf": 0, "pa": 0, "results": [], "stars": [], "ours": True}
     order = sorted(_names(sim, g), key=lambda n: _h(key, "order", n))
     riv = rival(sim, g)
-    if riv in order:  # the rival game comes late, when it matters most
+    if riv in order:  # the rival game comes late, when it matters most (football's is the Thanksgiving game: the last one)
         order.remove(riv)
-        order.insert(max(0, min(len(order), 7)), riv)
+        if not g.get("thanksgiving_game"):
+            order.insert(max(0, min(len(order), 7)), riv)
     L[key] = {"key": key, "group": g["id"], "sport": sport, "year": y, "ours": us, "rival": riv, "teams": teams, "schedule": order,
               "rounds": [], "potw": [], "power": [], "title": None, "gender": gender}
     for k in sorted(L, key=lambda k: L[k].get("year", 0))[:-12]:  # keep a couple of seasons per team
@@ -180,13 +181,13 @@ def _result(lea, a, b, sa, sb, day, rivalry=False):
         t["results"].append({"day": day, "vs": them["name"], "win": win, "score": f"{max(pf, pa)}-{min(pf, pa)}"})
 
 
-def record(sim, inst, g, num: int, win: bool, score: str, box: dict, rng) -> dict:
+def record(sim, inst, g, num: int, win: bool, score: str, box: dict, rng, it=None) -> dict:
     """After your team's game: the result in the table, the other school's stars' lines, and the rest of the conference's
     games that week."""
     w = sim.w
     lea = league(sim, g)
     us = lea["teams"][lea["ours"]]
-    opp = opponent(sim, g, num)
+    opp = opponent_for(sim, g, it, num) if it is not None else opponent(sim, g, num)
     pf, pa = _scores(score)  # the score reads from your side: yours first
     perfs = [{"perf": v["perf"], "id": cid, "name": w.chars[cid].name, "team": lea["ours"], "line": v["line"], "day": w.day, "ours": True}
              for cid, v in box.items() if v.get("perf") is not None]

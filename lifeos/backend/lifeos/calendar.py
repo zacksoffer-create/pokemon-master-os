@@ -215,6 +215,11 @@ def team_season(g, year: int, cal: dict, y0: int, slot_for) -> list[dict]:
     first, end = md_to_day(year, g["first_game"]), md_to_day(year, g["regular_end"])
     hol = g.get("holiday") or {}
     hol_days = {md_to_day(year, md) for md in hol.get("dates") or []}
+    th_day = None
+    if g.get("thanksgiving_game"):  # (the regular season ends before Thanksgiving: the Hand game is the last one)
+        th = dt.date(date_of(first).year, 11, 1)
+        th_day = day_of(th + dt.timedelta(days=(3 - th.weekday()) % 7 + 21))
+        end = min(end, th_day - 1)
     n = 0
     d = first
     while d <= end:
@@ -227,14 +232,13 @@ def team_season(g, year: int, cal: dict, y0: int, slot_for) -> list[dict]:
                 it["event"], it["name"] = "holiday", f"{nm}: {hol.get('name', 'Holiday tournament')}"
             out.append(it)
         d += 1
-    if g.get("thanksgiving_game"):  # Connecticut's Thanksgiving football: the regular season's last game, that morning
-        th = dt.date(date_of(first).year, 11, 1)
-        th = th + dt.timedelta(days=(3 - th.weekday()) % 7 + 21)
-        d = day_of(th)
+    if th_day is not None:  # Connecticut's Thanksgiving football: the regular season's last game, that morning
+        d = th_day
         if not any(i["day"] == d for i in out):
             n += 1
-            out.append({"day": d, "kind": "game", "group": gid, "slot": "day", "name": f"{nm}: Thanksgiving game",
-                        "key": f"game:{gid}:{year}:{n}", "event": "thanksgiving"})
+            from .league import RIVALS  # the Thanksgiving game is the rivalry game: Hand, the biggest game of the year
+            out.append({"day": d, "kind": "game", "group": gid, "slot": "day", "name": f"{nm}: Thanksgiving game vs {RIVALS['hchs']}",
+                        "key": f"game:{gid}:{year}:{n}", "event": "thanksgiving", "opp": RIVALS["hchs"]})
     for st in g.get("post") or []:
         rounds = st["rounds"]
         for k, (rname, md) in enumerate(rounds):

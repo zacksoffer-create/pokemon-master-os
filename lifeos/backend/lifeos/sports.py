@@ -666,7 +666,7 @@ def _game(inst, g, it, level, players, missing, fans, num, rng):
             it["result"] = "win" if win else "loss"
             postseason.after_game(sim, g, it, win)
         else:
-            lg.record(sim, inst, g, num, win, score, box, rng)
+            lg.record(sim, inst, g, num, win, score, box, rng, it=it)
     else:
         g.setdefault("record_jv", {"w": 0, "l": 0})["w" if win else "l"] += 1
     for cid in players:

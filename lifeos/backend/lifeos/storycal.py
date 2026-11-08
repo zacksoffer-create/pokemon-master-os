@@ -76,7 +76,8 @@ def schedule_order(sim, g, year: int) -> list:
     riv = lg.rival(sim, g)
     if riv in order:
         order.remove(riv)
-        order.insert(max(0, min(len(order), 7)), riv)
+        if not g.get("thanksgiving_game"):  # (football's rival is the Thanksgiving game, set on that game)
+            order.insert(max(0, min(len(order), 7)), riv)
     return order
 
 

@@ -276,7 +276,7 @@ Coach: Head up.
 * "Okay."
 Coach: Good.
 """
-    wins = [w for w, _ in _results(both, seeds=16)]
+    wins = [w for w, _ in _results(both, seeds=40)]  # (this test team is an underdog: enough games to see both)
     assert any(wins) and not all(wins), "both ways written: the real game decides"
 
 

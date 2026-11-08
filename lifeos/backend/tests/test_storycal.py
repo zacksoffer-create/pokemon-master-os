@@ -125,3 +125,16 @@ def test_the_scene_prompt_says_exactly_when_each_scene_is():
     b = storybuilder.batch_prompt(sim, r["ids"][0], 2)["prompt"]
     assert f"Scene 1, Opener: {storycal.label(reg[0]['day'])}: football game 1 vs {reg[0]['opp']}" in b
     assert "Scene 2, Later: mid October" in b
+
+
+def test_hand_is_the_thanksgiving_game_and_the_last_game_every_year():
+    sim, me = world()
+    for y in range(4):
+        reg = [x for x in storycal.team_games(sim, "football", y) if not x["stage"]]
+        last = reg[-1]
+        assert last["opp"] == "Hand" and last["event"] == "thanksgiving" and last["rival"]
+        assert calm.date_of(last["day"]).month == 11 and calm.weekday(last["day"]) == 3  # Thanksgiving Thursday
+        assert not [x for x in reg[:-1] if x["opp"] == "Hand"]  # (and only then)
+    g = sim.w.groups["football"]
+    it = next(i for i in sim.w.calendar if i.get("event") == "thanksgiving")
+    assert sports.game_opponent(sim, g, it) == "Hand" and league.opponent_for(sim, g, it)["name"] == "Hand"

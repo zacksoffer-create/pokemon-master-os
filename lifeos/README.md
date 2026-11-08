@@ -342,7 +342,7 @@ Guilford has seven high school teams, each with its own coach, tryouts and sched
 
 | Sport | Tryouts | Games | Regular season ends | Then |
 |---|---|---|---|---|
-| Football | Sept 2 | Friday nights from Sept 10, and the Thanksgiving game | Thanksgiving | State playoffs, Nov 30 to Dec 11 |
+| Football | Sept 2 | Friday nights from Sept 10, then the Thanksgiving game vs Hand (always the last game) | Thanksgiving | State playoffs, Nov 30 to Dec 11 |
 | Soccer | Sept 2 | Tue/Fri (girls Mon/Thu) from Sept 10 | Oct 29 | SCC tournament Nov 1-6, state tournament Nov 9-19 |
 | Basketball | Nov 29 | Tue/Fri (girls Mon/Thu) from Dec 10, a holiday tournament Dec 27-30 | Feb 22 | SCC tournament Feb 24-Mar 1, state tournament Mar 4-17 |
 | Baseball, softball | Mar 14 | Three a week from Apr 4 | May 20 | SCC tournament May 23-27, state tournament May 31-Jun 11 |
@@ -525,8 +525,8 @@ Every storyline is planned on the game's own schedule, so ChatGPT can't put a sc
 
 - **The calendar**: each school year's days with their dates (first day of school, homecoming, Thanksgiving, winter
   break, prom, graduation, July 4th, the first and last day at Watch Hill), and every team's season. Your family's teams
-  are game by game, with the date and the opponent: `1 Sep 16 Notre Dame-West Haven, 2 Sep 23 Lyman Hall, ... 8 Nov 4
-  Hand (rivalry), 11 Nov 24 Branford (Thanksgiving game)`. The others are in short. The opponents are the ones the
+  are game by game, with the date and the opponent: `1 Sep 16 Notre Dame-West Haven, 2 Sep 23 Lyman Hall, ... 10 Nov 18
+  Branford, 11 Nov 24 Hand (rivalry) (Thanksgiving game)`. The others are in short. The opponents are the ones the
   games are really played against (the planner, the team chat and the Sports tab name the same team).
 - **A closed list of whens.** Every outline line picks its when from the calendar, and nothing else: a month or part of
   one (`mid October`), a day (`homecoming`, `Thanksgiving`, `first day at Watch Hill`), a game (`football game 3`,
