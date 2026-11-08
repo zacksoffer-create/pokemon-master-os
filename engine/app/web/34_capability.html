@@ -8,7 +8,7 @@ var Cap = (function () {
   var ORDER = ['covered', 'equipped', 'teachable', 'plausible', 'proposed', 'gap'], RANK = {}, READY = ['covered', 'equipped'], PRIORITIES = ['critical', 'important', 'useful'];
   ORDER.forEach(function (s, i) { RANK[s] = i; });
   var KINDS = {move: ['A', 'mechanic'], ability: ['A', 'mechanic'], lore: ['B', 'inferred'], type: ['B', 'inferred'], size: ['B', 'inferred'], habitat: ['B', 'inferred'], shape: ['B', 'inferred'],
-    move_use: ['B', 'hypothesis'], gear: ['C', 'creative'], world: ['B', 'creative']};
+    move_use: ['B', 'hypothesis'], trait: ['B', 'inferred'], gear: ['C', 'creative'], world: ['B', 'creative']};
   var ORDER_TEXT = {covered: 'covered', equipped: 'covered by kit', teachable: 'only if a member is taught the move',
     plausible: 'only plausible (biology, not a game mechanic or your call)', proposed: 'only a proposal waiting for your approval', gap: 'nobody and nothing covers it'};
   var ROUTE_TEXT = {trade: 'by trade from the other version', transfer: 'only from an earlier generation', exception: 'your approved exception'};
@@ -45,6 +45,9 @@ var Cap = (function () {
       out.push([st, r]); });
     if (known && known.length) Object.keys(P.model.move_uses).forEach(function (cap) { if (cap.charAt(0) === '_') return;
       P.model.move_uses[cap].forEach(function (mv) { if (known.indexOf(mv) >= 0) out.push(['plausible', {cap: cap, kind: 'move_use', move: mv, source: mv + ' (a move it knows)', detail: 'put to use outside battle: a hypothesis, not a game mechanic'}]); }); });
+    var traits = P.model.ability_traits || {};
+    if (ab && traits[ab]) traits[ab].caps.forEach(function (cap) {   // its ability read as biology (v2.8, docs/ORGANISM.md)
+      out.push(['plausible', {cap: cap, kind: 'trait', ability: ab, source: ab + ' (its ability, read as biology)', detail: traits[ab].reading + ': a reading of the animal, not a game mechanic'}]); });
     var ind = member.ind;
     if (ind) P.world.concat(EXTRA).forEach(function (w) { if (w.ind !== ind) return;
       if (w.status === 'approved') out.push(['covered', w]);

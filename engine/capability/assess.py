@@ -23,7 +23,7 @@ READY = ("covered", "equipped")
 PRIORITIES = ("critical", "important", "useful")
 KINDS = {"move": ("A", "mechanic"), "ability": ("A", "mechanic"), "lore": ("B", "inferred"), "type": ("B", "inferred"),
          "size": ("B", "inferred"), "habitat": ("B", "inferred"), "shape": ("B", "inferred"),
-         "move_use": ("B", "hypothesis"), "gear": ("C", "creative"), "world": ("B", "creative")}
+         "move_use": ("B", "hypothesis"), "trait": ("B", "inferred"), "gear": ("C", "creative"), "world": ("B", "creative")}
 
 
 def cap_name(pack, cap):
@@ -90,6 +90,11 @@ def evidence(pack, game, member, kit=(), preview=()):
                 if mv in known:
                     out.append(("plausible", {"cap": cap, "kind": "move_use", "move": mv, "source": mv + " (a move it knows)",
                                               "detail": "put to use outside battle: a hypothesis, not a game mechanic"}))
+    traits = pack["model"].get("ability_traits") or {}
+    if ab and ab in traits:                                        # its ability read as biology (v2.8, docs/ORGANISM.md)
+        for cap in traits[ab]["caps"]:
+            out.append(("plausible", {"cap": cap, "kind": "trait", "ability": ab, "source": ab + " (its ability, read as biology)",
+                                      "detail": traits[ab]["reading"] + ": a reading of the animal, not a game mechanic"}))
     ind = member.get("ind")
     if ind:
         for w in pack["world"]:

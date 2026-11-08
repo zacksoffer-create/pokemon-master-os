@@ -283,7 +283,11 @@ def _forage(rules, place, kit):
     return "rod" in kit and any(m in ("old-rod", "good-rod", "super-rod") for m in place["methods"])
 
 
-def simulate(wild, cap_pack, game, pl, members, seed):
+def simulate(wild, cap_pack, game, pl, members, seed, org=None):
+    """One seeded run. With the organism pack (v2.8) each day also has its camp: who the conditions are hard on and who
+    eases them (a strain when nobody can), who is at home in them, the night watch, and who found food."""
+    if org is not None:
+        from biology import organism
     R = wild["rules"]
     S = R["sim"]
     rng = Rng(seed)
@@ -369,6 +373,13 @@ def simulate(wild, cap_pack, game, pl, members, seed):
         if can_forage and _forage(R, place, kit):
             gained = int(math.floor(S["forage_share"] * per_day))
             food += gained
+        if org is not None:
+            for e in organism.camp_events(org, cap_pack, game, members, kit, place, weather):
+                if e["result"] == "strained":
+                    strains += 1
+                events.append(e)
+            if gained:
+                events.append(organism.forage_event(org, stand["foraging"][1], gained))
         log.append({"day": d, "phase": phase, "node": node, "where": place["name"], "weather": weather,
                     "weather_name": R["climate"]["kinds"][weather]["name"], "events": events, "food": food, "foraged": gained})
         if food < 0:
@@ -383,7 +394,7 @@ def simulate(wild, cap_pack, game, pl, members, seed):
             "seen": sorted(([k, v] for k, v in seen.items()), key=lambda x: (-x[1], x[0])), "food_left": food}
 
 
-def odds(wild, cap_pack, game, pl, members, runs=None):
+def odds(wild, cap_pack, game, pl, members, runs=None, org=None):
     R = wild["rules"]
     runs = runs or R["sim"]["runs"]
     done = 0
@@ -391,7 +402,7 @@ def odds(wild, cap_pack, game, pl, members, runs=None):
     causes, seen = {}, {}
     site = 0
     for seed in range(1, runs + 1):
-        s = simulate(wild, cap_pack, game, pl, members, seed)
+        s = simulate(wild, cap_pack, game, pl, members, seed, org)
         done += s["outcome"] == "completed"
         setbacks += s["setbacks"]
         strains += s["strains"]
@@ -481,6 +492,7 @@ def parity(out_path):
     teams and seasons, and the estate's year on a sample household."""
     wild = load(os.path.join(ENGINE, "app", "data", "wild.json"))
     cap = load(os.path.join(ENGINE, "app", "data", "capability.json"))
+    org = load(os.path.join(ENGINE, "app", "data", "organism.json"))
     _, _, team, _ = sample()
     team2 = [{"species": "Mamoswine", "moves": ["Earthquake", "Ice Shard", "Strength", "Rock Smash"], "ability": "Oblivious", "label": "Mamoswine"},
              {"species": "Meganium", "moves": ["Leaf Storm", "Synthesis", "Sunny Day", "Cut"], "ability": "Overgrow", "label": "Meganium"},
@@ -495,7 +507,9 @@ def parity(out_path):
         pl = plan(wild, cap, "heartgold", pid, mem, kit, season, days, residents)
         out["cases"].append({"place": pid, "members": mem, "kit": kit, "season": season, "days": days, "residents": residents, "plan": pl,
                              "runs": [simulate(wild, cap, "heartgold", pl, mem, seed) for seed in (1, 2, 3)],
-                             "odds": odds(wild, cap, "heartgold", pl, mem, 8)})
+                             "odds": odds(wild, cap, "heartgold", pl, mem, 8),
+                             "org_runs": [simulate(wild, cap, "heartgold", pl, mem, seed, org) for seed in (1, 2)],
+                             "org_odds": odds(wild, cap, "heartgold", pl, mem, 8, org)})
     hh = [dict(m, climate={"Magcargo": "warm", "Typhlosion": "warm", "Mamoswine": "cold", "Lapras": "any"}.get(m["species"], "any"),
                land="forest" if m["species"] == "Meganium" else None, line=m["species"]) for m in residents]
     crops = [{"berry": "Oran Berry", "hours_to_harvest": 16, "max_harvest": 5, "why": "the medicine crop"},
@@ -523,11 +537,12 @@ def main(argv):
     for n in pl["readiness"]["needs"]:
         print(f"  {n['priority']:9} {n['name']:18} {n['standing']:10} {', '.join(h['who'] for h in n['holders'][:2])}")
     print("  home:", [(h["facility"], h["requirement"]) for h in pl["home"]])
-    s = simulate(wild, cap, "heartgold", pl, team, 1)
+    org = load(os.path.join(ENGINE, "app", "data", "organism.json"))
+    s = simulate(wild, cap, "heartgold", pl, team, 1, org)
     for d in s["days"]:
         print(f"  day {d['day']} {d['where']} {d['weather_name']}: " + " | ".join(e["text"] for e in d["events"]))
     print(" ", s["outcome"], s["ended"], "seen", s["seen"])
-    print(" ", odds(wild, cap, "heartgold", pl, team))
+    print(" ", odds(wild, cap, "heartgold", pl, team, None, org))
 
 
 if __name__ == "__main__":

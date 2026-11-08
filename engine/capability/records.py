@@ -35,7 +35,7 @@ SIZES = ("small", "medium", "large", "huge")
 # what each kind of record is, on the axes
 KINDS = {"move": ("A", "mechanic"), "ability": ("A", "mechanic"), "lore": ("B", "inferred"), "type": ("B", "inferred"),
          "size": ("B", "inferred"), "habitat": ("B", "inferred"), "shape": ("B", "inferred"),
-         "move_use": ("B", "hypothesis"), "gear": ("C", "creative"), "world": ("B", "creative")}
+         "move_use": ("B", "hypothesis"), "trait": ("B", "inferred"), "gear": ("C", "creative"), "world": ("B", "creative")}
 
 
 def load(name):

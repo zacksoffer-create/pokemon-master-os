@@ -1,0 +1,510 @@
+{
+  "_note": "The organism (v2.8, docs/ORGANISM.md): how Blackthorn reads a Pokémon as a living animal in the wild, species first and then the individual. Every block says its class: mechanic (the games' own data or rules), inferred (Blackthorn's reading of game data: types, body shapes, abilities read as biology), canon (the Pokédex, quoted) or creative. biology/organism.py and its browser copy (app/web/44_organism.html) only evaluate them; app/test_organism_parity.mjs holds the two together. Ability traits also reach the capability engine as plausible evidence (capability/model.json → ability_traits, read from here by app/capability_pack.py).",
+  "version": "organism-0.1",
+  "type_body": {
+    "class": "inferred",
+    "_note": "What a type says about the body, read as physiology (the same reading the capability records use for type evidence).",
+    "Normal": "an ordinary animal body",
+    "Fire": "its body runs hot: a living fire",
+    "Water": "an aquatic body, at home in water",
+    "Electric": "its body generates electricity",
+    "Grass": "plant tissue: it lives partly on sunlight, water and soil",
+    "Ice": "a cold body that chills what's around it",
+    "Fighting": "a muscular body built for physical work",
+    "Poison": "it carries poison in its body",
+    "Ground": "a body of earth and sand, at home underground",
+    "Flying": "a body built for the air",
+    "Psychic": "a mind that reaches beyond its body",
+    "Bug": "an insect's body",
+    "Rock": "a stony, armoured body",
+    "Ghost": "a body only half in this world",
+    "Dragon": "a dragon: ancient and hardy",
+    "Dark": "a creature of the night and of cunning",
+    "Steel": "a body of metal"
+  },
+  "shape_moves": {
+    "class": "inferred",
+    "_note": "How a body plan moves (the Gen 4 Pokédex's shape, class mechanic; the reading is Blackthorn's).",
+    "upright": "walks upright on two legs",
+    "quadruped": "walks on four legs",
+    "humanoid": "walks on two legs, hands free",
+    "wings": "flies on two wings",
+    "fish": "swims; a fish's body",
+    "ball": "a round body that rolls, floats or bounces",
+    "armor": "a heavy armoured body that walks",
+    "squiggle": "slithers, a serpent's body",
+    "arms": "moves on its arms",
+    "bug-wings": "flies on insect wings",
+    "blob": "a soft body that oozes and crawls",
+    "legs": "scuttles on many legs",
+    "heads": "a body of several heads",
+    "tentacles": "moves on tentacles"
+  },
+  "habitat_words": {
+    "class": "mechanic",
+    "_note": "The Gen 3 Pokédex's habitat for the species (PokeAPI), and the habitat engine's water and climate.",
+    "grassland": "grassland",
+    "forest": "forest",
+    "waters-edge": "the water's edge",
+    "mountain": "mountains",
+    "sea": "the sea",
+    "urban": "towns and cities",
+    "cave": "caves",
+    "rough-terrain": "rough terrain",
+    "rare": "rare places",
+    "water": {
+      "sea": "it lives in the sea and needs it",
+      "fresh": "it lives by fresh water and needs it near",
+      "none": "a land animal: it drinks, but needn't live by water"
+    },
+    "climate": {
+      "warm": "a warm-climate animal: cold is hard on it",
+      "cold": "a cold-climate animal: heat is hard on it",
+      "any": "comfortable in most climates"
+    }
+  },
+  "dex_keywords": {
+    "class": "canon",
+    "_note": "Pokédex lines picked for each part of the portrait by the words they use.",
+    "eats": [
+      "eat",
+      "eats",
+      "food",
+      "feeds",
+      "feed",
+      "prey",
+      "hunt",
+      "berries",
+      "berry",
+      "nectar",
+      "honey",
+      "milk",
+      "drink",
+      "swallow",
+      "graze",
+      "diet",
+      "devour"
+    ],
+    "senses": [
+      "sense",
+      "senses",
+      "smell",
+      "scent",
+      "hear",
+      "eyes",
+      "see",
+      "sees",
+      "detect",
+      "feel",
+      "feels",
+      "aware",
+      "vision",
+      "sight"
+    ],
+    "moves": [
+      "fly",
+      "flies",
+      "swim",
+      "swims",
+      "run",
+      "runs",
+      "dig",
+      "digs",
+      "climb",
+      "climbs",
+      "glide",
+      "glides",
+      "float",
+      "floats",
+      "travel",
+      "leap",
+      "carry",
+      "carries"
+    ],
+    "defense": [
+      "defend",
+      "protect",
+      "shell",
+      "armor",
+      "poison",
+      "spines",
+      "horn",
+      "claws",
+      "fangs",
+      "sting"
+    ]
+  },
+  "traits": {
+    "class": "inferred",
+    "_note": "An ability read as biology: what it says about the animal away from battle. caps are capability ids it counts toward as plausible evidence (B · inferred) for an individual that has that ability. A reading with no caps is shown in the portrait only. Overworld effects (the games' own, class mechanic) stay in the capability records.",
+    "Thick Fat": {
+      "caps": [
+        "cold_tolerance",
+        "heat_tolerance"
+      ],
+      "reading": "a thick layer of fat keeps out the cold and the heat (Ice and Fire hit it half as hard)"
+    },
+    "Magma Armor": {
+      "caps": [
+        "cold_tolerance",
+        "heat_source"
+      ],
+      "reading": "armoured in magma: it can't be frozen, and its body runs hot"
+    },
+    "Flame Body": {
+      "caps": [
+        "heat_source"
+      ],
+      "reading": "a body of flame: touching it burns"
+    },
+    "Heatproof": {
+      "caps": [
+        "heat_tolerance"
+      ],
+      "reading": "fire barely hurts it"
+    },
+    "Water Veil": {
+      "caps": [
+        "heat_tolerance"
+      ],
+      "reading": "a coat of water: it can't be burned"
+    },
+    "Ice Body": {
+      "caps": [
+        "cold_tolerance"
+      ],
+      "reading": "hail feeds it: it heals in the cold"
+    },
+    "Snow Cloak": {
+      "caps": [
+        "cold_tolerance",
+        "weather_handling"
+      ],
+      "reading": "it vanishes in a snowstorm, and hail can't hurt it"
+    },
+    "Sand Veil": {
+      "caps": [
+        "weather_handling"
+      ],
+      "reading": "sandstorms can't hurt it, and it hides in them"
+    },
+    "Swift Swim": {
+      "caps": [
+        "water_travel"
+      ],
+      "reading": "built for water: it swims fast, faster still in rain"
+    },
+    "Keen Eye": {
+      "caps": [
+        "scouting"
+      ],
+      "reading": "keen eyes that nothing clouds"
+    },
+    "Compound Eyes": {
+      "caps": [
+        "scouting"
+      ],
+      "reading": "compound eyes that see wide and far"
+    },
+    "Forewarn": {
+      "caps": [
+        "danger_sense"
+      ],
+      "reading": "it senses what a threat will do before it does it"
+    },
+    "Anticipation": {
+      "caps": [
+        "danger_sense"
+      ],
+      "reading": "it shudders when danger is near"
+    },
+    "Insomnia": {
+      "caps": [
+        "danger_sense"
+      ],
+      "reading": "it never falls asleep: a natural night watch"
+    },
+    "Vital Spirit": {
+      "caps": [
+        "danger_sense"
+      ],
+      "reading": "it can't be made to sleep: always alert"
+    },
+    "Run Away": {
+      "caps": [
+        "escape"
+      ],
+      "reading": "it always gets away from wild Pokémon"
+    },
+    "Intimidate": {
+      "caps": [
+        "deterrence"
+      ],
+      "reading": "its glare makes others lose their nerve"
+    },
+    "Pressure": {
+      "caps": [
+        "deterrence"
+      ],
+      "reading": "its presence weighs on everything near it"
+    },
+    "Rough Skin": {
+      "caps": [
+        "deterrence"
+      ],
+      "reading": "rough skin that hurts whatever touches it"
+    },
+    "Poison Point": {
+      "caps": [
+        "deterrence"
+      ],
+      "reading": "poison barbs: touching it is a mistake"
+    },
+    "Effect Spore": {
+      "caps": [
+        "deterrence"
+      ],
+      "reading": "spores that sicken whatever touches it"
+    },
+    "Stench": {
+      "caps": [
+        "deterrence"
+      ],
+      "reading": "a stench that keeps others away"
+    },
+    "Static": {
+      "caps": [
+        "electricity"
+      ],
+      "reading": "its body crackles with static"
+    },
+    "Illuminate": {
+      "caps": [
+        "light"
+      ],
+      "reading": "its body gives off light"
+    },
+    "Cloud Nine": {
+      "caps": [
+        "weather_handling"
+      ],
+      "reading": "the weather loses its effect around it"
+    },
+    "Air Lock": {
+      "caps": [
+        "weather_handling"
+      ],
+      "reading": "the weather loses its effect around it"
+    },
+    "Levitate": {
+      "caps": [],
+      "reading": "it floats above the ground: mud, sand and snow don't slow it"
+    },
+    "Water Absorb": {
+      "caps": [],
+      "reading": "it takes in water through its body"
+    },
+    "Dry Skin": {
+      "caps": [],
+      "reading": "rain revives it; hot sun dries it out"
+    },
+    "Rain Dish": {
+      "caps": [],
+      "reading": "rain heals it"
+    },
+    "Chlorophyll": {
+      "caps": [],
+      "reading": "sunshine quickens it"
+    },
+    "Solar Power": {
+      "caps": [],
+      "reading": "it draws power from strong sun, at a cost"
+    },
+    "Leaf Guard": {
+      "caps": [],
+      "reading": "in sunshine, illness can't take hold"
+    },
+    "Natural Cure": {
+      "caps": [],
+      "reading": "it shakes off illness when it rests"
+    },
+    "Shed Skin": {
+      "caps": [],
+      "reading": "it sheds its skin to heal"
+    },
+    "Early Bird": {
+      "caps": [],
+      "reading": "it wakes quickly"
+    },
+    "Sturdy": {
+      "caps": [],
+      "reading": "a sturdy body that can't be felled by one blow"
+    },
+    "Shell Armor": {
+      "caps": [],
+      "reading": "a hard shell protects it"
+    },
+    "Battle Armor": {
+      "caps": [],
+      "reading": "hard armour protects it"
+    },
+    "Limber": {
+      "caps": [],
+      "reading": "a supple body that can't be paralysed"
+    },
+    "Own Tempo": {
+      "caps": [],
+      "reading": "it keeps its own pace: nothing confuses it"
+    },
+    "Inner Focus": {
+      "caps": [],
+      "reading": "steady nerves: it doesn't flinch"
+    },
+    "Sand Stream": {
+      "caps": [],
+      "reading": "it brings a sandstorm with it"
+    },
+    "Drizzle": {
+      "caps": [],
+      "reading": "it brings rain with it"
+    },
+    "Drought": {
+      "caps": [],
+      "reading": "it brings blazing sun with it"
+    },
+    "Snow Warning": {
+      "caps": [],
+      "reading": "it brings hail with it"
+    },
+    "Blaze": {
+      "caps": [],
+      "reading": "its fire flares when it's cornered"
+    },
+    "Torrent": {
+      "caps": [],
+      "reading": "it surges when it's cornered"
+    },
+    "Overgrow": {
+      "caps": [],
+      "reading": "its plant power swells when it's cornered"
+    },
+    "Swarm": {
+      "caps": [],
+      "reading": "it rallies when it's cornered"
+    }
+  },
+  "exposure": {
+    "class": "inferred",
+    "_note": "How a place's conditions treat a body, read from the type chart (the type that attacks a body in those conditions, against its types and ability): super effective is hard on it, resisted means it's at home. A hard condition is eased by the team capability named here; without it the day is hard going for that member (a strain, never a setback).",
+    "conditions": [
+      {
+        "id": "cold",
+        "name": "the cold",
+        "type": "Ice",
+        "when": {
+          "biome": [
+            "ice-cave",
+            "alpine"
+          ],
+          "weather": [
+            "snow",
+            "blizzard"
+          ]
+        },
+        "eased_by": "heat_source"
+      },
+      {
+        "id": "heat",
+        "name": "the heat",
+        "type": "Fire",
+        "when": {
+          "weather": [
+            "heat"
+          ]
+        },
+        "eased_by": "water_supply"
+      },
+      {
+        "id": "wet",
+        "name": "the rain",
+        "type": "Water",
+        "when": {
+          "weather": [
+            "rain",
+            "storm"
+          ]
+        },
+        "eased_by": "camp_making"
+      }
+    ]
+  },
+  "learn": {
+    "class": "mechanic",
+    "_note": "How the species learns a move in the game (the breeding pack: level-up, egg, tutor, machine), read as how the individual came by it.",
+    "level": "grew into it (level {level}{as})",
+    "egg": "inherited: its father knew it",
+    "tutor": "taught by a move tutor",
+    "machine": "taught with {machine}",
+    "light-ball": "inherited through a Light Ball",
+    "hatch": "hatched knowing it",
+    "unknown": "how it learned this isn't on record for the game"
+  },
+  "origin": {
+    "class": "mechanic",
+    "_note": "How you met it (your record), and, for a wild one, the place it was born in (the Wild's places by their encounter areas). What being born there means for it is Blackthorn's reading.",
+    "starter": "your starter, handed over as a hatchling",
+    "gift": "a gift",
+    "gift-egg": "hatched from a gift egg",
+    "trade": "traded to you in the game",
+    "encounter": "met once, in the wild",
+    "wild": "born in the wild",
+    "hatched": "hatched from an egg",
+    "transfer": "brought from another game",
+    "event": "from an event",
+    "other": "your own account",
+    "native": "it grew up in {biome} at {place}: home ground for it (a Blackthorn reading)"
+  },
+  "watch": {
+    "class": "inferred",
+    "_note": "Who keeps watch at night on an expedition: a member about at night in the wild (the games' own encounter times), or one whose ability keeps it awake."
+  },
+  "camp": {
+    "class": "inferred",
+    "_note": "The camp's lines in an expedition's field journal (wilderness/expedition.py simulate, with the organism pack): each member a condition is hard on, and who eases it (handled) or nobody (hard going, a strain); who is at home in it; the night watch; who found food.",
+    "eased": "{who} feels {condition} (a {types} body); {helper} eases it ({how})",
+    "eased_kit": "{who} feels {condition} (a {types} body); the kit sees to it ({helper})",
+    "maybe": "{who} feels {condition} (a {types} body); {helper} might ease it ({how}: {standing}), so it's hard going until that's settled",
+    "unaided": "{who} feels {condition} (a {types} body) and nobody can ease it: hard going without {cap}",
+    "home": "At home in {condition}: {who}",
+    "watch": "Night watch: {who} ({why})",
+    "no_watch": "No one keeps watch: nobody on the team is about at night or sleeps light",
+    "forage": "Foraging: {who} ({how}) brings in {n} rations' worth",
+    "forage_kit": "Foraging: the {who} brings in {n} rations' worth",
+    "standing": {"teachable": "if it's taught the move", "plausible": "plausible, not yet your call", "proposed": "waiting for your approval"}
+  },
+  "vg": {
+    "_note": "game -> PokeAPI version group (the breeding pack's learnsets are keyed by it)",
+    "crystal": 4,
+    "firered": 7,
+    "emerald": 6,
+    "platinum": 9,
+    "heartgold": 10,
+    "soulsilver": 10
+  },
+  "characteristic_order": [
+    "hp",
+    "atk",
+    "def",
+    "spe",
+    "spa",
+    "spd"
+  ],
+  "stat_names": {
+    "hp": "HP",
+    "atk": "Attack",
+    "def": "Defense",
+    "spa": "Sp. Atk",
+    "spd": "Sp. Def",
+    "spe": "Speed"
+  }
+}

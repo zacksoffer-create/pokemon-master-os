@@ -101,6 +101,8 @@ def pack():
             except KeyError:
                 pass
     model = load("model.json")
+    with open(os.path.join(ENGINE, "biology", "organism.json"), encoding="utf-8") as fh:   # abilities read as biology (v2.8)
+        model["ability_traits"] = {k: v for k, v in json.load(fh)["traits"].items() if isinstance(v, dict) and v["caps"]}
     return {"_note": "Built by app/capability_pack.py from capability/ (the model, kit, scenarios, facilities and records) and "
                      "canon/world.json. Evidence classes and statuses are kept apart (MASTER_PLAN §3.2).",
             "model": model, "kinds": {k: list(v) for k, v in KINDS.items()}, "kit": load("kit.json")["items"],
