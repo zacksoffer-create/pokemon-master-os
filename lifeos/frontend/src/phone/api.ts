@@ -128,8 +128,11 @@ export type EpisodeGuide = { now: { season: number; label: string }; seasons: { 
 export type Today = { strip: DaySlot[]; plate: PlateItem[]; week: WeekDay[] };
 export type Line = { id: number; type: string; outcome?: string; text: string; with?: string[]; calc?: any };
 export type Chip = { label: string; delta: number; good: boolean; who?: string; kind?: string };
-export type ThreadSummary = { id: string; kind: "dm" | "group"; title: string; members: string[]; unread: number; last: string; last_from: string; at: string; date: string; needs_reply: boolean };
-export type Msg = { id: string; from: string; from_name: string; text: string; at: string; day: number; date: string; kind: string; read: boolean; replies: string[] | null; chosen: number | null; fast?: boolean };
+export type ThreadSummary = { id: string; kind: "dm" | "group"; title: string; members: string[]; unread: number; last: string; last_from: string; at: string; date: string; needs_reply: boolean;
+  waiting?: { id: string; text: string; replies: string[]; tones: (string | null)[]; card: MsgCard | null; day: number } | null; pinned?: number | null; order?: number };
+export type MsgCard = { kind: "game" | "plan" | "ask"; win?: boolean; score?: string; opp?: string; team?: string; what?: string; when?: string; status?: string };
+export type Msg = { id: string; from: string; from_name: string; text: string; at: string; day: number; date: string; kind: string; read: boolean; replies: string[] | null; chosen: number | null; fast?: boolean;
+  tones?: (string | null)[] | null; tap?: string | null; card?: MsgCard | null };
 export type ChatSuggestion = { text: string; intent: string; tone: string; style?: string; yn?: string };
 export type ChatBar = { can_type: boolean; suggestions: ChatSuggestion[]; status: "new" | "open" | "done" | "no_number" | "none"; stage?: string; read?: string; tone?: string; romance?: boolean };
 export type Thread = { id: string; kind: "dm" | "group"; title: string; members: string[]; msgs: Msg[]; can_text: boolean; text_options: { kind: string; label: string }[]; chat?: ChatBar;
@@ -450,6 +453,9 @@ export const phoneApi = {
   threads: (): Promise<{ threads: ThreadSummary[] }> => api.get("/api/phone/threads"),
   thread: (tid: string): Promise<Thread> => api.get(`/api/phone/thread/${encodeURIComponent(tid)}`),
   reply: (tid: string, msg: string, index: number): Promise<{ thread: Thread }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/reply`, { msg, index }),
+  tap: (tid: string, msg: string, emoji: string | null): Promise<{ thread: Thread }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/tap`, { msg, emoji }),
+  leave: (tid: string, msg: string): Promise<{ thread: Thread }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/leave`, { msg }),
+  pin: (tid: string, on: boolean): Promise<{ threads: ThreadSummary[] }> => api.post(`/api/phone/thread/${encodeURIComponent(tid)}/pin`, { on }),
   text: (to: string, kind: string): Promise<{ thread: Thread; result: string; plans: boolean }> => api.post("/api/phone/text", { to, kind }),
   say: (tid: string, body: { text?: string; suggestion?: number }): Promise<{ thread: Thread; result: string; why: string | null; plans: boolean }> =>
     api.post(`/api/phone/thread/${encodeURIComponent(tid)}/say`, body),

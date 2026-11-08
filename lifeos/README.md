@@ -1180,6 +1180,40 @@ sister" (which could land on one of your twin sisters). That's a **cast slot**.
   same way (checked by the game's own checker). `python lifeos/tools/cast_playthrough.py [packs...]` plays a seeded story
   (you a freshman, twin sisters in 10th, a senior brother) into college and prints who every scene was about.
 
+## Texting: real topics, people who sound like themselves, a cleaner Messages app
+
+Texts are about what actually happened (`backend/lifeos/talk.py`, the lines in `backend/data/talk.json`):
+
+- **Your game**: the night of, a friend who isn't on the team texts you about it: the score, the opponent, your line,
+  the big play ("you hit the big three late?? i literally yelled"), with the score on the text. How you played picks it:
+  a great game isn't "nice W", and a 1-for-5 isn't "beast mode".
+- **Their news**: they made the team or got cut, got hurt (and for how long), got grounded, started dating someone,
+  landed the lead in the play, their own game.
+- **Gossip** about two people you both know (who's dating, who's not talking, who kissed at the party), **the party** you
+  were both at last night, **a quiz** coming up in a class you share, **the crew's inside jokes**, and **your award**.
+- Small talk ("today was so long") is what's left when nothing real is going on, and the same person only does it every
+  few days.
+
+Each one is a small conversation: their text, **four replies, each with its tone** (HYPE, HUMBLE, FUNNY, DRY; SPILL,
+SKEPTIC; HELPFUL, SAME...), and what they say back fits the one you picked. Then you can keep going by typing.
+
+**Memory**: nobody texts you about the same thing twice. A congrats comes once per award per person per season (a close
+friend might rib you about the fifth Player of the Week), and Mom texts about the first one and every fifth, not all
+fifteen. Turn someone down and the flirty texts stop for a while; their first text after is "hey. are we good?"
+
+**Voices**: everyone texts their own way, always the same way: how they laugh (lol, lmao, hahaha, 😂), their two emoji,
+their filler words (bro, legit, srsly, omg, honestly), capitals or not, what they call you (Zack, zack, z, bro), and
+whether they send two texts instead of one. Lines from your storylines are always said exactly as written.
+
+**The Messages app**:
+- **Search**, then **pinned** people at the top (whoever you're dating, your family, your crew and your closest friends,
+  plus anyone you pin from a conversation's pin button).
+- **Waiting on you**: the texts asking you something, with the reply buttons (and their tones) right there in the list,
+  and **Leave on read** to take one off your plate.
+- **Messages**: everything else, newest first. Unread counts are there but nothing nags you.
+- In a conversation: the score or the plans on the text it's about, **tapbacks** (tap their text: ❤️ 😂 👍 😮 ❓ 👎;
+  on a text asking you something, a reaction can be your answer), typing dots before they answer, and Leave on read.
+
 ## The menus: Story Studio and Texting
 
 Everything you put into the game has two homes, both on the **Me** tab under **Make it yours**:

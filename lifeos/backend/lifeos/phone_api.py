@@ -1088,6 +1088,47 @@ def phone_reply(tid: str, body: dict = Body(...)):
         return out
 
 
+@router.post("/api/phone/thread/{tid}/tap")
+def phone_tap(tid: str, body: dict = Body(...)):
+    """React to a text: {"msg": id, "emoji": "❤️" | "😂" | "👍" | "😮" | "❓" | "👎" | null (take it back)}."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        try:
+            out = messages.tapback(L.sim, tid, body.get("msg"), body.get("emoji"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return out
+
+
+@router.post("/api/phone/thread/{tid}/leave")
+def phone_leave_on_read(tid: str, body: dict = Body(...)):
+    """Leave a text on read: {"msg": id}. It's off your plate."""
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        _me(L)
+        try:
+            out = messages.leave_on_read(L.sim, tid, body.get("msg"))
+        except ValueError as e:
+            raise HTTPException(409, str(e))
+        L.autosave()
+        return out
+
+
+@router.post("/api/phone/thread/{tid}/pin")
+def phone_pin(tid: str, body: dict = Body(...)):
+    """Pin or unpin a conversation: {"on": true | false}."""
+    A, L = _lab()
+    with L.lock:
+        _me(L)
+        out = {"threads": messages.pin(L.sim, tid, bool(body.get("on")))}
+        L.autosave()
+        return out
+
+
 @router.post("/api/phone/thread/{tid}/say")
 def phone_say(tid: str, body: dict = Body(...)):
     """Text someone: {"text": "anything you want"} or {"suggestion": index}. They answer like themselves."""

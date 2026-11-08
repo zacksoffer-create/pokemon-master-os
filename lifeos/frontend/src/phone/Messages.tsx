@@ -1,6 +1,6 @@
 // The Messages app: your conversations, and the conversation view with reply chips and staged replies.
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Msg, Thread, ThreadSummary, phoneApi, pgo } from "./api";
+import { Msg, MsgCard, Thread, ThreadSummary, phoneApi, pgo } from "./api";
 import { usePhone } from "./PhoneContext";
 import {
   Chevron, GroupAvatar, PersonAvatar, dayLabel, listTime, minutes, pendingCompose, sleep, usePeople,
@@ -18,18 +18,17 @@ function threadKind(t: { id: string; kind: string }): "family" | "team" | "group
 // ------------------------------------------------------------------------------------------- list
 
 export function MessagesList() {
-  const { state, refresh } = usePhone();
+  const { state, refresh, toast } = usePhone();
   const people = usePeople();
   const [threads, setThreads] = useState<ThreadSummary[] | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [q, setQ] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
+  const load = useCallback(() => phoneApi.threads().then((r) => setThreads(r.threads)).catch((e) => setErr(e.message)), []);
   useEffect(() => {
-    let alive = true;
-    phoneApi.threads().then((r) => alive && setThreads(r.threads)).catch((e) => alive && setErr(e.message));
+    load();
     refresh();
-    return () => {
-      alive = false;
-    };
-  }, [refresh]);
+  }, [load, refresh]);
   const parents = state?.family?.guardians || [];
   if (err) return <div className="pm-empty">{err}</div>;
   if (!threads) return <ListSkeleton />;
@@ -41,21 +40,92 @@ export function MessagesList() {
         <span>When friends, family or your team text you, it shows up here.</span>
       </div>
     );
+  const quick = async (t: ThreadSummary, index: number) => {  // answer right from the list
+    if (!t.waiting || busy) return;
+    setBusy(t.id);
+    try {
+      await phoneApi.reply(t.id, t.waiting.id, index);
+      await load();
+      refresh();
+    } catch (e: any) {
+      toast(e.message, "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
+  const leave = async (t: ThreadSummary) => {
+    if (!t.waiting || busy) return;
+    setBusy(t.id);
+    try {
+      await phoneApi.leave(t.id, t.waiting.id);
+      await load();
+    } catch (e: any) {
+      toast(e.message, "bad");
+    } finally {
+      setBusy(null);
+    }
+  };
+  const ql = q.trim().toLowerCase();
+  const match = (t: ThreadSummary) => !ql || t.title.toLowerCase().includes(ql) || t.last.toLowerCase().includes(ql);
+  const shown = threads.filter(match);
+  const waiting = ql ? [] : shown.filter((t) => t.waiting).sort((a, b) => (b.waiting!.day - a.waiting!.day) || (b.order || 0) - (a.order || 0)).slice(0, 6);
+  const pinned = ql ? [] : shown.filter((t) => t.pinned !== null && t.pinned !== undefined).sort((a, b) => (a.pinned as number) - (b.pinned as number));
+  const rest = shown.filter((t) => ql || (t.pinned === null || t.pinned === undefined));
+  const avatar = (t: ThreadSummary, size: number) => {
+    const k = threadKind(t);
+    return k === "dm" ? <PersonAvatar id={t.members[0]} people={people} size={size} />
+      : <GroupAvatar members={t.members} kind={k === "family" ? "family" : "team"} people={people} parents={parents} size={size} />;
+  };
   return (
     <div className="pm-list" role="list">
-      <AddTextingRow />
-      {threads.map((t) => {
+      <input className="pm-search" type="search" placeholder="Search" value={q} onChange={(e) => setQ(e.target.value)} />
+      {pinned.length > 0 && (
+        <div className="pm-pins">
+          {pinned.map((t) => (
+            <button key={t.id} className="pm-pin" onClick={() => pgo(`phone/thread/${t.id}`)}>
+              <span className="pm-pin-av">{avatar(t, 58)}{t.unread > 0 && <i className="pm-pin-dot" />}</span>
+              <small>{threadKind(t) === "dm" ? (people[t.members[0]]?.first || t.title) : t.title}</small>
+            </button>
+          ))}
+        </div>
+      )}
+      {waiting.length > 0 && (
+        <section className="pm-wait">
+          <div className="pm-sec-h">Waiting on you</div>
+          {waiting.map((t) => {
+            const w = t.waiting!;
+            return (
+              <div key={t.id} className="pm-wait-card">
+                <button className="pm-wait-top" onClick={() => pgo(`phone/thread/${t.id}`)}>
+                  {avatar(t, 34)}
+                  <span>
+                    <b>{t.title}</b>
+                    {w.card && <CardChip card={w.card} />}
+                    <em>{w.text}</em>
+                  </span>
+                </button>
+                <div className="pm-wait-chips">
+                  {w.replies.slice(0, 4).map((r, i) => (
+                    <button key={i} className="pm-chip reply" disabled={busy === t.id} onClick={() => quick(t, i)}>
+                      {w.tones?.[i] && <span className="pm-tonetag">{w.tones[i]}</span>}{r}
+                    </button>
+                  ))}
+                  <button className="pm-leave" disabled={busy === t.id} onClick={() => leave(t)}>Leave on read</button>
+                </div>
+              </div>
+            );
+          })}
+        </section>
+      )}
+      {!ql && <div className="pm-sec-h">Messages</div>}
+      {rest.map((t) => {
         const k = threadKind(t);
         const fromMe = t.last_from === "You";
         const day = dayFromDate(t.date, state?.day, state?.date);
         return (
           <button key={t.id} role="listitem" className={`pm-row${t.unread ? " unread" : ""}`} onClick={() => pgo(`phone/thread/${t.id}`)}>
             <div className="pm-row-av">
-              {k === "dm" ? (
-                <PersonAvatar id={t.members[0]} people={people} size={52} />
-              ) : (
-                <GroupAvatar members={t.members} kind={k === "family" ? "family" : "team"} people={people} parents={parents} />
-              )}
+              {avatar(t, 52)}
               {t.needs_reply && !t.unread && <span className="pm-reply-dot" title="Waiting on your reply" />}
             </div>
             <div className="pm-row-main">
@@ -74,8 +144,17 @@ export function MessagesList() {
           </button>
         );
       })}
+      <AddTextingRow />
     </div>
   );
+}
+
+/** What a text carries, as a small chip: the score, the plans, the ask. */
+export function CardChip({ card }: { card: MsgCard }) {
+  if (card.kind === "game")
+    return <i className={`pm-card-chip ${card.win ? "w" : "l"}`}>{card.win ? "W" : "L"} {card.score} vs {card.opp}</i>;
+  if (card.kind === "plan") return <i className="pm-card-chip plan">📅 Plans · {card.what}{card.when === "later" ? " later" : " today"}</i>;
+  return <i className="pm-card-chip ask">💌 {card.what}</i>;
 }
 
 /** Add your own flirt lines and group chats (ChatGPT writes them, you paste them in). */
@@ -196,11 +275,61 @@ export function Conversation({ tid }: { tid: string }) {
     first.current = false;
   }, [shown.length, notes.length, scrollDown]);
 
-  /** Show the server's new messages: everything at once (no typing dots, no waiting). */
-  const stage = useCallback(async (next: Thread, _before: Msg[], _optimisticId: string | null) => {
+  /** Show the server's new messages: what you sent at once, then their answer after a moment of typing dots. */
+  const [typing, setTyping] = useState(false);
+  const stage = useCallback(async (next: Thread, before: Msg[], _optimisticId: string | null) => {
     setThread(next);
-    setShown(next.msgs);
+    const known = new Set(before.filter((m) => !m.id.startsWith("local-")).map((m) => m.id));
+    const fresh = next.msgs.filter((m) => !known.has(m.id));
+    const theirs = fresh.filter((m) => m.from !== ME && m.kind !== "note");
+    const lastMine = fresh.map((m) => m.from).lastIndexOf(ME);
+    if (!theirs.length || lastMine < 0 || theirs.length > 4) {
+      setShown(next.msgs);
+      return;
+    }
+    let cut = next.msgs.length - fresh.length + lastMine + 1;
+    setShown(next.msgs.slice(0, cut));
+    for (; cut < next.msgs.length; cut++) {
+      setTyping(true);
+      await sleep(Math.min(1300, 450 + next.msgs[cut].text.length * 18));
+      setTyping(false);
+      setShown(next.msgs.slice(0, cut + 1));
+    }
   }, []);
+  const [pinned, setPinned] = useState<boolean | null>(null);
+  useEffect(() => {
+    phoneApi.threads().then((r) => setPinned(r.threads.some((t) => t.id === tid && t.pinned !== null && t.pinned !== undefined))).catch(() => undefined);
+  }, [tid]);
+  const togglePin = async () => {
+    const on = !pinned;
+    setPinned(on);
+    try {
+      await phoneApi.pin(tid, on);
+      toast(on ? "Pinned to the top of Messages" : "Unpinned", "good");
+    } catch (e: any) {
+      toast(e.message, "bad");
+    }
+  };
+  const tap = async (m: Msg, emoji: string | null) => {
+    try {
+      const r = await phoneApi.tap(tid, m.id, emoji);
+      setThread(r.thread);
+      setShown(r.thread.msgs);
+      refresh();
+    } catch (e: any) {
+      toast(e.message, "bad");
+    }
+  };
+  const leaveRead = async (m: Msg) => {
+    try {
+      const r = await phoneApi.leave(tid, m.id);
+      setThread(r.thread);
+      setShown(r.thread.msgs);
+      refresh();
+    } catch (e: any) {
+      toast(e.message, "bad");
+    }
+  };
 
   const optimistic = (label: string): Msg => ({
     id: `local-${Date.now()}`, from: ME, from_name: "You", text: label, at: "", day: state?.day ?? 0, date: state?.date ?? "",
@@ -303,6 +432,11 @@ export function Conversation({ tid }: { tid: string }) {
             {subtitle && <small>{subtitle}{kind === "dm" ? " ›" : ""}</small>}
           </span>
         </button>
+        {pinned !== null && (
+          <button className={`pm-pinbtn${pinned ? " on" : ""}`} onClick={togglePin} aria-label={pinned ? "Unpin" : "Pin"} title={pinned ? "Unpin" : "Pin to the top"}>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden><path d="M14 3l7 7-3 1-4 4 1 5-2 1-4-5-5 5-1-1 5-5-5-4 1-2 5 1 4-4z" fill={pinned ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /></svg>
+          </button>
+        )}
       </header>
 
       <div className="pm-thread" ref={scroller}>
@@ -316,8 +450,9 @@ export function Conversation({ tid }: { tid: string }) {
           </div>
         )}
         <Bubbles
-          msgs={shown} kind={kind} today={state?.day} openTs={openTs} setOpenTs={setOpenTs} people={people} parents={parents} notes={notes}
+          msgs={shown} kind={kind} today={state?.day} openTs={openTs} setOpenTs={setOpenTs} people={people} parents={parents} notes={notes} onTap={tap}
         />
+        {typing && <div className="pm-msgrow them"><div className="pm-msg-col"><div className="pm-typing"><span /><span /><span /></div></div></div>}
       </div>
 
       <footer className="pm-compose">
@@ -326,8 +461,11 @@ export function Conversation({ tid }: { tid: string }) {
             {pendingReply ? (
               <div className="pm-chips">
                 {pendingReply.replies!.map((r, i) => (
-                  <button key={i} className="pm-chip reply" disabled={sending} onClick={() => answer(pendingReply, i)}>{r}</button>
+                  <button key={i} className="pm-chip reply" disabled={sending} onClick={() => answer(pendingReply, i)}>
+                    {pendingReply.tones?.[i] && <span className="pm-tonetag">{pendingReply.tones[i]}</span>}{r}
+                  </button>
                 ))}
+                <button className="pm-leave" disabled={sending} onClick={() => leaveRead(pendingReply)}>Leave on read</button>
               </div>
             ) : thread.chat.suggestions.length ? (
               <div className="pm-chips sugg">
@@ -355,8 +493,11 @@ export function Conversation({ tid }: { tid: string }) {
             <div className="pm-compose-label">Reply</div>
             <div className="pm-chips">
               {pendingReply.replies!.map((r, i) => (
-                <button key={i} className="pm-chip reply" disabled={sending} onClick={() => answer(pendingReply, i)}>{r}</button>
+                <button key={i} className="pm-chip reply" disabled={sending} onClick={() => answer(pendingReply, i)}>
+                  {pendingReply.tones?.[i] && <span className="pm-tonetag">{pendingReply.tones[i]}</span>}{r}
+                </button>
               ))}
+              <button className="pm-leave" disabled={sending} onClick={() => leaveRead(pendingReply)}>Leave on read</button>
             </div>
           </>
         ) : kind === "dm" && thread && thread.text_options.length ? (
@@ -382,9 +523,11 @@ export function Conversation({ tid }: { tid: string }) {
   );
 }
 
-function Bubbles({ msgs, kind, today, openTs, setOpenTs, people, parents, notes }: {
+const TAPBACKS = ["❤️", "😂", "👍", "😮", "❓", "👎"];
+
+function Bubbles({ msgs, kind, today, openTs, setOpenTs, people, parents, notes, onTap }: {
   msgs: Msg[]; kind: string; today?: number; openTs: string | null; setOpenTs: (id: string | null) => void;
-  people: any; parents: { id: string; name: string }[]; notes: Note[];
+  people: any; parents: { id: string; name: string }[]; notes: Note[]; onTap?: (m: Msg, emoji: string | null) => void;
 }) {
   const group = kind !== "dm";
   const lastMine = [...msgs].reverse().find((m) => m.from === ME);
@@ -411,11 +554,20 @@ function Bubbles({ msgs, kind, today, openTs, setOpenTs, people, parents, notes 
         )}
         <div className="pm-msg-col">
           {showName && <div className="pm-msg-name">{m.from_name}</div>}
+          {m.card && <CardChip card={m.card} />}
+          {!mine && openTs === m.id && onTap && !m.id.startsWith("local-") && (
+            <div className="pm-tapbar" role="toolbar" aria-label="React">
+              {TAPBACKS.map((e) => (
+                <button key={e} className={m.tap === e ? "on" : ""} onClick={() => { onTap(m, m.tap === e ? null : e); setOpenTs(null); }}>{e}</button>
+              ))}
+            </div>
+          )}
           <button
-            className={`pm-bubble ${mine ? "me" : "them"}${endRun ? " tail" : ""}${isEmojiOnly(m.text) ? " emoji" : ""}`}
+            className={`pm-bubble ${mine ? "me" : "them"}${endRun ? " tail" : ""}${isEmojiOnly(m.text) ? " emoji" : ""}${m.tap ? " tapped" : ""}`}
             onClick={() => setOpenTs(openTs === m.id ? null : m.id)}
           >
             {m.text}
+            {m.tap && <span className="pm-tap">{m.tap}</span>}
           </button>
           {openTs === m.id && m.at && <div className="pm-msg-ts">{m.at}</div>}
         </div>

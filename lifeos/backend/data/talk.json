@@ -1,0 +1,1190 @@
+{
+  "_about": "Texts about real things (your game, theirs, a quiz, a party, gossip, their news), each a small conversation: their opener, four replies you can send (each with a tone), and what they say back to each. {placeholders} are filled from what actually happened. Lines are 2010-11.",
+  "topics": {
+    "game_you_win": {
+      "open": [
+        "{line} vs {opp}?? {you_name} that was legit",
+        "ok {line}. you went off tonight",
+        "saw the score. {score} over {opp}!! and you {line}",
+        "beast mode tonight. {line}",
+        "you were the best player on the field tonight and it wasn't close"
+      ],
+      "replies": [
+        {
+          "tone": "hype",
+          "fx": "warm",
+          "text": [
+            "LETS GOOO",
+            "felt so good",
+            "we needed that one"
+          ],
+          "back": [
+            "{opp} had no answer lol",
+            "do it again next week",
+            "ur a problem for the whole league"
+          ]
+        },
+        {
+          "tone": "humble",
+          "fx": "warm",
+          "text": [
+            "team win honestly",
+            "the guys made it easy",
+            "just doing my job lol"
+          ],
+          "back": [
+            "humble king",
+            "ok mr. modest",
+            "ya ya the team. YOU tho"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "i'm basically famous now",
+            "taking autographs at lunch tmrw",
+            "my mom already printed the box score"
+          ],
+          "back": [
+            "relax 😂",
+            "i'm framing it",
+            "sign my yearbook while ur still humble"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "thx",
+            "it was fine",
+            "ya"
+          ],
+          "back": [
+            "...ok then lol",
+            "wow contain your excitement",
+            null
+          ]
+        }
+      ],
+      "open_ok": [
+        "W vs {opp}!! {score}",
+        "we'll take it. {score} over {opp}",
+        "W is a W. {score}",
+        "{opp} down. {score}. not ur best game but who cares lol",
+        "saw the score. {score}. nice"
+      ],
+      "open_play": [
+        "{play}?? i literally yelled",
+        "ok {play}. {you_name} come on",
+        "you won it. {play}. i can't",
+        "everybody's talking about {play}"
+      ]
+    },
+    "game_you_loss": {
+      "open": [
+        "tough one vs {opp}. you still {line} tho",
+        "that loss was not on you. {line}",
+        "you ok? {opp} got lucky",
+        "you played hard tonight. {score} doesn't tell it right",
+        "{opp} is so annoying. next time"
+      ],
+      "replies": [
+        {
+          "tone": "real",
+          "fx": "vent",
+          "text": [
+            "honestly it sucks",
+            "i'm so mad about it",
+            "i should've done more"
+          ],
+          "back": [
+            "it's one game. you'll be fine",
+            "nah you did your part",
+            "want to get food and not talk about it"
+          ]
+        },
+        {
+          "tone": "move on",
+          "fx": "warm",
+          "text": [
+            "on to the next one",
+            "we'll get them next time",
+            "already over it"
+          ],
+          "back": [
+            "that's the attitude",
+            "next one's yours",
+            "respect"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "i'm quitting and becoming a mathlete",
+            "the ref owes me money",
+            "pretending it didn't happen"
+          ],
+          "back": [
+            "lmao the ref was blind",
+            "mathlete era 😂",
+            "what game? never heard of it"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "whatever",
+            "k",
+            "don't want to talk about it"
+          ],
+          "back": [
+            "ok. here if u do",
+            null,
+            "fair"
+          ]
+        }
+      ]
+    },
+    "game_theirs_win": {
+      "open": [
+        "WE BEAT {opp} {score}",
+        "{their_line} tonight. not bragging. ok bragging",
+        "guess who {their_line} vs {opp}",
+        "we won!! {score}. i'm so hyped"
+      ],
+      "replies": [
+        {
+          "tone": "hype",
+          "fx": "warm",
+          "text": [
+            "LETS GO",
+            "ur a beast",
+            "that's huge!!"
+          ],
+          "back": [
+            "thank u!!",
+            "felt amazing",
+            "ok i'm never shutting up about it"
+          ]
+        },
+        {
+          "tone": "curious",
+          "fx": "warm",
+          "text": [
+            "wait tell me everything",
+            "how'd you play?",
+            "was it close?"
+          ],
+          "back": [
+            "{their_line} and we held them at the end",
+            "close the whole way. so stressful",
+            "i'll tell u tmrw it was crazy"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "who are you and what did you do with my friend",
+            "did the other team show up",
+            "so ur famous now"
+          ],
+          "back": [
+            "rude 😂",
+            "they showed up and LOST",
+            "autographs are $5"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "nice",
+            "cool",
+            "gj"
+          ],
+          "back": [
+            "...thanks i guess",
+            null,
+            "wow thrilling"
+          ]
+        }
+      ]
+    },
+    "game_theirs_loss": {
+      "open": [
+        "we lost to {opp}. {score}. i'm so mad",
+        "worst game of my life lol",
+        "{opp}. ugh. don't even ask"
+      ],
+      "replies": [
+        {
+          "tone": "sweet",
+          "fx": "warm",
+          "text": [
+            "you'll get them next time",
+            "one game. you're still good",
+            "proud of you anyway"
+          ],
+          "back": [
+            "thanks. needed that",
+            "ok that helped",
+            "ur nice"
+          ]
+        },
+        {
+          "tone": "curious",
+          "fx": "warm",
+          "text": [
+            "what happened?",
+            "was it close?",
+            "how'd you play?"
+          ],
+          "back": [
+            "we just couldn't score",
+            "close until the end. ugh",
+            "fine i guess. we still lost"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "want me to fight them",
+            "the ref?? i'll handle it",
+            "ice cream fixes everything"
+          ],
+          "back": [
+            "lol yes",
+            "please do",
+            "ok ice cream. now"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "oh",
+            "rip",
+            "that sucks"
+          ],
+          "back": [
+            null,
+            "yeah",
+            "thanks for the support lol"
+          ]
+        }
+      ]
+    },
+    "quiz": {
+      "open": [
+        "{subject} quiz {when}. i know nothing",
+        "did u study for {subject} yet",
+        "pls tell me ur also not ready for {subject} {when}",
+        "if i fail {subject} {when} i'm moving to canada"
+      ],
+      "replies": [
+        {
+          "tone": "helpful",
+          "fx": "warm",
+          "text": [
+            "want to study together?",
+            "i'll send you my notes",
+            "we can quiz each other"
+          ],
+          "back": [
+            "omg yes. library after school?",
+            "ur a lifesaver",
+            "deal. you ask first"
+          ]
+        },
+        {
+          "tone": "same",
+          "fx": "warm",
+          "text": [
+            "same. we're done",
+            "i haven't even opened the book",
+            "we're both cooked"
+          ],
+          "back": [
+            "at least we fail together",
+            "solidarity",
+            "group fail. love that"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "just write 'c' for everything",
+            "pray",
+            "i'll faint and get out of it"
+          ],
+          "back": [
+            "foolproof plan",
+            "praying rn",
+            "the fake faint lol"
+          ]
+        },
+        {
+          "tone": "cocky",
+          "fx": "dry",
+          "text": [
+            "i'm good actually",
+            "easy",
+            "already studied"
+          ],
+          "back": [
+            "show off",
+            "ok nerd",
+            "i hate you (affectionately)"
+          ]
+        }
+      ]
+    },
+    "party": {
+      "open": [
+        "last night at {host}'s tho",
+        "ok {what} at {host}'s. i can't",
+        "still recovering from {host}'s party lol",
+        "did you see {what}??"
+      ],
+      "replies": [
+        {
+          "tone": "spill",
+          "fx": "warm",
+          "text": [
+            "WAIT tell me everything",
+            "i missed that??",
+            "what happened after i left"
+          ],
+          "back": [
+            "ok so {what}. everyone saw",
+            "i'll tell u in person. it was a lot",
+            "honestly the best part of the night"
+          ]
+        },
+        {
+          "tone": "same",
+          "fx": "funny",
+          "text": [
+            "best night in a while",
+            "we need to do that again",
+            "that was so fun"
+          ],
+          "back": [
+            "fr. next weekend?",
+            "same time next week lol",
+            "top 5 night"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "i don't remember any of it",
+            "i saw nothing. i know nothing",
+            "i'm never leaving my house again"
+          ],
+          "back": [
+            "lmao sure",
+            "witness protection",
+            "ur coming to the next one"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "it was ok",
+            "kinda lame",
+            "eh"
+          ],
+          "back": [
+            "...wow ok",
+            null,
+            "u were there for like 5 min lol"
+          ]
+        }
+      ]
+    },
+    "gossip": {
+      "open": [
+        "WAIT did you hear {a} and {b} {gossip}",
+        "ok so {a} and {b}. {gossip}. i'm screaming",
+        "you're gonna die. {a} and {b} {gossip}",
+        "is it true {a} and {b} {gossip}??"
+      ],
+      "replies": [
+        {
+          "tone": "spill",
+          "fx": "warm",
+          "text": [
+            "WHAT. tell me everything",
+            "no way. how",
+            "since when??"
+          ],
+          "back": [
+            "apparently it happened at lunch",
+            "idk everyone's talking about it",
+            "ok i'll tell u tmrw it's a whole thing"
+          ]
+        },
+        {
+          "tone": "skeptic",
+          "fx": "warm",
+          "text": [
+            "who told you that",
+            "i don't believe it",
+            "sounds fake"
+          ],
+          "back": [
+            "literally everyone",
+            "ok maybe it's fake but still",
+            "i'm telling u it's real"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "called it",
+            "this school is a soap opera",
+            "grabbing popcorn"
+          ],
+          "back": [
+            "no you did NOT call it",
+            "so much drama",
+            "save me a seat"
+          ]
+        },
+        {
+          "tone": "above it",
+          "fx": "dry",
+          "text": [
+            "don't care honestly",
+            "not my business",
+            "let them live lol"
+          ],
+          "back": [
+            "ok mr. mature",
+            "fine i'll tell someone else",
+            "boring but fair"
+          ]
+        }
+      ]
+    },
+    "their_made": {
+      "open": [
+        "I MADE {team}!!!",
+        "guess who made {team}",
+        "ok so i made {team} and i'm freaking out"
+      ],
+      "replies": [
+        {
+          "tone": "hype",
+          "fx": "warm",
+          "text": [
+            "LETS GOOO",
+            "knew you would!!",
+            "that's huge"
+          ],
+          "back": [
+            "i'm literally shaking",
+            "thank uuu",
+            "ok now i have to actually be good"
+          ]
+        },
+        {
+          "tone": "sweet",
+          "fx": "warm",
+          "text": [
+            "so proud of you",
+            "you earned that",
+            "told you!!"
+          ],
+          "back": [
+            "ur the best",
+            "stop i'm gonna cry",
+            "u did tell me"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "did you bribe the coach",
+            "can i have your autograph",
+            "the team just got worse lol jk"
+          ],
+          "back": [
+            "rude 😂",
+            "$5",
+            "i'm telling coach u said that"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "nice",
+            "cool",
+            "gj"
+          ],
+          "back": [
+            "...thanks",
+            null,
+            "ok"
+          ]
+        }
+      ]
+    },
+    "their_cut": {
+      "open": [
+        "didn't make {team}. it's fine. i'm fine",
+        "got cut from {team}. awesome day",
+        "so i got cut"
+      ],
+      "replies": [
+        {
+          "tone": "sweet",
+          "fx": "warm",
+          "text": [
+            "i'm sorry. that's their loss",
+            "you'll get it next year",
+            "want to hang out?"
+          ],
+          "back": [
+            "thanks. i needed that",
+            "maybe. yeah",
+            "yes pls"
+          ]
+        },
+        {
+          "tone": "real",
+          "fx": "vent",
+          "text": [
+            "that's so messed up",
+            "the coach is wrong",
+            "you were robbed"
+          ],
+          "back": [
+            "right??",
+            "i'm so mad",
+            "thank u for saying it"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "more time for video games",
+            "their team is gonna be bad anyway",
+            "want me to egg the coach's car"
+          ],
+          "back": [
+            "lol true",
+            "...tempting",
+            "don't tempt me"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "oh",
+            "rip",
+            "that sucks"
+          ],
+          "back": [
+            null,
+            "yeah",
+            "thanks i guess"
+          ]
+        }
+      ]
+    },
+    "their_hurt": {
+      "open": [
+        "so i {injury}. out like {weeks} weeks",
+        "bad news. {injury}. {weeks} weeks",
+        "i {injury} at practice. kill me"
+      ],
+      "replies": [
+        {
+          "tone": "sweet",
+          "fx": "warm",
+          "text": [
+            "oh no. are you ok?",
+            "i'm so sorry",
+            "do you need anything?"
+          ],
+          "back": [
+            "i'll live. thanks",
+            "it hurts but i'm ok",
+            "just bring snacks lol"
+          ]
+        },
+        {
+          "tone": "real",
+          "fx": "vent",
+          "text": [
+            "that's the worst timing",
+            "you'll be back stronger",
+            "at least it's not the whole season"
+          ],
+          "back": [
+            "literally the worst",
+            "hope so",
+            "true. small wins"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "can i sign your cast",
+            "excuse to skip gym",
+            "you're dramatic even when injured"
+          ],
+          "back": [
+            "only if u draw something nice",
+            "silver lining",
+            "rude but accurate"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "rip",
+            "oof",
+            "dang"
+          ],
+          "back": [
+            null,
+            "ya",
+            "thanks for the sympathy lol"
+          ]
+        }
+      ]
+    },
+    "their_grounded": {
+      "open": [
+        "grounded for {days} days. send help",
+        "my parents grounded me lol. {days} days",
+        "officially grounded. it's over for me"
+      ],
+      "replies": [
+        {
+          "tone": "sweet",
+          "fx": "warm",
+          "text": [
+            "what happened?",
+            "that's rough",
+            "i'll text you so you don't die of boredom"
+          ],
+          "back": [
+            "long story. i'll tell u",
+            "it really is",
+            "pls do"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "what did you DO",
+            "free them",
+            "i'll organize a rescue mission"
+          ],
+          "back": [
+            "nothing!! (something)",
+            "FREE ME",
+            "bring a ladder"
+          ]
+        },
+        {
+          "tone": "real",
+          "fx": "vent",
+          "text": [
+            "your parents are so strict",
+            "that's so unfair",
+            "{days} days is insane"
+          ],
+          "back": [
+            "RIGHT",
+            "thank u",
+            "literally insane"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "lol",
+            "rip",
+            "f"
+          ],
+          "back": [
+            null,
+            "thanks",
+            "wow"
+          ]
+        }
+      ]
+    },
+    "their_dating": {
+      "open": [
+        "so me and {who} are kind of a thing now",
+        "ok don't freak out. me and {who}",
+        "guess who's dating {who}"
+      ],
+      "replies": [
+        {
+          "tone": "hype",
+          "fx": "warm",
+          "text": [
+            "WHAT. finally",
+            "about time!!",
+            "i knew it"
+          ],
+          "back": [
+            "stop it 😊",
+            "ok you did call it",
+            "i'm so happy"
+          ]
+        },
+        {
+          "tone": "curious",
+          "fx": "warm",
+          "text": [
+            "how did that happen??",
+            "who asked who",
+            "since when"
+          ],
+          "back": [
+            "they asked me!!",
+            "long story. i'll tell u tmrw",
+            "like a week ago"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "do they know what they signed up for",
+            "i give it a week",
+            "i'll need to approve"
+          ],
+          "back": [
+            "rude 😂",
+            "a WEEK??",
+            "u can meet them"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "cool",
+            "nice",
+            "ok"
+          ],
+          "back": [
+            "...that's it?",
+            null,
+            "wow be happy for me"
+          ]
+        }
+      ]
+    },
+    "their_lead": {
+      "open": [
+        "I GOT THE LEAD IN {show}",
+        "guess who's the lead in {show}",
+        "ok i'm the lead in {show} and i'm terrified"
+      ],
+      "replies": [
+        {
+          "tone": "hype",
+          "fx": "warm",
+          "text": [
+            "that's amazing!!",
+            "you're gonna kill it",
+            "i'm coming opening night"
+          ],
+          "back": [
+            "omg thank u",
+            "pls come",
+            "front row or nothing"
+          ]
+        },
+        {
+          "tone": "sweet",
+          "fx": "warm",
+          "text": [
+            "so proud of you",
+            "you deserve it",
+            "told you you'd get it"
+          ],
+          "back": [
+            "ur the best",
+            "stop 🥹",
+            "u did tell me"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "can i be your agent",
+            "don't forget us little people",
+            "autograph?"
+          ],
+          "back": [
+            "15% max",
+            "never",
+            "$5"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "nice",
+            "cool",
+            "oh nice"
+          ],
+          "back": [
+            "...thanks",
+            null,
+            "ok"
+          ]
+        }
+      ]
+    },
+    "joke": {
+      "open": [
+        "still thinking about {joke} 😂",
+        "{joke}. that's it. that's the text",
+        "i can't stop laughing about {joke}"
+      ],
+      "replies": [
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "NEVER letting that go",
+            "i'm crying again",
+            "legendary"
+          ],
+          "back": [
+            "never",
+            "hall of fame",
+            "it gets funnier every time"
+          ]
+        },
+        {
+          "tone": "sweet",
+          "fx": "warm",
+          "text": [
+            "you guys are the best",
+            "best day",
+            "we need more days like that"
+          ],
+          "back": [
+            "fr",
+            "agreed",
+            "this weekend?"
+          ]
+        },
+        {
+          "tone": "one-up",
+          "fx": "funny",
+          "text": [
+            "remember when you almost cried tho",
+            "ok but you started it",
+            "you're the reason that happened"
+          ],
+          "back": [
+            "we don't talk about that",
+            "lies",
+            "...fair"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "lol",
+            "ya",
+            "haha"
+          ],
+          "back": [
+            null,
+            "...ok",
+            "tough crowd"
+          ]
+        }
+      ]
+    },
+    "award": {
+      "open": [
+        "{award}?? {you_name}!!",
+        "saw the announcement. {award}. let's goooo",
+        "{award}. so deserved"
+      ],
+      "replies": [
+        {
+          "tone": "thanks",
+          "fx": "thanks",
+          "text": [
+            "thank you!! 🙏",
+            "means a lot",
+            "appreciate it"
+          ],
+          "back": [
+            "ofc",
+            "proud of u",
+            "u earned it"
+          ]
+        },
+        {
+          "tone": "humble",
+          "fx": "warm",
+          "text": [
+            "lucky week lol",
+            "team made it easy",
+            "didn't even know until today"
+          ],
+          "back": [
+            "lucky my butt",
+            "humble king",
+            "everyone knew but u lol"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "i'll be accepting gifts",
+            "put it on my tombstone",
+            "yes i am that guy now"
+          ],
+          "back": [
+            "no gifts 😂",
+            "dramatic",
+            "unfortunately u are"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "thx",
+            "lol ok",
+            "ya"
+          ],
+          "back": [
+            null,
+            "...ok",
+            "wow"
+          ]
+        }
+      ]
+    },
+    "award_again": {
+      "open": [
+        "{award} AGAIN?? this is getting old 😂",
+        "how many is that now. {n}?",
+        "ok they should just name it after you"
+      ],
+      "replies": [
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "it's a curse honestly",
+            "i'm running out of shelf space",
+            "should i retire"
+          ],
+          "back": [
+            "poor you 😂",
+            "tragic",
+            "absolutely not"
+          ]
+        },
+        {
+          "tone": "humble",
+          "fx": "warm",
+          "text": [
+            "lucky again lol",
+            "the team carries me",
+            "honestly surprised"
+          ],
+          "back": [
+            "sure",
+            "lies",
+            "no ur just good"
+          ]
+        },
+        {
+          "tone": "thanks",
+          "fx": "thanks",
+          "text": [
+            "haha thanks",
+            "appreciate you",
+            "still feels good"
+          ],
+          "back": [
+            "ofc",
+            "proud of u",
+            "keep it going"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "ya",
+            "lol",
+            "k"
+          ],
+          "back": [
+            null,
+            "...ok",
+            "humble"
+          ]
+        }
+      ]
+    },
+    "awkward_after_no": {
+      "open": [
+        "hey. are we good?",
+        "so that was awkward lol. still friends?",
+        "hey. i don't want things to be weird"
+      ],
+      "replies": [
+        {
+          "tone": "kind",
+          "fx": "warm",
+          "text": [
+            "of course we're good",
+            "nothing's weird. promise",
+            "still friends. always"
+          ],
+          "back": [
+            "ok good. thank u",
+            "phew",
+            "ok 😊"
+          ]
+        },
+        {
+          "tone": "honest",
+          "fx": "warm",
+          "text": [
+            "it's a little weird but we're fine",
+            "give it a few days lol",
+            "we're good. just need a sec"
+          ],
+          "back": [
+            "that's fair",
+            "ok. thanks for being honest",
+            "makes sense"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "what awkward? i forgot already",
+            "we never speak of it again",
+            "you're stuck with me"
+          ],
+          "back": [
+            "lol deal",
+            "never",
+            "thank god"
+          ]
+        },
+        {
+          "tone": "distant",
+          "fx": "cold",
+          "text": [
+            "yeah",
+            "sure",
+            "it's fine"
+          ],
+          "back": [
+            "ok",
+            null,
+            "...ok"
+          ]
+        }
+      ]
+    }
+  },
+  "style": {
+    "laughs": [
+      "lol",
+      "lol",
+      "lmao",
+      "haha",
+      "hahaha",
+      "😂",
+      "hah"
+    ],
+    "fillers_m": [
+      "dude",
+      "bro",
+      "legit",
+      "srsly",
+      "yo",
+      "man"
+    ],
+    "fillers_f": [
+      "omg",
+      "literally",
+      "srsly",
+      "legit",
+      "ok so"
+    ],
+    "fillers_any": [
+      "honestly",
+      "ngl",
+      "lowkey",
+      "tbh"
+    ],
+    "emoji": [
+      "😂",
+      "😭",
+      "🙌",
+      "😊",
+      "😎",
+      "🔥",
+      "😅",
+      "🙄",
+      "😤",
+      "💀",
+      "👀",
+      "🤦"
+    ],
+    "names_m": [
+      "{first}",
+      "{first_low}",
+      "bro",
+      "dude",
+      "{last_low}",
+      "{initial}"
+    ],
+    "names_f": [
+      "{first}",
+      "{first_low}",
+      "{initial}"
+    ]
+  }
+}

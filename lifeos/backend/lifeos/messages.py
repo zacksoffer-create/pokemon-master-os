@@ -174,6 +174,12 @@ def voice(sim, sid, text, salt, kind="text") -> str:
         return text
     if c.role == "staff":
         return text[0].upper() + text[1:] if text else text
+    if c.role in ("student", "alumni"):
+        if kind == "scene":
+            return text  # (a storyline's line is said exactly as written)
+        from . import talk
+        return talk.styled(sim, sid, text, salt, plain=kind in ("invite", "invite_date", "invite_later", "asked_out", "asked_to_dance")
+                           or str(kind).startswith("chat_"))  # (a conversation's own lines keep their wording)  # (their own texting style: how they laugh, emoji, capitals, filler words)
     t = c.traits
     r = _h(salt, "voice") % 1000 / 1000
     out = text
@@ -338,12 +344,25 @@ def on_event(sim, ev):
                      title=g["name"], members=[m for m in g["members"] if m != p], tkind="group", phase="night")
             if _h(salt, "par") % 3 != 0:
                 family_text(sim, f"parent_{out}")
+            from . import talk  # a friend who isn't on the team texts you about it (the score, your line, the play)
+            fans = [o for o in [me.flags.get("partner"), best_friend(sim)] + list(sim.siblings(p)) if o and o in w.chars
+                    and o not in g["members"] and w.chars[o].status == "active" and w.chars[o].role in ("student", "alumni")]
+            if fans and _h(salt, "fan") % 100 < 60:
+                talk.start(sim, fans[0], delay_phases=1, only=("game_you_win", "game_you_loss"))
     elif et == "award" and p in actors:
+        from . import talk
         label = (ev.get("data") or {}).get("label", "the award")
-        family_text(sim, "parent_award", event=label)
+        n = talk.note_award(w, label)
+        if n == 1 or n % 5 == 0:  # (Mom texts about the first one, and every fifth: not fifteen Player of the Weeks)
+            family_text(sim, "parent_award", event=label)
         f = best_friend(sim)
-        if f:
-            later(sim, f, "congrats_award", delay_phases=1, event=label, replies="thanks")
+        kind = talk.award_congrats(sim, f, label) if f else None
+        if kind:
+            b = talk.build(sim, f, kind, {"award": label, "n": n}, salt)
+            later(sim, f, "talk", delay_phases=1, text=b["text"], opts=b["opts"], ctx={"talk": kind})
+    elif et == "ask_out" and out == "no" and p in targets and actors and actors[0] in w.chars:
+        from . import talk
+        talk.turned_down(w, actors[0])
     elif et == "recruiting" and out == "offer" and p in actors:
         family_text(sim, "parent_offer", college=(ev.get("data") or {}).get("label", "a college"))
     elif et == "draft" and out == "drafted" and p in actors:
@@ -397,6 +416,16 @@ def tick(sim):
         rk = kw.pop("replies", None)
         salt = f"{w.day}:{x['key']}:{cid}:{ph['next']}"
         ctx = kw.pop("ctx", None)
+        if x["key"] == "talk":  # a text about something real, with its own four replies (talk.py)
+            from . import talk
+            text = kw.pop("text", "")
+            parts = talk.split(sim, cid, text, salt)
+            ctx = dict(ctx or {})
+            card = ctx.pop("card", None) if len(parts) > 1 else None
+            for i, extra in enumerate(parts[:-1]):
+                post(sim, f"dm:{cid}", cid, extra, kind="talk", ctx={"card": card} if card and i == 0 else None)
+            post(sim, f"dm:{cid}", cid, parts[-1], kind="talk", ctx=ctx, replies=kw.pop("opts", None))
+            continue
         if x["key"] == "scene" or x["key"].startswith("chat_"):  # a line written for this moment (a pack scene, a follow-up)
             text = kw.pop("text", "")
         else:
@@ -415,7 +444,7 @@ def daily(sim):
     rng_base = _h(w.day, "chatter")
     partner = me.flags.get("partner")
     sent = 0
-    from . import chat, groupchat
+    from . import chat, groupchat, talk
     chat.follow_ups(sim)  # "how'd the test go??"
     groupchat.plan_day(sim)  # maybe a group chat starts up tonight
     pr = w.rels.get((me.id, partner)) if partner in w.chars else None
@@ -435,21 +464,29 @@ def daily(sim):
         back = w.rels.get((o, me.id))
         p = 0.05 + (back.affection if back else 0) / 900 + w.chars[o].traits["sociability"] / 1500
         if (_h(w.day, o, "c") % 1000) / 1000 < p:
-            crush = back is not None and back.attraction >= 45 and not me.flags.get("partner") and not w.chars[o].flags.get("partner")
+            crush = back is not None and back.attraction >= 45 and not me.flags.get("partner") and not w.chars[o].flags.get("partner") \
+                and not talk.quiet_flirting(w, o)
             cats = ["chatter_plans", "chatter_plans", "chatter_school", "chatter_vent", "chatter_funny", "chatter_game"]
             cat = cats[_h(w.day, o, "cat") % len(cats)]
+            if talk.start(sim, o, delay_phases=2 + _h(o, w.day) % 5):  # something real to text about
+                sent += 1
+                continue
             if crush and _h(w.day, o) % 3 == 0:
                 # they flirt first: you can flirt back (it's the start of a back-and-forth), play it cool or let them down easy
                 later(sim, o, "chat_flirt_in", delay_phases=2 + _h(o, w.day) % 5, text=chat.flirt_in_line(sim, o), ctx={"fast": True})
-            else:
+            elif talk.small_talk_ok(w, o):
                 later(sim, o, cat, delay_phases=2 + _h(o, w.day) % 5, replies=cat)
+                talk.note_small_talk(w, o)
+            else:
+                continue
             sent += 1
     if sent < 2 and not partner:
         # someone into you who isn't one of your closest friends yet can still shoot their shot
         ph = phone(w)
         keen = sorted(o for o in ph["contacts"] if o in w.chars and w.chars[o].status == "active" and not w.chars[o].flags.get("partner")
                       and (r := w.rels.get((o, me.id))) and r.attraction >= 50 and r.familiarity >= 25
-                      and o not in [x for _, x in friends] and ph.get("texted", {}).get(o, -9) < w.day - 1)
+                      and o not in [x for _, x in friends] and ph.get("texted", {}).get(o, -9) < w.day - 1
+                      and not talk.quiet_flirting(w, o))
         if keen and _h(w.day, "keen") % 100 < 14:
             o = keen[_h(w.day, "keen-who") % len(keen)]
             later(sim, o, "chat_flirt_in", delay_phases=3 + _h(o, w.day) % 4, text=chat.flirt_in_line(sim, o), ctx={"fast": True})
@@ -638,6 +675,10 @@ def reply(sim, tid, mid, index) -> dict:
     sender = msg["from"]
     mine = post(sim, tid, "me", opt["label"], kind="reply", unread=False)
     answer = None
+    answer_text = opt.get("back") if (msg.get("ctx") or {}).get("talk") else None  # (what they say to what you said)
+    if msg.get("kind") == "asked_out" and index == 1 and sender in w.chars:
+        from . import talk
+        talk.turned_down(w, sender)
     ev = sim.new_event("text", fx_key.split(":")[0], [me.id], [sender] if sender in w.chars else [], 6,
                        {"label": opt["label"], "thread": tid})
     ev["text"] = f"You texted {sender_name(sim, sender)}: \"{opt['label']}\""
@@ -710,7 +751,9 @@ def reply(sim, tid, mid, index) -> dict:
             fx.rel(sender, me.id, "affection", 0.5, "sibling banter")
             answer = "react_funny"
     sim.finish(ev, fx)
-    if answer:
+    if answer_text and sender in w.chars:
+        post(sim, tid, sender, answer_text, kind="react", unread=False)
+    elif answer and not (msg.get("ctx") or {}).get("talk"):
         post(sim, tid, sender, pick(answer, f"{mid}:ans", sim=sim, frm=sender), kind="react", unread=False)
     if tid.startswith("dm:") and sender in w.chars:
         from . import chat
@@ -832,10 +875,13 @@ def thread_view(sim, tid, mark_read=False) -> dict:
         t["unread"] = 0
     msgs = []
     for m in t["msgs"][-60:]:
+        open_ = _reply_open(sim, m)
         msgs.append({"id": m["id"], "from": m["from"], "from_name": sender_name(sim, m["from"]), "text": m["text"], "at": m["at"],
                      "day": m["day"], "date": calm.label(m["day"]), "kind": m["kind"], "read": m.get("read", False),
-                     "replies": [r["label"] for r in m["replies"]] if _reply_open(sim, m) else None,
-                     "chosen": m.get("chosen"), "fast": bool((m.get("ctx") or {}).get("fast"))})
+                     "replies": [r["label"] for r in m["replies"]] if open_ else None,
+                     "tones": [r.get("tone") for r in m["replies"]] if open_ else None,
+                     "chosen": m.get("chosen"), "fast": bool((m.get("ctx") or {}).get("fast")), "tap": m.get("tap"),
+                     "card": _card(sim, m)})
     out = {"id": tid, "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"], "msgs": msgs, "fresh": fresh,
            "can_text": t["kind"] == "dm" and bool(text_options(sim, t["members"][0])) if t["members"] else False,
            "text_options": text_options(sim, t["members"][0]) if t["kind"] == "dm" and t["members"] else []}
@@ -843,6 +889,107 @@ def thread_view(sim, tid, mark_read=False) -> dict:
         from . import chat
         out["chat"] = chat.view(sim, t["members"][0])
     return out
+
+
+def _card(sim, m) -> dict | None:
+    """What a text carries: the score of the game it's about, the plans it's asking you to."""
+    ctx = m.get("ctx") or {}
+    if ctx.get("card"):
+        return ctx["card"]
+    if ctx.get("invite"):
+        inv = next((i for i in sim.w.meta.get("inbox", []) if i["id"] == ctx["invite"]), None)
+        if inv:
+            return {"kind": "plan", "what": "a date" if inv.get("action") == "date" else "hang out",
+                    "when": "later" if inv.get("later") else "today", "status": inv.get("status")}
+    if ctx.get("moment") and m.get("kind") in ("asked_out", "asked_to_dance"):
+        return {"kind": "ask", "what": "asked you out" if m["kind"] == "asked_out" else "asked you to the dance"}
+    return None
+
+
+TAPBACKS = ("❤️", "😂", "👍", "😮", "❓", "👎")
+
+
+def tapback(sim, tid, mid, emoji) -> dict:
+    """React to a text (❤️ 😂 👍 😮 ❓ 👎). On a text that's asking you something, a ❤️ or 😂 counts as an answer: a small,
+    warm one (a 👎 a small cold one)."""
+    w = sim.w
+    t = phone(w)["threads"].get(tid)
+    if not t:
+        raise ValueError("no such conversation")
+    m = next((x for x in t["msgs"] if x["id"] == mid), None)
+    if m is None or m["from"] == "me":
+        raise ValueError("you can only react to their texts")
+    if emoji and emoji not in TAPBACKS:
+        raise ValueError("not a reaction")
+    was = m.get("tap")
+    m["tap"] = emoji or None
+    sender = m["from"]
+    me = prot(w)
+    if emoji and not was and sender in w.chars and me is not None:
+        ev = sim.new_event("text", "tapback", [me.id], [sender], 3, {"label": emoji, "thread": tid})
+        ev["text"] = f"You reacted {emoji} to {sender_name(sim, sender)}'s text"
+        fx = Effects(w, ev)
+        warm = emoji in ("❤️", "😂", "😮")
+        fx.rel(sender, me.id, "affection", 0.8 if warm else -0.8 if emoji == "👎" else 0.2, "reacted to their text")
+        fx.rel(me.id, sender, "familiarity", 0.3, "texting")
+        if m.get("replies") and m.get("chosen") is None and not any(r["fx"].split(":")[0] in ("invite", "moment", "group") for r in m["replies"]):
+            m["chosen"] = -3  # (a reaction was your answer)
+        sim.finish(ev, fx)
+    t["unread"] = 0
+    return {"thread": thread_view(sim, tid)}
+
+
+def leave_on_read(sim, tid, mid) -> dict:
+    """Don't answer (it's off your plate). A close friend notices a little."""
+    w = sim.w
+    t = phone(w)["threads"].get(tid)
+    if not t:
+        raise ValueError("no such conversation")
+    m = next((x for x in t["msgs"] if x["id"] == mid), None)
+    if m is None or not m.get("replies") or m.get("chosen") is not None:
+        raise ValueError("that text isn't waiting on you")
+    if any(r["fx"].startswith("invite:") for r in m["replies"]):
+        iid = next(r["fx"].split(":")[1] for r in m["replies"] if r["fx"].startswith("invite:"))
+        inv = next((i for i in w.meta.get("inbox", []) if i["id"] == iid), None)
+        if inv and inv["status"] == "pending":
+            inv["status"] = "declined"
+    m["chosen"] = -4
+    sender = m["from"]
+    me = prot(w)
+    if sender in w.chars and me is not None:
+        r = w.rels.get((sender, me.id))
+        if r and r.affection >= 50:
+            fx = Effects(w, None)
+            fx.rel(sender, me.id, "perceived", -1.0, "left on read")
+    t["unread"] = 0
+    return {"thread": thread_view(sim, tid)}
+
+
+def pin(sim, tid, on: bool) -> list:
+    ph = phone(sim.w)
+    pins = [p for p in ph.get("pins") or [] if p != tid]
+    if on:
+        pins.insert(0, tid)
+    ph["pins"] = pins[:8]
+    ph["unpinned"] = sorted(set(ph.get("unpinned") or []) - {tid}) if on else sorted(set(ph.get("unpinned") or []) | {tid})
+    return threads_view(sim)
+
+
+def _auto_pins(sim) -> list:
+    """Who's pinned without you pinning them: whoever you're dating, your family, your crew, your closest friends."""
+    w = sim.w
+    me = prot(w)
+    if me is None:
+        return []
+    ph = phone(w)
+    out = []
+    if me.flags.get("partner") in w.chars:
+        out.append(f"dm:{me.flags['partner']}")
+    out += ["family", "squad"]
+    friends = sorted(((r.affection, o) for o, r in w.out.get(me.id, {}).items() if o in w.chars and w.chars[o].status == "active"
+                      and w.chars[o].role in ("student", "alumni") and o not in sim.siblings(me.id) and r.affection >= 60), reverse=True)[:2]
+    out += [f"dm:{o}" for _, o in friends]
+    return [t for t in out if t in ph["threads"] and t not in (ph.get("unpinned") or [])]
 
 
 def thread_title(sim, t) -> str:
@@ -860,9 +1007,17 @@ def threads_view(sim) -> list:
         if not said:
             continue
         last = said[-1]
+        wait = next((m for m in t["msgs"][::-1][:6] if _reply_open(sim, m)), None)
+        if wait is not None and any(m["from"] == "me" for m in t["msgs"][t["msgs"].index(wait) + 1:]):
+            wait = None  # (you already said something after it)
         out.append({"id": t["id"], "kind": t["kind"], "title": thread_title(sim, t), "members": t["members"][:6],
                     "unread": t["unread"], "last": last["text"], "last_from": sender_name(sim, last["from"]), "at": last["at"],
                     "date": calm.label(last["day"]), "order": t["last"],
-                    "needs_reply": any(_reply_open(sim, m) for m in t["msgs"][-6:])})
+                    "needs_reply": wait is not None,
+                    "waiting": {"id": wait["id"], "text": wait["text"], "replies": [r["label"] for r in wait["replies"]],
+                                "tones": [r.get("tone") for r in wait["replies"]], "card": _card(sim, wait), "day": wait["day"]} if wait else None})
+    pins = [p for p in (phone(w).get("pins") or [])] + [p for p in _auto_pins(sim) if p not in (phone(w).get("pins") or [])]
+    for x in out:
+        x["pinned"] = pins.index(x["id"]) if x["id"] in pins else None
     out.sort(key=lambda x: -x["order"])
     return out
