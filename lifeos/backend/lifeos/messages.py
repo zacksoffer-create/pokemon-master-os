@@ -377,7 +377,9 @@ def on_event(sim, ev):
     elif et == "rumor_reached" and p in actors:
         f = best_friend(sim)
         if f:
-            later(sim, f, "rumor", delay_phases=1, replies="rumor")
+            from . import talk  # the friend tells you what the rumor actually is
+            if not talk.start(sim, f, delay_phases=1, only=("rumor_you",)):
+                later(sim, f, "rumor", delay_phases=1, replies="rumor")
     elif et == "path" and out == "home" and actors and actors[0] in sim.siblings(p):
         post(sim, f"dm:{actors[0]}", actors[0], pick("sibling_home", salt, sim=sim, frm=actors[0]), kind="sibling", replies=_replies("sibling", salt))
     elif et == "path" and out == "left" and actors and actors[0] in sim.siblings(p):
@@ -463,6 +465,10 @@ def daily(sim):
             break
         back = w.rels.get((o, me.id))
         p = 0.05 + (back.affection if back else 0) / 900 + w.chars[o].traits["sociability"] / 1500
+        hot = talk.topics(sim, o)
+        if hot and hot[0][0] >= 60 and talk.start(sim, o, delay_phases=2 + _h(o, w.day) % 5):
+            sent += 1  # (real news: they text you today, not maybe)
+            continue
         if (_h(w.day, o, "c") % 1000) / 1000 < p:
             crush = back is not None and back.attraction >= 45 and not me.flags.get("partner") and not w.chars[o].flags.get("partner") \
                 and not talk.quiet_flirting(w, o)
@@ -706,10 +712,8 @@ def reply(sim, tid, mid, index) -> dict:
             w.meta.setdefault("control", {})["queued"] = {"invite": iid}
             answer = "react_plans_yes"
         else:
-            inv["status"] = "declined"
-            if sender in w.chars:
-                fx.rel(sender, me.id, "perceived", -3, "you said no")
-            answer = "react_dry" if _h(mid) % 2 else None
+            inv["status"] = "declined"  # (a no is fine: they'll ask again another time)
+            answer = "react_plans_no" if _h(mid) % 2 else None
     elif sender.startswith("parent"):
         if fx_key == "parent_ok":
             ph["parent_trust"] = clamp(ph["parent_trust"] + 1.5, 0, 100)
@@ -940,7 +944,7 @@ def tapback(sim, tid, mid, emoji) -> dict:
 
 
 def leave_on_read(sim, tid, mid) -> dict:
-    """Don't answer (it's off your plate). A close friend notices a little."""
+    """Don't answer: it's off your plate, and it costs nothing."""
     w = sim.w
     t = phone(w)["threads"].get(tid)
     if not t:
@@ -953,14 +957,7 @@ def leave_on_read(sim, tid, mid) -> dict:
         inv = next((i for i in w.meta.get("inbox", []) if i["id"] == iid), None)
         if inv and inv["status"] == "pending":
             inv["status"] = "declined"
-    m["chosen"] = -4
-    sender = m["from"]
-    me = prot(w)
-    if sender in w.chars and me is not None:
-        r = w.rels.get((sender, me.id))
-        if r and r.affection >= 50:
-            fx = Effects(w, None)
-            fx.rel(sender, me.id, "perceived", -1.0, "left on read")
+    m["chosen"] = -4  # (it costs nothing: not answering never hurts)
     t["unread"] = 0
     return {"thread": thread_view(sim, tid)}
 

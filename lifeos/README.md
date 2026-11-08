@@ -1191,11 +1191,23 @@ Texts are about what actually happened (`backend/lifeos/talk.py`, the lines in `
   landed the lead in the play, their own game.
 - **Gossip** about two people you both know (who's dating, who's not talking, who kissed at the party), **the party** you
   were both at last night, **a quiz** coming up in a class you share, **the crew's inside jokes**, and **your award**.
+- **A rumor about you**: what's actually going around ("people are saying you asked Hazel out and got shut down"), from
+  a friend who heard it, never who you're dating.
+- **Their crush**: a friend asks your advice about the person they're really into.
+- **What's coming**: "Homecoming's Saturday. who are you taking??" when you don't have a date yet; the night before a big
+  game (Hand, a tournament round) someone hypes you up; a friend asks you to come to their game, against the real opponent.
+- **Your teachers**: a friend in your grade about the teacher you both have ("Dr. Mbeki gave us a pop quiz in Honors
+  Biology"), about once a week.
+- Someone with real news (their game, your game, a rumor about you, your big game tomorrow) texts you that day; the rest
+  is now and then.
 - Small talk ("today was so long") is what's left when nothing real is going on, and the same person only does it every
   few days.
 
 Each one is a small conversation: their text, **four replies, each with its tone** (HYPE, HUMBLE, FUNNY, DRY; SPILL,
 SKEPTIC; HELPFUL, SAME...), and what they say back fits the one you picked. Then you can keep going by typing.
+
+**Texting is optional.** Not answering, leaving someone on read, letting an invite expire, saying "can't today" or texting
+twice in a row never costs you anything. Only what you choose to say has an effect (a reply marked DRY, being rude).
 
 **Memory**: nobody texts you about the same thing twice. A congrats comes once per award per person per season (a close
 friend might rib you about the fifth Player of the Week), and Mom texts about the first one and every fifth, not all
@@ -1212,7 +1224,8 @@ whether they send two texts instead of one. Lines from your storylines are alway
   and **Leave on read** to take one off your plate.
 - **Messages**: everything else, newest first. Unread counts are there but nothing nags you.
 - In a conversation: the score or the plans on the text it's about, **tapbacks** (tap their text: ❤️ 😂 👍 😮 ❓ 👎;
-  on a text asking you something, a reaction can be your answer), typing dots before they answer, and Leave on read.
+  on a text asking you something, a reaction can be your answer) and Leave on read. Texts show up right away: no typing
+  dots, no waiting.
 
 ## The menus: Story Studio and Texting
 

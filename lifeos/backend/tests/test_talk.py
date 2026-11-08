@@ -155,3 +155,45 @@ def test_tapbacks_leave_on_read_pins_and_waiting_on_you():
     m3 = messages.post(api.lab.sim, f"dm:{friend.id}", friend.id, "did you see that", kind="chatter_game")
     assert cl.post(f"/api/phone/thread/dm:{friend.id}/tap", json={"msg": m3["id"], "emoji": "❤️"}).json()["thread"]["msgs"][-1]["tap"] == "❤️"
     assert cl.post(f"/api/phone/thread/dm:{friend.id}/tap", json={"msg": m3["id"], "emoji": "🍕"}).status_code == 409
+
+
+def test_not_texting_never_costs_anything():
+    sim, me, friend = _setup()
+    w = sim.w
+    r = w.rels[(friend.id, me.id)]
+    a0, p0 = r.affection, r.perceived
+    # an invite you never answer just expires
+    w.meta.setdefault("inbox", []).append({"id": "i1", "from": friend.id, "day": w.day - 3, "status": "pending", "action": "hang_out"})
+    sim.step()
+    assert next(i for i in w.meta["inbox"] if i["id"] == "i1")["status"] == "expired"
+    # a text you leave on read, and a "can't today" to an invite
+    m = messages.post(sim, f"dm:{friend.id}", friend.id, "you around?", kind="chatter_plans", replies=[{"label": "yeah", "fx": "warm"}])
+    messages.leave_on_read(sim, f"dm:{friend.id}", m["id"])
+    w.meta["inbox"].append({"id": "i2", "from": friend.id, "day": w.day, "status": "pending", "action": "hang_out"})
+    m2 = messages.post(sim, f"dm:{friend.id}", friend.id, "food later?", kind="invite", ctx={"invite": "i2"},
+                       replies=[{"label": "i'm in", "fx": "invite:i2:yes"}, {"label": "can't today, sorry", "fx": "invite:i2:no"}])
+    messages.reply(sim, f"dm:{friend.id}", m2["id"], 1)
+    assert r.affection >= a0 - 0.01 and r.perceived >= p0 - 0.01
+
+
+def test_rumors_crushes_dances_big_games_and_teachers_are_things_to_text_about():
+    from lifeos import calendar as calm
+    from lifeos import classes, social
+    sim, me, friend = _setup()
+    w = sim.w
+    others = [c for c in sorted(w.students(), key=lambda c: c.id) if c.id not in (me.id, friend.id) and c.grade == me.grade]
+    b = others[0]
+    social.make_rumor(sim, me.id, "rejected", f"{me.name} asked {b.name} out and got shut down", True, -0.25, 0.6, None, [friend.id], None,
+                      involves=[me.id, b.id])
+    social.make_rumor(sim, me.id, "dating", f"{me.name} and {b.name} are together now", True, 0.1, 0.6, None, [friend.id], None)
+    crush = others[1]
+    w.ensure_rel(friend.id, crush.id, w.day).attraction = 75
+    w.calendar.append({"day": w.day + 4, "kind": "dance", "name": "Homecoming Dance", "key": "dance:homecoming:0", "slot": "night"})
+    kinds = {x[1]: x for x in talk.topics(sim, friend.id)}
+    assert kinds["rumor_you"][2]["rumor"] == f"you asked {b.first} out and got shut down"  # (news, in first names; not who you're dating)
+    assert kinds["crush_advice"][2]["crush"] == crush.first
+    assert kinds["dance_soon"][2]["dance"] == "Homecoming Dance"
+    # a teacher's name keeps its capital in anyone's style
+    t = classes.schedule(sim, me)[0]["teacher"]
+    assert t in talk.styled(sim, friend.id, f"{t} gave us a pop quiz", "s")  # ("omg Mr. Duarte...", never "mr. duarte")
+    assert calm  # (imported for the calendar)

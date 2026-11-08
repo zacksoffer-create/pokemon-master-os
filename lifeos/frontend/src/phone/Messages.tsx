@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 import { Msg, MsgCard, Thread, ThreadSummary, phoneApi, pgo } from "./api";
 import { usePhone } from "./PhoneContext";
 import {
-  Chevron, GroupAvatar, PersonAvatar, dayLabel, listTime, minutes, pendingCompose, sleep, usePeople,
+  Chevron, GroupAvatar, PersonAvatar, dayLabel, listTime, minutes, pendingCompose, usePeople,
 } from "./MessagesUtil";
 
 const ME = "me";
@@ -275,26 +275,10 @@ export function Conversation({ tid }: { tid: string }) {
     first.current = false;
   }, [shown.length, notes.length, scrollDown]);
 
-  /** Show the server's new messages: what you sent at once, then their answer after a moment of typing dots. */
-  const [typing, setTyping] = useState(false);
-  const stage = useCallback(async (next: Thread, before: Msg[], _optimisticId: string | null) => {
+  /** Show the server's new messages, all at once: no typing dots, no waiting. */
+  const stage = useCallback(async (next: Thread, _before: Msg[], _optimisticId: string | null) => {
     setThread(next);
-    const known = new Set(before.filter((m) => !m.id.startsWith("local-")).map((m) => m.id));
-    const fresh = next.msgs.filter((m) => !known.has(m.id));
-    const theirs = fresh.filter((m) => m.from !== ME && m.kind !== "note");
-    const lastMine = fresh.map((m) => m.from).lastIndexOf(ME);
-    if (!theirs.length || lastMine < 0 || theirs.length > 4) {
-      setShown(next.msgs);
-      return;
-    }
-    let cut = next.msgs.length - fresh.length + lastMine + 1;
-    setShown(next.msgs.slice(0, cut));
-    for (; cut < next.msgs.length; cut++) {
-      setTyping(true);
-      await sleep(Math.min(1300, 450 + next.msgs[cut].text.length * 18));
-      setTyping(false);
-      setShown(next.msgs.slice(0, cut + 1));
-    }
+    setShown(next.msgs);
   }, []);
   const [pinned, setPinned] = useState<boolean | null>(null);
   useEffect(() => {
@@ -452,7 +436,6 @@ export function Conversation({ tid }: { tid: string }) {
         <Bubbles
           msgs={shown} kind={kind} today={state?.day} openTs={openTs} setOpenTs={setOpenTs} people={people} parents={parents} notes={notes} onTap={tap}
         />
-        {typing && <div className="pm-msgrow them"><div className="pm-msg-col"><div className="pm-typing"><span /><span /><span /></div></div></div>}
       </div>
 
       <footer className="pm-compose">

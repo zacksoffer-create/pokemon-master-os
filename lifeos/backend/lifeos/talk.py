@@ -104,19 +104,25 @@ def styled(sim, cid, text: str, salt, plain: bool = False) -> str:
         return text
     r = (_h(salt, "sty") % 1000) / 1000
     out = text
+    first_word = re.match(r"^[A-Za-z.']+", out)
+    proper = bool(first_word) and (re.match(r"^(Mr|Ms|Mrs|Dr|Coach)\.?$", first_word.group(0)) is not None
+                                   or first_word.group(0) in {c.first for c in sim.w.chars.values()})
     if LAUGH_RX.search(out):  # their laugh, not a generic one
         out = LAUGH_RX.sub(st["laugh"], out, count=1)
     if st["fillers"] and not plain and r < st["filler_rate"] and not out.lower().startswith(("omg", "yo", "dude", "bro", "ok so", "wait")):
         f = st["fillers"][_h(salt, "fill") % len(st["fillers"])]
-        out = (f + " " + out[0].lower() + out[1:]) if f in ("omg", "yo", "ok so", "honestly", "ngl", "lowkey", "tbh") else (out + " " + f)
+        if f in ("omg", "yo", "ok so", "honestly", "ngl", "lowkey", "tbh"):
+            out = f + " " + (out[0].lower() + out[1:] if not proper else out)
+        elif not out.endswith("?"):
+            out = out + " " + f
     if st["lower"] and not st["caps"]:
-        out = out[0].lower() + out[1:] if out[:1].isupper() and not out[:3].isupper() else out
+        out = out[0].lower() + out[1:] if out[:1].isupper() and not out[:3].isupper() and not proper else out
         out = out.rstrip(".")
     elif st["periods"] and out[-1:].isalnum():
         out += "."
     if st["caps"] and ("!!" in out or "gooo" in out.lower()) and len(out) < 40:
         out = out.upper()
-    if (_h(salt, "emo") % 1000) / 1000 < st["emoji_rate"] and not re.search(r"[\U0001F300-\U0001FAFF]", out):
+    if (_h(salt, "emo") % 1000) / 1000 < st["emoji_rate"] and not re.search(r"[\U0001F300-\U0001FAFF]", out) and not out.endswith("?"):
         out += " " + st["emoji"][_h(salt, "emo2") % 2]
     return out
 
@@ -205,8 +211,9 @@ def topics(sim, cid) -> list:
         if cid not in mates:  # (teammates have the team chat)
             facts = {"opp": g.get("opp") or "them", "score": g.get("score") or "", "line": _game_line(g.get("sport"), g.get("line")),
                      "play": re.sub(rf"^{re.escape(me.first)}\b", "you", (g.get("play") or "that play").rstrip(".")), "team": g.get("team") or ""}
-            if g.get("tier") != "great":  # (how you actually played picks the opener: not "beast mode" for 1-for-5)
-                facts["_open"] = "open_ok" if g.get("win") else "open"
+            quiet = "limited minutes" in facts["line"] or facts["line"] in ("played great", "played") or not g.get("starter")
+            if g.get("tier") != "great" or quiet:  # (how you actually played picks the opener: not "beast mode" for 1-for-5)
+                facts["_open"] = "open_ok" if g.get("win") else ("open_plain" if quiet or g.get("tier") == "rough" else "open")
             elif g.get("play") and g.get("win"):
                 facts["_open"] = "open_play"
             out.append((80 + close / 5, "game_you_win" if g.get("win") else "game_you_loss", facts, f"game:{g['day']}:{g.get('group')}"))
@@ -248,6 +255,56 @@ def topics(sim, cid) -> list:
             host = w.chars.get((e.get("actors") or [None])[0])
             what = _party_moment(w, e) or "everything"
             out.append((65, "party", {"host": host.first if host else "the", "what": what}, f"party:{e['id']}"))
+    # a rumor about you, that they've heard
+    for rid, rm in sorted((w.rumors or {}).items(), key=lambda kv: -kv[1].get("day", 0)):
+        if rm.get("about") == me.id and cid in (rm.get("known_by") or {}) and w.day - rm.get("day", -99) <= 5 \
+                and rm.get("origin") != cid and rm.get("kind") not in ("dating",) and not done(w, cid, f"rumor:{rid}"):
+            from .pov import second_person
+            said = second_person(rm.get("text") or "", me, solo=False).rstrip(".")
+            for o in rm.get("involves") or []:  # (first names: "Nikki", not "Nikki Basilicato")
+                if o in w.chars and o != me.id:
+                    said = said.replace(w.chars[o].name, w.chars[o].first)
+            out.append((72, "rumor_you", {"rumor": said[:1].lower() + said[1:]}, f"rumor:{rid}"))
+            break
+    # their crush (they want your advice)
+    if close >= 55:
+        yr = calm.school_year_of(w.day)
+        crush = max(((r.attraction, o) for (a, o), r in w.rels.items() if a == cid and o != me.id and o in w.chars
+                     and w.chars[o].status == "active" and w.chars[o].role == "student" and r.attraction >= 60
+                     and c.flags.get("partner") != o), default=None)
+        if crush and not done(w, cid, f"crush:{crush[1]}:{yr}"):
+            out.append((45, "crush_advice", {"crush": w.chars[crush[1]].first}, f"crush:{crush[1]}:{yr}"))
+    # what's coming up: a dance you don't have a date for, your big game tomorrow, their game
+    for it in w.calendar:
+        dd = it["day"] - w.day
+        if not (1 <= dd <= 10):
+            continue
+        when = "tomorrow" if dd == 1 else calm.label(it["day"]).split(",")[0].lower() if dd <= 6 else "next week"
+        if it.get("kind") == "dance" and dd >= 2 and c.school == me.school and me.id not in (w.dance_dates or {}).get(it.get("key", ""), {}) \
+                and not done(w, cid, f"dance:{it.get('key')}"):
+            out.append((44, "dance_soon", {"dance": it.get("name") or "the dance", "when": when}, f"dance:{it.get('key')}"))
+        elif it.get("kind") == "game" and dd == 1 and it.get("group") in me.memberships and cid not in (w.groups.get(it["group"]) or {}).get("members", []):
+            g = w.groups.get(it["group"]) or {}
+            from . import sports
+            opp = sports.game_opponent(sim, g, it) if g else it.get("opp")
+            big = opp == "Hand" or it.get("stage") or it.get("event") == "thanksgiving"
+            if big and opp and not done(w, cid, f"hype:{it.get('key')}"):
+                out.append((70, "hype_before", {"opp": opp}, f"hype:{it.get('key')}"))
+        elif it.get("kind") == "game" and dd <= 2 and it.get("group") in c.memberships and it.get("group") not in me.memberships:
+            g = w.groups.get(it["group"]) or {}
+            from . import sports
+            opp = sports.game_opponent(sim, g, it) if g else None
+            if opp and close >= 50 and not done(w, cid, f"theirgame:{it.get('key')}"):
+                out.append((34, "their_game_next", {"opp": opp, "when": when}, f"theirgame:{it.get('key')}"))
+    # a teacher you both have (same grade, a school day): once a week at most
+    if me.grade and c.grade == me.grade and c.role == "student" and calm.is_school_day(w.day, sim.cat.world["calendar"]):
+        wk = f"teacher:{w.day // 7}"
+        if not done(w, cid, wk) and _h(w.day, cid, "teach") % 3 == 0:
+            from . import classes
+            sched = [x for x in classes.schedule(sim, me) if x.get("teacher") and x["id"] != "health"]
+            if sched:
+                x = sched[_h(w.day, cid, "cls") % len(sched)]
+                out.append((25, "teacher_story", {"teacher": x["teacher"], "class": x["name"]}, wk))
     # gossip: two people you both know
     gos = _gossip(sim, cid)
     if gos:
@@ -336,6 +393,8 @@ def build(sim, cid, topic: str, facts: dict, salt) -> dict:
     """Their opener and your four replies (each with a tone and what they'll say back)."""
     T = D()["topics"][topic]
     kw = {**facts, "you_name": your_name(sim, cid)}
+    if "play" in kw:
+        kw["play_bare"] = re.sub(r"^you\s+", "", str(kw["play"]))
     fill = lambda s: re.sub(r"\{(\w+)\}", lambda m: str(kw.get(m.group(1), m.group(0))), s)  # noqa: E731
     opens = T.get(facts.get("_open") or "open") or T["open"]
     text = fill(opens[_h(salt, topic, "open") % len(opens)])

@@ -7,7 +7,12 @@
         "ok {line}. you went off tonight",
         "saw the score. {score} over {opp}!! and you {line}",
         "beast mode tonight. {line}",
-        "you were the best player on the field tonight and it wasn't close"
+        "you were the best player on the field tonight and it wasn't close",
+        "{line}. who even are you",
+        "ok i saw the box score. {line}?? relax",
+        "they should just give you the ball every play lol",
+        "my dad won't stop talking about your game",
+        "you were unreal tonight"
       ],
       "replies": [
         {
@@ -16,12 +21,16 @@
           "text": [
             "LETS GOOO",
             "felt so good",
-            "we needed that one"
+            "we needed that one",
+            "{opp} isn't ready for next time",
+            "best feeling ever"
           ],
           "back": [
             "{opp} had no answer lol",
             "do it again next week",
-            "ur a problem for the whole league"
+            "ur a problem for the whole league",
+            "the whole school's gonna be talking tmrw",
+            "ok we're celebrating this weekend"
           ]
         },
         {
@@ -44,12 +53,16 @@
           "text": [
             "i'm basically famous now",
             "taking autographs at lunch tmrw",
-            "my mom already printed the box score"
+            "my mom already printed the box score",
+            "coach owes me a steak dinner",
+            "i'd like to thank my mom and my cleats"
           ],
           "back": [
             "relax 😂",
             "i'm framing it",
-            "sign my yearbook while ur still humble"
+            "sign my yearbook while ur still humble",
+            "your cleats deserve it",
+            "and the bench gets nothing lol"
           ]
         },
         {
@@ -72,13 +85,19 @@
         "we'll take it. {score} over {opp}",
         "W is a W. {score}",
         "{opp} down. {score}. not ur best game but who cares lol",
-        "saw the score. {score}. nice"
+        "saw the score. {score}. nice",
+        "W!! {score}",
+        "{opp} went down. {score}",
+        "a win's a win. {score} lol",
+        "beat {opp}!! you guys looked good"
       ],
       "open_play": [
         "{play}?? i literally yelled",
         "ok {play}. {you_name} come on",
         "you won it. {play}. i can't",
-        "everybody's talking about {play}"
+        "everybody's talking about {play}",
+        "did you really {play_bare}?? clip it",
+        "the whole bleachers lost it when you {play_bare}"
       ]
     },
     "game_you_loss": {
@@ -87,7 +106,10 @@
         "that loss was not on you. {line}",
         "you ok? {opp} got lucky",
         "you played hard tonight. {score} doesn't tell it right",
-        "{opp} is so annoying. next time"
+        "{opp} is so annoying. next time",
+        "ugh {opp}. sorry man",
+        "{score}. the refs were awful btw",
+        "you'll get them back. i know it"
       ],
       "replies": [
         {
@@ -96,12 +118,16 @@
           "text": [
             "honestly it sucks",
             "i'm so mad about it",
-            "i should've done more"
+            "i should've done more",
+            "we just didn't show up",
+            "that one stings"
           ],
           "back": [
             "it's one game. you'll be fine",
             "nah you did your part",
-            "want to get food and not talk about it"
+            "want to get food and not talk about it",
+            "it happens to everyone",
+            "shake it off. you're still the best on that team"
           ]
         },
         {
@@ -146,6 +172,14 @@
             "fair"
           ]
         }
+      ],
+      "open_plain": [
+        "tough one vs {opp}",
+        "{opp}. ugh. sorry",
+        "you ok? {opp} got lucky",
+        "the refs were awful tonight btw",
+        "{score}. we'll get them next time",
+        "ugh. {opp} is so annoying"
       ]
     },
     "game_theirs_win": {
@@ -284,7 +318,10 @@
         "{subject} quiz {when}. i know nothing",
         "did u study for {subject} yet",
         "pls tell me ur also not ready for {subject} {when}",
-        "if i fail {subject} {when} i'm moving to canada"
+        "if i fail {subject} {when} i'm moving to canada",
+        "{subject} {when}. i'm already crying",
+        "how much do you know for {subject} {when}. be honest",
+        "can we skip {subject} {when} and go to the diner"
       ],
       "replies": [
         {
@@ -293,12 +330,16 @@
           "text": [
             "want to study together?",
             "i'll send you my notes",
-            "we can quiz each other"
+            "we can quiz each other",
+            "i'll make flashcards for both of us",
+            "call me after dinner, we'll go over it"
           ],
           "back": [
             "omg yes. library after school?",
             "ur a lifesaver",
-            "deal. you ask first"
+            "deal. you ask first",
+            "you're the best study buddy",
+            "ok yes. 7?"
           ]
         },
         {
@@ -321,12 +362,16 @@
           "text": [
             "just write 'c' for everything",
             "pray",
-            "i'll faint and get out of it"
+            "i'll faint and get out of it",
+            "i'll sit next to you and copy your vibe",
+            "the answer is always 'mitochondria'"
           ],
           "back": [
             "foolproof plan",
             "praying rn",
-            "the fake faint lol"
+            "the fake faint lol",
+            "my vibe is failing",
+            "lmao not even biology"
           ]
         },
         {
@@ -350,7 +395,9 @@
         "last night at {host}'s tho",
         "ok {what} at {host}'s. i can't",
         "still recovering from {host}'s party lol",
-        "did you see {what}??"
+        "did you see {what}??",
+        "can we talk about {host}'s last night",
+        "i need a full recap of {host}'s. i left too early"
       ],
       "replies": [
         {
@@ -416,7 +463,9 @@
         "WAIT did you hear {a} and {b} {gossip}",
         "ok so {a} and {b}. {gossip}. i'm screaming",
         "you're gonna die. {a} and {b} {gossip}",
-        "is it true {a} and {b} {gossip}??"
+        "is it true {a} and {b} {gossip}??",
+        "ok i HAVE to tell you something. {a} and {b} {gossip}",
+        "nobody is talking about anything else. {a} and {b} {gossip}"
       ],
       "replies": [
         {
@@ -425,12 +474,16 @@
           "text": [
             "WHAT. tell me everything",
             "no way. how",
-            "since when??"
+            "since when??",
+            "i need details. all of them",
+            "who told you"
           ],
           "back": [
             "apparently it happened at lunch",
             "idk everyone's talking about it",
-            "ok i'll tell u tmrw it's a whole thing"
+            "ok i'll tell u tmrw it's a whole thing",
+            "{a} told someone who told me lol",
+            "ok so apparently it's been going on for a while"
           ]
         },
         {
@@ -481,7 +534,8 @@
       "open": [
         "I MADE {team}!!!",
         "guess who made {team}",
-        "ok so i made {team} and i'm freaking out"
+        "ok so i made {team} and i'm freaking out",
+        "coach just posted the list. i'm ON IT"
       ],
       "replies": [
         {
@@ -871,7 +925,8 @@
       "open": [
         "still thinking about {joke} 😂",
         "{joke}. that's it. that's the text",
-        "i can't stop laughing about {joke}"
+        "i can't stop laughing about {joke}",
+        "{joke} lives in my head rent free"
       ],
       "replies": [
         {
@@ -1126,6 +1181,403 @@
           ]
         }
       ]
+    },
+    "rumor_you": {
+      "open": [
+        "ok so people are saying {rumor}. is that true??",
+        "you need to know. everyone's saying {rumor}",
+        "um. why is everyone saying {rumor}",
+        "heads up, the thing going around is that {rumor}"
+      ],
+      "replies": [
+        {
+          "tone": "deny",
+          "fx": "warm",
+          "text": [
+            "that's not even true",
+            "who is saying that??",
+            "i literally did not"
+          ],
+          "back": [
+            "ok i believe you. people are so annoying",
+            "i'll shut it down if i hear it",
+            "i knew it was fake"
+          ]
+        },
+        {
+          "tone": "own it",
+          "fx": "funny",
+          "text": [
+            "...ok yeah that happened",
+            "i plead the fifth",
+            "no comment lol"
+          ],
+          "back": [
+            "{you_name}!!",
+            "omg i need the full story",
+            "iconic honestly"
+          ]
+        },
+        {
+          "tone": "find out",
+          "fx": "warm",
+          "text": [
+            "who started it",
+            "where did you hear that",
+            "tell me who said it"
+          ],
+          "back": [
+            "idk it was all over lunch",
+            "i heard it from someone in my math class",
+            "i'll find out"
+          ]
+        },
+        {
+          "tone": "shrug",
+          "fx": "dry",
+          "text": [
+            "don't care",
+            "let them talk",
+            "whatever"
+          ],
+          "back": [
+            "good. ignore it",
+            "that's the move",
+            null
+          ]
+        }
+      ]
+    },
+    "crush_advice": {
+      "open": [
+        "ok i need advice. i think i like {crush}",
+        "don't laugh. {crush}. thoughts?",
+        "be honest. do i have a chance with {crush}",
+        "so... {crush}. should i say something?"
+      ],
+      "replies": [
+        {
+          "tone": "go for it",
+          "fx": "warm",
+          "text": [
+            "go for it!!",
+            "just ask them out",
+            "you'd be cute together honestly"
+          ],
+          "back": [
+            "ok ok i'm gonna do it. maybe",
+            "you think so??",
+            "i'm so nervous lol"
+          ]
+        },
+        {
+          "tone": "wingman",
+          "fx": "warm",
+          "text": [
+            "want me to find out if they like you?",
+            "i got you. i'll talk you up",
+            "i'll be your wingman"
+          ],
+          "back": [
+            "omg would you??",
+            "you're the best",
+            "don't make it weird tho"
+          ]
+        },
+        {
+          "tone": "tease",
+          "fx": "funny",
+          "text": [
+            "{crush}?? since WHEN",
+            "i knew it. you're so obvious",
+            "i'm telling everyone"
+          ],
+          "back": [
+            "DON'T",
+            "am i really that obvious",
+            "i will end you lol"
+          ]
+        },
+        {
+          "tone": "careful",
+          "fx": "dry",
+          "text": [
+            "eh i don't see it",
+            "are you sure?",
+            "idk about that one"
+          ],
+          "back": [
+            "...wow ok",
+            "why not?",
+            "maybe you're right"
+          ]
+        }
+      ]
+    },
+    "dance_soon": {
+      "open": [
+        "{dance} is {when}. who are you taking??",
+        "are you going to {dance}?",
+        "ok {dance} {when}. do you have a date yet",
+        "i still don't have anyone for {dance} lol. do you?"
+      ],
+      "replies": [
+        {
+          "tone": "honest",
+          "fx": "warm",
+          "text": [
+            "no idea yet honestly",
+            "still figuring it out",
+            "i haven't asked anyone"
+          ],
+          "back": [
+            "better hurry lol",
+            "same. we're doomed",
+            "you'll find someone"
+          ]
+        },
+        {
+          "tone": "group",
+          "fx": "warm",
+          "text": [
+            "we should just go as a group",
+            "friends date?",
+            "let's all go together"
+          ],
+          "back": [
+            "ok yes. group it is",
+            "i'm in",
+            "honestly better that way"
+          ]
+        },
+        {
+          "tone": "mystery",
+          "fx": "funny",
+          "text": [
+            "maybe 👀",
+            "can't say yet",
+            "i have someone in mind"
+          ],
+          "back": [
+            "WHO",
+            "you can't just say that",
+            "i'll find out"
+          ]
+        },
+        {
+          "tone": "skip",
+          "fx": "dry",
+          "text": [
+            "dances are dumb",
+            "probably not going",
+            "not my thing"
+          ],
+          "back": [
+            "come on it'll be fun",
+            "you're going. i'm making you",
+            null
+          ]
+        }
+      ]
+    },
+    "hype_before": {
+      "open": [
+        "{opp} tomorrow. you ready?",
+        "big one tmrw vs {opp}. no pressure lol",
+        "everyone's going to the {opp} game tmrw",
+        "beat {opp}. that's it. that's the text"
+      ],
+      "replies": [
+        {
+          "tone": "locked in",
+          "fx": "warm",
+          "text": [
+            "locked in",
+            "we're ready",
+            "can't wait"
+          ],
+          "back": [
+            "let's goooo",
+            "i'll be in the stands",
+            "go get em"
+          ]
+        },
+        {
+          "tone": "nervous",
+          "fx": "vent",
+          "text": [
+            "kinda nervous ngl",
+            "i can't sleep thinking about it",
+            "pressure's real"
+          ],
+          "back": [
+            "you'll be fine. you always are",
+            "just play your game",
+            "nerves mean you care"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "bring a sign with my name on it",
+            "i'm wearing my lucky socks",
+            "if we lose i'm moving"
+          ],
+          "back": [
+            "already making it",
+            "never wash them",
+            "you're not moving lol"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "yeah",
+            "should be fine",
+            "ok"
+          ],
+          "back": [
+            null,
+            "...ok mr. calm",
+            "confident. i like it"
+          ]
+        }
+      ]
+    },
+    "their_game_next": {
+      "open": [
+        "come to my game {when}? we play {opp}",
+        "we play {opp} {when}. you coming?",
+        "big game {when} vs {opp}. you should come"
+      ],
+      "replies": [
+        {
+          "tone": "there",
+          "fx": "warm",
+          "text": [
+            "i'll be there",
+            "wouldn't miss it",
+            "front row"
+          ],
+          "back": [
+            "yay!! thank you",
+            "ok now i have to play well",
+            "you're the best"
+          ]
+        },
+        {
+          "tone": "maybe",
+          "fx": "warm",
+          "text": [
+            "i'll try!!",
+            "if i can get a ride",
+            "maybe, depends on practice"
+          ],
+          "back": [
+            "try!!",
+            "i can ask my mom",
+            "ok no pressure"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "only if you score",
+            "will there be snacks",
+            "i'll bring a sign that says your name wrong"
+          ],
+          "back": [
+            "deal",
+            "the concession stand is elite",
+            "rude 😂"
+          ]
+        },
+        {
+          "tone": "pass",
+          "fx": "dry",
+          "text": [
+            "can't, sorry",
+            "not this time",
+            "busy"
+          ],
+          "back": [
+            "no worries",
+            null,
+            "next time then"
+          ]
+        }
+      ]
+    },
+    "teacher_story": {
+      "open": [
+        "{teacher} gave us a pop quiz in {class}. i'm traumatized",
+        "did you see what {teacher} wore today lol",
+        "{teacher} let us out early!!",
+        "{teacher} called on me like 5 times in {class}. why me",
+        "{teacher} is in the worst mood today. watch out",
+        "{teacher} just assigned a project due friday. who does that"
+      ],
+      "replies": [
+        {
+          "tone": "same",
+          "fx": "warm",
+          "text": [
+            "SAME",
+            "ugh {teacher}",
+            "classic {teacher}"
+          ],
+          "back": [
+            "at least we suffer together",
+            "every single time",
+            "i can't with them"
+          ]
+        },
+        {
+          "tone": "funny",
+          "fx": "funny",
+          "text": [
+            "{teacher} has it out for you",
+            "maybe they think you're smart",
+            "start a petition"
+          ],
+          "back": [
+            "they DO",
+            "i wish",
+            "you sign first"
+          ]
+        },
+        {
+          "tone": "defend",
+          "fx": "warm",
+          "text": [
+            "{teacher}'s not that bad",
+            "honestly i kinda like {teacher}",
+            "they're tough but fair"
+          ],
+          "back": [
+            "teacher's pet",
+            "...ok they're not THAT bad",
+            "you would say that"
+          ]
+        },
+        {
+          "tone": "dry",
+          "fx": "dry",
+          "text": [
+            "lol",
+            "rip",
+            "oof"
+          ],
+          "back": [
+            null,
+            "yeah",
+            "thanks for the sympathy"
+          ]
+        }
+      ]
     }
   },
   "style": {
@@ -1141,16 +1593,13 @@
     "fillers_m": [
       "dude",
       "bro",
-      "legit",
-      "srsly",
+      "man",
       "yo",
-      "man"
+      "srsly"
     ],
     "fillers_f": [
       "omg",
-      "literally",
       "srsly",
-      "legit",
       "ok so"
     ],
     "fillers_any": [

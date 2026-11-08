@@ -832,9 +832,7 @@ def send(sim, cid, text: str | None = None, suggestion: int | None = None) -> di
         # they already wrapped it up: texting again doesn't get an answer, and doing it twice is a lot
         c["double"] += 1
         mine["read"] = True
-        if c["double"] >= 2:
-            _gain(sim, cid, fx, cid, "perceived", -1.5, "double texting")
-        sim.finish(ev, fx)
+        sim.finish(ev, fx)  # (no penalty for it: texting never costs you anything you didn't choose)
         if c["double"] == 1:
             _note(sim, cid, f"{o.first} is done talking for now. Texting again won't help; try later.")
         return {"thread": None, "result": "read"}

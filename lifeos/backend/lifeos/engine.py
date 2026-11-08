@@ -278,11 +278,7 @@ class Simulation:
         dialogue.maybe_scene(self)  # scenes from dialogue packs
         for inv in w.meta.get("inbox", []):
             if inv["status"] == "pending" and w.day - inv["day"] >= 2:
-                inv["status"] = "expired"
-                if inv["from"] in w.chars:
-                    fx = Effects(w, None)
-                    fx.rel(inv["from"], prot, "affection", -2, "left on read")
-                    fx.rel(inv["from"], prot, "perceived", -5, "left on read")
+                inv["status"] = "expired"  # (not answering costs nothing: the phone is optional)
         if len(w.meta.get("inbox", [])) > 60:
             w.meta["inbox"] = [i for i in w.meta["inbox"] if i["status"] == "pending"] + \
                               [i for i in w.meta["inbox"] if i["status"] != "pending"][-30:]
