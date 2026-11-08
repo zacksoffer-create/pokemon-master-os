@@ -216,8 +216,105 @@ def story_review(sim, c) -> str:
     return " ".join(parts)
 
 
-def auto_choice(sim, c, m) -> int:
+# --- when you don't answer ------------------------------------------------------------------------------------------
+# The game never makes a big call for you. A skip ahead, Next episode, or a card left for a few days answers the small
+# ones with the do-nothing answer; the big ones wait for you (and stop the skip), and the time-bound ones just pass.
+BIG = {"asked_out", "asked_to_dance", "offer", "college_decision", "mlb_draft", "draft_passed", "tryout_eve", "cut",
+       "heartbreak", "after_kiss", "drama_partner", "partner_cheat"}
+WAIT = {"college_decision", "mlb_draft", "draft_passed"}  # never answered for you (a path you set at the start is used)
+LAPSE = {"asked_out", "asked_to_dance", "cut", "heartbreak", "summer", "game_day", "after_kiss", "partner_cheat", "coach_asks"}  # unanswered: it just passes
+NEUTRAL = {"grounded": 0, "first_day": 3, "injury": 0, "benched": 2, "offer": 0, "sibling_leaves": 1, "rumor": 2, "graduation": 2,
+           "college_arrival": 2, "class_quiz": 1, "class_game": 2}
+QUIET_OPS = {"stay_out", "let_go", "move_on", "give_time", "leave_it", "pretend"}  # a drama card's do-nothing answer
+RISKY_OPS = {"chance", "minigame", "confess", "ask_out", "date", "break_up", "kiss"}
+
+
+def ask_wait(w, cid, days):
+    """After you say no (or never answer), they don't ask you out again for a while."""
+    w.meta.setdefault("ask_wait", {})[cid] = max(w.meta.get("ask_wait", {}).get(cid, 0), w.day + days)
+
+
+def asked_too_soon(w, cid) -> bool:
+    return w.day < (w.meta.get("ask_wait") or {}).get(cid, -1)
+
+
+def big(kind: str) -> bool:
+    """A moment that's yours to answer: skipping ahead stops for it, and nobody answers it for you."""
+    return kind in BIG or kind.startswith("drama_partner")
+
+
+def _played_before(sim, c, ctx) -> bool:
+    """Were you on this team (or played this sport) in an earlier season? Then 'tryouts are tomorrow' means you're going."""
+    g = sim.w.groups.get(ctx.get("team_id") or "")
+    if not g:
+        return False
+    sk = g.get("skill")
+    return any(k.split(":")[0] == sk and isinstance(st, dict) and st.get("games") for k, st in (c.stats or {}).items()) or \
+        any(c.id in (h.get("roster") or []) for h in g.get("history") or [])
+
+
+def _preset_index(c, m):
+    pre = (c.flags or {}).get("preset_path") or {}
+    for i, o in enumerate((m.get("ctx") or {}).get("paths") or []):
+        if pre and ((pre.get("kind") == "work" and o.get("kind") == "work")
+                    or (o.get("college") == pre.get("college") and (o.get("sport") or None) == (pre.get("sport") or None))):
+            return i
+    return None
+
+
+def leave(sim, m):
+    """You didn't answer this one (a skip, Next episode, or a card left for days): the do-nothing answer. Big decisions
+    wait for you; time-bound ones (an ask-out, a game day) just pass with no effect. -> the event, or None."""
+    w = sim.w
+    c = w.chars.get(w.meta.get("protagonist") or "")
+    if c is None or m.get("status") != "pending":
+        return None
+    k = m["kind"]
+    if control(w).get("auto_scenes") and k not in LAPSE:  # you turned on Let my character decide: it does
+        return resolve(sim, m["id"], None)
+    if k in WAIT:
+        i = _preset_index(c, m) if k == "college_decision" else None
+        return resolve(sim, m["id"], i, by="auto") if i is not None else None
+    if k == "tryout_eve":
+        if _played_before(sim, c, m.get("ctx") or {}):
+            return resolve(sim, m["id"], 0, by="auto")
+        return lapse(sim, m)
+    if k in LAPSE or k.startswith("drama_partner"):
+        return lapse(sim, m)
+    if k in BIG:
+        return None
+    return resolve(sim, m["id"], auto_choice(sim, c, m, passive=True), by="auto")
+
+
+def lapse(sim, m):
+    """A moment that passes unanswered: nothing happens (they asked, you never said; the game came and went)."""
+    m["status"] = "lapsed"
+    m["by"] = "lapsed"
+    if m["kind"] in ("asked_out", "after_kiss") and (m.get("ctx") or {}).get("other"):
+        ask_wait(sim.w, m["ctx"]["other"], 30)  # (no answer is an answer: they give it a while)
+    if "phone" in sim.w.meta and m["kind"] in ("asked_out", "asked_to_dance"):
+        from . import messages
+        messages.answered_elsewhere(sim, "moment", m["id"], None)
+    return None
+
+
+def auto_choice(sim, c, m, passive: bool = False) -> int:
+    """Your character's own answer. passive (you didn't answer): the do-nothing answer, and on a night out the one that
+    doesn't risk anything; otherwise (you tapped Let it happen) what fits who they are."""
     rng = sim.streams.get("moment", m["id"])
+    if passive:
+        if m["kind"] in NEUTRAL and NEUTRAL[m["kind"]] < len(m["_choices"]):
+            return NEUTRAL[m["kind"]]
+        quiet = [i for i, ch in enumerate(m["_choices"]) if ch.get("op") in QUIET_OPS
+                 or any(isinstance(o, list) and len(o) > 1 and o[0] == "drama" and o[1] in QUIET_OPS for o in ch.get("ops") or [])]
+        if quiet:
+            return quiet[0]
+        safe = [i for i, ch in enumerate(m["_choices"]) if not _risky(ch)]
+        if safe and len(safe) < len(m["_choices"]):
+            us = [sum(coef * (c.traits.get(k, 50) - 50) / 50 for k, coef in m["_choices"][i].get("fits", {}).items()) * 4 + rng.gauss(0, 1)
+                  for i in safe]
+            idx, _ = softmax_pick(us, 2.0, rng.random())
+            return safe[idx]
     if m["kind"] in ("asked_out", "asked_to_dance"):
         from .worldgen import orientation_ok
         o = sim.w.chars.get(m["ctx"].get("other"))
@@ -236,6 +333,18 @@ def auto_choice(sim, c, m) -> int:
         us.append(u)
     idx, _ = softmax_pick(us, 2.0, rng.random())
     return idx
+
+
+def _risky(ch) -> bool:
+    def walk(x):
+        if isinstance(x, list):
+            if x and isinstance(x[0], str) and (x[0] in RISKY_OPS or x[:2] == ["night", "curfew"]):
+                return True
+            return any(walk(y) for y in x)
+        if isinstance(x, dict):
+            return any(walk(y) for y in x.values())
+        return False
+    return ch.get("op") in RISKY_OPS or walk(ch.get("ops") or [])
 
 
 def resolve(sim, mid: str, index: int | None, by: str = "player"):
@@ -303,6 +412,33 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                 w.registrations.setdefault(it["key"], []).append(c.id)
                 if ev.get("changes") is not None:
                     ev["changes"].append([c.id, "registered", None, it["name"], "your choice"])
+        elif kind == "join":  # the coach asked and you said yes: you're on the team
+            gid = _ref(ctx, op[1])
+            g = w.groups.get(gid) if isinstance(gid, str) else None
+            if g is not None and gid not in c.memberships:
+                fx.join(c.id, gid, "the coach asked")
+                if g.get("kind") == "team":
+                    g.setdefault("levels", {})[c.id] = "varsity" if (c.grade or 9) >= 11 or not g.get("jv_capacity") else "jv"
+                    sports.ensure_athlete(c, g["skill"], rng)
+        elif kind == "grounding":
+            g = c.flags.get("grounded_until")
+            if g is not None and g >= w.day:
+                if op[1] == "deal":
+                    left = g - w.day
+                    fx.flag(c.id, "grounded_until", w.day + left // 2, "made a deal: study every night")
+                    fx.flag(c.id, "study_deal_until", w.day + left, "the deal")
+                    ev["data"].setdefault("say", []).append("Deal. Books out every night, and you're free in half the time.")
+                elif rng.random() < 0.35 + (c.traits.get("confidence", 50) - 50) / 200:
+                    fx.flag(c.id, "grounded_until", w.day - 1, "argued your way out of it")
+                    ev["data"].setdefault("say", []).append("You make your case. Somehow, it works. You're off the hook.")
+                else:
+                    fx.flag(c.id, "grounded_until", g + 1, "argued about it")
+                    ev["data"].setdefault("say", []).append("You make your case. It does not work. Add a day.")
+        elif kind == "break_up":
+            other = _ref(ctx, op[1])
+            if isinstance(other, str) and c.flags.get("partner") == other:
+                from .actions import end_relationship
+                end_relationship(sim, c.id, other, ev, fx)
         elif kind in ("rel", "rel_back"):
             other = _ref(ctx, op[1])
             if isinstance(other, str) and other in w.chars and other != c.id:
@@ -374,12 +510,16 @@ def run_ops(sim, c, ops, ctx, fx, ev, rng, m):
                         dd[other] = c.id
                         fx.mood(c.id, 6, "dance date")
                         fx.mood(other, 8, "they said yes")
-                    else:
+                    elif not (w.chars[other].flags.get("partner") or c.flags.get("partner")):
                         start_dating(sim, other, c.id, ev, fx)
+                elif op[1] == "friends":  # kind and clear: it stings less, and they won't ask again this season
+                    fx.mood(other, -4, "just friends")
+                    fx.rel(other, c.id, "attraction", -15, "you'd rather stay friends")
+                    fx.rel(other, c.id, "perceived", -10, "you'd rather stay friends")
+                    ask_wait(w, other, 150)
                 else:
-                    class _Ctx(dict):
-                        pass
                     _rejected(sim, w.chars[other], c.id, ev, fx, rng, {"slot": "after_school"}, dance=bool(ctx.get("dance_key")))
+                    ask_wait(w, other, 60)
         elif kind == "beat":
             sim.moment_trigger(op[1], c.id, {k: v for k, v in ctx.items() if not k.startswith("_")})  # the scene keeps going
         elif kind == "drama":

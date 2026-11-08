@@ -38,8 +38,8 @@ def test_family_dog_is_a_real_pet_with_a_one_time_chore_setup():
     assert pets.owner_today(sim, hp[0], "walk") == p
     sim.advance_days(10)
     pet = pets.pets(w)[pid]
-    assert pet["bond"][p] > 40 and pet["streaks"].get("me", 0) + sum(1 for e in w.history.events.values() if e["type"] == "pet"
-                                                                    and e.get("outcome") == "chore_missed") >= 1
+    # a chore on your list that you never tapped quietly falls to your parents: no "you forgot", no blame
+    assert pet["bond"][p] >= 40 and not any(e["type"] == "pet" and e.get("outcome") == "chore_missed" for e in w.history.events.values())
     assert "family" in messages.phone(w)["threads"]
 
 

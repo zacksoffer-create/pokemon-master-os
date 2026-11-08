@@ -93,7 +93,13 @@ def test_your_crush_the_porch_and_maybe_more():
     r = c.post(f"/api/phone/moment/{m['id']}", json={"index": 0}).json()
     assert w.rels[(crush, me.id)].attraction != before
     if w.meta["night"]["kissed"] == crush:
-        assert me.flags.get("partner") == crush and any("together" in l["text"] for l in r["lines"])
+        # a kiss is a kiss: the next morning they ask what it was, and that's yours to say
+        assert not me.flags.get("partner")
+        from lifeos import moments as mo
+        ak = next(m for m in mo.pending(w) if m["kind"] == "after_kiss")
+        assert ak["ctx"]["other"] == crush and len(ak["choices"]) == 3
+        c.post(f"/api/phone/moment/{ak['id']}", json={"index": 0})
+        assert me.flags.get("partner") == crush
 
 
 def test_a_dance_with_a_date_has_the_slow_song_and_the_dance_off():
@@ -113,7 +119,7 @@ def test_skipping_ahead_plays_the_night_for_you():
     w = api.lab.w
     me, ppl = _people(api)
     nights.start(api.lab.sim, "party", "party:skip", "Kai's party", [me.id] + ppl, host=ppl[0], busted=True)
-    assert w.meta["night"]["plan"][-1] == "busted"
+    assert w.meta["night"]["plan"][-2:] == ["busted", "end_bust"]  # (the cops come mid-night; the night still ends)
     j = c.post("/api/story/advance", json={"until": "day"}).json()
     while j.get("status") == "running":
         time.sleep(0.1)

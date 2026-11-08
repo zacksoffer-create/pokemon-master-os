@@ -435,8 +435,8 @@ class Institutions:
         elsewhere = {c for (what, key), ids in sim.slot.attend.items() if what in ("practice", "event", "shift") and key != gid
                      for c in ids}
         for cid in absent:
-            if cid in elsewhere:
-                continue  # excused: at another practice, tryout, game or shift
+            if cid in elsewhere or w.chars[cid].flags.get("injured_until", -1) >= w.day:
+                continue  # excused: at another practice, tryout, game or shift, or hurt (rehab with the trainer)
             mark(g, cid, False)
             if coach:
                 fx.rel(coach, cid, "respect", -4, "missed practice")
@@ -538,8 +538,10 @@ class Institutions:
                         if c_.id not in ros["players"] and c_.id != me_id and c_.school == g.get("school", "hchs") and sports.can_play(c_, g):
                             placed[c_.id] = "out"
             reg = [cid for cid in reg if placed.get(cid) != "out"]
+        hurt = {cid for cid in reg if cid in w.chars and w.chars[cid].flags.get("injured_until", -1) >= w.day}
         came = sorted((set(sim.slot.attend.get(("event", it["key"]), [])) & set(reg))
-                      | {cid for cid, p in placed.items() if p != "out"})
+                      | {cid for cid, p in placed.items() if p != "out"}
+                      | hurt)  # hurt on tryout day: the coach goes on what they've seen, and they join when healthy
         noshow = sorted(set(reg) - set(came))
         coach = w.chars.get(g.get("staff"))
         ev = self.event("tryout", "held", came, importance=20, group=g["id"],
@@ -572,7 +574,7 @@ class Institutions:
                 sen *= 0.3
             elif favors == "favorites":
                 fav *= 2.5
-            if c.flags.get("injured_until", -1) >= w.day:
+            if c.flags.get("injured_until", -1) >= w.day and cid not in hurt:
                 perf -= 25
             if g.get("school") == "college" and c.path.get("scholarship") and c.path.get("sport") == sk:
                 sen += 40  # recruited: the roster spot is theirs to lose
@@ -757,8 +759,15 @@ class Institutions:
                     and not (g.get("school") == "college" and (c.path or {}).get("sport") and c.path["sport"] != sk)
                     and not (g.get("school") != "college" and sports.placement(c, sk) == "out")
                     and not any(w.groups[m]["kind"] == "team" and self.in_season(w.groups[m]) for m in c.memberships))
-        pool = sorted((c for c in w.students() if c.interests.get(sk, 0) >= 30 and free(c)),
+        me_id = w.meta.get("protagonist")
+        pool = sorted((c for c in w.students() if c.interests.get(sk, 0) >= 30 and free(c) and c.id != me_id),
                       key=lambda c: (-(sports.rating(c, sk) + c.interests.get(sk, 0) * 0.3), c.id))[:need]
+        me = w.chars.get(me_id or "")
+        asked = w.meta.setdefault("coach_asked", {})
+        key = f"{g['id']}:{calm.school_year_of(w.day)}"
+        if me is not None and me.interests.get(sk, 0) >= 30 and free(me) and key not in asked:
+            asked[key] = w.day  # you're not signed up: the coach asks (once a season), and it's your call
+            sim.moment_trigger("coach_asks", me_id, {"team_id": g["id"], "team": g["name"], "coach": g.get("staff")})
         short = g.get("starters", 5) - len(g["members"]) - len(pool)
         if short > 0 and g.get("school") != "college":
             # still not enough for a lineup: the coach works the hallways for athletic kids who aren't playing anything now
@@ -1045,7 +1054,9 @@ class Institutions:
                     f3.rel(x, y, "rivalry", 8, "fight at a party")
                     f3.memory(x, "argument", [y], -0.6, 55, f"Got into it with {w.chars[y].name} at a party")
                 sim.finish(e3, f3)
-        pb = clamp(0.06 + 0.02 * (len(came) - 6), 0.02, 0.4) if big else 0.0  # (nobody calls the cops on six kids and a movie)
+        pb = clamp(0.03 + 0.005 * (len(came) - 6), 0.02, 0.15) if big else 0.0  # (nobody calls the cops on six kids and a movie;
+        if big and (w.parties.get(key) or {}).get("why") in ("homecoming", "after the win", "homecoming weekend"):  # and a big one is
+            pb *= 0.5  # a story when it happens, not every other weekend; a homecoming or after-the-win party, even less)
         roll = rng.random()
         if prot in came:
             from . import nights
@@ -1089,6 +1100,8 @@ class Institutions:
             for cid in worked:
                 mark(g, cid, True, 6)
             for cid in sorted(set(g["members"]) - worked - elsewhere):
+                if w.chars[cid].location == "watch_hill":
+                    continue  # away for the summer: not a missed shift
                 mark(g, cid, False, 6)
                 if misses(g, cid) >= 4:
                     ev = self.event("job", "fired", [cid], importance=30, group=g["id"], data={"group": g["name"]})

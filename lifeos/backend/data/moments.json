@@ -1020,7 +1020,22 @@
        "answer_ask",
        "no"
       ]
-     ]
+     ],
+     "hint": "not right now: they won't ask again for a couple of months"
+    },
+    {
+     "label": "Tell them you'd rather stay friends.",
+     "fits": {
+      "empathy": 0.3,
+      "loyalty": 0.2
+     },
+     "ops": [
+      [
+       "answer_ask",
+       "friends"
+      ]
+     ],
+     "hint": "kind, and clear: they won't ask again this season"
     }
    ]
   },
@@ -1406,6 +1421,244 @@
      "fits": {
       "impulsivity": 0.2
      },
+     "ops": []
+    }
+   ]
+  },
+  "after_kiss": {
+   "title": "So... what was that?",
+   "text": "The morning after, your phone buzzes. It's {other}.\n\"so... about last night 👀\"",
+   "choices": [
+    {
+     "label": "Make it official.",
+     "hint": "you're together",
+     "fits": {
+      "confidence": 0.5
+     },
+     "ops": [
+      [
+       "answer_ask",
+       "yes"
+      ]
+     ]
+    },
+    {
+     "label": "\"No rush. Let's see where it goes.\"",
+     "hint": "it stays a kiss, for now",
+     "fits": {
+      "discipline": 0.3
+     },
+     "ops": [
+      [
+       "rel",
+       "other",
+       "attraction",
+       2
+      ],
+      [
+       "rel_back",
+       "other",
+       "attraction",
+       2
+      ],
+      [
+       "say",
+       "{other} sends back a smile. \"ok. no rush 🙂\""
+      ]
+     ]
+    },
+    {
+     "label": "\"I think we're better as friends.\"",
+     "hint": "kind, and clear",
+     "fits": {
+      "empathy": 0.4
+     },
+     "ops": [
+      [
+       "answer_ask",
+       "friends"
+      ]
+     ]
+    }
+   ]
+  },
+  "partner_cheat": {
+   "title": "What you heard about {partner}",
+   "text": "It gets back to you the way these things do: {about}. Nobody's saying it to your face, but everybody's saying it.",
+   "choices": [
+    {
+     "label": "Confront {partner}.",
+     "hint": "it comes out, one way or another",
+     "fits": {
+      "confidence": 0.6,
+      "volatility": 0.4
+     },
+     "ops": [
+      [
+       "rel",
+       "partner",
+       "trust",
+       -12
+      ],
+      [
+       "rel",
+       "partner",
+       "affection",
+       -6
+      ],
+      [
+       "rel_back",
+       "partner",
+       "respect",
+       4
+      ],
+      [
+       "memory",
+       "Called {partner} out about the kiss",
+       -0.5,
+       60,
+       [
+        "partner"
+       ]
+      ],
+      [
+       "say",
+       "{partner} doesn't deny it. It's the worst conversation you've had in a while, but at least it's out."
+      ]
+     ]
+    },
+    {
+     "label": "Break up with {partner}.",
+     "hint": "you're done",
+     "fits": {
+      "volatility": 0.5,
+      "loyalty": -0.2
+     },
+     "ops": [
+      [
+       "break_up",
+       "partner"
+      ],
+      [
+       "memory",
+       "Ended it with {partner} after the kiss",
+       -0.6,
+       70,
+       [
+        "partner"
+       ]
+      ]
+     ]
+    },
+    {
+     "label": "Ask {partner} what happened.",
+     "hint": "hear their side first",
+     "fits": {
+      "empathy": 0.5
+     },
+     "ops": [
+      [
+       "rel",
+       "partner",
+       "trust",
+       -6
+      ],
+      [
+       "rel_back",
+       "partner",
+       "affection",
+       4
+      ],
+      [
+       "say",
+       "{partner} tells you their side. It doesn't fix it, but it helps that they told you."
+      ]
+     ]
+    },
+    {
+     "label": "Pretend you didn't hear it.",
+     "hint": "nothing changes, for now",
+     "fits": {
+      "volatility": -0.5
+     },
+     "ops": [
+      [
+       "need",
+       "stress",
+       4
+      ]
+     ]
+    }
+   ]
+  },
+  "grounded": {
+   "title": "Grounded",
+   "text": "{guardians} sit you down. The short version: {why}. You're grounded until {until}: no hanging out, no dates, no parties.",
+   "choices": [
+    {
+     "label": "Take it. It's a few days.",
+     "hint": "no change",
+     "fits": {
+      "discipline": 0.4
+     },
+     "ops": [
+      [
+       "need",
+       "stress",
+       -2
+      ]
+     ]
+    },
+    {
+     "label": "Make a deal: study every night and it's half as long.",
+     "hint": "half the time, and you study",
+     "fits": {
+      "discipline": 0.6
+     },
+     "ops": [
+      [
+       "grounding",
+       "deal"
+      ]
+     ]
+    },
+    {
+     "label": "Argue your case.",
+     "hint": "it might work. It might cost you a day.",
+     "fits": {
+      "confidence": 0.6,
+      "volatility": 0.3
+     },
+     "ops": [
+      [
+       "grounding",
+       "argue"
+      ]
+     ]
+    }
+   ]
+  },
+  "coach_asks": {
+   "title": "{coach} is short a few players",
+   "text": "{coach} catches you in the hallway. \"We're thin on {team} this year. You'd get time. Want in?\"",
+   "choices": [
+    {
+     "label": "Sure, I'm in.",
+     "hint": "you're on the team: practice after school",
+     "fits": {
+      "sociability": 0.3
+     },
+     "ops": [
+      [
+       "join",
+       "team_id"
+      ]
+     ]
+    },
+    {
+     "label": "Thanks, but not this year.",
+     "hint": "it stays your call",
+     "fits": {},
      "ops": []
     }
    ]

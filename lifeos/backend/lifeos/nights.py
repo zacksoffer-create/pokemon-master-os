@@ -45,7 +45,7 @@ def register(moments: dict):
             ops = list(ch["ops"])
             if ch.get("did"):
                 ops.append(["night", "did", ch["did"]])
-            ops.append(["night", "end" if bid == "end" else "next"])
+            ops.append(["night", "end" if bid in ("end", "end_bust") else "next"])
             choices.append({"label": ch["label"], "hint": ch.get("hint", ""), "ops": ops, "fits": ch.get("fits", {}),
                             **({"requires": ch["requires"]} if ch.get("requires") else {})})
         moments[f"night_{bid}"] = {"title": b["title"], "text": b["text"], "choices": choices, "night": True,
@@ -134,7 +134,7 @@ def _plan(sim, kind, cast, hosting, busted, rng, small=False) -> list:
     first = _pick(pool, rng)
     pool.pop(first, None)
     second = _pick(pool, rng)
-    return [opening, first, second, "busted" if busted else "end"]
+    return [opening, first, "busted", "end_bust"] if busted else [opening, first, second, "end"]  # (busted mid-night: it still ends)
 
 
 def _pick(pool, rng):
@@ -358,7 +358,6 @@ def _talk(sim, c, st, cid, fx, ev, rng, say):
 
 
 def _romance(sim, c, st, who, kind, ctx, fx, ev, rng, say):
-    from .actions import start_dating
     from .social import make_rumor
     w = sim.w
     cid = st["cast"].get(who)
@@ -394,8 +393,7 @@ def _romance(sim, c, st, who, kind, ctx, fx, ev, rng, say):
         seen = [x for x in st["present"] if x != cid][:6]
         make_rumor(sim, c.id, "kiss", f"{c.name} and {o.name} kissed at {st['event']}", True, 0.05, 0.75, None, seen, ev.get("id"), involves=[c.id, cid])
         if not together and w.rules["romance.enabled"] and not o.flags.get("partner") and rab.attraction >= 45:
-            start_dating(sim, c.id, cid, ev, fx)
-            say(f"By the end of the night, it's official: you and {o.first} are together.")
+            sim.moment_trigger("after_kiss", c.id, {"other": cid})  # the morning after: you decide what it was
 
 
 def _secret(sim, c, st, mode, fx, ev, rng, say):

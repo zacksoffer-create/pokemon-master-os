@@ -439,8 +439,7 @@
     "popularity_approval": 0.6
    },
    "requires": [
-    "not_grounded",
-    "money:4"
+    "not_grounded"
    ],
    "risk": 0.05,
    "resolver": "interact",
@@ -689,8 +688,7 @@
     "attraction": 0.8
    },
    "requires": [
-    "not_grounded",
-    "money:6"
+    "not_grounded"
    ],
    "risk": 0,
    "resolver": "interact",
@@ -1132,7 +1130,8 @@
    "label": "Quit a group",
    "category": "achievement",
    "slots": [
-    "after_school"
+    "after_school",
+    "evening"
    ],
    "roles": [
     "student"

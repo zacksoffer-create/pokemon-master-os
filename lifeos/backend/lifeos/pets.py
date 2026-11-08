@@ -215,6 +215,8 @@ def night(sim):
                     done_by_me.append(duty)
                 continue
             who = owner_today(sim, pet, duty)
+            if who == prot:
+                who = "parents"  # on your list, but you didn't get to it: it quietly falls to your parents (no blame)
             if who == "parents":
                 ok = rng.random() < 0.97
             else:
@@ -395,6 +397,9 @@ def quick(sim, pid, activity):
         ev["text"] = f"You gave {pet['name']} a treat. Instant best friends." if used == 0 else f"Another treat for {pet['name']}. {he.capitalize()} is not complaining."
     elif activity == "feed":
         meal = "feed_am" if sim.current_phase() in ("dawn", "classes", "lunch", "day") else "feed_pm"
+        other = "feed_pm" if meal == "feed_am" else "feed_am"
+        if pet["today"].get(meal) and not pet["today"].get(other):
+            meal = other  # whichever meal is still missing today (breakfast you couldn't get to before school counts at night)
         if pet["today"].get(meal):
             pet["today"][f"q:{activity}"] = used
             raise ValueError(f"{pet['name']} already had {DUTIES[meal]['label'].lower()}.")

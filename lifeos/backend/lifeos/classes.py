@@ -176,5 +176,7 @@ def blend_exam(c, day, model_score) -> tuple[float, list] | None:
     if not qp or qp.get("day") != day:
         return None
     mine = qp["pct"] * 100
-    s = round(0.55 * mine + 0.45 * model_score, 1)
-    return s, [("your quiz round", round(0.55 * mine, 2)), ("your preparation", round(0.45 * model_score, 2))]
+    blend = round(0.55 * mine + 0.45 * model_score, 1)
+    s = max(blend, round(model_score, 1))  # playing it yourself can only help: a bad round never scores under letting it ride
+    return s, [("your quiz round", round(0.55 * mine, 2)), ("your preparation", round(0.45 * model_score, 2))] + \
+        ([("kept your prepared score (playing can only help)", round(s - blend, 2))] if s > blend else [])

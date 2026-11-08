@@ -49,6 +49,9 @@ class EditError(ValueError):
     pass
 
 
+FADING_REP = ("embarrassed", "troublemaker", "mean", "gossip", "flaky")  # the tags people forget about
+
+
 class Simulation:
     def __init__(self, world: World):
         self.w = world
@@ -273,7 +276,7 @@ class Simulation:
             if not scheduler.auto_ok(w, m):
                 continue  # a storyline scene waits for you (unless you turned on Let my character decide)
             if w.day - m["day"] >= (1 if m["kind"] in ("game_day", "class_game") or m["kind"].startswith("night_") else 3):
-                moments.resolve(self, m["id"], None)
+                moments.leave(self, m)  # you didn't answer: the do-nothing answer (big decisions keep waiting for you)
         from . import dialogue
         dialogue.maybe_scene(self)  # scenes from dialogue packs
         for inv in w.meta.get("inbox", []):
@@ -313,9 +316,13 @@ class Simulation:
         fx.need(subject, "stress", 7, "heard what people are saying")
         if teller and teller in w.chars:
             fx.rel(subject, teller, "trust", 3, "told them the truth")
+        cheat = None
         if jealous:
             for x in rum["involves"]:
                 if w.chars[subject].flags.get("partner") == x:
+                    if subject == w.meta.get("protagonist"):
+                        cheat = x  # you: what you feel and do about it is yours to choose (a card, below)
+                        continue
                     j = R["romance.jealousy"]
                     fx.rel(subject, x, "affection", -15 * j, "heard about the kiss")
                     fx.rel(subject, x, "trust", -20 * j, "heard about the kiss")
@@ -326,7 +333,9 @@ class Simulation:
         ev["calc"] = [{"step": "do they find out who started it?", "p": R["social.rumor_discovery"] if origin else 0,
                        "roll": round(roll, 4), "outcome": "found the source" if found else "no"}] if w.tracing else None
         self.finish(ev, fx)
-        if not jealous:
+        if cheat:
+            self.moment_trigger("partner_cheat", subject, {"partner": cheat, "about": rum["text"]})
+        elif not jealous:
             self.moment_trigger("rumor", subject, {"about": rum["text"], "origin": origin if found else None})
         if found:
             e2 = self.new_event("rumor_reached", "source", [subject], [origin], 36, {"about": rum["text"]})
@@ -376,13 +385,25 @@ class Simulation:
         pets.weekly(self)
         fx = Effects(w, None)
         decay = R["rel.affection_decay"] / 100
+        from .summer import WATCH_HILL
+        chars = w.chars
         for (a, b), r in w.rels.items():
             if w.day - r.last_day > 7:
+                A, B = chars.get(a), chars.get(b)
+                if A is not None and B is not None and (A.location == WATCH_HILL) != (B.location == WATCH_HILL):
+                    continue  # one of you is away for the summer: it keeps till you're back
                 k = 0.5 if (w.has_role(a, b, "partner") or w.has_role(a, b, "sibling")) else 1.0
-                r.affection -= r.affection * decay * k
+                floor = r.peak_affection * 0.75 if r.peak_affection >= 60 else 0.0  # a close friend stays one
+                if r.affection > floor:
+                    r.affection = max(floor, r.affection - r.affection * decay * k)
                 r.familiarity = max(0.0, r.familiarity - R["rel.familiarity_decay"] * k)
                 r.attraction = max(0.0, r.attraction - r.attraction * decay * 0.5)
                 fx.pairs.add((a, b))
+        for c in w.chars.values():  # a bad reputation fades: people move on (about 5% a week)
+            for tag in FADING_REP:
+                v = c.reputation.get(tag)
+                if v:
+                    c.reputation[tag] = round(v * 0.95, 2) if v > 0.5 else 0
         social.update_labels(self, fx, None)
         social.recompute_popularity(self, Effects(w, None))
         from . import ladder, league

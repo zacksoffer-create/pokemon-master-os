@@ -40,11 +40,21 @@ def _client():
     return c, api
 
 
-def _next_episode(c):
-    j = c.post("/api/story/advance", json={"until": "episode"}).json()
-    while j.get("status") == "running":
-        time.sleep(0.05)
-        j = c.get("/api/sim/job").json()
+def _next_episode(c, answer_big=True):
+    """Next episode; a big call it stops for (tryouts tomorrow, an ask-out) is answered the way a player would, and on."""
+    from lifeos import api
+    for _ in range(12):
+        j = c.post("/api/story/advance", json={"until": "episode"}).json()
+        while j.get("status") == "running":
+            time.sleep(0.05)
+            j = c.get("/api/sim/job").json()
+        if not answer_big or j.get("stop") != "moment":
+            return j
+        w, sim = api.lab.w, api.lab.sim
+        big = [m for m in moments.pending(w) if not scheduler.is_episode(sim, m["kind"])]
+        assert big and all(moments.big(m["kind"]) for m in big), [m["kind"] for m in big]
+        for m in big:
+            c.post(f"/api/phone/moment/{m['id']}", json={"index": 0})
     return j
 
 
@@ -68,7 +78,7 @@ def test_next_episode_goes_straight_to_the_next_scene_every_time():
     played, days = [], []
     for _ in range(8):
         start = w.day
-        j = _next_episode(c)
+        j = _next_episode(c)  # (a big call it stops for, tryouts tomorrow or an ask-out, is yours: answered in there)
         assert j["status"] == "done" and j["stop"] == "episode", j
         pend = moments.pending(w)
         # only the scene is waiting: tryouts, invites, class games and the rest, your character already handled

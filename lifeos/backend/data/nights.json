@@ -1588,6 +1588,116 @@
           "did": "guarded the furniture"
         }
       ]
+    },
+    "end_bust": {
+      "title": "After the cops",
+      "text": [
+        "Two streets over, the people who got out regroup under a streetlight, out of breath and laughing way too hard. Somebody's already telling it like a legend.",
+        "Everybody who made it out ends up in a parking lot down the road, still buzzing. Nobody's going back. Somebody says {after_first}'s."
+      ],
+      "choices": [
+        {
+          "label": "Go to the after-party.",
+          "hint": "the night's not over",
+          "fits": {
+            "impulsivity": 0.6,
+            "sociability": 0.4
+          },
+          "ops": [
+            [
+              "need",
+              "fun",
+              8
+            ],
+            [
+              "need",
+              "energy",
+              -10
+            ],
+            [
+              "night",
+              "curfew"
+            ]
+          ],
+          "did": "hit the after-party"
+        },
+        {
+          "label": "Get a ride home with {friend_first}.",
+          "hint": "talk the whole way",
+          "fits": {
+            "loyalty": 0.5
+          },
+          "ops": [
+            [
+              "rel",
+              "friend",
+              "affection",
+              2
+            ],
+            [
+              "rel_back",
+              "friend",
+              "affection",
+              3
+            ],
+            [
+              "say",
+              "You and {friend_first} sit in the driveway for twenty minutes replaying the whole night."
+            ]
+          ],
+          "did": "rode home with {friend_first}"
+        },
+        {
+          "label": "Walk {crush_first} home.",
+          "hint": "the long way",
+          "requires": [
+            "crush"
+          ],
+          "fits": {
+            "confidence": 0.6
+          },
+          "ops": [
+            [
+              "night",
+              "romance",
+              "crush",
+              "walk"
+            ]
+          ],
+          "did": "walked {crush_first} home"
+        },
+        {
+          "label": "Walk {date_first} to the door.",
+          "hint": "end it right",
+          "requires": [
+            "date"
+          ],
+          "ops": [
+            [
+              "night",
+              "romance",
+              "date",
+              "door"
+            ]
+          ],
+          "did": "walked {date_first} to the door"
+        },
+        {
+          "label": "Head home and crash.",
+          "hint": "sleep",
+          "fits": {
+            "discipline": 0.5
+          },
+          "ops": [
+            [
+              "need",
+              "energy",
+              4
+            ]
+          ],
+          "did": "headed home"
+        }
+      ]
     }
   },
   "romance": {

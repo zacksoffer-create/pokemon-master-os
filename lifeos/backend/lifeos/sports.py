@@ -1001,7 +1001,8 @@ def path_options(sim, c) -> list:
         iv = c.interests.get(o["sport"], 50)
         full = o.get("aid", "full scholarship").startswith("full")
         v = (10 + program(col, o.get("side") or o["sport"]) * 0.22 + iv * 0.2 + (8 if full else 4) + m["achievement"] * 0.1
-             + (6 if poor else 0) + (4 if col.get("home_state") and m["belonging"] > 60 else 0))
+             + (6 if poor else 0) + (4 if col.get("home_state") and m["belonging"] > 60 else 0)
+             + (15 if (c.flags or {}).get("favorite_college") == o["college"] else 0))  # (you told them you're seriously interested)
         opts.append({"kind": "college", "college": o["college"], "name": o["name"], "tier": o["tier"], "conference": col.get("conference"),
                      "sport": o["sport"], "scholarship": True, "aid": o.get("aid"), "program": program(col, o.get("side") or o["sport"]),
                      "utility": round(v, 1), "label": f"Play {o['sport']} at {col['short']} ({o.get('aid', 'scholarship')})"})

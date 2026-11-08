@@ -57,10 +57,10 @@ def parents_find_out(sim, payload, cause_id, rng):
         return
     s = h["strictness"] / 100 * R["inst.parent_strictness"]
     terms = [["strictness x rules", round(s, 3)], ["warmth", h["warmth"]]]
-    p_ground = clamp(0.15 + s * 0.7, 0, 0.98)
+    p_ground = clamp(0.1 + s * 0.4, 0, 0.6)  # (a few days, sometimes: parents, not a parole board)
     roll = rng.random()
     if roll < p_ground:
-        days = int(round(3 + s * 9))
+        days = int(round(2 + s * 3))
         ev = sim.new_event("household", "grounded", [c.id], [], 26, {"label": guardians_label(h), "n": days,
                                                                      "what": payload.get("what")})
         fx = Effects(w, ev)
@@ -68,6 +68,7 @@ def parents_find_out(sim, payload, cause_id, rng):
         fx.need(c.id, "stress", 8, "grounded")
         fx.mood(c.id, -6, "grounded")
         fx.memory(c.id, "grounded", [], -0.45, 45, f"Grounded for {payload.get('what')}")
+        _grounded_card(sim, c, h, f"they found out about {payload.get('what')}")
     else:
         ev = sim.new_event("household", "argument", [c.id], [], 16, {"label": guardians_label(h), "what": payload.get("what")})
         fx = Effects(w, ev)
@@ -87,11 +88,18 @@ def report_card_reaction(sim, c, it, rng):
     standard = 2.1 + h["expectations"] / 100 * 1.8
     diff = c.gpa - standard
     s = h["strictness"] / 100 * R["inst.parent_strictness"]
-    terms = [["GPA", round(c.gpa, 2)], ["household standard", round(standard, 2)], ["strictness x rules", round(s, 3)],
-             ["warmth", h["warmth"]]]
+    last = c.flags.get("last_card_gpa")
+    c.flags["last_card_gpa"] = round(c.gpa, 2)
+    drop = (last - c.gpa) if last is not None else 0.0
+    terms = [["GPA", round(c.gpa, 2)], ["household standard", round(standard, 2)], ["since the last card", round(-drop, 2)],
+             ["strictness x rules", round(s, 3)], ["warmth", h["warmth"]]]
     roll = rng.random()
-    if diff <= -0.35:
-        p_ground = clamp(sigmoid((-diff - 0.6) * 3) * s, 0, 0.95)
+    # grounded only for a real drop (0.3 or more since the last card) or a GPA under 2.0, and once a semester at most:
+    # a kid who's always been a 2.5 student isn't grounded for being one
+    real = drop >= 0.3 or c.gpa < 2.0
+    recent = w.day - c.flags.get("card_grounded_day", -999) < 120
+    if diff <= -0.35 or real:
+        p_ground = clamp(sigmoid((max(drop, 2.0 - c.gpa, 0) * 4) - 0.5) * s, 0, 0.9) if real and not recent else 0.0
         if roll < p_ground:
             outcome, imp = "grounded", 26
         elif s > 0.45:
@@ -105,7 +113,7 @@ def report_card_reaction(sim, c, it, rng):
         outcome, imp, p = "proud", 12, None
     else:
         return
-    days = int(round(5 + s * 8))
+    days = int(round(3 + s * 2))
     ev = sim.new_event("household", outcome, [c.id], [], imp, {"label": guardians_label(h), "n": days, "event": it["name"]})
     ev["calc"] = [{"step": f"{guardians_label(h)} read the report card", "terms": terms, "gap": round(diff, 2),
                    "p_grounded": round(p, 3) if p is not None else None, "roll": round(roll, 4), "outcome": outcome,
@@ -117,6 +125,9 @@ def report_card_reaction(sim, c, it, rng):
         fx.need(c.id, "stress", 10, "grounded over grades")
         fx.mood(c.id, -6, "grounded over grades")
         fx.memory(c.id, "grounded", [], -0.5, 50, "Grounded over a report card")
+        fx.flag(c.id, "card_grounded_day", w.day, "report card")
+        _grounded_card(sim, c, h, f"your GPA went from {last:.2f} to {c.gpa:.2f}" if last is not None and drop >= 0.3
+                       else f"a {c.gpa:.2f} GPA")
     elif outcome == "pressure":
         fx.flag(c.id, "pressure_until", w.day + 21, "report card")
         fx.need(c.id, "stress", 7, "pressure about grades")
@@ -127,3 +138,22 @@ def report_card_reaction(sim, c, it, rng):
         sim.confidence(c.id, 1.0, fx, "good report card")
         c.achievements.append({"day": w.day, "label": f"Strong report card ({c.gpa:.2f})", "event": None})
     sim.finish(ev, fx)
+
+
+def _grounded_card(sim, c, h, why):
+    """You're grounded: a card that says why and until when, and what you can do about it."""
+    w = sim.w
+    c.flags["grounded_why"] = why
+    if c.id == w.meta.get("protagonist"):
+        from . import calendar as calm
+        sim.moment_trigger("grounded", c.id, {"guardians": guardians_label(h), "why": why,
+                                              "until": calm.label(c.flags.get("grounded_until", w.day))})
+
+
+def grounding_view(w, c) -> dict | None:
+    """For the phone: grounded until when, and why (or None)."""
+    from . import calendar as calm
+    g = c.flags.get("grounded_until")
+    if g is None or g < w.day:
+        return None
+    return {"until": calm.label(g), "days": g - w.day + 1, "why": c.flags.get("grounded_why") or ""}

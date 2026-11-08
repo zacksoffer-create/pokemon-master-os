@@ -249,6 +249,12 @@ def post(sim, tid, sid, text, kind="text", replies=None, ctx=None, phase=None, u
     t["last"] = ph["next"]
     if sid not in ("me",) and not sid.startswith("parent") and sid in w.chars:
         add_contact(sim, sid)
+    if sid == "me" and tid.startswith("dm:"):  # you texted them: that's keeping in touch (no drifting, no "misses you")
+        me = w.meta.get("protagonist")
+        for pair in ((me, tid[3:]), (tid[3:], me)):
+            r = w.rels.get(pair)
+            if r is not None:
+                r.last_day = max(r.last_day, w.day)
     return msg
 
 
@@ -567,9 +573,10 @@ def moment_text(sim, m):
     other = m["ctx"].get("other")
     if kind not in ("asked_out", "asked_to_dance") or other not in w.chars:
         return
-    labels = ["yes!! 😊", "i'm sorry, i don't feel that way"] if kind == "asked_out" else ["yes, let's go", "i can't, sorry"]
+    labels = ["yes!! 😊", "not right now, sorry", "you're great but i think we're better as friends"] if kind == "asked_out" \
+        else ["yes, let's go", "i can't, sorry"]
     post(sim, f"dm:{other}", other, pick(kind, m["id"], sim=sim, frm=other, event=m["ctx"].get("event", "the dance")), kind=kind,
-         replies=[{"label": labels[0], "fx": f"moment:{m['id']}:0"}, {"label": labels[1], "fx": f"moment:{m['id']}:1"}],
+         replies=[{"label": lb, "fx": f"moment:{m['id']}:{i}"} for i, lb in enumerate(labels[:len(m["choices"])])],
          ctx={"moment": m["id"]})
 
 
@@ -682,7 +689,7 @@ def reply(sim, tid, mid, index) -> dict:
     mine = post(sim, tid, "me", opt["label"], kind="reply", unread=False)
     answer = None
     answer_text = opt.get("back") if (msg.get("ctx") or {}).get("talk") else None  # (what they say to what you said)
-    if msg.get("kind") == "asked_out" and index == 1 and sender in w.chars:
+    if msg.get("kind") == "asked_out" and index in (1, 2) and sender in w.chars:
         from . import talk
         talk.turned_down(w, sender)
     ev = sim.new_event("text", fx_key.split(":")[0], [me.id], [sender] if sender in w.chars else [], 6,

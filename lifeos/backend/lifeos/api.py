@@ -193,13 +193,13 @@ class Lab:
                             if any(scheduler.is_episode(sim, m["kind"]) for m in pend):
                                 reason = "episode"
                                 break
-                            if any(m["id"] in tried for m in pend):
+                            if any(m["id"] in tried or moments.big(m["kind"]) for m in pend):
                                 reason = "moment"  # something your character can't answer for you: it's yours
                                 break
                             if pend:
-                                for m in pend:  # tryouts, invites, class games, a night out: your character decides
+                                for m in pend:  # class games, a night out, a quiz: the do-nothing answer, nothing risky
                                     tried.add(m["id"])
-                                    moments.resolve(sim, m["id"], None)
+                                    moments.leave(sim, m)
                                 continue
                             if (w.meta.get("story") or {}).get("complete"):
                                 reason = "end"
@@ -214,9 +214,9 @@ class Lab:
                                     reason = "nothing_left"
                                     break
                         if pend and until != "decision" and any(moments.light(m["kind"]) for m in pend):
-                            for m in pend:  # skipping ahead: your character plays the class game or the night themselves
+                            for m in pend:  # skipping ahead: the class game sits, the night plays it safe
                                 if moments.light(m["kind"]):
-                                    moments.resolve(sim, m["id"], None)
+                                    moments.leave(sim, m)
                             pend = [m for m in pend if not moments.light(m["kind"])]
                         if pend:
                             reason = "moment"
@@ -1396,7 +1396,9 @@ def api_schedule_step(body: dict = Body(default={})):
                 for m in moments.pending(w):
                     if m["kind"] == scheduler._root(sim, m["kind"]) and m["kind"] in scheduler.catalog(sim)["scenes"]:
                         played.append(m["kind"])
-                    moments.resolve(sim, m["id"], None)
+                        moments.resolve(sim, m["id"], None)
+                    else:
+                        moments.leave(sim, m)
                 sim.step()
         return {"played": played, "status": scheduler.status(sim)}
 

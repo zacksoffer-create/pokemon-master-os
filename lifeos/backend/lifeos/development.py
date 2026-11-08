@@ -225,10 +225,16 @@ def weekly(sim, rng):
     """Skill decay, interest drift toward friends, decay of counters/habits."""
     w, R = sim.w, sim.w.rules
     fx = Effects(w, None)
+    me = w.meta.get("protagonist")
     for c in sorted(w.active(), key=lambda c: c.id):
+        peak = c.flags.setdefault("skill_peak", {}) if c.id == me else None
         for sk, v in list(c.skills.items()):
+            if peak is not None:
+                peak[sk] = max(peak.get(sk, 0), round(v, 1))
             used = c.counters.get("skillpractice:" + sk, 0)
             if sk != "academics" and used < 0.5 and v > 5:
+                if peak is not None and v <= peak[sk] * 0.9:
+                    continue  # you: a skill you built stays at least 90% of its best (rusty, never gone)
                 fx.skill(c.id, sk, -0.5 * R["dev.skill_decay"] * v / 100, "out of practice")
         for k in list(c.counters):
             if k.startswith("skillpractice:"):
@@ -241,9 +247,15 @@ def weekly(sim, rng):
             cl = w.cliques.get(c.flags.get("clique") or "")
             if cl and cl.get("active"):
                 k = R["decision.conformity_weight"] * c.motives["belonging"] / 100 * 0.06
+                base_i = c.flags.setdefault("interest_base", dict(c.interests)) if c.id == me else None
                 for key, mean in cl.get("interests", []):
                     cur = c.interests.get(key, 0)
-                    fx.interest(c.id, key, (mean - cur) * k, "friends are into it")
+                    d = (mean - cur) * k
+                    if base_i is not None:  # you: your friends rub off on you a little (10 points at most), never more
+                        b0 = base_i.get(key, cur)
+                        d = max(d, min(0.0, b0 - 10 - cur)) if d < 0 else min(d, max(0.0, b0 + 10 - cur))
+                    if abs(d) > 1e-6:
+                        fx.interest(c.id, key, d, "friends are into it")
         # traits drift a little toward recent experience: confidence recovers toward its own baseline slowly
         base = c.flags.get("confidence_base")
         if base is None:

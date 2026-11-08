@@ -287,6 +287,8 @@ def targets(sim, c, a, slot, ctx, rng) -> list:
     if sel == "membership":
         return [(gid, None, f"member of {w.groups[gid]['name']}") for gid in c.memberships]
     if sel == "shift":
+        if c.location == "watch_hill":
+            return []  # away for the summer: the job's on hold
         return [(gid, None, f"has a shift at {w.groups[gid]['name']}") for gid in c.memberships
                 if w.groups[gid]["kind"] == "job" and calm.weekday(w.day) in w.groups[gid]["shift_days"]]
     if sel == "party":
@@ -624,6 +626,10 @@ def _context(sim, c, cand, ctx):
             rej = [m for m in c.memories if m["kind"] == "rejected" and cand.target in m["with"] and w.day - m["day"] < 120]
             if rej:
                 out.append(("was turned down before", -12.0, rej[-1]["text"]))
+            if cand.target == w.meta.get("protagonist"):
+                from .moments import asked_too_soon
+                if asked_too_soon(w, c.id):
+                    out.append(("you told them no", -100.0, "they won't ask you again for a while"))
             T = w.chars.get(cand.target)
             bar = float(w.rules.get("romance.girl_asks_guy", 1.0))
             if bar > 0 and c.gender == "f" and T is not None and T.gender == "m":
@@ -746,6 +752,13 @@ def prepare(sim, c, slot, ctx):
     return ctx
 
 
+# Your character, left to themselves (you didn't pick), never starts trouble or romance: no gossip, rumors, pranks,
+# confronting, teasing, sneaking out, quitting or breaking up, and no asking out or flirting. Those are yours to choose
+# (they're still on your list), unless you turned on Let my character decide.
+AUTOPILOT_NO = {"confront", "spread_rumor", "prank", "sneak_out", "tease", "gossip", "break_up", "quit_group", "ask_out",
+                "ask_to_dance", "flirt"}
+
+
 def decide(sim, c, slot, ctx, rng, trace: bool):
     cat = sim.cat
     role = c.role
@@ -783,6 +796,11 @@ def decide(sim, c, slot, ctx, rng, trace: bool):
     idx, probs = softmax_pick([cd.u for cd in cands], T, roll)
     for cd, p in zip(cands, probs):
         cd.prob = p
+    if cands[idx].a["id"] in AUTOPILOT_NO and c.id == w.meta.get("protagonist") and not (w.meta.get("control") or {}).get("auto_scenes"):
+        ok = [i for i, cd in enumerate(cands) if cd.a["id"] not in AUTOPILOT_NO]  # (your character won't do these on their own)
+        if ok:
+            j, _ = softmax_pick([cands[i].u for i in ok], T, roll)
+            idx = ok[j]
     chosen = cands[idx]
     tr = None
     if trace:

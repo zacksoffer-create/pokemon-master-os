@@ -32,7 +32,7 @@ def _story(days=60):
     for _ in range(days):
         sim.advance_days(1)
         for m in moments.pending(w):
-            moments.resolve(sim, m["id"], None)
+            moments.resolve(sim, m["id"], 0 if m["kind"] == "coach_asks" else None)  # (the coach asks you to fill out the team: you do)
     return c, sim, w
 
 
@@ -53,7 +53,10 @@ def test_the_table_is_the_games_that_were_played():
         ours = lea["teams"][lea["ours"]]["results"]
         assert [r["win"] for r in ours] == [e["outcome"] == "win" for e in sorted(games, key=lambda e: e["id"])]
         assert [r["vs"] for r in ours] == [e["data"]["opponent"] for e in sorted(games, key=lambda e: e["id"])]
-        n = min(len(ours), len(lea["schedule"]))  # (a CIAC season can be longer than the conference: then it starts over)
+        vdays = {e["day"] for e in games}
+        skipped = sum(1 for i in w.calendar if i.get("kind") == "game" and i.get("group") == g["id"] and not i.get("stage")
+                      and i["day"] <= w.day and i["day"] not in vdays)  # (a varsity game nobody could play: the schedule moved on)
+        n = min(len(ours), len(lea["schedule"]) - skipped)  # (a CIAC season can be longer than the conference: then it starts over)
         assert len({r["vs"] for r in ours[:n]}) == n, "the schedule goes through the conference"
         assert "Hand" in lea["teams"] and lea["rival"] == "Hand" and lea["ours"] == "Guilford"
 
