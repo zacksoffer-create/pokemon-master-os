@@ -256,6 +256,57 @@ def phone_lunch_table(body: dict = Body(...)):
             raise HTTPException(409, str(e))
 
 
+@router.get("/api/phone/sports-weights")
+def phone_sports_weights():
+    """How much each part of a sports year counts toward popularity (yours to change)."""
+    from . import records
+    A, L = _lab()
+    with L.lock:
+        return records.weights_view(L.w)
+
+
+@router.post("/api/phone/sports-weights")
+def phone_set_sports_weights(body: dict = Body(...)):
+    """{"weights": {key: value}} to change some, {"reset": true} for the defaults. Popularity re-ranks right away."""
+    from . import records
+    A, L = _lab()
+    with L.lock:
+        try:
+            out = records.set_weights(L.sim, body)
+        except records.RecordError as e:
+            raise HTTPException(400, str(e))
+        L.autosave()
+        return out
+
+
+@router.get("/api/phone/editor/sports/{cid}")
+def phone_sports_record(cid: str, year: int | None = None):
+    """Someone's seasons in a school year (this one by default): stat line, games, starts, record, captain, awards."""
+    from . import records
+    A, L = _lab()
+    with L.lock:
+        try:
+            return records.seasons(L.sim, cid, year)
+        except records.RecordError as e:
+            raise HTTPException(404, str(e))
+
+
+@router.post("/api/phone/editor/sports/{cid}")
+def phone_save_sports_record(cid: str, body: dict = Body(...)):
+    """Change one season: {year, team, games, starts, wins, losses, line, captain, awards, potw}. Your numbers replace the
+    simulation's."""
+    from . import records
+    A, L = _lab()
+    L.guard()
+    with L.lock:
+        try:
+            out = records.save(L.sim, cid, body)
+        except records.RecordError as e:
+            raise HTTPException(400, str(e))
+        L.autosave()
+        return out
+
+
 @router.get("/api/phone/rosters")
 def phone_rosters():
     """Real rosters and staff: each team's coaches and how much of this year's roster is set, the teachers, the sheets in."""

@@ -1107,6 +1107,23 @@ count a little extra. On a real save it moved the All-SCC players into the top 2
 35th to 13th, Matt Hoey 57th to 20th). The Ladder's "what moves you" has a **Sports** line ("Varsity basketball starter;
 Varsity baseball; Guilford Boys Basketball MVP").
 
+### Sports records and weights you control
+
+You don't have to agree with the simulation, either about how much sports count or about anyone's numbers.
+
+- **How sports count**: Scene -> Ladder -> the Sports line -> **Change how sports count**. Every piece has a number
+  (making varsity 120, JV 30, a second team 0.5x, starting 50, captain 70, team MVP 140, All-SCC 100, All-State or Player
+  of the Year 160, each Player of the Week 25 with up to 5 counting, any other award 40, a title 90, athlete reputation
+  2x, football 1.25x, basketball 1.15x) plus a **Sports overall** multiplier (0 turns sports off for popularity, 2 doubles
+  them). The middle of the school sits around 480 on the same scale, so you can see what a number means. Save re-ranks
+  everyone on the spot; **Reset to defaults** puts it all back. Only what you changed is stored (`records.weights`).
+- **Anyone's season**: Story Studio -> the editor -> a person -> **Sports record**. Pick the school year; each team they
+  were on gets a card: games, starts, wins, losses, the season stat line for that sport (rushing yards, points, hits,
+  goals...), captain, awards (the team MVP, All-SCC, All-State and Player of the Year for that sport are one tap; type
+  any other), and Players of the Week (+/-). **Save season** replaces what the game simulated: the stat line, the
+  awards, the captaincy. The Ladder, the yearbook, the Sports tab and storylines all read that same record, and
+  popularity is recomputed right away. A season you've touched says "edited by you" (`records.seasons` / `records.save`).
+
 ## Parties: the rare big one, and a few people over
 
 Most weekends somebody has **a few people over**: five or six of you, a basement, a movie nobody's watching. It's said

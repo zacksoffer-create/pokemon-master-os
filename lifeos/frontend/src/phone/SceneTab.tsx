@@ -7,6 +7,7 @@ import { Portrait } from "./art";
 import { cx, errText, Lines, Sheet, StatChips } from "./kit";
 import { usePhone } from "./PhoneContext";
 import { SceneScreen } from "./Scene";
+import { SportsWeightsEditor } from "./SportsRecord";
 import { PeopleScreen } from "./People";
 import { YearbookScreen } from "./Yearbook";
 
@@ -51,6 +52,7 @@ function Ladder() {
   const [who, setWho] = useState<LadderRow | null>(null);
   const [out, setOut] = useState<{ lines: Line[]; chips: Chip[]; title: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  const [weights, setWeights] = useState(false);
   const load = (s = scope) => phoneApi.ladder(s).then(setV).catch((e) => toast(errText(e), "bad"));
   useEffect(() => {
     load(scope);
@@ -86,6 +88,9 @@ function Ladder() {
   return (
     <div className="ld">
       <YouCard v={v} onWho={setWho} />
+      <Sheet open={weights} onClose={() => setWeights(false)} title="How sports count" full>
+        {weights && <SportsWeightsEditor onDone={() => load()} />}
+      </Sheet>
 
       <div className="sc-h">What your standing is made of</div>
       <div className="ld-parts">
@@ -93,6 +98,7 @@ function Ladder() {
           <div key={p.key} className="ld-part">
             <div className="ld-part-h"><b>{p.label}</b><i><span style={{ width: `${Math.max(4, Math.min(100, p.score))}%` }} /></i></div>
             <small>{p.line}</small>
+            {p.key === "sports" && <button className="ld-link" onClick={() => setWeights(true)}>Change how sports count</button>}
           </div>
         ))}
         <div className="ld-tip"><b>Your next move</b>{y.tip}</div>

@@ -60,15 +60,16 @@ def can_play(c, g) -> bool:
 PLACEMENTS = ("varsity", "jv", "out")
 
 
-SPORT_WEIGHT = {"football": 1.25, "basketball": 1.15}  # (the Friday night sports carry a little more at school)
-
-
 def athletic_standing(w, c) -> tuple:
     """How much someone's sports count at school this school year, in popularity's units, and what they are: making
-    varsity (JV a little; a second team half), starting, captain, this year's awards (MVP, all-conference, Player of the
-    Week), a title, beating Hand, and an athlete's reputation. -> (points, [what counts])."""
+    varsity (JV a little; a second team counts less), starting, captain, this year's awards (MVP, all-conference,
+    All-State, Player of the Week), a title, and an athlete's reputation. The point values are yours to change
+    (records.weights). -> (points, [what counts])."""
+    from .records import weights
     if c.role != "student":
         return 0.0, []
+    W = weights(w)
+    sport_w = {"football": W["football"], "basketball": W["basketball"]}
     year = calm.school_year_of(w.day)
     y0 = calm.START.year + year
     skey = f"{y0}-{str(y0 + 1)[2:]}"
@@ -84,25 +85,25 @@ def athletic_standing(w, c) -> tuple:
             lvl = (hist.get("levels") or {}).get(c.id, "varsity")
         else:
             continue
-        wt = SPORT_WEIGHT.get(g.get("skill"), 1.0)
-        pts = (120 if lvl == "varsity" else 30) * wt
+        wt = sport_w.get(g.get("skill"), 1.0)
+        pts = (W["varsity"] if lvl == "varsity" else W["jv"]) * wt
         bits = [f"{'Varsity' if lvl == 'varsity' else 'JV'} {g['name'].replace('Guilford ', '').replace('Boys ', '').lower()}"]
         st = (c.stats or {}).get(f"{g.get('skill')}:{skey}:varsity") or {}
         if lvl == "varsity" and st.get("games") and st.get("starts", 0) >= max(2, st["games"] / 2):
-            pts += 50 * wt
+            pts += W["starter"] * wt
             bits[0] += " starter"
         if c.id in (g.get("leaders") or []) or c.id in ((hist or {}).get("captains") or []):
-            pts += 70 * wt
+            pts += W["captain"] * wt
             bits.append(f"captain of {g['name'].replace('Guilford ', '')}")
         for k, r in (g.get("post_results") or {}).items():
             if str(k).startswith(f"{year}:") and r.get("result") == "champion" and lvl == "varsity":
-                pts += 90
+                pts += W["title"]
                 bits.append(f"{r.get('stage_name') or 'tournament'} champion")
         teams.append((pts, bits))
     teams.sort(key=lambda t: -t[0])
     total, said = 0.0, []
     for i, (pts, bits) in enumerate(teams):
-        total += pts if i == 0 else pts * 0.5
+        total += pts if i == 0 else pts * W["second_team"]
         said += bits
     potw = 0
     for aw in c.awards or []:
@@ -111,19 +112,23 @@ def athletic_standing(w, c) -> tuple:
         lab = aw.get("label") or ""
         if aw.get("potw") or "Player of the Week" in lab:
             potw += 1
+        elif lab.startswith("All-State") or "Player of the Year" in lab or lab.startswith("All-American"):
+            total += W["all_state"]
+            said.append(lab)
         elif lab.endswith("MVP"):
-            total += 140
+            total += W["mvp"]
             said.append(lab)
         elif lab.startswith("All-"):
-            total += 100
+            total += W["all_conf"]
             said.append(lab)
         else:
-            total += 40
+            total += W["other_award"]
+            said.append(lab)
     if potw:
-        total += 25 * min(potw, 5)
+        total += W["potw"] * min(potw, int(W["potw_max"]))
         said.append(f"Player of the Week{f' x{potw}' if potw > 1 else ''}")
-    total += 2.0 * max(0.0, (c.reputation or {}).get("athlete", 0))
-    return round(total * w.rules.get("social.athletic_weight", 1.0), 1), said
+    total += W["athlete_rep"] * max(0.0, (c.reputation or {}).get("athlete", 0))
+    return round(total * W["overall"] * w.rules.get("social.athletic_weight", 1.0), 1), said
 
 
 def placement(c, sport) -> str | None:

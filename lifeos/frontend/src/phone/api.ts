@@ -330,11 +330,22 @@ export type RosterOverview = {
   teachers: { name: string; classes: string[] }[]; sheets: { day: number; date: string; lines: number }[];
 };
 
+export type SportsWeightRow = { key: string; label: string; kind: "x" | "pts" | "n"; value: number; default: number; min: number; max: number };
+export type SportsWeights = { rows: SportsWeightRow[]; changed: boolean };
+export type SeasonRec = { team: string; name: string; sport: string; level: string; games: number; starts: number; wins: number; losses: number;
+  line: Record<string, number>; fields: [string, string][]; captain: boolean; awards: string[]; options: string[]; potw: number; edited: boolean };
+export type SportsRecord = { year: number; label: string; years: { year: number; label: string }[]; seasons: SeasonRec[]; name: string };
+
 export const phoneApi = {
   lunchTable: (table: string | null): Promise<Cafeteria> => api.post("/api/phone/lunch/table", { table }),
   people: (): Promise<{ rows: PersonRow[]; of: number; groups: string[] }> => api.get("/api/phone/people"),
   person: (id: string): Promise<PersonProfile> => api.get(`/api/phone/people/${encodeURIComponent(id)}`),
   rosters: (): Promise<RosterOverview> => api.get("/api/phone/rosters"),
+  sportsWeights: (): Promise<SportsWeights> => api.get("/api/phone/sports-weights"),
+  setSportsWeights: (body: { weights?: Record<string, number>; reset?: boolean }): Promise<SportsWeights> => api.post("/api/phone/sports-weights", body),
+  sportsRecord: (cid: string, year?: number): Promise<SportsRecord> =>
+    api.get(`/api/phone/editor/sports/${encodeURIComponent(cid)}${year !== undefined ? `?year=${year}` : ""}`),
+  saveSportsRecord: (cid: string, body: Record<string, any>): Promise<SportsRecord> => api.post(`/api/phone/editor/sports/${encodeURIComponent(cid)}`, body),
   rostersPrompt: (ask: string): Promise<{ prompt: string }> => api.get(`/api/phone/rosters/prompt?ask=${encodeURIComponent(ask)}`),
   rostersCheck: (text: string): Promise<RosterCheck> => api.post("/api/phone/rosters/check", { text }),
   rostersApply: (text: string): Promise<{ done: string[]; skipped: string[]; notes: string[] }> => api.post("/api/phone/rosters/apply", { text }),

@@ -1856,3 +1856,32 @@ html.ph-docscroll body { overflow-x: hidden; }
   border-radius: 12px; background: #f6f2ff; }
 .sc-acts2 b { font-size: 14px; color: #3f31d6; }
 .sc-acts2 small { font-size: 12px; color: var(--ph-ink-2); font-weight: 600; line-height: 1.3; }
+
+/* Sports records you control (editor) and how sports count (Ladder) */
+.sr-intro { margin: 0 0 8px; line-height: 1.4; }
+.sr-card { background: #fff; border-radius: 14px; padding: 12px; margin-top: 10px; box-shadow: inset 0 0 0 1.5px var(--ph-line); display: flex; flex-direction: column; gap: 8px; }
+.sr-h { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.sr-h b { font-size: 15px; }
+.sr-h small { color: var(--ph-dim); font-weight: 700; font-size: 12px; }
+.sr-sub { font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--ph-dim); margin-top: 2px; }
+.sr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.sr-grid.four { grid-template-columns: repeat(4, 1fr); }
+.sr-grid label { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sr-grid label span { font-size: 11px; font-weight: 700; color: var(--ph-ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sr-grid .ph-input { padding: 7px 8px; font-size: 15px; width: 100%; box-sizing: border-box; }
+.sr-toggle { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+.sr-custom { display: flex; gap: 6px; }
+.sr-custom .ph-input { flex: 1; min-width: 0; }
+.sr-potw { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+.sr-potw span { flex: 1; }
+.sr-potw b { min-width: 22px; text-align: center; font-size: 16px; }
+.sr-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+.ph-root .ld-link { --btn-bg: transparent; background: none; color: var(--ph-grape); font-weight: 800; font-size: 12.5px; padding: 4px 0 0; align-self: flex-start; }
+.sw { display: flex; flex-direction: column; gap: 8px; }
+.sw-row { display: grid; grid-template-columns: 1fr 34px 76px 34px; gap: 6px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--ph-line); }
+.sw-row span { display: flex; flex-direction: column; min-width: 0; }
+.sw-row b { font-size: 14px; }
+.sw-row small { font-size: 11.5px; color: var(--ph-dim); font-weight: 700; }
+.sw-row.changed b { color: var(--ph-grape); }
+.sw-row .ph-input { padding: 6px 6px; text-align: center; font-size: 15px; width: 100%; box-sizing: border-box; }
+.sw-row .ph-btn { padding: 6px 0; min-width: 0; }
