@@ -41,9 +41,9 @@ def test_everyone_at_school_in_numbers():
 def test_the_yearbook_live_and_saved_at_the_season_break():
     c = client()
     y = c.get("/api/phone/yearbook").json()
-    assert y["now"]["label"] == "Freshman year" and y["now"]["you"]["of"] > 0 and y["past"] == []
-    assert {s["label"] for s in y["now"]["superlatives"]} >= {"Most Popular", "Best Athlete"}
-    assert len(y["now"]["top"]) == min(10, y["now"]["you"]["of"])
+    v = y["volume"]
+    assert v["label"].startswith("Freshman year") and v["you"]["of"] > 0 and y["recaps"] == [] and len(y["volumes"]) == 1
+    assert {s["label"] for s in v["superlatives"]} >= {"Most Popular", "Best Athlete"}
     sim = api.lab.sim
     w = sim.w
     w.meta["season"] = "0-school"
@@ -51,6 +51,6 @@ def test_the_yearbook_live_and_saved_at_the_season_break():
     seasons.on_dawn(sim)
     assert c.post("/api/phone/season/break").json()["status"] == "done"
     y = c.get("/api/phone/yearbook").json()
-    past = y["past"][0]
+    past = y["recaps"][0]  # (the season break's page, under Season recaps)
     assert past["label"] == "Freshman year" and past["superlatives"] and past["top"] and past["you"]["rank"]
-    assert y["now"]["label"] == "Summer after freshman year"
+    assert y["volume"]["title"] == "The Grizzly 2011"  # (the summer after it is still freshman year's book)
