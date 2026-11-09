@@ -349,3 +349,12 @@ def test_your_partner_checks_in_after_three_weeks_apart():
     sim._weekly()
     card = next(m for m in moments.pending(sim.w) if m["kind"] == "partner_checkin")
     assert card["ctx"]["partner"] == o.id and len(card["choices"]) == 3
+
+
+def test_one_what_was_that_a_night_however_many_kisses():
+    sim, me = world()
+    _clear(sim)
+    o = _other(sim, me)
+    sim.moment_trigger("after_kiss", me.id, {"other": o.id})
+    sim.moment_trigger("after_kiss", me.id, {"other": o.id})  # (the porch, then the walk home)
+    assert sum(1 for m in moments.pending(sim.w) if m["kind"] == "after_kiss") == 1

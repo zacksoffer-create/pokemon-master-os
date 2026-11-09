@@ -14,7 +14,7 @@ from .history import Effects
 from .rng import clamp, softmax_pick
 
 DEDUPE = {"first_day", "college_decision", "summer", "graduation", "college_arrival", "year_review", "game_day", "benched",
-          "mlb_draft", "draft_passed", "story_end", "class_quiz", "class_game"}
+          "mlb_draft", "draft_passed", "story_end", "class_quiz", "class_game", "after_kiss", "grounded", "partner_checkin"}
 
 
 class _Safe(dict):

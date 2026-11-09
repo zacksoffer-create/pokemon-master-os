@@ -392,7 +392,9 @@ def _romance(sim, c, st, who, kind, ctx, fx, ev, rng, say):
             fx.memory(a, "kiss", [b], 0.8, 70, f"Kissed {w.chars[b].name} at {st['event']}")
         seen = [x for x in st["present"] if x != cid][:6]
         make_rumor(sim, c.id, "kiss", f"{c.name} and {o.name} kissed at {st['event']}", True, 0.05, 0.75, None, seen, ev.get("id"), involves=[c.id, cid])
-        if not together and w.rules["romance.enabled"] and not o.flags.get("partner") and rab.attraction >= 45:
+        if not together and w.rules["romance.enabled"] and not o.flags.get("partner") and rab.attraction >= 45 \
+                and cid not in st.setdefault("asked_after", []):  # (one "what was that?" a night, however many kisses)
+            st["asked_after"].append(cid)
             sim.moment_trigger("after_kiss", c.id, {"other": cid})  # the morning after: you decide what it was
 
 
