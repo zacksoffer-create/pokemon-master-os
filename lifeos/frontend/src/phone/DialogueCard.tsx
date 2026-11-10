@@ -11,7 +11,6 @@ import BuildStoryline, { BuildStart } from "./BuildStoryline";
 import ReviseSheet from "./ReviseSheet";
 import { applyUpdate, subscribe, updateReady, UpdateState } from "../standalone/update";
 import StorylineRead from "./StorylineRead";
-import ProductionWorkspace, { ProductionStart } from "./ProductionWorkspace";
 
 type PackRow = {
   id: string; name: string; author?: string; notes?: string; source: "builtin" | "yours"; enabled: boolean; ok: boolean;
@@ -272,7 +271,6 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
   const [read, setRead] = useState<string | null>(null);
   const [build, setBuild] = useState<BuildStart>(null);
   const [revise, setRevise] = useState<string | null>(null);
-  const [prod, setProd] = useState<ProductionStart>(null);
   const expandOf = (p: PackRow): BuildStart => {
     const top = p.expands ? data?.packs.find((x) => x.name === p.expands && !x.expands) : p;
     return { expand: top?.id || p.id, expandName: top?.name || p.name };
@@ -409,12 +407,7 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
           <button className="ph-btn soft block" disabled={!!busy} onClick={() => setPaste(true)}>
             <PIcon name="plus" size={17} /> Paste a script
           </button>
-          <button className="ph-btn soft block" disabled={!!busy} onClick={() => setProd({})}>
-            <PIcon name="book" size={17} /> Production workspace
-          </button>
         </div>
-        <p className="ph-dim small dl-prodline">Writing a big one (40 scenes in parallel chats)? The production workspace makes one prompt per batch, takes the
-          replies back in any order, checks every scene with the game's own rules and imports when it's all clean.</p>
         </>
         )}
         <div className="dl-list">
@@ -455,11 +448,6 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
                         <PIcon name="plus" size={16} /> Add an expansion
                       </button>
                     </div>
-                  )}
-                  {p.kind === "script" && !tx && p.id.startsWith("yours:") && p.outline && p.outline.total > 0 && (
-                    <button className="ph-btn soft block" onClick={() => setProd({ from: p.id })}>
-                      <PIcon name="book" size={16} /> Open in the production workspace
-                    </button>
                   )}
                   {p.kind === "script" && p.ok && !tx && p.id.startsWith("yours:") && (
                     <button className="ph-btn soft block" onClick={() => setRevise(p.id)}>
@@ -544,7 +532,6 @@ export default function DialogueCard({ mode = "storylines", onData }: { mode?: "
         setBuild(p ? expandOf(p) : { expand: pid });
       }} />
       <ReviseSheet pack={revise} onClose={() => { setRevise(null); load(); }} onChanged={load} />
-      <ProductionWorkspace start={prod} onClose={() => { setProd(null); load(); }} onImported={load} />
       <BuildStoryline start={build} onClose={() => { setBuild(null); load(); }} onChanged={load} onRead={(pid) => { setBuild(null); setRead(pid); }} />
       <Sheet open={guide !== null} onClose={() => setGuide(null)} full title="How scripts work">
         <pre className="dl-guide">{guide}</pre>
