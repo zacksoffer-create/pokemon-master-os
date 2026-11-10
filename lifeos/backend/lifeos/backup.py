@@ -44,7 +44,9 @@ def bundle() -> dict:
     files = _pack_files()
     ids = {f"yours:{f['file'].rsplit('.', 1)[0]}" for f in files}
     off = [x for x in dialogue._state().get("disabled", []) if x in ids]
-    return {"v": 1, "release": RELEASE, "engine": engine_build(), "packs": files, "disabled": off}
+    from . import production
+    return {"v": 1, "release": RELEASE, "engine": engine_build(), "packs": files, "disabled": off,
+            "production": production.bundle()}  # (Story Studio production projects: older backups have none)
 
 
 def make(w) -> bytes:
@@ -135,10 +137,20 @@ def install(b: dict | None) -> dict:
     st["disabled"] = sorted((set(st.get("disabled", [])) - ids) | off)
     dialogue._save_state(st)
     dialogue.reload()
+    try:
+        from . import production
+        n = production.install(b.get("production"))
+        if n:
+            out["projects"] = n  # (Story Studio production projects; only said when there were some)
+    except Exception:  # noqa: BLE001  (a damaged project never stops a backup from loading)
+        pass
     return out
 
 
 def summary(got: dict) -> str:
     """"2 storylines added, 1 updated" (or "")."""
     bits = [f"{got[k]} {w}" for k, w in (("added", "added"), ("updated", "updated")) if got.get(k)]
-    return ("Storylines and texting: " + ", ".join(bits) + ".") if bits else ""
+    said = ("Storylines and texting: " + ", ".join(bits) + ".") if bits else ""
+    if got.get("projects"):
+        said = (said + " " if said else "") + f"Production projects: {got['projects']}."
+    return said

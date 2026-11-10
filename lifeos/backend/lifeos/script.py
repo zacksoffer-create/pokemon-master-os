@@ -1012,7 +1012,13 @@ def _scene(sec: Section, head: Line, body: list, errs: list, idx: int, ids: set)
     compiled = [_choice(c, sc, 1, errs, f"{path}.choices[{i}]", sec) for i, c in enumerate(choices)]
     if not compiled:
         compiled = [{"label": "Continue", "ops": []}]
-    out = {"id": sid, "title": sc.names(title, head.n) if "{" in title else title, "text": _join(text_lines) or "...",
+    shown = title
+    if "{" in title:
+        try:
+            shown = sc.names(title, head.n)
+        except Fail as e:  # (a {name} the game can't fill in a title is an error on that line, like anywhere else)
+            errs.append((head.n, str(e)))
+    out = {"id": sid, "title": shown, "text": _join(text_lines) or "...",
            "choices": compiled, "line": head.n,
            "src": "\n".join([head.text] + [(" " * ln.indent) + ln.text for ln in body])}
     if sc.who:
@@ -1446,7 +1452,10 @@ def _parse_outline(body: list, sec, warns) -> list:
         cond, rest, game, plays = None, [], None, None
         for x in parts[1:]:
             if GAME_TAG_RE.match(x):  # this scene is one of your games: `| game: loss, I play great`
-                plays = game_spec(x)
+                try:
+                    plays = game_spec(x)
+                except Fail as e:  # (a game tag it can't read is left off with a note, like any outline part)
+                    warns.append((ln.n, f"scene {m.group(1)}: {e} (the game tag was left off)"))
                 continue
             gm = GAME_COND_RE.match(x)
             if gm:  # how your real game went: `| if we won`

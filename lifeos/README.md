@@ -1691,6 +1691,71 @@ the prompt is `docs/story-script-prompt.md`.
 `python -m lifeos.dialogue check my-story.story` (run from `backend/`), and drop it in `var/dialogue/` (lab) or paste it
 on the phone. Scripts are saved one storyline per `.story` file.
 
+## The production workspace (big storylines, written in parallel chats)
+
+For a storyline of about 40 scenes written in several outside chats at once (ChatGPT, Claude, anything): Story Studio →
+**Production workspace**. Nothing here calls an AI or needs a key: the app makes the prompts, you run them wherever you
+like, you paste the answers back.
+
+1. **Outline.** Paste the numbered outline (a plain list, or a whole storyline with an `outline:`). It's read with the
+   compiler's own outline rules: each line becomes a scene record (number, title, when, what happens, any `only if`), the
+   original text is kept, and duplicate numbers, gaps and lines it can't read are listed. Edit, reorder (a written scene
+   moves with its row) or add scenes; open a row for its optional blueprint (why it matters, whose story it is (the
+   narrative subject, which can be someone other than you), relationship focus, what you get to decide, what already
+   happened, what it builds on, a shared event, constraints, the choices).
+2. **Batches.** 6 scenes each by default (configurable): 40 scenes → 1–6, 7–12, …, 37–40. **Copy next unfinished** or any
+   batch's **Copy prompt**. Each prompt is complete on its own: the storyline, its header and cast names, what's already
+   true, the whole outline with its own scenes marked, each scene's spec (exact date when there's a story, blueprint, the
+   choices later scenes wait on), the engine's own scene-writing guide and limits (from the same code the checker uses),
+   and the reply contract (only these scenes, whole, exact numbers, no commentary; fewer whole scenes beat a cut-off one).
+   No prompt needs another batch's text, so all seven can run at once. Every prompt carries the project's context
+   version; a batch copied before the outline or context changed says so.
+3. **Paste replies** in any order, one or several batches at a time. Each `--- N. Title` goes to scene N wherever it came
+   from. Code fences and chat commentary are set aside (kept, viewable); the same scene again changes nothing; a revised one
+   replaces it (the old version kept, with what changed); a second copy in one paste or a number the outline doesn't have
+   goes to **Unplaced** (kept, use it or let it go); a reply cut off mid-scene flags its last scene. The only automatic
+   changes are format ones the writing guide already promises (lines under a choice go under it, `**`/`either way:`
+   restaged, `Choice 1:`/`Outcome:` labels, *italics*/**bold**, arrow effects): nothing is reworded, shortened or dropped,
+   and each scene says what was tidied.
+4. **Scenes.** Every scene is checked by the game's own compiler (`script.compile_script` → `dialogue.check`, the code an
+   import runs) inside its storyline's header and outline, plus the completeness rules the regular scene paste uses.
+   Problems come with a code, the scene, the line inside the scene, the numbers (actual / maximum) and what to do; filter
+   by errors / warnings / notes. **Copy repair prompt** (one scene, or every scene with errors) gives a chat the scene, the
+   exact problems and the rules, asking for that scene back whole; **Replace scene** takes the fix (header optional) and
+   changes nothing else. **Validate all** also checks the storyline as a whole with your library (the outline itself,
+   choices later scenes wait on, calendar, memory keys, shared events). Only what changed is compiled again.
+5. **Import.** The preview shows the title, count, range, cast, validation, missing scenes, whether it's new / an update /
+   alongside a same-named storyline, scenes it adds, replaces or would take out, replaced scenes you've already played
+   (and any whose id would change, so the game would treat them as new) and a diff. Import needs your confirmation and goes
+   through the game's own `add_script` (strict: compiled before anything is written, one file replaced at once, the old
+   version kept under Older versions, never over a different storyline with the same name). Your save (people, what
+   happened, what you chose, what you played) isn't touched. Importing the same thing again changes nothing. **Copy the
+   script** / **Save as a file** export it any time. The project stays for revisions.
+
+**What blocks an import** (errors): anything the compiler refuses (lengths: a scene's opening 4,000 characters, a line
+800, a choice 140, a title 100, all from `dialogue.py`; unknown cast names, effects, `{names}`, tags; broken structure),
+a scene with no choices or cut off (new writing), scenes not written yet (unless you choose to import what's written),
+and an update that would take out scenes the storyline has. **Warnings and notes** never block: a choice a later scene
+waits on that isn't there yet, one-choice scenes, a choice with nothing after it, calendar problems, dependencies out of
+order, shared-event and memory-key notes, a header tag the outline overrides. Scenes already in the game (a storyline
+loaded into the workspace) keep playing as they are: the new-writing rules are warnings for them until you edit them.
+
+**Shared context** (Context tab): reusable character briefs (aliases, relationships, personality, history, goals,
+don'ts; canon / simulated / proposed / unresolved) and shared events (Watch Hill weekends, dances, holidays) with an
+optional owning storyline. They're production notes for prompts: no character in your world changes. Scenes point at an
+event in their blueprint; two projects using one event get a note; memory keys (`remember x`) are listed with where
+they're written and which storylines wait on them, and keys one typo apart are flagged. All soft: never blockers.
+
+Any storyline you have with an outline: open it and **Open in the production workspace** (its outline and scenes come in
+as they are; reopening it brings in scenes written since). Projects are JSON files in a hidden `.production` folder
+beside your storylines (the game's loader skips it) and travel in a `.lifeos` backup. A storyline without a project is
+untouched; old storylines need nothing new.
+
+API (the same in the desktop lab and the phone app): `GET/POST /api/story/production`, `POST …/outline-check`,
+`GET …/{id}`, `POST …/{id}/context`, `/outline`, `/copied`, `/paste` (`scene` for one), `/restore`, `/adopt`,
+`/unplaced/drop`, `/validate`, `/import`, `/delete`; `GET …/{id}/batch?i=`, `/scene?n=`, `/repair?ns=`, `/preview`,
+`/export`; shared context at `…/shared`, `…/shared/character`, `…/shared/event`.
+
 ## Tests
 
 ```bash
